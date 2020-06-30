@@ -2797,10 +2797,6 @@
         "version": "a742e7ca6cd03c850a67ee2c652b4d0566ea44744387e118ccd00e6dc729429d",
         "signature": "c66ea27816909d35156f080b693b3e7a1441e672bb280ac67fa6efc315df9d8e"
       },
-      "../src/redux/openapi/index.ts": {
-        "version": "63656a3ed704bb9ababf5d7293f5d1569fe2482a840997a39d9c51bfe7d5c370",
-        "signature": "dd9e16748e56602b6b08c3b5f402bad0f00bf7244fcdede2506f5b21707a9eb1"
-      },
       "../src/theme/configure.style.ts": {
         "version": "98546cb078fec7ba1b676f4aa22dfcad360b166ba673d5ad44175a35e2ceed86",
         "signature": "4ff3403c7c5867fc132b0f63790cd796ef3a5b9216cf53ac028a8bede5b82bdc"
@@ -7089,11 +7085,6 @@
         "../src/redux/openapi/api-util.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
-      "../src/redux/openapi/index.ts": [
-        "../src/redux/openapi/api-util.ts",
-        "../src/redux/openapi/api-saga.ts",
-        "../node_modules/date-fns/typings.d.ts"
-      ],
       "../src/theme/configure.style.ts": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
@@ -11268,10 +11259,6 @@
       "../src/redux/openapi/api-saga.ts": [
         "../node_modules/redux-saga/effects.d.ts"
       ],
-      "../src/redux/openapi/index.ts": [
-        "../src/redux/openapi/api-util.ts",
-        "../src/redux/openapi/api-saga.ts"
-      ],
       "../node_modules/@redux-saga/core/types/ts3.6/index.d.ts": [
         "../node_modules/redux/index.d.ts",
         "../node_modules/@redux-saga/types/types/ts3.6/index.d.ts",
@@ -11980,27 +11967,6 @@
       "../src/redux/frr/api.saga.ts",
       "../src/redux/openapi/api-util.ts",
       "../src/redux/openapi/api-saga.ts",
-      [
-        "../src/redux/openapi/index.ts",
-        [
-          {
-            "file": "../src/redux/openapi/index.ts",
-            "start": 56,
-            "length": 16,
-            "messageText": "Cannot find module './view.helpers'.",
-            "category": 1,
-            "code": 2307
-          },
-          {
-            "file": "../src/redux/openapi/index.ts",
-            "start": 132,
-            "length": 16,
-            "messageText": "Cannot find module './view.actions'.",
-            "category": 1,
-            "code": 2307
-          }
-        ]
-      ],
       "../src/theme/configure.style.ts",
       "../node_modules/@types/react-dom/index.d.ts",
       "../node_modules/@types/react-native/globals.d.ts",
