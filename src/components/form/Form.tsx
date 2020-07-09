@@ -25,11 +25,18 @@ import {
   Props as InputWithDropdownProps,
   InputWithDropdown,
 } from './InputWithDropdown'
+import { Switch, Props as SwithProps } from './Switch'
 
 type FormInput<P extends {}, L, T> = Omit<P, 'onChange' | 'value' | 'error'> & {
   lens: L
   type: T
 }
+
+export type SwitchField<FormData, TM> = FormInput<
+  SwithProps<TM>,
+  Lens<FormData, boolean>,
+  FormFieldType.Switch
+>
 
 export type InputWithDropdownField<FormData, TM> = FormInput<
   InputWithDropdownProps<TM>,
@@ -115,6 +122,7 @@ export type SingleFormField<FormData, TM> = (
   | TextInputField<FormData, TM>
   | InputWithDropdownField<FormData, TM>
   | DropdownNumberField<FormData, TM>
+  | SwitchField<FormData, TM>
 ) &
   CommonFieldProps<FormData, TM>
 
@@ -415,6 +423,18 @@ export const Form = <FormData extends {}, TM extends TranslationGeneric>(
     //     />
     //   )
     // }
+
+    if (field.type === FormFieldType.Switch) {
+      const { lens, ...fieldProps } = field
+      return (
+        <Switch
+          {...fieldProps}
+          value={lens.get(data)}
+          onChange={value => onChange(lens.set(value)(data))}
+          error={hasError}
+        />
+      )
+    }
 
     if (field.type === FormFieldType.NumberInput) {
       const { lens, ...fieldProps } = field

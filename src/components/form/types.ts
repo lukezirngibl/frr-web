@@ -13,6 +13,7 @@ export enum FormFieldType {
   UnitInput = 'UnitInput',
   TextNumber = 'TextNumber',
   InputWithDropdown = 'InputWithDropdown',
+  Switch = 'Switch',
 }
 
 export type Date = {

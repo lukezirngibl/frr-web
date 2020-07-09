@@ -8,6 +8,7 @@ declare type Props = {
         close: () => void;
     }) => React.ReactNode;
     style?: CSSProperties;
+    onClose?: () => void;
     popOverStyle?: CSSProperties;
 };
 export declare const SimplePopover: (props: Props) => JSX.Element;

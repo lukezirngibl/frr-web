@@ -17,6 +17,7 @@ type Props = {
   }) => React.ReactNode
   content: (p: { close: () => void }) => React.ReactNode
   style?: CSSProperties
+  onClose?: () => void
   popOverStyle?: CSSProperties
 }
 
@@ -30,6 +31,9 @@ export const SimplePopover = (props: Props) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+    if (props.onClose) {
+      props.onClose()
+    }
   }
 
   const open = Boolean(anchorEl)

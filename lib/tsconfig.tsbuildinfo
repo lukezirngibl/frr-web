@@ -1550,8 +1550,24 @@
         "signature": "5798a22f21edbc2352067aa5cf6ecfcef7c4cac3b9e28aae2be432e10a536ca7"
       },
       "../src/components/popover.tsx": {
-        "version": "6936c6ca46e10dfb0edde48745908935d4a3cd88b2f68c964aa80fca80ef72a2",
-        "signature": "506d41f3ef7e60946799fde0e3fb7a54be68b42a0afc41f8efae688e3aa50379"
+        "version": "436e0d239e5a0bea4bd936ac2e428cc8226b0cdf5a941ba4f3e7ca2814249768",
+        "signature": "66c1e82cf4b7a01ebfb48258f0303c1490e293544f93ff4b6f7b94108603cbe1"
+      },
+      "../node_modules/use-debounce/lib/usedebounce.d.ts": {
+        "version": "d2fcc40a0bf8d351f1d5d2e3d1da9d3817cf8c080f380222a2c7739568ff60e5",
+        "signature": "d2fcc40a0bf8d351f1d5d2e3d1da9d3817cf8c080f380222a2c7739568ff60e5"
+      },
+      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": {
+        "version": "34e423c0b898d449eb691f4ad998c3ced718994c3940fd5a59081df69055a998",
+        "signature": "34e423c0b898d449eb691f4ad998c3ced718994c3940fd5a59081df69055a998"
+      },
+      "../node_modules/use-debounce/lib/index.d.ts": {
+        "version": "5d7f21dfce581dabd19b14b1f53d1aee5833feba0cf0bd7b84756ff650f9cf2a",
+        "signature": "5d7f21dfce581dabd19b14b1f53d1aee5833feba0cf0bd7b84756ff650f9cf2a"
+      },
+      "../src/components/search.tsx": {
+        "version": "008dfa62733e1c738f867bb5310218c4cb81be1064481e077d92b4cb3db58a88",
+        "signature": "616dbd320c593fb9a66ddb5aceee4242e67ed4350d1d704c7541c5d6c8f9a7e7"
       },
       "../node_modules/clsx/clsx.d.ts": {
         "version": "1552a249535ba9306d1ce112428864d06af27f6c50f24fb75b46fcc562927b0a",
@@ -2621,25 +2637,13 @@
         "version": "b06f22097daaf0e6145b4e793f0c8b26c2b1ec6dd6319fc92574c575047166d2",
         "signature": "49612c62cd1cda99c26f4124b754f0b157224449d982658e92656545e003036b"
       },
-      "../node_modules/use-debounce/lib/usedebounce.d.ts": {
-        "version": "d2fcc40a0bf8d351f1d5d2e3d1da9d3817cf8c080f380222a2c7739568ff60e5",
-        "signature": "d2fcc40a0bf8d351f1d5d2e3d1da9d3817cf8c080f380222a2c7739568ff60e5"
-      },
-      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": {
-        "version": "34e423c0b898d449eb691f4ad998c3ced718994c3940fd5a59081df69055a998",
-        "signature": "34e423c0b898d449eb691f4ad998c3ced718994c3940fd5a59081df69055a998"
-      },
-      "../node_modules/use-debounce/lib/index.d.ts": {
-        "version": "5d7f21dfce581dabd19b14b1f53d1aee5833feba0cf0bd7b84756ff650f9cf2a",
-        "signature": "5d7f21dfce581dabd19b14b1f53d1aee5833feba0cf0bd7b84756ff650f9cf2a"
-      },
       "../src/components/form/textinput.tsx": {
         "version": "369bce532dc2a4b91642155aed621de6972172f928a2401f4bd6944323e88f42",
         "signature": "2b10a5327aa4bcae94c72f2df3ee1ec91980a47d4a7be14c0a4aa76d56ae0517"
       },
       "../src/components/form/types.ts": {
-        "version": "ea69801f115c526fecfabe3b24f6339e1f22d01bc35987494c769d14c17e06fd",
-        "signature": "7a82ec7fd8bfe93c87d7a258ebc7b64f8e532a81b5b1fbb588cfa65672826eab"
+        "version": "aeaf1055e2a7e53a6e67474ac25fc0766103b7f84181d734d08d8509d7487911",
+        "signature": "06287bbfc541dbc66ce8d4ecb9a320d4d7aec2f36c7c202685f98577c352a072"
       },
       "../src/components/form/textarea.tsx": {
         "version": "da66d49b131fca8ba8bf9b5ec61c9ba3693d9caf14a283f15c4242369148f749",
@@ -2701,9 +2705,13 @@
         "version": "371f73fabecf3d766f7d3d751a9aa844541ae9997f6c507524096de9213373d9",
         "signature": "2267578e12fac8d60ac18e53595aa0bb3f27009defc09484443bec5018d71646"
       },
+      "../src/components/form/switch.tsx": {
+        "version": "a864bdd040aa10413c498a5b419d131217fbb6b420fae2c96c36be5883a2c9e8",
+        "signature": "fb9e2d66f0978636289b5611cf438f8379bd59132d53a31d0fa805dbc4e91dc4"
+      },
       "../src/components/form/form.tsx": {
-        "version": "74794f9764655140f0e19a10f1eecc5813778f52e6ec0e3440feaa1422022982",
-        "signature": "8d59fdb5937671082eb71f9a54a5de5ff56dd68ec6a126323054c785a8bbc149"
+        "version": "cad2f459c3831136bbbb2351080b8d624e5a9805d88e066bdf22b418677fe36a",
+        "signature": "2f64176a10b5376bd5c1769b0eaca04d77f256442f441ac6c4eb7f699718f284"
       },
       "../src/components/index.ts": {
         "version": "8ed59ac230a7c097857c719ca7e0b7b5a2532dd17ea6e4f246940a02f98474b4",
@@ -4932,6 +4940,23 @@
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
+      "../node_modules/use-debounce/lib/usedebounce.d.ts": [
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": [
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../node_modules/use-debounce/lib/index.d.ts": [
+        "../node_modules/use-debounce/lib/usedebounce.d.ts",
+        "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../src/components/search.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
+        "../node_modules/use-debounce/lib/index.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
       "../node_modules/clsx/clsx.d.ts": [
         "../node_modules/date-fns/typings.d.ts"
       ],
@@ -6693,17 +6718,6 @@
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
-      "../node_modules/use-debounce/lib/usedebounce.d.ts": [
-        "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": [
-        "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../node_modules/use-debounce/lib/index.d.ts": [
-        "../node_modules/use-debounce/lib/usedebounce.d.ts",
-        "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
-        "../node_modules/date-fns/typings.d.ts"
-      ],
       "../src/components/form/textinput.tsx": [
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/semantic-ui-react/index.d.ts",
@@ -6854,6 +6868,14 @@
         "../src/components/form/dropdown.tsx",
         "../node_modules/date-fns/typings.d.ts"
       ],
+      "../src/components/form/switch.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../src/components/form/label.tsx",
+        "../src/util.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
+        "../node_modules/@material-ui/core/index.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
       "../src/components/form/form.tsx": [
         "../node_modules/monocle-ts/lib/index.d.ts",
         "../node_modules/@types/react/index.d.ts",
@@ -6875,6 +6897,7 @@
         "../src/components/button.tsx",
         "../src/components/form/dropdownnumber.tsx",
         "../src/components/form/inputwithdropdown.tsx",
+        "../src/components/form/switch.tsx",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../src/components/index.ts": [
@@ -9068,6 +9091,21 @@
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts"
       ],
+      "../node_modules/use-debounce/lib/usedebounce.d.ts": [
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": [
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../node_modules/use-debounce/lib/index.d.ts": [
+        "../node_modules/use-debounce/lib/usedebounce.d.ts",
+        "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../src/components/search.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
+      ],
       "../node_modules/clsx/clsx.d.ts": [
         "../node_modules/date-fns/typings.d.ts"
       ],
@@ -9091,7 +9129,6 @@
         "../node_modules/fp-ts/lib/option.d.ts",
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/magma.d.ts": [
@@ -9118,7 +9155,6 @@
         "../node_modules/fp-ts/lib/option.d.ts",
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/bounded.d.ts": [
@@ -9279,7 +9315,6 @@
         "../node_modules/fp-ts/lib/option.d.ts",
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/either.d.ts": [
@@ -9305,7 +9340,6 @@
         "../node_modules/fp-ts/lib/ord.d.ts",
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/compactable.d.ts": [
@@ -9337,7 +9371,6 @@
         "../node_modules/fp-ts/lib/validation.d.ts",
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/foldable.d.ts": [
@@ -10807,17 +10840,6 @@
       "../src/components/form/singlecheckbox.tsx": [
         "../src/util.ts"
       ],
-      "../node_modules/use-debounce/lib/usedebounce.d.ts": [
-        "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts": [
-        "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../node_modules/use-debounce/lib/index.d.ts": [
-        "../node_modules/use-debounce/lib/usedebounce.d.ts",
-        "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
-        "../node_modules/date-fns/typings.d.ts"
-      ],
       "../src/components/form/textinput.tsx": [
         "../node_modules/semantic-ui-react/index.d.ts",
         "../src/util.ts"
@@ -10886,7 +10908,6 @@
         "../node_modules/fp-ts/lib/validation.d.ts",
         "../node_modules/fp-ts/lib/either.d.ts",
         "../node_modules/fp-ts/lib/array.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/fp-ts/lib/array.d.ts": [
@@ -10913,7 +10934,6 @@
         "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
         "../node_modules/fp-ts/lib/show.d.ts",
         "../node_modules/fp-ts/lib/validation.d.ts",
-        "../node_modules/fp-ts/lib/record.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../src/components/form/dropdownnumber.tsx": [
@@ -10933,11 +10953,15 @@
       "../src/components/form/inputwithdropdown.tsx": [
         "../src/util.ts"
       ],
+      "../src/components/form/switch.tsx": [
+        "../src/util.ts"
+      ],
       "../src/components/form/form.tsx": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
-        "../src/components/form/inputwithdropdown.tsx",
+        "../src/components/form/switch.tsx",
         "../node_modules/monocle-ts/lib/index.d.ts",
         "../src/components/form/types.ts",
+        "../src/components/form/inputwithdropdown.tsx",
         "../src/components/form/dropdownnumber.tsx",
         "../src/components/form/textarea.tsx",
         "../src/components/form/textnumberinput.tsx",
@@ -11431,13 +11455,18 @@
       "../node_modules/@material-ui/core/index.d.ts",
       "../src/components/modal.tsx",
       "../src/components/popover.tsx",
+      "../node_modules/use-debounce/lib/usedebounce.d.ts",
+      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
+      "../node_modules/use-debounce/lib/index.d.ts",
       "../node_modules/clsx/clsx.d.ts",
       "../src/components/table.tsx",
       "../node_modules/fp-ts/lib/hkt.d.ts",
       "../node_modules/fp-ts/lib/contravariant.d.ts",
+      "../node_modules/fp-ts/lib/eq.d.ts",
       "../node_modules/fp-ts/lib/magma.d.ts",
       "../node_modules/fp-ts/lib/semigroup.d.ts",
       "../node_modules/fp-ts/lib/ordering.d.ts",
+      "../node_modules/fp-ts/lib/ord.d.ts",
       "../node_modules/fp-ts/lib/bounded.d.ts",
       "../node_modules/fp-ts/lib/function.d.ts",
       "../node_modules/fp-ts/lib/monoid.d.ts",
@@ -11460,7 +11489,10 @@
       "../node_modules/fp-ts/lib/witherable.d.ts",
       "../node_modules/fp-ts/lib/monadthrow.d.ts",
       "../node_modules/fp-ts/lib/show.d.ts",
+      "../node_modules/fp-ts/lib/validation.d.ts",
+      "../node_modules/fp-ts/lib/either.d.ts",
       "../node_modules/fp-ts/lib/compactable.d.ts",
+      "../node_modules/fp-ts/lib/option.d.ts",
       "../node_modules/fp-ts/lib/foldable.d.ts",
       "../node_modules/monocle-ts/lib/index.d.ts",
       "../node_modules/@stardust-ui/react-component-ref/dist/es/handleref.d.ts",
@@ -11693,9 +11725,6 @@
       "../src/components/form/numberinput.tsx",
       "../src/components/form/dropdown.tsx",
       "../src/components/form/singlecheckbox.tsx",
-      "../node_modules/use-debounce/lib/usedebounce.d.ts",
-      "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
-      "../node_modules/use-debounce/lib/index.d.ts",
       "../src/components/form/textinput.tsx",
       "../src/components/form/types.ts",
       "../src/components/form/textarea.tsx",
@@ -11706,11 +11735,14 @@
       "../node_modules/fp-ts/lib/traversablewithindex.d.ts",
       "../node_modules/fp-ts/lib/unfoldable.d.ts",
       "../node_modules/fp-ts/lib/comonad.d.ts",
+      "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
+      "../node_modules/fp-ts/lib/array.d.ts",
       "../src/components/form/dropdownnumber.tsx",
       "../node_modules/date-fns/typings.d.ts",
       "../src/components/form/datepicker.tsx",
       "../src/components/form/some.form.ts",
       "../src/components/form/inputwithdropdown.tsx",
+      "../src/components/form/switch.tsx",
       "../src/components/form/form.tsx",
       "../src/components/index.ts",
       "../src/components/form/radiogroup.tsx",
@@ -11731,13 +11763,7 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../node_modules/fp-ts/lib/eq.d.ts",
-      "../node_modules/fp-ts/lib/ord.d.ts",
-      "../node_modules/fp-ts/lib/validation.d.ts",
-      "../node_modules/fp-ts/lib/either.d.ts",
-      "../node_modules/fp-ts/lib/option.d.ts",
-      "../node_modules/fp-ts/lib/nonemptyarray2v.d.ts",
-      "../node_modules/fp-ts/lib/array.d.ts"
+      "../src/components/search.tsx"
     ]
   },
   "version": "3.8.3"
