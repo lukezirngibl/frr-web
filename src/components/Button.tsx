@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { CSSProperties } from 'styled-components'
 import { getThemeContext, Theme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
@@ -26,6 +26,7 @@ export type Props<T> = {
   onClick?: () => void
   disabled?: boolean
   style?: Partial<Theme['button']>
+  override?: CSSProperties
   type?: ButtonType
 }
 
@@ -45,6 +46,7 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
         ...getStyle('common'),
         ...getStyle(mapTypeToStyleKey[type]),
         ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
+        ...(props.override || {}),
       }}
     >
       {translate(props.label)}

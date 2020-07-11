@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import { CSSProperties } from 'styled-components';
 import { Theme } from '../theme/theme';
 import { TranslationGeneric } from '../util';
 export declare enum ButtonType {
@@ -11,6 +12,7 @@ export declare type Props<T> = {
     onClick?: () => void;
     disabled?: boolean;
     style?: Partial<Theme['button']>;
+    override?: CSSProperties;
     type?: ButtonType;
 };
 export declare const Button: <T extends TranslationGeneric>(props: Props<T>) => JSX.Element;

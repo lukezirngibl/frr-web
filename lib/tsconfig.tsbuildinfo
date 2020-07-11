@@ -198,8 +198,8 @@
         "signature": "cba855e4dd852ccdab2d2925459ff4f42555a2fb593e27ac6b8f74ab80ded0b8"
       },
       "../src/components/button.tsx": {
-        "version": "674eb0ac7e6073ca4aa73ad6bb5890c6d9854a0dc9fb927d2bfcc1e2a728b76b",
-        "signature": "506253f730c85ae7b5f3c03e901181eaace8410dd9fec8f26a8b536e181f5640"
+        "version": "e4e0fadc7894e3cf6395efd514325ebd93d48bbf99760fab871ceaea2c983525",
+        "signature": "3e0c81ea86249b4c02cdd583fd80c2a972e8e4dd0365468de56d87305d9fb556"
       },
       "../node_modules/jss/src/index.d.ts": {
         "version": "b37610d1b2b8847033032cdb9f032be53afc8a0fdced3934206da61093e4413a",
@@ -2642,8 +2642,8 @@
         "signature": "2b10a5327aa4bcae94c72f2df3ee1ec91980a47d4a7be14c0a4aa76d56ae0517"
       },
       "../src/components/form/types.ts": {
-        "version": "aeaf1055e2a7e53a6e67474ac25fc0766103b7f84181d734d08d8509d7487911",
-        "signature": "06287bbfc541dbc66ce8d4ecb9a320d4d7aec2f36c7c202685f98577c352a072"
+        "version": "9c2bbb9135bf60db3ae777d3e14d654c8d1cd9c3b70c1afd42e104973ccaa2b1",
+        "signature": "c39981b8443c326e5629175d69094a376e07cb59d25c211a377ece3357f9728a"
       },
       "../src/components/form/textarea.tsx": {
         "version": "da66d49b131fca8ba8bf9b5ec61c9ba3693d9caf14a283f15c4242369148f749",
@@ -2706,12 +2706,16 @@
         "signature": "2267578e12fac8d60ac18e53595aa0bb3f27009defc09484443bec5018d71646"
       },
       "../src/components/form/switch.tsx": {
-        "version": "a864bdd040aa10413c498a5b419d131217fbb6b420fae2c96c36be5883a2c9e8",
+        "version": "c45ea7562b7175c6d1998c0ed97373bcd816087e112843e7b474c7fa979686c8",
         "signature": "fb9e2d66f0978636289b5611cf438f8379bd59132d53a31d0fa805dbc4e91dc4"
       },
+      "../src/components/form/multiselect.tsx": {
+        "version": "501894e39e59350ef0a0c863131bc167b4ea395a332425548f261e84def657f5",
+        "signature": "fead669aed2900a9699fa23079b881f5913948c9f8339cc7e721c57a839d6cfc"
+      },
       "../src/components/form/form.tsx": {
-        "version": "cad2f459c3831136bbbb2351080b8d624e5a9805d88e066bdf22b418677fe36a",
-        "signature": "2f64176a10b5376bd5c1769b0eaca04d77f256442f441ac6c4eb7f699718f284"
+        "version": "db77994c1b7872508e6c489745a0e9df57b0503dcf7523fb6a9235c44b55900e",
+        "signature": "ccc1f520e77b7c9c79a8ba4e3ad11a863761072715fd317ef712f325b14cfa0c"
       },
       "../src/components/index.ts": {
         "version": "8ed59ac230a7c097857c719ca7e0b7b5a2532dd17ea6e4f246940a02f98474b4",
@@ -2728,6 +2732,10 @@
       "../src/theme/configure.style.ts": {
         "version": "98546cb078fec7ba1b676f4aa22dfcad360b166ba673d5ad44175a35e2ceed86",
         "signature": "4ff3403c7c5867fc132b0f63790cd796ef3a5b9216cf53ac028a8bede5b82bdc"
+      },
+      "../node_modules/@types/parse-json/index.d.ts": {
+        "version": "2b8264b2fefd7367e0f20e2c04eed5d3038831fe00f5efbc110ff0131aab899b",
+        "signature": "2b8264b2fefd7367e0f20e2c04eed5d3038831fe00f5efbc110ff0131aab899b"
       },
       "../node_modules/@types/react-dom/index.d.ts": {
         "version": "1923cbe22fe3f5005de4192f014b558a88e0fdec16726bb4f94ac76dd1a82c92",
@@ -6876,6 +6884,13 @@
         "../node_modules/@material-ui/core/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
+      "../src/components/form/multiselect.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../src/util.ts",
+        "../src/components/form/label.tsx",
+        "../src/theme/language.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
       "../src/components/form/form.tsx": [
         "../node_modules/monocle-ts/lib/index.d.ts",
         "../node_modules/@types/react/index.d.ts",
@@ -6898,6 +6913,7 @@
         "../src/components/form/dropdownnumber.tsx",
         "../src/components/form/inputwithdropdown.tsx",
         "../src/components/form/switch.tsx",
+        "../src/components/form/multiselect.tsx",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../src/components/index.ts": [
@@ -6924,6 +6940,9 @@
       ],
       "../src/theme/configure.style.ts": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../node_modules/@types/parse-json/index.d.ts": [
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/@types/react-dom/index.d.ts": [
@@ -7153,6 +7172,7 @@
       ],
       "../src/components/button.tsx": [
         "../src/theme/theme.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../src/util.ts"
       ],
       "../node_modules/jss/src/index.d.ts": [
@@ -10956,11 +10976,15 @@
       "../src/components/form/switch.tsx": [
         "../src/util.ts"
       ],
+      "../src/components/form/multiselect.tsx": [
+        "../src/util.ts"
+      ],
       "../src/components/form/form.tsx": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
-        "../src/components/form/switch.tsx",
+        "../src/components/form/multiselect.tsx",
         "../node_modules/monocle-ts/lib/index.d.ts",
         "../src/components/form/types.ts",
+        "../src/components/form/switch.tsx",
         "../src/components/form/inputwithdropdown.tsx",
         "../src/components/form/dropdownnumber.tsx",
         "../src/components/form/textarea.tsx",
@@ -10996,6 +11020,9 @@
       ],
       "../src/theme/configure.style.ts": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts"
+      ],
+      "../node_modules/@types/parse-json/index.d.ts": [
+        "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/@types/react-dom/index.d.ts": [
         "../node_modules/@types/react/index.d.ts",
@@ -11458,6 +11485,7 @@
       "../node_modules/use-debounce/lib/usedebounce.d.ts",
       "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
       "../node_modules/use-debounce/lib/index.d.ts",
+      "../src/components/search.tsx",
       "../node_modules/clsx/clsx.d.ts",
       "../src/components/table.tsx",
       "../node_modules/fp-ts/lib/hkt.d.ts",
@@ -11726,7 +11754,6 @@
       "../src/components/form/dropdown.tsx",
       "../src/components/form/singlecheckbox.tsx",
       "../src/components/form/textinput.tsx",
-      "../src/components/form/types.ts",
       "../src/components/form/textarea.tsx",
       "../src/components/form/textnumberinput.tsx",
       "../node_modules/fp-ts/lib/functorwithindex.d.ts",
@@ -11739,15 +11766,11 @@
       "../node_modules/fp-ts/lib/array.d.ts",
       "../src/components/form/dropdownnumber.tsx",
       "../node_modules/date-fns/typings.d.ts",
-      "../src/components/form/datepicker.tsx",
-      "../src/components/form/some.form.ts",
       "../src/components/form/inputwithdropdown.tsx",
       "../src/components/form/switch.tsx",
-      "../src/components/form/form.tsx",
-      "../src/components/index.ts",
-      "../src/components/form/radiogroup.tsx",
-      "../src/components/form/filter.form.ts",
+      "../src/components/form/multiselect.tsx",
       "../src/theme/configure.style.ts",
+      "../node_modules/@types/parse-json/index.d.ts",
       "../node_modules/@types/react-dom/index.d.ts",
       "../node_modules/@types/react-native/globals.d.ts",
       "../node_modules/@types/react-native/legacy-properties.d.ts",
@@ -11763,7 +11786,13 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/components/search.tsx"
+      "../src/components/form/types.ts",
+      "../src/components/form/filter.form.ts",
+      "../src/components/form/radiogroup.tsx",
+      "../src/components/form/form.tsx",
+      "../src/components/form/some.form.ts",
+      "../src/components/form/datepicker.tsx",
+      "../src/components/index.ts"
     ]
   },
   "version": "3.8.3"

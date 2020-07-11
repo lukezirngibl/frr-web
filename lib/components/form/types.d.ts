@@ -13,7 +13,8 @@ export declare enum FormFieldType {
     UnitInput = "UnitInput",
     TextNumber = "TextNumber",
     InputWithDropdown = "InputWithDropdown",
-    Switch = "Switch"
+    Switch = "Switch",
+    MultiSelect = "MultiSelect"
 }
 export declare type Date = {
     day: number;

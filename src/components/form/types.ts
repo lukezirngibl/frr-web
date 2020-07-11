@@ -14,6 +14,7 @@ export enum FormFieldType {
   TextNumber = 'TextNumber',
   InputWithDropdown = 'InputWithDropdown',
   Switch = 'Switch',
+  MultiSelect = 'MultiSelect',
 }
 
 export type Date = {

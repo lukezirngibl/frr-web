@@ -26,11 +26,18 @@ import {
   InputWithDropdown,
 } from './InputWithDropdown'
 import { Switch, Props as SwithProps } from './Switch'
+import { MultiSelect, Props as MultiSelectProps } from './MultiSelect'
 
 type FormInput<P extends {}, L, T> = Omit<P, 'onChange' | 'value' | 'error'> & {
   lens: L
   type: T
 }
+
+export type MultiSelectField<FormData, TM> = FormInput<
+  MultiSelectProps<TM>,
+  Lens<FormData, Array<string>>,
+  FormFieldType.MultiSelect
+>
 
 export type SwitchField<FormData, TM> = FormInput<
   SwithProps<TM>,
@@ -123,6 +130,7 @@ export type SingleFormField<FormData, TM> = (
   | InputWithDropdownField<FormData, TM>
   | DropdownNumberField<FormData, TM>
   | SwitchField<FormData, TM>
+  | MultiSelectField<FormData, TM>
 ) &
   CommonFieldProps<FormData, TM>
 
@@ -452,6 +460,18 @@ export const Form = <FormData extends {}, TM extends TranslationGeneric>(
       const { lens, ...fieldProps } = field
       return (
         <TextNumberInput
+          {...fieldProps}
+          value={lens.get(data)}
+          onChange={value => onChange(lens.set(value)(data))}
+          error={hasError}
+        />
+      )
+    }
+
+    if (field.type === FormFieldType.MultiSelect) {
+      const { lens, ...fieldProps } = field
+      return (
+        <MultiSelect
           {...fieldProps}
           value={lens.get(data)}
           onChange={value => onChange(lens.set(value)(data))}
