@@ -71,7 +71,7 @@ export type TextNumberInputField<FormData, TM> = FormInput<
 
 export type TextInputField<FormData, TM> = FormInput<
   TextInputProps<TM>,
-  Lens<FormData, string | null>,
+  Lens<FormData, string>,
   FormFieldType.TextInput
 >
 
