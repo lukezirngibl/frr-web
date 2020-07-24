@@ -4,8 +4,13 @@ import { getThemeContext, Theme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
+import { IconProps, Icon } from './Icon'
 
-const ButtonWrapper = styled.button``
+const ButtonWrapper = styled.button`
+  display: flex;
+  algin-items: center;
+  flex-direction: row;
+`
 
 export enum ButtonType {
   Secondary = 'Secondary',
@@ -28,6 +33,7 @@ export type Props<T> = {
   style?: Partial<Theme['button']>
   override?: CSSProperties
   type?: ButtonType
+  icon?: IconProps
 }
 
 export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
@@ -49,7 +55,14 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
         ...(props.override || {}),
       }}
     >
-      {translate(props.label)}
+      {props.icon && <Icon {...props.icon} />}
+      <div
+        style={{
+          marginLeft: props.icon === undefined ? 0 : 12,
+        }}
+      >
+        {translate(props.label)}
+      </div>
     </ButtonWrapper>
   )
 }

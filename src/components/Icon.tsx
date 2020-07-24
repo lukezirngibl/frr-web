@@ -2,14 +2,13 @@ import { CSSProperties } from '@material-ui/styles'
 import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
-type IconProps = {
+export type IconProps = {
   icon: string
   style?: CSSProperties
   className?: string
   size?: number
   color?: string
   onClick?: (e: any) => void
-  css?: any
 }
 
 export const MaterialIconFontFace = createGlobalStyle`
@@ -60,8 +59,11 @@ const IconEle = styled.i<IconProps>`
   }
 `
 
-export const Icon = (props: IconProps) => (
-  <IconEle className="material-icons" {...props}>
-    {props.icon}
-  </IconEle>
-)
+export const Icon = (props: IconProps) => {
+  const { style, ...otherProps } = props
+  return (
+    <IconEle className="material-icons" {...otherProps} style={style as any}>
+      {props.icon}
+    </IconEle>
+  )
+}

@@ -90,13 +90,17 @@ export interface TooltipProps
     | 'top-start'
     | 'top';
   /**
+   * The component used for the popper.
+   */
+  PopperComponent?: React.ComponentType<PopperProps>;
+  /**
    * Props applied to the [`Popper`](/api/popper/) element.
    */
   PopperProps?: Partial<PopperProps>;
   /**
    * Tooltip title. Zero-length titles string are never displayed.
    */
-  title: Exclude<React.ReactNode, null | undefined>;
+  title: NonNullable<React.ReactNode>;
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.

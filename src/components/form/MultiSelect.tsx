@@ -34,6 +34,7 @@ export const MultiSelect = <TM extends TranslationGeneric>(
         getOptionLabel={o => (o.label ? translate(o.label) : o.name)}
         className="basic-multi-select"
         classNamePrefix="select"
+        onChange={v => props.onChange((v || []).map(i => i.value))}
       />
     </>
   )

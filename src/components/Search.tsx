@@ -37,7 +37,7 @@ type Props = {
   value: string
   onChange: (v: string) => void
   children?: ReactNode
-  css?: CSSProperties
+  style?: CSSProperties
 }
 
 export const Search = (props: Props) => {
@@ -52,7 +52,7 @@ export const Search = (props: Props) => {
   }, [props.value])
 
   return (
-    <SearchWrapper style={props.css}>
+    <SearchWrapper style={props.style}>
       <SearchBar
         value={value}
         placeholder={props.placeholder}
