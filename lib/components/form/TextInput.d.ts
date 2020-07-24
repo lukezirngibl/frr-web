@@ -3,7 +3,7 @@ import { StrictInputProps } from 'semantic-ui-react';
 import { TranslationGeneric } from '../../util';
 export declare type Props<TM> = {
     onChange: (value: string) => void;
-    value: string;
+    value: string | null;
     required?: boolean;
     placeholder?: keyof TM;
     inputType?: string;

@@ -5,10 +5,11 @@ import { useDebouncedCallback } from 'use-debounce'
 
 import { Label } from './Label'
 import { getTranslation, getLanguageContext } from '../../theme/language'
+import { Theme } from '../../theme/theme'
 
 export type Props<TM> = {
   onChange: (value: string) => void
-  value: string
+  value: string | null
   required?: boolean
   placeholder?: keyof TM
   inputType?: string
