@@ -4,7 +4,7 @@ declare type Props = {
     trigger: (props: {
         onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     }) => React.ReactNode;
-    content: (p: {
+    render: (p: {
         close: () => void;
     }) => React.ReactNode;
     style?: CSSProperties;

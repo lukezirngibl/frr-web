@@ -15,7 +15,7 @@ type Props = {
   trigger: (props: {
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   }) => React.ReactNode
-  content: (p: { close: () => void }) => React.ReactNode
+  render: (p: { close: () => void }) => React.ReactNode
   style?: CSSProperties
   onClose?: () => void
   popOverStyle?: CSSProperties
@@ -57,7 +57,7 @@ export const SimplePopover = (props: Props) => {
           horizontal: 'center',
         }}
       >
-        {props.content({ close: handleClose })}
+        {props.render({ close: handleClose })}
       </Popover>
     </div>
   )

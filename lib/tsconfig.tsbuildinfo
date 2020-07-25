@@ -1610,8 +1610,12 @@
         "signature": "5798a22f21edbc2352067aa5cf6ecfcef7c4cac3b9e28aae2be432e10a536ca7"
       },
       "../src/components/popover.tsx": {
-        "version": "436e0d239e5a0bea4bd936ac2e428cc8226b0cdf5a941ba4f3e7ca2814249768",
-        "signature": "66c1e82cf4b7a01ebfb48258f0303c1490e293544f93ff4b6f7b94108603cbe1"
+        "version": "2f87d239dad60f82f49214e8ab0a217ef99345236b1b155d4545047826b3ba23",
+        "signature": "d713809a0eef2b2807595e119f9817238a908fcccb5e996f5dba1591ff4ab07f"
+      },
+      "../src/components/popoverwithitems.tsx": {
+        "version": "5705f21c21412ddf32135cf4b4b814656189dd5b4eef7fd92d07e1909fc26d9e",
+        "signature": "c6161797e43c3e2a4a065cc77c240b3026e9f6b2bb591f6bb57f40422ff15955"
       },
       "../src/components/radiobutton.tsx": {
         "version": "c92014a9f1b848950dd95188d2d2edd2b3a9a7687c98d62e8f82ab941a9eb0cd",
@@ -2782,8 +2786,8 @@
         "signature": "ccc1f520e77b7c9c79a8ba4e3ad11a863761072715fd317ef712f325b14cfa0c"
       },
       "../src/components/index.ts": {
-        "version": "8ed59ac230a7c097857c719ca7e0b7b5a2532dd17ea6e4f246940a02f98474b4",
-        "signature": "30d3ab37c1c5209270bb03d287ecd36639d287d2ef54ed47f7377771de4787dc"
+        "version": "fd5ffc689e23b53855f59faefc43c837ecc3052727850e8c5a1082e35c5002c0",
+        "signature": "a51106dff513546db394c8f3139e7ebc067c6a4a97a9149ee3b0cf9c66296c5e"
       },
       "../src/components/form/radiogroup.tsx": {
         "version": "db369a9666de13ac49052bd23912f56dcb102124c813087a3983d5e438dd0fab",
@@ -5096,6 +5100,12 @@
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
+      "../src/components/popoverwithitems.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
+        "../src/components/popover.tsx",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
       "../src/components/radiobutton.tsx": [
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
@@ -7080,6 +7090,8 @@
         "../src/components/modal.tsx",
         "../src/components/icon.tsx",
         "../src/components/table.tsx",
+        "../src/components/popoverwithitems.tsx",
+        "../src/components/radiobutton.tsx",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../src/components/form/radiogroup.tsx": [
@@ -11251,7 +11263,9 @@
         "../src/components/form/form.tsx",
         "../src/components/modal.tsx",
         "../src/components/icon.tsx",
-        "../src/components/table.tsx"
+        "../src/components/table.tsx",
+        "../src/components/popoverwithitems.tsx",
+        "../src/components/radiobutton.tsx"
       ],
       "../src/components/form/radiogroup.tsx": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
@@ -11334,6 +11348,10 @@
         "../node_modules/@types/react-transition-group/switchtransition.d.ts",
         "../node_modules/@types/react-transition-group/config.d.ts",
         "../node_modules/date-fns/typings.d.ts"
+      ],
+      "../src/components/popoverwithitems.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -11739,7 +11757,6 @@
       "../node_modules/@material-ui/core/zoom/index.d.ts",
       "../node_modules/@material-ui/core/index.d.ts",
       "../src/components/modal.tsx",
-      "../src/components/popover.tsx",
       "../src/components/radiobutton.tsx",
       "../node_modules/use-debounce/lib/usedebounce.d.ts",
       "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
@@ -12027,10 +12044,13 @@
       "../src/components/form/dropdownnumber.tsx",
       "../node_modules/date-fns/typings.d.ts",
       "../src/components/form/datepicker.tsx",
+      "../src/components/form/some.form.ts",
       "../src/components/form/inputwithdropdown.tsx",
       "../src/components/form/switch.tsx",
       "../src/components/form/multiselect.tsx",
+      "../src/components/form/form.tsx",
       "../src/components/form/radiogroup.tsx",
+      "../src/components/form/filter.form.ts",
       "../src/theme/configure.style.ts",
       "../node_modules/@types/parse-json/index.d.ts",
       "../node_modules/@types/react-dom/index.d.ts",
@@ -12048,10 +12068,9 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/components/form/form.tsx",
-      "../src/components/form/filter.form.ts",
+      "../src/components/popover.tsx",
       "../src/components/index.ts",
-      "../src/components/form/some.form.ts"
+      "../src/components/popoverwithitems.tsx"
     ]
   },
   "version": "3.8.3"
