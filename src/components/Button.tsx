@@ -58,7 +58,7 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
       {props.icon && <Icon {...props.icon} />}
       <div
         style={{
-          marginLeft: props.icon === undefined ? 0 : 12,
+          marginLeft: props.icon === undefined ? 0 : 8,
         }}
       >
         {translate(props.label)}

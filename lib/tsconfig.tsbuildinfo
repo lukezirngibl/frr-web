@@ -330,7 +330,7 @@
         "signature": "9aec1e9941262d6980f304b3638d290d01b7508cbf99d7f42d20935cb7a1ee0f"
       },
       "../src/components/button.tsx": {
-        "version": "e2f38c0eeb36b921c35bf788068295cf6efa74ec0af3c333861f09e9264c03c7",
+        "version": "50b53aa3b50e0898f4cf223c3f09f77f69ad799b838d4fa304e368f6b7e2e9c8",
         "signature": "6d6ef1af8cb8f625194c6e51736cfb4e057fbfcedf1b875e143e0c0648a84ca3"
       },
       "../src/components/list.tsx": {
@@ -9362,6 +9362,10 @@
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts"
       ],
+      "../src/components/popoverwithitems.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
+      ],
       "../src/components/radiobutton.tsx": [
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/@types/react/index.d.ts"
@@ -11348,10 +11352,6 @@
         "../node_modules/@types/react-transition-group/switchtransition.d.ts",
         "../node_modules/@types/react-transition-group/config.d.ts",
         "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../src/components/popoverwithitems.tsx": [
-        "../node_modules/@types/react/index.d.ts",
-        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -11437,7 +11437,6 @@
       "../node_modules/@material-ui/styles/withtheme/index.d.ts",
       "../node_modules/@material-ui/styles/index.d.ts",
       "../src/components/icon.tsx",
-      "../src/components/button.tsx",
       "../src/components/list.tsx",
       "../src/components/loading.tsx",
       "../node_modules/@material-ui/core/styles/colormanipulator.d.ts",
@@ -11757,6 +11756,8 @@
       "../node_modules/@material-ui/core/zoom/index.d.ts",
       "../node_modules/@material-ui/core/index.d.ts",
       "../src/components/modal.tsx",
+      "../src/components/popover.tsx",
+      "../src/components/popoverwithitems.tsx",
       "../src/components/radiobutton.tsx",
       "../node_modules/use-debounce/lib/usedebounce.d.ts",
       "../node_modules/use-debounce/lib/usedebouncedcallback.d.ts",
@@ -12049,6 +12050,7 @@
       "../src/components/form/switch.tsx",
       "../src/components/form/multiselect.tsx",
       "../src/components/form/form.tsx",
+      "../src/components/index.ts",
       "../src/components/form/radiogroup.tsx",
       "../src/components/form/filter.form.ts",
       "../src/theme/configure.style.ts",
@@ -12068,9 +12070,7 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/components/popover.tsx",
-      "../src/components/index.ts",
-      "../src/components/popoverwithitems.tsx"
+      "../src/components/button.tsx"
     ]
   },
   "version": "3.8.3"
