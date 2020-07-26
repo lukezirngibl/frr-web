@@ -8,7 +8,7 @@ import { IconProps, Icon } from './Icon'
 
 const ButtonWrapper = styled.button`
   display: flex;
-  algin-items: center;
+  align-items: center;
   flex-direction: row;
   justify-content: center;
 `
