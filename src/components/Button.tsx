@@ -10,6 +10,7 @@ const ButtonWrapper = styled.button`
   display: flex;
   algin-items: center;
   flex-direction: row;
+  justify-content: center;
 `
 
 export enum ButtonType {
@@ -58,6 +59,8 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
       {props.icon && <Icon {...props.icon} />}
       <div
         style={{
+          color: 'inherit',
+          flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
       >

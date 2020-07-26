@@ -330,7 +330,7 @@
         "signature": "9aec1e9941262d6980f304b3638d290d01b7508cbf99d7f42d20935cb7a1ee0f"
       },
       "../src/components/button.tsx": {
-        "version": "50b53aa3b50e0898f4cf223c3f09f77f69ad799b838d4fa304e368f6b7e2e9c8",
+        "version": "734a6d9f4d72a598260d81dda35babcb097cc3ed861433f186956726eb430a53",
         "signature": "6d6ef1af8cb8f625194c6e51736cfb4e057fbfcedf1b875e143e0c0648a84ca3"
       },
       "../src/components/list.tsx": {
