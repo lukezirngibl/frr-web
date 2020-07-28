@@ -8,3 +8,4 @@ export { Icon } from './Icon';
 export { Table } from './Table';
 export { PopoverWithItems } from './PopoverWithItems';
 export { RadioButton } from './RadioButton';
+export { CodeInput } from './CodeInput';
