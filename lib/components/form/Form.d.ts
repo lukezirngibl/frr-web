@@ -15,6 +15,7 @@ import { Theme } from '../../theme/theme';
 import { Props as ButtonProps } from '../Button';
 import { Props as DropdownNumberProps } from './DropdownNumber';
 import { Props as InputWithDropdownProps } from './InputWithDropdown';
+import { Props as CountryDropdownProps } from './CountryDropdown';
 import { Props as SwithProps } from './Switch';
 import { Props as MultiSelectProps } from './MultiSelect';
 declare type FormInput<P extends {}, L, T> = Omit<P, 'onChange' | 'value' | 'error'> & {
@@ -23,6 +24,7 @@ declare type FormInput<P extends {}, L, T> = Omit<P, 'onChange' | 'value' | 'err
 };
 export declare type MultiSelectField<FormData, TM> = FormInput<MultiSelectProps<TM>, Lens<FormData, Array<string>>, FormFieldType.MultiSelect>;
 export declare type SwitchField<FormData, TM> = FormInput<SwithProps<TM>, Lens<FormData, boolean>, FormFieldType.Switch>;
+export declare type CountryDropdownField<FormData, TM> = FormInput<CountryDropdownProps<TM>, Lens<FormData, string>, FormFieldType.CountryDropdown>;
 export declare type InputWithDropdownField<FormData, TM> = FormInput<InputWithDropdownProps<TM>, Lens<FormData, string>, FormFieldType.InputWithDropdown>;
 export declare type DropdownNumberField<FormData, TM> = FormInput<DropdownNumberProps<TM>, Lens<FormData, number>, FormFieldType.DropdownNumber>;
 export declare type TextAreaField<FormData, TM> = FormInput<TextAreaProps<TM>, Lens<FormData, string>, FormFieldType.TextArea>;
@@ -39,7 +41,7 @@ declare type CommonFieldProps<FormData, TM> = {
     validate?: (formData: FormData) => boolean;
     maxwidth?: number;
 };
-export declare type SingleFormField<FormData, TM> = (CheckboxGroupField<FormData, TM> | NumberInputField<FormData, TM> | DatePickerField<FormData> | DropdownField<FormData, TM> | SingleCheckboxField<FormData, TM> | TextAreaField<FormData, TM> | TextNumberInputField<FormData, TM> | TextInputField<FormData, TM> | InputWithDropdownField<FormData, TM> | DropdownNumberField<FormData, TM> | SwitchField<FormData, TM> | MultiSelectField<FormData, TM>) & CommonFieldProps<FormData, TM>;
+export declare type SingleFormField<FormData, TM> = (CheckboxGroupField<FormData, TM> | NumberInputField<FormData, TM> | DatePickerField<FormData> | DropdownField<FormData, TM> | SingleCheckboxField<FormData, TM> | TextAreaField<FormData, TM> | TextNumberInputField<FormData, TM> | TextInputField<FormData, TM> | InputWithDropdownField<FormData, TM> | DropdownNumberField<FormData, TM> | SwitchField<FormData, TM> | MultiSelectField<FormData, TM> | CountryDropdownField<FormData, TM>) & CommonFieldProps<FormData, TM>;
 export declare type FormFieldRow<FormData, TM> = Array<SingleFormField<FormData, TM>>;
 export declare type Fields<FormData, TM> = Array<SingleFormField<FormData, TM> | FormFieldRow<FormData, TM>>;
 export declare type SingleFieldOrRow<FormData, TM> = SingleFormField<FormData, TM> | FormFieldRow<FormData, TM>;

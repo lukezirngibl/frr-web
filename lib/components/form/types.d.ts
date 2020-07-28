@@ -6,6 +6,7 @@ export declare enum FormFieldType {
     NumberInput = "NumberInput",
     RadioGroup = "RadioGroup",
     Dropdown = "Dropdown",
+    CountryDropdown = "CountryDropdown",
     SingleCheckbox = "SingleCheckbox",
     DropdownNumber = "DropdownNumber",
     TextArea = "TextArea",

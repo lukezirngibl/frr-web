@@ -25,6 +25,10 @@ import {
   Props as InputWithDropdownProps,
   InputWithDropdown,
 } from './InputWithDropdown'
+import {
+  Props as CountryDropdownProps,
+  CountryDropdown,
+} from './CountryDropdown'
 import { Switch, Props as SwithProps } from './Switch'
 import { MultiSelect, Props as MultiSelectProps } from './MultiSelect'
 
@@ -43,6 +47,12 @@ export type SwitchField<FormData, TM> = FormInput<
   SwithProps<TM>,
   Lens<FormData, boolean>,
   FormFieldType.Switch
+>
+
+export type CountryDropdownField<FormData, TM> = FormInput<
+  CountryDropdownProps<TM>,
+  Lens<FormData, string>,
+  FormFieldType.CountryDropdown
 >
 
 export type InputWithDropdownField<FormData, TM> = FormInput<
@@ -131,6 +141,7 @@ export type SingleFormField<FormData, TM> = (
   | DropdownNumberField<FormData, TM>
   | SwitchField<FormData, TM>
   | MultiSelectField<FormData, TM>
+  | CountryDropdownField<FormData, TM>
 ) &
   CommonFieldProps<FormData, TM>
 
@@ -484,6 +495,18 @@ export const Form = <FormData extends {}, TM extends TranslationGeneric>(
       const { lens, ...fieldProps } = field
       return (
         <InputWithDropdown
+          {...fieldProps}
+          value={lens.get(data)}
+          onChange={value => onChange(lens.set(value)(data))}
+          error={hasError}
+        />
+      )
+    }
+
+    if (field.type === FormFieldType.CountryDropdown) {
+      const { lens, ...fieldProps } = field
+      return (
+        <CountryDropdown
           {...fieldProps}
           value={lens.get(data)}
           onChange={value => onChange(lens.set(value)(data))}
