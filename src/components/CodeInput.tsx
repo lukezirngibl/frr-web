@@ -30,7 +30,7 @@ export type Props = {
   value: string
   setValue: (v: string) => void
   activeBorderColor: string
-  codeInputProps?: ReactCodeInputProps
+  codeInputProps?: Partial<ReactCodeInputProps>
 }
 
 export const CodeInput = (props: Props) => {

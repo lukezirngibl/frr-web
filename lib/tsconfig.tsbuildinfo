@@ -354,8 +354,8 @@
         "signature": "05e7273ad373112cbdc24fd542e4c6be179de9b06ce3ec107cfaa27a89a78568"
       },
       "../src/components/codeinput.tsx": {
-        "version": "5edcf1ac91edc0df00a61722e3e272bfe3364f257fbe9f846e5d9a608133f2fc",
-        "signature": "33d8559f89b0cef0f5b51a8304a32f3950da337fd7d310f6454bf3acbb8eabd9"
+        "version": "719d0a08777421197b00bfaf085fdaacf1e4537470c4e14e9f5de97ff3b45a9b",
+        "signature": "2b90c7543b7803057127088779f6a7e756db53d52dc86eab903cfebc9cb2d4c3"
       },
       "../src/components/list.tsx": {
         "version": "45a46376364bdb87298683cbf729065058522cab47c664df837e365820942271",
@@ -11301,6 +11301,10 @@
       "../src/components/form/inputwithdropdown.tsx": [
         "../src/util.ts"
       ],
+      "../src/components/form/countrydropdown.tsx": [
+        "../src/components/form/dropdown.tsx",
+        "../src/util.ts"
+      ],
       "../src/components/form/switch.tsx": [
         "../src/util.ts"
       ],
@@ -11423,10 +11427,6 @@
         "../node_modules/@types/react-transition-group/switchtransition.d.ts",
         "../node_modules/@types/react-transition-group/config.d.ts",
         "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../src/components/form/countrydropdown.tsx": [
-        "../src/components/form/dropdown.tsx",
-        "../src/util.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
@@ -11475,6 +11475,10 @@
       "../src/theme/language.ts",
       "../src/translations.ts",
       "../src/util.ts",
+      "../src/assets/countries-de.js",
+      "../src/assets/countries-en.js",
+      "../src/assets/countries-fr.js",
+      "../src/assets/countries-it.js",
       "../node_modules/@types/styled-components/node_modules/csstype/index.d.ts",
       "../node_modules/@types/hoist-non-react-statics/index.d.ts",
       "../node_modules/@types/styled-components/ts3.7/index.d.ts",
@@ -11514,7 +11518,6 @@
       "../src/components/icon.tsx",
       "../src/components/button.tsx",
       "../node_modules/react-code-input/src/reactcodeinput.d.ts",
-      "../src/components/codeinput.tsx",
       "../src/components/list.tsx",
       "../src/components/loading.tsx",
       "../node_modules/@material-ui/core/styles/colormanipulator.d.ts",
@@ -12109,6 +12112,7 @@
       "../src/components/form/dropdown.tsx",
       "../src/components/form/singlecheckbox.tsx",
       "../src/components/form/textinput.tsx",
+      "../src/components/form/types.ts",
       "../src/components/form/textarea.tsx",
       "../src/components/form/textnumberinput.tsx",
       "../node_modules/fp-ts/lib/functorwithindex.d.ts",
@@ -12121,9 +12125,15 @@
       "../node_modules/fp-ts/lib/array.d.ts",
       "../src/components/form/dropdownnumber.tsx",
       "../node_modules/date-fns/typings.d.ts",
+      "../src/components/form/datepicker.tsx",
+      "../src/components/form/some.form.ts",
       "../src/components/form/inputwithdropdown.tsx",
+      "../src/components/form/countrydropdown.tsx",
       "../src/components/form/switch.tsx",
       "../src/components/form/multiselect.tsx",
+      "../src/components/form/form.tsx",
+      "../src/components/form/radiogroup.tsx",
+      "../src/components/form/filter.form.ts",
       "../src/theme/configure.style.ts",
       "../node_modules/@types/parse-json/index.d.ts",
       "../node_modules/@types/react-dom/index.d.ts",
@@ -12141,18 +12151,8 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/assets/countries-de.js",
-      "../src/components/form/countrydropdown.tsx",
-      "../src/assets/countries-en.js",
-      "../src/assets/countries-fr.js",
-      "../src/assets/countries-it.js",
-      "../src/components/form/types.ts",
-      "../src/components/form/radiogroup.tsx",
-      "../src/components/form/datepicker.tsx",
-      "../src/components/form/some.form.ts",
-      "../src/components/form/form.tsx",
-      "../src/components/index.ts",
-      "../src/components/form/filter.form.ts"
+      "../src/components/codeinput.tsx",
+      "../src/components/index.ts"
     ]
   },
   "version": "3.8.3"
