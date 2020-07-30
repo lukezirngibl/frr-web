@@ -27,7 +27,7 @@ export const TextArea = <TM extends TranslationGeneric>(
       {label && <Label<TM> label={label} />}
       <TextAreaElement
         {...otherProps}
-        onChange={() => {}}
+        onChange={e => props.onChange(e.target.value as string)}
         className="input"
         disabled={disabled}
       />
