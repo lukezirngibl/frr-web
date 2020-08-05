@@ -345,9 +345,13 @@
         "version": "ed9ccf3f81b0685ddce3bb97dd5c817b288ab76dc3f448b3a7e4af056e85cd1b",
         "signature": "9aec1e9941262d6980f304b3638d290d01b7508cbf99d7f42d20935cb7a1ee0f"
       },
+      "../src/components/loading.tsx": {
+        "version": "6c955984fc04df0be88a2cb331a2e5f5d914a39b4a20a4d74e7b6ea51c89c6f9",
+        "signature": "e30d63896bb8913c586ed08ffa7d5c8cda86e66c322645d17f598638a7cd2639"
+      },
       "../src/components/button.tsx": {
-        "version": "7f4c99f70624649dd3a541287e560a81c93b3fa8255f7e6a17f10daebc22f838",
-        "signature": "6d6ef1af8cb8f625194c6e51736cfb4e057fbfcedf1b875e143e0c0648a84ca3"
+        "version": "0536a1c921df943e19e47715b054c0b3193bf695d17f1de13cdfb890f168ea3e",
+        "signature": "d632210c77ff819114c5b298b6a8fa3458e8727c9b47a07eb7d0bbbf16f9f862"
       },
       "../node_modules/react-code-input/src/reactcodeinput.d.ts": {
         "version": "05e7273ad373112cbdc24fd542e4c6be179de9b06ce3ec107cfaa27a89a78568",
@@ -360,10 +364,6 @@
       "../src/components/list.tsx": {
         "version": "45a46376364bdb87298683cbf729065058522cab47c664df837e365820942271",
         "signature": "71ba91a793418a4834e6c49424b4a13700a92083cd2bd1d78c3ef74a40bbbade"
-      },
-      "../src/components/loading.tsx": {
-        "version": "af6c67f02a8e62f2b853013814fadbc6f216fbf07de4eb4a858d556f47455304",
-        "signature": "8f98aece51ebb7db4217a8173749d65209992bc4fedfb3a276c51561afa68225"
       },
       "../node_modules/@material-ui/core/styles/colormanipulator.d.ts": {
         "version": "45835f2ed056c638233f5f87faeebf1f8b352dae9c641215c0224d28babb0b02",
@@ -3255,6 +3255,11 @@
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
       ],
+      "../src/components/loading.tsx": [
+        "../node_modules/@types/react/index.d.ts",
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
+        "../node_modules/date-fns/typings.d.ts"
+      ],
       "../src/components/button.tsx": [
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
@@ -3263,6 +3268,7 @@
         "../src/theme/language.ts",
         "../src/util.ts",
         "../src/components/icon.tsx",
+        "../src/components/loading.tsx",
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../node_modules/react-code-input/src/reactcodeinput.d.ts": [
@@ -3276,11 +3282,6 @@
         "../node_modules/date-fns/typings.d.ts"
       ],
       "../src/components/list.tsx": [
-        "../node_modules/@types/react/index.d.ts",
-        "../node_modules/@types/styled-components/ts3.7/index.d.ts",
-        "../node_modules/date-fns/typings.d.ts"
-      ],
-      "../src/components/loading.tsx": [
         "../node_modules/@types/react/index.d.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/date-fns/typings.d.ts"
@@ -7553,6 +7554,9 @@
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
         "../node_modules/@material-ui/styles/index.d.ts"
       ],
+      "../src/components/loading.tsx": [
+        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
+      ],
       "../src/components/button.tsx": [
         "../src/theme/theme.ts",
         "../node_modules/@types/styled-components/ts3.7/index.d.ts",
@@ -7567,10 +7571,6 @@
       ],
       "../src/components/list.tsx": [
         "../node_modules/@types/react/index.d.ts"
-      ],
-      "../src/components/loading.tsx": [
-        "../node_modules/@types/react/index.d.ts",
-        "../node_modules/@types/styled-components/ts3.7/index.d.ts"
       ],
       "../node_modules/@material-ui/core/styles/colormanipulator.d.ts": [
         "../node_modules/date-fns/typings.d.ts"
@@ -11516,11 +11516,10 @@
       "../node_modules/@material-ui/styles/withtheme/index.d.ts",
       "../node_modules/@material-ui/styles/index.d.ts",
       "../src/components/icon.tsx",
-      "../src/components/button.tsx",
+      "../src/components/loading.tsx",
       "../node_modules/react-code-input/src/reactcodeinput.d.ts",
       "../src/components/codeinput.tsx",
       "../src/components/list.tsx",
-      "../src/components/loading.tsx",
       "../node_modules/@material-ui/core/styles/colormanipulator.d.ts",
       "../node_modules/@material-ui/core/styles/createbreakpoints.d.ts",
       "../node_modules/@material-ui/core/styles/createspacing.d.ts",
@@ -12114,6 +12113,7 @@
       "../src/components/form/singlecheckbox.tsx",
       "../src/components/form/textinput.tsx",
       "../src/components/form/types.ts",
+      "../src/components/form/textarea.tsx",
       "../src/components/form/textnumberinput.tsx",
       "../node_modules/fp-ts/lib/functorwithindex.d.ts",
       "../node_modules/fp-ts/lib/filterablewithindex.d.ts",
@@ -12152,7 +12152,7 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/components/form/textarea.tsx"
+      "../src/components/button.tsx"
     ]
   },
   "version": "3.8.3"

@@ -13,6 +13,7 @@ export declare type Props<T> = {
     onClick?: () => void;
     disabled?: boolean;
     style?: Partial<Theme['button']>;
+    loading?: boolean;
     override?: CSSProperties;
     type?: ButtonType;
     icon?: IconProps;

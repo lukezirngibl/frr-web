@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
 import { IconProps, Icon } from './Icon'
+import { Loading } from './Loading'
 
 const ButtonWrapper = styled.button`
   display: flex;
@@ -32,6 +33,7 @@ export type Props<T> = {
   onClick?: () => void
   disabled?: boolean
   style?: Partial<Theme['button']>
+  loading?: boolean
   override?: CSSProperties
   type?: ButtonType
   icon?: IconProps
@@ -48,7 +50,7 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
 
   return (
     <ButtonWrapper
-      onClick={disabled ? undefined : props.onClick}
+      onClick={disabled || props.loading ? undefined : props.onClick}
       style={{
         ...getStyle('common'),
         ...getStyle(mapTypeToStyleKey[type]),
@@ -66,6 +68,18 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
       >
         {translate(props.label)}
       </div>
+      {props.loading && (
+        <Loading
+          style={{
+            transform: 'scale(0.3)',
+            marginRight: -24,
+            marginTop: -12,
+            marginLeft: 12,
+            height: 32,
+            width: 32,
+          }}
+        />
+      )}
     </ButtonWrapper>
   )
 }

@@ -88,7 +88,7 @@ type Props = {
   style?: SimpleInterpolation
 }
 
-export const Loading: FC<Props> = (props: Props) => (
+export const Loading = (props: Props) => (
   <LoadingWrapper css={props.style}>
     <div className="lds-spinner">
       <div></div>
