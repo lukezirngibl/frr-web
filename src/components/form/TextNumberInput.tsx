@@ -10,6 +10,7 @@ export type Props<TM> = {
   value: number
   required?: boolean
   inputType?: string
+  debouncedDelay?: number
   label?: keyof TM
 } & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>
 

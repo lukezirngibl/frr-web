@@ -6,6 +6,7 @@ export declare type Props<TM> = {
     value: number;
     required?: boolean;
     inputType?: string;
+    debouncedDelay?: number;
     label?: keyof TM;
 } & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>;
 export declare const TextNumberInput: <TM extends TranslationGeneric>(props: Props<TM>) => JSX.Element;
