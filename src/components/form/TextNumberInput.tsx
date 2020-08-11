@@ -26,7 +26,7 @@ export const TextNumberInput = <TM extends TranslationGeneric>(
   const [onChange] = useDebouncedCallback((text: string) => {
     props.onChange(getValue(text))
     setInternalValue(`${getValue(text)}`)
-  }, 300)
+  }, props.debouncedDelay || 300)
 
   React.useEffect(() => {
     setInternalValue(`${value}`)
