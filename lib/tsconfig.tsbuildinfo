@@ -174,8 +174,8 @@
         "signature": "a5dba61d8becd2255eec74029edb5948d4ea8e5ef253651e53a182931b494d33"
       },
       "../src/translations.ts": {
-        "version": "9cbb3e245a4b71369e796adcaa78ad781da5d93a11d1319c8b43a24920558b80",
-        "signature": "e2deb14cad42457711f03e9f291c5edc415b19ba6f41cea2e9c6048643cd8533"
+        "version": "c36a6f6b9c8763758c136af62e8e0cbd8aeeb8d9f929f2c4358aa8c919256b67",
+        "signature": "18b96a5a18a30f30e0dc6748c119aaa62eef0e9894fa9cb4ae8f623b03737a69"
       },
       "../src/util.ts": {
         "version": "9c3293bab419815673bbc03e24a1c6fd5e11d2d55a646cd255a938369967de54",
@@ -11473,7 +11473,6 @@
       "../node_modules/@types/prop-types/index.d.ts",
       "../node_modules/@types/react/index.d.ts",
       "../src/theme/language.ts",
-      "../src/translations.ts",
       "../src/util.ts",
       "../src/assets/countries-de.js",
       "../src/assets/countries-en.js",
@@ -12115,6 +12114,7 @@
       "../src/components/form/textinput.tsx",
       "../src/components/form/types.ts",
       "../src/components/form/textarea.tsx",
+      "../src/components/form/textnumberinput.tsx",
       "../node_modules/fp-ts/lib/functorwithindex.d.ts",
       "../node_modules/fp-ts/lib/filterablewithindex.d.ts",
       "../node_modules/fp-ts/lib/foldablewithindex.d.ts",
@@ -12125,7 +12125,6 @@
       "../node_modules/fp-ts/lib/array.d.ts",
       "../src/components/form/dropdownnumber.tsx",
       "../node_modules/date-fns/typings.d.ts",
-      "../src/components/form/datepicker.tsx",
       "../src/components/form/some.form.ts",
       "../src/components/form/inputwithdropdown.tsx",
       "../src/components/form/countrydropdown.tsx",
@@ -12152,7 +12151,8 @@
       "../node_modules/@types/react-transition-group/switchtransition.d.ts",
       "../node_modules/@types/react-transition-group/config.d.ts",
       "../node_modules/@types/react-transition-group/index.d.ts",
-      "../src/components/form/textnumberinput.tsx"
+      "../src/translations.ts",
+      "../src/components/form/datepicker.tsx"
     ]
   },
   "version": "3.8.3"

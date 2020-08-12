@@ -6,101 +6,95 @@ export declare const Translations: {
         readonly it: " ";
         readonly fr: " ";
     };
-    readonly '': {
-        readonly en: "";
-        readonly de: "";
-        readonly it: " ";
-        readonly fr: " ";
-    };
     readonly day: {
         readonly en: "Day";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Tag";
+        readonly it: "Giorno";
+        readonly fr: "Journée";
     };
     readonly month: {
         readonly en: "Month";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Monat";
+        readonly it: "Mese";
+        readonly fr: "Mois";
     };
     readonly year: {
         readonly en: "Year";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Jahr";
+        readonly it: "Anno";
+        readonly fr: "Année";
     };
     readonly January: {
         readonly en: "January";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Januar";
+        readonly it: "Gennaio";
+        readonly fr: "Janvier";
     };
     readonly February: {
         readonly en: "February";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Februar";
+        readonly it: "Febbraio";
+        readonly fr: "Février";
     };
     readonly March: {
         readonly en: "March";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "März";
+        readonly it: "Marzo";
+        readonly fr: "Mars";
     };
     readonly April: {
         readonly en: "April";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "April";
+        readonly it: "Aprile";
+        readonly fr: "Avril";
     };
     readonly May: {
         readonly en: "May";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Mai";
+        readonly it: "Maggio";
+        readonly fr: "Mai";
     };
     readonly June: {
         readonly en: "June";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Juni";
+        readonly it: "Giugno";
+        readonly fr: "Juin";
     };
     readonly July: {
         readonly en: "July";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Juli";
+        readonly it: "Luglio";
+        readonly fr: "Juillet";
     };
     readonly August: {
         readonly en: "August";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "August";
+        readonly it: "Agosto";
+        readonly fr: "Août";
     };
     readonly September: {
         readonly en: "September";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "September";
+        readonly it: "Settembre";
+        readonly fr: "Septembre";
     };
     readonly October: {
         readonly en: "October";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Oktober";
+        readonly it: "Ottobre";
+        readonly fr: "Octobre";
     };
     readonly November: {
         readonly en: "November";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "November";
+        readonly it: "Novembre";
+        readonly fr: "Novembre";
     };
     readonly December: {
         readonly en: "December";
-        readonly de: "";
-        readonly it: "";
-        readonly fr: "";
+        readonly de: "Dezember";
+        readonly it: "Dicembre";
+        readonly fr: "Décembre";
     };
 };
 export declare type CommonTM = typeof Translations;
