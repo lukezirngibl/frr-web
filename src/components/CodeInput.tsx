@@ -54,7 +54,7 @@ export const CodeInput = (props: Props) => {
   ).map(i => React.createRef())
 
   const [intervalValue, setIntervalValue] = React.useState(
-    props.value || range(0, props.length - 1).reduce(str => `${str}`, ''),
+    props.value || range(0, props.length - 1).reduce(str => `${str}-`, ''),
   )
 
   React.useEffect(() => {
@@ -70,23 +70,36 @@ export const CodeInput = (props: Props) => {
         <Input
           key={i}
           ref={refs[i] as any}
-          value={intervalValue[i]}
+          value={intervalValue[i] === '-' ? '' : intervalValue[i]}
           style={getStyle('input')}
+          onClick={e => {
+            setIntervalValue(replaceChar(intervalValue, '-', i))
+          }}
           onChange={e => {
-            const v = e.target.value
+            const v = e.target.value.replace('-', ' ').trim()
+            // console.log('new value: ', v)
             if (v === '') {
               const prev = intervalValue[i]
-              setIntervalValue(replaceChar(intervalValue, ' ', i))
+              const newValue = replaceChar(intervalValue, '-', i)
+              setIntervalValue(newValue)
               if (prev === ' ') {
                 const next = refs[i - 1]
+                ;(refs[i] as any).current.blur()
                 if (next && next.current) {
+                  setIntervalValue(replaceChar(newValue, '-', i - 1))
                   ;(next.current as any).focus()
                 }
               }
             } else {
-              setIntervalValue(replaceChar(intervalValue, v, i))
+              //   console.log('2 before: ', intervalValue)
+              //   console.log('2 after: ', replaceChar(intervalValue, v, i))
+              const newValue = replaceChar(intervalValue, v, i)
+              setIntervalValue(newValue)
+
               const next = refs[i + 1]
+              ;(refs[i] as any).current.blur()
               if (next && next.current) {
+                setIntervalValue(replaceChar(newValue, '-', i + 1))
                 ;(next.current as any).focus()
               }
             }
