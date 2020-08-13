@@ -18,6 +18,10 @@ export type Theme = {
   dropdown: {
     wrapper: CSSProperties
   }
+  codeInput: {
+    wrapper: CSSProperties
+    input: CSSProperties
+  }
 }
 
 const defaultTheme: Theme = {
@@ -26,6 +30,10 @@ const defaultTheme: Theme = {
     primary: {},
     secondary: {},
     common: {},
+  },
+  codeInput: {
+    wrapper: {},
+    input: {},
   },
   form: {
     label: {},
