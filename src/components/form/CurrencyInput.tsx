@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import CurrencyInputLib from 'react-currency-input-field'
 import { CurrencyInputProps } from 'react-currency-input-field/dist/components/CurrencyInputProps'
 import { getLanguageContext, getTranslation } from '../../theme/language'
-import { Label } from './Label'
 import { TranslationGeneric } from '../../util'
+import { Label } from './Label'
 
 const Wrapper = styled.div`
   position: relative;
@@ -46,6 +46,14 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
+  const [internalValue, setInteralValue] = React.useState(`${props.value}`)
+
+  React.useEffect(() => {
+    if (Number(props.value) !== Number(internalValue)) {
+      setInteralValue(`${props.value}`)
+    }
+  }, [props.value])
+
   const max = props.max || 9999999
   const min = props.min || 0
 
@@ -57,9 +65,12 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
       {props.label && <Label<TM> label={props.label} />}
       <CurrencyInputLib
         {...props}
-        value={props.value}
+        value={internalValue}
         onChange={(v, name) => {
-          props.onChange(Number(v || 0))
+          if (!isNaN(Number(v || 0))) {
+            setInteralValue(v || '')
+            props.onChange(Number(v || 0))
+          }
         }}
         style={{
           borderColor: hasError ? 'red' : 'rgba(34, 36, 38, 0.15)',
