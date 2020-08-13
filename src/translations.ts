@@ -9,15 +9,15 @@ export const Translations = {
   },
   maxError: {
     [Language.EN]: 'Value exceeds maximum.',
-    [Language.DE]: '',
-    [Language.IT]: '',
-    [Language.FR]: '',
+    [Language.DE]: 'Der Wert überschreitet Maximum',
+    [Language.IT]: 'Il valore supera il massimo',
+    [Language.FR]: 'La valeur dépasse le maximum',
   },
   minError: {
     [Language.EN]: 'Value is below minimum.',
-    [Language.DE]: '',
-    [Language.IT]: '',
-    [Language.FR]: '',
+    [Language.DE]: 'Der Wert liegt unter dem Minimum',
+    [Language.IT]: 'Il valore è inferiore al minimo',
+    [Language.FR]: 'La valeur est inférieure au minimum',
   },
   day: {
     [Language.EN]: 'Day',
