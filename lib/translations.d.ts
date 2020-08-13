@@ -6,6 +6,18 @@ export declare const Translations: {
         readonly it: " ";
         readonly fr: " ";
     };
+    readonly maxError: {
+        readonly en: "Value exceeds maximum.";
+        readonly de: "";
+        readonly it: "";
+        readonly fr: "";
+    };
+    readonly minError: {
+        readonly en: "Value is below minimum.";
+        readonly de: "";
+        readonly it: "";
+        readonly fr: "";
+    };
     readonly day: {
         readonly en: "Day";
         readonly de: "Tag";

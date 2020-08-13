@@ -603,6 +603,11 @@ react-code-input@^3.10.0:
     react "^16.3.2"
     react-dom "^16.3.2"
 
+react-currency-input-field@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-2.0.0.tgz#d427e1c3f1d9de7752412d565715395b38e5e1b1"
+  integrity sha512-BQFayeO/CWy+tPV47ifLnSESBazBEXiZXsEHQD/dR34s/OqgP7Svh7tkBEVtEldnx36nmUF7zq8cKUVfzdjoqQ==
+
 react-dom@^16.3.2:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"

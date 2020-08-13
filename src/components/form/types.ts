@@ -6,6 +6,7 @@ export enum FormFieldType {
   NumberInput = 'NumberInput',
   RadioGroup = 'RadioGroup',
   Dropdown = 'Dropdown',
+  CurrencyInput = 'CurrencyInput',
   CountryDropdown = 'CountryDropdown',
   SingleCheckbox = 'SingleCheckbox',
   DropdownNumber = 'DropdownNumber',

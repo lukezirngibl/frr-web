@@ -7,6 +7,18 @@ export const Translations = {
     [Language.IT]: ' ',
     [Language.FR]: ' ',
   },
+  maxError: {
+    [Language.EN]: 'Value exceeds maximum.',
+    [Language.DE]: '',
+    [Language.IT]: '',
+    [Language.FR]: '',
+  },
+  minError: {
+    [Language.EN]: 'Value is below minimum.',
+    [Language.DE]: '',
+    [Language.IT]: '',
+    [Language.FR]: '',
+  },
   day: {
     [Language.EN]: 'Day',
     [Language.DE]: 'Tag',

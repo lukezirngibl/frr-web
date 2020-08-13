@@ -30,12 +30,19 @@ import {
   CountryDropdown,
 } from './CountryDropdown'
 import { Switch, Props as SwithProps } from './Switch'
+import { CurrencyInput, Props as CurrencyInputProps } from './CurrencyInput'
 import { MultiSelect, Props as MultiSelectProps } from './MultiSelect'
 
 type FormInput<P extends {}, L, T> = Omit<P, 'onChange' | 'value' | 'error'> & {
   lens: L
   type: T
 }
+
+export type CurrencyInputField<FormData, TM> = FormInput<
+  CurrencyInputProps<TM>,
+  Lens<FormData, number>,
+  FormFieldType.CurrencyInput
+>
 
 export type MultiSelectField<FormData, TM> = FormInput<
   MultiSelectProps<TM>,
@@ -142,6 +149,7 @@ export type SingleFormField<FormData, TM> = (
   | SwitchField<FormData, TM>
   | MultiSelectField<FormData, TM>
   | CountryDropdownField<FormData, TM>
+  | CurrencyInputField<FormData, TM>
 ) &
   CommonFieldProps<FormData, TM>
 
@@ -507,6 +515,18 @@ export const Form = <FormData extends {}, TM extends TranslationGeneric>(
       const { lens, ...fieldProps } = field
       return (
         <CountryDropdown
+          {...fieldProps}
+          value={lens.get(data)}
+          onChange={value => onChange(lens.set(value)(data))}
+          error={hasError}
+        />
+      )
+    }
+
+    if (field.type === FormFieldType.CurrencyInput) {
+      const { lens, ...fieldProps } = field
+      return (
+        <CurrencyInput
           {...fieldProps}
           value={lens.get(data)}
           onChange={value => onChange(lens.set(value)(data))}
