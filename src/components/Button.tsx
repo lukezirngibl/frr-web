@@ -77,6 +77,7 @@ export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
             marginLeft: 12,
             height: 32,
             width: 32,
+            ...getStyle('spinner'),
           }}
         />
       )}

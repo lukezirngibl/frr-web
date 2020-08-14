@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CSSProperties } from 'styled-components'
+import { CSSProperties, CSSProp } from 'styled-components'
 import { keys } from '../util'
 
 export type Theme = {
@@ -8,6 +8,7 @@ export type Theme = {
     primary: CSSProperties
     secondary: CSSProperties
     common: CSSProperties
+    spinner: CSSProperties
   }
   form: {
     label: CSSProperties
@@ -30,6 +31,7 @@ const defaultTheme: Theme = {
     primary: {},
     secondary: {},
     common: {},
+    spinner: {},
   },
   codeInput: {
     wrapper: {},
