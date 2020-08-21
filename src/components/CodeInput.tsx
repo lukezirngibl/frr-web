@@ -30,7 +30,10 @@ const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
   }
 `
 
-const Input = styled.input``
+const Input = styled.input`
+  padding: 0;
+  text-align: center;
+`
 
 export type Props = {
   value: string
@@ -75,9 +78,9 @@ export const CodeInput = (props: Props) => {
           onClick={e => {
             setIntervalValue(replaceChar(intervalValue, '-', i))
           }}
+          type="number"
           onChange={e => {
             const v = e.target.value.replace('-', ' ').trim()
-            // console.log('new value: ', v)
             if (v === '') {
               const prev = intervalValue[i]
               const newValue = replaceChar(intervalValue, '-', i)
@@ -91,8 +94,6 @@ export const CodeInput = (props: Props) => {
                 }
               }
             } else {
-              //   console.log('2 before: ', intervalValue)
-              //   console.log('2 after: ', replaceChar(intervalValue, v, i))
               const newValue = replaceChar(intervalValue, v, i)
               setIntervalValue(newValue)
 
