@@ -4,8 +4,8 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled, { SimpleInterpolation } from 'styled-components'
-import { TranslationGeneric } from '../../util'
-import { getTranslation, getLanguageContext } from '../../theme/language'
+import { TranslationGeneric } from '../util'
+import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label } from './Label'
 
 const DropdownWrapper = styled.div<{ hasLabel: boolean }>`

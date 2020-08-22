@@ -4,15 +4,11 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { TranslationGeneric } from '../../util'
-import {
-  getTranslation,
-  getLanguageContext,
-  Language,
-} from '../../theme/language'
+import { TranslationGeneric } from '../util'
+import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label } from './Label'
-import { Theme, getThemeContext } from '../../theme/theme'
-import { createGetStyle } from '../../theme/util'
+import { Theme, getThemeContext } from '../theme/theme'
+import { createGetStyle } from '../theme/util'
 
 const DropdownWrapper = styled.div`
   width: 100%;

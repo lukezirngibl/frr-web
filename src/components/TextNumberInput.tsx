@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Input as SematicInput, StrictInputProps } from 'semantic-ui-react'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { Label } from './Label'

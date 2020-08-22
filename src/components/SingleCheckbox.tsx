@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Label } from './Label'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`

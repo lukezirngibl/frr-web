@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Input as SematicInput, StrictInputProps } from 'semantic-ui-react'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import { Label } from './Label'
 
 export type Props<TM> = {

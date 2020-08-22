@@ -1,9 +1,9 @@
 import React from 'react'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import Select from 'react-select'
 
 import { Label } from './Label'
-import { getTranslation, getLanguageContext } from '../../theme/language'
+import { getTranslation, getLanguageContext } from '../theme/language'
 
 export type Props<TM> = {
   onChange: (value: Array<string>) => void

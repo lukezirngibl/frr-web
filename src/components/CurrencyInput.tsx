@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 import CurrencyInputLib from 'react-currency-input-field'
 import { CurrencyInputProps } from 'react-currency-input-field/dist/components/CurrencyInputProps'
-import { getLanguageContext, getTranslation } from '../../theme/language'
-import { TranslationGeneric } from '../../util'
+import { getLanguageContext, getTranslation } from '../theme/language'
+import { TranslationGeneric } from '../util'
 import { Label } from './Label'
 
 const Wrapper = styled.div`

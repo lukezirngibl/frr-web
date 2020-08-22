@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import styled, { SimpleInterpolation } from 'styled-components'
 import { Checkbox } from 'semantic-ui-react'
 import { Label } from './Label'
-import { TranslationGeneric } from '../../util'
-import { getLanguageContext, getTranslation } from '../../theme/language'
+import { TranslationGeneric } from '../util'
+import { getLanguageContext, getTranslation } from '../theme/language'
 
 const CheckboxGroupWapper = styled.div``
 

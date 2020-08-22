@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import { StrictInputProps } from 'semantic-ui-react'
-import { Dropdown } from './Dropdown'
-import { Date } from './types'
 import { range } from 'fp-ts/lib/Array'
 import styled from 'styled-components'
 import { Lens } from 'monocle-ts'
-import { CommonTM } from '../../translations'
+import { CommonTM } from '../translations'
 import { DropdownNumber } from './DropdownNumber'
 import { getDaysInMonth } from 'date-fns'
+
+export type Date = {
+  day: number
+  month: number
+  year: number
+}
 
 const DatePickerWrapper = styled.div`
   width: 100%;

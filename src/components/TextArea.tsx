@@ -1,7 +1,7 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import { Label } from './Label'
 
 const TextAreaElement = styled.textarea<{ disabled?: boolean }>`

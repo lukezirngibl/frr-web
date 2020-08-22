@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Input as SematicInput, StrictInputProps } from 'semantic-ui-react'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { Label } from './Label'
-import { getTranslation, getLanguageContext } from '../../theme/language'
-import { Theme } from '../../theme/theme'
+import { getTranslation, getLanguageContext } from '../theme/language'
+import { Theme } from '../theme/theme'
 
 export type Props<TM> = {
   onChange: (value: string) => void

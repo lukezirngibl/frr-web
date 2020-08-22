@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TranslationGeneric } from '../../util'
+import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 
 import { Label } from './Label'

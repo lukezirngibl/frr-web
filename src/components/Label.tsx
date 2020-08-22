@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import React, { ReactNode } from 'react'
-import { Theme, getThemeContext } from '../../theme/theme'
-import { createGetStyle } from '../../theme/util'
-import { TranslationGeneric } from '../../util'
-import { getLanguageContext, getTranslation } from '../../theme/language'
+import { Theme, getThemeContext } from '../theme/theme'
+import { createGetStyle } from '../theme/util'
+import { TranslationGeneric } from '../util'
+import { getLanguageContext, getTranslation } from '../theme/language'
 
 export const LabelWrapper = styled.p``
 
