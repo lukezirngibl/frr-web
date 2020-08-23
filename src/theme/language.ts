@@ -29,5 +29,5 @@ export const getTranslation = (l: Language) => (k: any) => {
   if (!isNaN(Number(k))) {
     return `${k}`
   }
-  return 'Unknown'
+  return k
 }
