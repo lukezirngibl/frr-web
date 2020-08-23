@@ -10,13 +10,13 @@ It is tiresome constantly having to import 15 different dependencies for your fa
 ##### Yarn Install
 
 ```
-yarn add frr-web react @material-ui/core @material-ui/styles
+yarn add frr-web @material-ui/core @material-ui/styles
 ```
 
 ##### NPM Install
 
 ```
-npm install frr-web react @material-ui/core @material-ui/styles
+npm install frr-web @material-ui/core @material-ui/styles
 ```
 
 ### Usage
