@@ -1,4 +1,4 @@
-# Configurable & Styleable Component Library
+# Configurable & Styleable React Component Library
 
 ### Motivation
 
