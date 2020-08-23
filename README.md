@@ -28,7 +28,7 @@ import { Button } from 'frr-web/lib/components'
 import { configureLanguage, Language } from 'frr-web/lib/theme/language'
 import { configureTheme, getTheme as getAppTheme } from 'frr-web/lib/theme/theme'
 
-export const AppThemeContext = configureTheme({
+const AppThemeContext = configureTheme({
   button: {
     chromeless: {},
     secondary: {},
@@ -39,7 +39,7 @@ export const AppThemeContext = configureTheme({
   },
 })
 
-export const Translations = {
+const Translations = {
   submit: {
     [Language.EN]: 'Submit',
     [Language.DE]: 'Einreichen',
