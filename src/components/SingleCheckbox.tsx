@@ -26,7 +26,7 @@ export const SingleCheckbox = <TM extends TranslationGeneric>(
   const { value, label } = props
   return (
     <Wrapper>
-      <Label label={label} style={{ label: { marginBottom: 0 } }}></Label>
+      <Label label={label} style={{ wrapper: { marginBottom: 0 } }}></Label>
       <input
         type="checkbox"
         checked={value}

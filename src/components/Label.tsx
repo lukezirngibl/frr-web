@@ -8,17 +8,17 @@ import { getLanguageContext, getTranslation } from '../theme/language'
 export const LabelWrapper = styled.p``
 
 export const Label = <TM extends TranslationGeneric>(props: {
-  style?: Partial<Theme['form']>
+  style?: Partial<Theme['label']>
   label: keyof TM
 }) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'form')(props.style)
+  const getStyle = createGetStyle(theme, 'label')(props.style)
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
   return (
-    <LabelWrapper style={getStyle('label')}>
+    <LabelWrapper style={getStyle('wrapper')}>
       {translate(props.label)}
     </LabelWrapper>
   )

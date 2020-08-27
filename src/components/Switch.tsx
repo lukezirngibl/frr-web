@@ -32,7 +32,7 @@ export const Switch = <TM extends TranslationGeneric>(props: Props<TM>) => {
     <Wrapper className={value ? 'mui-active-switch' : ''}>
       <Label
         label={label}
-        style={{ label: { marginBottom: 0, marginRight: 'auto' } }}
+        style={{ wrapper: { marginBottom: 0, marginRight: 'auto' } }}
       ></Label>
       <MaterialSwitch
         checked={value}

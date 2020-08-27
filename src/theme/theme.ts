@@ -10,18 +10,16 @@ export type Theme = {
     common: CSSProperties
     spinner: CSSProperties
   }
-  form: {
-    label: CSSProperties
-    groupTitle: CSSProperties
-    sectionTitle: CSSProperties
-    wrapper: CSSProperties
-  }
   dropdown: {
     wrapper: CSSProperties
   }
   codeInput: {
     wrapper: CSSProperties
     input: CSSProperties
+  }
+
+  label: {
+    wrapper: CSSProperties
   }
 }
 
@@ -37,13 +35,10 @@ const defaultTheme: Theme = {
     wrapper: {},
     input: {},
   },
-  form: {
-    label: {},
-    groupTitle: {},
-    sectionTitle: {},
+  dropdown: {
     wrapper: {},
   },
-  dropdown: {
+  label: {
     wrapper: {},
   },
 }
