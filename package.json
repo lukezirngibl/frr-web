@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "keywords": [],
   "scripts": {
     "build": "tsc",
