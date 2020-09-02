@@ -138,7 +138,7 @@ export const LinkModal = (props: Props) => {
       }}
       style={{ display: 'flex' }}
     >
-      {props.config.fold(null, modalConfig => (
+      {props.config.fold(<div />, modalConfig => (
         <IframeOuterWrapper
           onClick={() => {
             setIframeLoading(true)

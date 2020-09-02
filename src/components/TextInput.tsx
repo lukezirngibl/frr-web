@@ -25,7 +25,9 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const [internalValue, setInternalValue] = useState(value)
 
   const [onChange] = useDebouncedCallback((text: string) => {
-    props.onChange(text)
+    const v = text.trim()
+    props.onChange(v)
+    setInternalValue(v)
   }, 300)
 
   React.useEffect(() => {

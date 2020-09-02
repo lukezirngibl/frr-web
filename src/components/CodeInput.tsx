@@ -17,6 +17,7 @@ const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
     text-align: center;
     font-size: 24px;
     margin-right: 8px;
+    cursor: pointer;
 
     div {
       overflow: visible !important;
