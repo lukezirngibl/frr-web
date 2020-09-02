@@ -25,9 +25,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const [internalValue, setInternalValue] = useState(value)
 
   const [onChange] = useDebouncedCallback((text: string) => {
-    const v = text.trim()
-    props.onChange(v)
-    setInternalValue(v)
+    props.onChange(text)
   }, 300)
 
   React.useEffect(() => {
@@ -51,6 +49,13 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
         onChange={(e, { value }) => {
           setInternalValue(value)
           onChange(value)
+        }}
+        onBlur={() => {
+          const v = internalValue.trim()
+          if (v !== internalValue) {
+            setInternalValue(v)
+            props.onChange(v)
+          }
         }}
         placeholder={placeholder ? translate(placeholder) : undefined}
         value={internalValue}
