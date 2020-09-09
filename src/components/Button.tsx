@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { CSSProperties } from 'styled-components'
-import { getThemeContext, Theme } from '../theme/theme'
+import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
@@ -21,7 +21,7 @@ export enum ButtonType {
 }
 
 const mapTypeToStyleKey: {
-  [k in ButtonType]: keyof Partial<Theme['button']>
+  [k in ButtonType]: keyof Partial<AppTheme['button']>
 } = {
   [ButtonType.Chromeless]: 'chromeless',
   [ButtonType.Primary]: 'primary',
@@ -32,7 +32,7 @@ export type Props<T> = {
   label: keyof T
   onClick?: () => void
   disabled?: boolean
-  style?: Partial<Theme['button']>
+  style?: Partial<AppTheme['button']>
   loading?: boolean
   override?: CSSProperties
   type?: ButtonType

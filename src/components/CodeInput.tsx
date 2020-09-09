@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
-import { getThemeContext, Theme } from '../theme/theme'
+import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 
 const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
@@ -41,7 +41,7 @@ export type Props = {
   setValue: (v: string) => void
   activeBorderColor: string
   length: number
-  style?: Partial<Theme['codeInput']>
+  style?: Partial<AppTheme['codeInput']>
 }
 
 const replaceChar = (str: string, char: string, index: number) => {

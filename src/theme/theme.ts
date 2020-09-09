@@ -2,7 +2,7 @@ import * as React from 'react'
 import { CSSProperties, CSSProp } from 'styled-components'
 import { keys } from '../util'
 
-export type Theme = {
+export type AppTheme = {
   button: {
     chromeless: CSSProperties
     primary: CSSProperties
@@ -23,7 +23,7 @@ export type Theme = {
   }
 }
 
-const defaultTheme: Theme = {
+const defaultTheme: AppTheme = {
   button: {
     chromeless: {},
     primary: {},
@@ -43,12 +43,12 @@ const defaultTheme: Theme = {
   },
 }
 
-export type AppTheme = { [k in keyof Theme]?: Partial<Theme[k]> }
+export type AppThemeConfig = { [k in keyof AppTheme]?: Partial<AppTheme[k]> }
 
 let ThemeVal = defaultTheme
 let ThemeContext = React.createContext(defaultTheme)
 
-export const configureTheme = (userTheme: AppTheme) => {
+export const configureTheme = (userTheme: AppThemeConfig) => {
   ThemeVal = keys(defaultTheme).reduce(
     (acc1, k1) => ({
       ...acc1,
@@ -66,7 +66,7 @@ export const configureTheme = (userTheme: AppTheme) => {
       ),
     }),
     {},
-  ) as Theme
+  ) as AppTheme
 
   ThemeContext = React.createContext(ThemeVal)
 

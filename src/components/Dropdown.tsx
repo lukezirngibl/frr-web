@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { TranslationGeneric } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label } from './Label'
-import { Theme, getThemeContext } from '../theme/theme'
+import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 
 const DropdownWrapper = styled.div`
@@ -32,7 +32,7 @@ export type Props<T> = {
   required?: boolean
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
-  style?: Partial<Theme['dropdown']>
+  style?: Partial<AppTheme['dropdown']>
   error?: boolean
   value: string
   disabled?: boolean

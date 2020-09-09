@@ -1,11 +1,11 @@
-import { Theme } from './theme'
+import { AppTheme } from './theme'
 
-export const createGetStyle = <C extends keyof Theme>(
-  theme: Theme,
+export const createGetStyle = <C extends keyof AppTheme>(
+  theme: AppTheme,
   componentKey: C,
-) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
+) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
   elementKey: K,
-): Theme[C][K] => {
+): AppTheme[C][K] => {
   return {
     ...theme[componentKey][elementKey],
     ...(override && override[elementKey] ? override[elementKey] : {}),
