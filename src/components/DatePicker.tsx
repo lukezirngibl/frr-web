@@ -124,7 +124,7 @@ export class DatePicker extends Component<DatePickerProps, { hide: boolean }> {
           disabled={disabled}
         />
         <DropdownNumber<CommonTM>
-          options={range(1940, 2020).map(o => ({
+          options={range(1956, 2020).map(o => ({
             label: (o as unknown) as keyof CommonTM,
             value: o,
           }))}
