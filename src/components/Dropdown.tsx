@@ -39,6 +39,20 @@ export type Props<T> = {
   dropdownProps?: SemanticDropdownProps
 }
 
+export const processOptions = <TM extends TranslationGeneric>(
+  raw: Array<{ label?: keyof TM; name?: string; value: string | number }>,
+  translate: (s: string) => string,
+) =>
+  raw.map(o => ({
+    text:
+      o.label !== undefined
+        ? typeof o.label === 'string'
+          ? translate(o.label)
+          : `${o.label}`
+        : o.name || 'Unknown',
+    value: o.value,
+  }))
+
 export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const {
     onChange,
@@ -55,17 +69,6 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const translate = getTranslation(language)
 
   const getStyle = createGetStyle(theme, 'dropdown')(props.style)
-
-  const processOptions = (raw: Options<TM>) =>
-    raw.map(o => ({
-      text:
-        o.label !== undefined
-          ? typeof o.label === 'string'
-            ? translate(o.label)
-            : `${o.label}`
-          : o.name || 'Unknown',
-      value: o.value,
-    }))
 
   return (
     <DropdownWrapper
@@ -84,6 +87,7 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
         value={props.value}
         options={processOptions(
           typeof options === 'function' ? options(language) : options,
+          translate,
         )}
         error={error}
         disabled={disabled}

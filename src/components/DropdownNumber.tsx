@@ -5,8 +5,9 @@ import {
 } from 'semantic-ui-react'
 import styled, { SimpleInterpolation } from 'styled-components'
 import { TranslationGeneric } from '../util'
-import { getTranslation, getLanguageContext } from '../theme/language'
+import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label } from './Label'
+import { processOptions } from './Dropdown'
 
 const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
   width: 100%;
@@ -23,10 +24,12 @@ const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
   }
 `
 
+type Options<T> = Array<{ label?: keyof T; name?: string; value: number }>
+
 export type Props<TM> = {
   label?: keyof TM
   required?: boolean
-  options: Array<{ label: keyof TM; value: number }>
+  options: Options<TM> | ((lan: Language) => Options<TM>)
   onChange: (value: number) => void
   error: boolean
   value: number
@@ -35,7 +38,7 @@ export type Props<TM> = {
 export const DropdownNumber = <TM extends TranslationGeneric>(
   props: Props<TM>,
 ) => {
-  const { onChange, label, options, error, disabled, ...otherProps } = props
+  const { onChange, label, error, disabled, options, ...otherProps } = props
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -53,10 +56,10 @@ export const DropdownNumber = <TM extends TranslationGeneric>(
         onChange={(e, { value }) => {
           onChange(value as number)
         }}
-        options={options.map(o => ({
-          text: typeof o.label === 'string' ? translate(o.label) : `${o.label}`,
-          value: o.value,
-        }))}
+        options={processOptions(
+          typeof options === 'function' ? options(language) : options,
+          translate,
+        )}
         error={error}
         disabled={disabled}
         {...otherProps}
