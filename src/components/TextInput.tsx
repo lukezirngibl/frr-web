@@ -13,6 +13,7 @@ export type Props<TM> = {
   placeholder?: keyof TM
   inputType?: string
   label?: keyof TM
+  readOnly?: boolean
 } & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>
 
 export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
@@ -45,6 +46,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
       {label && <Label<TM> label={label} />}
       <SematicInput
         {...otherProps}
+        disabled={props.readOnly}
         onChange={(e, { value }) => {
           setInternalValue(value)
           onChange(value)

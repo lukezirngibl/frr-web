@@ -23,6 +23,7 @@ export type Props<TM> = {
   error: boolean
   options: Array<{ label?: keyof TM; name?: string; value: string }>
   required?: boolean
+  readOnly?: boolean
   placeholder: string
   label?: keyof TM
 }
@@ -48,6 +49,7 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
       <Wrapper>
         <DropdownWrapper>
           <Dropdown<TM>
+            readOnly={props.readOnly}
             options={props.options}
             value={value.prefix}
             error={props.error}
@@ -58,6 +60,7 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
           />
         </DropdownWrapper>
         <TextInput<TM>
+          readOnly={props.readOnly}
           value={value.tail}
           error={props.error}
           onChange={str => {

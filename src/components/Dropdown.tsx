@@ -36,6 +36,7 @@ export type Props<T> = {
   error?: boolean
   value: string
   disabled?: boolean
+  readOnly?: boolean
   dropdownProps?: SemanticDropdownProps
 }
 
@@ -61,6 +62,7 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
     error,
     disabled,
     dropdownProps,
+    readOnly,
     ...otherProps
   } = props
 
@@ -91,6 +93,7 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
         )}
         error={error}
         disabled={disabled}
+        readOnly={readOnly}
         {...dropdownProps}
         {...otherProps}
       />

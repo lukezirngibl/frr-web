@@ -12,6 +12,7 @@ export type Props<TM> = {
   inputType?: string
   debouncedDelay?: number
   label?: keyof TM
+  readOnly?: boolean
 } & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>
 
 const getValue = (v: string) => (isNaN(Number(v)) ? 0 : Number(v))
@@ -46,6 +47,7 @@ export const TextNumberInput = <TM extends TranslationGeneric>(
       {label && <Label<TM> label={label} />}
       <SematicInput
         {...otherProps}
+        disabled={props.readOnly}
         onChange={(e, { value }) => {
           setInternalValue(value)
           onChange(value)

@@ -33,6 +33,7 @@ export type Props<TM> = {
   onChange: (value: number) => void
   error: boolean
   value: number
+  readOnly?: boolean
 } & Omit<SemanticDropdownProps, 'onChange' | 'value' | 'options'>
 
 export const DropdownNumber = <TM extends TranslationGeneric>(
@@ -61,7 +62,7 @@ export const DropdownNumber = <TM extends TranslationGeneric>(
           translate,
         )}
         error={error}
-        disabled={disabled}
+        disabled={disabled || props.readOnly}
         {...otherProps}
       />
     </DropdownWrapper>

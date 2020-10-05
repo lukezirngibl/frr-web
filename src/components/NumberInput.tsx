@@ -11,17 +11,19 @@ export type Props<TM> = {
   max?: number
   min?: number
   required?: boolean
+  readOnly?: boolean
 } & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>
 
 export const NumberInput = <TM extends TranslationGeneric>(
   props: Props<TM>,
 ) => {
-  const { onChange, label, ...otherProps } = props
+  const { onChange, label, readOnly, ...otherProps } = props
   return (
     <>
       {label && <Label label={label} />}
       <SematicInput
         {...otherProps}
+        disabled={readOnly}
         onChange={(e, { value }) => {
           onChange(Number(value))
         }}
