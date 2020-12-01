@@ -108,7 +108,7 @@ const InnerTable = <T extends {}>(
         style={{
           height: 48,
           backgroundColor:
-            cell.rowData.status === 'Order Confirmed' ? '#e9f7ec' : 'white',
+            cell.rowData.status === 'OrderConfirmed' ? '#e9f7ec' : 'white',
         }}
         align={
           (columnIndex !== null && columns[columnIndex].numeric) || false
