@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
 import { CommonTM } from '../translations'
+import { Label } from './Label'
 
 const YesNoWrapper = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ export type Props<T> = {
 }
 
 export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
+  const { label } = props
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -43,20 +45,23 @@ export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
   ]
 
   return (
-    <YesNoWrapper style={getStyle('wrapper')}>
-      {items.map((item, k) => (
-        <Item
-          key={k}
-          style={{
-            ...getStyle('wrapper'),
-            ...(item.active ? getStyle('active') : {}),
-          }}
-        >
-          <ItemLabel style={getStyle('label')}>
-            {translate(item.label)}
-          </ItemLabel>
-        </Item>
-      ))}
-    </YesNoWrapper>
+    <>
+      {label && <Label<T> label={label} />}
+      <YesNoWrapper style={getStyle('wrapper')}>
+        {items.map((item, k) => (
+          <Item
+            key={k}
+            style={{
+              ...getStyle('wrapper'),
+              ...(item.active ? getStyle('active') : {}),
+            }}
+          >
+            <ItemLabel style={getStyle('label')}>
+              {translate(item.label)}
+            </ItemLabel>
+          </Item>
+        ))}
+      </YesNoWrapper>
+    </>
   )
 }
