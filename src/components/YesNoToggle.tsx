@@ -33,14 +33,14 @@ export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
 
   const getStyle = createGetStyle(theme, 'yesNoToggle')(props.style)
 
-  const items: Array<{ label: keyof CommonTM; active: boolean }> = [
+  const items: Array<{ label: keyof CommonTM; value: boolean }> = [
     {
       label: 'no',
-      active: !props.value,
+      value: false,
     },
     {
       label: 'yes',
-      active: props.value,
+      value: true,
     },
   ]
 
@@ -51,9 +51,12 @@ export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
         {items.map((item, k) => (
           <Item
             key={k}
+            onClick={() => {
+              props.onChange(item.value)
+            }}
             style={{
               ...getStyle('item'),
-              ...(item.active ? getStyle('active') : {}),
+              ...(item.value === props.value ? getStyle('active') : {}),
             }}
           >
             <ItemLabel style={getStyle('label')}>
