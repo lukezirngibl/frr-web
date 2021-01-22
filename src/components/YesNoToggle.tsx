@@ -52,7 +52,7 @@ export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
           <Item
             key={k}
             style={{
-              ...getStyle('wrapper'),
+              ...getStyle('item'),
               ...(item.active ? getStyle('active') : {}),
             }}
           >
