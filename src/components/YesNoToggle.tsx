@@ -16,7 +16,7 @@ const Item = styled.button``
 
 const ItemLabel = styled.p``
 
-type Props<T> = {
+export type Props<T> = {
   label: keyof T
   onChange: (v: boolean) => void
   value: boolean
