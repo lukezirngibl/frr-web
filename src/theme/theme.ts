@@ -13,17 +13,28 @@ export type AppTheme = {
   dropdown: {
     wrapper: CSSProperties
   }
+  yesNoToggle: {
+    wrapper: CSSProperties
+    item: CSSProperties
+    label: CSSProperties
+    active: CSSProperties
+  }
   codeInput: {
     wrapper: CSSProperties
     input: CSSProperties
   }
-
   label: {
     wrapper: CSSProperties
   }
 }
 
 const defaultTheme: AppTheme = {
+  yesNoToggle: {
+    wrapper: {},
+    item: {},
+    label: {},
+    active: {},
+  },
   button: {
     chromeless: {},
     primary: {},

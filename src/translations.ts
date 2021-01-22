@@ -109,6 +109,18 @@ export const Translations = {
     [Language.IT]: 'Dicembre',
     [Language.FR]: 'Décembre',
   },
+  yes: {
+    [Language.EN]: 'Yes',
+    [Language.DE]: 'Ja',
+    [Language.IT]: 'Sì',
+    [Language.FR]: 'Oui',
+  },
+  no: {
+    [Language.EN]: 'No',
+    [Language.DE]: 'Nein',
+    [Language.IT]: 'Non',
+    [Language.FR]: 'Non',
+  },
 } as const
 
 export type CommonTM = typeof Translations
