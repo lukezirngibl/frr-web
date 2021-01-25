@@ -73,32 +73,34 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const getStyle = createGetStyle(theme, 'dropdown')(props.style)
 
   return (
-    <DropdownWrapper
-      className={`frr-dropdown-wrapper ${
-        error ? 'error' : disabled ? 'disabled' : ''
-      }`}
-      style={getStyle('wrapper')}
-    >
+    <>
       {label && <Label<TM> label={label} />}
-      <SemanticDropdown
-        placeholder="Select"
-        fluid
-        selection
-        onChange={(e, { value }) => {
-          onChange(value as string)
-        }}
-        search
-        value={props.value}
-        options={processOptions(
-          typeof options === 'function' ? options(language) : options,
-          translate,
-        )}
-        error={error}
-        disabled={disabled}
-        readOnly={readOnly}
-        {...dropdownProps}
-        {...otherProps}
-      />
-    </DropdownWrapper>
+      <DropdownWrapper
+        className={`frr-dropdown-wrapper ${
+          error ? 'error' : disabled ? 'disabled' : ''
+        }`}
+        style={getStyle('wrapper')}
+      >
+        <SemanticDropdown
+          placeholder="Select"
+          fluid
+          selection
+          onChange={(e, { value }) => {
+            onChange(value as string)
+          }}
+          search
+          value={props.value}
+          options={processOptions(
+            typeof options === 'function' ? options(language) : options,
+            translate,
+          )}
+          error={error}
+          disabled={disabled}
+          readOnly={readOnly}
+          {...dropdownProps}
+          {...otherProps}
+        />
+      </DropdownWrapper>
+    </>
   )
 }

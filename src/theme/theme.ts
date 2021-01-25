@@ -9,6 +9,10 @@ export type AppTheme = {
     disabled: CSSProperties
     hook: CSSProperties
   }
+  select: {
+    option: CSSProperties
+    wrapper: CSSProperties
+  }
   textArea: {
     wrapper: CSSProperties
     input: CSSProperties
@@ -40,6 +44,10 @@ export type AppTheme = {
 }
 
 const defaultTheme: AppTheme = {
+  select: {
+    option: {},
+    wrapper: {},
+  },
   textInput: {
     wrapper: {},
     input: {},
