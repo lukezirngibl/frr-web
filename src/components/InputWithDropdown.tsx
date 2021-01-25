@@ -62,7 +62,6 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
         <TextInput<TM>
           readOnly={props.readOnly}
           value={value.tail}
-          error={props.error}
           onChange={str => {
             props.onChange(`${value.prefix}${str}`)
           }}

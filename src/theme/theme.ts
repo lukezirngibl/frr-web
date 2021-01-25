@@ -3,6 +3,21 @@ import { CSSProperties, CSSProp } from 'styled-components'
 import { keys } from '../util'
 
 export type AppTheme = {
+  textInput: {
+    wrapper: CSSProperties
+    input: CSSProperties
+    disabled: CSSProperties
+  }
+  textNumberInput: {
+    wrapper: CSSProperties
+    input: CSSProperties
+    disabled: CSSProperties
+  }
+  textArea: {
+    wrapper: CSSProperties
+    input: CSSProperties
+    disabled: CSSProperties
+  }
   button: {
     chromeless: CSSProperties
     primary: CSSProperties
@@ -29,6 +44,21 @@ export type AppTheme = {
 }
 
 const defaultTheme: AppTheme = {
+  textInput: {
+    wrapper: {},
+    input: {},
+    disabled: {},
+  },
+  textNumberInput: {
+    wrapper: {},
+    input: {},
+    disabled: {},
+  },
+  textArea: {
+    wrapper: {},
+    input: {},
+    disabled: {},
+  },
   yesNoToggle: {
     wrapper: {},
     item: {},

@@ -74,7 +74,9 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <DropdownWrapper
-      className={error ? 'error' : disabled ? 'disabled' : ''}
+      className={`frr-dropdown-wrapper ${
+        error ? 'error' : disabled ? 'disabled' : ''
+      }`}
       style={getStyle('wrapper')}
     >
       {label && <Label<TM> label={label} />}
