@@ -11,9 +11,7 @@ const InputWrapper = styled.div``
 
 const Input = styled.input``
 
-const Hook = styled.div`
-  display: none;
-`
+const Hook = styled.div``
 
 export type Props<TM> = {
   onChange: (value: string) => void
