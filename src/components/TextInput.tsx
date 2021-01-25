@@ -11,6 +11,10 @@ const InputWrapper = styled.div``
 
 const Input = styled.input``
 
+const Hook = styled.div`
+  display: none;
+`
+
 export type Props<TM> = {
   onChange: (value: string) => void
   value: string | null
@@ -55,6 +59,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
     <>
       {label && <Label<TM> label={label} />}
       <InputWrapper style={getStyle('wrapper')}>
+        <Hook style={getStyle('hook')} />
         <Input
           className="frr-number-input"
           style={{

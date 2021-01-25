@@ -7,11 +7,7 @@ export type AppTheme = {
     wrapper: CSSProperties
     input: CSSProperties
     disabled: CSSProperties
-  }
-  textNumberInput: {
-    wrapper: CSSProperties
-    input: CSSProperties
-    disabled: CSSProperties
+    hook: CSSProperties
   }
   textArea: {
     wrapper: CSSProperties
@@ -48,11 +44,7 @@ const defaultTheme: AppTheme = {
     wrapper: {},
     input: {},
     disabled: {},
-  },
-  textNumberInput: {
-    wrapper: {},
-    input: {},
-    disabled: {},
+    hook: {},
   },
   textArea: {
     wrapper: {},
