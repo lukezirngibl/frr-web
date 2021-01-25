@@ -10,7 +10,11 @@ const SelectWrapper = styled.select``
 
 const Option = styled.option``
 
-type Options<T> = Array<{ label?: keyof T; name?: string; value: string }>
+type Options<T> = Array<{
+  label?: keyof T
+  name?: string
+  value: string | null
+}>
 
 export type Props<T> = {
   label?: keyof T
@@ -18,7 +22,7 @@ export type Props<T> = {
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
   style?: Partial<AppTheme['dropdown']>
-  value: string
+  value: string | null
   disabled?: boolean
   readOnly?: boolean
 }
