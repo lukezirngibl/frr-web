@@ -64,14 +64,15 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
         className={'select-wrapper'}
         style={getStyle('wrapper')}
         disabled={props.disabled || props.readOnly}
+        value={props.value === null ? 'null' : props.value}
         onChange={e => {
-          props.onChange(e.target.value)
+          props.onChange(e.target.value === 'null' ? null : e.target.value)
         }}
       >
-        {options.map(o => (
+        {options.map((o, i) => (
           <Option
-            value={o.value}
-            key={o.value}
+            value={o.value === null ? 'null' : o.value}
+            key={i}
             style={getStyle('option')}
           >{`${o.text}`}</Option>
         ))}

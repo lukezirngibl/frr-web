@@ -13,7 +13,7 @@ const YesNoWrapper = styled.div`
   flex-direction: row;
 `
 
-const Item = styled.button``
+const Item = styled.div``
 
 const ItemLabel = styled.p``
 

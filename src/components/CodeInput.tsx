@@ -38,7 +38,7 @@ const Input = styled.input`
 
 export type Props = {
   value: string
-  setValue: (v: string) => void
+  onChange: (v: string) => void
   activeBorderColor: string
   length: number
   style?: Partial<AppTheme['codeInput']>
@@ -62,7 +62,7 @@ export const CodeInput = (props: Props) => {
   )
 
   React.useEffect(() => {
-    props.setValue(intervalValue)
+    props.onChange(intervalValue)
   }, [intervalValue])
 
   return (

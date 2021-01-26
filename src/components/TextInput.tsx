@@ -13,6 +13,14 @@ const Input = styled.input``
 
 const Hook = styled.div``
 
+const ErrorWrapper = styled.div`
+  position: absolute;
+  bottom: -20px;
+  color: red;
+  font-size: 11px;
+  left: 0;
+`
+
 export type Props<TM> = {
   onChange: (value: string) => void
   value: string | null
@@ -23,6 +31,8 @@ export type Props<TM> = {
   label?: keyof TM
   readOnly?: boolean
   disabled?: boolean
+  errorString?: string
+  error?: boolean
 }
 
 export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
@@ -80,6 +90,9 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
           value={internalValue}
           type={inputType}
         ></Input>
+        {props.error && (
+          <ErrorWrapper>{props.errorString || 'Required'}</ErrorWrapper>
+        )}
       </InputWrapper>
     </>
   )

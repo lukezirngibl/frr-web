@@ -1,44 +1,17 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import CurrencyInputLib from 'react-currency-input-field'
-import { CurrencyInputProps } from 'react-currency-input-field/dist/components/CurrencyInputProps'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
-import { Label } from './Label'
-
-const Wrapper = styled.div`
-  position: relative;
-
-  input {
-    border: 1px solid rgba(34, 36, 38, 0.15);
-    height: 48px;
-    width: 100%;
-    color: rgba(0, 0, 0, 0.87);
-    border-radius: 0.28571429rem;
-    padding: 0 18px;
-
-    &:focus {
-      outline: none;
-      border-color: rgb(133, 183, 217) !important;
-    }
-  }
-`
-
-const ErrorWrapper = styled.div`
-  position: absolute;
-  bottom: -20px;
-  color: red;
-  font-size: 11px;
-  left: 0;
-`
+import { TextInput } from './TextInput'
 
 export type Props<TM> = {
   value: number
   label?: keyof TM
   error?: boolean
   onChange: (v: number) => void
-} & Partial<Omit<CurrencyInputProps, 'onChange' | 'value'>>
+  max: number
+  min: number
+  prefix: string
+}
 
 export const CurrencyInput = <TM extends TranslationGeneric>(
   props: Props<TM>,
@@ -46,11 +19,11 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  const [internalValue, setInteralValue] = React.useState(`${props.value}`)
+  const [internalValue, setInteralValue] = React.useState(props.value)
 
   React.useEffect(() => {
     if (Number(props.value) !== Number(internalValue)) {
-      setInteralValue(`${props.value}`)
+      setInteralValue(props.value)
     }
   }, [props.value])
 
@@ -61,28 +34,26 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
   const minError = props.value < min
   const hasError = maxError || minError
   return (
-    <Wrapper>
-      {props.label && <Label<TM> label={props.label} />}
-      <CurrencyInputLib
-        {...props}
-        value={internalValue}
-        onChange={(v, name) => {
-          if (!isNaN(Number(v || 0))) {
-            setInteralValue(v || '')
-            props.onChange(Number(v || 0))
-          }
-        }}
-        style={{
-          borderColor: hasError ? 'red' : 'rgba(34, 36, 38, 0.15)',
-        }}
-      />
-      {hasError && (
-        <ErrorWrapper>
-          {maxError
-            ? `${translate('maxError')} ${props.prefix}${max}`
-            : `${translate('minError')} ${props.prefix}${min}`}
-        </ErrorWrapper>
-      )}
-    </Wrapper>
+    <TextInput
+      {...props}
+      value={`${props.prefix} ${internalValue}`}
+      onChange={v => {
+        const s = v.slice(props.prefix.length, v.length)
+        console.log('s: ', s)
+        if (isNaN(Number(s))) {
+          setInteralValue(0)
+          props.onChange(0)
+        } else {
+          setInteralValue(Number(s))
+          props.onChange(Number(s))
+        }
+      }}
+      error={hasError}
+      errorString={
+        maxError
+          ? `${translate('maxError')} ${props.prefix}${max}`
+          : `${translate('minError')} ${props.prefix}${min}`
+      }
+    />
   )
 }
