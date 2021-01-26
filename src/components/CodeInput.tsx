@@ -3,6 +3,8 @@ import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
+import { TranslationGeneric } from '../util'
+import { Label } from './Label'
 
 const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
   display: flex;
@@ -36,7 +38,8 @@ const Input = styled.input`
   text-align: center;
 `
 
-export type Props = {
+export type Props<T> = {
+  label: keyof T
   value: string
   onChange: (v: string) => void
   activeBorderColor: string
@@ -48,7 +51,7 @@ const replaceChar = (str: string, char: string, index: number) => {
   return str.substr(0, index) + char + str.substr(index + 1)
 }
 
-export const CodeInput = (props: Props) => {
+export const CodeInput = <T extends TranslationGeneric>(props: Props<T>) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'codeInput')(props.style)
 
@@ -66,48 +69,51 @@ export const CodeInput = (props: Props) => {
   }, [intervalValue])
 
   return (
-    <CodeInputWrapper
-      activeBorderColor={props.activeBorderColor}
-      style={getStyle('wrapper')}
-    >
-      {range(0, props.length - 1).map((_, i) => (
-        <Input
-          key={i}
-          ref={refs[i] as any}
-          value={intervalValue[i] === '-' ? '' : intervalValue[i]}
-          style={getStyle('input')}
-          onClick={e => {
-            setIntervalValue(replaceChar(intervalValue, '-', i))
-          }}
-          type="number"
-          onChange={e => {
-            const v = e.target.value.replace('-', ' ').trim()
-            if (v === '') {
-              const prev = intervalValue[i]
-              const newValue = replaceChar(intervalValue, '-', i)
-              setIntervalValue(newValue)
-              if (prev === ' ') {
-                const next = refs[i - 1]
+    <>
+      {props.label && <Label<T> label={props.label} />}
+      <CodeInputWrapper
+        activeBorderColor={props.activeBorderColor}
+        style={getStyle('wrapper')}
+      >
+        {range(0, props.length - 1).map((_, i) => (
+          <Input
+            key={i}
+            ref={refs[i] as any}
+            value={intervalValue[i] === '-' ? '' : intervalValue[i]}
+            style={getStyle('input')}
+            onClick={e => {
+              setIntervalValue(replaceChar(intervalValue, '-', i))
+            }}
+            type="number"
+            onChange={e => {
+              const v = e.target.value.replace('-', ' ').trim()
+              if (v === '') {
+                const prev = intervalValue[i]
+                const newValue = replaceChar(intervalValue, '-', i)
+                setIntervalValue(newValue)
+                if (prev === ' ') {
+                  const next = refs[i - 1]
+                  ;(refs[i] as any).current.blur()
+                  if (next && next.current) {
+                    setIntervalValue(replaceChar(newValue, '-', i - 1))
+                    ;(next.current as any).focus()
+                  }
+                }
+              } else {
+                const newValue = replaceChar(intervalValue, v, i)
+                setIntervalValue(newValue)
+
+                const next = refs[i + 1]
                 ;(refs[i] as any).current.blur()
                 if (next && next.current) {
-                  setIntervalValue(replaceChar(newValue, '-', i - 1))
+                  setIntervalValue(replaceChar(newValue, '-', i + 1))
                   ;(next.current as any).focus()
                 }
               }
-            } else {
-              const newValue = replaceChar(intervalValue, v, i)
-              setIntervalValue(newValue)
-
-              const next = refs[i + 1]
-              ;(refs[i] as any).current.blur()
-              if (next && next.current) {
-                setIntervalValue(replaceChar(newValue, '-', i + 1))
-                ;(next.current as any).focus()
-              }
-            }
-          }}
-        ></Input>
-      ))}
-    </CodeInputWrapper>
+            }}
+          ></Input>
+        ))}
+      </CodeInputWrapper>
+    </>
   )
 }
