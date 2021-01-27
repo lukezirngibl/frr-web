@@ -1,33 +1,30 @@
-import React, { Component } from 'react'
-import { Input as SematicInput, StrictInputProps } from 'semantic-ui-react'
+import React from 'react'
 import { TranslationGeneric } from '../util'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
+import { TextInput, Props as TextInputProps } from './TextInput'
 
 export type Props<TM> = {
   onChange: (value: number) => void
   value: number
   step?: number
-  label?: keyof TM
+  label?: LabelProps<TM>
   max?: number
   min?: number
-  required?: boolean
-  readOnly?: boolean
-} & Omit<StrictInputProps, 'onChange' | 'type' | 'value' | 'label'>
+} & Omit<TextInputProps<TM>, 'onChange' | 'label'>
 
 export const NumberInput = <TM extends TranslationGeneric>(
   props: Props<TM>,
 ) => {
-  const { onChange, label, readOnly, ...otherProps } = props
+  const { onChange, ...otherProps } = props
   return (
     <>
-      {label && <Label label={label} />}
-      <SematicInput
+      {props.label && <Label {...props.label} />}
+      <TextInput
         {...otherProps}
-        disabled={readOnly}
-        onChange={(e, { value }) => {
-          onChange(Number(value))
+        onChange={v => {
+          onChange(Number(v))
         }}
-        type="number"
+        inputType="number"
       />
     </>
   )

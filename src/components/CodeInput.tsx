@@ -4,7 +4,7 @@ import { range } from 'fp-ts/lib/Array'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { TranslationGeneric } from '../util'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
   display: flex;
@@ -39,7 +39,7 @@ const Input = styled.input`
 `
 
 export type Props<T> = {
-  label?: keyof T
+  label?: LabelProps<T>
   value: string
   onChange: (v: string) => void
   activeBorderColor: string
@@ -70,7 +70,7 @@ export const CodeInput = <T extends TranslationGeneric>(props: Props<T>) => {
 
   return (
     <>
-      {props.label && <Label<T> label={props.label} />}
+      {props.label && <Label<T> {...props.label} />}
       <CodeInputWrapper
         activeBorderColor={props.activeBorderColor}
         style={getStyle('wrapper')}

@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
+import { getThemeContext, AppTheme } from '../theme/theme'
+import { createGetStyle } from '../theme/util'
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 75px;
-  padding-top: 24px;
-`
+const Wrapper = styled.div``
 
 export type Props<TM> = {
   onChange: (value: boolean) => void
@@ -17,24 +14,37 @@ export type Props<TM> = {
   error: boolean
   required?: boolean
   name?: string
-  label: keyof TM
+  style?: AppTheme['singleCheckbox']
+  label?: LabelProps<TM>
 }
 
 export const SingleCheckbox = <TM extends TranslationGeneric>(
   props: Props<TM>,
 ) => {
-  const { value, label } = props
+  const { value } = props
+
+  const theme = React.useContext(getThemeContext())
+  const getStyle = createGetStyle(theme, 'singleCheckbox')(props.style)
+
   return (
-    <Wrapper>
-      <Label label={label} style={{ wrapper: { marginBottom: 0 } }}></Label>
-      <input
-        type="checkbox"
-        checked={value}
-        onChange={() => props.onChange(!value)}
-        style={{
-          marginLeft: 16,
-        }}
-      />
-    </Wrapper>
+    <>
+      {props.label && (
+        <Label
+          style={{ wrapper: { marginBottom: 0 } }}
+          {...props.label}
+        ></Label>
+      )}
+      <Wrapper style={getStyle('wrapper')}>
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={() => props.onChange(!value)}
+          style={{
+            marginLeft: 16,
+            ...(getStyle('input') || {}),
+          }}
+        />
+      </Wrapper>
+    </>
   )
 }

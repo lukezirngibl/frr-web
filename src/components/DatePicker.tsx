@@ -105,7 +105,7 @@ export class DatePicker extends Component<DatePickerProps, { hide: boolean }> {
             value: o,
           }))}
           onChange={v => onChange(convertToString(dayLens.set(v)(value)))}
-          label="day"
+          label={{ label: 'day' }}
           value={value.day}
           error={error}
           search
@@ -117,7 +117,7 @@ export class DatePicker extends Component<DatePickerProps, { hide: boolean }> {
             value: i + 1,
           }))}
           onChange={v => onChange(convertToString(monthLens.set(v)(value)))}
-          label="month"
+          label={{ label: 'month' }}
           value={value.month}
           error={error}
           search
@@ -129,7 +129,7 @@ export class DatePicker extends Component<DatePickerProps, { hide: boolean }> {
             value: o,
           }))}
           onChange={v => onChange(convertToString(yearLens.set(v)(value)))}
-          label="year"
+          label={{ label: 'year' }}
           value={value.year}
           error={error}
           search

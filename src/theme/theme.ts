@@ -41,10 +41,24 @@ export type AppTheme = {
   }
   label: {
     wrapper: CSSProperties
+    labelTextWrapper: CSSProperties
+    labelText: CSSProperties
+    descriptionText: CSSProperties
+    sublabelText: CSSProperties
+    descriptionPopup: CSSProperties
+    descriptionIcon: CSSProperties
+  }
+  singleCheckbox: {
+    wrapper: CSSProperties
+    input: CSSProperties
   }
 }
 
 const defaultTheme: AppTheme = {
+  singleCheckbox: {
+    wrapper: {},
+    input: {},
+  },
   select: {
     option: {},
     wrapper: {},
@@ -83,6 +97,12 @@ const defaultTheme: AppTheme = {
   },
   label: {
     wrapper: {},
+    labelTextWrapper: {},
+    labelText: {},
+    descriptionText: {},
+    sublabelText: {},
+    descriptionPopup: {},
+    descriptionIcon: {},
   },
 }
 

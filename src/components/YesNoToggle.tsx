@@ -1,11 +1,11 @@
 import React from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
 import { CommonTM } from '../translations'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 
 const YesNoWrapper = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const Item = styled.div``
 const ItemLabel = styled.p``
 
 export type Props<T> = {
-  label: keyof T
+  label?: LabelProps<T>
   onChange: (v: boolean) => void
   value: boolean
   disabled?: boolean
@@ -26,7 +26,6 @@ export type Props<T> = {
 }
 
 export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
-  const { label } = props
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -46,7 +45,7 @@ export const YesNoToggle = <T extends TranslationGeneric>(props: Props<T>) => {
 
   return (
     <>
-      {label && <Label<T> label={label} />}
+      {props.label && <Label<T> {...props.label} />}
       <YesNoWrapper style={getStyle('wrapper')}>
         {items.map((item, k) => (
           <Item

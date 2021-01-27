@@ -6,7 +6,7 @@ import {
 import styled from 'styled-components'
 import { TranslationGeneric } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 
@@ -28,7 +28,7 @@ const DropdownWrapper = styled.div`
 type Options<T> = Array<{ label?: keyof T; name?: string; value: string }>
 
 export type Props<T> = {
-  label?: keyof T
+  label?: LabelProps<T>
   required?: boolean
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
@@ -57,7 +57,6 @@ export const processOptions = <TM extends TranslationGeneric>(
 export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const {
     onChange,
-    label,
     options,
     error,
     disabled,
@@ -74,7 +73,7 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {label && <Label<TM> label={label} />}
+      {props.label && <Label<TM> {...props.label} />}
       <DropdownWrapper
         className={`frr-dropdown-wrapper ${
           error ? 'error' : disabled ? 'disabled' : ''

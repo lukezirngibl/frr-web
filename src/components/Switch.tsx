@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 import { Switch as MaterialSwitch } from '@material-ui/core'
@@ -18,7 +18,7 @@ export type Props<TM> = {
   error: boolean
   required?: boolean
   name?: string
-  label: keyof TM
+  label?: LabelProps<TM>
 }
 
 export const Switch = <TM extends TranslationGeneric>(props: Props<TM>) => {
@@ -30,10 +30,12 @@ export const Switch = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <Wrapper className={value ? 'mui-active-switch' : ''}>
-      <Label
-        label={label}
-        style={{ wrapper: { marginBottom: 0, marginRight: 'auto' } }}
-      ></Label>
+      {props.label && (
+        <Label
+          style={{ wrapper: { marginBottom: 0, marginRight: 'auto' } }}
+          {...props.label}
+        ></Label>
+      )}
       <MaterialSwitch
         checked={value}
         onChange={handleChange}

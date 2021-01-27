@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 import { Dropdown } from './Dropdown'
 
@@ -25,7 +25,7 @@ export type Props<TM> = {
   required?: boolean
   readOnly?: boolean
   placeholder: string
-  label?: keyof TM
+  label?: LabelProps<TM>
 }
 
 export const InputWithDropdown = <TM extends TranslationGeneric>(
@@ -45,7 +45,7 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
 
   return (
     <>
-      {label && <Label<TM> label={label} />}
+      {props.label && <Label<TM> {...props.label} />}
       <Wrapper>
         <DropdownWrapper>
           <Dropdown<TM>

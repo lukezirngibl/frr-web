@@ -42,7 +42,7 @@ export const processOptions = <TM extends TranslationGeneric>(
   }))
 
 export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
-  const { label, disabled, readOnly } = props
+  const { label } = props
 
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())

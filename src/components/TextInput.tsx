@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TranslationGeneric } from '../util'
 import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { createGetStyle } from '../theme/util'
 import { AppTheme, getThemeContext } from '../theme/theme'
@@ -30,7 +30,7 @@ export type Props<TM> = {
   placeholder?: keyof TM
   style?: Partial<AppTheme['textInput']>
   inputType?: string
-  label?: keyof TM
+  label?: LabelProps<TM>
   readOnly?: boolean
   disabled?: boolean
   errorString?: string
@@ -38,7 +38,7 @@ export type Props<TM> = {
 }
 
 export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
-  const { inputType, label, value, placeholder, ...otherProps } = props
+  const { inputType, value, placeholder, ...otherProps } = props
 
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'textInput')(props.style)
@@ -67,7 +67,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {label && <Label<TM> label={label} />}
+      {props.label && <Label<TM> {...props.label} />}
       <InputWrapper style={getStyle('wrapper')}>
         <Hook style={getStyle('hook')} />
         <Input

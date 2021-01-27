@@ -6,7 +6,7 @@ import {
 import styled, { SimpleInterpolation } from 'styled-components'
 import { TranslationGeneric } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { processOptions } from './Dropdown'
 
 const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
@@ -27,7 +27,7 @@ const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
 type Options<T> = Array<{ label?: keyof T; name?: string; value: number }>
 
 export type Props<TM> = {
-  label?: keyof TM
+  label?: LabelProps<TM>
   required?: boolean
   options: Options<TM> | ((lan: Language) => Options<TM>)
   onChange: (value: number) => void
@@ -45,26 +45,28 @@ export const DropdownNumber = <TM extends TranslationGeneric>(
   const translate = getTranslation(language)
 
   return (
-    <DropdownWrapper
-      hasLabel={label !== undefined}
-      className={error ? 'error' : disabled ? 'disabled' : ''}
-    >
-      {label && <Label<TM> label={label} />}
-      <SemanticDropdown
-        placeholder="Select"
-        fluid
-        selection
-        onChange={(e, { value }) => {
-          onChange(value as number)
-        }}
-        options={processOptions(
-          typeof options === 'function' ? options(language) : options,
-          translate,
-        )}
-        error={error}
-        disabled={disabled || props.readOnly}
-        {...otherProps}
-      />
-    </DropdownWrapper>
+    <>
+      {props.label && <Label<TM> {...props.label} />}
+      <DropdownWrapper
+        hasLabel={label !== undefined}
+        className={error ? 'error' : disabled ? 'disabled' : ''}
+      >
+        <SemanticDropdown
+          placeholder="Select"
+          fluid
+          selection
+          onChange={(e, { value }) => {
+            onChange(value as number)
+          }}
+          options={processOptions(
+            typeof options === 'function' ? options(language) : options,
+            translate,
+          )}
+          error={error}
+          disabled={disabled || props.readOnly}
+          {...otherProps}
+        />
+      </DropdownWrapper>
+    </>
   )
 }

@@ -1,17 +1,15 @@
 import React from 'react'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { TranslationGeneric } from '../util'
-import { TextInput } from './TextInput'
+import { TextInput, Props as TextInputProps } from './TextInput'
 
 export type Props<TM> = {
   value: number
-  label?: keyof TM
-  error?: boolean
   onChange: (v: number) => void
   max: number
   min: number
   prefix: string
-}
+} & Omit<TextInputProps<TM>, 'onChange' | 'value'>
 
 export const CurrencyInput = <TM extends TranslationGeneric>(
   props: Props<TM>,
@@ -39,7 +37,6 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
       value={`${props.prefix} ${internalValue}`}
       onChange={v => {
         const s = v.slice(props.prefix.length, v.length)
-        console.log('s: ', s)
         if (isNaN(Number(s))) {
           setInteralValue(0)
           props.onChange(0)

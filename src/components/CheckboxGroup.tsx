@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import styled, { SimpleInterpolation } from 'styled-components'
+import React from 'react'
+import styled from 'styled-components'
 import { Checkbox } from 'semantic-ui-react'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { TranslationGeneric } from '../util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 
@@ -15,7 +15,7 @@ export type CheckboxGroupProps<T> = {
   onChange: (value: Array<string>) => void
   value: Array<string>
   error: boolean
-  label?: keyof T
+  label?: LabelProps<T>
   options: Array<{ label: keyof T; value: string }>
 }
 
@@ -36,20 +36,21 @@ export const CheckboxGroup = <TM extends TranslationGeneric>(
 
   const isChecked = (key: string) => (props.value || []).includes(key)
 
-  const { options, label } = props
   return (
-    <CheckboxGroupWapper>
-      {label && <Label label={label} />}
-      {options.map((o, k) => (
-        <CheckboxRow key={k}>
-          <Checkbox
-            className={props.error ? 'error' : ''}
-            label={translate(o.label)}
-            checked={isChecked(o.value)}
-            onChange={() => onChange(o.value)(!isChecked(o.value))}
-          />
-        </CheckboxRow>
-      ))}
-    </CheckboxGroupWapper>
+    <>
+      {props.label && <Label {...props.label} />}
+      <CheckboxGroupWapper>
+        {props.options.map((o, k) => (
+          <CheckboxRow key={k}>
+            <Checkbox
+              className={props.error ? 'error' : ''}
+              label={translate(o.label)}
+              checked={isChecked(o.value)}
+              onChange={() => onChange(o.value)(!isChecked(o.value))}
+            />
+          </CheckboxRow>
+        ))}
+      </CheckboxGroupWapper>
+    </>
   )
 }
