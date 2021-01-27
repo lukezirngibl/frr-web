@@ -10,7 +10,7 @@ export type Props<TM> = {
   label?: LabelProps<TM>
   max?: number
   min?: number
-} & Omit<TextInputProps<TM>, 'onChange' | 'label'>
+} & Omit<TextInputProps<TM>, 'onChange' | 'label' | 'value'>
 
 export const NumberInput = <TM extends TranslationGeneric>(
   props: Props<TM>,
@@ -21,6 +21,7 @@ export const NumberInput = <TM extends TranslationGeneric>(
       {props.label && <Label {...props.label} />}
       <TextInput
         {...otherProps}
+        value={`${props.value}`}
         onChange={v => {
           onChange(Number(v))
         }}
