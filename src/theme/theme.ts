@@ -33,6 +33,7 @@ export type AppTheme = {
     item: CSSProperties
     label: CSSProperties
     active: CSSProperties
+    activeFalse: CSSProperties
   }
   codeInput: {
     wrapper: CSSProperties
@@ -64,6 +65,7 @@ const defaultTheme: AppTheme = {
     item: {},
     label: {},
     active: {},
+    activeFalse: {},
   },
   button: {
     chromeless: {},

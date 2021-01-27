@@ -39,7 +39,7 @@ const Input = styled.input`
 `
 
 export type Props<T> = {
-  label: keyof T
+  label?: keyof T
   value: string
   onChange: (v: string) => void
   activeBorderColor: string

@@ -65,6 +65,7 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
           onChange={str => {
             props.onChange(`${value.prefix}${str}`)
           }}
+          style={{ wrapper: { flex: 1 } }}
         />
       </Wrapper>
     </>

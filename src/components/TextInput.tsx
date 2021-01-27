@@ -9,7 +9,9 @@ import { AppTheme, getThemeContext } from '../theme/theme'
 
 const InputWrapper = styled.div``
 
-const Input = styled.input``
+const Input = styled.input`
+  width: 100%;
+`
 
 const Hook = styled.div``
 
