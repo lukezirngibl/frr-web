@@ -9,7 +9,6 @@ const InputWrapper = styled.div``
 
 const Input = styled.textarea<{ disabled?: boolean }>`
   width: 100%;
-  opacity: ${props => (props.disabled ? 0.45 : 1)};
 `
 
 export type TextAreaProps<TM> = {
@@ -28,20 +27,32 @@ export const TextArea = <TM extends TranslationGeneric>(
   const { disabled } = props
 
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'textArea')(props.style)
+  const getTextAreaStyle = createGetStyle(theme, 'textArea')(props.style)
+
+  const getInputStyle = createGetStyle(theme, 'textInput')({})
 
   return (
     <>
       {props.label && <Label<TM> {...props.label} />}
-      <InputWrapper style={getStyle('wrapper')}>
+      <InputWrapper
+        style={{
+          ...getInputStyle('wrapper'),
+          ...getTextAreaStyle('wrapper'),
+          ...(props.disabled ? getInputStyle('disabledWrapper') : {}),
+          ...(props.readOnly ? getInputStyle('readOnlyWrapper') : {}),
+        }}
+      >
         <Input
           style={{
-            ...getStyle('input'),
-            ...(props.readOnly || props.disabled ? getStyle('disabled') : {}),
+            ...getInputStyle('input'),
+            ...getTextAreaStyle('input'),
+            ...(props.disabled ? getInputStyle('disabledInput') : {}),
+            ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
           }}
           onChange={e => props.onChange(e.target.value as string)}
           className="frr-textarea"
-          disabled={disabled}
+          disabled={disabled || props.readOnly}
+          value={props.value}
         />
       </InputWrapper>
     </>

@@ -68,13 +68,20 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
   return (
     <>
       {props.label && <Label<TM> {...props.label} />}
-      <InputWrapper style={getStyle('wrapper')}>
+      <InputWrapper
+        style={{
+          ...getStyle('wrapper'),
+          ...(props.disabled ? getStyle('disabledWrapper') : {}),
+          ...(props.readOnly ? getStyle('readOnlyWrapper') : {}),
+        }}
+      >
         <Hook style={getStyle('hook')} />
         <Input
           className="frr-number-input"
           style={{
             ...getStyle('input'),
-            ...(props.readOnly || props.disabled ? getStyle('disabled') : {}),
+            ...(props.disabled ? getStyle('disabledInput') : {}),
+            ...(props.readOnly ? getStyle('readOnlyInput') : {}),
           }}
           disabled={props.readOnly || props.disabled}
           onChange={e => {

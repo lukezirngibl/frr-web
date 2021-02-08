@@ -6,8 +6,12 @@ export type AppTheme = {
   textInput: {
     wrapper: CSSProperties
     input: CSSProperties
-    disabled: CSSProperties
+    disabledInput: CSSProperties
+    disabledWrapper: CSSProperties
+    readOnlyWrapper: CSSProperties
+    readOnlyInput: CSSProperties
     hook: CSSProperties
+    readOnly: CSSProperties
   }
   select: {
     option: CSSProperties
@@ -66,8 +70,12 @@ const defaultTheme: AppTheme = {
   textInput: {
     wrapper: {},
     input: {},
-    disabled: {},
+    disabledInput: {},
+    disabledWrapper: {},
+    readOnlyWrapper: {},
+    readOnlyInput: {},
     hook: {},
+    readOnly: {},
   },
   textArea: {
     wrapper: {},
