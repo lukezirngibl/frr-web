@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { TranslationGeneric } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
-import { Label } from './Label'
+import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 
@@ -17,7 +17,7 @@ type Options<T> = Array<{
 }>
 
 export type Props<T> = {
-  label?: keyof T
+  label?: LabelProps<T>
   required?: boolean
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
@@ -59,7 +59,7 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {label && <Label<TM> label={label} />}
+      {label && <Label<TM> {...label} />}
       <SelectWrapper
         className={'select-wrapper'}
         style={getStyle('wrapper')}
