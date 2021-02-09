@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { TranslationGeneric } from '../util'
 import { useDebouncedCallback } from 'use-debounce'
 import { TextInput, Props as TextInputProps } from './TextInput'
+import { LabelProps, Label } from './Label'
 
 export type Props<TM> = {
+  label?: LabelProps<TM>
   onChange: (n: number) => void
   value: number
   debouncedDelay?: number
@@ -37,13 +39,16 @@ export const TextNumberInput = <TM extends TranslationGeneric>(
   )
 
   return (
-    <TextInput
-      {...props}
-      onChange={v => {
-        setInternalValue(v)
-        onChange(v)
-      }}
-      value={internalValue}
-    />
+    <>
+      {props.label && <Label<TM> {...props.label} />}
+      <TextInput
+        {...props}
+        onChange={v => {
+          setInternalValue(v)
+          onChange(v)
+        }}
+        value={internalValue}
+      />
+    </>
   )
 }
