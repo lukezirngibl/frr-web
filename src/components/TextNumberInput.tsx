@@ -39,16 +39,13 @@ export const TextNumberInput = <TM extends TranslationGeneric>(
   )
 
   return (
-    <>
-      {props.label && <Label<TM> {...props.label} />}
-      <TextInput
-        {...props}
-        onChange={v => {
-          setInternalValue(v)
-          onChange(v)
-        }}
-        value={internalValue}
-      />
-    </>
+    <TextInput
+      {...props}
+      onChange={v => {
+        setInternalValue(v)
+        onChange(v)
+      }}
+      value={internalValue}
+    />
   )
 }
