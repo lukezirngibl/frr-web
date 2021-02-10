@@ -11,7 +11,7 @@ export type AppTheme = {
     readOnlyWrapper: CSSProperties
     readOnlyInput: CSSProperties
     hook: CSSProperties
-    readOnly: CSSProperties
+    readOnlyHook: CSSProperties
   }
   select: {
     option: CSSProperties
@@ -56,9 +56,25 @@ export type AppTheme = {
     wrapper: CSSProperties
     input: CSSProperties
   }
+  radioGroup: {
+    wrapper: CSSProperties
+    label: CSSProperties
+    radioOuter: CSSProperties
+    radioOuterActive: CSSProperties
+    radioInner: CSSProperties
+    radioInnerActive: CSSProperties
+  }
 }
 
 const defaultTheme: AppTheme = {
+  radioGroup: {
+    wrapper: {},
+    label: {},
+    radioOuter: {},
+    radioOuterActive: {},
+    radioInner: {},
+    radioInnerActive: {},
+  },
   singleCheckbox: {
     wrapper: {},
     input: {},
@@ -75,7 +91,7 @@ const defaultTheme: AppTheme = {
     readOnlyWrapper: {},
     readOnlyInput: {},
     hook: {},
-    readOnly: {},
+    readOnlyHook: {},
   },
   textArea: {
     wrapper: {},

@@ -75,7 +75,12 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
           ...(props.readOnly ? getStyle('readOnlyWrapper') : {}),
         }}
       >
-        <Hook style={getStyle('hook')} />
+        <Hook
+          style={{
+            ...getStyle('hook'),
+            ...(props.readOnly ? getStyle('readOnlyHook') : {}),
+          }}
+        />
         <Input
           className="frr-number-input"
           style={{

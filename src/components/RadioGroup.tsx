@@ -1,36 +1,26 @@
-// import React, { Component } from 'react'
-// import { SimpleInterpolation } from 'styled-components'
+import React from 'react'
+import { LabelProps } from './Label'
+import { TranslationGeneric } from '../util'
+import { AppTheme, getThemeContext } from '../theme/theme'
+import { createGetStyle } from '../theme/util'
+import { getLanguageContext, getTranslation } from '../theme/language'
 
-// import { DisplayType, Orientation } from './form/types'
+export type Props<T> = {
+  onChange: (value: string) => void
+  value: string
+  label?: LabelProps<T>
+  options: Array<{ label: string; value: string }>
+  style?: Partial<AppTheme['radioGroup']>
+  required?: boolean
+  error?: boolean
+}
 
-// export type RadioGroupProps = {
-//   onChange: (value: string) => void
-//   value: string
-//   label?: string
-//   options: Array<any>
-//   cssOverrides?: SimpleInterpolation
-//   orientation?: Orientation
-//   required?: boolean
-//   error: boolean
-//   display?: DisplayType
-// }
+export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
+  const theme = React.useContext(getThemeContext())
+  const getStyle = createGetStyle(theme, 'radioGroup')(props.style)
 
-// export class RadioGroup extends Component<RadioGroupProps> {
-//   static defaultProps = {
-//     display: DisplayType.Edit,
-//   }
+  const language = React.useContext(getLanguageContext())
+  const translate = getTranslation(language)
 
-//   onChange = (key: string) => (bool: boolean) => {
-//     const { onChange } = this.props
-//     if (bool && onChange) {
-//       onChange(key)
-//     }
-//   }
-
-//   isChecked = (key: string) => this.props.value === key
-
-//   render() {
-//     const { onChange, ...otherProps } = this.props
-//     return <div />
-//   }
-// }
+  return <div />
+}
