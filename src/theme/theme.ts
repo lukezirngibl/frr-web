@@ -59,6 +59,7 @@ export type AppTheme = {
   radioGroup: {
     wrapper: CSSProperties
     label: CSSProperties
+    item: CSSProperties
     radioOuter: CSSProperties
     radioOuterActive: CSSProperties
     radioInner: CSSProperties
@@ -70,6 +71,7 @@ const defaultTheme: AppTheme = {
   radioGroup: {
     wrapper: {},
     label: {},
+    item: {},
     radioOuter: {},
     radioOuterActive: {},
     radioInner: {},
