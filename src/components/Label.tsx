@@ -46,7 +46,14 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
   return (
     <LabelWrapper style={getStyle('wrapper')}>
       <LabelTextWrapper style={getStyle('labelTextWrapper')}>
-        <LabelText style={getStyle('labelText')}>
+        <LabelText
+          style={getStyle('labelText')}
+          itemID={
+            (typeof props.label === 'function'
+              ? '<computed>'
+              : props.label) as string
+          }
+        >
           {typeof props.label === 'function'
             ? props.label({ language })
             : translate(props.label)}
@@ -69,7 +76,14 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
             onClick={() => setOpen(false)}
             style={getStyle('descriptionPopup')}
           >
-            <DescriptionText style={getStyle('descriptionText')}>
+            <DescriptionText
+              style={getStyle('descriptionText')}
+              itemID={
+                (typeof props.description === 'function'
+                  ? '<computed>'
+                  : props.description) as string
+              }
+            >
               {typeof props.description === 'function'
                 ? props.description({ language })
                 : translate(props.description)}
@@ -79,7 +93,14 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
       </LabelTextWrapper>
 
       {props.sublabel ? (
-        <SublabelText style={getStyle('sublabelText')}>
+        <SublabelText
+          style={getStyle('sublabelText')}
+          itemID={
+            (typeof props.sublabel === 'function'
+              ? '<computed>'
+              : props.sublabel) as string
+          }
+        >
           {typeof props.sublabel === 'function'
             ? props.sublabel({ language })
             : translate(props.sublabel)}

@@ -15,9 +15,10 @@ const Wrapper = styled.div`
   width: 52px;
   padding: 2px;
   border-radius: 16px;
+  cursor: pointer;
 `
 const Circle = styled.div`
-  transition: all ease 0.7s;
+  transition: all ease 0.4s;
   width: 28px;
   height: 28px;
   border-radius: 14px;
@@ -37,21 +38,21 @@ export const Toggle = <TM extends TranslationGeneric>(props: Props<TM>) => {
   const getStyle = createGetStyle(theme, 'toggle')(props.style)
 
   const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   return (
     <>
       {props.label && <Label<TM> {...props.label} />}
       <Wrapper
+        onClick={() => props.onChange(!props.value)}
         style={{
           ...getStyle('wrapper'),
-          ...getStyle('wrapperActive'),
+          ...(props.value ? getStyle('wrapperActive') : {}),
         }}
       >
         <Circle
           style={{
             ...getStyle('circle'),
-            ...getStyle('circleActive'),
+            ...(props.value ? getStyle('circleActive') : {}),
           }}
         />
       </Wrapper>
