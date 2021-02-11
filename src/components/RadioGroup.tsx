@@ -16,6 +16,8 @@ export type Props<T> = {
   error?: boolean
 }
 
+const Wrapper = styled.div``
+
 const Item = styled.div`
   display: flex;
   align-items: center;
@@ -23,21 +25,20 @@ const Item = styled.div`
   padding-left: 8px;
 `
 
-const LabelText = styled.p`
-  flex: 0 0 96px;
-`
+const LabelText = styled.p``
 
 const OuterRadio = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   padding: 4px;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `
 
 const InnerRadio = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
 `
 
@@ -51,11 +52,17 @@ export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
   return (
     <>
       {props.label && <Label<TM> {...props.label} />}
-      <div style={getStyle('wrapper')}>
-        {props.options.map(o => {
+      <Wrapper style={getStyle('wrapper')}>
+        {props.options.map((o, k) => {
           const active = o.value === props.value
           return (
-            <Item style={getStyle('item')}>
+            <Item
+              style={getStyle('item')}
+              key={k}
+              onClick={() => {
+                props.onChange(o.value)
+              }}
+            >
               <LabelText style={getStyle('label')}>
                 {translate(o.label)}
               </LabelText>
@@ -65,17 +72,19 @@ export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
                   ...(active ? getStyle('radioOuterActive') : {}),
                 }}
               >
-                <InnerRadio
-                  style={{
-                    ...getStyle('radioInner'),
-                    ...(active ? getStyle('radioInnerActive') : {}),
-                  }}
-                ></InnerRadio>
+                {active && (
+                  <InnerRadio
+                    style={{
+                      ...getStyle('radioInner'),
+                      ...(active ? getStyle('radioInnerActive') : {}),
+                    }}
+                  ></InnerRadio>
+                )}
               </OuterRadio>
             </Item>
           )
         })}
-      </div>
+      </Wrapper>
     </>
   )
 }

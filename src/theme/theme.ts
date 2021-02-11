@@ -65,9 +65,21 @@ export type AppTheme = {
     radioInner: CSSProperties
     radioInnerActive: CSSProperties
   }
+  toggle: {
+    wrapper: CSSProperties
+    wrapperActive: CSSProperties
+    circle: CSSProperties
+    circleActive: CSSProperties
+  }
 }
 
 const defaultTheme: AppTheme = {
+  toggle: {
+    wrapper: {},
+    wrapperActive: {},
+    circle: {},
+    circleActive: {},
+  },
   radioGroup: {
     wrapper: {},
     label: {},
