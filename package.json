@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "^2.0.3",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.17.0",
     "fp-ts": "1.19.5",
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "2.1.266",

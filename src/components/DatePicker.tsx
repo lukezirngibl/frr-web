@@ -1,29 +1,36 @@
 import React, { Component } from 'react'
-import { StrictInputProps } from 'semantic-ui-react'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
-
-import 'react-day-picker/lib/style.css'
-import { LabelProps, Label } from './Label'
 import { TranslationGeneric } from '../util'
+import { TextInput, Props as TextInputProps } from './TextInput'
+import { format, parse } from 'date-fns'
 
 export type Props<T> = {
   onChange: (value: Date) => void
-  value?: Date
-  required?: boolean
-  error?: boolean
-  label: LabelProps<T>
-}
+  value: Date | null
+} & Omit<TextInputProps<T>, 'onChange' | 'value'>
 
 export const DatePicker = <TM extends TranslationGeneric>(props: Props<TM>) => {
+  const { value } = props
+  const datePickerRef = React.createRef<any>()
   const [day, setDay] = React.useState(props.value)
+
+  React.useEffect(() => {
+    if (datePickerRef.current) {
+      datePickerRef.current.hideDayPicker()
+    }
+  }, [day])
+
   return (
-    <>
-      {props.label && <Label<TM> {...props.label} />}
-      <div>
-        {day && <p>Day: {day}</p>}
-        <DayPickerInput onDayChange={setDay} />;
-      </div>
-    </>
+    <TextInput
+      {...props}
+      value={value ? format(value, 'yyyy-MM-dd') : null}
+      onChange={v => {
+        const date = parse(v, 'yyyy-MM-dd', new Date())
+        if (date.toDateString() !== 'Invalid Date') {
+          props.onChange(date)
+        }
+      }}
+      placeholder={'YYYY-MM-DD' as any}
+    />
   )
 }
