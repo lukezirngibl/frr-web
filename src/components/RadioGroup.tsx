@@ -70,6 +70,7 @@ export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
                 style={{
                   ...getStyle('radioOuter'),
                   ...(active ? getStyle('radioOuterActive') : {}),
+                  ...(props.error ? getStyle('radioOuterError') : {}),
                 }}
               >
                 {active && (

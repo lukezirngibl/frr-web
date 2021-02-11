@@ -12,10 +12,14 @@ export type AppTheme = {
     readOnlyInput: CSSProperties
     hook: CSSProperties
     readOnlyHook: CSSProperties
+    errorInput: CSSProperties
+    errorHook: CSSProperties
+    errorWrapper: CSSProperties
   }
   select: {
     option: CSSProperties
     wrapper: CSSProperties
+    errorWrapper: CSSProperties
   }
   textArea: {
     wrapper: CSSProperties
@@ -52,6 +56,8 @@ export type AppTheme = {
     descriptionPopup: CSSProperties
     descriptionIcon: CSSProperties
     errorLabel: CSSProperties
+    labelTextError: CSSProperties
+    errorIcon: CSSProperties
   }
   singleCheckbox: {
     wrapper: CSSProperties
@@ -65,6 +71,7 @@ export type AppTheme = {
     radioOuterActive: CSSProperties
     radioInner: CSSProperties
     radioInnerActive: CSSProperties
+    radioOuterError: CSSProperties
   }
   toggle: {
     wrapper: CSSProperties
@@ -89,6 +96,7 @@ const defaultTheme: AppTheme = {
     radioOuterActive: {},
     radioInner: {},
     radioInnerActive: {},
+    radioOuterError: {},
   },
   singleCheckbox: {
     wrapper: {},
@@ -97,8 +105,11 @@ const defaultTheme: AppTheme = {
   select: {
     option: {},
     wrapper: {},
+    errorWrapper: {},
   },
   textInput: {
+    errorInput: {},
+    errorHook: {},
     wrapper: {},
     input: {},
     disabledInput: {},
@@ -107,6 +118,7 @@ const defaultTheme: AppTheme = {
     readOnlyInput: {},
     hook: {},
     readOnlyHook: {},
+    errorWrapper: {},
   },
   textArea: {
     wrapper: {},
@@ -135,6 +147,7 @@ const defaultTheme: AppTheme = {
     wrapper: {},
   },
   label: {
+    labelTextError: {},
     errorLabel: {},
     wrapper: {},
     labelTextWrapper: {},
@@ -143,6 +156,7 @@ const defaultTheme: AppTheme = {
     sublabelText: {},
     descriptionPopup: {},
     descriptionIcon: {},
+    errorIcon: {},
   },
 }
 

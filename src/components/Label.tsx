@@ -50,8 +50,23 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
   return (
     <LabelWrapper style={getStyle('wrapper')}>
       <LabelTextWrapper style={getStyle('labelTextWrapper')}>
+        {props.error && (
+          <Icon
+            style={{
+              ...((getStyle('errorIcon') as any) || {}),
+            }}
+            icon="error_outline"
+            size={18}
+            onClick={() => {
+              setOpen(!open)
+            }}
+          />
+        )}
         <LabelText
-          style={getStyle('labelText')}
+          style={{
+            ...getStyle('labelText'),
+            ...(props.error ? getStyle('labelTextError') : {}),
+          }}
           itemID={
             (typeof props.label === 'function'
               ? '<computed>'

@@ -25,6 +25,7 @@ export type Props<T> = {
   value: string | null
   disabled?: boolean
   readOnly?: boolean
+  error?: boolean
 }
 
 export const processOptions = <TM extends TranslationGeneric>(
@@ -62,7 +63,10 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
       {label && <Label<TM> {...label} />}
       <SelectWrapper
         className={'select-wrapper'}
-        style={getStyle('wrapper')}
+        style={{
+          ...getStyle('wrapper'),
+          ...(props.error ? getStyle('errorWrapper') : {}),
+        }}
         disabled={props.disabled || props.readOnly}
         value={props.value === null ? 'null' : props.value}
         onChange={e => {

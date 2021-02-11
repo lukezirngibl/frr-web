@@ -15,14 +15,6 @@ const Input = styled.input`
 
 const Hook = styled.div``
 
-const ErrorWrapper = styled.div`
-  position: absolute;
-  bottom: -20px;
-  color: red;
-  font-size: 11px;
-  left: 0;
-`
-
 export type Props<TM> = {
   onChange: (value: string) => void
   value: string | null
@@ -73,12 +65,14 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
           ...getStyle('wrapper'),
           ...(props.disabled ? getStyle('disabledWrapper') : {}),
           ...(props.readOnly ? getStyle('readOnlyWrapper') : {}),
+          ...(props.error ? getStyle('errorWrapper') : {}),
         }}
       >
         <Hook
           style={{
             ...getStyle('hook'),
             ...(props.readOnly ? getStyle('readOnlyHook') : {}),
+            ...(props.error ? getStyle('errorHook') : {}),
           }}
         />
         <Input
@@ -87,6 +81,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
             ...getStyle('input'),
             ...(props.disabled ? getStyle('disabledInput') : {}),
             ...(props.readOnly ? getStyle('readOnlyInput') : {}),
+            ...(props.error ? getStyle('errorInput') : {}),
           }}
           disabled={props.readOnly || props.disabled}
           onChange={e => {
