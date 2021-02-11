@@ -1,28 +1,30 @@
 import React from 'react'
-import { CommonTM } from '../translations'
 import { OptionGroup, Props as OptionGroupProps } from './OptionGroup'
+import { TranslationGeneric } from '../util'
 
-export type Props = {
+export type Props<T> = {
   onChange: (v: boolean) => void
   value: boolean
-} & Omit<OptionGroupProps<CommonTM>, 'value' | 'onChange' | 'options'>
+} & Omit<OptionGroupProps<T>, 'value' | 'onChange' | 'options'>
 
-export const YesNoToggle = (props: Props) => {
+export const YesNoToggle = <TM extends TranslationGeneric>(
+  props: Props<TM>,
+) => {
   const { value, onChange, ...otherProps } = props
 
-  const options: Array<{ label: keyof CommonTM; value: string }> = [
+  const options: Array<{ label: keyof TM; value: string }> = [
     {
-      label: 'no',
+      label: 'no' as keyof TM,
       value: 'false',
     },
     {
-      label: 'yes',
+      label: 'yes' as keyof TM,
       value: 'true',
     },
   ]
 
   return (
-    <OptionGroup<CommonTM>
+    <OptionGroup<TM>
       {...otherProps}
       options={options}
       value={props.value ? 'true' : 'false'}
