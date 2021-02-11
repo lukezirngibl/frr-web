@@ -15,6 +15,8 @@ const Input = styled.input`
 
 const Hook = styled.div``
 
+const Prefix = styled.p``
+
 export type Props<TM> = {
   onChange: (value: string) => void
   value: string | null
@@ -26,11 +28,14 @@ export type Props<TM> = {
   proccessValue?: (v: string | null) => string
   readOnly?: boolean
   disabled?: boolean
+  prefix?: string
   error?: boolean
 }
 
 export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
-  const { inputType, value, placeholder, ...otherProps } = props
+  const inputRef = React.createRef<HTMLInputElement>()
+
+  const { inputType, value, placeholder } = props
 
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'textInput')(props.style)
@@ -67,6 +72,11 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
           ...(props.readOnly ? getStyle('readOnlyWrapper') : {}),
           ...(props.error ? getStyle('errorWrapper') : {}),
         }}
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus()
+          }
+        }}
       >
         <Hook
           style={{
@@ -75,8 +85,12 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
             ...(props.error ? getStyle('errorHook') : {}),
           }}
         />
+        {props.prefix && (
+          <Prefix style={getStyle('prefix')}>{props.prefix}</Prefix>
+        )}
         <Input
           className="frr-number-input"
+          ref={inputRef}
           style={{
             ...getStyle('input'),
             ...(props.disabled ? getStyle('disabledInput') : {}),

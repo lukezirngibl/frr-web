@@ -15,6 +15,7 @@ export type AppTheme = {
     errorInput: CSSProperties
     errorHook: CSSProperties
     errorWrapper: CSSProperties
+    prefix: CSSProperties
   }
   select: {
     option: CSSProperties
@@ -122,6 +123,7 @@ const defaultTheme: AppTheme = {
     hook: {},
     readOnlyHook: {},
     errorWrapper: {},
+    prefix: {},
   },
   textArea: {
     wrapper: {},
