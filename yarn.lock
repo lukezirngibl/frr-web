@@ -1135,6 +1135,13 @@ react-currency-input-field@^2.0.0:
   resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-2.0.0.tgz#d427e1c3f1d9de7752412d565715395b38e5e1b1"
   integrity sha512-BQFayeO/CWy+tPV47ifLnSESBazBEXiZXsEHQD/dR34s/OqgP7Svh7tkBEVtEldnx36nmUF7zq8cKUVfzdjoqQ==
 
+react-day-picker@^7.4.8:
+  version "7.4.8"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.4.8.tgz#675625240d3fae1b41c0a9d5177c968c8517c1d4"
+  integrity sha512-pp0hnxFVoRuBQcRdR1Hofw4CQtOCGVmzCNrscyvS0Q8NEc+UiYLEDqE5dk37bf0leSnBW4lheIt0CKKhuKzDVw==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-input-autosize@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.2.tgz#fcaa7020568ec206bc04be36f4eb68e647c4d8c2"
