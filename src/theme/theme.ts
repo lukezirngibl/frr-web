@@ -32,12 +32,12 @@ export type AppTheme = {
   dropdown: {
     wrapper: CSSProperties
   }
-  yesNoToggle: {
+  optionGroup: {
     wrapper: CSSProperties
     item: CSSProperties
+    itemActive: CSSProperties
     label: CSSProperties
-    active: CSSProperties
-    activeFalse: CSSProperties
+    labelActive: CSSProperties
   }
   codeInput: {
     wrapper: CSSProperties
@@ -112,12 +112,12 @@ const defaultTheme: AppTheme = {
     input: {},
     disabled: {},
   },
-  yesNoToggle: {
+  optionGroup: {
     wrapper: {},
     item: {},
+    itemActive: {},
     label: {},
-    active: {},
-    activeFalse: {},
+    labelActive: {},
   },
   button: {
     chromeless: {},
