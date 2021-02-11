@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `
 
 const Item = styled.div`
-  &:last-child {
+  &.inactive:last-child {
     border-right-width: 0 !important;
   }
 `
@@ -48,6 +48,7 @@ export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
       >
         {props.options.map((item, k) => (
           <Item
+            className={item.value === props.value ? 'active' : 'inactive'}
             key={item.value}
             onClick={() => {
               props.onChange(item.value)
