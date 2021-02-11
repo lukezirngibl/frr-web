@@ -31,9 +31,9 @@ export type Props<TM> = {
   style?: Partial<AppTheme['textInput']>
   inputType?: string
   label?: LabelProps<TM>
+  proccessValue?: (v: string | null) => string
   readOnly?: boolean
   disabled?: boolean
-  errorString?: string
   error?: boolean
 }
 
@@ -101,12 +101,13 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
             }
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
-          value={internalValue}
+          value={
+            props.proccessValue
+              ? props.proccessValue(internalValue)
+              : internalValue
+          }
           type={inputType}
         ></Input>
-        {props.error && (
-          <ErrorWrapper>{props.errorString || 'Required'}</ErrorWrapper>
-        )}
       </InputWrapper>
     </>
   )

@@ -26,10 +26,14 @@ const LabelText = styled.p``
 
 const SublabelText = styled.p``
 
+const ErrorLabelText = styled.p``
+
 export type LabelProps<T> = {
   style?: Partial<AppTheme['label']>
+  error?: boolean
   label: keyof T | ((params: { language: Language }) => ReactNode)
   sublabel?: keyof T | ((params: { language: Language }) => ReactNode)
+  errorLabel?: keyof T
   description?: keyof T | ((params: { language: Language }) => ReactNode)
   renderChildren?: ReactNode | ((params: { language: Language }) => ReactNode)
 }
@@ -105,6 +109,16 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
             ? props.sublabel({ language })
             : translate(props.sublabel)}
         </SublabelText>
+      ) : (
+        <></>
+      )}
+      {props.error ? (
+        <ErrorLabelText
+          style={getStyle('errorLabel')}
+          itemID={typeof props.errorLabel as string}
+        >
+          {translate((props.errorLabel || 'fieldError') as keyof TM)}
+        </ErrorLabelText>
       ) : (
         <></>
       )}

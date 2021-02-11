@@ -51,6 +51,7 @@ export type AppTheme = {
     sublabelText: CSSProperties
     descriptionPopup: CSSProperties
     descriptionIcon: CSSProperties
+    errorLabel: CSSProperties
   }
   singleCheckbox: {
     wrapper: CSSProperties
@@ -134,6 +135,7 @@ const defaultTheme: AppTheme = {
     wrapper: {},
   },
   label: {
+    errorLabel: {},
     wrapper: {},
     labelTextWrapper: {},
     labelText: {},

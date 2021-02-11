@@ -32,13 +32,14 @@ export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
 
   const getStyle = createGetStyle(theme, 'optionGroup')(props.style)
 
+  console.log(props)
   return (
     <>
       {props.label && <Label<T> {...props.label} />}
       <Wrapper style={getStyle('wrapper')}>
         {props.options.map((item, k) => (
           <Item
-            key={k}
+            key={item.value}
             onClick={() => {
               props.onChange(item.value)
             }}

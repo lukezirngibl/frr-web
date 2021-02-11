@@ -46,11 +46,11 @@ export const CurrencyInput = <TM extends TranslationGeneric>(
         }
       }}
       error={hasError}
-      errorString={
-        maxError
-          ? `${translate('maxError')} ${props.prefix}${max}`
-          : `${translate('minError')} ${props.prefix}${min}`
-      }
+      // errorString={
+      //   maxError
+      //     ? `${translate('maxError')} ${props.prefix}${max}`
+      //     : `${translate('minError')} ${props.prefix}${min}`
+      // }
     />
   )
 }
