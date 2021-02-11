@@ -42,6 +42,7 @@ export type AppTheme = {
     itemActive: CSSProperties
     label: CSSProperties
     labelActive: CSSProperties
+    errorWrapper: CSSProperties
   }
   codeInput: {
     wrapper: CSSProperties
@@ -72,6 +73,7 @@ export type AppTheme = {
     radioInner: CSSProperties
     radioInnerActive: CSSProperties
     radioOuterError: CSSProperties
+    errorWrapper: CSSProperties
   }
   toggle: {
     wrapper: CSSProperties
@@ -97,6 +99,7 @@ const defaultTheme: AppTheme = {
     radioInner: {},
     radioInnerActive: {},
     radioOuterError: {},
+    errorWrapper: {},
   },
   singleCheckbox: {
     wrapper: {},
@@ -131,6 +134,7 @@ const defaultTheme: AppTheme = {
     itemActive: {},
     label: {},
     labelActive: {},
+    errorWrapper: {},
   },
   button: {
     chromeless: {},

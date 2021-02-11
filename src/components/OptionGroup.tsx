@@ -12,7 +12,11 @@ const Wrapper = styled.div`
   flex-direction: row;
 `
 
-const Item = styled.div``
+const Item = styled.div`
+  &:last-child {
+    border-right-width: 0 !important;
+  }
+`
 
 const ItemLabel = styled.p``
 
@@ -23,6 +27,7 @@ export type Props<T> = {
   options: Array<{ label: keyof T; value: string }>
   disabled?: boolean
   style?: Partial<AppTheme['optionGroup']>
+  error?: boolean
 }
 
 export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
@@ -32,11 +37,15 @@ export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
 
   const getStyle = createGetStyle(theme, 'optionGroup')(props.style)
 
-  console.log(props)
   return (
     <>
       {props.label && <Label<T> {...props.label} />}
-      <Wrapper style={getStyle('wrapper')}>
+      <Wrapper
+        style={{
+          ...getStyle('wrapper'),
+          ...(props.error ? getStyle('errorWrapper') : {}),
+        }}
+      >
         {props.options.map((item, k) => (
           <Item
             key={item.value}
