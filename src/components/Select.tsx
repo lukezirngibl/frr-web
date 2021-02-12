@@ -15,14 +15,14 @@ type Options<T> = Array<{
   label?: keyof T
   name?: string
   disabled?: boolean
-  value: string | null
+  value: string | null | number
 }>
 
 export type Props<T> = {
   label?: LabelProps<T>
   required?: boolean
   options: Options<T> | ((lan: Language) => Options<T>)
-  onChange: (value: string) => void
+  onChange: (value: string | number | null) => void
   style?: Partial<AppTheme['select']>
   value: string | number | null
   disabled?: boolean
