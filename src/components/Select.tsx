@@ -24,7 +24,7 @@ export type Props<T> = {
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
   style?: Partial<AppTheme['select']>
-  value: string | null
+  value: string | number | null
   disabled?: boolean
   readOnly?: boolean
   error?: boolean

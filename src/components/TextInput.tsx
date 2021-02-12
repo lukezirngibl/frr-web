@@ -28,6 +28,7 @@ export type Props<TM> = {
   proccessValue?: (v: string | null) => string
   readOnly?: boolean
   disabled?: boolean
+  maxLength?: number
   prefix?: string
   error?: boolean
 }
@@ -91,6 +92,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
         <Input
           className="frr-number-input"
           ref={inputRef}
+          maxLength={props.maxLength}
           style={{
             ...getStyle('input'),
             ...(props.disabled ? getStyle('disabledInput') : {}),
@@ -111,9 +113,9 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
           value={
-            props.proccessValue
+            (props.proccessValue
               ? props.proccessValue(internalValue)
-              : internalValue
+              : internalValue) || ''
           }
           type={inputType}
         ></Input>
