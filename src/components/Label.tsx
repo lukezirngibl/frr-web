@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { TranslationGeneric } from '../util'
 import { getLanguageContext, getTranslation, Language } from '../theme/language'
 import { Icon } from './Icon'
+import ClickAwayListener from 'react-click-away-listener'
 
 export const LabelWrapper = styled.div``
 
@@ -83,7 +84,7 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
               marginLeft: 8,
               ...((getStyle('descriptionIcon') as any) || {}),
             }}
-            icon="info"
+            icon="help_outline"
             size={16}
             onClick={() => {
               setOpen(!open)
@@ -91,23 +92,25 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
           />
         )}
         {open && props.description && (
-          <DescriptionPopup
-            onClick={() => setOpen(false)}
-            style={getStyle('descriptionPopup')}
-          >
-            <DescriptionText
-              style={getStyle('descriptionText')}
-              itemID={
-                (typeof props.description === 'function'
-                  ? '<computed>'
-                  : props.description) as string
-              }
+          <ClickAwayListener onClickAway={() => setOpen(false)}>
+            <DescriptionPopup
+              onClick={() => setOpen(false)}
+              style={getStyle('descriptionPopup')}
             >
-              {typeof props.description === 'function'
-                ? props.description({ language })
-                : translate(props.description)}
-            </DescriptionText>
-          </DescriptionPopup>
+              <DescriptionText
+                style={getStyle('descriptionText')}
+                itemID={
+                  (typeof props.description === 'function'
+                    ? '<computed>'
+                    : props.description) as string
+                }
+              >
+                {typeof props.description === 'function'
+                  ? props.description({ language })
+                  : translate(props.description)}
+              </DescriptionText>
+            </DescriptionPopup>
+          </ClickAwayListener>
         )}
       </LabelTextWrapper>
 
