@@ -14,6 +14,7 @@ const Option = styled.option``
 type Options<T> = Array<{
   label?: keyof T
   name?: string
+  disabled?: boolean
   value: string | null
 }>
 
@@ -30,7 +31,12 @@ export type Props<T> = {
 }
 
 export const processOptions = <TM extends TranslationGeneric>(
-  raw: Array<{ label?: keyof TM; name?: string; value: string | number }>,
+  raw: Array<{
+    label?: keyof TM
+    disabled?: boolean
+    name?: string
+    value: string | number
+  }>,
   translate: (s: string) => string,
 ) =>
   raw.map(o => ({
@@ -40,6 +46,7 @@ export const processOptions = <TM extends TranslationGeneric>(
           ? translate(o.label)
           : `${o.label}`
         : o.name || 'Unknown',
+    disabled: o.disabled,
     value: o.value,
   }))
 
@@ -52,12 +59,28 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   const getStyle = createGetStyle(theme, 'select')(props.style)
 
-  const options = processOptions(
+  let options =
     typeof props.options === 'function'
       ? props.options(language)
-      : props.options,
-    translate,
-  )
+      : props.options
+
+  options = [
+    ...(props.value === null || props.value === undefined
+      ? [
+          {
+            value: null,
+            disabled: true,
+            label: 'pleaseSelect' as keyof TM,
+          },
+          {
+            value: '---',
+            disabled: true,
+            label: '---' as keyof TM,
+          },
+        ]
+      : []),
+    ...options,
+  ]
 
   return (
     <>
@@ -75,10 +98,11 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
             props.onChange(e.target.value === 'null' ? null : e.target.value)
           }}
         >
-          {options.map((o, i) => (
+          {processOptions(options, translate).map((o, i) => (
             <Option
               value={o.value === null ? 'null' : o.value}
               key={i}
+              disabled={o.disabled}
               style={getStyle('option')}
             >{`${o.text}`}</Option>
           ))}
