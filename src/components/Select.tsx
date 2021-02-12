@@ -5,6 +5,7 @@ import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
+import { Icon } from './Icon'
 
 const SelectWrapper = styled.select``
 
@@ -21,7 +22,7 @@ export type Props<T> = {
   required?: boolean
   options: Options<T> | ((lan: Language) => Options<T>)
   onChange: (value: string) => void
-  style?: Partial<AppTheme['dropdown']>
+  style?: Partial<AppTheme['select']>
   value: string | null
   disabled?: boolean
   readOnly?: boolean
@@ -61,26 +62,29 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
   return (
     <>
       {label && <Label<TM> {...label} />}
-      <SelectWrapper
-        className={'select-wrapper'}
-        style={{
-          ...getStyle('wrapper'),
-          ...(props.error ? getStyle('errorWrapper') : {}),
-        }}
-        disabled={props.disabled || props.readOnly}
-        value={props.value === null ? 'null' : props.value}
-        onChange={e => {
-          props.onChange(e.target.value === 'null' ? null : e.target.value)
-        }}
-      >
-        {options.map((o, i) => (
-          <Option
-            value={o.value === null ? 'null' : o.value}
-            key={i}
-            style={getStyle('option')}
-          >{`${o.text}`}</Option>
-        ))}
-      </SelectWrapper>
+      <div style={getStyle('wrapper')}>
+        <SelectWrapper
+          className={'select-wrapper'}
+          style={{
+            ...getStyle('select'),
+            ...(props.error ? getStyle('errorWrapper') : {}),
+          }}
+          disabled={props.disabled || props.readOnly}
+          value={props.value === null ? 'null' : props.value}
+          onChange={e => {
+            props.onChange(e.target.value === 'null' ? null : e.target.value)
+          }}
+        >
+          {options.map((o, i) => (
+            <Option
+              value={o.value === null ? 'null' : o.value}
+              key={i}
+              style={getStyle('option')}
+            >{`${o.text}`}</Option>
+          ))}
+        </SelectWrapper>
+        <Icon icon="expand_more" size={16} style={getStyle('icon') as any} />
+      </div>
     </>
   )
 }

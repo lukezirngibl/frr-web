@@ -21,6 +21,8 @@ export type AppTheme = {
     option: CSSProperties
     wrapper: CSSProperties
     errorWrapper: CSSProperties
+    icon: CSSProperties
+    select: CSSProperties
   }
   textArea: {
     wrapper: CSSProperties
@@ -110,6 +112,8 @@ const defaultTheme: AppTheme = {
     option: {},
     wrapper: {},
     errorWrapper: {},
+    icon: {},
+    select: {},
   },
   textInput: {
     errorInput: {},

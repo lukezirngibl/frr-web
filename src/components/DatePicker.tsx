@@ -23,14 +23,13 @@ export const DatePicker = <TM extends TranslationGeneric>(props: Props<TM>) => {
   return (
     <TextInput
       {...props}
-      value={value ? format(value, 'yyyy-MM-dd') : null}
+      value={value ? format(value, 'dd.MM.yyyy') : null}
       onChange={v => {
-        const date = parse(v, 'yyyy-MM-dd', new Date())
+        const date = parse(v, 'dd.MM.yyyy', new Date())
         if (date.toDateString() !== 'Invalid Date') {
           props.onChange(date)
         }
       }}
-      placeholder={'YYYY-MM-DD' as any}
     />
   )
 }
