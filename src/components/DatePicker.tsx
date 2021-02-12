@@ -7,10 +7,11 @@ import { format, parse } from 'date-fns'
 export type Props<T> = {
   onChange: (value: Date) => void
   value: Date | null
+  dateFormat?: string
 } & Omit<TextInputProps<T>, 'onChange' | 'value'>
 
 export const DatePicker = <TM extends TranslationGeneric>(props: Props<TM>) => {
-  const { value } = props
+  const { value, dateFormat } = props
   const datePickerRef = React.createRef<any>()
   const [day, setDay] = React.useState(props.value)
 
@@ -23,9 +24,9 @@ export const DatePicker = <TM extends TranslationGeneric>(props: Props<TM>) => {
   return (
     <TextInput
       {...props}
-      value={value ? format(value, 'dd.MM.yyyy') : null}
+      value={value ? format(value, dateFormat || 'dd.MM.yyyy') : null}
       onChange={v => {
-        const date = parse(v, 'dd.MM.yyyy', new Date())
+        const date = parse(v, dateFormat || 'dd.MM.yyyy', new Date())
         if (date.toDateString() !== 'Invalid Date') {
           props.onChange(date)
         }
