@@ -105,7 +105,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
             onChange(e.target.value)
           }}
           onBlur={() => {
-            const v = internalValue.trim()
+            const v = (internalValue || '').trim()
             if (v !== internalValue) {
               setInternalValue(v)
               props.onChange(v)
