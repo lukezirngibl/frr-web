@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
+import { P } from '../html'
 
 const ButtonWrapper = styled.button`
   display: flex;
@@ -58,15 +59,14 @@ export const Button = (props: Props) => {
       }}
     >
       {props.icon && <Icon {...props.icon} />}
-      <div
+      <P
         style={{
           color: 'inherit',
           flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
-      >
-        {translate(props.label)}
-      </div>
+        label={translate(props.label)}
+      />
       {props.loading && (
         <Loading
           style={{

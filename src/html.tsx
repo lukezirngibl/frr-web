@@ -15,7 +15,11 @@ type Props = {
   style?: CSSProperties
 }
 
-export const Element = (props: Props & { element: 'p' | 'h1' }) => {
+export const Element = (
+  props: Props & {
+    element: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'button' | 'li'
+  },
+) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'html')({})
 
@@ -42,3 +46,10 @@ export const Element = (props: Props & { element: 'p' | 'h1' }) => {
 
 export const P = (props: Props) => <Element {...props} element="p" />
 export const H1 = (props: Props) => <Element {...props} element="h1" />
+export const H2 = (props: Props) => <Element {...props} element="h2" />
+export const H3 = (props: Props) => <Element {...props} element="h3" />
+export const H4 = (props: Props) => <Element {...props} element="h4" />
+export const H5 = (props: Props) => <Element {...props} element="h5" />
+export const H6 = (props: Props) => <Element {...props} element="h6" />
+export const Li = (props: Props) => <Element {...props} element="li" />
+export const button = (props: Props) => <Element {...props} element="button" />
