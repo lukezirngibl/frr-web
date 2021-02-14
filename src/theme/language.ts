@@ -1,12 +1,6 @@
 import * as React from 'react'
 import { libraryTranslations } from '../translations'
-
-export enum Language {
-  EN = 'en',
-  DE = 'de',
-  FR = 'fr',
-  IT = 'it',
-}
+import { Language } from '../util'
 
 export type Translations = Record<string, { [k in Language]: string }>
 
@@ -23,7 +17,7 @@ export const configureLanguage = (t: Translations, l?: Language) => {
 
 export const getLanguageContext = () => context
 export const getLanguage = () => language
-export const getTranslation = (l: Language) => (k: any) => {
+export const getTranslation = (l: Language) => (k: any = {}) => {
   if (translations[k] && translations[k][l]) {
     return translations[k][l]
   }

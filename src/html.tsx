@@ -1,11 +1,17 @@
 import React, { ReactNode } from 'react'
 import { getThemeContext } from './theme/theme'
 import { createGetStyle } from './theme/util'
-import { getLanguageContext, getTranslation, Language } from './theme/language'
+import { getLanguageContext, getTranslation } from './theme/language'
 import { CSSProperties } from 'styled-components'
+import { Language } from './util'
 
 type Props = {
-  label: string | ((params: { language: Language }) => ReactNode)
+  label:
+    | string
+    | ((params: {
+        language: Language
+        translate: (k: string) => string
+      }) => ReactNode)
   style?: CSSProperties
 }
 
@@ -29,7 +35,7 @@ export const Element = (props: Props & { element: 'p' | 'h1' }) => {
       },
     },
     typeof props.label === 'function'
-      ? props.label({ language })
+      ? props.label({ language, translate })
       : translate(props.label),
   )
 }

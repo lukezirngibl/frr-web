@@ -1,4 +1,4 @@
-import { Language } from './theme/language'
+import { Language } from './util'
 
 export const libraryTranslations = {
   ' ': {

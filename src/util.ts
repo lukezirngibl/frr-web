@@ -1,8 +1,14 @@
-import { Translations, Language } from './theme/language'
 import { COUNTRIES_EN } from './assets/countries-en'
 import { COUNTRIES_FR } from './assets/countries-fr'
 import { COUNTRIES_IT } from './assets/countries-it'
 import { COUNTRIES_DE } from './assets/countries-de'
+
+export enum Language {
+  EN = 'en',
+  DE = 'de',
+  FR = 'fr',
+  IT = 'it',
+}
 
 export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,

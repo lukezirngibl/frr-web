@@ -8,7 +8,7 @@
   "keywords": [],
   "scripts": {
     "build": "tsc",
-    "patch": "yarn run build && git add -A && git commit -m 'patch' && npm version patch",
+    "patch": "n && npm version patch",
     "prepare": "install-peers"
   },
   "files": [

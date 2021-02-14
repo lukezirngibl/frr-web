@@ -4,9 +4,10 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { getTranslation, getLanguageContext, Language } from '../theme/language'
+import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { processOptions } from './Dropdown'
+import { Language } from '../util'
 
 const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
   width: 100%;

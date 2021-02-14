@@ -46,7 +46,7 @@ export const OptionGroup = (props: Props) => {
           ...(props.error ? getStyle('errorWrapper') : {}),
         }}
       >
-        {props.options.map((item, k) => (
+        {props.options.map(item => (
           <Item
             className={item.value === props.value ? 'active' : 'inactive'}
             key={item.value}

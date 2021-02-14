@@ -2,10 +2,11 @@ import styled from 'styled-components'
 import React, { ReactNode } from 'react'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
-import { getLanguageContext, getTranslation, Language } from '../theme/language'
+import { getLanguageContext } from '../theme/language'
 import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
 import { P } from '../html'
+import { Language } from '../util'
 
 export const LabelWrapper = styled.div``
 
