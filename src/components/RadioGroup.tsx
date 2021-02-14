@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import styled from 'styled-components'
 import { Options } from '../util'
+import { P } from '../html'
 
 export type Props = {
   onChange: (value: string) => void
@@ -63,9 +64,7 @@ export const RadioGroup = (props: Props) => {
                 props.onChange(o.value)
               }}
             >
-              <LabelText style={getStyle('label')}>
-                {translate(o.label)}
-              </LabelText>
+              <P style={getStyle('label')} label={o.label} />
               <OuterRadio
                 style={{
                   ...getStyle('radioOuter'),

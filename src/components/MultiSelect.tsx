@@ -27,7 +27,7 @@ export const MultiSelect = (props: Props) => {
         isMulti
         name="colors"
         options={props.options}
-        getOptionLabel={o => (o.label ? translate(o.label) : o.name)}
+        getOptionLabel={o => (o.label ? o.label : o.name)}
         className="basic-multi-select"
         classNamePrefix="select"
         onChange={v => props.onChange((v || []).map(i => i.value))}

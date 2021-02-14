@@ -44,7 +44,6 @@ export const Button = (props: Props) => {
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   const getStyle = createGetStyle(theme, 'button')(props.style)
 
@@ -65,7 +64,7 @@ export const Button = (props: Props) => {
           flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
-        label={translate(props.label)}
+        label={props.label}
       />
       {props.loading && (
         <Loading

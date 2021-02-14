@@ -20,7 +20,6 @@ export type CheckboxGroupProps = {
 
 export const CheckboxGroup = (props: CheckboxGroupProps) => {
   const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   const onChange = (key: string) => (bool: boolean) => {
     const { value, onChange } = props
@@ -41,7 +40,7 @@ export const CheckboxGroup = (props: CheckboxGroupProps) => {
           <CheckboxRow key={k}>
             <Checkbox
               className={props.error ? 'error' : ''}
-              label={translate(o.label)}
+              label={o.label}
               checked={isChecked(o.value)}
               onChange={() => onChange(o.value)(!isChecked(o.value))}
             />

@@ -5,6 +5,7 @@ import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
+import { P } from '../html'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,7 +34,6 @@ export type Props = {
 export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   const getStyle = createGetStyle(theme, 'optionGroup')(props.style)
 
@@ -58,14 +58,13 @@ export const OptionGroup = (props: Props) => {
               ...(item.value === props.value ? getStyle('itemActive') : {}),
             }}
           >
-            <ItemLabel
+            <P
               style={{
                 ...getStyle('label'),
                 ...(item.value === props.value ? getStyle('labelActive') : {}),
               }}
-            >
-              {translate(item.label)}
-            </ItemLabel>
+              label={item.label}
+            />
           </Item>
         ))}
       </Wrapper>
