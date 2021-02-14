@@ -3,7 +3,6 @@ import styled, { CSSProperties } from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
-import { TranslationGeneric } from '../util'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
 
@@ -28,8 +27,8 @@ const mapTypeToStyleKey: {
   [ButtonType.Secondary]: 'secondary',
 }
 
-export type Props<T> = {
-  label: keyof T
+export type Props = {
+  label: string
   onClick?: () => void
   disabled?: boolean
   style?: Partial<AppTheme['button']>
@@ -39,7 +38,7 @@ export type Props<T> = {
   icon?: IconProps
 }
 
-export const Button = <T extends TranslationGeneric>(props: Props<T>) => {
+export const Button = (props: Props) => {
   const { disabled } = props
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())

@@ -23,8 +23,6 @@ export const Translations = {
   },
 }
 
-type TM = typeof Translations
-
 const LanguageContext = configureLanguage(Translations, Language.EN)
 
 const App = () => {
@@ -33,7 +31,7 @@ const App = () => {
   return (
     <LanguageContext.Provider value={language}>
       <AppThemeContext.Provider value={getAppTheme()}>
-        <Button<TM> label="submit" />
+        <Button label="submit" />
       </AppThemeContext.Provider>
     </LanguageContext.Provider>
   )

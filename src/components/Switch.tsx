@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Label, LabelProps } from './Label'
-import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 import { Switch as MaterialSwitch } from '@material-ui/core'
 
@@ -11,17 +10,17 @@ const Wrapper = styled.div`
   padding-top: 24px;
 `
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: boolean) => void
   value: boolean
   disabled?: boolean
   error: boolean
   required?: boolean
   name?: string
-  label?: LabelProps<TM>
+  label?: LabelProps
 }
 
-export const Switch = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const Switch = (props: Props) => {
   const { value, label } = props
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

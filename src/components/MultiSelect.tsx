@@ -1,29 +1,27 @@
 import React from 'react'
-import { TranslationGeneric } from '../util'
+import { Options } from '../util'
 import Select from 'react-select'
 
 import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: Array<string>) => void
   value: Array<string>
   required?: boolean
-  options: Array<{ label?: keyof TM; name?: string; value: string }>
+  options: Options<string>
   inputType?: string
-  label?: LabelProps<TM>
+  label?: LabelProps
   error?: boolean
 }
 
-export const MultiSelect = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const MultiSelect = (props: Props) => {
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <Select
         value={props.options.filter(o => props.value.includes(o.value))}
         isMulti

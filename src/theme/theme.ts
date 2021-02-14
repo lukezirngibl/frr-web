@@ -3,6 +3,15 @@ import { CSSProperties, CSSProp } from 'styled-components'
 import { keys } from '../util'
 
 export type AppTheme = {
+  html: {
+    p: CSSProperties
+    h1: CSSProperties
+    h2: CSSProperties
+    h3: CSSProperties
+    h4: CSSProperties
+    h5: CSSProperties
+    h6: CSSProperties
+  }
   textInput: {
     wrapper: CSSProperties
     input: CSSProperties
@@ -87,6 +96,15 @@ export type AppTheme = {
 }
 
 const defaultTheme: AppTheme = {
+  html: {
+    p: {},
+    h1: {},
+    h2: {},
+    h3: {},
+    h4: {},
+    h5: {},
+    h6: {},
+  },
   toggle: {
     wrapper: {},
     wrapperActive: {},

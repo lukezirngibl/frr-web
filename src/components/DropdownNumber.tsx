@@ -3,8 +3,7 @@ import {
   Dropdown as SemanticDropdown,
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
-import styled, { SimpleInterpolation } from 'styled-components'
-import { TranslationGeneric } from '../util'
+import styled from 'styled-components'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { processOptions } from './Dropdown'
@@ -24,21 +23,19 @@ const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
   }
 `
 
-type Options<T> = Array<{ label?: keyof T; name?: string; value: number }>
+type Options = Array<{ label?: string; name?: string; value: number }>
 
-export type Props<TM> = {
-  label?: LabelProps<TM>
+export type Props = {
+  label?: LabelProps
   required?: boolean
-  options: Options<TM> | ((lan: Language) => Options<TM>)
+  options: Options | ((lan: Language) => Options)
   onChange: (value: number) => void
   error: boolean
   value: number
   readOnly?: boolean
 } & Omit<SemanticDropdownProps, 'onChange' | 'value' | 'options'>
 
-export const DropdownNumber = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const DropdownNumber = (props: Props) => {
   const { onChange, label, error, disabled, options, ...otherProps } = props
 
   const language = React.useContext(getLanguageContext())
@@ -46,7 +43,7 @@ export const DropdownNumber = <TM extends TranslationGeneric>(
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <DropdownWrapper
         hasLabel={label !== undefined}
         className={error ? 'error' : disabled ? 'disabled' : ''}

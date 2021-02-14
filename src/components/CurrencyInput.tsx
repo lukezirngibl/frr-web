@@ -1,13 +1,10 @@
 import React from 'react'
-import { TranslationGeneric } from '../util'
 import { TextNumberInput, Props as TextNumberProps } from './TextNumberInput'
 
-export type Props<TM> = {
+export type Props = {
   error?: boolean
-} & TextNumberProps<TM>
+} & TextNumberProps
 
-export const CurrencyInput = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const CurrencyInput = (props: Props) => {
   return <TextNumberInput {...props} />
 }

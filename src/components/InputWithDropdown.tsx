@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TranslationGeneric } from '../util'
+import { Options } from '../util'
 import styled from 'styled-components'
 
 import { Label, LabelProps } from './Label'
@@ -17,20 +17,18 @@ const DropdownWrapper = styled.div`
   margin-right: 8px;
 `
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: string) => void
   value: string
   error: boolean
-  options: Array<{ label?: keyof TM; name?: string; value: string }>
+  options: Options<string>
   required?: boolean
   readOnly?: boolean
   placeholder: string
-  label?: LabelProps<TM>
+  label?: LabelProps
 }
 
-export const InputWithDropdown = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const InputWithDropdown = (props: Props) => {
   const { label, value: externalValue, placeholder } = props
 
   const [sliceIndex, setSliceIndex] = React.useState(placeholder.length)
@@ -45,10 +43,10 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <Wrapper>
         <DropdownWrapper>
-          <Dropdown<TM>
+          <Dropdown
             readOnly={props.readOnly}
             options={props.options}
             value={value.prefix}
@@ -59,7 +57,7 @@ export const InputWithDropdown = <TM extends TranslationGeneric>(
             }}
           />
         </DropdownWrapper>
-        <TextInput<TM>
+        <TextInput
           readOnly={props.readOnly}
           value={value.tail}
           onChange={str => {

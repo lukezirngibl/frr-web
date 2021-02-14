@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import React, { ReactNode } from 'react'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
-import { TranslationGeneric } from '../util'
 import { getLanguageContext, getTranslation, Language } from '../theme/language'
 import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
+import { P } from '../html'
 
 export const LabelWrapper = styled.div``
 
@@ -21,32 +21,23 @@ const DescriptionPopup = styled.div`
   left: 48px;
 `
 
-const DescriptionText = styled.p``
-
-const LabelText = styled.p``
-
-const SublabelText = styled.p``
-
-const ErrorLabelText = styled.p``
-
-export type LabelProps<T> = {
+export type LabelProps = {
   style?: Partial<AppTheme['label']>
   error?: boolean
-  label: keyof T | ((params: { language: Language }) => ReactNode)
-  sublabel?: keyof T | ((params: { language: Language }) => ReactNode)
-  errorLabel?: keyof T
-  description?: keyof T | ((params: { language: Language }) => ReactNode)
+  label: string | ((params: { language: Language }) => ReactNode)
+  sublabel?: string | ((params: { language: Language }) => ReactNode)
+  errorLabel?: string
+  description?: string | ((params: { language: Language }) => ReactNode)
   renderChildren?: ReactNode | ((params: { language: Language }) => ReactNode)
 }
 
-export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
+export const Label = (props: LabelProps) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'label')(props.style)
 
   const [open, setOpen] = React.useState(false)
 
   const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   return (
     <LabelWrapper style={getStyle('wrapper')}>
@@ -63,21 +54,13 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
             }}
           />
         )}
-        <LabelText
+        <P
           style={{
             ...getStyle('labelText'),
             ...(props.error ? getStyle('labelTextError') : {}),
           }}
-          itemID={
-            (typeof props.label === 'function'
-              ? '<computed>'
-              : props.label) as string
-          }
-        >
-          {typeof props.label === 'function'
-            ? props.label({ language })
-            : translate(props.label)}
-        </LabelText>
+          label={props.label}
+        />
         {props.description && (
           <Icon
             style={{
@@ -97,46 +80,25 @@ export const Label = <TM extends TranslationGeneric>(props: LabelProps<TM>) => {
               onClick={() => setOpen(false)}
               style={getStyle('descriptionPopup')}
             >
-              <DescriptionText
+              <P
                 style={getStyle('descriptionText')}
-                itemID={
-                  (typeof props.description === 'function'
-                    ? '<computed>'
-                    : props.description) as string
-                }
-              >
-                {typeof props.description === 'function'
-                  ? props.description({ language })
-                  : translate(props.description)}
-              </DescriptionText>
+                label={props.description}
+              />
             </DescriptionPopup>
           </ClickAwayListener>
         )}
       </LabelTextWrapper>
 
       {props.sublabel ? (
-        <SublabelText
-          style={getStyle('sublabelText')}
-          itemID={
-            (typeof props.sublabel === 'function'
-              ? '<computed>'
-              : props.sublabel) as string
-          }
-        >
-          {typeof props.sublabel === 'function'
-            ? props.sublabel({ language })
-            : translate(props.sublabel)}
-        </SublabelText>
+        <P style={getStyle('sublabelText')} label={props.sublabel} />
       ) : (
         <></>
       )}
       {props.error ? (
-        <ErrorLabelText
+        <P
           style={getStyle('errorLabel')}
-          itemID={typeof props.errorLabel as string}
-        >
-          {translate((props.errorLabel || 'fieldError') as keyof TM)}
-        </ErrorLabelText>
+          label={props.errorLabel || 'fieldError'}
+        />
       ) : (
         <></>
       )}

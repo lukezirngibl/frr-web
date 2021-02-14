@@ -4,7 +4,7 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { TranslationGeneric } from '../util'
+import { Options } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
@@ -25,12 +25,12 @@ const DropdownWrapper = styled.div`
   }
 `
 
-type Options<T> = Array<{ label?: keyof T; name?: string; value: string }>
+type Value = string | number
 
-export type Props<T> = {
-  label?: LabelProps<T>
+export type Props = {
+  label?: LabelProps
   required?: boolean
-  options: Options<T> | ((lan: Language) => Options<T>)
+  options: Options<Value> | ((lan: Language) => Options<Value>)
   onChange: (value: string) => void
   style?: Partial<AppTheme['dropdown']>
   error?: boolean
@@ -40,8 +40,8 @@ export type Props<T> = {
   dropdownProps?: SemanticDropdownProps
 }
 
-export const processOptions = <TM extends TranslationGeneric>(
-  raw: Array<{ label?: keyof TM; name?: string; value: string | number }>,
+export const processOptions = (
+  raw: Array<{ label?: string; name?: string; value: Value }>,
   translate: (s: string) => string,
 ) =>
   raw.map(o => ({
@@ -54,7 +54,7 @@ export const processOptions = <TM extends TranslationGeneric>(
     value: o.value,
   }))
 
-export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const Dropdown = (props: Props) => {
   const {
     onChange,
     options,
@@ -73,7 +73,7 @@ export const Dropdown = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <DropdownWrapper
         className={`frr-dropdown-wrapper ${
           error ? 'error' : disabled ? 'disabled' : ''

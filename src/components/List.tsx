@@ -69,7 +69,7 @@ type Props = {
   }>
 }
 
-export const List: FC<Props> = props => {
+export const List = (props: Props) => {
   return (
     <ListWrapper>
       <ListContent>

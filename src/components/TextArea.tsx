@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TranslationGeneric } from '../util'
 import { Label, LabelProps } from './Label'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
@@ -11,19 +10,17 @@ const Input = styled.textarea<{ disabled?: boolean }>`
   width: 100%;
 `
 
-export type TextAreaProps<TM> = {
+export type TextAreaProps = {
   onChange: (value: string) => void
   value: string
   error: boolean
   style?: Partial<AppTheme['textArea']>
   disabled?: boolean
   readOnly?: boolean
-  label?: LabelProps<TM>
+  label?: LabelProps
 }
 
-export const TextArea = <TM extends TranslationGeneric>(
-  props: TextAreaProps<TM>,
-) => {
+export const TextArea = (props: TextAreaProps) => {
   const { disabled } = props
 
   const theme = React.useContext(getThemeContext())
@@ -33,7 +30,7 @@ export const TextArea = <TM extends TranslationGeneric>(
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <InputWrapper
         style={{
           ...getInputStyle('wrapper'),

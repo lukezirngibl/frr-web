@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TranslationGeneric } from '../util'
+import { Options } from '../util'
 import { getTranslation, getLanguageContext, Language } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
@@ -11,32 +11,22 @@ const SelectWrapper = styled.select``
 
 const Option = styled.option``
 
-type Options<T> = Array<{
-  label?: keyof T
-  name?: string
-  disabled?: boolean
-  value: string | null | number
-}>
+type Value = string | number | null
 
-export type Props<T> = {
-  label?: LabelProps<T>
+export type Props = {
+  label?: LabelProps
   required?: boolean
-  options: Options<T> | ((lan: Language) => Options<T>)
-  onChange: (value: string | number | null) => void
+  options: Options<Value> | ((lan: Language) => Options<Value>)
+  onChange: (value: Value) => void
   style?: Partial<AppTheme['select']>
-  value: string | number | null
+  value: Value
   disabled?: boolean
   readOnly?: boolean
   error?: boolean
 }
 
-export const processOptions = <TM extends TranslationGeneric>(
-  raw: Array<{
-    label?: keyof TM
-    disabled?: boolean
-    name?: string
-    value: string | number
-  }>,
+export const processOptions = (
+  raw: Options<Value>,
   translate: (s: string) => string,
 ) =>
   raw.map(o => ({
@@ -50,7 +40,7 @@ export const processOptions = <TM extends TranslationGeneric>(
     value: o.value,
   }))
 
-export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const Select = (props: Props) => {
   const { label } = props
 
   const theme = React.useContext(getThemeContext())
@@ -70,12 +60,12 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
           {
             value: null,
             disabled: true,
-            label: 'pleaseSelect' as keyof TM,
+            label: 'pleaseSelect',
           },
           {
             value: '---',
             disabled: true,
-            label: '---' as keyof TM,
+            label: '---',
           },
         ]
       : []),
@@ -84,7 +74,7 @@ export const Select = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {label && <Label<TM> {...label} />}
+      {label && <Label {...label} />}
       <div style={getStyle('wrapper')}>
         <SelectWrapper
           className={'select-wrapper'}

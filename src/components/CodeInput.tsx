@@ -3,7 +3,6 @@ import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
-import { TranslationGeneric } from '../util'
 import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
@@ -38,8 +37,8 @@ const Input = styled.input`
   text-align: center;
 `
 
-export type Props<T> = {
-  label?: LabelProps<T>
+export type Props = {
+  label?: LabelProps
   value: string
   onChange: (v: string) => void
   activeBorderColor: string
@@ -51,7 +50,7 @@ const replaceChar = (str: string, char: string, index: number) => {
   return str.substr(0, index) + char + str.substr(index + 1)
 }
 
-export const CodeInput = <T extends TranslationGeneric>(props: Props<T>) => {
+export const CodeInput = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'codeInput')(props.style)
 
@@ -70,7 +69,7 @@ export const CodeInput = <T extends TranslationGeneric>(props: Props<T>) => {
 
   return (
     <>
-      {props.label && <Label<T> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <CodeInputWrapper
         activeBorderColor={props.activeBorderColor}
         style={getStyle('wrapper')}

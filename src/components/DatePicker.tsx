@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import 'react-day-picker/lib/style.css'
-import { TranslationGeneric } from '../util'
 import { TextInput, Props as TextInputProps } from './TextInput'
 import { format, parse } from 'date-fns'
 
-export type Props<T> = {
+export type Props = {
   onChange: (value: Date) => void
   value: Date | null
   dateFormat?: string
-} & Omit<TextInputProps<T>, 'onChange' | 'value'>
+} & Omit<TextInputProps, 'onChange' | 'value'>
 
-export const DatePicker = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const DatePicker = (props: Props) => {
   const { value, dateFormat } = props
   const datePickerRef = React.createRef<any>()
   const [day, setDay] = React.useState(props.value)

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { libraryTranslations } from '../translations'
 
 export enum Language {
   EN = 'en',
@@ -14,7 +15,7 @@ let language: Language = Language.EN
 let context = React.createContext(Language.EN)
 
 export const configureLanguage = (t: Translations, l?: Language) => {
-  translations = t
+  translations = { ...t, ...libraryTranslations }
   language = l || Language.EN
   context = React.createContext(language)
   return context
@@ -29,5 +30,7 @@ export const getTranslation = (l: Language) => (k: any) => {
   if (!isNaN(Number(k))) {
     return `${k}`
   }
+
+  console.warn(`Missing translation: ${k}`)
   return k
 }

@@ -1,16 +1,16 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
-import { TranslationGeneric } from '../util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import styled from 'styled-components'
+import { Options } from '../util'
 
-export type Props<T> = {
+export type Props = {
   onChange: (value: string) => void
   value: string
-  label?: LabelProps<T>
-  options: Array<{ label: keyof T; value: string }>
+  label?: LabelProps
+  options: Options<string>
   style?: Partial<AppTheme['radioGroup']>
   required?: boolean
   error?: boolean
@@ -42,7 +42,7 @@ const InnerRadio = styled.div`
   border-radius: 50%;
 `
 
-export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'radioGroup')(props.style)
 
@@ -51,7 +51,7 @@ export const RadioGroup = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <Wrapper style={getStyle('wrapper')}>
         {props.options.map((o, k) => {
           const active = o.value === props.value

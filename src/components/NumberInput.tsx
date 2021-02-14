@@ -1,20 +1,17 @@
 import React from 'react'
-import { TranslationGeneric } from '../util'
 import { Label, LabelProps } from './Label'
 import { TextInput, Props as TextInputProps } from './TextInput'
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: number) => void
   value: number
   step?: number
-  label?: LabelProps<TM>
+  label?: LabelProps
   max?: number
   min?: number
-} & Omit<TextInputProps<TM>, 'onChange' | 'label' | 'value'>
+} & Omit<TextInputProps, 'onChange' | 'label' | 'value'>
 
-export const NumberInput = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const NumberInput = (props: Props) => {
   const { onChange, ...otherProps } = props
   return (
     <>

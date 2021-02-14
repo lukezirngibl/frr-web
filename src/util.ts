@@ -8,8 +8,6 @@ export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,
 ): Array<K> => Object.keys(x) as Array<K>
 
-export type TranslationGeneric = Translations | Omit<symbol, 'description'>
-
 export const getCountryOptions: Record<
   Language,
   Array<{ name: string; value: string }>
@@ -31,3 +29,10 @@ export const getCountryOptions: Record<
     value: c['alpha3'].toUpperCase(),
   })),
 }
+
+export type Options<T> = Array<{
+  label?: string
+  name?: string
+  value: T
+  disabled?: boolean
+}>

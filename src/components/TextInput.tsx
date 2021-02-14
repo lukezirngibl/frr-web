@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { TranslationGeneric } from '../util'
 import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
@@ -17,14 +16,14 @@ const Hook = styled.div``
 
 const Prefix = styled.p``
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: string) => void
   value: string | null
   required?: boolean
-  placeholder?: keyof TM
+  placeholder?: string
   style?: Partial<AppTheme['textInput']>
   inputType?: string
-  label?: LabelProps<TM>
+  label?: LabelProps
   proccessValue?: (v: string | null) => string
   readOnly?: boolean
   disabled?: boolean
@@ -33,7 +32,7 @@ export type Props<TM> = {
   error?: boolean
 }
 
-export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const TextInput = (props: Props) => {
   const inputRef = React.createRef<HTMLInputElement>()
 
   const { inputType, value, placeholder } = props
@@ -65,7 +64,7 @@ export const TextInput = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <InputWrapper
         style={{
           ...getStyle('wrapper'),

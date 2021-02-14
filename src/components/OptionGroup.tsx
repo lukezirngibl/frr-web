@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
-import { TranslationGeneric } from '../util'
+import { Options } from '../util'
 import { Label, LabelProps } from './Label'
 
 const Wrapper = styled.div`
@@ -20,17 +20,17 @@ const Item = styled.div`
 
 const ItemLabel = styled.p``
 
-export type Props<T> = {
-  label?: LabelProps<T>
+export type Props = {
+  label?: LabelProps
   onChange: (v: string) => void
   value: string
-  options: Array<{ label: keyof T; value: string }>
+  options: Options<string>
   disabled?: boolean
   style?: Partial<AppTheme['optionGroup']>
   error?: boolean
 }
 
-export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
+export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -39,7 +39,7 @@ export const OptionGroup = <T extends TranslationGeneric>(props: Props<T>) => {
 
   return (
     <>
-      {props.label && <Label<T> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <Wrapper
         style={{
           ...getStyle('wrapper'),

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Label, LabelProps } from './Label'
-import { TranslationGeneric } from '../util'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 
 const Wrapper = styled.div``
 
-export type Props<TM> = {
+export type Props = {
   onChange: (value: boolean) => void
   value: boolean
   disabled?: boolean
@@ -15,12 +14,10 @@ export type Props<TM> = {
   required?: boolean
   name?: string
   style?: AppTheme['singleCheckbox']
-  label?: LabelProps<TM>
+  label?: LabelProps
 }
 
-export const SingleCheckbox = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const SingleCheckbox = (props: Props) => {
   const { value } = props
 
   const theme = React.useContext(getThemeContext())

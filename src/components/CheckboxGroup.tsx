@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Checkbox } from 'semantic-ui-react'
 import { Label, LabelProps } from './Label'
-import { TranslationGeneric } from '../util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 
 const CheckboxGroupWapper = styled.div``
@@ -11,17 +10,15 @@ const CheckboxRow = styled.div`
   margin: 8px 0;
 `
 
-export type CheckboxGroupProps<T> = {
+export type CheckboxGroupProps = {
   onChange: (value: Array<string>) => void
   value: Array<string>
   error: boolean
-  label?: LabelProps<T>
-  options: Array<{ label: keyof T; value: string }>
+  label?: LabelProps
+  options: Array<{ label: string; value: string }>
 }
 
-export const CheckboxGroup = <TM extends TranslationGeneric>(
-  props: CheckboxGroupProps<TM>,
-) => {
+export const CheckboxGroup = (props: CheckboxGroupProps) => {
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 

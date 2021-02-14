@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
-import { TranslationGeneric } from '../util'
 import { TextInput, Props as TextInputProps } from './TextInput'
 import { LabelProps } from './Label'
 
-export type Props<TM> = {
-  label?: LabelProps<TM>
+export type Props = {
+  label?: LabelProps
   onChange: (n: number) => void
   value: number | null | undefined
   debouncedDelay?: number
   max?: number
   min?: number
-} & Omit<TextInputProps<TM>, 'onChange' | 'value'>
+} & Omit<TextInputProps, 'onChange' | 'value'>
 
 const getValue = (v: string): number | undefined | null =>
   isNaN(Number(v)) ? undefined : Number(v)
 
-export const TextNumberInput = <TM extends TranslationGeneric>(
-  props: Props<TM>,
-) => {
+export const TextNumberInput = (props: Props) => {
   const { value } = props
 
   return (

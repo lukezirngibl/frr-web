@@ -1,6 +1,5 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
-import { TranslationGeneric } from '../util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
@@ -24,16 +23,16 @@ const Circle = styled.div`
   border-radius: 14px;
 `
 
-export type Props<T> = {
+export type Props = {
   onChange: (value: boolean) => void
   value: boolean
-  label?: LabelProps<T>
+  label?: LabelProps
   style?: Partial<AppTheme['toggle']>
   required?: boolean
   error?: boolean
 }
 
-export const Toggle = <TM extends TranslationGeneric>(props: Props<TM>) => {
+export const Toggle = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'toggle')(props.style)
 
@@ -41,7 +40,7 @@ export const Toggle = <TM extends TranslationGeneric>(props: Props<TM>) => {
 
   return (
     <>
-      {props.label && <Label<TM> {...props.label} />}
+      {props.label && <Label {...props.label} />}
       <Wrapper
         onClick={() => props.onChange(!props.value)}
         style={{

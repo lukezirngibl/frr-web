@@ -1,6 +1,6 @@
 import { Language } from './theme/language'
 
-export const Translations = {
+export const libraryTranslations = {
   ' ': {
     [Language.EN]: ' ',
     [Language.DE]: ' ',
@@ -122,5 +122,3 @@ export const Translations = {
     [Language.FR]: 'Non',
   },
 } as const
-
-export type CommonTM = typeof Translations
