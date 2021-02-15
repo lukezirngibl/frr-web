@@ -11,14 +11,6 @@ export type Props = {
 
 export const DatePicker = (props: Props) => {
   const { value, dateFormat } = props
-  const datePickerRef = React.createRef<any>()
-  const [day, setDay] = React.useState(props.value)
-
-  React.useEffect(() => {
-    if (datePickerRef.current) {
-      datePickerRef.current.hideDayPicker()
-    }
-  }, [day])
 
   return (
     <TextInput

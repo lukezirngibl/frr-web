@@ -108,10 +108,10 @@ export const TextInput = (props: Props) => {
           }}
           onBlur={() => {
             const v = (internalValue || '').trim()
-            if (v !== internalValue) {
-              setInternalValue(v)
-              props.onChange(v)
-            }
+            // if (v !== internalValue) {
+            setInternalValue(v)
+            props.onChange(v)
+            // }
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
           value={
