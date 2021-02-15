@@ -1,12 +1,12 @@
 import React from 'react'
-import { OptionGroup, Props as OptionGroupProps } from './OptionGroup'
+import { RadioGroup, Props as RadioGroupProps } from './RadioGroup'
 
 export type Props = {
   onChange: (v: boolean) => void
   value: boolean
-} & Omit<OptionGroupProps, 'value' | 'onChange' | 'options'>
+} & Omit<RadioGroupProps, 'value' | 'onChange' | 'options'>
 
-export const YesNoToggle = (props: Props) => {
+export const YesNoRadioGroup = (props: Props) => {
   const { value, onChange, ...otherProps } = props
 
   const options: Array<{ label: string; value: string }> = [
@@ -21,7 +21,7 @@ export const YesNoToggle = (props: Props) => {
   ]
 
   return (
-    <OptionGroup
+    <RadioGroup
       {...otherProps}
       options={options}
       value={props.value ? 'true' : 'false'}

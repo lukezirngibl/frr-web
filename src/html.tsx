@@ -26,22 +26,22 @@ export const Element = (
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  return React.createElement(
-    'p',
-    {
-      itemID: (typeof props.label === 'function'
-        ? '<computed>'
-        : props.label) as string,
+  return React.createElement('p', {
+    itemID: (typeof props.label === 'function'
+      ? '<computed>'
+      : props.label) as string,
 
-      style: {
-        ...getStyle('p'),
-        ...(props.style || {}),
-      },
+    style: {
+      ...getStyle('p'),
+      ...(props.style || {}),
     },
-    typeof props.label === 'function'
-      ? props.label({ language, translate })
-      : translate(props.label),
-  )
+    dangerouslySetInnerHTML: {
+      __html:
+        typeof props.label === 'function'
+          ? props.label({ language, translate })
+          : translate(props.label),
+    },
+  })
 }
 
 export const P = (props: Props) => <Element {...props} element="p" />
