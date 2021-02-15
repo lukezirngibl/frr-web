@@ -11,12 +11,12 @@ export const YesNoRadioGroup = (props: Props) => {
 
   const options: Array<{ label: string; value: string }> = [
     {
-      label: 'no',
-      value: 'false',
-    },
-    {
       label: 'yes',
       value: 'true',
+    },
+    {
+      label: 'no',
+      value: 'false',
     },
   ]
 
