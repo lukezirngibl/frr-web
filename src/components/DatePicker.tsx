@@ -24,10 +24,13 @@ export const DatePicker = (props: Props) => {
     <TextInput
       {...props}
       value={value ? format(value, dateFormat || 'dd.MM.yyyy') : null}
+      onlyOnBlur
       onChange={v => {
         const date = parse(v, dateFormat || 'dd.MM.yyyy', new Date())
         if (date.toDateString() !== 'Invalid Date') {
           props.onChange(date)
+        } else {
+          props.onChange(null)
         }
       }}
     />

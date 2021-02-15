@@ -30,6 +30,7 @@ export type Props = {
   maxLength?: number
   prefix?: string
   error?: boolean
+  onlyOnBlur?: boolean
 }
 
 export const TextInput = (props: Props) => {
@@ -101,7 +102,9 @@ export const TextInput = (props: Props) => {
           disabled={props.readOnly || props.disabled}
           onChange={e => {
             setInternalValue(e.target.value)
-            onChange(e.target.value)
+            if (!props.onlyOnBlur) {
+              onChange(e.target.value)
+            }
           }}
           onBlur={() => {
             const v = (internalValue || '').trim()
