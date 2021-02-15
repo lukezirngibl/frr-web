@@ -24,9 +24,11 @@ export const YesNoRadioGroup = (props: Props) => {
     <RadioGroup
       {...otherProps}
       options={options}
-      value={props.value ? 'true' : 'false'}
+      value={
+        props.value === true ? 'true' : props.value === false ? 'false' : null
+      }
       onChange={v => {
-        props.onChange(v === 'true' ? true : false)
+        props.onChange(v === 'true' ? true : v === 'false' ? false : null)
       }}
     />
   )
