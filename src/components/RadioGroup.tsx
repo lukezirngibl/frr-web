@@ -13,7 +13,6 @@ export type Props = {
   label?: LabelProps
   options: Options<string>
   style?: Partial<AppTheme['radioGroup']>
-  required?: boolean
   error?: boolean
 }
 

@@ -15,7 +15,6 @@ export type Props = {
   value: boolean
   disabled?: boolean
   error: boolean
-  required?: boolean
   name?: string
   label?: LabelProps
 }

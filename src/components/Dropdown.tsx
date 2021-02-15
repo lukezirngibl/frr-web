@@ -29,7 +29,6 @@ type Value = string | number
 
 export type Props = {
   label?: LabelProps
-  required?: boolean
   options: Options<Value> | ((lan: Language) => Options<Value>)
   onChange: (value: string) => void
   style?: Partial<AppTheme['dropdown']>

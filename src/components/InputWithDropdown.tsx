@@ -22,7 +22,6 @@ export type Props = {
   value: string
   error: boolean
   options: Options<string>
-  required?: boolean
   readOnly?: boolean
   placeholder: string
   label?: LabelProps

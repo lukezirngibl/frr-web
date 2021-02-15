@@ -28,7 +28,6 @@ export type Props = {
   value: boolean
   label?: LabelProps
   style?: Partial<AppTheme['toggle']>
-  required?: boolean
   error?: boolean
 }
 

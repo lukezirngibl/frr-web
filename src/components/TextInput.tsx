@@ -19,7 +19,6 @@ const Prefix = styled.p``
 export type Props = {
   onChange: (value: string) => void
   value: string | null
-  required?: boolean
   placeholder?: string
   style?: Partial<AppTheme['textInput']>
   inputType?: string

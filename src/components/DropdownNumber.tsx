@@ -28,7 +28,6 @@ type Options = Array<{ label?: string; name?: string; value: number }>
 
 export type Props = {
   label?: LabelProps
-  required?: boolean
   options: Options | ((lan: Language) => Options)
   onChange: (value: number) => void
   error: boolean

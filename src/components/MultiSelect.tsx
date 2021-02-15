@@ -8,7 +8,6 @@ import { getTranslation, getLanguageContext } from '../theme/language'
 export type Props = {
   onChange: (value: Array<string>) => void
   value: Array<string>
-  required?: boolean
   options: Options<string>
   inputType?: string
   label?: LabelProps
