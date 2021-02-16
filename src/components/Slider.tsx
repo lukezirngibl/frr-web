@@ -6,6 +6,7 @@ import { getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { P } from '../html'
 import { LabelProps, Label } from './Label'
+import { useDebouncedCallback } from 'use-debounce/lib'
 
 var formatter = new Intl.NumberFormat('de-CH', {
   style: 'currency',
@@ -93,6 +94,16 @@ export const Slider = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'slider')({})
 
+  const [internalValue, setInternalValue] = React.useState(props.value)
+
+  const [onChange] = useDebouncedCallback((v: number) => {
+    props.onChange(v)
+  }, 200)
+
+  React.useEffect(() => {
+    setInternalValue(props.value)
+  }, [props.value])
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -112,8 +123,11 @@ export const Slider = (props: Props) => {
         </div>
 
         <IOSSlider
-          value={props.value}
-          onChange={(e, v) => props.onChange(v as number)}
+          value={internalValue}
+          onChange={(e, v) => {
+            setInternalValue(v as number)
+            onChange(v as number)
+          }}
           min={props.min}
           max={props.max}
           step={props.step}
