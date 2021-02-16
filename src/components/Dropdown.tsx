@@ -4,7 +4,7 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
-import { Options, Language } from '../util'
+import { Options, Language, processOptions } from '../util'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
@@ -38,20 +38,6 @@ export type Props = {
   readOnly?: boolean
   dropdownProps?: SemanticDropdownProps
 }
-
-export const processOptions = (
-  raw: Array<{ label?: string; name?: string; value: Value }>,
-  translate: (s: string) => string,
-) =>
-  raw.map(o => ({
-    text:
-      o.label !== undefined
-        ? typeof o.label === 'string'
-          ? translate(o.label)
-          : `${o.label}`
-        : o.name || 'Unknown',
-    value: o.value,
-  }))
 
 export const Dropdown = (props: Props) => {
   const {

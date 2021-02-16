@@ -42,3 +42,17 @@ export type Options<T> = Array<{
   value: T
   disabled?: boolean
 }>
+
+export const processOptions = (
+  raw: Array<{ label?: string; name?: string; value: string | number }>,
+  translate: (s: string) => string,
+) =>
+  raw.map(o => ({
+    text:
+      o.label !== undefined
+        ? typeof o.label === 'string'
+          ? translate(o.label)
+          : `${o.label}`
+        : o.name || 'Unknown',
+    value: o.value,
+  }))

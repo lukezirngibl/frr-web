@@ -11,6 +11,9 @@ export type AppTheme = {
     h4: CSSProperties
     h5: CSSProperties
     h6: CSSProperties
+    button: CSSProperties
+    li: CSSProperties
+    option: CSSProperties
   }
   textInput: {
     wrapper: CSSProperties
@@ -120,6 +123,9 @@ const defaultTheme: AppTheme = {
     h4: {},
     h5: {},
     h6: {},
+    button: {},
+    li: {},
+    option: {},
   },
   toggle: {
     wrapper: {},

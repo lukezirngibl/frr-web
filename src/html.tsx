@@ -13,26 +13,39 @@ type Props = {
         translate: (k: string) => string
       }) => ReactNode)
   style?: CSSProperties
+  value?: any
+  disabled?: any
 }
 
 export const Element = (
   props: Props & {
-    element: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'button' | 'li'
+    element:
+      | 'p'
+      | 'h1'
+      | 'h2'
+      | 'h3'
+      | 'h4'
+      | 'h5'
+      | 'h6'
+      | 'button'
+      | 'li'
+      | 'option'
   },
 ) => {
+  const { label, style, element, ...otherProps } = props
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'html')({})
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  return React.createElement('p', {
+  return React.createElement(props.element, {
     itemID: (typeof props.label === 'function'
       ? '<computed>'
       : props.label) as string,
 
     style: {
-      ...getStyle('p'),
+      ...getStyle(props.element),
       ...(props.style || {}),
     },
     dangerouslySetInnerHTML: {
@@ -41,9 +54,11 @@ export const Element = (
           ? props.label({ language, translate })
           : translate(props.label),
     },
+    ...otherProps,
   })
 }
 
+export const Option = (props: Props) => <Element {...props} element="option" />
 export const P = (props: Props) => <Element {...props} element="p" />
 export const H1 = (props: Props) => <Element {...props} element="h1" />
 export const H2 = (props: Props) => <Element {...props} element="h2" />

@@ -6,10 +6,9 @@ import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import { Icon } from './Icon'
+import { Option } from '../html'
 
 const SelectWrapper = styled.select``
-
-const Option = styled.option``
 
 type Value = string | number | null
 
@@ -23,21 +22,6 @@ export type Props = {
   readOnly?: boolean
   error?: boolean
 }
-
-export const processOptions = (
-  raw: Options<Value>,
-  translate: (s: string) => string,
-) =>
-  raw.map(o => ({
-    text:
-      o.label !== undefined
-        ? typeof o.label === 'string'
-          ? translate(o.label)
-          : `${o.label}`
-        : o.name || 'Unknown',
-    disabled: o.disabled,
-    value: o.value,
-  }))
 
 export const Select = (props: Props) => {
   const { label } = props
@@ -87,13 +71,14 @@ export const Select = (props: Props) => {
             props.onChange(e.target.value === 'null' ? null : e.target.value)
           }}
         >
-          {processOptions(options, translate).map((o, i) => (
+          {options.map((o, i) => (
             <Option
               value={o.value === null ? 'null' : o.value}
               key={i}
               disabled={o.disabled}
               style={getStyle('option')}
-            >{`${o.text}`}</Option>
+              label={o.label || o.name}
+            />
           ))}
         </SelectWrapper>
         <Icon icon="expand_more" size={16} style={getStyle('icon') as any} />
