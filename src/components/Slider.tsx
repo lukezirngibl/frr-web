@@ -81,6 +81,7 @@ export type Props = {
   marks?: any
   reverse?: boolean
   prefix?: string
+  isCurrency?: boolean
 }
 
 const IOSSlider = createSlider({
@@ -105,7 +106,9 @@ export const Slider = (props: Props) => {
           {props.prefix && (
             <P label={props.prefix} style={getStyle('prefix')} />
           )}
-          <p style={getStyle('value')}>{formatter.format(props.value)}</p>
+          <p style={getStyle('value')}>
+            {props.isCurrency ? formatter.format(props.value) : props.value}
+          </p>
         </div>
 
         <IOSSlider
