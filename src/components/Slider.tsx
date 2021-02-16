@@ -11,6 +11,8 @@ import { useDebouncedCallback } from 'use-debounce/lib'
 var formatter = new Intl.NumberFormat('de-CH', {
   style: 'currency',
   currency: 'CHF',
+  maximumFractionDigits: 0,
+  minimumFractionDigits: 0,
 })
 
 const createSlider = (styles: { rail: CSSProperties; marks: CSSProperties }) =>
@@ -118,7 +120,7 @@ export const Slider = (props: Props) => {
             <P label={props.prefix} style={getStyle('prefix')} />
           )}
           <p style={getStyle('value')}>
-            {props.isCurrency ? formatter.format(props.value) : props.value}
+            {props.isCurrency ? formatter.format(internalValue) : internalValue}
           </p>
         </div>
 

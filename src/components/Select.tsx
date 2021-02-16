@@ -17,6 +17,7 @@ export type Props = {
   options: Options<Value> | ((lan: Language) => Options<Value>)
   onChange: (value: Value) => void
   style?: Partial<AppTheme['select']>
+  priority?: Array<string | number>
   value: Value
   disabled?: boolean
   readOnly?: boolean
@@ -52,7 +53,20 @@ export const Select = (props: Props) => {
           },
         ]
       : []),
-    ...options,
+
+    ...(props.priority
+      ? [
+          ...options.filter(o => props.priority.includes(o.value)),
+          {
+            value: '---',
+            disabled: true,
+            label: '---',
+          },
+        ]
+      : []),
+    ...(props.priority
+      ? options.filter(o => !props.priority.includes(o.value))
+      : options),
   ]
 
   return (
