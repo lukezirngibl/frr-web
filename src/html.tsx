@@ -3,7 +3,7 @@ import { getThemeContext } from './theme/theme'
 import { createGetStyle } from './theme/util'
 import { getLanguageContext, getTranslation } from './theme/language'
 import { CSSProperties } from 'styled-components'
-import { Language } from './util'
+import { Language, keys } from './util'
 
 type Props = {
   label:
@@ -15,6 +15,7 @@ type Props = {
   style?: CSSProperties
   value?: any
   disabled?: any
+  data?: { [k: string]: string }
 }
 
 export const Element = (
@@ -39,6 +40,16 @@ export const Element = (
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
+  const str =
+    typeof props.label === 'function'
+      ? props.label({ language, translate })
+      : translate(props.label)
+
+  const injected = keys(props.data || {}).reduce(
+    (s, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
+    str,
+  )
+
   return React.createElement(props.element, {
     itemID: (typeof props.label === 'function'
       ? '<computed>'
@@ -49,10 +60,7 @@ export const Element = (
       ...(props.style || {}),
     },
     dangerouslySetInnerHTML: {
-      __html:
-        typeof props.label === 'function'
-          ? props.label({ language, translate })
-          : translate(props.label),
+      __html: injected,
     },
     ...otherProps,
   })

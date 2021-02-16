@@ -1,6 +1,6 @@
 import { Modal, Slider as MaterialSlider } from '@material-ui/core'
-import React, { ReactNode, useEffect } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import React from 'react'
+import { CSSProperties } from 'styled-components'
 import { withStyles } from '@material-ui/styles'
 import { getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
