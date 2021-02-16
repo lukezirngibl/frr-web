@@ -26,6 +26,14 @@ export type AppTheme = {
     errorWrapper: CSSProperties
     prefix: CSSProperties
   }
+  slider: {
+    wrapper: CSSProperties
+    rail: CSSProperties
+    marks: CSSProperties
+    valueWrapper: CSSProperties
+    prefix: CSSProperties
+    value: CSSProperties
+  }
   select: {
     option: CSSProperties
     wrapper: CSSProperties
@@ -96,6 +104,14 @@ export type AppTheme = {
 }
 
 const defaultTheme: AppTheme = {
+  slider: {
+    wrapper: {},
+    rail: {},
+    marks: {},
+    valueWrapper: {},
+    prefix: {},
+    value: {},
+  },
   html: {
     p: {},
     h1: {},
