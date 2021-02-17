@@ -1,30 +1,27 @@
 import React, { Component } from 'react'
-import 'react-day-picker/lib/style.css'
-import { TextInput, Props as TextInputProps } from './TextInput'
-import { format, parse } from 'date-fns'
+import DatePickerLib, { ReactDatePickerProps } from 'react-datepicker'
+import { LabelProps, Label } from './Label'
 
 export type Props = {
   onChange: (value: Date) => void
-  value: Date | null
-  dateFormat?: string
-} & Omit<TextInputProps, 'onChange' | 'value'>
+  value: null | Date
+  label?: LabelProps
+} & Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
 
 export const DatePicker = (props: Props) => {
-  const { value, dateFormat } = props
-
+  const { onChange, value, ...otherProps } = props
   return (
-    <TextInput
-      {...props}
-      value={value ? format(value, dateFormat || 'dd.MM.yyyy') : null}
-      onlyOnBlur
-      onChange={v => {
-        const date = parse(v, dateFormat || 'dd.MM.yyyy', new Date())
-        if (date.toDateString() !== 'Invalid Date') {
-          props.onChange(date)
-        } else {
-          props.onChange(null)
-        }
-      }}
-    />
+    <>
+      {props.label && <Label {...props.label} />}
+      <DatePickerLib
+        selected={value}
+        onChange={onChange}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        {...otherProps}
+      />
+    </>
   )
 }
