@@ -32,6 +32,7 @@ export type Props = {
   prefix?: string
   error?: boolean
   onlyOnBlur?: boolean
+  dataTestId?: string
 }
 
 export const TextInput = (props: Props) => {
@@ -91,6 +92,7 @@ export const TextInput = (props: Props) => {
           <Prefix style={getStyle('prefix')}>{props.prefix}</Prefix>
         )}
         <Input
+          data-test-id={props.dataTestId}
           className="frr-number-input"
           ref={inputRef}
           maxLength={props.maxLength}

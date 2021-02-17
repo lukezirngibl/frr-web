@@ -22,6 +22,7 @@ export type Props = {
   disabled?: boolean
   readOnly?: boolean
   error?: boolean
+  dataTestId?: string
 }
 
 export const Select = (props: Props) => {
@@ -84,6 +85,7 @@ export const Select = (props: Props) => {
           onChange={e => {
             props.onChange(e.target.value === 'null' ? null : e.target.value)
           }}
+          data-test-id={props.dataTestId}
         >
           {options.map((o, i) => (
             <Option

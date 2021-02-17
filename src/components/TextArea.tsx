@@ -18,6 +18,7 @@ export type TextAreaProps = {
   disabled?: boolean
   readOnly?: boolean
   label?: LabelProps
+  dataTestId?: string
 }
 
 export const TextArea = (props: TextAreaProps) => {
@@ -40,6 +41,7 @@ export const TextArea = (props: TextAreaProps) => {
         }}
       >
         <Input
+          data-test-id={props.dataTestId}
           style={{
             ...getInputStyle('input'),
             ...getTextAreaStyle('input'),

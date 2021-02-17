@@ -2,19 +2,9 @@ import React from 'react'
 import { LabelProps, Label } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
-import { getLanguageContext, getTranslation } from '../theme/language'
 import styled from 'styled-components'
 import { Options } from '../util'
 import { P } from '../html'
-
-export type Props = {
-  onChange: (value: string) => void
-  value: string
-  label?: LabelProps
-  options: Options<string>
-  style?: Partial<AppTheme['radioGroup']>
-  error?: boolean
-}
 
 const Wrapper = styled.div``
 
@@ -24,8 +14,6 @@ const Item = styled.div`
   justify-content: space-between;
   padding-left: 8px;
 `
-
-const LabelText = styled.p``
 
 const OuterRadio = styled.div`
   width: 24px;
@@ -42,12 +30,20 @@ const InnerRadio = styled.div`
   border-radius: 50%;
 `
 
+export type Props = {
+  onChange: (value: string) => void
+  value: string
+  label?: LabelProps
+  options: Options<string>
+  style?: Partial<AppTheme['radioGroup']>
+  error?: boolean
+  dataTestId?: string
+  name?: string
+}
+
 export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'radioGroup')(props.style)
-
-  const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
 
   return (
     <>
@@ -63,6 +59,18 @@ export const RadioGroup = (props: Props) => {
                 props.onChange(o.value)
               }}
             >
+              <input
+                type="radio"
+                value={o.value}
+                data-test-id={props.dataTestId}
+                name={props.name || props.dataTestId}
+                checked={active}
+                style={{
+                  width: 1,
+                  height: 1,
+                  opacity: 0,
+                }}
+              />
               <P style={getStyle('label')} label={o.label} />
               <OuterRadio
                 style={{

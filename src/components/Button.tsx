@@ -37,6 +37,7 @@ export type Props = {
   override?: CSSProperties
   type?: ButtonType
   icon?: IconProps
+  dataTestId?: string
 }
 
 export const Button = (props: Props) => {
@@ -49,6 +50,7 @@ export const Button = (props: Props) => {
 
   return (
     <ButtonWrapper
+      data-test-id={props.dataTestId}
       onClick={disabled || props.loading ? undefined : props.onClick}
       style={{
         ...getStyle('common'),
