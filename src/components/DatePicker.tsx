@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import DatePickerLib, { ReactDatePickerProps } from 'react-datepicker'
 import { LabelProps, Label } from './Label'
 
 export type Props = {
   onChange: (value: Date) => void
-  value: null | Date
+  value: Date
   label?: LabelProps
 } & Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
 

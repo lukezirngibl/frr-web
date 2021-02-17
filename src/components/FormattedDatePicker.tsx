@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
-import { TextInput, Props as TextInputProps } from './TextInput'
+import React from 'react'
 import { parse, format } from 'date-fns'
 import { DatePicker, Props as DatePickerProps } from './DatePicker'
 
 export type Props = {
   onChange: (value: string) => void
-  value: null | string
+  value: string
   dateFormat: string
 } & Omit<DatePickerProps, 'onChange' | 'value'>
 
