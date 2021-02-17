@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import styled from 'styled-components'
+import ClickAwayListener from 'react-click-away-listener'
 
 const Wrapper = styled.div`
   .react-datepicker__triangle {
@@ -42,29 +43,35 @@ export const DatePicker = (props: Props) => {
   return (
     <>
       {label && <Label {...label} />}
-      <Wrapper style={getStyle('wrapper')}>
-        <TextInput
-          onChange={() => {}}
-          placeholder={dateFormat.toLocaleUpperCase()}
-          value={props.value ? format(props.value, dateFormat) : null}
-          onFocus={() => {
-            setOpen(!open)
-          }}
-        />
-        <DatePickerLib
-          open={open}
-          selected={value}
-          onChange={(v: Date) => {
-            onChange(v)
-            setOpen(false)
-          }}
-          peekNextMonth
-          showMonthDropdown
-          showYearDropdown
-          dropdownMode="select"
-          {...props.datePickerProps}
-        />
-      </Wrapper>
+      <ClickAwayListener
+        onClickAway={() => {
+          setOpen(false)
+        }}
+      >
+        <Wrapper style={getStyle('wrapper')}>
+          <TextInput
+            onChange={() => {}}
+            placeholder={dateFormat.toLocaleUpperCase()}
+            value={props.value ? format(props.value, dateFormat) : null}
+            onFocus={() => {
+              setOpen(!open)
+            }}
+          />
+          <DatePickerLib
+            open={open}
+            selected={value}
+            onChange={(v: Date) => {
+              onChange(v)
+              setOpen(false)
+            }}
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            {...props.datePickerProps}
+          />
+        </Wrapper>
+      </ClickAwayListener>
     </>
   )
 }
