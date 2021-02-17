@@ -6,7 +6,10 @@ export type Props = {
   onChange: (value: Date) => void
   value: Date
   label?: LabelProps
-} & Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
+  datePickerProps: Partial<
+    Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
+  >
+}
 
 export const DatePicker = (props: Props) => {
   const { onChange, value, ...otherProps } = props
@@ -20,7 +23,7 @@ export const DatePicker = (props: Props) => {
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
-        {...otherProps}
+        {...props.datePickerProps}
       />
     </>
   )
