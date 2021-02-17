@@ -25,6 +25,8 @@ export type Props = {
   label?: LabelProps
   proccessValue?: (v: string | null) => string
   readOnly?: boolean
+  onFocus?: () => void
+  onBlur?: () => void
   disabled?: boolean
   maxLength?: number
   prefix?: string
@@ -111,6 +113,9 @@ export const TextInput = (props: Props) => {
             setInternalValue(v)
             props.onChange(v)
             // }
+            if (props.onBlur) {
+              props.onBlur()
+            }
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
           value={
@@ -119,6 +124,7 @@ export const TextInput = (props: Props) => {
               : internalValue) || ''
           }
           type={inputType}
+          onFocus={props.onFocus}
         ></Input>
       </InputWrapper>
     </>

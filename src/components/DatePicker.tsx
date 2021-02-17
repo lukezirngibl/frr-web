@@ -1,30 +1,70 @@
 import React from 'react'
 import DatePickerLib, { ReactDatePickerProps } from 'react-datepicker'
 import { LabelProps, Label } from './Label'
+import 'react-datepicker/dist/react-datepicker.css'
+import { TextInput } from './TextInput'
+import { format } from 'date-fns'
+import { getThemeContext, AppTheme } from '../theme/theme'
+import { createGetStyle } from '../theme/util'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  .react-datepicker__triangle {
+    display: none !important;
+  }
+  .react-datepicker-popper {
+    transform: none !important;
+  }
+  .react-datepicker-wrapper {
+    display: none !important;
+  }
+`
 
 export type Props = {
   onChange: (value: Date) => void
   value: Date
   label?: LabelProps
-  datePickerProps: Partial<
+  dateFormat?: string
+  style?: Partial<AppTheme['datePicker']>
+  datePickerProps?: Partial<
     Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
   >
 }
 
 export const DatePicker = (props: Props) => {
-  const { onChange, value, ...otherProps } = props
+  const { onChange, value, label } = props
+
+  const theme = React.useContext(getThemeContext())
+  const getStyle = createGetStyle(theme, 'datePicker')(props.style)
+
+  const [open, setOpen] = React.useState(false)
+  const dateFormat = props.dateFormat || 'dd.MM.yyyy'
   return (
     <>
-      {props.label && <Label {...props.label} />}
-      <DatePickerLib
-        selected={value}
-        onChange={onChange}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-        {...props.datePickerProps}
-      />
+      {label && <Label {...label} />}
+      <Wrapper style={getStyle('wrapper')}>
+        <TextInput
+          onChange={() => {}}
+          placeholder={dateFormat.toLocaleUpperCase()}
+          value={props.value ? format(props.value, dateFormat) : null}
+          onFocus={() => {
+            setOpen(!open)
+          }}
+        />
+        <DatePickerLib
+          open={open}
+          selected={value}
+          onChange={(v: Date) => {
+            onChange(v)
+            setOpen(false)
+          }}
+          peekNextMonth
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          {...props.datePickerProps}
+        />
+      </Wrapper>
     </>
   )
 }

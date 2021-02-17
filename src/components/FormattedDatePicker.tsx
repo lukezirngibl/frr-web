@@ -10,7 +10,9 @@ export type Props = {
 
 export const FormattedDatePicker = (props: Props) => {
   const { onChange, value, dateFormat, ...otherProps } = props
-  const val: Date = parse(props.value || '', props.dateFormat, new Date())
+  const val: Date = props.value
+    ? parse(props.value, props.dateFormat, new Date())
+    : new Date()
 
   return (
     <DatePicker
@@ -18,6 +20,7 @@ export const FormattedDatePicker = (props: Props) => {
       onChange={(v: Date) => {
         props.onChange(format(v, props.dateFormat))
       }}
+      dateFormat={dateFormat}
       {...otherProps}
     />
   )

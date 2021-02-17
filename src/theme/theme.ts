@@ -104,9 +104,15 @@ export type AppTheme = {
     circle: CSSProperties
     circleActive: CSSProperties
   }
+  datePicker: {
+    wrapper: CSSProperties
+  }
 }
 
 const defaultTheme: AppTheme = {
+  datePicker: {
+    wrapper: {},
+  },
   slider: {
     wrapper: {},
     rail: {},
