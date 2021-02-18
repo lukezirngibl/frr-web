@@ -25,6 +25,6 @@ export const getTranslation = (l: Language) => (k: any = {}) => {
     return `${k}`
   }
 
-  console.warn(`Missing translation: ${k}`)
+  // console.warn(`Missing translation: ${k}`)
   return k
 }

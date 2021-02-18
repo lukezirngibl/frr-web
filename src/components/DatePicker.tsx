@@ -17,7 +17,10 @@ const Wrapper = styled.div`
     transform: none !important;
   }
   .react-datepicker-wrapper {
-    display: none !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
   }
 `
 
@@ -30,6 +33,7 @@ export type Props = {
   datePickerProps?: Partial<
     Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
   >
+  dataTestId?: string
 }
 
 export const DatePicker = (props: Props) => {
@@ -40,6 +44,7 @@ export const DatePicker = (props: Props) => {
 
   const [open, setOpen] = React.useState(false)
   const dateFormat = props.dateFormat || 'dd.MM.yyyy'
+
   return (
     <>
       {label && <Label {...label} />}
@@ -58,6 +63,7 @@ export const DatePicker = (props: Props) => {
             }}
           />
           <DatePickerLib
+            customInput={<input data-test-id={props.dataTestId} />}
             open={open}
             selected={value}
             onChange={(v: Date) => {
