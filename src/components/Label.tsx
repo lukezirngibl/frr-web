@@ -70,6 +70,7 @@ export const Label = (props: LabelProps) => {
         />
         {props.description && (
           <div
+            onClick={() => setOpen(true)}
             style={{
               marginLeft: 8,
               ...((getStyle('descriptionIcon') as any) || {}),
