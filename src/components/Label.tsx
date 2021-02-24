@@ -7,6 +7,7 @@ import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
 import { P } from '../html'
 import { Language } from '../util'
+import { InfoIcon } from '../assets/Info'
 
 export const LabelWrapper = styled.div``
 
@@ -26,9 +27,13 @@ export type LabelProps = {
   style?: Partial<AppTheme['label']>
   error?: boolean
   label: string | ((params: { language: Language }) => ReactNode)
+  labelData?: Record<string, string>
   sublabel?: string | ((params: { language: Language }) => ReactNode)
+  sublabelData?: Record<string, string>
   errorLabel?: string
+  errorLabelData?: Record<string, string>
   description?: string | ((params: { language: Language }) => ReactNode)
+  discriptionData?: Record<string, string>
   renderChildren?: ReactNode | ((params: { language: Language }) => ReactNode)
 }
 
@@ -61,19 +66,17 @@ export const Label = (props: LabelProps) => {
             ...(props.error ? getStyle('labelTextError') : {}),
           }}
           label={props.label}
+          data={props.labelData}
         />
         {props.description && (
-          <Icon
+          <div
             style={{
               marginLeft: 8,
               ...((getStyle('descriptionIcon') as any) || {}),
             }}
-            icon="help_outline"
-            size={16}
-            onClick={() => {
-              setOpen(!open)
-            }}
-          />
+          >
+            <InfoIcon />
+          </div>
         )}
         {open && props.description && (
           <ClickAwayListener onClickAway={() => setOpen(false)}>
@@ -84,6 +87,7 @@ export const Label = (props: LabelProps) => {
               <P
                 style={getStyle('descriptionText')}
                 label={props.description}
+                data={props.discriptionData}
               />
             </DescriptionPopup>
           </ClickAwayListener>
@@ -91,7 +95,11 @@ export const Label = (props: LabelProps) => {
       </LabelTextWrapper>
 
       {props.sublabel ? (
-        <P style={getStyle('sublabelText')} label={props.sublabel} />
+        <P
+          style={getStyle('sublabelText')}
+          label={props.sublabel}
+          data={props.sublabelData}
+        />
       ) : (
         <></>
       )}
@@ -99,6 +107,7 @@ export const Label = (props: LabelProps) => {
         <P
           style={getStyle('errorLabel')}
           label={props.errorLabel || 'fieldError'}
+          data={props.errorLabelData}
         />
       ) : (
         <></>

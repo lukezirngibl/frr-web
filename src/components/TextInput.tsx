@@ -29,6 +29,7 @@ export type Props = {
   onBlur?: () => void
   disabled?: boolean
   maxLength?: number
+  minLength?: number
   prefix?: string
   error?: boolean
   onlyOnBlur?: boolean
@@ -96,6 +97,7 @@ export const TextInput = (props: Props) => {
           className="frr-number-input"
           ref={inputRef}
           maxLength={props.maxLength}
+          minLength={props.minLength}
           style={{
             ...getStyle('input'),
             ...(props.disabled ? getStyle('disabledInput') : {}),
