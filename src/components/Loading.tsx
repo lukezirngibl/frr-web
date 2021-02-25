@@ -85,7 +85,7 @@ const LoadingWrapper = styled.div<{ css?: SimpleInterpolation }>`
 `
 
 type Props = {
-  style?: SimpleInterpolation
+  style?: any
 }
 
 export const Loading = (props: Props) => (

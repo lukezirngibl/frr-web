@@ -1,18 +1,12 @@
 import React from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { CSSProperties } from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
-import { getLanguageContext, getTranslation } from '../theme/language'
+import { createStyled, style } from '../theme/util'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
 import { P } from '../html'
 
-const ButtonWrapper = styled.button`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-`
+const ButtonWrapper = createStyled('button')
 
 export enum ButtonType {
   Secondary = 'Secondary',
@@ -44,25 +38,23 @@ export const Button = (props: Props) => {
   const { disabled } = props
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())
-  const language = React.useContext(getLanguageContext())
 
-  const getStyle = createGetStyle(theme, 'button')(props.style)
+  const S = style(theme, 'button')(props.style)
 
   return (
     <ButtonWrapper
       data-test-id={props.dataTestId}
       onClick={disabled || props.loading ? undefined : props.onClick}
-      style={{
-        ...getStyle('common'),
-        ...getStyle(mapTypeToStyleKey[type]),
+      {...S(['common', mapTypeToStyleKey[type]], {
         ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
         ...(props.override || {}),
-      }}
+      })}
     >
       {props.icon && <Icon {...props.icon} />}
       <P
         style={{
           color: 'inherit',
+          fontSize: 'inherit',
           flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
@@ -77,7 +69,7 @@ export const Button = (props: Props) => {
             marginLeft: 12,
             height: 32,
             width: 32,
-            ...getStyle('spinner'),
+            ...S('spinner'),
           }}
         />
       )}

@@ -3,7 +3,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
-import { createGetStyle } from '../theme/util'
+import { createGetStyle, style } from '../theme/util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 
 const InputWrapper = styled.div``
@@ -42,7 +42,7 @@ export const TextInput = (props: Props) => {
   const { inputType, value, placeholder } = props
 
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'textInput')(props.style)
+  const S = style(theme, 'textInput')(props.style)
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -70,12 +70,12 @@ export const TextInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        style={{
-          ...getStyle('wrapper'),
-          ...(props.disabled ? getStyle('disabledWrapper') : {}),
-          ...(props.readOnly ? getStyle('readOnlyWrapper') : {}),
-          ...(props.error ? getStyle('errorWrapper') : {}),
-        }}
+        {...S([
+          'wrapper',
+          ...((props.disabled ? ['disabledWrapper'] : []) as any),
+          ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
+          ...((props.error ? ['errorWrapper'] : []) as any),
+        ])}
         onClick={() => {
           if (inputRef.current) {
             inputRef.current.focus()
@@ -83,27 +83,25 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          style={{
-            ...getStyle('hook'),
-            ...(props.readOnly ? getStyle('readOnlyHook') : {}),
-            ...(props.error ? getStyle('errorHook') : {}),
-          }}
+          {...S([
+            'hook',
+            ...((props.readOnly ? ['readOnlyHook'] : []) as any),
+            ...((props.error ? ['errorHook'] : []) as any),
+          ])}
         />
-        {props.prefix && (
-          <Prefix style={getStyle('prefix')}>{props.prefix}</Prefix>
-        )}
+        {props.prefix && <Prefix {...S('prefix')}>{props.prefix}</Prefix>}
         <Input
           data-test-id={props.dataTestId}
           className="frr-number-input"
           ref={inputRef}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          style={{
-            ...getStyle('input'),
-            ...(props.disabled ? getStyle('disabledInput') : {}),
-            ...(props.readOnly ? getStyle('readOnlyInput') : {}),
-            ...(props.error ? getStyle('errorInput') : {}),
-          }}
+          {...S([
+            'input',
+            ...((props.disabled ? ['disabledInput'] : []) as any),
+            ...((props.readOnly ? ['readOnlyInput'] : []) as any),
+            ...((props.error ? ['errorInput'] : []) as any),
+          ])}
           disabled={props.readOnly || props.disabled}
           onChange={e => {
             setInternalValue(e.target.value)
