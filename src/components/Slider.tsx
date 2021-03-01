@@ -23,12 +23,12 @@ const createSlider = (styles: { rail: CSSProperties; marks: CSSProperties }) =>
       padding: '15px 0',
     },
     thumb: {
-      height: 28,
-      width: 14,
+      height: 24,
+      width: 24,
       backgroundColor: '#FFC53D',
-      borderRadius: 4,
+      borderRadius: 12,
       // boxShadow: iOSBoxShadow,
-      marginTop: -10,
+      marginTop: -9,
       marginLeft: -8,
       '&:focus, &:hover, &$active': {
         backgroundColor: 'rgb(230,170,59)',
