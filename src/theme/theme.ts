@@ -111,12 +111,18 @@ export type AppTheme = {
   }
   datePicker: {
     wrapper: CSSProperties
+    iconWrapper: CSSProperties
+    hook1: CSSProperties
+    hook2: CSSProperties
   }
 }
 
 const defaultTheme: AppTheme = {
   datePicker: {
     wrapper: {},
+    iconWrapper: {},
+    hook1: {},
+    hook2: {},
   },
   slider: {
     wrapper: {},

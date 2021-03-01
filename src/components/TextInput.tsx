@@ -17,7 +17,7 @@ const Hook = styled.div``
 const Prefix = styled.p``
 
 export type Props = {
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
   value: string | null
   placeholder?: string
   style?: Partial<AppTheme['textInput']>
@@ -26,7 +26,7 @@ export type Props = {
   proccessValue?: (v: string | null) => string
   readOnly?: boolean
   onFocus?: () => void
-  onBlur?: () => void
+  onBlur?: (v: string) => void
   disabled?: boolean
   maxLength?: number
   minLength?: number
@@ -34,6 +34,7 @@ export type Props = {
   error?: boolean
   onlyOnBlur?: boolean
   dataTestId?: string
+  ref?: any
 }
 
 export const TextInput = (props: Props) => {
@@ -50,7 +51,9 @@ export const TextInput = (props: Props) => {
   const [internalValue, setInternalValue] = useState(value)
 
   const [onChange] = useDebouncedCallback((text: string) => {
-    props.onChange(text)
+    if (props.onChange) {
+      props.onChange(text)
+    }
   }, 300)
 
   React.useEffect(() => {
@@ -59,7 +62,7 @@ export const TextInput = (props: Props) => {
 
   React.useEffect(
     () => () => {
-      if (internalValue !== value) {
+      if (internalValue !== value && props.onChange) {
         props.onChange(internalValue)
       }
     },
@@ -113,10 +116,13 @@ export const TextInput = (props: Props) => {
             const v = (internalValue || '').trim()
             // if (v !== internalValue) {
             setInternalValue(v)
-            props.onChange(v)
+            if (props.onChange) {
+              props.onChange(v)
+            }
+
             // }
             if (props.onBlur) {
-              props.onBlur()
+              props.onBlur(v)
             }
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
