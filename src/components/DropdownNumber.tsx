@@ -31,7 +31,7 @@ export type Props = {
   options: Options | ((lan: Language) => Options)
   onChange: (value: number) => void
   error: boolean
-  value: number
+  value: number | null
   readOnly?: boolean
 } & Omit<SemanticDropdownProps, 'onChange' | 'value' | 'options'>
 

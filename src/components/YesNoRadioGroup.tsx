@@ -3,7 +3,7 @@ import { RadioGroup, Props as RadioGroupProps } from './RadioGroup'
 
 export type Props = {
   onChange: (v: boolean) => void
-  value: boolean
+  value: boolean | null
 } & Omit<RadioGroupProps, 'value' | 'onChange' | 'options'>
 
 export const YesNoRadioGroup = (props: Props) => {

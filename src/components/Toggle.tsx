@@ -25,7 +25,7 @@ const Circle = styled.div`
 
 export type Props = {
   onChange: (value: boolean) => void
-  value: boolean
+  value: boolean | null
   label?: LabelProps
   style?: Partial<AppTheme['toggle']>
   error?: boolean

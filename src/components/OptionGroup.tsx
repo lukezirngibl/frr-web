@@ -24,7 +24,7 @@ const ItemLabel = styled.p``
 export type Props = {
   label?: LabelProps
   onChange: (v: string) => void
-  value: string
+  value: string | null
   options: Options<string>
   disabled?: boolean
   style?: Partial<AppTheme['optionGroup']>

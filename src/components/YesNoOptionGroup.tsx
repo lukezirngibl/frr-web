@@ -3,7 +3,7 @@ import { OptionGroup, Props as OptionGroupProps } from './OptionGroup'
 
 export type Props = {
   onChange: (v: boolean) => void
-  value: boolean
+  value: boolean | null
 } & Omit<OptionGroupProps, 'value' | 'onChange' | 'options'>
 
 export const YesNoOptionGroup = (props: Props) => {
