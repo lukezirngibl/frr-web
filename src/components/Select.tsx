@@ -23,6 +23,7 @@ export type Props = {
   readOnly?: boolean
   error?: boolean
   dataTestId?: string
+  alphabetize?: boolean
 }
 
 export const Select = (props: Props) => {
@@ -39,35 +40,58 @@ export const Select = (props: Props) => {
       ? props.options(language)
       : props.options
 
-  options = [
-    ...(props.value === null || props.value === undefined
-      ? [
-          {
-            value: null,
-            disabled: true,
-            label: 'pleaseSelect',
-          },
-          {
-            value: '---',
-            disabled: true,
-            label: '---',
-          },
-        ]
-      : []),
+  const parseOptions = (
+    options: Array<{
+      value: Value
+      disabled?: boolean
+      label?: string
+      name?: string
+    }>,
+  ) =>
+    props.alphabetize
+      ? options.map(o => ({
+          ...o,
+          name: o.label ? translate(o.label) : o.name,
+          translationKey: `${o.label}`,
+          label: undefined,
+        }))
+      : options
 
-    ...(props.priority
-      ? [
-          ...options.filter(o => props.priority.includes(o.value)),
-          {
-            value: '---',
-            disabled: true,
-            label: '---',
-          },
-        ]
-      : []),
-    ...(props.priority
-      ? options.filter(o => !props.priority.includes(o.value))
-      : options),
+  options = [
+    ...parseOptions(
+      props.value === null || props.value === undefined
+        ? [
+            {
+              value: null,
+              disabled: true,
+              label: 'pleaseSelect',
+            },
+            {
+              value: '---',
+              disabled: true,
+              label: '---',
+            },
+          ]
+        : [],
+    ),
+
+    ...parseOptions(
+      props.priority
+        ? [
+            ...options.filter(o => props.priority.includes(o.value)),
+            {
+              value: '---',
+              disabled: true,
+              label: '---',
+            },
+          ]
+        : [],
+    ),
+    ...parseOptions(
+      props.priority
+        ? options.filter(o => !props.priority.includes(o.value))
+        : options,
+    ),
   ]
 
   return (
@@ -94,6 +118,7 @@ export const Select = (props: Props) => {
               disabled={o.disabled}
               style={getStyle('option')}
               label={o.label || o.name}
+              translationKey={o.translationKey}
             />
           ))}
         </SelectWrapper>

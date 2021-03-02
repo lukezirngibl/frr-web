@@ -63,8 +63,6 @@ export type Props = {
 export const DatePicker = (props: Props) => {
   const { onChange, value, label } = props
 
-  const ref = React.createRef<any>()
-
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'datePicker')(props.style)
   const language = React.useContext(getLanguageContext())
@@ -89,7 +87,6 @@ export const DatePicker = (props: Props) => {
       >
         <Wrapper style={getStyle('wrapper')}>
           <TextInput
-            ref={ref}
             onChange={() => {}}
             onBlur={v => {
               try {
@@ -98,9 +95,6 @@ export const DatePicker = (props: Props) => {
                   | 'Invalid Date'
                 onChange(value as Date)
               } catch (err) {
-                if (ref.current) {
-                  ref.current.forceUpdate()
-                }
                 onChange(null)
               }
             }}
