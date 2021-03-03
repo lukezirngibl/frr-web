@@ -11,7 +11,13 @@ export const omit = <T extends { [k: string]: unknown }>(
     ({} as unknown) as T,
   )
 
-const dynamicStyleKeys = [':hover', ':focus']
+const dynamicStyleKeys = [
+  ':hover',
+  ':focus',
+  ':invalid',
+  ':read-only',
+  ':disabled',
+]
 
 export const styleString = style =>
   Object.entries(style)
@@ -25,11 +31,27 @@ export const styleString = style =>
 
 export const createStyled = (type: any) => styled[type]`
   &:hover {
-    ${(props: { ':hove': CSSProperties }) => styleString(props[':hover'] || {})}
+    ${(props: { ':hover': CSSProperties }) =>
+      styleString(props[':hover'] || {})}
   }
   &:focus {
     ${(props: { ':focus': CSSProperties }) =>
       styleString(props[':focus'] || {})}
+  }
+
+  &:invalid {
+    ${(props: { ':invalid': CSSProperties }) =>
+      styleString(props[':invalid'] || {})}
+  }
+
+  &:read-only {
+    ${(props: { ':read-only': CSSProperties }) =>
+      styleString(props[':read-only '] || {})}
+  }
+
+  &:disabled {
+    ${(props: { ':disabled': CSSProperties }) =>
+      styleString(props[':disabled'] || {})}
   }
 `
 
