@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "version": "1.1.25",
+  "version": "1.1.31",
   "keywords": [],
   "scripts": {
     "build:watch": "yarn build --watch",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "^2.0.3",
+    "css": "^3.0.0",
     "date-fns": "^2.17.0",
     "fp-ts": "1.19.5",
     "monocle-ts": "2.0.0",
@@ -58,6 +59,7 @@
     "@types/styled-components": "^4.1.4",
     "install-peers-cli": "^2.2.0",
     "prettier": "1.19.1",
+    "ts-node": "^9.1.1",
     "tslint": "5.18.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",

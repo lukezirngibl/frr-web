@@ -1,12 +1,16 @@
 import React from 'react'
-import { getCountryOptions } from '../util'
+import { COUNTRIES_ALPHA_3 } from '../assets/countries'
 import { getLanguageContext } from '../theme/language'
 import { Select, Props as SelectProps } from './Select'
 
 export type Props = Omit<SelectProps, 'options'>
 
 export const CountrySelect = (props: Props) => {
-  const language = React.useContext(getLanguageContext())
-
-  return <Select {...props} options={getCountryOptions[language]} />
+  return (
+    <Select
+      {...props}
+      options={COUNTRIES_ALPHA_3.map(c => ({ label: c, value: c }))}
+      alphabetize
+    />
+  )
 }

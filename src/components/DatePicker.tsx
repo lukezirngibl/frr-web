@@ -6,7 +6,7 @@ import DatePickerLib, {
 import { LabelProps, Label } from './Label'
 import 'react-datepicker/dist/react-datepicker.css'
 import { TextInput } from './TextInput'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
 import styled from 'styled-components'
@@ -17,6 +17,7 @@ import fr from 'date-fns/locale/fr'
 import it from 'date-fns/locale/it'
 import { getLanguageContext } from '../theme/language'
 import { Language } from '../util'
+import { Icon } from './Icon'
 
 const mapLanguageToLocaleString: { [k in Language]: string } = {
   [Language.DE]: 'de',
@@ -49,7 +50,7 @@ const Wrapper = styled.div`
 
 export type Props = {
   onChange: (value: Date) => void
-  value: Date
+  value: Date | null
   label?: LabelProps
   dateFormat?: string
   style?: Partial<AppTheme['datePicker']>
@@ -87,27 +88,44 @@ export const DatePicker = (props: Props) => {
         <Wrapper style={getStyle('wrapper')}>
           <TextInput
             onChange={() => {}}
+            onBlur={v => {
+              try {
+                const value = parse(v, dateFormat, new Date()) as
+                  | Date
+                  | 'Invalid Date'
+                onChange(value as Date)
+              } catch (err) {
+                onChange(null)
+              }
+            }}
             placeholder={dateFormat.toLocaleUpperCase()}
             value={props.value ? format(props.value, dateFormat) : null}
-            onFocus={() => {
+          />
+          <div
+            style={getStyle('iconWrapper')}
+            onClick={() => {
               setOpen(!open)
             }}
-          />
-          <DatePickerLib
-            locale={language}
-            customInput={<input data-test-id={props.dataTestId} />}
-            open={open}
-            selected={value}
-            onChange={(v: Date) => {
-              onChange(v)
-              setOpen(false)
-            }}
-            peekNextMonth
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            {...props.datePickerProps}
-          />
+          >
+            <div style={getStyle('hook1')} />
+            <div style={getStyle('hook2')} />
+            <Icon icon="calendar_today" size={16} />
+            <DatePickerLib
+              locale={language}
+              customInput={<input data-test-id={props.dataTestId} />}
+              open={open}
+              selected={value}
+              onChange={(v: Date) => {
+                onChange(v)
+                setOpen(false)
+              }}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              {...props.datePickerProps}
+            />
+          </div>
         </Wrapper>
       </ClickAwayListener>
     </>

@@ -1,6 +1,11 @@
 import * as React from 'react'
-import { CSSProperties, CSSProp } from 'styled-components'
+import { CSSProperties as sc_CSSProperties } from 'styled-components'
 import { keys } from '../util'
+
+type CSSProperties = sc_CSSProperties & {
+  ':hover'?: CSSProperties
+  ':focus'?: CSSProperties
+}
 
 export type AppTheme = {
   html: {
@@ -106,12 +111,18 @@ export type AppTheme = {
   }
   datePicker: {
     wrapper: CSSProperties
+    iconWrapper: CSSProperties
+    hook1: CSSProperties
+    hook2: CSSProperties
   }
 }
 
 const defaultTheme: AppTheme = {
   datePicker: {
     wrapper: {},
+    iconWrapper: {},
+    hook1: {},
+    hook2: {},
   },
   slider: {
     wrapper: {},

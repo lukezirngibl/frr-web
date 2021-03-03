@@ -65,6 +65,7 @@ export const RadioGroup = (props: Props) => {
                 data-test-id={props.dataTestId}
                 name={props.name || props.dataTestId}
                 checked={active}
+                onChange={() => {}}
                 style={{
                   width: 1,
                   height: 1,

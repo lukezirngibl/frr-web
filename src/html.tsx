@@ -15,6 +15,7 @@ type Props = {
   style?: CSSProperties
   value?: any
   disabled?: any
+  translationKey?: string
   data?: { [k: string]: string }
 }
 
@@ -33,7 +34,7 @@ export const Element = (
       | 'option'
   },
 ) => {
-  const { label, style, element, ...otherProps } = props
+  const { label, style, element, translationKey, ...otherProps } = props
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'html')({})
 
@@ -43,7 +44,9 @@ export const Element = (
   const str =
     typeof props.label === 'function'
       ? props.label({ language, translate })
-      : translate(props.label)
+      : !translationKey
+      ? translate(props.label)
+      : props.label
 
   const injected = keys(props.data || {}).reduce(
     (s, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
@@ -53,7 +56,7 @@ export const Element = (
   return React.createElement(props.element, {
     itemID: (typeof props.label === 'function'
       ? '<computed>'
-      : props.label) as string,
+      : translationKey || props.label) as string,
 
     style: {
       ...getStyle(props.element),
