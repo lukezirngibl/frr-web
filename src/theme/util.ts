@@ -1,5 +1,6 @@
-import { AppTheme } from './theme'
+import { AppTheme, MediaQuery } from './theme'
 import styled, { CSSProperties } from 'styled-components'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 export const omit = <T extends { [k: string]: unknown }>(
   obj: T,
@@ -55,19 +56,24 @@ export const createStyled = (type: any) => styled[type]`
   }
 `
 
-export const createGetStyle = <C extends keyof AppTheme>(
+export const useGetStyle = <C extends keyof AppTheme>(
   theme: AppTheme,
   componentKey: C,
-) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
-  elementKey: K,
-): AppTheme[C][K] => {
-  return omit(
-    {
-      ...theme[componentKey][elementKey],
-      ...(override && override[elementKey] ? override[elementKey] : {}),
-    } as any,
-    dynamicStyleKeys as any,
-  )
+) => {
+  const isMobile = useMediaQuery(MediaQuery.Mobile)
+
+  return (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
+    elementKey: K,
+  ): AppTheme[C][K] => {
+    return omit(
+      {
+        ...theme[componentKey][elementKey],
+        ...(isMobile ? theme[componentKey][elementKey][':media-mobile'] : {}),
+        ...(override && override[elementKey] ? override[elementKey] : {}),
+      } as any,
+      dynamicStyleKeys as any,
+    )
+  }
 }
 
 export const style = <C extends keyof AppTheme>(

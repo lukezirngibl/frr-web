@@ -1,7 +1,7 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import styled from 'styled-components'
 
@@ -33,7 +33,7 @@ export type Props = {
 
 export const Toggle = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'toggle')(props.style)
+  const getStyle = useGetStyle(theme, 'toggle')(props.style)
 
   const language = React.useContext(getLanguageContext())
 

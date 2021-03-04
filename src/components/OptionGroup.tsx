@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
@@ -35,7 +35,7 @@ export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
 
-  const getStyle = createGetStyle(theme, 'optionGroup')(props.style)
+  const getStyle = useGetStyle(theme, 'optionGroup')(props.style)
 
   return (
     <>

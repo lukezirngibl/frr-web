@@ -3,7 +3,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
-import { createGetStyle, style } from '../theme/util'
+import { useGetStyle, style } from '../theme/util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 
 const InputWrapper = styled.div``

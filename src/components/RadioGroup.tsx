@@ -1,7 +1,7 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 import styled from 'styled-components'
 import { Options } from '../util'
 import { P } from '../html'
@@ -43,7 +43,7 @@ export type Props = {
 
 export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'radioGroup')(props.style)
+  const getStyle = useGetStyle(theme, 'radioGroup')(props.style)
 
   return (
     <>

@@ -4,7 +4,7 @@ import { Options, Language } from '../util'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 import { Icon } from './Icon'
 import { Option } from '../html'
 
@@ -33,7 +33,7 @@ export const Select = (props: Props) => {
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  const getStyle = createGetStyle(theme, 'select')(props.style)
+  const getStyle = useGetStyle(theme, 'select')(props.style)
 
   let options =
     typeof props.options === 'function'

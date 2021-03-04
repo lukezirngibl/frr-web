@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 
 const InputWrapper = styled.div``
 
@@ -25,9 +25,9 @@ export const TextArea = (props: TextAreaProps) => {
   const { disabled } = props
 
   const theme = React.useContext(getThemeContext())
-  const getTextAreaStyle = createGetStyle(theme, 'textArea')(props.style)
+  const getTextAreaStyle = useGetStyle(theme, 'textArea')(props.style)
 
-  const getInputStyle = createGetStyle(theme, 'textInput')({})
+  const getInputStyle = useGetStyle(theme, 'textInput')({})
 
   return (
     <>

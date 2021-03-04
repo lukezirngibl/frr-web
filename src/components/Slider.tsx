@@ -3,7 +3,7 @@ import React from 'react'
 import { CSSProperties } from 'styled-components'
 import { withStyles } from '@material-ui/styles'
 import { getThemeContext } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
+import { useGetStyle } from '../theme/util'
 import { P } from '../html'
 import { LabelProps, Label } from './Label'
 import { useDebouncedCallback } from 'use-debounce/lib'
@@ -94,7 +94,7 @@ const IOSSlider = createSlider({
 
 export const Slider = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = createGetStyle(theme, 'slider')({})
+  const getStyle = useGetStyle(theme, 'slider')({})
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
