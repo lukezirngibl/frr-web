@@ -11,7 +11,7 @@ export const omitKeys = <T extends { [k: string]: unknown }>(
     ({} as unknown) as T,
   )
 
-const dynamicStyleKeys = [
+export const dynamicStyleKeys = [
   ':hover',
   ':focus',
   ':invalid',
@@ -75,34 +75,36 @@ export const createStyled = (type: any) => styled[type]`
  * Generates the style object to be added as inline styles. E.g. <div style={styles}>...
  */
 
-export const useInlineStyle = <C extends keyof AppTheme>(
-  theme: AppTheme,
-  componentKey: C,
-) => {
-  return (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
-    elementKey: K,
-  ): AppTheme[C][K] => {
-    return omitKeys(
-      {
-        ...theme[componentKey][elementKey],
-        ...(override && override[elementKey] ? override[elementKey] : {}),
-      } as any,
-      dynamicStyleKeys as any,
-    )
-  }
-}
-
+export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
+         theme: Theme,
+         componentKey: C,
+       ) => {
+         return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
+           elementKey: K,
+         ): Theme[C][K] => {
+           return omitKeys(
+             {
+               ...theme[componentKey][elementKey],
+               ...(override && override[elementKey]
+                 ? override[elementKey]
+                 : {}),
+             } as any,
+             dynamicStyleKeys as any,
+           )
+         }
+       }
+export const useInlineStyle = getUseInlineStyle<AppTheme>()
 /*
  * Generates the CSS style object for a styled component created with the createStyled() function
  */
 
-export const useCSSStyle = <C extends keyof AppTheme>(
-  theme: AppTheme,
+export const getUseCSSStyle = <Theme>() => <C extends keyof Theme>(
+  theme: Theme,
   componentKey: C,
-) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
+) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
-): { style: AppTheme[C][K] } => {
+): { style: Theme[C][K] } => {
   return {
     css: omitKeys(
       {
@@ -136,3 +138,4 @@ export const useCSSStyle = <C extends keyof AppTheme>(
     ),
   }
 }
+export const useCSSStyle = getUseCSSStyle<AppTheme>()

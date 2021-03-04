@@ -2,7 +2,7 @@ import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
 import { keys } from '../util'
 
-type CSSProperties = sc_CSSProperties & {
+export type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
   ':focus'?: CSSProperties
   ':read-only'?: CSSProperties
