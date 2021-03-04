@@ -3,7 +3,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
-import { useGetStyle, style } from '../theme/util'
+import { useGetStyle, useStyle } from '../theme/util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 
 const InputWrapper = styled.div``
@@ -43,7 +43,7 @@ export const TextInput = (props: Props) => {
   const { inputType, value, placeholder } = props
 
   const theme = React.useContext(getThemeContext())
-  const S = style(theme, 'textInput')(props.style)
+  const getStyle = useStyle(theme, 'textInput')(props.style)
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -73,7 +73,7 @@ export const TextInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        {...S([
+        {...getStyle([
           'wrapper',
           ...((props.disabled ? ['disabledWrapper'] : []) as any),
           ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
@@ -86,20 +86,20 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          {...S([
+          {...getStyle([
             'hook',
             ...((props.readOnly ? ['readOnlyHook'] : []) as any),
             ...((props.error ? ['errorHook'] : []) as any),
           ])}
         />
-        {props.prefix && <Prefix {...S('prefix')}>{props.prefix}</Prefix>}
+        {props.prefix && <Prefix {...getStyle('prefix')}>{props.prefix}</Prefix>}
         <Input
           data-test-id={props.dataTestId}
           className="frr-number-input"
           ref={inputRef}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          {...S([
+          {...getStyle([
             'input',
             ...((props.disabled ? ['disabledInput'] : []) as any),
             ...((props.readOnly ? ['readOnlyInput'] : []) as any),

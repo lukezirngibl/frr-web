@@ -1,8 +1,7 @@
 import { AppTheme, MediaQuery } from './theme'
-import styled, { CSSProperties } from 'styled-components'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import styled, { CSSProperties, css } from 'styled-components'
 
-export const omit = <T extends { [k: string]: unknown }>(
+export const omitKeys = <T extends { [k: string]: unknown }>(
   obj: T,
   keysIn: Array<keyof T>,
 ) =>
@@ -18,57 +17,66 @@ const dynamicStyleKeys = [
   ':invalid',
   ':read-only',
   ':disabled',
+  ':media-mobile',
 ]
 
-export const styleString = style =>
+export const mapStylesToCSS = style =>
   Object.entries(style)
     .map(
-      ([k, v]) =>
-        `${k.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${
-          isNaN(v as any) ? v : `${v}px`
-        } !important;`,
+      ([cssKey, cssValue]) =>
+        `${cssKey.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${
+          isNaN(cssValue as any) ? cssValue : `${cssValue}px`
+        };`,
     )
     .join(' ')
 
 export const createStyled = (type: any) => styled[type]`
-  &:hover {
-    ${(props: { ':hover': CSSProperties }) =>
-      styleString(props[':hover'] || {})}
-  }
-  &:focus {
-    ${(props: { ':focus': CSSProperties }) =>
-      styleString(props[':focus'] || {})}
-  }
+  ${(props: {
+    styles: CSSProperties
+    ':hover': CSSProperties
+    ':focus': CSSProperties
+    ':invalid': CSSProperties
+    ':read-only': CSSProperties
+    ':disabled': CSSProperties
+    ':media-mobile': CSSProperties
+  }) => css`
+    ${mapStylesToCSS(props.styles || {})}
 
-  &:invalid {
-    ${(props: { ':invalid': CSSProperties }) =>
-      styleString(props[':invalid'] || {})}
-  }
+    &:hover {
+      ${mapStylesToCSS(props[':hover'] || {})}
+    }
+    &:focus {
+      ${mapStylesToCSS(props[':focus'] || {})}
+    }
 
-  &:read-only {
-    ${(props: { ':read-only': CSSProperties }) =>
-      styleString(props[':read-only '] || {})}
-  }
+    &:invalid {
+      ${mapStylesToCSS(props[':invalid'] || {})}
+    }
 
-  &:disabled {
-    ${(props: { ':disabled': CSSProperties }) =>
-      styleString(props[':disabled'] || {})}
-  }
+    &:read-only {
+      ${mapStylesToCSS(props[':read-only '] || {})}
+    }
+
+    &:disabled {
+      ${mapStylesToCSS(props[':disabled'] || {})}
+    }
+
+    @media ${MediaQuery.Mobile} {
+      ${mapStylesToCSS(props[':media-mobile'] || {})}
+    }
+  `}
 `
 
 export const useGetStyle = <C extends keyof AppTheme>(
   theme: AppTheme,
   componentKey: C,
 ) => {
-  const isMobile = useMediaQuery(MediaQuery.Mobile)
-
   return (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
     elementKey: K,
   ): AppTheme[C][K] => {
-    return omit(
+    return omitKeys(
       {
         ...theme[componentKey][elementKey],
-        ...(isMobile ? theme[componentKey][elementKey][':media-mobile'] : {}),
         ...(override && override[elementKey] ? override[elementKey] : {}),
       } as any,
       dynamicStyleKeys as any,
@@ -76,7 +84,7 @@ export const useGetStyle = <C extends keyof AppTheme>(
   }
 }
 
-export const style = <C extends keyof AppTheme>(
+export const useStyle = <C extends keyof AppTheme>(
   theme: AppTheme,
   componentKey: C,
 ) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
@@ -84,7 +92,7 @@ export const style = <C extends keyof AppTheme>(
   internalOverride?: CSSProperties,
 ): { style: AppTheme[C][K] } => {
   return {
-    style: omit(
+    styles: omitKeys(
       {
         ...((Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
           (obj, elementKey) => ({

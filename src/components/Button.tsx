@@ -1,7 +1,7 @@
 import React from 'react'
 import { CSSProperties } from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createStyled, style } from '../theme/util'
+import { createStyled, useStyle } from '../theme/util'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
 import { P } from '../html'
@@ -39,16 +39,19 @@ export const Button = (props: Props) => {
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())
 
-  const S = style(theme, 'button')(props.style)
+  const getStyle = useStyle(theme, 'button')(props.style)
+
+  const buttonStyle = getStyle(['common', mapTypeToStyleKey[type]], {
+    ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
+    ...(props.override || {}),
+  })
+  console.log('BUTTON STYLES', buttonStyle)
 
   return (
     <ButtonWrapper
       data-test-id={props.dataTestId}
       onClick={disabled || props.loading ? undefined : props.onClick}
-      {...S(['common', mapTypeToStyleKey[type]], {
-        ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
-        ...(props.override || {}),
-      })}
+      {...buttonStyle}
     >
       {props.icon && <Icon {...props.icon} />}
       <P
@@ -69,7 +72,7 @@ export const Button = (props: Props) => {
             marginLeft: 12,
             height: 32,
             width: 32,
-            ...S('spinner'),
+            ...getStyle('spinner'),
           }}
         />
       )}

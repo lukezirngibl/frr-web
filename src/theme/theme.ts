@@ -5,6 +5,7 @@ import { keys } from '../util'
 type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
   ':focus'?: CSSProperties
+  ':read-only'?: CSSProperties
   ':media-mobile'?: CSSProperties
 }
 
@@ -237,7 +238,7 @@ export enum MediaQuery {
   Mobile = '(max-width: 768px)',
 }
 
-export const useTheme = (userTheme: AppThemeConfig) => {
+export const configureTheme = (userTheme: AppThemeConfig) => {
   ThemeVal = keys(defaultTheme).reduce(
     (acc1, k1) => ({
       ...acc1,
