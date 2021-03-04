@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { getThemeContext } from './theme/theme'
-import { useGetStyle } from './theme/util'
+import { useInlineStyle } from './theme/util'
 import { getLanguageContext, getTranslation } from './theme/language'
 import { CSSProperties } from 'styled-components'
 import { Language, keys } from './util'
@@ -36,7 +36,7 @@ export const Element = (
 ) => {
   const { label, style, element, translationKey, ...otherProps } = props
   const theme = React.useContext(getThemeContext())
-  const getStyle = useGetStyle(theme, 'html')({})
+  const getStyle = useInlineStyle(theme, 'html')({})
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)

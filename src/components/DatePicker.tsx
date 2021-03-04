@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { TextInput } from './TextInput'
 import { format, parse } from 'date-fns'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { useGetStyle } from '../theme/util'
+import { useInlineStyle } from '../theme/util'
 import styled from 'styled-components'
 import ClickAwayListener from 'react-click-away-listener'
 import de from 'date-fns/locale/de'
@@ -64,7 +64,7 @@ export const DatePicker = (props: Props) => {
   const { onChange, value, label } = props
 
   const theme = React.useContext(getThemeContext())
-  const getStyle = useGetStyle(theme, 'datePicker')(props.style)
+  const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
   const language = React.useContext(getLanguageContext())
 
   const [open, setOpen] = React.useState(false)

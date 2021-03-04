@@ -1,7 +1,7 @@
 import React from 'react'
 import { CSSProperties } from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createStyled, useStyle } from '../theme/util'
+import { createStyled, useCSSStyle, useInlineStyle } from '../theme/util'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
 import { P } from '../html'
@@ -39,19 +39,17 @@ export const Button = (props: Props) => {
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())
 
-  const getStyle = useStyle(theme, 'button')(props.style)
-
-  const buttonStyle = getStyle(['common', mapTypeToStyleKey[type]], {
-    ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
-    ...(props.override || {}),
-  })
-  console.log('BUTTON STYLES', buttonStyle)
+  const getStyle = useInlineStyle(theme, 'button')(props.style)
+  const getCSSStyle = useCSSStyle(theme, 'button')(props.style)
 
   return (
     <ButtonWrapper
       data-test-id={props.dataTestId}
       onClick={disabled || props.loading ? undefined : props.onClick}
-      {...buttonStyle}
+      {...getCSSStyle(['common', mapTypeToStyleKey[type]], {
+        ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
+        ...(props.override || {}),
+      })}
     >
       {props.icon && <Icon {...props.icon} />}
       <P

@@ -8,7 +8,7 @@ import { Options, Language, processOptions } from '../util'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { useGetStyle } from '../theme/util'
+import { useInlineStyle } from '../theme/util'
 
 const DropdownWrapper = styled.div`
   width: 100%;
@@ -54,7 +54,7 @@ export const Dropdown = (props: Props) => {
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  const getStyle = useGetStyle(theme, 'dropdown')(props.style)
+  const getStyle = useInlineStyle(theme, 'dropdown')(props.style)
 
   return (
     <>

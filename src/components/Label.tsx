@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { ReactNode } from 'react'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { useGetStyle } from '../theme/util'
+import { useInlineStyle } from '../theme/util'
 import { getLanguageContext } from '../theme/language'
 import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
@@ -39,7 +39,7 @@ export type LabelProps = {
 
 export const Label = (props: LabelProps) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = useGetStyle(theme, 'label')(props.style)
+  const getStyle = useInlineStyle(theme, 'label')(props.style)
 
   const [open, setOpen] = React.useState(false)
 
