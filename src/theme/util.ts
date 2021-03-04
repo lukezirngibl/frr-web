@@ -30,6 +30,10 @@ export const mapStylesToCSS = style =>
     )
     .join(' ')
 
+/*
+ * Creates a styled component with support for pseudo elements and media query styles provided from a style object
+ */
+
 export const createStyled = (type: any) => styled[type]`
   ${(props: {
     styles: CSSProperties
@@ -67,7 +71,11 @@ export const createStyled = (type: any) => styled[type]`
   `}
 `
 
-export const useGetStyle = <C extends keyof AppTheme>(
+/*
+ * Generates the style object to be added as inline styles. E.g. <div style={styles}>...
+ */
+
+export const useInlineStyle = <C extends keyof AppTheme>(
   theme: AppTheme,
   componentKey: C,
 ) => {
@@ -84,7 +92,11 @@ export const useGetStyle = <C extends keyof AppTheme>(
   }
 }
 
-export const useStyle = <C extends keyof AppTheme>(
+/*
+ * Generates the CSS style object for a styled component created with the createStyled() function
+ */
+
+export const useCSSStyle = <C extends keyof AppTheme>(
   theme: AppTheme,
   componentKey: C,
 ) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
