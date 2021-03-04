@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { useGetStyle } from '../theme/util'
+import { useInlineStyle } from '../theme/util'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
@@ -14,12 +14,14 @@ const Wrapper = styled.div`
 `
 
 const Item = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &.inactive:last-child {
     border-right-width: 0 !important;
   }
 `
-
-const ItemLabel = styled.p``
 
 export type Props = {
   label?: LabelProps
@@ -29,13 +31,14 @@ export type Props = {
   disabled?: boolean
   style?: Partial<AppTheme['optionGroup']>
   error?: boolean
+  dataTestId?: string
 }
 
 export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
 
-  const getStyle = useGetStyle(theme, 'optionGroup')(props.style)
+  const getStyle = useInlineStyle(theme, 'optionGroup')(props.style)
 
   return (
     <>
@@ -64,6 +67,21 @@ export const OptionGroup = (props: Props) => {
                 ...(item.value === props.value ? getStyle('labelActive') : {}),
               }}
               label={item.label}
+            />
+            <input
+              type="checkbox"
+              data-test-id={props.dataTestId}
+              name={item.name || props.dataTestId}
+              value={item.value}
+              checked={item.value === props.value}
+              onChange={() => {
+                props.onChange(item.value)
+              }}
+              style={{
+                width: 1,
+                height: 1,
+                opacity: 0,
+              }}
             />
           </Item>
         ))}

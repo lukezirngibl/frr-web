@@ -92,7 +92,7 @@ export const useStyle = <C extends keyof AppTheme>(
   internalOverride?: CSSProperties,
 ): { style: AppTheme[C][K] } => {
   return {
-    styles: omitKeys(
+    css: omitKeys(
       {
         ...((Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
           (obj, elementKey) => ({

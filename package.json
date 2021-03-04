@@ -4,15 +4,17 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "version": "1.1.31",
+  "version": "1.1.35",
   "keywords": [],
   "scripts": {
-    "build": "babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
+    "build": "tsc",
+    "build:babel": "babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
     "build:watch": "yarn build --watch",
+    "prepare": "install-peers",
     "build-types": "install-peers -f && tsc",
     "build-types:watch": "yarn check-types --watch",
     "clean": "rm -rf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/redux-saga node_modules/redux-thunk node_modules/styled-components",
-    "patch": "yarn run build && git add -A && git commit -m 'patch' && npm version patch"
+    "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch"
   },
   "files": [
     "lib/**/*"

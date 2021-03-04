@@ -1,20 +1,14 @@
 import React, { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import styled from 'styled-components'
-import { Label, LabelProps } from './Label'
-import { getTranslation, getLanguageContext } from '../theme/language'
-import { useGetStyle, useStyle } from '../theme/util'
+import { getLanguageContext, getTranslation } from '../theme/language'
 import { AppTheme, getThemeContext } from '../theme/theme'
+import { createStyled, useCSSStyle } from '../theme/util'
+import { Label, LabelProps } from './Label'
 
-const InputWrapper = styled.div``
-
-const Input = styled.input`
-  width: 100%;
-`
-
-const Hook = styled.div``
-
-const Prefix = styled.p``
+const InputWrapper = createStyled('div')
+const Input = createStyled('input')
+const Hook = createStyled('div')
+const Prefix = createStyled('p')
 
 export type Props = {
   onChange?: (value: string) => void
@@ -43,7 +37,7 @@ export const TextInput = (props: Props) => {
   const { inputType, value, placeholder } = props
 
   const theme = React.useContext(getThemeContext())
-  const getStyle = useStyle(theme, 'textInput')(props.style)
+  const getCSSStyle = useCSSStyle(theme, 'textInput')(props.style)
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -73,7 +67,7 @@ export const TextInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        {...getStyle([
+        {...getCSSStyle([
           'wrapper',
           ...((props.disabled ? ['disabledWrapper'] : []) as any),
           ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
@@ -86,27 +80,29 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          {...getStyle([
+          {...getCSSStyle([
             'hook',
             ...((props.readOnly ? ['readOnlyHook'] : []) as any),
             ...((props.error ? ['errorHook'] : []) as any),
           ])}
         />
-        {props.prefix && <Prefix {...getStyle('prefix')}>{props.prefix}</Prefix>}
+        {props.prefix && (
+          <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
+        )}
         <Input
           data-test-id={props.dataTestId}
           className="frr-number-input"
           ref={inputRef}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          {...getStyle([
+          {...getCSSStyle([
             'input',
             ...((props.disabled ? ['disabledInput'] : []) as any),
             ...((props.readOnly ? ['readOnlyInput'] : []) as any),
             ...((props.error ? ['errorInput'] : []) as any),
           ])}
           disabled={props.readOnly || props.disabled}
-          onChange={e => {
+          onChange={(e: any) => {
             setInternalValue(e.target.value)
             if (!props.onlyOnBlur) {
               onChange(e.target.value)
