@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "version": "1.1.32",
+  "version": "1.1.33",
   "keywords": [],
   "scripts": {
     "build": "babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
