@@ -29,6 +29,8 @@ export type Props = {
   label?: LabelProps
   style?: Partial<AppTheme['toggle']>
   error?: boolean
+  dataTestId?: string
+  name?: string
 }
 
 export const Toggle = (props: Props) => {
@@ -52,7 +54,20 @@ export const Toggle = (props: Props) => {
             ...getStyle('circle'),
             ...(props.value ? getStyle('circleActive') : {}),
           }}
-        />
+        >
+          <input
+            type="checkbox"
+            data-test-id={props.dataTestId}
+            name={props.name || props.dataTestId}
+            checked={!!props.value}
+            onChange={() => {}}
+            style={{
+              width: 1,
+              height: 1,
+              opacity: 0,
+            }}
+          />
+        </Circle>
       </Wrapper>
     </>
   )

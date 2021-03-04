@@ -100,6 +100,7 @@ export const DatePicker = (props: Props) => {
             }}
             placeholder={dateFormat.toLocaleUpperCase()}
             value={props.value ? format(props.value, dateFormat) : null}
+            dataTestId={props.dataTestId}
           />
           <div
             style={getStyle('iconWrapper')}
@@ -112,7 +113,6 @@ export const DatePicker = (props: Props) => {
             <Icon icon="calendar_today" size={16} />
             <DatePickerLib
               locale={language}
-              customInput={<input data-test-id={props.dataTestId} />}
               open={open}
               selected={value}
               onChange={(v: Date) => {
