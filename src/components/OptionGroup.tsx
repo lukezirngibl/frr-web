@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { createGetStyle } from '../theme/util'
-import { getLanguageContext, getTranslation } from '../theme/language'
+import { getLanguageContext } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
 import { P } from '../html'
@@ -14,12 +14,14 @@ const Wrapper = styled.div`
 `
 
 const Item = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &.inactive:last-child {
     border-right-width: 0 !important;
   }
 `
-
-const ItemLabel = styled.p``
 
 export type Props = {
   label?: LabelProps
