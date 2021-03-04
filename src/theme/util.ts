@@ -25,11 +25,13 @@ export const styleString = style =>
       ([k, v]) =>
         `${k.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${
           isNaN(v as any) ? v : `${v}px`
-        } !important;`,
+        };`,
     )
     .join(' ')
 
 export const createStyled = (type: any) => styled[type]`
+  ${(props: { css: CSSProperties }) => styleString(props['css'] || {})}
+
   &:hover {
     ${(props: { ':hover': CSSProperties }) =>
       styleString(props[':hover'] || {})}
@@ -39,7 +41,7 @@ export const createStyled = (type: any) => styled[type]`
       styleString(props[':focus'] || {})}
   }
 
-  &:invalid {
+  &:[invalid=true] {
     ${(props: { ':invalid': CSSProperties }) =>
       styleString(props[':invalid'] || {})}
   }
@@ -78,7 +80,7 @@ export const style = <C extends keyof AppTheme>(
   internalOverride?: CSSProperties,
 ): { style: AppTheme[C][K] } => {
   return {
-    style: omit(
+    css: omit(
       {
         ...((Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
           (obj, elementKey) => ({

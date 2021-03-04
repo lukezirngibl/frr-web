@@ -3,18 +3,13 @@ import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { getTranslation, getLanguageContext } from '../theme/language'
-import { createGetStyle, style } from '../theme/util'
+import { createGetStyle, style, createStyled } from '../theme/util'
 import { AppTheme, getThemeContext } from '../theme/theme'
 
-const InputWrapper = styled.div``
-
-const Input = styled.input`
-  width: 100%;
-`
-
-const Hook = styled.div``
-
-const Prefix = styled.p``
+const InputWrapper = createStyled('div')
+const Input = createStyled('input')
+const Hook = createStyled('div')
+const Prefix = createStyled('p')
 
 export type Props = {
   onChange?: (value: string) => void
@@ -106,7 +101,7 @@ export const TextInput = (props: Props) => {
             ...((props.error ? ['errorInput'] : []) as any),
           ])}
           disabled={props.readOnly || props.disabled}
-          onChange={e => {
+          onChange={(e: any) => {
             setInternalValue(e.target.value)
             if (!props.onlyOnBlur) {
               onChange(e.target.value)

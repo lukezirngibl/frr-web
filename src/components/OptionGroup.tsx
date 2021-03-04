@@ -74,7 +74,9 @@ export const OptionGroup = (props: Props) => {
               name={item.name || props.dataTestId}
               value={item.value}
               checked={item.value === props.value}
-              onChange={() => {}}
+              onChange={() => {
+                props.onChange(item.value)
+              }}
               style={{
                 width: 1,
                 height: 1,
