@@ -48,7 +48,7 @@ export const RadioGroup = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <Wrapper style={getStyle('wrapper')}>
+      <Wrapper style={getStyle('wrapper')} data-test-id={props.dataTestId}>
         {props.options.map((o, k) => {
           const active = o.value === props.value
           return (
@@ -60,11 +60,12 @@ export const RadioGroup = (props: Props) => {
               }}
             >
               <input
+                type="checkbox"
                 value={o.value}
-                data-test-id={props.dataTestId}
-                name={props.name || props.dataTestId}
-                onChange={() => {
-                  props.onChange(o.value)
+                onClick={() => {
+                  if (!active) {
+                    props.onChange(o.value)
+                  }
                 }}
                 style={{
                   width: 1,
