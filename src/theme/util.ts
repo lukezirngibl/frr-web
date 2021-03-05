@@ -36,7 +36,7 @@ export const mapStylesToCSS = style =>
 
 export const createStyled = (type: any) => styled[type]`
   ${(props: {
-    styles: CSSProperties
+    css: CSSProperties
     ':hover': CSSProperties
     ':focus': CSSProperties
     ':invalid': CSSProperties
@@ -44,7 +44,7 @@ export const createStyled = (type: any) => styled[type]`
     ':disabled': CSSProperties
     ':media-mobile': CSSProperties
   }) => css`
-    ${mapStylesToCSS(props.styles || {})}
+    ${mapStylesToCSS(props.css || {})}
 
     &:hover {
       ${mapStylesToCSS(props[':hover'] || {})}
