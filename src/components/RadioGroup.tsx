@@ -60,11 +60,9 @@ export const RadioGroup = (props: Props) => {
               }}
             >
               <input
-                type="radio"
                 value={o.value}
                 data-test-id={props.dataTestId}
                 name={props.name || props.dataTestId}
-                checked={active}
                 onChange={() => {
                   props.onChange(o.value)
                 }}
