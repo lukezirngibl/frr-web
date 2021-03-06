@@ -48,7 +48,6 @@ export const OptionGroup = (props: Props) => {
           ...getStyle('wrapper'),
           ...(props.error ? getStyle('errorWrapper') : {}),
         }}
-        data-test-id={props.dataTestId}
       >
         {props.options.map(item => (
           <Item
@@ -57,6 +56,7 @@ export const OptionGroup = (props: Props) => {
             onClick={() => {
               props.onChange(item.value)
             }}
+            data-test-id={`${props.dataTestId}:${item.value}`}
             style={{
               ...getStyle('item'),
               ...(item.value === props.value ? getStyle('itemActive') : {}),
@@ -68,20 +68,6 @@ export const OptionGroup = (props: Props) => {
                 ...(item.value === props.value ? getStyle('labelActive') : {}),
               }}
               label={item.label}
-            />
-            <input
-              type="checkbox"
-              value={item.value}
-              onClick={() => {
-                if (item.value !== props.value) {
-                  props.onChange(item.value)
-                }
-              }}
-              style={{
-                width: 1,
-                height: 1,
-                opacity: 0,
-              }}
             />
           </Item>
         ))}

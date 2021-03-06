@@ -44,6 +44,7 @@ export const Toggle = (props: Props) => {
       {props.label && <Label {...props.label} />}
       <Wrapper
         onClick={() => props.onChange(!props.value)}
+        data-test-id={props.dataTestId}
         style={{
           ...getStyle('wrapper'),
           ...(props.value ? getStyle('wrapperActive') : {}),
@@ -54,20 +55,7 @@ export const Toggle = (props: Props) => {
             ...getStyle('circle'),
             ...(props.value ? getStyle('circleActive') : {}),
           }}
-        >
-          <input
-            type="checkbox"
-            data-test-id={props.dataTestId}
-            name={props.name || props.dataTestId}
-            checked={!!props.value}
-            onChange={() => {}}
-            style={{
-              width: 1,
-              height: 1,
-              opacity: 0,
-            }}
-          />
-        </Circle>
+        ></Circle>
       </Wrapper>
     </>
   )
