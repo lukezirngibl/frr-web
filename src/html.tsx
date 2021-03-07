@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { getThemeContext } from './theme/theme'
-import { useInlineStyle } from './theme/util'
+import { StyledCSSProperties, useInlineStyle } from './theme/util'
 import { getLanguageContext, getTranslation } from './theme/language'
 import { CSSProperties } from './theme/theme'
 import { createStyled } from './theme/util'
@@ -14,7 +14,7 @@ type Props = {
         translate: (k: string) => string
       }) => ReactNode)
   style?: CSSProperties
-  styleCSS?: CSSProperties
+  styleCSS?: StyledCSSProperties,
   value?: any
   disabled?: any
   readOnly?: boolean

@@ -34,16 +34,17 @@ export const mapStylesToCSS = style =>
  * Creates a styled component with support for pseudo elements and media query styles provided from a style object
  */
 
+export type StyledCSSProperties = {
+  css: CSSProperties
+  ':hover'?: CSSProperties
+  ':focus'?: CSSProperties
+  ':invalid'?: CSSProperties
+  ':read-only'?: CSSProperties
+  ':disabled'?: CSSProperties
+  ':media-mobile'?: CSSProperties
+}
 export const createStyled = (type: any) => styled[type]`
-  ${(props: {
-    css: CSSProperties
-    ':hover': CSSProperties
-    ':focus': CSSProperties
-    ':invalid': CSSProperties
-    ':read-only': CSSProperties
-    ':disabled': CSSProperties
-    ':media-mobile': CSSProperties
-  }) => css`
+  ${(props: StyledCSSProperties) => css`
     ${mapStylesToCSS(props.css || {})}
 
     &:hover {
@@ -76,23 +77,21 @@ export const createStyled = (type: any) => styled[type]`
  */
 
 export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
-         theme: Theme,
-         componentKey: C,
-       ) => {
-         return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
-           elementKey: K,
-         ): Theme[C][K] => {
-           return omitKeys(
-             {
-               ...theme[componentKey][elementKey],
-               ...(override && override[elementKey]
-                 ? override[elementKey]
-                 : {}),
-             } as any,
-             dynamicStyleKeys as any,
-           )
-         }
-       }
+  theme: Theme,
+  componentKey: C,
+) => {
+  return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
+    elementKey: K,
+  ): Theme[C][K] => {
+    return omitKeys(
+      {
+        ...theme[componentKey][elementKey],
+        ...(override && override[elementKey] ? override[elementKey] : {}),
+      } as any,
+      dynamicStyleKeys as any,
+    )
+  }
+}
 export const useInlineStyle = getUseInlineStyle<AppTheme>()
 /*
  * Generates the CSS style object for a styled component created with the createStyled() function
@@ -104,7 +103,7 @@ export const getUseCSSStyle = <Theme>() => <C extends keyof Theme>(
 ) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
-): { style: Theme[C][K] } => {
+): StyledCSSProperties => {
   return {
     css: omitKeys(
       {
