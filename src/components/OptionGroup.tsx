@@ -56,6 +56,7 @@ export const OptionGroup = (props: Props) => {
             onClick={() => {
               props.onChange(item.value)
             }}
+            data-test-id={`${props.dataTestId}:${item.value}`}
             style={{
               ...getStyle('item'),
               ...(item.value === props.value ? getStyle('itemActive') : {}),
@@ -67,21 +68,6 @@ export const OptionGroup = (props: Props) => {
                 ...(item.value === props.value ? getStyle('labelActive') : {}),
               }}
               label={item.label}
-            />
-            <input
-              type="checkbox"
-              data-test-id={props.dataTestId}
-              name={item.name || props.dataTestId}
-              value={item.value}
-              checked={item.value === props.value}
-              onChange={() => {
-                props.onChange(item.value)
-              }}
-              style={{
-                width: 1,
-                height: 1,
-                opacity: 0,
-              }}
             />
           </Item>
         ))}

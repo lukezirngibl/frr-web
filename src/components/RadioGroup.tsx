@@ -58,22 +58,8 @@ export const RadioGroup = (props: Props) => {
               onClick={() => {
                 props.onChange(o.value)
               }}
+              data-test-id={`${props.dataTestId}:${o.value}`}
             >
-              <input
-                type="radio"
-                value={o.value}
-                data-test-id={props.dataTestId}
-                name={props.name || props.dataTestId}
-                checked={active}
-                onChange={() => {
-                  props.onChange(o.value)
-                }}
-                style={{
-                  width: 1,
-                  height: 1,
-                  opacity: 0,
-                }}
-              />
               <P style={getStyle('label')} label={o.label} />
               <OuterRadio
                 style={{
