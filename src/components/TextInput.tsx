@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { getLanguageContext, getTranslation } from '../theme/language'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { createStyled, useCSSStyle } from '../theme/util'
+import { createStyled, useCSSStyles } from '../theme/util'
+import styled, { css } from 'styled-components'
 import { Label, LabelProps } from './Label'
 
-const InputWrapper = createStyled('div')
+const InputWrapper = createStyled('div') 
 const Input = createStyled('input')
 const Hook = createStyled('div')
 const Prefix = createStyled('p')
@@ -37,7 +38,7 @@ export const TextInput = (props: Props) => {
   const { inputType, value, placeholder } = props
 
   const theme = React.useContext(getThemeContext())
-  const getCSSStyle = useCSSStyle(theme, 'textInput')(props.style)
+  const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
@@ -62,12 +63,12 @@ export const TextInput = (props: Props) => {
     },
     [],
   )
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        {...getCSSStyle([
+        cssStyles={getCSSStyle([
           'wrapper',
           ...((props.disabled ? ['disabledWrapper'] : []) as any),
           ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
@@ -80,14 +81,14 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          {...getCSSStyle([
+          cssStyles={getCSSStyle([
             'hook',
             ...((props.readOnly ? ['readOnlyHook'] : []) as any),
             ...((props.error ? ['errorHook'] : []) as any),
           ])}
         />
         {props.prefix && (
-          <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
+          <Prefix cssStyles={getCSSStyle('prefix')}>{props.prefix}</Prefix>
         )}
         <Input
           data-test-id={props.dataTestId}
@@ -95,7 +96,7 @@ export const TextInput = (props: Props) => {
           ref={inputRef}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          {...getCSSStyle([
+          cssStyles={getCSSStyle([
             'input',
             ...((props.disabled ? ['disabledInput'] : []) as any),
             ...((props.readOnly ? ['readOnlyInput'] : []) as any),

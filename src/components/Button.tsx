@@ -1,7 +1,7 @@
 import React from 'react'
 import { CSSProperties } from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createStyled, useCSSStyle, useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { IconProps, Icon } from './Icon'
 import { Loading } from './Loading'
 import { P } from '../html'
@@ -40,13 +40,13 @@ export const Button = (props: Props) => {
   const theme = React.useContext(getThemeContext())
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
-  const getCSSStyle = useCSSStyle(theme, 'button')(props.style)
+  const getCSSStyle = useCSSStyles(theme, 'button')(props.style)
 
   return (
     <ButtonWrapper
       data-test-id={props.dataTestId}
       onClick={disabled || props.loading ? undefined : props.onClick}
-      {...getCSSStyle(['common', mapTypeToStyleKey[type]], {
+      cssStyles={getCSSStyle(['common', mapTypeToStyleKey[type]], {
         ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
         ...(props.override || {}),
       })}
