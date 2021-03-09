@@ -85,7 +85,11 @@ export enum ModalLinkType {
   IFrame = 'Iframe',
 }
 
-type ModalLinkConfig = Option<{ url: string; type: ModalLinkType }>
+type ModalLinkConfig = Option<{
+  url: string
+  bearerToken?: string
+  type: ModalLinkType
+}>
 
 export type Props = {
   modalOpen: boolean

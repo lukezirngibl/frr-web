@@ -102,15 +102,16 @@ export const DatePicker = (props: Props) => {
             value={props.value ? format(props.value, dateFormat) : null}
             dataTestId={props.dataTestId}
           />
-          <div
-            style={getStyle('iconWrapper')}
-            onClick={() => {
-              setOpen(!open)
-            }}
-          >
+          <div style={getStyle('iconWrapper')}>
             <div style={getStyle('hook1')} />
             <div style={getStyle('hook2')} />
-            <Icon icon="calendar_today" size={16} />
+            <Icon
+              icon="calendar_today"
+              size={16}
+              onClick={() => {
+                setOpen(!open)
+              }}
+            />
             <DatePickerLib
               locale={language}
               open={open}

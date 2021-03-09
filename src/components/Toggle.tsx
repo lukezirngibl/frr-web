@@ -37,14 +37,11 @@ export const Toggle = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = createGetStyle(theme, 'toggle')(props.style)
 
-  const language = React.useContext(getLanguageContext())
-
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
         onClick={() => props.onChange(!props.value)}
-        data-test-id={props.dataTestId}
         style={{
           ...getStyle('wrapper'),
           ...(props.value ? getStyle('wrapperActive') : {}),
@@ -55,7 +52,20 @@ export const Toggle = (props: Props) => {
             ...getStyle('circle'),
             ...(props.value ? getStyle('circleActive') : {}),
           }}
-        ></Circle>
+        >
+          <input
+            style={{
+              width: 1,
+              height: 1,
+              opacity: 0,
+            }}
+            data-test-id={props.dataTestId}
+            value={`${props.value}`}
+            onClick={() => {
+              props.onChange(!props.value)
+            }}
+          />
+        </Circle>
       </Wrapper>
     </>
   )
