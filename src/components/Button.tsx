@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CSSProperties } from 'styled-components'
-import { getThemeContext, AppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
-import { IconProps, Icon } from './Icon'
-import { Loading } from './Loading'
+import { useDebouncedCallback } from 'use-debounce/lib'
 import { P } from '../html'
+import { AppTheme, getThemeContext } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { Icon, IconProps } from './Icon'
+import { Loading } from './Loading'
+
 
 const ButtonWrapper = createStyled('button')
 
@@ -35,21 +37,39 @@ export type Props = {
 }
 
 export const Button = (props: Props) => {
-  const { disabled } = props
+  /* Style hooks */
   const type = props.type || ButtonType.Secondary
   const theme = React.useContext(getThemeContext())
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
   const getCSSStyle = useCSSStyles(theme, 'button')(props.style)
 
+  /* Click handler */
+  const [isClicked, setIsClicked] = useState(false)
+
+  const handleClicked =
+    props.disabled || props.loading
+      ? undefined
+      : () => {
+          setIsClicked(true)
+          onClicked()
+        }
+
+  const onClicked = useDebouncedCallback(() => {
+    props.onClick()
+    setIsClicked(false)
+  }, 300)
+
   return (
     <ButtonWrapper
+      className={isClicked ? 'animate' : ''}
       data-test-id={props.dataTestId}
-      onClick={disabled || props.loading ? undefined : props.onClick}
-      cssStyles={getCSSStyle(['common', mapTypeToStyleKey[type]], {
-        ...(disabled ? { opacity: 0.4, pointerEvents: 'none' } : {}),
-        ...(props.override || {}),
-      })}
+      onClick={handleClicked}
+      disabled={props.disabled}
+      cssStyles={getCSSStyle(
+        ['common', mapTypeToStyleKey[type]],
+        props.override,
+      )}
     >
       {props.icon && <Icon {...props.icon} />}
       <P

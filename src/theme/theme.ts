@@ -8,6 +8,7 @@ export type CSSProperties = sc_CSSProperties & {
   ':disabled'?: CSSProperties
   ':readonly'?: CSSProperties
   '@media-mobile'?: CSSProperties
+  '@animation'?: string
 }
 
 export type AppTheme = {
