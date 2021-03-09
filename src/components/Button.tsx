@@ -7,7 +7,6 @@ import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
 
-
 const ButtonWrapper = createStyled('button')
 
 export enum ButtonType {
