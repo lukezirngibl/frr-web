@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Checkbox } from 'semantic-ui-react'
+import styled from 'styled-components'
+import { getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
-import { getLanguageContext, getTranslation } from '../theme/language'
 
 const CheckboxGroupWapper = styled.div``
 
