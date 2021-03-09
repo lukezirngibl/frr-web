@@ -41,7 +41,7 @@ type Props = {
 }
 
 export const Search = (props: Props) => {
-  const [onChange] = useDebouncedCallback((text: string) => {
+  const onChange = useDebouncedCallback((text: string) => {
     props.onChange(text)
   }, 1000)
 

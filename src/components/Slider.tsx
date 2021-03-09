@@ -98,7 +98,7 @@ export const Slider = (props: Props) => {
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
-  const [onChange] = useDebouncedCallback((v: number) => {
+  const onChange = useDebouncedCallback((v: number) => {
     props.onChange(v)
   }, 200)
 
