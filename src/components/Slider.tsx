@@ -128,6 +128,7 @@ export const Slider = (props: Props) => {
           value={internalValue}
           onChange={(e, v) => {
             setInternalValue(v as number)
+            // @ts-ignore
             onChange(v as number)
           }}
           min={props.min}

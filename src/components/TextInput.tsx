@@ -5,7 +5,7 @@ import { AppTheme, getThemeContext } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
-const InputWrapper = createStyled('div') 
+const InputWrapper = createStyled('div')
 const Input = createStyled('input')
 const Hook = createStyled('div')
 const Prefix = createStyled('p')
@@ -105,6 +105,7 @@ export const TextInput = (props: Props) => {
           onChange={(e: any) => {
             setInternalValue(e.target.value)
             if (!props.onlyOnBlur) {
+              // @ts-ignore
               onChange(e.target.value)
             }
           }}
