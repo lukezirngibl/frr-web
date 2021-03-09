@@ -19,7 +19,7 @@ export const YesNoRadioGroup = (props: Props) => {
       value: 'false',
     },
   ]
-
+  
   return (
     <RadioGroup
       {...otherProps}

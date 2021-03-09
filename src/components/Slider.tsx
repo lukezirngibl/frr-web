@@ -1,12 +1,12 @@
-import { Modal, Slider as MaterialSlider } from '@material-ui/core'
+import { Slider as MaterialSlider } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
 import React from 'react'
 import { CSSProperties } from 'styled-components'
-import { withStyles } from '@material-ui/styles'
+import { useDebouncedCallback } from 'use-debounce'
+import { P } from '../html'
 import { getThemeContext } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
-import { P } from '../html'
-import { LabelProps, Label } from './Label'
-import { useDebouncedCallback } from 'use-debounce/lib'
+import { Label, LabelProps } from './Label'
 
 var formatter = new Intl.NumberFormat('de-CH', {
   style: 'currency',

@@ -44,7 +44,7 @@ export type Props = {
 export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = useInlineStyle(theme, 'radioGroup')(props.style)
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}
