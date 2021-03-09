@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
-import { createGetStyle } from '../theme/util'
-import { getLanguageContext } from '../theme/language'
+import { useInlineStyle } from '../theme/util'
+import { getLanguageContext, getTranslation } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
 import { P } from '../html'
@@ -38,7 +38,7 @@ export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const language = React.useContext(getLanguageContext())
 
-  const getStyle = createGetStyle(theme, 'optionGroup')(props.style)
+  const getStyle = useInlineStyle(theme, 'optionGroup')(props.style)
 
   return (
     <>

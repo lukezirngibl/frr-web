@@ -2,9 +2,12 @@ import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
 import { keys } from '../util'
 
-type CSSProperties = sc_CSSProperties & {
+export type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
   ':focus'?: CSSProperties
+  ':disabled'?: CSSProperties
+  ':readonly'?: CSSProperties
+  '@media-mobile'?: CSSProperties
 }
 
 export type AppTheme = {
@@ -232,22 +235,26 @@ export type AppThemeConfig = { [k in keyof AppTheme]?: Partial<AppTheme[k]> }
 let ThemeVal = defaultTheme
 let ThemeContext = React.createContext(defaultTheme)
 
+export enum MediaQuery {
+  Mobile = '(max-width: 768px)',
+}
+
 export const configureTheme = (userTheme: AppThemeConfig) => {
   ThemeVal = keys(defaultTheme).reduce(
     (acc1, k1) => ({
       ...acc1,
-      [k1]: keys(defaultTheme[k1]).reduce(
-        (acc2, k2) => ({
+      [k1]: keys(defaultTheme[k1]).reduce((acc2, k2) => {
+        const userThemeVal =
+          (userTheme[k1] && ((userTheme[k1] as unknown) as any)[k2]) || {}
+
+        return {
           ...acc2,
           [k2]: {
             ...((defaultTheme[k1][k2] as unknown) as any),
-            ...(userTheme[k1] && ((userTheme[k1] as unknown) as any)[k2]
-              ? ((userTheme[k1] as unknown) as any)[k2]
-              : {}),
+            ...userThemeVal,
           },
-        }),
-        {},
-      ),
+        }
+      }, {}),
     }),
     {},
   ) as AppTheme

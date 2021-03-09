@@ -1,7 +1,7 @@
-import { AppTheme } from './theme'
-import styled, { CSSProperties } from 'styled-components'
+import { AppTheme, MediaQuery } from './theme'
+import styled, { CSSProperties, css } from 'styled-components'
 
-export const omit = <T extends { [k: string]: unknown }>(
+export const omitKeys = <T extends { [k: string]: unknown }>(
   obj: T,
   keysIn: Array<keyof T>,
 ) =>
@@ -11,76 +11,90 @@ export const omit = <T extends { [k: string]: unknown }>(
     ({} as unknown) as T,
   )
 
-const dynamicStyleKeys = [
+export const dynamicStyleKeys = [
   ':hover',
   ':focus',
   ':invalid',
-  ':read-only',
+  ':readonly',
   ':disabled',
+  '@media-mobile',
 ]
 
-export const styleString = style =>
+const nonPixelKeys = ['flexGrow', 'flexShrink', 'lineHeight', 'fontWeight']
+
+export const mapStylesToCSS = style =>
   Object.entries(style)
     .map(
-      ([k, v]) =>
-        `${k.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${
-          isNaN(v as any) ? v : `${v}px`
+      ([cssKey, cssValue]) =>
+        `${cssKey.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}: ${
+          isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
         };`,
     )
     .join(' ')
 
-export const createStyled = (type: any) => styled[type]`
-  ${(props: { css: CSSProperties }) => styleString(props['css'] || {})}
+/*
+ * Creates a styled component with support for pseudo elements and media query styles provided from a style object
+ */
 
-  &:hover {
-    ${(props: { ':hover': CSSProperties }) =>
-      styleString(props[':hover'] || {})}
-  }
-  &:focus {
-    ${(props: { ':focus': CSSProperties }) =>
-      styleString(props[':focus'] || {})}
-  }
-
-  &:[invalid=true] {
-    ${(props: { ':invalid': CSSProperties }) =>
-      styleString(props[':invalid'] || {})}
-  }
-
-  &:read-only {
-    ${(props: { ':read-only': CSSProperties }) =>
-      styleString(props[':read-only '] || {})}
-  }
-
-  &:disabled {
-    ${(props: { ':disabled': CSSProperties }) =>
-      styleString(props[':disabled'] || {})}
-  }
-`
-
-export const createGetStyle = <C extends keyof AppTheme>(
-  theme: AppTheme,
-  componentKey: C,
-) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
-  elementKey: K,
-): AppTheme[C][K] => {
-  return omit(
-    {
-      ...theme[componentKey][elementKey],
-      ...(override && override[elementKey] ? override[elementKey] : {}),
-    } as any,
-    dynamicStyleKeys as any,
-  )
+export type StyledCSSProperties = {
+  css: CSSProperties
+  ':hover'?: CSSProperties
+  ':focus'?: CSSProperties
+  ':invalid'?: CSSProperties
+  ':readonly'?: CSSProperties
+  ':disabled'?: CSSProperties
+  '@media-mobile'?: CSSProperties
 }
+export const createStyled = (type: any) =>
+  typeof type === 'string'
+    ? styled[type]`
+        ${(props: { cssStyles: string }) =>
+          css`
+            ${props.cssStyles}
+          `}
+      `
+    : styled(type)`
+        ${(props: { cssStyles: string }) =>
+          css`
+            ${props.cssStyles}
+          `}
+      `
 
-export const style = <C extends keyof AppTheme>(
-  theme: AppTheme,
+/*
+ * Generates the style object to be added as inline styles. E.g. <div style={styles}>...
+ */
+
+export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
+  theme: Theme,
   componentKey: C,
-) => (override?: Partial<AppTheme[C]>) => <K extends keyof AppTheme[C]>(
+) => {
+  return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
+    elementKey: K,
+  ): Theme[C][K] => {
+    return omitKeys(
+      {
+        ...theme[componentKey][elementKey],
+        ...(override && override[elementKey] ? override[elementKey] : {}),
+      } as any,
+      dynamicStyleKeys as any,
+    )
+  }
+}
+export const useInlineStyle = getUseInlineStyle<AppTheme>()
+
+/*
+ * Generates the CSS style object for a styled component created with the createStyled() function
+ */
+
+export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
+  theme: Theme,
+  componentKey: C,
+) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
-): { style: AppTheme[C][K] } => {
-  return {
-    css: omit(
+): string => {
+  const styles = {
+    css: omitKeys(
       {
         ...((Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
           (obj, elementKey) => ({
@@ -111,4 +125,35 @@ export const style = <C extends keyof AppTheme>(
       {} as any,
     ),
   }
+
+  const cssStyles = `
+    ${mapStylesToCSS(styles.css || {})}
+
+    &:hover {
+      ${mapStylesToCSS(styles[':hover'] || {})}
+    }
+
+    &:focus {
+      ${mapStylesToCSS(styles[':focus'] || {})}
+    }
+
+    &:invalid {
+      ${mapStylesToCSS(styles[':invalid'] || {})}
+    }
+
+    &:disabled {
+      ${mapStylesToCSS(styles[':disabled'] || {})}
+    }
+
+    &[readonly] {
+      ${mapStylesToCSS(styles[':readonly'] || {})}
+    }
+
+    @media ${MediaQuery.Mobile} {
+      ${mapStylesToCSS(styles['@media-mobile'] || {})}
+    }
+  `
+
+  return cssStyles
 }
+export const useCSSStyles = getUseCSSStyles<AppTheme>()

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Label, LabelProps } from './Label'
-import { TextInput, Props as TextInputProps } from './TextInput'
+import { LabelProps } from './Label'
+import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
   onChange: (value: number) => void
@@ -12,18 +12,15 @@ export type Props = {
 } & Omit<TextInputProps, 'onChange' | 'label' | 'value'>
 
 export const NumberInput = (props: Props) => {
-  const { onChange, ...otherProps } = props
+  const { onChange, value, ...otherProps } = props
   return (
-    <>
-      {props.label && <Label {...props.label} />}
-      <TextInput
-        {...otherProps}
-        value={`${props.value}`}
-        onChange={v => {
-          onChange(Number(v))
-        }}
-        inputType="number"
-      />
-    </>
+    <TextInput
+      {...otherProps}
+      value={`${value}`}
+      onChange={v => {
+        onChange(Number(v))
+      }}
+      inputType="number"
+    />
   )
 }
