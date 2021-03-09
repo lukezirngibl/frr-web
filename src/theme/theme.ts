@@ -5,8 +5,9 @@ import { keys } from '../util'
 export type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
   ':focus'?: CSSProperties
-  ':read-only'?: CSSProperties
-  ':media-mobile'?: CSSProperties
+  ':disabled'?: CSSProperties
+  ':readonly'?: CSSProperties
+  '@media-mobile'?: CSSProperties
 }
 
 export type AppTheme = {

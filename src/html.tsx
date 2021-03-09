@@ -91,7 +91,7 @@ export const Element = (
           ? '<computed>'
           : translationKey || label) as string
       }
-      read-only={readOnly}
+      readOnly={readOnly}
       style={{
         ...getStyle(element),
         ...style,

@@ -15,17 +15,19 @@ export const dynamicStyleKeys = [
   ':hover',
   ':focus',
   ':invalid',
-  ':read-only',
+  ':readonly',
   ':disabled',
-  ':media-mobile',
+  '@media-mobile',
 ]
+
+const nonPixelKeys = ['flexGrow', 'flexShrink', 'lineHeight', 'fontWeight']
 
 export const mapStylesToCSS = style =>
   Object.entries(style)
     .map(
       ([cssKey, cssValue]) =>
         `${cssKey.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}: ${
-          isNaN(cssValue as any) ? cssValue : `${cssValue}px`
+          isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
         };`,
     )
     .join(' ')
@@ -39,9 +41,9 @@ export type StyledCSSProperties = {
   ':hover'?: CSSProperties
   ':focus'?: CSSProperties
   ':invalid'?: CSSProperties
-  ':read-only'?: CSSProperties
+  ':readonly'?: CSSProperties
   ':disabled'?: CSSProperties
-  ':media-mobile'?: CSSProperties
+  '@media-mobile'?: CSSProperties
 }
 export const createStyled = (type: any) =>
   typeof type === 'string'
@@ -124,12 +126,13 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
     ),
   }
 
-  return `
+  const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
 
     &:hover {
       ${mapStylesToCSS(styles[':hover'] || {})}
     }
+
     &:focus {
       ${mapStylesToCSS(styles[':focus'] || {})}
     }
@@ -138,17 +141,19 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
       ${mapStylesToCSS(styles[':invalid'] || {})}
     }
 
-    &:read-only {
-      ${mapStylesToCSS(styles[':read-only '] || {})}
-    }
-
     &:disabled {
       ${mapStylesToCSS(styles[':disabled'] || {})}
     }
 
+    &[readonly] {
+      ${mapStylesToCSS(styles[':readonly'] || {})}
+    }
+
     @media ${MediaQuery.Mobile} {
-      ${mapStylesToCSS(styles[':media-mobile'] || {})}
+      ${mapStylesToCSS(styles['@media-mobile'] || {})}
     }
   `
+
+  return cssStyles
 }
 export const useCSSStyles = getUseCSSStyles<AppTheme>()
