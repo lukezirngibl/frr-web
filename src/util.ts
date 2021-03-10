@@ -20,7 +20,7 @@ export type Options<T> = Array<{
 export const processOptions = (
   raw: Array<{ label?: string; name?: string; value: string | number }>,
   translate: (s: string) => string,
-) =>
+): Array<{ text: string, value: string | number }> =>
   raw.map(o => ({
     text:
       o.label !== undefined

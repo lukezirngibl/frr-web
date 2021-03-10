@@ -46,18 +46,19 @@ export const Button = (props: Props) => {
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
 
+  const onClicked = useDebouncedCallback(() => {
+    props.onClick()
+    setIsClicked(false)
+  }, 300)
+
   const handleClicked =
     props.disabled || props.loading
       ? undefined
       : () => {
           setIsClicked(true)
+          // @ts-ignore
           onClicked()
         }
-
-  const onClicked = useDebouncedCallback(() => {
-    props.onClick()
-    setIsClicked(false)
-  }, 300)
 
   return (
     <ButtonWrapper
