@@ -1,5 +1,5 @@
+import styled, { css, CSSProperties } from 'styled-components'
 import { AppTheme, MediaQuery } from './theme'
-import styled, { CSSProperties, css } from 'styled-components'
 
 export const omitKeys = <T extends { [k: string]: unknown }>(
   obj: T,
@@ -20,14 +20,24 @@ export const dynamicStyleKeys = [
   '@media-mobile',
 ]
 
-const nonPixelKeys = ['flexGrow', 'flexShrink', 'lineHeight', 'fontWeight']
+const animationKeys = ['@animation']
 
-export const mapStylesToCSS = style =>
+const nonPixelKeys = [
+  'flexGrow',
+  'flexShrink',
+  'fontWeight',
+  'lineHeight',
+  'opacity',
+]
+
+export const mapStylesToCSS = (style) =>
   Object.entries(style)
     .map(
       ([cssKey, cssValue]) =>
-        `${cssKey.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}: ${
-          isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
+        `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
+          isNaN(cssValue as any) || nonPixelKeys.includes(cssKey)
+            ? cssValue
+            : `${cssValue}px`
         };`,
     )
     .join(' ')
@@ -36,15 +46,6 @@ export const mapStylesToCSS = style =>
  * Creates a styled component with support for pseudo elements and media query styles provided from a style object
  */
 
-export type StyledCSSProperties = {
-  css: CSSProperties
-  ':hover'?: CSSProperties
-  ':focus'?: CSSProperties
-  ':invalid'?: CSSProperties
-  ':readonly'?: CSSProperties
-  ':disabled'?: CSSProperties
-  '@media-mobile'?: CSSProperties
-}
 export const createStyled = (type: any) =>
   typeof type === 'string'
     ? styled[type]`
@@ -93,10 +94,14 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
 ): string => {
+  const keys = Array.isArray(elementKeys)
+    ? elementKeys
+    : ([elementKeys] as Array<K>)
+
   const styles = {
     css: omitKeys(
       {
-        ...((Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
+        ...(keys.reduce(
           (obj, elementKey) => ({
             ...obj,
             ...theme[componentKey][elementKey],
@@ -106,12 +111,12 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
         ) as any),
         ...(internalOverride || {}),
       },
-      dynamicStyleKeys as any,
+      dynamicStyleKeys.concat(animationKeys) as any,
     ),
     ...dynamicStyleKeys.reduce(
       (obj, k) => ({
         ...obj,
-        [k]: (Array.isArray(elementKeys) ? elementKeys : [elementKeys]).reduce(
+        [k]: keys.reduce(
           (obj, elementKey) => ({
             ...obj,
             ...(theme[componentKey][elementKey][k] || {}),
@@ -124,6 +129,14 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
       }),
       {} as any,
     ),
+  }
+
+  const animationKey = keys.find(
+    (elementKey) => !!theme[componentKey][elementKey]['@animation'],
+  )
+  let animation
+  if (animationKey) {
+    animation = theme[componentKey][animationKey]['@animation']
   }
 
   const cssStyles = `
@@ -152,6 +165,8 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
     @media ${MediaQuery.Mobile} {
       ${mapStylesToCSS(styles['@media-mobile'] || {})}
     }
+
+    ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
   return cssStyles
