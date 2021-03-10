@@ -8,11 +8,11 @@
   "keywords": [],
   "scripts": {
     "build": "tsc",
+    "build:dev": "rm -r lib && tsc",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
     "babel:watch": "yarn babel:build --watch",
     "prepare": "install-peers",
     "build-types": "install-peers -f && tsc",
-    "build-types:watch": "yarn check-types --watch",
     "clean": "rm -rf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/styled-components",
     "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch"
   },
