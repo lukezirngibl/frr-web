@@ -107,7 +107,7 @@ export const Slider = (props: Props) => {
   }, [props.value])
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       {props.label && <Label {...props.label} />}
       <div style={getStyle('wrapper')}>
         <div
