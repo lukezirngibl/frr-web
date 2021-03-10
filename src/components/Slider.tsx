@@ -107,7 +107,7 @@ export const Slider = (props: Props) => {
   }, [props.value])
 
   return (
-    <>
+    <div>
       {props.label && <Label {...props.label} />}
       <div style={getStyle('wrapper')}>
         <div
@@ -139,6 +139,6 @@ export const Slider = (props: Props) => {
           marks={props.marks}
         />
       </div>
-    </>
+    </div>
   )
 }
