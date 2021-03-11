@@ -20,7 +20,7 @@ export const SingleCheckbox = (props: Props) => {
   const { value } = props
 
   const theme = React.useContext(getThemeContext())
-  const getStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
 
   return (
     <>
@@ -30,15 +30,12 @@ export const SingleCheckbox = (props: Props) => {
           {...props.label}
         ></Label>
       )}
-      <Wrapper style={getStyle('wrapper')}>
+      <Wrapper {...getInlineStyle('wrapper')}>
         <input
           type="checkbox"
           checked={value}
           onChange={() => props.onChange(!value)}
-          style={{
-            marginLeft: 16,
-            ...(getStyle('input') || {}),
-          }}
+          {...getInlineStyle('input', { marginLeft: 16 })}
         />
       </Wrapper>
     </>

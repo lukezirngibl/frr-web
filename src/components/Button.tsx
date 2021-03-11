@@ -46,25 +46,25 @@ export const Button = (props: Props) => {
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
 
-  const onClicked = useDebouncedCallback(() => {
-    props.onClick()
-    setIsClicked(false)
-  }, 300)
+  // const onClicked = useDebouncedCallback(() => {
+  //   props.onClick()
+  //   setIsClicked(false)
+  // }, 300)
 
-  const handleClicked =
-    props.disabled || props.loading
-      ? undefined
-      : () => {
-          setIsClicked(true)
-          // @ts-ignore
-          onClicked()
-        }
+  // const handleClicked =
+  //   props.disabled || props.loading
+  //     ? undefined
+  //     : () => {
+  //         setIsClicked(true)
+  //         // @ts-ignore
+  //         onClicked()
+  //       }
 
   return (
     <ButtonWrapper
       className={isClicked ? 'animate' : ''}
       data-test-id={props.dataTestId}
-      onClick={handleClicked}
+      onClick={props.onClick}
       disabled={props.disabled}
       cssStyles={getCSSStyle(
         ['common', mapTypeToStyleKey[type]],

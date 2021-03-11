@@ -33,7 +33,8 @@ export const Select = (props: Props) => {
   const language = React.useContext(getLanguageContext())
   const translate = getTranslation(language)
 
-  const getStyle = useInlineStyle(theme, 'select')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
+  const getCSSStyles = useInlineStyle(theme, 'select')(props.style)
 
   let options =
     typeof props.options === 'function'
@@ -84,16 +85,18 @@ export const Select = (props: Props) => {
 
     ...parseOptions(
       props.priority
-        ? [
-            ...options.filter((o) => props.priority.includes(o.value)),
-            {
-              value: '---',
-              disabled: true,
-              label: '---',
-            },
-          ]
+        ? [...options.filter((o) => props.priority.includes(o.value))]
         : [],
     ),
+    ...(props.priority
+      ? [
+          {
+            value: '---',
+            disabled: true,
+            label: '---',
+          },
+        ]
+      : []),
     ...parseOptions(
       props.priority
         ? options.filter((o) => !props.priority.includes(o.value))
@@ -104,13 +107,13 @@ export const Select = (props: Props) => {
   return (
     <>
       {label && <Label {...label} />}
-      <div style={getStyle('wrapper')}>
+      <div {...getInlineStyle('wrapper')}>
         <SelectWrapper
-          className={'select-wrapper'}
-          style={{
-            ...getStyle('select'),
-            ...(props.error ? getStyle('errorWrapper') : {}),
-          }}
+          {...getInlineStyle(
+            ['select', ...((props.error ? ['errorWrapper'] : []) as any)],
+            {},
+            'select-wrapper',
+          )}
           disabled={props.disabled || props.readOnly}
           value={props.value === null ? 'null' : props.value}
           onChange={(e) => {
@@ -123,13 +126,13 @@ export const Select = (props: Props) => {
               value={o.value === null ? 'null' : o.value}
               key={i}
               disabled={o.disabled}
-              style={getStyle('option')}
+              {...getCSSStyles('option')}
               label={o.label || o.name}
               translationKey={o.translationKey}
             />
           ))}
         </SelectWrapper>
-        <Icon icon="expand_more" size={16} style={getStyle('icon') as any} />
+        <Icon icon="expand_more" size={16} {...getInlineStyle('icon')} />
       </div>
     </>
   )

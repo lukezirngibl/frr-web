@@ -85,10 +85,10 @@ export const DatePicker = (props: Props) => {
           setOpen(false)
         }}
       >
-        <Wrapper style={getStyle('wrapper')}>
+        <Wrapper {...getStyle('wrapper')}>
           <TextInput
             onChange={() => {}}
-            onBlur={v => {
+            onBlur={(v) => {
               try {
                 const value = parse(v, dateFormat, new Date()) as
                   | Date
@@ -102,9 +102,9 @@ export const DatePicker = (props: Props) => {
             value={props.value ? format(props.value, dateFormat) : null}
             dataTestId={props.dataTestId}
           />
-          <div style={getStyle('iconWrapper')}>
-            <div style={getStyle('hook1')} />
-            <div style={getStyle('hook2')} />
+          <div {...getStyle('iconWrapper')}>
+            <div {...getStyle('hook1')} />
+            <div {...getStyle('hook2')} />
             <Icon
               icon="calendar_today"
               size={16}

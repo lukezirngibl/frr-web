@@ -8,7 +8,7 @@ import { useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
-  // style: 'currency', 
+  // style: 'currency',
   currency: 'CHF', // TODO: Use currency from finObj
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
@@ -96,7 +96,9 @@ export type Props = {
 
 export const Slider = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getSliderStyle = useInlineStyle(theme, 'slider')({})
+
+  const getInlineStyle = useInlineStyle(theme, 'slider')({})
+  const getCSSStyles = useInlineStyle(theme, 'slider')({})
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
@@ -108,26 +110,24 @@ export const Slider = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
-  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [
-    theme,
-  ]) as any
+  const MaterialSlider = React.useMemo(
+    () => createSlider(theme.materialSlider),
+    [theme],
+  ) as any
 
   const prefix = props.isCurrency ? 'CHF' : props.prefix
 
   return (
     <div style={{ width: '100%' }}>
       {props.label && <Label {...props.label} />}
-      <div style={getSliderStyle('wrapper')}>
+      <div {...getInlineStyle('wrapper')}>
         <div
-          style={{
+          {...getInlineStyle('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
-            ...getSliderStyle('valueWrapper'),
-          }}
+          })}
         >
-          {prefix && (
-            <P label={prefix} style={getSliderStyle('prefix')} />
-          )}
-          <p style={getSliderStyle('value')}>
+          {prefix && <P label={prefix} {...getCSSStyles('prefix')} />}
+          <p {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </p>
         </div>

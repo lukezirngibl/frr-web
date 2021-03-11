@@ -8,6 +8,7 @@ type Props = {
   cssStyles?: string
   data?: { [k: string]: string }
   disabled?: any
+  className?: string
   label:
     | string
     | ((params: {
@@ -54,6 +55,7 @@ export const Element = (
     disabled,
     element,
     label,
+    className,
     readOnly,
     style = {},
     translationKey,
@@ -86,6 +88,7 @@ export const Element = (
       }}
       data={data}
       disabled={disabled}
+      className={className}
       itemID={
         (typeof label === 'function'
           ? '<computed>'

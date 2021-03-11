@@ -27,7 +27,7 @@ const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
     &:focus {
       outline: 0;
       background: transparent !important;
-      border-color: ${props => props.activeBorderColor} !important;
+      border-color: ${(props) => props.activeBorderColor} !important;
     }
   }
 `
@@ -57,10 +57,10 @@ export const CodeInput = (props: Props) => {
   const refs: Array<React.RefObject<typeof Input>> = range(
     0,
     props.length - 1,
-  ).map(i => React.createRef())
+  ).map((i) => React.createRef())
 
   const [intervalValue, setIntervalValue] = React.useState(
-    props.value || range(0, props.length - 1).reduce(str => `${str}-`, ''),
+    props.value || range(0, props.length - 1).reduce((str) => `${str}-`, ''),
   )
 
   React.useEffect(() => {
@@ -72,19 +72,19 @@ export const CodeInput = (props: Props) => {
       {props.label && <Label {...props.label} />}
       <CodeInputWrapper
         activeBorderColor={props.activeBorderColor}
-        style={getStyle('wrapper')}
+        {...getStyle('wrapper')}
       >
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
             ref={refs[i] as any}
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
-            style={getStyle('input')}
-            onClick={e => {
+            {...getStyle('input')}
+            onClick={(e) => {
               setIntervalValue(replaceChar(intervalValue, '-', i))
             }}
             type="number"
-            onChange={e => {
+            onChange={(e) => {
               const v = e.target.value.replace('-', ' ').trim()
               if (v === '') {
                 const prev = intervalValue[i]

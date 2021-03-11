@@ -1,6 +1,5 @@
-import { CSSProperties } from '@material-ui/styles'
 import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle, CSSProperties } from 'styled-components'
 
 export type IconProps = {
   icon: string
@@ -36,7 +35,7 @@ const IconEle = styled.i<IconProps>`
   text-transform: none;
   letter-spacing: normal;
   word-wrap: normal;
-  color: ${props => props.color || 'black'};
+  color: ${(props) => props.color || 'black'};
   white-space: nowrap;
   direction: ltr;
 
@@ -50,7 +49,7 @@ const IconEle = styled.i<IconProps>`
 
   /* Support for IE. */
   font-feature-settings: 'liga';
-  ${props => (props.size ? `font-size: ${props.size}px` : 'font-size: 24px')};
+  ${(props) => (props.size ? `font-size: ${props.size}px` : 'font-size: 24px')};
 
   cursor: pointer;
 

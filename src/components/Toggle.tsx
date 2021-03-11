@@ -35,22 +35,22 @@ export type Props = {
 
 export const Toggle = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = useInlineStyle(theme, 'toggle')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'toggle')(props.style)
 
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
         onClick={() => props.onChange(!props.value)}
-        style={{
-          ...getStyle('wrapper'),
-          ...(props.value ? getStyle('wrapperActive') : {}),
+        {...{
+          ...getInlineStyle('wrapper'),
+          ...(props.value ? getInlineStyle('wrapperActive') : {}),
         }}
       >
         <Circle
-          style={{
-            ...getStyle('circle'),
-            ...(props.value ? getStyle('circleActive') : {}),
+          {...{
+            ...getInlineStyle('circle'),
+            ...(props.value ? getInlineStyle('circleActive') : {}),
           }}
         >
           <input

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { ReactNode } from 'react'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { useInlineStyle, useCSSStyles } from '../theme/util'
 import { getLanguageContext } from '../theme/language'
 import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
@@ -39,20 +39,19 @@ export type LabelProps = {
 
 export const Label = (props: LabelProps) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = useInlineStyle(theme, 'label')(props.style)
+  const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
+  const getInlineStyle = useCSSStyles(theme, 'label')(props.style)
 
   const [open, setOpen] = React.useState(false)
 
   const language = React.useContext(getLanguageContext())
 
   return (
-    <LabelWrapper style={getStyle('wrapper')}>
-      <LabelTextWrapper style={getStyle('labelTextWrapper')}>
+    <LabelWrapper {...getInlineStyle('wrapper')}>
+      <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
         {props.error && (
           <Icon
-            style={{
-              ...((getStyle('errorIcon') as any) || {}),
-            }}
+            {...((getInlineStyle('errorIcon') as any) || {})}
             icon="error_outline"
             size={18}
             onClick={() => {
@@ -61,20 +60,14 @@ export const Label = (props: LabelProps) => {
           />
         )}
         <P
-          style={{
-            ...getStyle('labelText'),
-            ...(props.error ? getStyle('labelTextError') : {}),
-          }}
+          {...getCSSStyle(['labelText', 'labelTextError'])}
           label={props.label}
           data={props.labelData}
         />
         {props.description && (
           <div
             onClick={() => setOpen(true)}
-            style={{
-              marginLeft: 8,
-              ...((getStyle('descriptionIcon') as any) || {}),
-            }}
+            {...getInlineStyle('descriptionIcon')}
           >
             <InfoIcon />
           </div>
@@ -83,10 +76,10 @@ export const Label = (props: LabelProps) => {
           <ClickAwayListener onClickAway={() => setOpen(false)}>
             <DescriptionPopup
               onClick={() => setOpen(false)}
-              style={getStyle('descriptionPopup')}
+              {...getInlineStyle('descriptionPopup')}
             >
               <P
-                style={getStyle('descriptionText')}
+                {...getCSSStyle('descriptionText')}
                 label={props.description}
                 data={props.discriptionData}
               />
@@ -97,7 +90,7 @@ export const Label = (props: LabelProps) => {
 
       {props.sublabel ? (
         <P
-          style={getStyle('sublabelText')}
+          {...getCSSStyle('sublabelText')}
           label={props.sublabel}
           data={props.sublabelData}
         />
@@ -106,7 +99,7 @@ export const Label = (props: LabelProps) => {
       )}
       {props.error ? (
         <P
-          style={getStyle('errorLabel')}
+          {...getCSSStyle('errorLabel')}
           label={props.errorLabel || 'fieldError'}
           data={props.errorLabelData}
         />

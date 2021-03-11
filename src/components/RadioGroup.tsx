@@ -43,37 +43,39 @@ export type Props = {
 
 export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = useInlineStyle(theme, 'radioGroup')(props.style)
-  
+
+  const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
+  const getCSSStyles = useInlineStyle(theme, 'radioGroup')(props.style)
+
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <Wrapper style={getStyle('wrapper')}>
+      <Wrapper {...getInlineStyle('wrapper')}>
         {props.options.map((o, k) => {
           const active = o.value === props.value
           return (
             <Item
-              style={getStyle('item')}
+              {...getInlineStyle('item')}
               key={k}
               onClick={() => {
                 props.onChange(o.value)
               }}
               data-test-id={`${props.dataTestId}:${o.value}`}
             >
-              <P style={getStyle('label')} label={o.label} />
+              <P {...getCSSStyles('label')} label={o.label} />
               <OuterRadio
-                style={{
-                  ...getStyle('radioOuter'),
-                  ...(active ? getStyle('radioOuterActive') : {}),
-                  ...(props.error ? getStyle('radioOuterError') : {}),
-                }}
+                {...getInlineStyle([
+                  'radioOuter',
+                  ...((active ? ['radioOuterActive'] : []) as any),
+                  ...((props.error ? ['radioOuterError'] : []) as any),
+                ])}
               >
                 {active && (
                   <InnerRadio
-                    style={{
-                      ...getStyle('radioInner'),
-                      ...(active ? getStyle('radioInnerActive') : {}),
-                    }}
+                    {...getInlineStyle([
+                      'radioInner',
+                      ...((active ? ['radioInnerActive'] : []) as any),
+                    ])}
                   ></InnerRadio>
                 )}
               </OuterRadio>

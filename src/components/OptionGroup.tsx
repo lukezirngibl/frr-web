@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
-import { getLanguageContext, getTranslation } from '../theme/language'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
 import { P } from '../html'
@@ -36,20 +35,20 @@ export type Props = {
 
 export const OptionGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const language = React.useContext(getLanguageContext())
 
-  const getStyle = useInlineStyle(theme, 'optionGroup')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
+  const getCSSStyles = useInlineStyle(theme, 'optionGroup')(props.style)
 
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
-        style={{
-          ...getStyle('wrapper'),
-          ...(props.error ? getStyle('errorWrapper') : {}),
-        }}
+        {...getInlineStyle([
+          'wrapper',
+          ...((props.error ? ['errorWrapper'] : []) as any),
+        ])}
       >
-        {props.options.map(item => (
+        {props.options.map((item) => (
           <Item
             className={item.value === props.value ? 'active' : 'inactive'}
             key={item.value}
@@ -57,16 +56,16 @@ export const OptionGroup = (props: Props) => {
               props.onChange(item.value)
             }}
             data-test-id={`${props.dataTestId}:${item.value}`}
-            style={{
-              ...getStyle('item'),
-              ...(item.value === props.value ? getStyle('itemActive') : {}),
-            }}
+            {...getInlineStyle([
+              'item',
+              ...((item.value === props.value ? ['itemActive'] : []) as any),
+            ])}
           >
             <P
-              style={{
-                ...getStyle('label'),
-                ...(item.value === props.value ? getStyle('labelActive') : {}),
-              }}
+              {...getCSSStyles([
+                'label',
+                ...((item.value === props.value ? ['labelActive'] : []) as any),
+              ])}
               label={item.label}
             />
           </Item>

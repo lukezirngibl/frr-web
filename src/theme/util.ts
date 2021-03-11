@@ -70,15 +70,36 @@ export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
   componentKey: C,
 ) => {
   return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
-    elementKey: K,
-  ): Theme[C][K] => {
-    return omitKeys(
-      {
-        ...theme[componentKey][elementKey],
-        ...(override && override[elementKey] ? override[elementKey] : {}),
-      } as any,
-      dynamicStyleKeys as any,
-    )
+    elementKeys: Array<K> | K,
+    internalOverride?: CSSProperties,
+    className?: string,
+  ): { style: Theme[C][K]; className: string } => {
+    const keys = Array.isArray(elementKeys)
+      ? elementKeys
+      : ([elementKeys] as Array<K>)
+
+    return {
+      className: `${
+        className ? `${className}:` : ''
+      }${componentKey}:${keys.reduce(
+        (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
+        '',
+      )}`,
+      style: omitKeys(
+        {
+          ...(keys.reduce(
+            (obj, elementKey) => ({
+              ...obj,
+              ...theme[componentKey][elementKey],
+              ...(override && override[elementKey] ? override[elementKey] : {}),
+            }),
+            {},
+          ) as any),
+          ...(internalOverride || {}),
+        },
+        dynamicStyleKeys as any,
+      ),
+    }
   }
 }
 export const useInlineStyle = getUseInlineStyle<AppTheme>()
@@ -99,6 +120,10 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
     : ([elementKeys] as Array<K>)
 
   const styles = {
+    className: `${componentKey}:${keys.reduce(
+      (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
+      '',
+    )}`,
     css: omitKeys(
       {
         ...(keys.reduce(

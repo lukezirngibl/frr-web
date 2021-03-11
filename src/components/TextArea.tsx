@@ -33,7 +33,7 @@ export const TextArea = (props: TextAreaProps) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        style={{
+        {...{
           ...getInputStyle('wrapper'),
           ...getTextAreaStyle('wrapper'),
           ...(props.disabled ? getInputStyle('disabledWrapper') : {}),
@@ -42,13 +42,13 @@ export const TextArea = (props: TextAreaProps) => {
       >
         <Input
           data-test-id={props.dataTestId}
-          style={{
+          {...{
             ...getInputStyle('input'),
             ...getTextAreaStyle('input'),
             ...(props.disabled ? getInputStyle('disabledInput') : {}),
             ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
           }}
-          onChange={e => props.onChange(e.target.value as string)}
+          onChange={(e) => props.onChange(e.target.value as string)}
           className="frr-textarea"
           disabled={disabled || props.readOnly}
           value={props.value}
