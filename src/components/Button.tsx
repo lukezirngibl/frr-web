@@ -66,10 +66,7 @@ export const Button = (props: Props) => {
       data-test-id={props.dataTestId}
       onClick={props.onClick}
       disabled={props.disabled}
-      cssStyles={getCSSStyle(
-        ['common', mapTypeToStyleKey[type]],
-        props.override,
-      )}
+      {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}
       <P
@@ -80,7 +77,7 @@ export const Button = (props: Props) => {
           flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
-        cssStyles={getCSSStyle('label')}
+        {...getCSSStyle('label')}
         label={props.label}
       />
       {props.loading && (

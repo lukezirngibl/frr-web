@@ -73,7 +73,7 @@ export const Element = (
     (!translationKey && translate(props.label)) ||
     props.label
 
-  const injected = keys(props.data || {}).reduce(
+  const injected = keys(data || {}).reduce(
     (s, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
     str,
   )
@@ -86,9 +86,8 @@ export const Element = (
       dangerouslySetInnerHTML={{
         __html: injected,
       }}
-      data={data}
       disabled={disabled}
-      className={className}
+      id={className}
       itemID={
         (typeof label === 'function'
           ? '<computed>'

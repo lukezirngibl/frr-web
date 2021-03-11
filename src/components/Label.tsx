@@ -60,7 +60,10 @@ export const Label = (props: LabelProps) => {
           />
         )}
         <P
-          {...getCSSStyle(['labelText', 'labelTextError'])}
+          {...getCSSStyle([
+            'labelText',
+            ...((props.error ? ['labelTextError'] : []) as any),
+          ])}
           label={props.label}
           data={props.labelData}
         />

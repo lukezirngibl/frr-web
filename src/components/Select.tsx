@@ -4,7 +4,7 @@ import { Options, Language, replaceUmlaute } from '../util'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { useInlineStyle, useCSSStyles } from '../theme/util'
 import { Icon } from './Icon'
 import { Option } from '../html'
 
@@ -34,7 +34,7 @@ export const Select = (props: Props) => {
   const translate = getTranslation(language)
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
-  const getCSSStyles = useInlineStyle(theme, 'select')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
   let options =
     typeof props.options === 'function'

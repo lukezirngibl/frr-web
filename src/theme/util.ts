@@ -114,16 +114,12 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
 ) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
-): string => {
+): { cssStyles: string; className: string } => {
   const keys = Array.isArray(elementKeys)
     ? elementKeys
     : ([elementKeys] as Array<K>)
 
   const styles = {
-    className: `${componentKey}:${keys.reduce(
-      (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
-      '',
-    )}`,
     css: omitKeys(
       {
         ...(keys.reduce(
@@ -194,6 +190,12 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
-  return cssStyles
+  return {
+    cssStyles,
+    className: `${componentKey}:${keys.reduce(
+      (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
+      '',
+    )}`,
+  }
 }
 export const useCSSStyles = getUseCSSStyles<AppTheme>()

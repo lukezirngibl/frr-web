@@ -67,7 +67,7 @@ export const TextInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        cssStyles={getCSSStyle([
+        {...getCSSStyle([
           'wrapper',
           ...((props.disabled ? ['disabledWrapper'] : []) as any),
           ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
@@ -80,14 +80,14 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          cssStyles={getCSSStyle([
+          {...getCSSStyle([
             'hook',
             ...((props.readOnly ? ['readOnlyHook'] : []) as any),
             ...((props.error ? ['errorHook'] : []) as any),
           ])}
         />
         {props.prefix && (
-          <Prefix cssStyles={getCSSStyle('prefix')}>{props.prefix}</Prefix>
+          <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
         )}
         <Input
           data-test-id={props.dataTestId}
@@ -95,7 +95,7 @@ export const TextInput = (props: Props) => {
           ref={inputRef}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          cssStyles={getCSSStyle([
+          {...getCSSStyle([
             'input',
             ...((props.disabled ? ['disabledInput'] : []) as any),
             ...((props.readOnly ? ['readOnlyInput'] : []) as any),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { useInlineStyle, useCSSStyles } from '../theme/util'
 import styled from 'styled-components'
 import { Options } from '../util'
 import { P } from '../html'
@@ -45,7 +45,7 @@ export const RadioGroup = (props: Props) => {
   const theme = React.useContext(getThemeContext())
 
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
-  const getCSSStyles = useInlineStyle(theme, 'radioGroup')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
   return (
     <>
