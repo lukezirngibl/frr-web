@@ -76,6 +76,7 @@ export const Button = (props: Props) => {
         style={{
           color: 'inherit',
           fontSize: 'inherit',
+          textTransform: 'inherit',
           flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}

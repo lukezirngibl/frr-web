@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Options, Language } from '../util'
+import { Options, Language, replaceUmlaute } from '../util'
 import { getTranslation, getLanguageContext } from '../theme/language'
 import { Label, LabelProps } from './Label'
 import { AppTheme, getThemeContext } from '../theme/theme'
@@ -49,12 +49,19 @@ export const Select = (props: Props) => {
     }>,
   ) =>
     props.alphabetize
-      ? options.map(o => ({
-          ...o,
-          name: o.label ? translate(o.label) : o.name,
-          translationKey: `${o.label}`,
-          label: undefined,
-        }))
+      ? options
+          .map((o) => ({
+            ...o,
+            name: o.label ? translate(o.label) : o.name,
+            translationKey: `${o.label}`,
+            label: undefined,
+          }))
+          .sort((a, b) =>
+            replaceUmlaute(a.name.toLowerCase()) >
+            replaceUmlaute(b.name.toLowerCase())
+              ? 1
+              : -1,
+          )
       : options
 
   options = [
@@ -78,7 +85,7 @@ export const Select = (props: Props) => {
     ...parseOptions(
       props.priority
         ? [
-            ...options.filter(o => props.priority.includes(o.value)),
+            ...options.filter((o) => props.priority.includes(o.value)),
             {
               value: '---',
               disabled: true,
@@ -89,7 +96,7 @@ export const Select = (props: Props) => {
     ),
     ...parseOptions(
       props.priority
-        ? options.filter(o => !props.priority.includes(o.value))
+        ? options.filter((o) => !props.priority.includes(o.value))
         : options,
     ),
   ]
@@ -106,7 +113,7 @@ export const Select = (props: Props) => {
           }}
           disabled={props.disabled || props.readOnly}
           value={props.value === null ? 'null' : props.value}
-          onChange={e => {
+          onChange={(e) => {
             props.onChange(e.target.value === 'null' ? null : e.target.value)
           }}
           data-test-id={props.dataTestId}
