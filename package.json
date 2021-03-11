@@ -8,7 +8,7 @@
   "keywords": [],
   "scripts": {
     "build": "tsc",
-    "build:dev": "rm -r lib && tsc",
+    "build:watch": "yarn build --watch",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
     "babel:watch": "yarn babel:build --watch",
     "prepare": "install-peers",
