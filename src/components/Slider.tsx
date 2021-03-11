@@ -1,40 +1,42 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
-import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
-import { getThemeContext } from '../theme/theme'
+import { getThemeContext, MaterialSliderStyles } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
-var formatter = new Intl.NumberFormat('de-CH', {
-  style: 'currency',
-  currency: 'CHF',
+var Formatter = new Intl.NumberFormat('de-CH', {
+  // style: 'currency', 
+  currency: 'CHF', // TODO: Use currency from finObj
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
 })
 
-const createSlider = (styles: { rail: CSSProperties; marks: CSSProperties }) =>
-  withStyles({
+const createSlider = (styles?: MaterialSliderStyles): unknown => {
+  const materialStyles = styles || {}
+
+  return withStyles({
     root: {
       color: '#FFC53D',
       height: 8,
       padding: '15px 0',
+      ...(materialStyles.root || {}),
     },
     thumb: {
       height: 24,
       width: 24,
       backgroundColor: '#FFC53D',
       borderRadius: 12,
-      // boxShadow: iOSBoxShadow,
       marginTop: -9,
       marginLeft: -8,
       '&:focus, &:hover, &$active': {
         backgroundColor: 'rgb(230,170,59)',
       },
+      ...(materialStyles.thumb || {}),
     },
-    active: {},
+    active: materialStyles.active || {},
     valueLabel: {
       left: 'calc(-50% + 12px)',
       top: -22,
@@ -43,33 +45,38 @@ const createSlider = (styles: { rail: CSSProperties; marks: CSSProperties }) =>
         background: 'transparent',
         color: '#533603',
       },
+      ...(materialStyles.valueLabel || {}),
     },
     track: {
       height: 8,
+      ...(materialStyles.track || {}),
     },
     rail: {
       height: 8,
       opacity: 0.5,
       backgroundColor: 'rgba(0,0,0, 0.1)',
-      ...styles.rail,
+      ...(materialStyles.rail || {}),
     },
     mark: {
       backgroundColor: 'rgba(0,0,0, 0.2)',
       height: 8,
       width: 2,
-      ...styles.marks,
+      ...(materialStyles.mark || {}),
     },
     markLabel: {
       color: 'black',
       fontSize: 14,
       marginTop: 4,
       opacity: 1,
+      ...(materialStyles.markLabel || {}),
     },
     markActive: {
       opacity: 1,
       backgroundColor: 'currentColor',
+      ...(materialStyles.markActive || {}),
     },
   } as any)(MaterialSlider)
+}
 
 export type Props = {
   value: number
@@ -87,14 +94,9 @@ export type Props = {
   isCurrency?: boolean
 }
 
-const IOSSlider = createSlider({
-  rail: {},
-  marks: {},
-})
-
 export const Slider = (props: Props) => {
   const theme = React.useContext(getThemeContext())
-  const getStyle = useInlineStyle(theme, 'slider')({})
+  const getSliderStyle = useInlineStyle(theme, 'slider')({})
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
@@ -106,25 +108,31 @@ export const Slider = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
+  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [
+    theme,
+  ]) as any
+
+  const prefix = props.isCurrency ? 'CHF' : props.prefix
+
   return (
     <div style={{ width: '100%' }}>
       {props.label && <Label {...props.label} />}
-      <div style={getStyle('wrapper')}>
+      <div style={getSliderStyle('wrapper')}>
         <div
           style={{
             flexDirection: props.reverse ? 'row-reverse' : 'row',
-            ...getStyle('valueWrapper'),
+            ...getSliderStyle('valueWrapper'),
           }}
         >
-          {props.prefix && (
-            <P label={props.prefix} style={getStyle('prefix')} />
+          {prefix && (
+            <P label={prefix} style={getSliderStyle('prefix')} />
           )}
-          <p style={getStyle('value')}>
-            {props.isCurrency ? formatter.format(internalValue) : internalValue}
+          <p style={getSliderStyle('value')}>
+            {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </p>
         </div>
 
-        <IOSSlider
+        <MaterialSlider
           value={internalValue}
           onChange={(e, v) => {
             setInternalValue(v as number)

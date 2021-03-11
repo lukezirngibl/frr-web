@@ -11,6 +11,18 @@ export type CSSProperties = sc_CSSProperties & {
   '@animation'?: string
 }
 
+export type MaterialSliderStyles = {
+  active?: CSSProperties
+  root?: CSSProperties
+  rail?: CSSProperties
+  mark?: CSSProperties
+  markActive?: CSSProperties
+  markLabel?: CSSProperties
+  valueLabel?: CSSProperties
+  thumb?: CSSProperties
+  track?: CSSProperties
+}
+
 export type AppTheme = {
   html: {
     p: CSSProperties
@@ -40,12 +52,11 @@ export type AppTheme = {
   }
   slider: {
     wrapper: CSSProperties
-    rail: CSSProperties
-    marks: CSSProperties
     valueWrapper: CSSProperties
     prefix: CSSProperties
     value: CSSProperties
   }
+  materialSlider: MaterialSliderStyles
   select: {
     option: CSSProperties
     wrapper: CSSProperties
@@ -61,6 +72,7 @@ export type AppTheme = {
   button: {
     chromeless: CSSProperties
     primary: CSSProperties
+    primaryLabel: CSSProperties
     secondary: CSSProperties
     common: CSSProperties
     spinner: CSSProperties
@@ -130,11 +142,20 @@ const defaultTheme: AppTheme = {
   },
   slider: {
     wrapper: {},
-    rail: {},
-    marks: {},
     valueWrapper: {},
     prefix: {},
     value: {},
+  },
+  materialSlider: {
+    active: {},
+    root: {},
+    rail: {},
+    mark: {},
+    markActive: {},
+    markLabel: {},
+    valueLabel: {},
+    thumb: {},
+    track: {},
   },
   html: {
     p: {},
@@ -206,6 +227,7 @@ const defaultTheme: AppTheme = {
   button: {
     chromeless: {},
     primary: {},
+    primaryLabel: {},
     secondary: {},
     common: {},
     spinner: {},
