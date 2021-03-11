@@ -11,6 +11,18 @@ export type CSSProperties = sc_CSSProperties & {
   '@animation'?: string
 }
 
+export type MaterialSliderStyles = {
+  active?: CSSProperties
+  root?: CSSProperties
+  rail?: CSSProperties
+  mark?: CSSProperties
+  markActive?: CSSProperties
+  markLabel?: CSSProperties
+  valueLabel?: CSSProperties
+  thumb?: CSSProperties
+  track?: CSSProperties
+}
+
 export type AppTheme = {
   html: {
     p: CSSProperties
@@ -46,6 +58,7 @@ export type AppTheme = {
     prefix: CSSProperties
     value: CSSProperties
   }
+  materialSlider: MaterialSliderStyles
   select: {
     option: CSSProperties
     wrapper: CSSProperties
@@ -136,6 +149,7 @@ const defaultTheme: AppTheme = {
     prefix: {},
     value: {},
   },
+  materialSlider: {},
   html: {
     p: {},
     h1: {},
