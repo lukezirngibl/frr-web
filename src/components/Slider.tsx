@@ -7,9 +7,9 @@ import { getThemeContext, MaterialSliderStyles } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
-var formatter = new Intl.NumberFormat('de-CH', {
-  style: 'currency',
-  currency: 'CHF',
+var Formatter = new Intl.NumberFormat('de-CH', {
+  // style: 'currency', 
+  currency: 'CHF', // TODO: Use currency from finObj
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
 })
@@ -73,7 +73,7 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
     markActive: {
       opacity: 1,
       backgroundColor: 'currentColor',
-      ...(materialStyles.markLabel || {}),
+      ...(materialStyles.markActive || {}),
     },
   } as any)(MaterialSlider)
 }
@@ -108,11 +108,11 @@ export const Slider = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
-  console.log('MATERIAL STYLES', theme.materialSlider)
-
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [
     theme,
   ]) as any
+
+  const prefix = props.isCurrency ? 'CHF' : props.prefix
 
   return (
     <div style={{ width: '100%' }}>
@@ -124,11 +124,11 @@ export const Slider = (props: Props) => {
             ...getSliderStyle('valueWrapper'),
           }}
         >
-          {props.prefix && (
-            <P label={props.prefix} style={getSliderStyle('prefix')} />
+          {prefix && (
+            <P label={prefix} style={getSliderStyle('prefix')} />
           )}
           <p style={getSliderStyle('value')}>
-            {props.isCurrency ? formatter.format(internalValue) : internalValue}
+            {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </p>
         </div>
 

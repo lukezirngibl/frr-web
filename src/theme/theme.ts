@@ -52,8 +52,6 @@ export type AppTheme = {
   }
   slider: {
     wrapper: CSSProperties
-    rail: CSSProperties
-    marks: CSSProperties
     valueWrapper: CSSProperties
     prefix: CSSProperties
     value: CSSProperties
@@ -74,6 +72,7 @@ export type AppTheme = {
   button: {
     chromeless: CSSProperties
     primary: CSSProperties
+    primaryLabel: CSSProperties
     secondary: CSSProperties
     common: CSSProperties
     spinner: CSSProperties
@@ -143,13 +142,21 @@ const defaultTheme: AppTheme = {
   },
   slider: {
     wrapper: {},
-    rail: {},
-    marks: {},
     valueWrapper: {},
     prefix: {},
     value: {},
   },
-  materialSlider: {},
+  materialSlider: {
+    active: {},
+    root: {},
+    rail: {},
+    mark: {},
+    markActive: {},
+    markLabel: {},
+    valueLabel: {},
+    thumb: {},
+    track: {},
+  },
   html: {
     p: {},
     h1: {},
@@ -220,6 +227,7 @@ const defaultTheme: AppTheme = {
   button: {
     chromeless: {},
     primary: {},
+    primaryLabel: {},
     secondary: {},
     common: {},
     spinner: {},
