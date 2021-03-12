@@ -3144,10 +3144,10 @@ urix@^0.1.0:
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
 
-use-debounce@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-6.0.0.tgz#972300f9660ddd8fd12fa7cb78a17e0290a6a2c5"
-  integrity sha512-d4Sy6j8J0kkPXqIUGvIf829HCtyErxG8NMoFOJAvYSZP4Xuar7PURNt9LkvkGYoQw7i4iuez1jo957TL4m772g==
+use-debounce@^3.4.2:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-3.4.3.tgz#5df9322322b3f1b1c263d46413f9facf6d8b56ab"
+  integrity sha512-nxy+opOxDccWfhMl36J5BSCTpvcj89iaQk2OZWLAtBJQj7ISCtx1gh+rFbdjGfMl6vtCZf6gke/kYvrkVfHMoA==
 
 use@^3.1.0:
   version "3.1.1"
