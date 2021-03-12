@@ -40,7 +40,7 @@ export type LabelProps = {
 export const Label = (props: LabelProps) => {
   const theme = React.useContext(getThemeContext())
   const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
-  const getInlineStyle = useCSSStyles(theme, 'label')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'label')(props.style)
 
   const [open, setOpen] = React.useState(false)
 
