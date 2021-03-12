@@ -29,6 +29,7 @@ export type Props = {
   onlyOnBlur?: boolean
   dataTestId?: string
   ref?: any
+  name?: string
 }
 
 export const TextInput = (props: Props) => {
@@ -44,7 +45,7 @@ export const TextInput = (props: Props) => {
 
   const [internalValue, setInternalValue] = useState(value)
 
-  const onChange = useDebouncedCallback((text: string) => {
+  const [onChange] = useDebouncedCallback((text: string) => {   
     if (props.onChange) {
       props.onChange(text)
     }
@@ -55,14 +56,14 @@ export const TextInput = (props: Props) => {
   }, [value])
 
   React.useEffect(
-    () => () => {
+    () => {
       if (internalValue !== value && props.onChange) {
         props.onChange(internalValue)
       }
     },
-    [],
+    [internalValue],
   )
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -93,6 +94,7 @@ export const TextInput = (props: Props) => {
           data-test-id={props.dataTestId}
           className="frr-number-input"
           ref={inputRef}
+          name={props.name}
           maxLength={props.maxLength}
           minLength={props.minLength}
           {...getCSSStyle([
