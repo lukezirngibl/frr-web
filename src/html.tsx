@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
-import { getLanguageContext, getTranslation } from './theme/language'
-import { CSSProperties, getThemeContext } from './theme/theme'
+import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
 import { keys, Language } from './util'
+import { useLanguage, useTranslate } from './theme/language'
 
 type Props = {
   cssStyles?: string
@@ -14,7 +14,7 @@ type Props = {
     | ((params: {
         language: Language
         translate: (k: string) => string
-      }) => ReactNode)
+      }) => string | ReactNode)
   readOnly?: boolean
   style?: CSSProperties
   translationKey?: string
@@ -61,20 +61,24 @@ export const Element = (
     translationKey,
     value,
   } = props
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
 
-  const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
+  const language = useLanguage()
+  const translate = useTranslate(language)
 
-  const str =
-    (typeof props.label === 'function' &&
-      props.label({ language, translate })) ||
-    (!translationKey && translate(props.label)) ||
-    props.label
+  let str: string | ReactNode = ''
+
+  if (typeof props.label === 'function') {
+    str = props.label({ language, translate })
+  } else if (!translationKey) {
+    str = translate(props.label)
+  } else {
+    str = props.label
+  }
 
   const injected = keys(data || {}).reduce(
-    (s, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
+    (s: string, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
     str,
   )
 

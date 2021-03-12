@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
-import { getThemeContext, AppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
@@ -51,7 +51,7 @@ const replaceChar = (str: string, char: string, index: number) => {
 }
 
 export const CodeInput = (props: Props) => {
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'codeInput')(props.style)
 
   const refs: Array<React.RefObject<typeof Input>> = range(

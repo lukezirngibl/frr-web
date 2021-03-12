@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { getLanguageContext, getTranslation } from '../theme/language'
-import { AppTheme, getThemeContext } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
+import { useLanguage, useTranslate } from '../theme/language'
 
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
@@ -36,11 +36,11 @@ export const TextInput = (props: Props) => {
 
   const { inputType, value, placeholder } = props
 
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
-  const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
+  const language = useLanguage()
+  const translate = useTranslate(language)
 
   const [internalValue, setInternalValue] = useState(value)
 

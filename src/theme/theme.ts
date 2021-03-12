@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
-import { keys } from '../util'
+import { keys, Language } from '../util'
 
 export type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
@@ -133,7 +133,7 @@ export type AppTheme = {
   }
 }
 
-const defaultTheme: AppTheme = {
+const defaultAppTheme: AppTheme = {
   datePicker: {
     wrapper: {},
     iconWrapper: {},
@@ -255,15 +255,30 @@ const defaultTheme: AppTheme = {
 
 export type AppThemeConfig = { [k in keyof AppTheme]?: Partial<AppTheme[k]> }
 
-let ThemeVal = defaultTheme
-let ThemeContext = React.createContext(defaultTheme)
+export const useAppTheme = (): AppTheme => {
+  const theme = React.useContext(AppThemeContext)
+  if (!theme) {
+    throw new Error(`AppTheme not found`)
+  }
+  return theme
+}
+
+export const AppThemeContext = React.createContext<AppTheme>(
+  undefined as AppTheme,
+)
+
+AppThemeContext.displayName = 'AppThemeContext'
 
 export enum MediaQuery {
   Mobile = '(max-width: 768px)',
 }
 
-export const configureTheme = (userTheme: AppThemeConfig) => {
-  ThemeVal = keys(defaultTheme).reduce(
+type GenericThemeConfig = Record<string, Record<string, any>>
+
+export const createThemeConfigure = <T extends GenericThemeConfig, R>(
+  defaultTheme: T,
+) => (userTheme: T) =>
+  keys(defaultTheme).reduce(
     (acc1, k1) => ({
       ...acc1,
       [k1]: keys(defaultTheme[k1]).reduce((acc2, k2) => {
@@ -280,12 +295,8 @@ export const configureTheme = (userTheme: AppThemeConfig) => {
       }, {}),
     }),
     {},
-  ) as AppTheme
+  ) as R
 
-  ThemeContext = React.createContext(ThemeVal)
-
-  return ThemeContext
-}
-
-export const getThemeContext = () => ThemeContext
-export const getTheme = () => ThemeVal
+export const configureAppTheme = createThemeConfigure<AppThemeConfig, AppTheme>(
+  defaultAppTheme,
+)

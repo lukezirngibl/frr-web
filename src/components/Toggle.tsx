@@ -1,8 +1,7 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
-import { AppTheme, getThemeContext } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
-import { getLanguageContext, getTranslation } from '../theme/language'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -34,7 +33,7 @@ export type Props = {
 }
 
 export const Toggle = (props: Props) => {
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getInlineStyle = useInlineStyle(theme, 'toggle')(props.style)
 
   return (

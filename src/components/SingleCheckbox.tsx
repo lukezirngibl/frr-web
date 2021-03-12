@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Label, LabelProps } from './Label'
 import styled from 'styled-components'
-import { getThemeContext, AppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 
 const Wrapper = styled.div``
@@ -19,7 +19,7 @@ export type Props = {
 export const SingleCheckbox = (props: Props) => {
   const { value } = props
 
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getInlineStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
 
   return (

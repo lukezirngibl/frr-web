@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getThemeContext, AppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles } from '../theme/util'
 import { Options } from '../util'
 import { Label, LabelProps } from './Label'
@@ -34,7 +34,7 @@ export type Props = {
 }
 
 export const OptionGroup = (props: Props) => {
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)

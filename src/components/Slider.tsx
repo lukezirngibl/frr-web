@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
-import { getThemeContext, MaterialSliderStyles } from '../theme/theme'
+import { MaterialSliderStyles, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
@@ -89,13 +89,14 @@ export type Props = {
   scale?: any
   ariaLabelledby?: any
   marks?: any
+  dataTestId?: string
   reverse?: boolean
   prefix?: string
   isCurrency?: boolean
 }
 
 export const Slider = (props: Props) => {
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'slider')({})
   const getCSSStyles = useCSSStyles(theme, 'slider')({})
@@ -130,6 +131,19 @@ export const Slider = (props: Props) => {
           <p {...getInlineStyle('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </p>
+          {/* <input
+            style={{
+              width: 1,
+              height: 1,
+              opacity: 0,
+            }}
+            data-test-id={props.dataTestId}
+            value={`${props.value}`}
+            onChange={(e: any) => {
+              const v = Number(e.target.value)
+              onChange(v)
+            }}
+          /> */}
         </div>
 
         <MaterialSlider

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
-import { getThemeContext, AppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 
 const InputWrapper = styled.div``
@@ -24,9 +24,8 @@ export type TextAreaProps = {
 export const TextArea = (props: TextAreaProps) => {
   const { disabled } = props
 
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
-
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
   return (

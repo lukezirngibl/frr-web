@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Options, Language, replaceUmlaute } from '../util'
-import { getTranslation, getLanguageContext } from '../theme/language'
+import { useTranslate, useLanguage } from '../theme/language'
 import { Label, LabelProps } from './Label'
-import { AppTheme, getThemeContext } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles } from '../theme/util'
 import { Icon } from './Icon'
 import { Option } from '../html'
@@ -29,9 +29,9 @@ export type Props = {
 export const Select = (props: Props) => {
   const { label } = props
 
-  const theme = React.useContext(getThemeContext())
-  const language = React.useContext(getLanguageContext())
-  const translate = getTranslation(language)
+  const theme = useAppTheme()
+  const language = useLanguage()
+  const translate = useTranslate(language)
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
