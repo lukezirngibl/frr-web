@@ -45,7 +45,7 @@ export const TextInput = (props: Props) => {
 
   const [internalValue, setInternalValue] = useState(value)
 
-  const [onChange] = useDebouncedCallback((text: string) => {   
+  const [onChange] = useDebouncedCallback((text: string) => {
     if (props.onChange) {
       props.onChange(text)
     }
@@ -56,14 +56,14 @@ export const TextInput = (props: Props) => {
   }, [value])
 
   React.useEffect(
-    () => {
+    () => () => {
       if (internalValue !== value && props.onChange) {
         props.onChange(internalValue)
       }
     },
     [internalValue],
   )
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}
