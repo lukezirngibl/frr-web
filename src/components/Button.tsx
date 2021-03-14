@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CSSProperties } from 'styled-components'
+import styled, { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
@@ -34,6 +34,8 @@ export type Props = {
   icon?: IconProps
   dataTestId?: string
 }
+
+const Test = styled.div``
 
 export const Button = (props: Props) => {
   /* Style hooks */

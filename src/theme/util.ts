@@ -73,13 +73,15 @@ export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
     elementKeys: Array<K> | K,
     internalOverride?: CSSProperties,
     className?: string,
-  ): { style: Theme[C][K]; id: string } => {
+  ): { style: Theme[C][K]; dataThemeId: string } => {
     const keys = Array.isArray(elementKeys)
       ? elementKeys
       : ([elementKeys] as Array<K>)
 
     return {
-      id: `${className ? `${className}:` : ''}${componentKey}:${keys.reduce(
+      dataThemeId: `${
+        className ? `${className}:` : ''
+      }${componentKey}:${keys.reduce(
         (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
         '',
       )}`,
@@ -112,7 +114,7 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
 ) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
-): { cssStyles: string; id: string } => {
+): { cssStyles: string; dataThemeId: string } => {
   const keys = Array.isArray(elementKeys)
     ? elementKeys
     : ([elementKeys] as Array<K>)
@@ -190,7 +192,7 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
 
   return {
     cssStyles,
-    id: `${componentKey}:${keys.reduce(
+    dataThemeId: `${componentKey}:${keys.reduce(
       (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
       '',
     )}`,
