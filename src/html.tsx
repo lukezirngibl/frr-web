@@ -8,7 +8,7 @@ type Props = {
   cssStyles?: string
   data?: { [k: string]: string }
   disabled?: any
-  className?: string
+  id?: string
   label:
     | string
     | ((params: {
@@ -55,7 +55,7 @@ export const Element = (
     disabled,
     element,
     label,
-    className,
+    id,
     readOnly,
     style = {},
     translationKey,
@@ -91,7 +91,7 @@ export const Element = (
         __html: injected,
       }}
       disabled={disabled}
-      id={className}
+      id={id}
       itemID={
         (typeof label === 'function'
           ? '<computed>'
