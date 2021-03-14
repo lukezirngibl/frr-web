@@ -131,9 +131,31 @@ export type AppTheme = {
     hook1: CSSProperties
     hook2: CSSProperties
   }
+  popoverDropdown: {
+    button: CSSProperties
+    label: CSSProperties
+    icon: CSSProperties
+  }
+  popoverWithItems: {
+    popover: CSSProperties
+    wrapper: CSSProperties
+    item: CSSProperties
+    itemLabel: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
+  popoverDropdown: {
+    button: {},
+    label: {},
+    icon: {},
+  },
+  popoverWithItems: {
+    itemLabel: {},
+    popover: {},
+    wrapper: {},
+    item: {},
+  },
   datePicker: {
     wrapper: {},
     iconWrapper: {},
