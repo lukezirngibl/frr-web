@@ -92,31 +92,46 @@ const DatePickerCalendarWrapper = styled.div`
 `
 
 export type Props = {
-  onChange: (value: Date) => void
-  value: Date | null
-  label?: LabelProps
+  dataTestId?: string
   dateFormat?: string
-  style?: Partial<AppTheme['datePicker']>
   datePickerProps?: Partial<
     Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
   >
-  dataTestId?: string
+  error?: boolean
+  label?: LabelProps
+  onChange: (value: Date) => void
+  style?: Partial<AppTheme['datePicker']>
+  value: Date | null
 }
 
 export const DatePicker = (props: Props) => {
   const { onChange, value, label } = props
 
+  /* Styles */
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
+
+  const styleIconWrapper = getStyle(
+    'iconWrapper',
+    props.error ? getStyle('errorWrapper').style : {},
+  )
+  const styleIconHook1 = getStyle(
+    'hook1',
+    props.error ? getStyle('errorHook').style : {},
+  )
+  const styleIconHook2 = getStyle(
+    'hook2',
+    props.error ? getStyle('errorHook').style : {},
+  )
+
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
-  const language = useLanguage()
+  /* Language and locales */
 
+  const language = useLanguage()
   const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
-
-  const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
     registerLocale(
@@ -124,6 +139,8 @@ export const DatePicker = (props: Props) => {
       mapLanguageToLocale[language],
     )
   }, [language])
+
+  const [open, setOpen] = React.useState(false)
 
   return (
     <>
@@ -135,49 +152,73 @@ export const DatePicker = (props: Props) => {
         }}
       >
         <div {...getStyle('wrapper')}>
-          <TextInput
-            onChange={() => {}}
-            onBlur={(v) => {
-              try {
-                const value = parse(v, 'P', new Date()) as Date | 'Invalid Date'
-                onChange(value as Date)
-              } catch (err) {
-                onChange(null)
-              }
-            }}
-            inputType={isMobileTouch ? 'date' : 'text'}
-            placeholder={mapLanguageToLocaleFormat[language]}
-            value={props.value ? format(props.value, 'P', { locale }) : null}
-            dataTestId={props.dataTestId}
-          />
-
-          <DatePickerIconWrapper
-            onClick={() => {
-              setOpen(!open)
-            }}
-            {...getStyle('iconWrapper')}
-          >
-            <div {...getStyle('hook1')} />
-            <div {...getStyle('hook2')} />
-            <Icon icon="calendar_today" size={16} />
-          </DatePickerIconWrapper>
-
-          <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
-            <ReactDatePicker
-              locale={language}
-              open={open}
-              selected={value}
-              onChange={(v: Date) => {
-                onChange(v)
-                setOpen(false)
+          {isMobileTouch ? (
+            <TextInput
+              onChange={(v: any) => {
+                try {
+                  const dateValue = new Date(v)
+                  onChange(dateValue)
+                } catch (err) {
+                  onChange(null)
+                }
               }}
-              peekNextMonth
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              {...props.datePickerProps}
+              error={props.error}
+              inputType={'date'}
+              value={props.value ? format(props.value, props.dateFormat) : null}
+              dataTestId={props.dataTestId}
             />
-          </DatePickerCalendarWrapper>
+          ) : (
+            <>
+              <TextInput
+                onChange={() => {}}
+                onBlur={(v: any) => {
+                  try {
+                    const dateValue = parse(v, 'P', new Date(), { locale }) as
+                      | Date
+                      | 'Invalid Date'
+                    onChange(dateValue as Date)
+                  } catch (err) {
+                    onChange(null)
+                  }
+                }}
+                error={props.error}
+                inputType={'text'}
+                placeholder={mapLanguageToLocaleFormat[language]}
+                value={
+                  props.value ? format(props.value, 'P', { locale }) : null
+                }
+                dataTestId={props.dataTestId}
+              />
+
+              <DatePickerIconWrapper
+                onClick={() => {
+                  setOpen(!open)
+                }}
+                {...styleIconWrapper}
+              >
+                <div {...styleIconHook1} />
+                <div {...styleIconHook2} />
+                <Icon icon="calendar_today" size={16} />
+              </DatePickerIconWrapper>
+
+              <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
+                <ReactDatePicker
+                  locale={language}
+                  open={open}
+                  selected={value}
+                  onChange={(v: Date) => {
+                    onChange(v)
+                    setOpen(false)
+                  }}
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  {...props.datePickerProps}
+                />
+              </DatePickerCalendarWrapper>
+            </>
+          )}
         </div>
       </ClickAwayListener>
     </>
