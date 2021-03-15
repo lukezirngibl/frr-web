@@ -41,26 +41,6 @@ const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.IT]: it,
 }
 
-// position: absolute;
-// top: 48px;
-// right: 0px;
-// z-index: 999;
-
-// transform-origin: top center;
-//   ${({ open }: { open: boolean }) =>
-//     open
-//       ? css`
-//           opacity: 1;
-//           pointer-events: all;
-//           transform: scale(1, 1);
-//         `
-//       : css`
-//           opacity: 0;
-//           pointer-events: none;
-//           transform: scale(0, 0);
-//         `};
-//   transition: opacity 0.17s ease-out, transform 0.17s ease-out;
-
 const DatePickerIconWrapper = styled.div``
 
 const DatePickerAnimation = keyframes`
@@ -198,28 +178,6 @@ export const DatePicker = (props: Props) => {
               {...props.datePickerProps}
             />
           </DatePickerCalendarWrapper>
-
-          {/* !isMobileTouch && (
-            <DatePickerCalendarWrapper
-              open={open}
-            >
-              <ReactDatePicker
-                locale={language}
-                open={open}
-                selected={value}
-                onChange={(v: Date) => {
-                  onChange(v)
-                  setOpen(false)
-                }}
-                inline
-                peekNextMonth
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                {...props.datePickerProps}
-              />
-            </DatePickerCalendarWrapper>
-              ) */}
         </div>
       </ClickAwayListener>
     </>
