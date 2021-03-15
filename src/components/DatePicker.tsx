@@ -81,7 +81,7 @@ const DatePickerCalendarWrapper = styled.div`
   left: 0;
   right: 0;
 
-  /* Date picker styles */
+  /* Default date picker styles */
 
   & .react-datepicker__triangle {
     display: none !important;
@@ -97,70 +97,18 @@ const DatePickerCalendarWrapper = styled.div`
   }
 
   & .react-datepicker  {
-    font-family: var(--font-family);
     position: absolute;
-    top: calc(var(--form-field-height) + 4px);
+    top: 64px;
     right: 0;
-    border-radius: 0;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
 
-  & .react-datepicker__header {
-    background-color: var(--color-background-secondary);
-    padding-top: 16px;
-
-    & .react-datepicker__current-month {
-      font-size: var(--font-size-16);
-    }
-  }
-
-  & .react-datepicker__header__dropdown {
-    margin: 16px 0;
-    & select {
-      padding: 6px 8px 4px;
-      font-size: var(--font-size-16);
-    }
-  }
-
-  & .react-datepicker__navigation {
-    border-width: 1rem;
-  }
-
-  & .react-datepicker__day-name {
-    font-size: var(--font-size-16);
-    font-weight: 500;
-    width: 34px;
-    line-height: var(--font-size-16);
-    padding: 9px 0 7px;
-    margin: 4px;
-  }
-  & .react-datepicker__day {
-    font-size: var(--font-size-16);
-    width: 34px;
-    line-height: var(--font-size-16);
-    padding: 9px 0 7px;
-    margin: 4px;
-    border: 1px solid transparent;
-    border-radius: 0;
-    :hover {
-      border-radius: 0;
-      background-color: rgba(249, 193, 0, 0.6);
-    }
-  }
-  & .react-datepicker__day--outside-month {
-    color: var(--color-disabled);
-  }
-  & .react-datepicker__day--selected {
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    background-color: var(--color-background-primary);
-    font-weight: 700;
-
-    :hover {
-      background-color: rgba(249, 193, 0, 0.6);
-    }
-  }
+  ${({ cssStyles }: { cssStyles: string }) =>
+    cssStyles > ''
+      ? css`
+          ${cssStyles}
+        `
+      : ''}
 `
 
 export type Props = {
@@ -180,13 +128,14 @@ export const DatePicker = (props: Props) => {
 
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
+  const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
   const language = useLanguage()
 
   const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
-  
+
   const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -233,7 +182,7 @@ export const DatePicker = (props: Props) => {
             <Icon icon="calendar_today" size={16} />
           </DatePickerIconWrapper>
 
-          <DatePickerCalendarWrapper>
+          <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
             <ReactDatePicker
               locale={language}
               open={open}

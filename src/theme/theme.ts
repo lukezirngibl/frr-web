@@ -130,7 +130,7 @@ export type AppTheme = {
     iconWrapper: CSSProperties
     hook1: CSSProperties
     hook2: CSSProperties
-    reactDatePicker: string,
+    reactDatePicker?: string
   }
   popoverDropdown: {
     button: CSSProperties
@@ -299,24 +299,32 @@ export enum MediaQuery {
 
 type GenericThemeConfig = Record<string, Record<string, any>>
 
-export const createThemeConfigure = <T extends GenericThemeConfig, R>(
-  defaultTheme: T,
-) => (userTheme: T) =>
+export const createThemeConfigure = <Theme extends GenericThemeConfig, R>(
+  defaultTheme: Theme,
+) => (userTheme: Theme) =>
   keys(defaultTheme).reduce(
-    (acc1, k1) => ({
-      ...acc1,
-      [k1]: keys(defaultTheme[k1]).reduce((acc2, k2) => {
-        const userThemeVal =
-          (userTheme[k1] && ((userTheme[k1] as unknown) as any)[k2]) || {}
+    (components, componentKey) => ({
+      ...components,
+      [componentKey]: keys(defaultTheme[componentKey]).reduce(
+        (componentStyles, styleKey) => {
+          const isCSSStyles =
+            typeof defaultTheme[componentKey][styleKey] === 'string'
 
-        return {
-          ...acc2,
-          [k2]: {
-            ...((defaultTheme[k1][k2] as unknown) as any),
-            ...userThemeVal,
-          },
-        }
-      }, {}),
+          const userThemeVal =
+            userTheme[componentKey]?.[styleKey] || (isCSSStyles && '') || {}
+
+          return {
+            ...componentStyles,
+            [styleKey]: isCSSStyles
+              ? userThemeVal
+              : {
+                  ...defaultTheme[componentKey][styleKey],
+                  ...userThemeVal,
+                },
+          }
+        },
+        {},
+      ),
     }),
     {},
   ) as R
