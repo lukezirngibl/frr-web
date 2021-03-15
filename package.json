@@ -8,7 +8,7 @@
   "keywords": [],
   "scripts": {
     "build": "tsc",
-    "build:dev": "rm -r lib && tsc",
+    "build:watch": "yarn build --watch",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
     "babel:watch": "yarn babel:build --watch",
     "prepare": "install-peers",
@@ -36,6 +36,7 @@
     "react-datepicker": "^3.6.0",
     "react-day-picker": "^7.4.8",
     "react-pdf": "^4.2.0",
+    "react-responsive": "^8.2.0",
     "react-select": "^3.1.0",
     "react-virtualized": "^9.22.3",
     "typelevel-ts": "^0.4.0",
