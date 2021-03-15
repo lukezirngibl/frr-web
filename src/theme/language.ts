@@ -4,27 +4,24 @@ import { Language } from '../util'
 
 export type Translations = Record<string, { [k in Language]: string }>
 
-let translations: Translations = {}
-let language: Language = Language.EN
-let context = React.createContext(Language.EN)
-
-export const configureLanguage = (t: Translations, l?: Language) => {
-  translations = { ...t, ...libraryTranslations }
-  language = l || Language.EN
-  context = React.createContext(language)
-  return context
+export const useLanguage = (): Language => {
+  const language = React.useContext(LanguageContext)
+  return language
 }
 
-export const getLanguageContext = () => context
-export const getLanguage = () => language
-export const getTranslation = (l: Language) => (k: any = {}) => {
-  if (translations[k] && translations[k][l]) {
-    return translations[k][l]
-  }
-  if (!isNaN(Number(k))) {
-    return `${k}`
+export const LanguageContext = React.createContext<Language>(Language.EN)
+
+export const useTranslate = (language: Language): ((key: string) => string) => {
+  const translations = React.useContext(TranslationsContext)
+
+  const translate = (key: string) => {
+    if (translations[key] && translations[key][language]) {
+      return translations[key][language]
+    }
+    return `${key}`
   }
 
-  // console.warn(`Missing translation: ${k}`)
-  return k
+  return translate
 }
+
+export const TranslationsContext = React.createContext<Translations>({})

@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 import React, { ReactNode } from 'react'
-import { AppTheme, getThemeContext } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles } from '../theme/util'
-import { getLanguageContext } from '../theme/language'
 import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
 import { P } from '../html'
 import { Language } from '../util'
 import { InfoIcon } from '../assets/Info'
+import { useLanguage } from '../theme/language'
 
 export const LabelWrapper = styled.div``
 
@@ -38,13 +38,13 @@ export type LabelProps = {
 }
 
 export const Label = (props: LabelProps) => {
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'label')(props.style)
 
   const [open, setOpen] = React.useState(false)
 
-  const language = React.useContext(getLanguageContext())
+  const language = useLanguage()
 
   return (
     <LabelWrapper {...getInlineStyle('wrapper')}>

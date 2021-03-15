@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
 import { P } from '../html'
-import { AppTheme, getThemeContext } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
@@ -38,7 +38,7 @@ export type Props = {
 export const Button = (props: Props) => {
   /* Style hooks */
   const type = props.type || ButtonType.Secondary
-  const theme = React.useContext(getThemeContext())
+  const theme = useAppTheme()
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
   const getCSSStyle = useCSSStyles(theme, 'button')(props.style)
@@ -46,25 +46,25 @@ export const Button = (props: Props) => {
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
 
-  // const onClicked = useDebouncedCallback(() => {
-  //   props.onClick()
-  //   setIsClicked(false)
-  // }, 300)
+  const [onClicked] = useDebouncedCallback(() => {
+    props.onClick()
+    setIsClicked(false)
+  }, 300)
 
-  // const handleClicked =
-  //   props.disabled || props.loading
-  //     ? undefined
-  //     : () => {
-  //         setIsClicked(true)
-  //         // @ts-ignore
-  //         onClicked()
-  //       }
+  const handleClicked =
+    props.disabled || props.loading
+      ? undefined
+      : () => {
+          setIsClicked(true)
+          // @ts-ignore
+          onClicked()
+        }
 
   return (
     <ButtonWrapper
       className={isClicked ? 'animate' : ''}
       data-test-id={props.dataTestId}
-      onClick={props.onClick}
+      onClick={handleClicked}
       disabled={props.disabled}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >

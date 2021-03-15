@@ -21,6 +21,7 @@ npm install frr-web
 #### Build library
 
 To build the library, run the build script and clean up afterwards
+
 1. Build library with types: `yarn build-types`
 2. (Clean node_modules: `yarn clean`)
 
@@ -33,7 +34,7 @@ In the locale environment you might want to link this library to the consuming a
 2. Remove the (critical) peer dependencies: `yarn clean`
 3. Start the build in watch mode (babel): `yarn build:watch`
 
-*IMPORTANT NOTE* Types are not transpiled by Babel. As a consequence, changes of types require a rebuild of the types with the TypeScript compiler in order for consuming applications to receive them.
+_IMPORTANT NOTE_ Types are not transpiled by Babel. As a consequence, changes of types require a rebuild of the types with the TypeScript compiler in order for consuming applications to receive them.
 As the TypeScript compiler requires all dependencies, we first have to install those as well. Unfortunately libraries like React or Style-Components cannot handle duplicate installations of the same package and will crash in the browser during rendering.
 That is why we have to clean the _node_modules_ from all peerDependencies before using it.
 
@@ -42,13 +43,15 @@ That is why we have to clean the _node_modules_ from all peerDependencies before
 ```ts
 import React, { useEffect } from 'react'
 import { Button } from 'frr-web/lib/components'
+import { AppThemeContext, configureAppTheme } from 'frr-web/lib/theme/theme'
 import { configureLanguage, Language } from 'frr-web/lib/theme/language'
 import {
-  configureTheme,
-  getTheme as getAppTheme,
-} from 'frr-web/lib/theme/theme'
+  TranslationsContext,
+  Translations,
+  LanguageContext,
+} from 'frr-web/lib/theme/language'
 
-const AppThemeContext = configureTheme({
+const appTheme = configureAppTheme({
   button: {
     chromeless: {},
     secondary: {},
@@ -59,7 +62,7 @@ const AppThemeContext = configureTheme({
   },
 })
 
-const Translations = {
+const translations = {
   submit: {
     [Language.EN]: 'Submit',
     [Language.DE]: 'Einreichen',
@@ -68,17 +71,17 @@ const Translations = {
   },
 }
 
-const LanguageContext = configureLanguage(Translations, Language.EN)
-
 const App = () => {
   const language = Language.EN
 
   return (
-    <LanguageContext.Provider value={language}>
-      <AppThemeContext.Provider value={getAppTheme()}>
-        <Button label="submit" />
-      </AppThemeContext.Provider>
-    </LanguageContext.Provider>
+    <TranslationsContext.Provider value={translations}>
+      <LanguageContext.Provider value={language}>
+        <AppThemeContext.Provider value={appTheme}>
+          <Button label="submit" />
+        </AppThemeContext.Provider>
+      </LanguageContext.Provider>
+    </TranslationsContext.Provider>
   )
 }
 ```

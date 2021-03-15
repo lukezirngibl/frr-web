@@ -1,53 +1,44 @@
 import React from 'react'
 import styled, { CSSProperties } from 'styled-components'
 import { SimplePopover } from './PopOver'
+import { createStyled, useInlineStyle } from '../theme/util'
+import { P } from '../html'
+import { useAppTheme, AppTheme } from '../theme/theme'
 
-const UserDropdown = styled.div`
-  width: 168px;
-`
+const Wrapper = createStyled('div')
 
-const DropdownItem = styled.div`
-  dispaly: flex;
-  align-items: center;
-  width: 100%;
-  font-weight: 400;
-  height: 42px;
-  line-height: 42px;
-  padding: 0 16px;
+const Item = createStyled('div')
 
-  &:hover {
-    cursor: pointer;
-    background-color: #f5f5f5;
-  }
-`
-
-type Props = {
+export type Props = {
   trigger: (c: any) => React.ReactNode
   items: Array<{ label: string; onClick: () => void; disabled?: boolean }>
-  style?: CSSProperties
+  style?: Partial<AppTheme['popoverWithItems']>
 }
 
 export const PopoverWithItems = (props: Props) => {
+  const theme = useAppTheme()
+  const getInlineStyle = useInlineStyle(theme, 'popoverWithItems')(props.style)
+
   return (
     <SimplePopover
-      style={props.style}
+      style={getInlineStyle(['popover']).style}
       trigger={props.trigger}
       render={({ close }) => (
-        <UserDropdown>
+        <Wrapper>
           {props.items.map((i, index) => (
-            <DropdownItem
+            <Item
               key={index}
               onClick={() => {
                 // c.onClose()
                 i.onClick()
                 close()
               }}
-              style={i.disabled ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+              {...getInlineStyle(['item'])}
             >
-              {i.label}
-            </DropdownItem>
+              <P label={i.label} {...getInlineStyle(['itemLabel'])} />
+            </Item>
           ))}
-        </UserDropdown>
+        </Wrapper>
       )}
     />
   )
