@@ -43,10 +43,10 @@ export const OptionGroup = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
-        {...getInlineStyle([
-          'wrapper',
-          ...((props.error ? ['errorWrapper'] : []) as any),
-        ])}
+        {...getInlineStyle({
+          wrapper: true,
+          errorWrapper: props.error,
+        })}
       >
         {props.options.map((item) => (
           <Item
@@ -56,16 +56,16 @@ export const OptionGroup = (props: Props) => {
               props.onChange(item.value)
             }}
             data-test-id={`${props.dataTestId}:${item.value}`}
-            {...getInlineStyle([
-              'item',
-              ...((item.value === props.value ? ['itemActive'] : []) as any),
-            ])}
+            {...getInlineStyle({
+              item: true,
+              itemActive: item.value === props.value,
+            })}
           >
             <P
-              {...getCSSStyles([
-                'label',
-                ...((item.value === props.value ? ['labelActive'] : []) as any),
-              ])}
+              {...getCSSStyles({
+                label: true,
+                labelActive: item.value === props.value,
+              })}
               label={item.label}
             />
           </Item>

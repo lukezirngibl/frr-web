@@ -70,13 +70,19 @@ export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
   componentKey: C,
 ) => {
   return (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
-    elementKeys: Array<K> | K,
+    elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
     internalOverride?: CSSProperties,
     className?: string,
   ): { style: Theme[C][K]; dataThemeId: string } => {
-    const keys = Array.isArray(elementKeys)
-      ? elementKeys
-      : ([elementKeys] as Array<K>)
+    let keys = []
+
+    if (Array.isArray(elementKeys)) {
+      keys = elementKeys
+    } else if (typeof elementKeys === 'string') {
+      keys = [elementKeys]
+    } else {
+      keys = Object.keys(elementKeys).filter((k) => elementKeys[k])
+    }
 
     return {
       dataThemeId: `${
@@ -112,13 +118,18 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
   theme: Theme,
   componentKey: C,
 ) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
-  elementKeys: Array<K> | K,
+  elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
   internalOverride?: CSSProperties,
 ): { cssStyles: string; dataThemeId: string } => {
-  const keys = Array.isArray(elementKeys)
-    ? elementKeys
-    : ([elementKeys] as Array<K>)
+  let keys = []
 
+  if (Array.isArray(elementKeys)) {
+    keys = elementKeys
+  } else if (typeof elementKeys === 'string') {
+    keys = [elementKeys]
+  } else {
+    keys = Object.keys(elementKeys).filter((k) => elementKeys[k])
+  }
   const styles = {
     css: omitKeys(
       {

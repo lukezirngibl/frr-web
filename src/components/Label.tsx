@@ -51,7 +51,7 @@ export const Label = (props: LabelProps) => {
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
         {props.error && (
           <Icon
-            {...((getInlineStyle('errorIcon') as any) || {})}
+            {...getInlineStyle('errorIcon')}
             icon="error_outline"
             size={18}
             onClick={() => {
@@ -60,10 +60,10 @@ export const Label = (props: LabelProps) => {
           />
         )}
         <P
-          {...getCSSStyle([
-            'labelText',
-            ...((props.error ? ['labelTextError'] : []) as any),
-          ])}
+          {...getCSSStyle({
+            labelText: true,
+            labelTextError: props.error,
+          })}
           label={props.label}
           data={props.labelData}
         />

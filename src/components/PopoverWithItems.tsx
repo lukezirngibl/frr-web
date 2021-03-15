@@ -1,5 +1,4 @@
 import React from 'react'
-import styled, { CSSProperties } from 'styled-components'
 import { SimplePopover } from './PopOver'
 import { createStyled, useInlineStyle } from '../theme/util'
 import { P } from '../html'

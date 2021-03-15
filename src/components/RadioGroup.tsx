@@ -64,18 +64,18 @@ export const RadioGroup = (props: Props) => {
             >
               <P {...getCSSStyles('label')} label={o.label} />
               <OuterRadio
-                {...getInlineStyle([
-                  'radioOuter',
-                  ...((active ? ['radioOuterActive'] : []) as any),
-                  ...((props.error ? ['radioOuterError'] : []) as any),
-                ])}
+                {...getInlineStyle({
+                  radioOuter: true,
+                  radioOuterActive: active,
+                  radioOuterError: props.error,
+                })}
               >
                 {active && (
                   <InnerRadio
-                    {...getInlineStyle([
-                      'radioInner',
-                      ...((active ? ['radioInnerActive'] : []) as any),
-                    ])}
+                    {...getInlineStyle({
+                      radioInner: true,
+                      radioInnerActive: active,
+                    })}
                   ></InnerRadio>
                 )}
               </OuterRadio>

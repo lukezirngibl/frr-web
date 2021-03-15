@@ -68,12 +68,12 @@ export const TextInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        {...getCSSStyle([
-          'wrapper',
-          ...((props.disabled ? ['disabledWrapper'] : []) as any),
-          ...((props.readOnly ? ['readOnlyWrapper'] : []) as any),
-          ...((props.error ? ['errorWrapper'] : []) as any),
-        ])}
+        {...getCSSStyle({
+          wrapper: true,
+          disabledWrapper: props.disabled,
+          readOnlyWrapper: props.readOnly,
+          errorWrapper: props.error,
+        })}
         onClick={() => {
           if (inputRef.current) {
             inputRef.current.focus()
@@ -81,11 +81,11 @@ export const TextInput = (props: Props) => {
         }}
       >
         <Hook
-          {...getCSSStyle([
-            'hook',
-            ...((props.readOnly ? ['readOnlyHook'] : []) as any),
-            ...((props.error ? ['errorHook'] : []) as any),
-          ])}
+          {...getCSSStyle({
+            hook: true,
+            readOnlyHook: props.readOnly,
+            errorHook: props.error,
+          })}
         />
         {props.prefix && (
           <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
@@ -97,12 +97,12 @@ export const TextInput = (props: Props) => {
           name={props.name}
           maxLength={props.maxLength}
           minLength={props.minLength}
-          {...getCSSStyle([
-            'input',
-            ...((props.disabled ? ['disabledInput'] : []) as any),
-            ...((props.readOnly ? ['readOnlyInput'] : []) as any),
-            ...((props.error ? ['errorInput'] : []) as any),
-          ])}
+          {...getCSSStyle({
+            input: true,
+            disabledInput: props.disabled,
+            readOnlyInput: props.readOnly,
+            errorInput: props.error,
+          })}
           disabled={props.readOnly || props.disabled}
           onChange={(e: any) => {
             setInternalValue(e.target.value)

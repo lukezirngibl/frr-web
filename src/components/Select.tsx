@@ -110,7 +110,10 @@ export const Select = (props: Props) => {
       <div {...getInlineStyle('wrapper')}>
         <SelectWrapper
           {...getInlineStyle(
-            ['select', ...((props.error ? ['errorWrapper'] : []) as any)],
+            {
+              select: true,
+              errorWrapper: props.error,
+            },
             {},
             'select-wrapper',
           )}

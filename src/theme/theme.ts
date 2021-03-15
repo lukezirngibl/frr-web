@@ -2,14 +2,15 @@ import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
 import { keys } from '../util'
 
-export type CSSProperties = sc_CSSProperties & {
-  ':hover'?: CSSProperties
-  ':focus'?: CSSProperties
-  ':disabled'?: CSSProperties
-  ':readonly'?: CSSProperties
-  '@media-mobile'?: CSSProperties
-  '@animation'?: string
-}
+export type CSSProperties = sc_CSSProperties &
+  Partial<{
+    ':hover': CSSProperties
+    ':focus': CSSProperties
+    ':disabled': CSSProperties
+    ':readonly': CSSProperties
+    '@media-mobile': CSSProperties
+    '@animation': string
+  }>
 
 export type MaterialSliderStyles = {
   active?: CSSProperties
@@ -24,6 +25,19 @@ export type MaterialSliderStyles = {
 }
 
 export type AppTheme = {
+  staticChecklist: {
+    wrapper: CSSProperties
+    title: CSSProperties
+    description: CSSProperties
+    listsWrapper: CSSProperties
+    list: CSSProperties
+    item: CSSProperties
+    itemLabel: CSSProperties
+    itemIcon: CSSProperties
+    iconAllowed: CSSProperties
+    iconDisallowed: CSSProperties
+    itemsList: CSSProperties
+  }
   html: {
     p: CSSProperties
     h1: CSSProperties
@@ -146,6 +160,19 @@ export type AppTheme = {
 }
 
 const defaultAppTheme: AppTheme = {
+  staticChecklist: {
+    wrapper: {},
+    title: {},
+    description: {},
+    listsWrapper: {},
+    list: {},
+    item: {},
+    itemLabel: {},
+    itemIcon: {},
+    iconAllowed: {},
+    iconDisallowed: {},
+    itemsList: {},
+  },
   popoverDropdown: {
     button: {},
     label: {},
