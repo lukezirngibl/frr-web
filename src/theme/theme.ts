@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
-import { keys, Language } from '../util'
+import { keys } from '../util'
 
 export type CSSProperties = sc_CSSProperties & {
   ':hover'?: CSSProperties
@@ -130,6 +130,7 @@ export type AppTheme = {
     iconWrapper: CSSProperties
     hook1: CSSProperties
     hook2: CSSProperties
+    reactDatePicker: string,
   }
   popoverDropdown: {
     button: CSSProperties
@@ -161,6 +162,7 @@ const defaultAppTheme: AppTheme = {
     iconWrapper: {},
     hook1: {},
     hook2: {},
+    reactDatePicker: '',
   },
   slider: {
     wrapper: {},

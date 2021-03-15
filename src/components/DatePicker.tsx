@@ -27,6 +27,13 @@ const mapLanguageToLocaleString: { [k in Language]: string } = {
   [Language.IT]: 'it',
 }
 
+const mapLanguageToLocaleFormat: { [k in Language]: string } = {
+  [Language.DE]: 'DD.MM.YYYY',
+  [Language.EN]: 'MM//DD/YYYY',
+  [Language.FR]: 'DD.MM.YYYY',
+  [Language.IT]: 'DD.MM.YYYY',
+}
+
 const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.DE]: de,
   [Language.EN]: en,
@@ -81,6 +88,7 @@ const DatePickerCalendarWrapper = styled.div`
   }
   & .react-datepicker-popper {
     width: 100%;
+    margin: 0;
     transform: none !important;
     z-index: 999;
   }
@@ -91,12 +99,17 @@ const DatePickerCalendarWrapper = styled.div`
   & .react-datepicker  {
     font-family: var(--font-family);
     position: absolute;
-    top: 48px;
+    top: calc(var(--form-field-height) + 4px);
     right: 0;
+    border-radius: 0;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
 
   & .react-datepicker__header {
+    background-color: var(--color-background-secondary);
+    padding-top: 16px;
+
     & .react-datepicker__current-month {
       font-size: var(--font-size-16);
     }
@@ -110,17 +123,21 @@ const DatePickerCalendarWrapper = styled.div`
     }
   }
 
+  & .react-datepicker__navigation {
+    border-width: 1rem;
+  }
+
   & .react-datepicker__day-name {
     font-size: var(--font-size-16);
     font-weight: 500;
-    width: 32px;
+    width: 34px;
     line-height: var(--font-size-16);
     padding: 9px 0 7px;
     margin: 4px;
   }
   & .react-datepicker__day {
     font-size: var(--font-size-16);
-    width: 32px;
+    width: 34px;
     line-height: var(--font-size-16);
     padding: 9px 0 7px;
     margin: 4px;
@@ -131,9 +148,8 @@ const DatePickerCalendarWrapper = styled.div`
       background-color: rgba(249, 193, 0, 0.6);
     }
   }
-  & .react-datepicker__day--today {
-    background-color: var(--color-background-secondary);
-    color: var(--color-primary);
+  & .react-datepicker__day--outside-month {
+    color: var(--color-disabled);
   }
   & .react-datepicker__day--selected {
     color: var(--color-primary);
@@ -169,12 +185,9 @@ export const DatePicker = (props: Props) => {
 
   const locale = mapLanguageToLocale[language]
 
-  // const { isMobileTouch } = useMobileTouch()
-  const isMobileTouch = false
-
+  const { isMobileTouch } = useMobileTouch()
+  
   const [open, setOpen] = React.useState(false)
-
-  const dateFormat = props.dateFormat || 'dd.MM.yyyy'
 
   React.useEffect(() => {
     registerLocale(
@@ -204,7 +217,7 @@ export const DatePicker = (props: Props) => {
               }
             }}
             inputType={isMobileTouch ? 'date' : 'text'}
-            placeholder={dateFormat.toLocaleUpperCase()}
+            placeholder={mapLanguageToLocaleFormat[language]}
             value={props.value ? format(props.value, 'P', { locale }) : null}
             dataTestId={props.dataTestId}
           />
