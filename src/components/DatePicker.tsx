@@ -1,5 +1,5 @@
 import React from 'react'
-import DatePickerLib, {
+import ReactDatePicker, {
   ReactDatePickerProps,
   registerLocale,
 } from 'react-datepicker'
@@ -9,7 +9,7 @@ import { TextInput } from './TextInput'
 import { format, parse } from 'date-fns'
 import { getThemeContext, AppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import ClickAwayListener from 'react-click-away-listener'
 import de from 'date-fns/locale/de'
 import en from 'date-fns/locale/en-GB'
@@ -18,10 +18,11 @@ import it from 'date-fns/locale/it'
 import { getLanguageContext } from '../theme/language'
 import { Language } from '../util'
 import { Icon } from './Icon'
+import { useMobileTouch } from '../hooks/useMobileTouch'
 
 const mapLanguageToLocaleString: { [k in Language]: string } = {
   [Language.DE]: 'de',
-  [Language.EN]: 'en-DB',
+  [Language.EN]: 'en-GB',
   [Language.FR]: 'fr',
   [Language.IT]: 'it',
 }
@@ -33,7 +34,31 @@ const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.IT]: it,
 }
 
-const Wrapper = styled.div`
+const DatePickerCalendarWrapper = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  transform-origin: top center;
+  ${({ open }: { open: boolean }) =>
+    open
+      ? css`
+          opacity: 1;
+          pointer-events: all;
+          transform: scale(1, 1);
+        `
+      : css`
+          opacity: 0;
+          pointer-events: none;
+          transform: scale(0, 0);
+        `};
+  transition: opacity 0.17s ease-out, transform 0.17s ease-out;
+  z-index: 999;
+
+  /* Date picker styles */
+
+  .react-datepicker__header select {
+    padding: 4px !important;
+  }
   .react-datepicker__triangle {
     display: none !important;
   }
@@ -45,6 +70,44 @@ const Wrapper = styled.div`
     height: 1px;
     opacity: 0;
     overflow: hidden;
+  }
+  .react-datepicker  {
+    width: 100%;
+    font-family: var(--font-family);
+  }
+  .react-datepicker__day-name {
+    font-size: 16px;
+    font-weight: 500;
+    width: 32px;
+    line-height: 16px;
+    padding: 9px 0 7px;
+    margin: 4px;
+  }
+  .react-datepicker__day {
+    font-size: 16px;
+    width: 32px;
+    line-height: 16px;
+    padding: 9px 0 7px;
+    margin: 4px;
+    border-radius: 0;
+    :hover {
+      border-radius: 0;
+      background-color: rgba(249, 193, 0, 0.6);
+    }
+  }
+  .react-datepicker__day--today {
+    background-color: var(--color-background-secondary);
+  }
+  .react-datepicker__day--selected {
+    color: var(--color-partner-primary);
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-background-primary);
+    font-weight: 700;
+
+    :hover {
+      color: var(--color-primary);
+      background-color: rgba(249, 193, 0, 0.6);
+    }
   }
 `
 
@@ -66,8 +129,12 @@ export const DatePicker = (props: Props) => {
   const theme = React.useContext(getThemeContext())
   const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
   const language = React.useContext(getLanguageContext())
+  const locale = mapLanguageToLocale[language]
+
+  const { isMobileTouch } = useMobileTouch()
 
   const [open, setOpen] = React.useState(false)
+
   const dateFormat = props.dateFormat || 'dd.MM.yyyy'
 
   React.useEffect(() => {
@@ -77,58 +144,66 @@ export const DatePicker = (props: Props) => {
     )
   }, [language])
 
+  console.log('OPEN', open)
   return (
     <>
       {label && <Label {...label} />}
-      <ClickAwayListener
-        onClickAway={() => {
-          setOpen(false)
-        }}
-      >
-        <Wrapper {...getStyle('wrapper')}>
-          <TextInput
-            onChange={() => {}}
-            onBlur={(v) => {
-              try {
-                const value = parse(v, dateFormat, new Date()) as
-                  | Date
-                  | 'Invalid Date'
-                onChange(value as Date)
-              } catch (err) {
-                onChange(null)
-              }
-            }}
-            placeholder={dateFormat.toLocaleUpperCase()}
-            value={props.value ? format(props.value, dateFormat) : null}
-            dataTestId={props.dataTestId}
-          />
-          <div {...getStyle('iconWrapper')}>
-            <div {...getStyle('hook1')} />
-            <div {...getStyle('hook2')} />
-            <Icon
-              icon="calendar_today"
-              size={16}
+
+      <div {...getStyle('wrapper')}>
+        <TextInput
+          onChange={() => {}}
+          onBlur={(v) => {
+            try {
+              const value = parse(v, 'P', new Date()) as Date | 'Invalid Date'
+              onChange(value as Date)
+            } catch (err) {
+              onChange(null)
+            }
+          }}
+          inputType={isMobileTouch ? 'date' : 'text'}
+          placeholder={dateFormat.toLocaleUpperCase()}
+          value={props.value ? format(props.value, 'P', { locale }) : null}
+          dataTestId={props.dataTestId}
+        />
+        {!isMobileTouch && (
+          <>
+            <div
               onClick={() => {
                 setOpen(!open)
               }}
-            />
-            <DatePickerLib
-              locale={language}
-              open={open}
-              selected={value}
-              onChange={(v: Date) => {
-                onChange(v)
-                setOpen(false)
+              {...getStyle('iconWrapper')}
+            >
+              <div {...getStyle('hook1')} />
+              <div {...getStyle('hook2')} />
+              <Icon icon="calendar_today" size={16} />
+            </div>
+            <ClickAwayListener
+              onClickAway={() => {
+                open && setOpen(false)
               }}
-              peekNextMonth
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              {...props.datePickerProps}
-            />
-          </div>
-        </Wrapper>
-      </ClickAwayListener>
+            >
+              <DatePickerCalendarWrapper open={open}>
+                <ReactDatePicker
+                  wrapperClassName="calendar"
+                  locale={language}
+                  selected={value}
+                  onChange={(v: Date) => {
+                    console.log('ON CHANGE')
+                    onChange(v)
+                    setOpen(false)
+                  }}
+                  inline
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  {...props.datePickerProps}
+                />
+              </DatePickerCalendarWrapper>
+            </ClickAwayListener>
+          </>
+        )}
+      </div>
     </>
   )
 }
