@@ -88,10 +88,6 @@ const DatePickerCalendarWrapper = styled.div`
     display: none !important;
   }
 
-  & .react-datepicker__header select {
-    padding: 4px !important;
-  }
-
   & .react-datepicker  {
     font-family: var(--font-family);
     position: absolute;
@@ -99,19 +95,33 @@ const DatePickerCalendarWrapper = styled.div`
     right: 0;
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
-  
+
+  & .react-datepicker__header {
+    & .react-datepicker__current-month {
+      font-size: var(--font-size-16);
+    }
+  }
+
+  & .react-datepicker__header__dropdown {
+    margin: 16px 0;
+    & select {
+      padding: 6px 8px 4px;
+      font-size: var(--font-size-16);
+    }
+  }
+
   & .react-datepicker__day-name {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     font-weight: 500;
     width: 32px;
-    line-height: 16px;
+    line-height: var(--font-size-16);
     padding: 9px 0 7px;
     margin: 4px;
   }
   & .react-datepicker__day {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     width: 32px;
-    line-height: 16px;
+    line-height: var(--font-size-16);
     padding: 9px 0 7px;
     margin: 4px;
     border: 1px solid transparent;
