@@ -37,18 +37,18 @@ export type AppTheme = {
     option: CSSProperties
   }
   textInput: {
-    wrapper: CSSProperties
-    input: CSSProperties
     disabledInput: CSSProperties
     disabledWrapper: CSSProperties
-    readOnlyWrapper: CSSProperties
-    readOnlyInput: CSSProperties
-    hook: CSSProperties
-    readOnlyHook: CSSProperties
-    errorInput: CSSProperties
     errorHook: CSSProperties
+    errorInput: CSSProperties
     errorWrapper: CSSProperties
+    hook: CSSProperties
+    input: CSSProperties
     prefix: CSSProperties
+    readOnlyHook: CSSProperties
+    readOnlyInput: CSSProperties
+    readOnlyWrapper: CSSProperties
+    wrapper: CSSProperties
   }
   slider: {
     wrapper: CSSProperties
@@ -93,16 +93,16 @@ export type AppTheme = {
     input: CSSProperties
   }
   label: {
-    wrapper: CSSProperties
-    labelTextWrapper: CSSProperties
-    labelText: CSSProperties
-    descriptionText: CSSProperties
-    sublabelText: CSSProperties
-    descriptionPopup: CSSProperties
     descriptionIcon: CSSProperties
-    errorLabel: CSSProperties
-    labelTextError: CSSProperties
+    descriptionPopup: CSSProperties
+    descriptionText: CSSProperties
     errorIcon: CSSProperties
+    errorLabel: CSSProperties
+    labelText: CSSProperties
+    labelTextError: CSSProperties
+    labelTextWrapper: CSSProperties
+    sublabelText: CSSProperties
+    wrapper: CSSProperties
   }
   singleCheckbox: {
     wrapper: CSSProperties
@@ -126,10 +126,12 @@ export type AppTheme = {
     circleActive: CSSProperties
   }
   datePicker: {
-    wrapper: CSSProperties
-    iconWrapper: CSSProperties
+    errorHook: CSSProperties
+    errorWrapper: CSSProperties
     hook1: CSSProperties
     hook2: CSSProperties
+    iconWrapper: CSSProperties
+    wrapper: CSSProperties
     reactDatePicker?: string
   }
   popoverDropdown: {
@@ -158,11 +160,13 @@ const defaultAppTheme: AppTheme = {
     item: {},
   },
   datePicker: {
-    wrapper: {},
-    iconWrapper: {},
+    errorHook: {},
+    errorWrapper: {},
     hook1: {},
     hook2: {},
+    iconWrapper: {},
     reactDatePicker: '',
+    wrapper: {},
   },
   slider: {
     wrapper: {},
@@ -222,18 +226,18 @@ const defaultAppTheme: AppTheme = {
     select: {},
   },
   textInput: {
-    errorInput: {},
-    errorHook: {},
-    wrapper: {},
-    input: {},
     disabledInput: {},
     disabledWrapper: {},
-    readOnlyWrapper: {},
-    readOnlyInput: {},
-    hook: {},
-    readOnlyHook: {},
+    errorHook: {},
+    errorInput: {},
     errorWrapper: {},
+    hook: {},
+    input: {},
     prefix: {},
+    readOnlyHook: {},
+    readOnlyInput: {},
+    readOnlyWrapper: {},
+    wrapper: {},
   },
   textArea: {
     wrapper: {},
@@ -264,16 +268,16 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
   },
   label: {
-    labelTextError: {},
-    errorLabel: {},
-    wrapper: {},
-    labelTextWrapper: {},
-    labelText: {},
-    descriptionText: {},
-    sublabelText: {},
-    descriptionPopup: {},
     descriptionIcon: {},
+    descriptionPopup: {},
+    descriptionText: {},
     errorIcon: {},
+    errorLabel: {},
+    labelText: {},
+    labelTextError: {},
+    labelTextWrapper: {},
+    sublabelText: {},
+    wrapper: {},
   },
 }
 

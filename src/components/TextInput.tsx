@@ -11,25 +11,25 @@ const Hook = createStyled('div')
 const Prefix = createStyled('p')
 
 export type Props = {
-  onChange?: (value: string) => void
-  value: string | null
-  placeholder?: string
-  style?: Partial<AppTheme['textInput']>
+  dataTestId?: string
+  disabled?: boolean
+  error?: boolean
   inputType?: string
   label?: LabelProps
-  proccessValue?: (v: string | null) => string
-  readOnly?: boolean
-  onFocus?: () => void
-  onBlur?: (v: string) => void
-  disabled?: boolean
   maxLength?: number
   minLength?: number
-  prefix?: string
-  error?: boolean
-  onlyOnBlur?: boolean
-  dataTestId?: string
-  ref?: any
   name?: string
+  onBlur?: (v: string) => void
+  onChange?: (value: string) => void
+  onFocus?: () => void
+  onlyOnBlur?: boolean
+  placeholder?: string
+  prefix?: string
+  proccessValue?: (v: string | null) => string
+  readOnly?: boolean
+  ref?: any
+  style?: Partial<AppTheme['textInput']>
+  value: string | null
 }
 
 export const TextInput = (props: Props) => {
