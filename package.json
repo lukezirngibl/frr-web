@@ -35,6 +35,7 @@
     "react-click-away-listener": "^2.0.0",
     "react-datepicker": "^3.6.0",
     "react-day-picker": "^7.4.8",
+    "react-html-parser": "^2.0.2",
     "react-pdf": "^4.2.0",
     "react-responsive": "^8.2.0",
     "react-select": "^3.1.0",

@@ -1,8 +1,7 @@
 import React from 'react'
-import { Options } from '../util'
 import Select from 'react-select'
+import { Options } from '../util'
 import { Label, LabelProps } from './Label'
-import { useLanguage, useTranslate } from '../theme/language'
 
 export type Props = {
   onChange: (value: Array<string>) => void
@@ -14,9 +13,6 @@ export type Props = {
 }
 
 export const MultiSelect = (props: Props) => {
-  const language = useLanguage()
-  const translate = useTranslate(language)
-
   return (
     <>
       {props.label && <Label {...props.label} />}

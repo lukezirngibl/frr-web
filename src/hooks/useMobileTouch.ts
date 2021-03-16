@@ -4,14 +4,11 @@ import { MediaQuery } from '../theme/theme'
 
 const _window = window as any
 
-export const useMobileTouch = (): { isMobile: boolean, isTouch: boolean, isMobileTouch: boolean } => {
-  // Check for on-touch event and decide whether to show the native date picker
-
+export const useTouchDetector = (): void => {
+  // Check for on-touch event on window
   const [isTouchInitialized, setTouchInitialized] = useState(
     _window.__IS_TOUCH_SCREEN__ !== undefined,
   )
-
-  const isMobile = useMediaQuery({ query: MediaQuery.Mobile })
 
   const setIsTouchScreen = useCallback(() => {
     _window.__IS_TOUCH_SCREEN__ = true
@@ -25,6 +22,10 @@ export const useMobileTouch = (): { isMobile: boolean, isTouch: boolean, isMobil
       window.addEventListener('touchstart', setIsTouchScreen, true)
     }
   }, [isTouchInitialized])
+}
+
+export const useMobileTouch = (): { isMobile: boolean, isTouch: boolean, isMobileTouch: boolean } => {
+  const isMobile = useMediaQuery({ query: MediaQuery.Mobile })
 
   const isTouch = _window.__IS_TOUCH_SCREEN__
   const isMobileTouch = isMobile && isTouch
