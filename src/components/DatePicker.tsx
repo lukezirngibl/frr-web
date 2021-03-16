@@ -187,9 +187,9 @@ export const DatePicker = (props: Props) => {
                       v,
                       props.dateFormat || 'yyyy-MM-dd',
                       new Date(),
-                    )
+                    ) as Date | 'Invalid Date'
 
-                    if (testValue) {
+                    if (testValue !== 'Invalid Date') {
                       onChange(testValue as Date)
                     } else {
                       onChange(null)
