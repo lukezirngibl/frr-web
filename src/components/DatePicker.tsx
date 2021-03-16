@@ -177,7 +177,6 @@ export const DatePicker = (props: Props) => {
                       | Date
                       | 'Invalid Date'
 
-                    console.log('dateValue: ', dateValue)
                     if (dateValue == 'Invalid Date') {
                       throw 'Invalid Date'
                     }
@@ -189,7 +188,7 @@ export const DatePicker = (props: Props) => {
                       props.dateFormat || 'yyyy-MM-dd',
                       new Date(),
                     )
-                    console.log(testValue)
+
                     if (testValue) {
                       onChange(testValue as Date)
                     } else {
