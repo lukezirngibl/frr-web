@@ -27,6 +27,7 @@ export type Props = {
   value: boolean | null
   label?: LabelProps
   style?: Partial<AppTheme['toggle']>
+  defaultValue?: boolean
   error?: boolean
   dataTestId?: string
   name?: string
@@ -35,6 +36,13 @@ export type Props = {
 export const Toggle = (props: Props) => {
   const theme = useAppTheme()
   const getInlineStyle = useInlineStyle(theme, 'toggle')(props.style)
+
+  React.useEffect(() => {
+    if (props.value === null && props.defaultValue !== undefined) {
+      props.onChange(props.defaultValue)
+      console.log('Toggle: ', props.defaultValue)
+    }
+  }, [])
 
   return (
     <>
