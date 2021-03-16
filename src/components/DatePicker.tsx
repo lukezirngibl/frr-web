@@ -15,8 +15,7 @@ import de from 'date-fns/locale/de'
 import en from 'date-fns/locale/en-GB'
 import fr from 'date-fns/locale/fr'
 import it from 'date-fns/locale/it'
-import { useLanguage } from '../theme/language'
-import { Language } from '../util'
+import { Language, useLanguage } from '../theme/language'
 import { Icon } from './Icon'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 
@@ -185,7 +184,9 @@ export const DatePicker = (props: Props) => {
                 inputType={'text'}
                 placeholder={mapLanguageToLocaleFormat[language]}
                 value={
-                  isValid(props.value) ? format(props.value, 'P', { locale }) : null
+                  isValid(props.value)
+                    ? format(props.value, 'P', { locale })
+                    : null
                 }
                 dataTestId={props.dataTestId}
               />
