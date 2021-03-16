@@ -95,6 +95,7 @@ export type Props = {
   modalOpen: boolean
   config: ModalLinkConfig
   setConfig: (v: ModalLinkConfig) => void
+  bearerToken?: string
 }
 
 export const LinkModal = (props: Props) => {
@@ -107,19 +108,26 @@ export const LinkModal = (props: Props) => {
     setFile(undefined)
     fetch(url, {
       method: 'GET',
+      headers: {
+        ...(props.bearerToken
+          ? {
+              Authorization: `Bearer ${props.bearerToken}`,
+            }
+          : {}),
+      },
     })
-      .then(response => {
-        response.blob().then(blob => {
+      .then((response) => {
+        response.blob().then((blob) => {
           const fileReader = new FileReader()
 
-          fileReader.onloadend = function(event) {
+          fileReader.onloadend = function (event) {
             const buffer = event.target.result
             setFile(buffer)
           }
           fileReader.readAsArrayBuffer(blob)
         })
       })
-      .catch(error => {
+      .catch((error) => {
         // console.log(error)
       })
   }
@@ -142,7 +150,7 @@ export const LinkModal = (props: Props) => {
       }}
       style={{ display: 'flex' }}
     >
-      {props.config.fold(<div />, modalConfig => (
+      {props.config.fold(<div />, (modalConfig) => (
         <IframeOuterWrapper
           onClick={() => {
             setIframeLoading(true)
@@ -157,7 +165,7 @@ export const LinkModal = (props: Props) => {
                 <Icon
                   icon="keyboard_arrow_left"
                   size={24}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation()
                     if (pageNumber !== 1) {
                       setPageNumber(pageNumber - 1)
@@ -175,7 +183,7 @@ export const LinkModal = (props: Props) => {
                 <Icon
                   icon="keyboard_arrow_right"
                   size={24}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation()
                     if (pageNumber !== numPages) {
                       setPageNumber(pageNumber + 1)
@@ -190,7 +198,7 @@ export const LinkModal = (props: Props) => {
             </PageSelectorWrapper>
           )}
           <IframeWrapper
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
             }}
             style={
