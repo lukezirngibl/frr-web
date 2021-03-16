@@ -19,7 +19,12 @@ export const FormattedDatePicker = (props: Props) => {
       value={val as Date}
       onChange={(v) => {
         if (v !== null) {
-          props.onChange(format(v, props.dateFormat))
+          try {
+            props.onChange(format(v, props.dateFormat))
+          } catch (dateError) {
+            console.error('DATE ERROR', dateError)
+            props.onChange(null)
+          }
         } else {
           props.onChange(null)
         }
