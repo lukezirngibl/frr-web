@@ -1,27 +1,30 @@
 import React, { ReactNode } from 'react'
+import { Language, useLanguage, useTranslate } from './theme/language'
 import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
-import { keys, Language } from './util'
-import { useLanguage, useTranslate } from './theme/language'
+import { renderHtml } from './utils/renderHtml'
+
+type Label =
+  | string
+  | ((params: {
+      language: Language
+      translate: (k: string) => string
+    }) => string | ReactNode)
 
 type Props = {
   cssStyles?: string
   data?: { [k: string]: string }
-  disabled?: any
   dataThemeId?: string
-  label:
-    | string
-    | ((params: {
-        language: Language
-        translate: (k: string) => string
-      }) => string | ReactNode)
+  disabled?: any
+  Icon?: ReactNode
+  label: Label
   readOnly?: boolean
   style?: CSSProperties
   translationKey?: string
   value?: any
 }
 
-const Elements = {
+const HtmlElements = {
   button: createStyled('button'),
   h1: createStyled('h1'),
   h2: createStyled('h2'),
@@ -52,13 +55,14 @@ export const Element = (
   const {
     cssStyles,
     data,
+    dataThemeId,
     disabled,
     element,
+    Icon,
     label,
     readOnly,
     style = {},
     translationKey,
-    dataThemeId,
     value,
   } = props
   const theme = useAppTheme()
@@ -77,19 +81,16 @@ export const Element = (
     str = props.label
   }
 
-  const injected = keys(data || {}).reduce(
+  const htmlText = Object.keys(data || {}).reduce(
     (s: string, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
     str,
   )
 
-  const Element = Elements[element]
+  const HtmlElement = HtmlElements[element]
 
   return (
-    <Element
+    <HtmlElement
       cssStyles={cssStyles}
-      dangerouslySetInnerHTML={{
-        __html: injected,
-      }}
       disabled={disabled}
       dataTestId={dataThemeId}
       itemID={
@@ -103,7 +104,10 @@ export const Element = (
         ...style,
       }}
       value={value}
-    />
+    >
+      {renderHtml(htmlText)}
+      {Icon}
+    </HtmlElement>
   )
 }
 

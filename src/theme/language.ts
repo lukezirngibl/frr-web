@@ -1,6 +1,11 @@
 import * as React from 'react'
-import { libraryTranslations } from '../translations'
-import { Language } from '../util'
+
+export enum Language {
+  EN = 'en',
+  DE = 'de',
+  FR = 'fr',
+  IT = 'it',
+}
 
 export type Translations = Record<string, { [k in Language]: string }>
 

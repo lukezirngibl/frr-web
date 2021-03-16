@@ -25,7 +25,7 @@ export const MaterialIconFontFace = createGlobalStyle`
   }
 `
 
-const IconEle = styled.i<IconProps>`
+const IconElement = styled.i<IconProps>`
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -61,8 +61,8 @@ const IconEle = styled.i<IconProps>`
 export const Icon = (props: IconProps) => {
   const { style, ...otherProps } = props
   return (
-    <IconEle className="material-icons" {...otherProps} style={style as any}>
+    <IconElement className="material-icons" {...otherProps} style={style as any}>
       {props.icon}
-    </IconEle>
+    </IconElement>
   )
 }

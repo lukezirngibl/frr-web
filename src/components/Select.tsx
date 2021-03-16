@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Options, Language, replaceUmlaute } from '../util'
-import { useTranslate, useLanguage } from '../theme/language'
-import { Label, LabelProps } from './Label'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles } from '../theme/util'
-import { Icon } from './Icon'
 import { Option } from '../html'
+import { Language, useLanguage, useTranslate } from '../theme/language'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { Options } from '../util'
+import { replaceUmlaute } from '../utils/replaceUmlaute'
+import { Icon } from './Icon'
+import { Label, LabelProps } from './Label'
 
 const SelectWrapper = styled.select``
 

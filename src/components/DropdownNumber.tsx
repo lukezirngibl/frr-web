@@ -7,7 +7,7 @@
 // import { getTranslation, getLanguageContext } from '../theme/language'
 // import { Label, LabelProps } from './Label'
 // import { processOptions } from '../util'
-// import { Language } from '../util'
+// import { Language } from '../theme/language'
 
 // const DropdownWrapper = styled.div<{ hasLabel: boolean }>`
 //   width: 100%;

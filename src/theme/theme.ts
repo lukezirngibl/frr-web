@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { CSSProperties as sc_CSSProperties } from 'styled-components'
-import { keys } from '../util'
 
 export type CSSProperties = sc_CSSProperties &
   Partial<{
@@ -108,6 +107,7 @@ export type AppTheme = {
   }
   label: {
     descriptionIcon: CSSProperties
+    descriptionIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
     descriptionText: CSSProperties
     errorIcon: CSSProperties
@@ -158,6 +158,14 @@ export type AppTheme = {
     wrapper: CSSProperties
     item: CSSProperties
     itemLabel: CSSProperties
+  }
+  icon: {
+    edit: {
+      svg?: string
+    }
+    info: {
+      svg?: string
+    }
   }
 }
 
@@ -296,6 +304,7 @@ const defaultAppTheme: AppTheme = {
   },
   label: {
     descriptionIcon: {},
+    descriptionIconWrapper: {},
     descriptionPopup: {},
     descriptionText: {},
     errorIcon: {},
@@ -305,6 +314,10 @@ const defaultAppTheme: AppTheme = {
     labelTextWrapper: {},
     sublabelText: {},
     wrapper: {},
+  },
+  icon: {
+    edit: {},
+    info: {},
   },
 }
 
@@ -333,10 +346,10 @@ type GenericThemeConfig = Record<string, Record<string, any>>
 export const createThemeConfigure = <Theme extends GenericThemeConfig, R>(
   defaultTheme: Theme,
 ) => (userTheme: Theme) =>
-  keys(defaultTheme).reduce(
+  Object.keys(defaultTheme).reduce(
     (components, componentKey) => ({
       ...components,
-      [componentKey]: keys(defaultTheme[componentKey]).reduce(
+      [componentKey]: Object.keys(defaultTheme[componentKey]).reduce(
         (componentStyles, styleKey) => {
           const isCSSStyles =
             typeof defaultTheme[componentKey][styleKey] === 'string'
