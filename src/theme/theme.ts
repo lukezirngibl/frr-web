@@ -107,6 +107,7 @@ export type AppTheme = {
   }
   label: {
     descriptionIcon: CSSProperties
+    descriptionIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
     descriptionText: CSSProperties
     errorIcon: CSSProperties
@@ -303,6 +304,7 @@ const defaultAppTheme: AppTheme = {
   },
   label: {
     descriptionIcon: {},
+    descriptionIconWrapper: {},
     descriptionPopup: {},
     descriptionText: {},
     errorIcon: {},

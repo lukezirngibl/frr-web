@@ -1,13 +1,12 @@
-import styled from 'styled-components'
 import React, { ReactNode } from 'react'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles } from '../theme/util'
-import { Icon } from './Icon'
 import ClickAwayListener from 'react-click-away-listener'
+import styled, { css } from 'styled-components'
+// import { InfoIcon } from '../assets/Info'
 import { P } from '../html'
-import { Language } from '../util'
-import { InfoIcon } from '../assets/Info'
-import { useLanguage } from '../theme/language'
+import { Language, useLanguage } from '../theme/language'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { Icon } from './Icon'
 
 export const LabelWrapper = styled.div``
 
@@ -22,6 +21,17 @@ const DescriptionPopup = styled.div`
   top: 32px;
   left: 48px;
 `
+
+const DescriptionIconWrapper = createStyled(styled.span`
+  & svg {
+    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
+      css`
+        ${svgCSSStyles}
+      `}
+
+    color: currentColor;
+  }
+`)
 
 export type LabelProps = {
   description?: string | ((params: { language: Language }) => ReactNode)
@@ -38,17 +48,25 @@ export type LabelProps = {
 }
 
 export const Label = (props: LabelProps) => {
+  // Styles
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'label')(props.style)
 
+  const getIcon = useInlineStyle(theme, 'icon')({})
+  const infoIcon = getIcon('info')
+
+  // Modal
   const [open, setOpen] = React.useState(false)
 
+  // Error
   const language = useLanguage()
 
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
     : [props.errorLabel]
+
+  console.log('ICON CSS STYLES')
   return (
     <LabelWrapper {...getInlineStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
@@ -69,15 +87,18 @@ export const Label = (props: LabelProps) => {
           })}
           label={props.label}
           data={props.labelData}
+          Icon={
+            props.description ? (
+              <DescriptionIconWrapper
+                onClick={() => setOpen(true)}
+                dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
+                svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
+                {...getCSSStyle('descriptionIconWrapper')}
+              />
+            ) : null
+          }
         />
-        {props.description && (
-          <div
-            onClick={() => setOpen(true)}
-            {...getInlineStyle('descriptionIcon')}
-          >
-            <InfoIcon />
-          </div>
-        )}
+
         {open && props.description && (
           <ClickAwayListener onClickAway={() => setOpen(false)}>
             <DescriptionPopup
