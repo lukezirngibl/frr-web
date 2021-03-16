@@ -24,17 +24,17 @@ const DescriptionPopup = styled.div`
 `
 
 export type LabelProps = {
-  style?: Partial<AppTheme['label']>
-  error?: boolean
-  label: string | ((params: { language: Language }) => ReactNode)
-  labelData?: Record<string, string>
-  sublabel?: string | ((params: { language: Language }) => ReactNode)
-  sublabelData?: Record<string, string>
-  errorLabel?: string
-  errorLabelData?: Record<string, string>
   description?: string | ((params: { language: Language }) => ReactNode)
   discriptionData?: Record<string, string>
+  error?: boolean
+  errorLabel?: string | string[]
+  errorLabelData?: Record<string, string>
+  label: string | ((params: { language: Language }) => ReactNode)
+  labelData?: Record<string, string>
   renderChildren?: ReactNode | ((params: { language: Language }) => ReactNode)
+  style?: Partial<AppTheme['label']>
+  sublabel?: string | ((params: { language: Language }) => ReactNode)
+  sublabelData?: Record<string, string>
 }
 
 export const Label = (props: LabelProps) => {
@@ -46,6 +46,9 @@ export const Label = (props: LabelProps) => {
 
   const language = useLanguage()
 
+  const errorLabels = Array.isArray(props.errorLabel)
+    ? props.errorLabel
+    : [props.errorLabel]
   return (
     <LabelWrapper {...getInlineStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
@@ -91,33 +94,28 @@ export const Label = (props: LabelProps) => {
         )}
       </LabelTextWrapper>
 
-      {props.sublabel ? (
+      {props.sublabel && (
         <P
           {...getCSSStyle('sublabelText')}
           label={props.sublabel}
           data={props.sublabelData}
         />
-      ) : (
-        <></>
       )}
-      {props.error ? (
-        <P
-          {...getCSSStyle('errorLabel')}
-          label={props.errorLabel || 'fieldError'}
-          data={props.errorLabelData}
-        />
-      ) : (
-        <></>
-      )}
-      {props.renderChildren ? (
-        typeof props.renderChildren === 'function' ? (
+      {props.error &&
+        errorLabels.map((errorLabel) => (
+          <P
+            key={errorLabel}
+            label={errorLabel || 'fieldError'}
+            data={props.errorLabelData}
+            {...getCSSStyle('errorLabel')}
+          />
+        ))}
+      {props.renderChildren &&
+        (typeof props.renderChildren === 'function' ? (
           props.renderChildren({ language })
         ) : (
           <>{props.renderChildren}</>
-        )
-      ) : (
-        <></>
-      )}
+        ))}
     </LabelWrapper>
   )
 }
