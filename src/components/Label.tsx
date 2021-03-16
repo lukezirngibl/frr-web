@@ -23,7 +23,11 @@ const DescriptionPopup = styled.div`
 `
 
 const DescriptionIconWrapper = createStyled(styled.span`
+  position: relative;
+  
   & svg {
+    position: absolute;
+
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
