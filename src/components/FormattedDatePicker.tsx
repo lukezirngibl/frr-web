@@ -1,5 +1,5 @@
 import React from 'react'
-import { parse, format } from 'date-fns'
+import { parse, format, isValid } from 'date-fns'
 import { DatePicker, Props as DatePickerProps } from './DatePicker'
 
 export type Props = {
@@ -18,13 +18,8 @@ export const FormattedDatePicker = (props: Props) => {
     <DatePicker
       value={val as Date}
       onChange={(v) => {
-        if (v !== null) {
-          try {
-            props.onChange(format(v, props.dateFormat))
-          } catch (dateError) {
-            console.error('DATE ERROR', dateError)
-            props.onChange(null)
-          }
+        if (v !== null && isValid(v)) {
+          props.onChange(format(v, props.dateFormat))
         } else {
           props.onChange(null)
         }

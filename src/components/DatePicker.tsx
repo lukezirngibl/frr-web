@@ -6,7 +6,7 @@ import ReactDatePicker, {
 import { LabelProps, Label } from './Label'
 import 'react-datepicker/dist/react-datepicker.css'
 import { TextInput } from './TextInput'
-import { format, parse } from 'date-fns'
+import { format, parse, isValid } from 'date-fns'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 import styled, { css, keyframes } from 'styled-components'
@@ -185,7 +185,7 @@ export const DatePicker = (props: Props) => {
                 inputType={'text'}
                 placeholder={mapLanguageToLocaleFormat[language]}
                 value={
-                  props.value ? format(props.value, 'P', { locale }) : null
+                  isValid(props.value) ? format(props.value, 'P', { locale }) : null
                 }
                 dataTestId={props.dataTestId}
               />
