@@ -70,7 +70,6 @@ export const Label = (props: LabelProps) => {
     ? props.errorLabel
     : [props.errorLabel]
 
-  console.log('ICON CSS STYLES')
   return (
     <LabelWrapper {...getInlineStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
