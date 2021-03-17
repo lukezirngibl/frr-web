@@ -25,13 +25,14 @@ export type Checklist = {
 
 export type Props = {
   list: Array<Checklist>
+  style?: Partial<AppTheme['staticChecklist']>
 }
 
 export const StaticChecklist = (props: Props) => {
   const theme = useAppTheme()
 
-  const getInlineStyle = useInlineStyle(theme, 'staticChecklist')()
-  const getCSSStyles = useCSSStyles(theme, 'staticChecklist')()
+  const getInlineStyle = useInlineStyle(theme, 'staticChecklist')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'staticChecklist')(props.style)
 
   return (
     <>
