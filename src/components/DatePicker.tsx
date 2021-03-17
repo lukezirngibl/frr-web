@@ -1,44 +1,24 @@
+import { format, isValid, parse } from 'date-fns'
 import React from 'react'
+import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, {
   ReactDatePickerProps,
   registerLocale,
 } from 'react-datepicker'
-import { LabelProps, Label } from './Label'
 import 'react-datepicker/dist/react-datepicker.css'
-import { TextInput } from './TextInput'
-import { format, parse, isValid } from 'date-fns'
+import styled, { css, keyframes } from 'styled-components'
+import { useMobileTouch } from '../hooks/useMobileTouch'
+import {
+  mapLanguageToLocale,
+  mapLanguageToLocaleString,
+  mapLanguageToLocaleFormat,
+  useLanguage,
+} from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
-import styled, { css, keyframes } from 'styled-components'
-import ClickAwayListener from 'react-click-away-listener'
-import de from 'date-fns/locale/de'
-import en from 'date-fns/locale/en-GB'
-import fr from 'date-fns/locale/fr'
-import it from 'date-fns/locale/it'
-import { Language, useLanguage } from '../theme/language'
 import { Icon } from './Icon'
-import { useMobileTouch } from '../hooks/useMobileTouch'
-
-const mapLanguageToLocaleString: { [k in Language]: string } = {
-  [Language.DE]: 'de',
-  [Language.EN]: 'en-GB',
-  [Language.FR]: 'fr',
-  [Language.IT]: 'it',
-}
-
-const mapLanguageToLocaleFormat: { [k in Language]: string } = {
-  [Language.DE]: 'DD.MM.YYYY',
-  [Language.EN]: 'MM//DD/YYYY',
-  [Language.FR]: 'DD.MM.YYYY',
-  [Language.IT]: 'DD.MM.YYYY',
-}
-
-const mapLanguageToLocale: { [k in Language]: Locale } = {
-  [Language.DE]: de,
-  [Language.EN]: en,
-  [Language.FR]: fr,
-  [Language.IT]: it,
-}
+import { Label, LabelProps } from './Label'
+import { TextInput } from './TextInput'
 
 const DatePickerIconWrapper = styled.div``
 
