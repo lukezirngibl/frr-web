@@ -35,7 +35,18 @@ const HtmlElements = {
   li: createStyled('li'),
   option: createStyled('option'),
   p: createStyled('p'),
+  a: createStyled('a'),
 }
+
+export const injectDataIntoText = (
+  str: any,
+  data: Record<string, string>,
+  translate: (str: string) => string,
+): string =>
+  Object.keys(data || {}).reduce(
+    (s, k) => s.replace(`{{${k}}}`, translate(data[k])),
+    str,
+  )
 
 export const Element = (
   props: Props & {
@@ -50,6 +61,7 @@ export const Element = (
       | 'li'
       | 'option'
       | 'p'
+      | 'a'
   },
 ) => {
   const {
@@ -81,10 +93,7 @@ export const Element = (
     str = props.label
   }
 
-  const htmlText = Object.keys(data || {}).reduce(
-    (s: string, k) => s.replace(`{{${k}}}`, translate(props.data[k])),
-    str,
-  )
+  const htmlText = injectDataIntoText(str, data, translate)
 
   const HtmlElement = HtmlElements[element]
 
@@ -111,6 +120,7 @@ export const Element = (
   )
 }
 
+export const A = (props: Props) => <Element {...props} element={'a'} />
 export const H1 = (props: Props) => <Element {...props} element={'h1'} />
 export const H2 = (props: Props) => <Element {...props} element={'h2'} />
 export const H3 = (props: Props) => <Element {...props} element={'h3'} />

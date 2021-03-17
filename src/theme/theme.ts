@@ -25,6 +25,7 @@ export type MaterialSliderStyles = {
 
 export type AppTheme = {
   html: {
+    a: CSSProperties
     p: CSSProperties
     h1: CSSProperties
     h2: CSSProperties
@@ -186,6 +187,7 @@ const defaultAppTheme: AppTheme = {
   },
 
   html: {
+    a: {},
     p: {},
     h1: {},
     h2: {},
