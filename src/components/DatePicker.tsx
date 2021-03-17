@@ -20,6 +20,7 @@ import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 
+const Wrapper = styled.div``
 const DatePickerIconWrapper = styled.div``
 
 const DatePickerAnimation = keyframes`
@@ -130,7 +131,7 @@ export const DatePicker = (props: Props) => {
           open && setOpen(false)
         }}
       >
-        <div {...getStyle('wrapper')}>
+        <Wrapper {...getStyle('wrapper')}>
           {isMobileTouch ? (
             <TextInput
               onChange={(v: any) => {
@@ -192,8 +193,8 @@ export const DatePicker = (props: Props) => {
                 }}
                 {...styleIconWrapper}
               >
-                <div {...styleIconHook1} />
-                <div {...styleIconHook2} />
+                <div style={styleIconHook1.style} />
+                <div style={styleIconHook2.style} />
                 <Icon icon="calendar_today" size={16} />
               </DatePickerIconWrapper>
 
@@ -215,7 +216,7 @@ export const DatePicker = (props: Props) => {
               </DatePickerCalendarWrapper>
             </>
           )}
-        </div>
+        </Wrapper>
       </ClickAwayListener>
     </>
   )

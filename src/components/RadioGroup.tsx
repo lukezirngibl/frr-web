@@ -1,19 +1,19 @@
 import React from 'react'
 import { LabelProps, Label } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles } from '../theme/util'
+import { useInlineStyle, useCSSStyles, createStyled } from '../theme/util'
 import styled from 'styled-components'
 import { Options } from '../util'
 import { P } from '../html'
 
-const Wrapper = styled.div``
+const Wrapper = createStyled('div')
 
-const Item = styled.div`
+const Item = createStyled(styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-left: 8px;
-`
+`)
 
 const OuterRadio = styled.div`
   width: 24px;
@@ -50,12 +50,12 @@ export const RadioGroup = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <Wrapper {...getInlineStyle('wrapper')}>
+      <Wrapper {...getCSSStyles('wrapper')}>
         {props.options.map((o, k) => {
           const active = o.value === props.value
           return (
             <Item
-              {...getInlineStyle('item')}
+              {...getCSSStyles('item')}
               key={k}
               onClick={() => {
                 props.onChange(o.value)
