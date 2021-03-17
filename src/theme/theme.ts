@@ -24,19 +24,6 @@ export type MaterialSliderStyles = {
 }
 
 export type AppTheme = {
-  staticChecklist: {
-    wrapper: CSSProperties
-    title: CSSProperties
-    description: CSSProperties
-    listsWrapper: CSSProperties
-    list: CSSProperties
-    item: CSSProperties
-    itemLabel: CSSProperties
-    itemIcon: CSSProperties
-    iconAllowed: CSSProperties
-    iconDisallowed: CSSProperties
-    itemsList: CSSProperties
-  }
   html: {
     p: CSSProperties
     h1: CSSProperties
@@ -48,6 +35,27 @@ export type AppTheme = {
     button: CSSProperties
     li: CSSProperties
     option: CSSProperties
+  }
+  button: {
+    chromeless: CSSProperties
+    primary: CSSProperties
+    label: CSSProperties
+    secondary: CSSProperties
+    common: CSSProperties
+    spinner: CSSProperties
+  }
+  label: {
+    descriptionIcon: CSSProperties
+    descriptionIconWrapper: CSSProperties
+    descriptionPopup: CSSProperties
+    descriptionText: CSSProperties
+    errorIcon: CSSProperties
+    errorLabel: CSSProperties
+    labelText: CSSProperties
+    labelTextError: CSSProperties
+    labelTextWrapper: CSSProperties
+    sublabelText: CSSProperties
+    wrapper: CSSProperties
   }
   textInput: {
     disabledInput: CSSProperties
@@ -61,6 +69,27 @@ export type AppTheme = {
     readOnlyHook: CSSProperties
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
+    wrapper: CSSProperties
+  }
+  textInputDescription: {
+    wrapper: CSSProperties
+    title: CSSProperties
+    description: CSSProperties
+  }
+  textArea: {
+    disabled: CSSProperties
+    input: CSSProperties
+    wrapper: CSSProperties
+  }
+  staticChecklist: {
+    iconAllowed: CSSProperties
+    iconDisallowed: CSSProperties
+    item: CSSProperties
+    itemIcon: CSSProperties
+    itemLabel: CSSProperties
+    itemsList: CSSProperties
+    list: CSSProperties
+    listsWrapper: CSSProperties
     wrapper: CSSProperties
   }
   slider: {
@@ -77,18 +106,14 @@ export type AppTheme = {
     icon: CSSProperties
     select: CSSProperties
   }
-  textArea: {
+  datePicker: {
+    errorHook: CSSProperties
+    errorWrapper: CSSProperties
+    hook1: CSSProperties
+    hook2: CSSProperties
+    iconWrapper: CSSProperties
     wrapper: CSSProperties
-    input: CSSProperties
-    disabled: CSSProperties
-  }
-  button: {
-    chromeless: CSSProperties
-    primary: CSSProperties
-    label: CSSProperties
-    secondary: CSSProperties
-    common: CSSProperties
-    spinner: CSSProperties
+    reactDatePicker?: string
   }
   dropdown: {
     wrapper: CSSProperties
@@ -104,19 +129,6 @@ export type AppTheme = {
   codeInput: {
     wrapper: CSSProperties
     input: CSSProperties
-  }
-  label: {
-    descriptionIcon: CSSProperties
-    descriptionIconWrapper: CSSProperties
-    descriptionPopup: CSSProperties
-    descriptionText: CSSProperties
-    errorIcon: CSSProperties
-    errorLabel: CSSProperties
-    labelText: CSSProperties
-    labelTextError: CSSProperties
-    labelTextWrapper: CSSProperties
-    sublabelText: CSSProperties
-    wrapper: CSSProperties
   }
   singleCheckbox: {
     wrapper: CSSProperties
@@ -138,15 +150,6 @@ export type AppTheme = {
     wrapperActive: CSSProperties
     circle: CSSProperties
     circleActive: CSSProperties
-  }
-  datePicker: {
-    errorHook: CSSProperties
-    errorWrapper: CSSProperties
-    hook1: CSSProperties
-    hook2: CSSProperties
-    iconWrapper: CSSProperties
-    wrapper: CSSProperties
-    reactDatePicker?: string
   }
   popoverDropdown: {
     button: CSSProperties
@@ -170,19 +173,6 @@ export type AppTheme = {
 }
 
 const defaultAppTheme: AppTheme = {
-  staticChecklist: {
-    wrapper: {},
-    title: {},
-    description: {},
-    listsWrapper: {},
-    list: {},
-    item: {},
-    itemLabel: {},
-    itemIcon: {},
-    iconAllowed: {},
-    iconDisallowed: {},
-    itemsList: {},
-  },
   popoverDropdown: {
     button: {},
     label: {},
@@ -194,13 +184,73 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
     item: {},
   },
-  datePicker: {
+
+  html: {
+    p: {},
+    h1: {},
+    h2: {},
+    h3: {},
+    h4: {},
+    h5: {},
+    h6: {},
+    button: {},
+    li: {},
+    option: {},
+  },
+  button: {
+    chromeless: {},
+    primary: {},
+    label: {},
+    secondary: {},
+    common: {},
+    spinner: {},
+  },
+  label: {
+    descriptionIcon: {},
+    descriptionIconWrapper: {},
+    descriptionPopup: {},
+    descriptionText: {},
+    errorIcon: {},
+    errorLabel: {},
+    labelText: {},
+    labelTextError: {},
+    labelTextWrapper: {},
+    sublabelText: {},
+    wrapper: {},
+  },
+  textInput: {
+    disabledInput: {},
+    disabledWrapper: {},
     errorHook: {},
+    errorInput: {},
     errorWrapper: {},
-    hook1: {},
-    hook2: {},
-    iconWrapper: {},
-    reactDatePicker: '',
+    hook: {},
+    input: {},
+    prefix: {},
+    readOnlyHook: {},
+    readOnlyInput: {},
+    readOnlyWrapper: {},
+    wrapper: {},
+  },
+  textInputDescription: {
+    wrapper: {},
+    title: {},
+    description: {},
+  },
+  textArea: {
+    disabled: {},
+    input: {},
+    wrapper: {},
+  },
+  staticChecklist: {
+    iconAllowed: {},
+    iconDisallowed: {},
+    item: {},
+    itemIcon: {},
+    itemLabel: {},
+    itemsList: {},
+    list: {},
+    listsWrapper: {},
     wrapper: {},
   },
   slider: {
@@ -220,17 +270,32 @@ const defaultAppTheme: AppTheme = {
     thumb: {},
     track: {},
   },
-  html: {
-    p: {},
-    h1: {},
-    h2: {},
-    h3: {},
-    h4: {},
-    h5: {},
-    h6: {},
-    button: {},
-    li: {},
+  select: {
     option: {},
+    wrapper: {},
+    errorWrapper: {},
+    icon: {},
+    select: {},
+  },
+  datePicker: {
+    errorHook: {},
+    errorWrapper: {},
+    hook1: {},
+    hook2: {},
+    iconWrapper: {},
+    reactDatePicker: '',
+    wrapper: {},
+  },
+  dropdown: {
+    wrapper: {},
+  },
+  optionGroup: {
+    wrapper: {},
+    item: {},
+    itemActive: {},
+    label: {},
+    labelActive: {},
+    errorWrapper: {},
   },
   toggle: {
     wrapper: {},
@@ -253,67 +318,9 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
     input: {},
   },
-  select: {
-    option: {},
-    wrapper: {},
-    errorWrapper: {},
-    icon: {},
-    select: {},
-  },
-  textInput: {
-    disabledInput: {},
-    disabledWrapper: {},
-    errorHook: {},
-    errorInput: {},
-    errorWrapper: {},
-    hook: {},
-    input: {},
-    prefix: {},
-    readOnlyHook: {},
-    readOnlyInput: {},
-    readOnlyWrapper: {},
-    wrapper: {},
-  },
-  textArea: {
-    wrapper: {},
-    input: {},
-    disabled: {},
-  },
-  optionGroup: {
-    wrapper: {},
-    item: {},
-    itemActive: {},
-    label: {},
-    labelActive: {},
-    errorWrapper: {},
-  },
-  button: {
-    chromeless: {},
-    primary: {},
-    label: {},
-    secondary: {},
-    common: {},
-    spinner: {},
-  },
   codeInput: {
     wrapper: {},
     input: {},
-  },
-  dropdown: {
-    wrapper: {},
-  },
-  label: {
-    descriptionIcon: {},
-    descriptionIconWrapper: {},
-    descriptionPopup: {},
-    descriptionText: {},
-    errorIcon: {},
-    errorLabel: {},
-    labelText: {},
-    labelTextError: {},
-    labelTextWrapper: {},
-    sublabelText: {},
-    wrapper: {},
   },
   icon: {
     edit: {},
@@ -339,6 +346,7 @@ AppThemeContext.displayName = 'AppThemeContext'
 
 export enum MediaQuery {
   Mobile = '(max-width: 768px)',
+  Small = '(max-width: 840px)',
 }
 
 type GenericThemeConfig = Record<string, Record<string, any>>
