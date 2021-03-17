@@ -73,6 +73,7 @@ export type AppTheme = {
   }
   textInputDescription: {
     wrapper: CSSProperties
+    title: CSSProperties
     description: CSSProperties
   }
   textArea: {
@@ -233,6 +234,7 @@ const defaultAppTheme: AppTheme = {
   },
   textInputDescription: {
     wrapper: {},
+    title: {},
     description: {},
   },
   textArea: {
