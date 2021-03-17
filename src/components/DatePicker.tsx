@@ -175,9 +175,24 @@ export const DatePicker = (props: Props) => {
                     const dateValue = parse(v, 'P', new Date(), { locale }) as
                       | Date
                       | 'Invalid Date'
+
+                    if (dateValue == 'Invalid Date') {
+                      throw 'Invalid Date'
+                    }
+
                     onChange(dateValue as Date)
                   } catch (err) {
-                    onChange(null)
+                    const testValue = parse(
+                      v,
+                      props.dateFormat || 'yyyy-MM-dd',
+                      new Date(),
+                    ) as Date | 'Invalid Date'
+
+                    if (testValue !== 'Invalid Date') {
+                      onChange(testValue as Date)
+                    } else {
+                      onChange(null)
+                    }
                   }
                 }}
                 error={props.error}
