@@ -79,6 +79,7 @@ export const Element = (
   } = props
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
+  const elementStyle = getStyle(element)
 
   const language = useLanguage()
   const translate = useTranslate(language)
@@ -101,6 +102,7 @@ export const Element = (
     <HtmlElement
       cssStyles={cssStyles}
       disabled={disabled}
+      dataThemeId={elementStyle.dataThemeId}
       dataTestId={dataThemeId}
       itemID={
         (typeof label === 'function'
@@ -109,7 +111,7 @@ export const Element = (
       }
       readOnly={readOnly}
       style={{
-        ...getStyle(element),
+        ...elementStyle.style,
         ...style,
       }}
       value={value}

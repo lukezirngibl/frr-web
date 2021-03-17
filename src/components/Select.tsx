@@ -9,6 +9,7 @@ import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 
+const Wrapper = styled.div``
 const SelectWrapper = styled.select``
 
 type Value = string | number | null
@@ -108,7 +109,7 @@ export const Select = (props: Props) => {
   return (
     <>
       {label && <Label {...label} />}
-      <div {...getInlineStyle('wrapper')}>
+      <Wrapper {...getInlineStyle('wrapper')}>
         <SelectWrapper
           {...getInlineStyle(
             {
@@ -137,7 +138,7 @@ export const Select = (props: Props) => {
           ))}
         </SelectWrapper>
         <Icon icon="expand_more" size={16} {...getInlineStyle('icon')} />
-      </div>
+      </Wrapper>
     </>
   )
 }
