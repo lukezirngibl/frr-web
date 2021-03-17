@@ -1,23 +1,39 @@
 import React from 'react'
+import styled from 'styled-components'
 import { P } from '../html'
-import { useAppTheme } from '../theme/theme'
+import { MediaQuery, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
+import { Checklist, StaticChecklist } from './StaticChecklist'
 
-const LabelWrapper = createStyled('div')
+const LabelWrapper = createStyled(styled.div`
+  @media ${MediaQuery.Small} {
+    display: none;
+  }
+`)
+
+const TextWrapper = createStyled('div')
 
 export type Props = {
-  descriptionLabel?: string
+  description?: string
+  list: Array<Checklist>
 }
 
 export const TextInputDescription = (props: Props) => {
   const theme = useAppTheme()
-  const getCSSStyle = useCSSStyles(theme, 'label')({})
+  const getLabelStyle = useCSSStyles(theme, 'label')({})
+  const getTextStyle = useCSSStyles(theme, 'textInputDescription')({})
 
-  console.log('LABEL STYLES', getCSSStyle('wrapper'))
   return (
     <>
-      <LabelWrapper {...getCSSStyle('wrapper')}><br /></LabelWrapper>
-      <P {...getCSSStyle('sublabelText')} label={props.descriptionLabel} />
+      <LabelWrapper {...getLabelStyle('wrapper')}>
+        <br />
+      </LabelWrapper>
+      <TextWrapper {...getTextStyle('wrapper')}>
+        {props.description && (
+          <P label={props.description} {...getTextStyle('description')} />
+        )}
+        <StaticChecklist list={props.list} />
+      </TextWrapper>
     </>
   )
 }

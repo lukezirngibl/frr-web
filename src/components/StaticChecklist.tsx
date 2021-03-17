@@ -24,29 +24,20 @@ export type Checklist = {
 }
 
 export type Props = {
-  lists: Array<Checklist>
-  title?: string
-  label?: LabelProps
-  description?: string
-  style?: Partial<AppTheme['staticChecklist']>
+  list: Array<Checklist>
 }
 
 export const StaticChecklist = (props: Props) => {
   const theme = useAppTheme()
 
-  const getInlineStyle = useInlineStyle(theme, 'staticChecklist')(props.style)
-  const getCSSStyles = useCSSStyles(theme, 'staticChecklist')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'staticChecklist')()
+  const getCSSStyles = useCSSStyles(theme, 'staticChecklist')()
 
   return (
     <>
-      {props.label && <Label {...props.label} />}
       <div {...getInlineStyle('wrapper')}>
-        {props.title && <P label={props.title} {...getCSSStyles('title')} />}
-        {props.description && (
-          <P label={props.description} {...getCSSStyles('title')} />
-        )}
         <div {...getInlineStyle('listsWrapper')}>
-          {props.lists.map((l, k1) => (
+          {props.list.map((l, k1) => (
             <div key={k1} {...getInlineStyle('list')}>
               {l.title && <P label={l.title} />}
               <div {...getInlineStyle('itemsList')}>
