@@ -28,7 +28,7 @@ const mapLanguageToLocaleString: { [k in Language]: string } = {
 
 const mapLanguageToLocaleFormat: { [k in Language]: string } = {
   [Language.DE]: 'DD.MM.YYYY',
-  [Language.EN]: 'MM//DD/YYYY',
+  [Language.EN]: 'MM/DD/YYYY',
   [Language.FR]: 'DD.MM.YYYY',
   [Language.IT]: 'DD.MM.YYYY',
 }
