@@ -6,5 +6,5 @@ export type Props = {
 } & TextNumberProps
 
 export const CurrencyInput = (props: Props) => {
-  return <TextNumberInput {...props} />
+  return <TextNumberInput min={props.min || 0} max={props.max || 10000000}  {...props} />
 }
