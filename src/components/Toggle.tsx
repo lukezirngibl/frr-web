@@ -33,7 +33,15 @@ export type Props = {
   name?: string
 }
 
-export const Toggle = (props: Props) => {
+const areEqual = (prevProps: Props, nextProps: Props) => {
+  return (
+    prevProps.value === nextProps.value &&
+    prevProps.error === nextProps.error &&
+    prevProps.defaultValue === nextProps.defaultValue
+  )
+}
+
+export const Toggle = React.memo((props: Props) => {
   const theme = useAppTheme()
   const getInlineStyle = useInlineStyle(theme, 'toggle')(props.style)
 
@@ -77,4 +85,4 @@ export const Toggle = (props: Props) => {
       </Wrapper>
     </>
   )
-}
+}, areEqual)

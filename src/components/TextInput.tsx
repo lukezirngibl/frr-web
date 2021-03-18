@@ -32,7 +32,16 @@ export type Props = {
   value: string | null
 }
 
-export const TextInput = (props: Props) => {
+const areEqual = (prevProps: Props, nextProps: Props) => {
+  return (
+    prevProps.value === nextProps.value &&
+    prevProps.error === nextProps.error &&
+    prevProps.disabled === nextProps.disabled &&
+    prevProps.readOnly === nextProps.readOnly
+  )
+}
+
+export const TextInput = React.memo((props: Props) => {
   const inputRef = React.createRef<HTMLInputElement>()
 
   const { inputType, value, placeholder } = props
@@ -136,4 +145,4 @@ export const TextInput = (props: Props) => {
       </InputWrapper>
     </>
   )
-}
+}, areEqual)

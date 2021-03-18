@@ -28,7 +28,17 @@ export type Props = {
   alphabetize?: boolean
 }
 
-export const Select = (props: Props) => {
+const areEqual = (prevProps: Props, nextProps: Props) => {
+  return (
+    prevProps.value === nextProps.value &&
+    prevProps.error === nextProps.error &&
+    prevProps.disabled === nextProps.disabled &&
+    prevProps.options === nextProps.options &&
+    prevProps.priority === nextProps.priority
+  )
+}
+
+export const Select = React.memo((props: Props) => {
   const { label } = props
 
   const theme = useAppTheme()
@@ -141,4 +151,4 @@ export const Select = (props: Props) => {
       </Wrapper>
     </>
   )
-}
+}, areEqual)

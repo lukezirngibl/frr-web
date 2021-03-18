@@ -21,7 +21,16 @@ export type TextAreaProps = {
   dataTestId?: string
 }
 
-export const TextArea = (props: TextAreaProps) => {
+const areEqual = (prevProps: TextAreaProps, nextProps: TextAreaProps) => {
+  return (
+    prevProps.value === nextProps.value &&
+    prevProps.error === nextProps.error &&
+    prevProps.disabled === nextProps.disabled &&
+    prevProps.readOnly === nextProps.readOnly
+  )
+}
+
+export const TextArea = React.memo((props: TextAreaProps) => {
   const { disabled } = props
 
   const theme = useAppTheme()
@@ -55,4 +64,4 @@ export const TextArea = (props: TextAreaProps) => {
       </InputWrapper>
     </>
   )
-}
+}, areEqual)
