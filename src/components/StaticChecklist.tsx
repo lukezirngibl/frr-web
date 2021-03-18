@@ -3,7 +3,6 @@ import { useCSSStyles, useInlineStyle } from '../theme/util'
 import { useAppTheme, AppTheme } from '../theme/theme'
 import { P } from '../html'
 import { Icon } from './Icon'
-import { Label, LabelProps } from './Label'
 
 export enum ChecklistType {
   Allowed = 'Allowed',
@@ -25,6 +24,8 @@ export type Checklist = {
 
 export type Props = {
   list: Array<Checklist>
+  title?: string
+  description?: string
   style?: Partial<AppTheme['staticChecklist']>
 }
 
@@ -37,6 +38,10 @@ export const StaticChecklist = (props: Props) => {
   return (
     <>
       <div {...getInlineStyle('wrapper')}>
+        {props.title && <P label={props.title} {...getCSSStyles('title')} />}
+        {props.description && (
+          <P label={props.description} {...getCSSStyles('description')} />
+        )}
         <div {...getInlineStyle('listsWrapper')}>
           {props.list.map((l, k1) => (
             <div key={k1} {...getInlineStyle('list')}>

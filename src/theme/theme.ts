@@ -83,6 +83,7 @@ export type AppTheme = {
     wrapper: CSSProperties
   }
   staticChecklist: {
+    description: CSSProperties
     iconAllowed: CSSProperties
     iconDisallowed: CSSProperties
     item: CSSProperties
@@ -91,6 +92,7 @@ export type AppTheme = {
     itemsList: CSSProperties
     list: CSSProperties
     listsWrapper: CSSProperties
+    title: CSSProperties
     wrapper: CSSProperties
   }
   slider: {
@@ -245,6 +247,7 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
   },
   staticChecklist: {
+    description: {},
     iconAllowed: {},
     iconDisallowed: {},
     item: {},
@@ -253,6 +256,7 @@ const defaultAppTheme: AppTheme = {
     itemsList: {},
     list: {},
     listsWrapper: {},
+    title: {},
     wrapper: {},
   },
   slider: {
