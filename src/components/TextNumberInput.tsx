@@ -23,6 +23,7 @@ export const TextNumberInput = (props: Props) => {
       onChange={v => {
         props.onChange(getValue(v))
       }}
+      inputType="number"
       value={isNaN(`${value}` as any) ? undefined : `${value}`}
     />
   )
