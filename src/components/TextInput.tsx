@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
@@ -15,6 +15,7 @@ export type Props = {
   disabled?: boolean
   error?: boolean
   inputType?: string
+  hasFocus?: boolean
   label?: LabelProps
   maxLength?: number
   minLength?: number
@@ -42,7 +43,7 @@ const areEqual = (prevProps: Props, nextProps: Props) => {
 }
 
 export const TextInput = React.memo((props: Props) => {
-  const inputRef = React.createRef<HTMLInputElement>()
+  const inputRef = useRef(null)
 
   const { inputType, value, placeholder } = props
 
@@ -54,17 +55,17 @@ export const TextInput = React.memo((props: Props) => {
 
   const [internalValue, setInternalValue] = useState(value)
 
-  const [onChange] = useDebouncedCallback((text: string) => {
-    if (props.onChange) {
-      props.onChange(text)
-    }
-  }, 300)
+  // const [onChange] = useDebouncedCallback((text: string) => {
+  //   if (props.onChange) {
+  //     props.onChange(text)
+  //   }
+  // }, 300)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInternalValue(value)
   }, [value])
 
-  React.useEffect(
+  useEffect(
     () => () => {
       if (internalValue !== value && props.onChange) {
         props.onChange(internalValue)
@@ -72,6 +73,13 @@ export const TextInput = React.memo((props: Props) => {
     },
     [internalValue],
   )
+
+  // Focus field (e.g. on error)
+  useEffect(() => {
+    if (props.hasFocus && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [props.hasFocus])
 
   return (
     <>
@@ -117,16 +125,15 @@ export const TextInput = React.memo((props: Props) => {
             setInternalValue(e.target.value)
             if (!props.onlyOnBlur) {
               // @ts-ignore
-              onChange(e.target.value)
+              props.onChange?.(e.target.value)
             }
           }}
           onBlur={() => {
             const v = (internalValue || '').trim()
             // if (v !== internalValue) {
             setInternalValue(v)
-            if (props.onChange) {
-              props.onChange(v)
-            }
+            props.onChange?.(v)
+            
 
             // }
             if (props.onBlur) {

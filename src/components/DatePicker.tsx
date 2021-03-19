@@ -78,6 +78,7 @@ export type Props = {
     Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
   >
   error?: boolean
+  hasFocus?: boolean
   label?: LabelProps
   onChange: (value: Date) => void
   style?: Partial<AppTheme['datePicker']>
@@ -148,6 +149,7 @@ export const DatePicker = React.memo((props: Props) => {
                   onChange(null)
                 }
               }}
+              hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
               value={props.value ? format(props.value, props.dateFormat) : null}
@@ -156,6 +158,7 @@ export const DatePicker = React.memo((props: Props) => {
           ) : (
             <>
               <TextInput
+                hasFocus={props.hasFocus}
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
