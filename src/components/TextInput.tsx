@@ -73,7 +73,6 @@ export const TextInput = (props: Props) => {
     }
   }, [props.hasFocus])
 
-  console.log('RENDER INPUT', props.label)
   return (
     <>
       {props.label && <Label {...props.label} />}
