@@ -4,12 +4,13 @@ import { DatePicker, Props as DatePickerProps } from './DatePicker'
 
 export type Props = {
   onChange: (value: string | null) => void
+  onBlur: (value: string | null) => void
   value: string | null
   dateFormat: string
-} & Omit<DatePickerProps, 'onChange' | 'value'>
+} & Omit<DatePickerProps, 'onChange' | 'onBlur' | 'value'>
 
 export const FormattedDatePicker = (props: Props) => {
-  const { onChange, value, dateFormat, ...otherProps } = props
+  const { onChange, onBlur, value, dateFormat, ...otherProps } = props
   const val: Date = props.value
     ? parse(props.value, props.dateFormat, new Date())
     : null
@@ -17,11 +18,18 @@ export const FormattedDatePicker = (props: Props) => {
   return (
     <DatePicker
       value={val as Date}
-      onChange={(v) => {
-        if (v !== null && isValid(v)) {
-          props.onChange(format(v, props.dateFormat))
+      onChange={(value: Date) => {
+        if (value !== null && isValid(value)) {
+          onChange(format(value, props.dateFormat))
         } else {
-          props.onChange(null)
+          onChange(null)
+        }
+      }}
+      onBlur={(value: Date) => {
+        if (value !== null && isValid(value)) {
+          onBlur(format(value, props.dateFormat))
+        } else {
+          onBlur(null)
         }
       }}
       dateFormat={dateFormat}

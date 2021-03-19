@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
@@ -11,22 +11,34 @@ const Input = styled.textarea<{ disabled?: boolean }>`
 `
 
 export type TextAreaProps = {
-  onChange: (value: string) => void
-  value: string
-  error: boolean
-  style?: Partial<AppTheme['textArea']>
-  disabled?: boolean
-  readOnly?: boolean
-  label?: LabelProps
   dataTestId?: string
+  disabled?: boolean
+  error: boolean
+  hasFocus?: boolean
+  label?: LabelProps
+  onBlur?: (value: string) => void
+  onChange?: (value: string) => void
+  onFocus?: () => void
+  readOnly?: boolean
+  style?: Partial<AppTheme['textArea']>
+  value: string
 }
 
 export const TextArea = (props: TextAreaProps) => {
-  const { disabled } = props
+  const inputRef = useRef(null)
 
   const theme = useAppTheme()
   const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
+
+  const [internalValue, setInternalValue] = useState(props.value)
+
+  // Focus field (e.g. on error)
+  useEffect(() => {
+    if (props.hasFocus && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [props.hasFocus])
 
   return (
     <>
@@ -40,16 +52,26 @@ export const TextArea = (props: TextAreaProps) => {
         }}
       >
         <Input
-          data-test-id={props.dataTestId}
           {...{
             ...getInputStyle('input'),
             ...getTextAreaStyle('input'),
             ...(props.disabled ? getInputStyle('disabledInput') : {}),
             ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
           }}
-          onChange={(e) => props.onChange(e.target.value as string)}
+          data-test-id={props.dataTestId}
+          onChange={(e: any) => {
+            setInternalValue(e.target.value)
+            props.onChange?.(e.target.value)
+          }}
+          onBlur={() => {
+            const v = (internalValue || '').trim()
+            setInternalValue(v)
+            props.onBlur?.(v)
+          }}
+          onFocus={props.onFocus}
           className="frr-textarea"
-          disabled={disabled || props.readOnly}
+          ref={inputRef}
+          disabled={props.disabled || props.readOnly}
           value={props.value}
         />
       </InputWrapper>
