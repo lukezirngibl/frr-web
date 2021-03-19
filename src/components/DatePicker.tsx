@@ -84,14 +84,8 @@ export type Props = {
   style?: Partial<AppTheme['datePicker']>
   value: Date | null
 }
-const areEqual = (prevProps: Props, nextProps: Props) => {
-  return (
-    prevProps.value === nextProps.value &&
-    prevProps.error === nextProps.error
-  )
-}
 
-export const DatePicker = React.memo((props: Props) => {
+export const DatePicker = (props: Props) => {
   const { onChange, value, label } = props
 
   /* Styles */
@@ -229,4 +223,4 @@ export const DatePicker = React.memo((props: Props) => {
       </ClickAwayListener>
     </>
   )
-}, areEqual)
+}

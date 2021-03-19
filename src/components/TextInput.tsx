@@ -33,16 +33,7 @@ export type Props = {
   value: string | null
 }
 
-const areEqual = (prevProps: Props, nextProps: Props) => {
-  return (
-    prevProps.value === nextProps.value &&
-    prevProps.error === nextProps.error &&
-    prevProps.disabled === nextProps.disabled &&
-    prevProps.readOnly === nextProps.readOnly
-  )
-}
-
-export const TextInput = React.memo((props: Props) => {
+export const TextInput = (props: Props) => {
   const inputRef = useRef(null)
 
   const { inputType, value, placeholder } = props
@@ -61,18 +52,19 @@ export const TextInput = React.memo((props: Props) => {
   //   }
   // }, 300)
 
-  useEffect(() => {
-    setInternalValue(value)
-  }, [value])
+  // useEffect(() => {
+  //   setInternalValue(value)
+  // }, [value])
 
-  useEffect(
-    () => () => {
-      if (internalValue !== value && props.onChange) {
-        props.onChange(internalValue)
-      }
-    },
-    [internalValue],
-  )
+  // useEffect(
+  //   () => () => {
+  //     console.log('TRIGGER ONCHNAGE')
+  //     if (internalValue !== value && props.onChange) {
+  //       props.onChange(internalValue)
+  //     }
+  //   },
+  //   [internalValue],
+  // )
 
   // Focus field (e.g. on error)
   useEffect(() => {
@@ -81,6 +73,7 @@ export const TextInput = React.memo((props: Props) => {
     }
   }, [props.hasFocus])
 
+  console.log('RENDER INPUT', props.label)
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -123,22 +116,16 @@ export const TextInput = React.memo((props: Props) => {
           disabled={props.readOnly || props.disabled}
           onChange={(e: any) => {
             setInternalValue(e.target.value)
-            if (!props.onlyOnBlur) {
-              // @ts-ignore
-              props.onChange?.(e.target.value)
-            }
+            // if (!props.onlyOnBlur) {
+            //   // @ts-ignore
+            //   props.onChange?.(e.target.value)
+            // }
           }}
           onBlur={() => {
             const v = (internalValue || '').trim()
-            // if (v !== internalValue) {
             setInternalValue(v)
             props.onChange?.(v)
-            
-
-            // }
-            if (props.onBlur) {
-              props.onBlur(v)
-            }
+            props.onBlur?.(v)
           }}
           placeholder={placeholder ? translate(placeholder) : undefined}
           value={
@@ -152,4 +139,4 @@ export const TextInput = React.memo((props: Props) => {
       </InputWrapper>
     </>
   )
-}, areEqual)
+}

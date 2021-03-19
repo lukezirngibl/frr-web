@@ -33,16 +33,7 @@ export type Props = {
   dataTestId?: string
 }
 
-const areEqual = (prevProps: Props, nextProps: Props) => {
-  return (
-    prevProps.value === nextProps.value &&
-    prevProps.error === nextProps.error &&
-    prevProps.disabled === nextProps.disabled &&
-    prevProps.options === nextProps.options
-  )
-}
-
-export const OptionGroup = React.memo((props: Props) => {
+export const OptionGroup = (props: Props) => {
   const theme = useAppTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
@@ -82,4 +73,4 @@ export const OptionGroup = React.memo((props: Props) => {
       </Wrapper>
     </>
   )
-}, areEqual)
+}
