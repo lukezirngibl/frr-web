@@ -28,6 +28,7 @@ const nonPixelKeys = [
   'fontWeight',
   'lineHeight',
   'opacity',
+  'zIndex'
 ]
 
 export const mapStylesToCSS = (style) =>

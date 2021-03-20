@@ -16,11 +16,11 @@ const LabelTextWrapper = styled.div`
   align-items: center;
 `
 
-const DescriptionPopup = styled.div`
+const DescriptionPopup = createStyled(styled.div`
   position: absolute;
   top: 32px;
   left: 48px;
-`
+`)
 
 const DescriptionIconWrapper = createStyled(styled.span`
   position: relative;
@@ -106,7 +106,7 @@ export const Label = (props: LabelProps) => {
           <ClickAwayListener onClickAway={() => setOpen(false)}>
             <DescriptionPopup
               onClick={() => setOpen(false)}
-              {...getInlineStyle('descriptionPopup')}
+              {...getCSSStyle('descriptionPopup')}
             >
               <P
                 {...getCSSStyle('descriptionText')}
