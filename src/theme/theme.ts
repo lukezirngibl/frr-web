@@ -173,9 +173,17 @@ export type AppTheme = {
       svg?: string
     }
   }
+  modal: {
+    outerWrapper: CSSProperties
+    innerWrapper: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
+  modal: {
+    outerWrapper: {},
+    innerWrapper: {},
+  },
   popoverDropdown: {
     button: {},
     label: {},

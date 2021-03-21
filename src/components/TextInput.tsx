@@ -61,7 +61,7 @@ export const TextInput = (props: Props) => {
         props.onChange(internalValue)
       }
     },
-    [internalValue],
+    [],
   )
 
   return (
