@@ -42,6 +42,9 @@ export const TextInput = (props: Props) => {
   const translate = useTranslate(language)
 
   const [internalValue, setInternalValue] = useState(props.value)
+  useEffect(() => {
+    setInternalValue(props.value)
+  }, [props.value])
 
   // Focus field (e.g. on error)
   useEffect(() => {

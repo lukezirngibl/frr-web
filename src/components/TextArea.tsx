@@ -31,8 +31,6 @@ export const TextArea = (props: TextAreaProps) => {
   const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
-  const [internalValue, setInternalValue] = useState(props.value)
-
   // Focus field (e.g. on error)
   useEffect(() => {
     let timerId: number = null
@@ -65,12 +63,10 @@ export const TextArea = (props: TextAreaProps) => {
           data-test-id={props.dataTestId}
           disabled={props.disabled || props.readOnly}
           onBlur={() => {
-            const v = (internalValue || '').trim()
-            setInternalValue(v)
+            const v = (props.value || '').trim()
             props.onBlur?.(v)
           }}
           onChange={(e: any) => {
-            setInternalValue(e.target.value)
             props.onChange?.(e.target.value)
           }}
           onFocus={props.onFocus}
