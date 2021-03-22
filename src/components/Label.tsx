@@ -83,8 +83,6 @@ export const Label = (props: LabelProps) => {
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
     : [props.errorLabel]
-
-  console.log('STYLE', props.style, getCSSStyle('wrapper'))
   
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>

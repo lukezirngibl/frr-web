@@ -6,5 +6,5 @@ export type Props = {
 } & TextNumberProps
 
 export const CurrencyInput = (props: Props) => {
-  return <TextNumberInput {...props} />
+  return <TextNumberInput {...props} parseValue={value => parseFloat(value).toFixed(2)} />
 }

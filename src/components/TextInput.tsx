@@ -26,6 +26,7 @@ export type Props = {
   onlyOnBlur?: boolean
   placeholder?: string
   prefix?: string
+  parseValue?: (value: string | null) => string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<AppTheme['textInput']>
@@ -63,6 +64,10 @@ export const TextInput = (props: Props) => {
   const placeholder = props.placeholder
     ? translate(props.placeholder)
     : undefined
+  
+  useEffect(() => {
+    props.onChange?.(value)
+  }, [value])
 
   return (
     <>
@@ -105,17 +110,19 @@ export const TextInput = (props: Props) => {
           name={props.name}
           ref={inputRef}
           onChange={(e: any) => {
-            setInternalValue(e.target.value)
-            props.onChange?.(e.target.value)
+            const newValue = props.parseValue?.(e.target.value) || e.target.value
+            setInternalValue(newValue)
+            props.onChange?.(newValue)
             // if (!props.onlyOnBlur) {
             //   // @ts-ignore
             //   props.onChange?.(e.target.value)
             // }
           }}
           onBlur={() => {
-            const v = (internalValue || '').trim()
-            setInternalValue(v)
-            props.onBlur?.(v)
+            let newValue = (internalValue || '').trim()
+            newValue = props.parseValue?.(newValue) || newValue
+            setInternalValue(newValue)
+            props.onBlur?.(newValue)
           }}
           onFocus={props.onFocus}
           placeholder={placeholder}
