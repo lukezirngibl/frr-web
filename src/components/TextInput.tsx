@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
@@ -43,31 +43,14 @@ export const TextInput = (props: Props) => {
 
   const [internalValue, setInternalValue] = useState(props.value)
 
-  // const [onChange] = useDebouncedCallback((text: string) => {
-  //   if (props.onChange) {
-  //     props.onChange(text)
-  //   }
-  // }, 300)
-
-  // useEffect(() => {
-  //   setInternalValue(value)
-  // }, [value])
-
-  // useEffect(
-  //   () => () => {
-  //     console.log('TRIGGER ONCHNAGE')
-  //     if (internalValue !== value && props.onChange) {
-  //       props.onChange(internalValue)
-  //     }
-  //   },
-  //   [internalValue],
-  // )
-
   // Focus field (e.g. on error)
   useEffect(() => {
+    let timerId: number = null
     if (props.hasFocus && inputRef.current) {
-      inputRef.current.focus()
+      // Timeout is required to keep scrollIntoView smooth
+      timerId = setTimeout(() => inputRef.current.focus(), 500)
     }
+    return () => clearTimeout(timerId)
   }, [props.hasFocus])
 
   const value =
