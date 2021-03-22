@@ -73,10 +73,6 @@ export const Button = (props: Props) => {
       {props.icon && <Icon {...props.icon} />}
       <P
         style={{
-          color: 'inherit',
-          fontSize: 'inherit',
-          textTransform: 'inherit',
-          flexGrow: 1,
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
         {...getCSSStyle('label')}
