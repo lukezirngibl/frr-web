@@ -4,7 +4,7 @@ import React from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
 import { MaterialSliderStyles, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles } from '../theme/util'
+import { createStyled, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
@@ -13,6 +13,10 @@ var Formatter = new Intl.NumberFormat('de-CH', {
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
 })
+
+const SliderWrapper = createStyled('div')
+const ValueWrapper = createStyled('div')
+const ValueText = createStyled('p')
 
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
   const materialStyles = styles || {}
@@ -98,7 +102,6 @@ export type Props = {
 export const Slider = (props: Props) => {
   const theme = useAppTheme()
 
-  const getInlineStyle = useInlineStyle(theme, 'slider')({})
   const getCSSStyles = useCSSStyles(theme, 'slider')({})
 
   const [internalValue, setInternalValue] = React.useState(props.value)
@@ -121,16 +124,16 @@ export const Slider = (props: Props) => {
   return (
     <div style={{ width: '100%' }}>
       {props.label && <Label {...props.label} />}
-      <div {...getInlineStyle('wrapper')}>
-        <div
-          {...getInlineStyle('valueWrapper', {
+      <SliderWrapper {...getCSSStyles('wrapper')}>
+        <ValueWrapper
+          {...getCSSStyles('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
           })}
         >
           {prefix && <P label={prefix} {...getCSSStyles('prefix')} />}
-          <p {...getInlineStyle('value')}>
+          <ValueText {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
-          </p>
+          </ValueText>
           {/* <input
             style={{
               width: 1,
@@ -144,7 +147,7 @@ export const Slider = (props: Props) => {
               onChange(v)
             }}
           /> */}
-        </div>
+        </ValueWrapper>
 
         <MaterialSlider
           value={internalValue}
@@ -160,7 +163,7 @@ export const Slider = (props: Props) => {
           aria-labelledby={props.ariaLabelledby}
           marks={props.marks}
         />
-      </div>
+      </SliderWrapper>
     </div>
   )
 }
