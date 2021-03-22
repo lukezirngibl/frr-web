@@ -1,12 +1,25 @@
 import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 // import { InfoIcon } from '../assets/Info'
 import { P } from '../html'
 import { Language, useLanguage } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Icon } from './Icon'
+
+const DescriptionPopupAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: top center;
+    transform: scale(0, 0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: top center;
+    transform: scale(1, 1);
+  }
+`
 
 export const LabelWrapper = styled.div``
 
@@ -20,6 +33,7 @@ const DescriptionPopup = createStyled(styled.div`
   position: absolute;
   top: 32px;
   left: 48px;
+  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
 `)
 
 const DescriptionIconWrapper = createStyled(styled.span`

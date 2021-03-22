@@ -42,7 +42,7 @@ export const Select = (props: Props) => {
     typeof props.options === 'function'
       ? props.options(language)
       : props.options
-
+  
   const parseOptions = (
     options: Array<{
       value: Value
