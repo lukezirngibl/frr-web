@@ -4,7 +4,7 @@ import React from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
 import { MaterialSliderStyles, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
@@ -102,6 +102,7 @@ export type Props = {
 export const Slider = (props: Props) => {
   const theme = useAppTheme()
 
+  const getInlineStyles = useInlineStyle(theme, 'slider')({})
   const getCSSStyles = useCSSStyles(theme, 'slider')({})
 
   const [internalValue, setInternalValue] = React.useState(props.value)
@@ -121,9 +122,10 @@ export const Slider = (props: Props) => {
 
   const prefix = props.isCurrency ? 'CHF' : props.prefix
 
+  const labelStyle = getInlineStyles('label')
   return (
     <div style={{ width: '100%' }}>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <SliderWrapper {...getCSSStyles('wrapper')}>
         <ValueWrapper
           {...getCSSStyles('valueWrapper', {

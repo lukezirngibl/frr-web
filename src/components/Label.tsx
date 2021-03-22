@@ -21,7 +21,7 @@ const DescriptionPopupAnimation = keyframes`
   }
 `
 
-export const LabelWrapper = styled.div``
+export const LabelWrapper = createStyled('div')
 
 const LabelTextWrapper = styled.div`
   position: relative;
@@ -84,8 +84,10 @@ export const Label = (props: LabelProps) => {
     ? props.errorLabel
     : [props.errorLabel]
 
+  console.log('STYLE', props.style, getCSSStyle('wrapper'))
+  
   return (
-    <LabelWrapper {...getInlineStyle('wrapper')}>
+    <LabelWrapper {...getCSSStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
         {props.error && (
           <Icon
