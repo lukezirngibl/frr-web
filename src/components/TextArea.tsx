@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Label, LabelProps } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
@@ -11,22 +11,35 @@ const Input = styled.textarea<{ disabled?: boolean }>`
 `
 
 export type TextAreaProps = {
-  onChange: (value: string) => void
-  value: string
-  error: boolean
-  style?: Partial<AppTheme['textArea']>
-  disabled?: boolean
-  readOnly?: boolean
-  label?: LabelProps
   dataTestId?: string
+  disabled?: boolean
+  error: boolean
+  hasFocus?: boolean
+  label?: LabelProps
+  onBlur?: (value: string) => void
+  onChange?: (value: string) => void
+  onFocus?: () => void
+  readOnly?: boolean
+  style?: Partial<AppTheme['textArea']>
+  value: string
 }
 
 export const TextArea = (props: TextAreaProps) => {
-  const { disabled } = props
+  const inputRef = useRef(null)
 
   const theme = useAppTheme()
   const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
+
+  // Focus field (e.g. on error)
+  useEffect(() => {
+    let timerId: number = null
+    if (props.hasFocus && inputRef.current) {
+      // Timeout is required to keep scrollIntoView smooth
+      timerId = setTimeout(() => inputRef.current.focus(), 500)
+    }
+    return () => clearTimeout(timerId)
+  }, [props.hasFocus])
 
   return (
     <>
@@ -40,16 +53,24 @@ export const TextArea = (props: TextAreaProps) => {
         }}
       >
         <Input
-          data-test-id={props.dataTestId}
           {...{
             ...getInputStyle('input'),
             ...getTextAreaStyle('input'),
             ...(props.disabled ? getInputStyle('disabledInput') : {}),
             ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
           }}
-          onChange={(e) => props.onChange(e.target.value as string)}
           className="frr-textarea"
-          disabled={disabled || props.readOnly}
+          data-test-id={props.dataTestId}
+          disabled={props.disabled || props.readOnly}
+          onBlur={() => {
+            const v = (props.value || '').trim()
+            props.onBlur?.(v)
+          }}
+          onChange={(e: any) => {
+            props.onChange?.(e.target.value)
+          }}
+          onFocus={props.onFocus}
+          ref={inputRef}
           value={props.value}
         />
       </InputWrapper>

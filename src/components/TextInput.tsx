@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
@@ -15,27 +15,25 @@ export type Props = {
   disabled?: boolean
   error?: boolean
   inputType?: string
+  hasFocus?: boolean
   label?: LabelProps
   maxLength?: number
   minLength?: number
   name?: string
-  onBlur?: (v: string) => void
+  onBlur?: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
   onlyOnBlur?: boolean
   placeholder?: string
   prefix?: string
-  proccessValue?: (v: string | null) => string
+  proccessValue?: (value: string | null) => string
   readOnly?: boolean
-  ref?: any
   style?: Partial<AppTheme['textInput']>
   value: string | null
 }
 
 export const TextInput = (props: Props) => {
-  const inputRef = React.createRef<HTMLInputElement>()
-
-  const { inputType, value, placeholder } = props
+  const inputRef = useRef(null)
 
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
@@ -43,26 +41,28 @@ export const TextInput = (props: Props) => {
   const language = useLanguage()
   const translate = useTranslate(language)
 
-  const [internalValue, setInternalValue] = useState(value)
+  const [internalValue, setInternalValue] = useState(props.value)
+  useEffect(() => {
+    setInternalValue(props.value)
+  }, [props.value])
 
-  const [onChange] = useDebouncedCallback((text: string) => {
-    if (props.onChange) {
-      props.onChange(text)
+  // Focus field (e.g. on error)
+  useEffect(() => {
+    let timerId: number = null
+    if (props.hasFocus && inputRef.current) {
+      // Timeout is required to keep scrollIntoView smooth
+      timerId = setTimeout(() => inputRef.current.focus(), 500)
     }
-  }, 300)
+    return () => clearTimeout(timerId)
+  }, [props.hasFocus])
 
-  React.useEffect(() => {
-    setInternalValue(value)
-  }, [value])
-
-  React.useEffect(
-    () => () => {
-      if (internalValue !== value && props.onChange) {
-        props.onChange(internalValue)
-      }
-    },
-    [],
-  )
+  const value =
+    (props.proccessValue
+      ? props.proccessValue(internalValue)
+      : internalValue) || ''
+  const placeholder = props.placeholder
+    ? translate(props.placeholder)
+    : undefined
 
   return (
     <>
@@ -91,47 +91,36 @@ export const TextInput = (props: Props) => {
           <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
         )}
         <Input
-          data-test-id={props.dataTestId}
-          className="frr-number-input"
-          ref={inputRef}
-          name={props.name}
-          maxLength={props.maxLength}
-          minLength={props.minLength}
           {...getCSSStyle({
             input: true,
             disabledInput: props.disabled,
             readOnlyInput: props.readOnly,
             errorInput: props.error,
           })}
+          className="frr-text-input"
+          data-test-id={props.dataTestId}
           disabled={props.readOnly || props.disabled}
+          maxLength={props.maxLength}
+          minLength={props.minLength}
+          name={props.name}
+          ref={inputRef}
           onChange={(e: any) => {
             setInternalValue(e.target.value)
-            if (!props.onlyOnBlur) {
-              // @ts-ignore
-              onChange(e.target.value)
-            }
+            props.onChange?.(e.target.value)
+            // if (!props.onlyOnBlur) {
+            //   // @ts-ignore
+            //   props.onChange?.(e.target.value)
+            // }
           }}
           onBlur={() => {
             const v = (internalValue || '').trim()
-            // if (v !== internalValue) {
             setInternalValue(v)
-            if (props.onChange) {
-              props.onChange(v)
-            }
-
-            // }
-            if (props.onBlur) {
-              props.onBlur(v)
-            }
+            props.onBlur?.(v)
           }}
-          placeholder={placeholder ? translate(placeholder) : undefined}
-          value={
-            (props.proccessValue
-              ? props.proccessValue(internalValue)
-              : internalValue) || ''
-          }
-          type={inputType}
           onFocus={props.onFocus}
+          placeholder={placeholder}
+          type={props.inputType}
+          value={value}
         ></Input>
       </InputWrapper>
     </>

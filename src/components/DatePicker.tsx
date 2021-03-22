@@ -78,15 +78,15 @@ export type Props = {
     Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
   >
   error?: boolean
+  hasFocus?: boolean
   label?: LabelProps
   onChange: (value: Date) => void
+  onBlur: (value: Date) => void
   style?: Partial<AppTheme['datePicker']>
   value: Date | null
 }
 
 export const DatePicker = (props: Props) => {
-  const { onChange, value, label } = props
-
   /* Styles */
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
@@ -124,7 +124,7 @@ export const DatePicker = (props: Props) => {
 
   return (
     <>
-      {label && <Label {...label} />}
+      {props.label && <Label {...props.label} />}
 
       <ClickAwayListener
         onClickAway={() => {
@@ -137,11 +137,12 @@ export const DatePicker = (props: Props) => {
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
-                  onChange(dateValue)
+                  props.onBlur(dateValue)
                 } catch (err) {
-                  onChange(null)
+                  props.onBlur(null)
                 }
               }}
+              hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
               value={props.value ? format(props.value, props.dateFormat) : null}
@@ -150,6 +151,7 @@ export const DatePicker = (props: Props) => {
           ) : (
             <>
               <TextInput
+                hasFocus={props.hasFocus}
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
@@ -161,7 +163,7 @@ export const DatePicker = (props: Props) => {
                       throw 'Invalid Date'
                     }
 
-                    onChange(dateValue as Date)
+                    props.onBlur(dateValue as Date)
                   } catch (err) {
                     const testValue = parse(
                       v,
@@ -170,9 +172,9 @@ export const DatePicker = (props: Props) => {
                     ) as Date | 'Invalid Date'
 
                     if (testValue !== 'Invalid Date') {
-                      onChange(testValue as Date)
+                      props.onBlur(testValue as Date)
                     } else {
-                      onChange(null)
+                      props.onBlur(null)
                     }
                   }
                 }}
@@ -202,9 +204,9 @@ export const DatePicker = (props: Props) => {
                 <ReactDatePicker
                   locale={language}
                   open={open}
-                  selected={value}
+                  selected={props.value}
                   onChange={(v: Date) => {
-                    onChange(v)
+                    props.onBlur(v)
                     setOpen(false)
                   }}
                   peekNextMonth

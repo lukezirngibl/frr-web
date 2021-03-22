@@ -28,6 +28,7 @@ const nonPixelKeys = [
   'fontWeight',
   'lineHeight',
   'opacity',
+  'zIndex'
 ]
 
 export const mapStylesToCSS = (style) =>
@@ -48,13 +49,17 @@ export const mapStylesToCSS = (style) =>
 
 export const createStyled = (type: any) =>
   typeof type === 'string'
-    ? styled[type]`
+    ? styled[type].attrs(({ dataThemeId }) => ({
+        'data-theme-id': dataThemeId,
+      }))`
         ${(props: { cssStyles: string }) =>
           css`
             ${props.cssStyles}
           `}
       `
-    : styled(type)`
+    : styled(type).attrs(({ dataThemeId }) => ({
+        'data-theme-id': dataThemeId,
+      }))`
         ${(props: { cssStyles: string }) =>
           css`
             ${props.cssStyles}
@@ -84,13 +89,14 @@ export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
       keys = Object.keys(elementKeys).filter((k) => elementKeys[k])
     }
 
-    return {
-      dataThemeId: `${
+    const dataThemeId = `${
         className ? `${className}:` : ''
       }${componentKey}:${keys.reduce(
         (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
         '',
-      )}`,
+      )}`
+    return {
+      dataThemeId,
       style: omitKeys(
         {
           ...(keys.reduce(
