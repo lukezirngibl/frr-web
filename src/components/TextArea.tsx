@@ -35,9 +35,12 @@ export const TextArea = (props: TextAreaProps) => {
 
   // Focus field (e.g. on error)
   useEffect(() => {
+    let timerId: number = null
     if (props.hasFocus && inputRef.current) {
-      inputRef.current.focus()
+      // Timeout is required to keep scrollIntoView smooth
+      timerId = setTimeout(() => inputRef.current.focus(), 500)
     }
+    return () => clearTimeout(timerId)
   }, [props.hasFocus])
 
   return (
@@ -58,20 +61,20 @@ export const TextArea = (props: TextAreaProps) => {
             ...(props.disabled ? getInputStyle('disabledInput') : {}),
             ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
           }}
+          className="frr-textarea"
           data-test-id={props.dataTestId}
-          onChange={(e: any) => {
-            setInternalValue(e.target.value)
-            props.onChange?.(e.target.value)
-          }}
+          disabled={props.disabled || props.readOnly}
           onBlur={() => {
             const v = (internalValue || '').trim()
             setInternalValue(v)
             props.onBlur?.(v)
           }}
+          onChange={(e: any) => {
+            setInternalValue(e.target.value)
+            props.onChange?.(e.target.value)
+          }}
           onFocus={props.onFocus}
-          className="frr-textarea"
           ref={inputRef}
-          disabled={props.disabled || props.readOnly}
           value={props.value}
         />
       </InputWrapper>
