@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
@@ -42,16 +42,10 @@ export const TextInput = (props: Props) => {
 
   const [internalValue, setInternalValue] = useState(props.value)
   useEffect(() => {
-    setInternalValue(props.value)
-  }, [props.value])
-
-  useEffect(() => {
-    let timerId: number = null
-    if (props.onChange) {
-      timerId = setTimeout(() => props.onChange(internalValue), 50)
+    if (props.value !== internalValue) {
+      setInternalValue(props.value)
     }
-    return () => clearTimeout(timerId)
-  }, [internalValue])
+  }, [props.value])
 
   // Focus field (e.g. on error)
   useEffect(() => {
@@ -70,7 +64,7 @@ export const TextInput = (props: Props) => {
   const placeholder = props.placeholder
     ? translate(props.placeholder)
     : undefined
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -113,6 +107,7 @@ export const TextInput = (props: Props) => {
           ref={inputRef}
           onChange={(event: any) => {
             setInternalValue(event.target.value)
+            props.onChange?.(event.target.value)
             // if (!props.onlyOnBlur) {
             //   // @ts-ignore
             //   props.onChange?.(e.target.value)
@@ -121,6 +116,7 @@ export const TextInput = (props: Props) => {
           onBlur={() => {
             const newValue = (internalValue || '').trim()
             setInternalValue(newValue)
+            props.onChange?.(newValue)
           }}
           onFocus={props.onFocus}
           placeholder={placeholder}
