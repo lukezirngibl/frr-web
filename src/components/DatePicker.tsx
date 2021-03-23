@@ -81,7 +81,6 @@ export type Props = {
   hasFocus?: boolean
   label?: LabelProps
   onChange: (value: Date) => void
-  onBlur: (value: Date) => void
   style?: Partial<AppTheme['datePicker']>
   value: Date | null
 }
@@ -137,9 +136,9 @@ export const DatePicker = (props: Props) => {
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
-                  props.onBlur(dateValue)
+                  props.onChange(dateValue)
                 } catch (err) {
-                  props.onBlur(null)
+                  props.onChange(null)
                 }
               }}
               hasFocus={props.hasFocus}
@@ -152,29 +151,28 @@ export const DatePicker = (props: Props) => {
             <>
               <TextInput
                 hasFocus={props.hasFocus}
-                onChange={() => {}}
-                onBlur={(v: any) => {
+                onChange={(value: any) => {
                   try {
-                    const dateValue = parse(v, 'P', new Date(), { locale }) as
-                      | Date
-                      | 'Invalid Date'
+                    const dateValue = parse(value, 'P', new Date(), {
+                      locale,
+                    }) as Date | 'Invalid Date'
 
                     if (dateValue == 'Invalid Date') {
                       throw 'Invalid Date'
                     }
 
-                    props.onBlur(dateValue as Date)
+                    props.onChange(dateValue as Date)
                   } catch (err) {
                     const testValue = parse(
-                      v,
+                      value,
                       props.dateFormat || 'yyyy-MM-dd',
                       new Date(),
                     ) as Date | 'Invalid Date'
 
                     if (testValue !== 'Invalid Date') {
-                      props.onBlur(testValue as Date)
+                      props.onChange(testValue as Date)
                     } else {
-                      props.onBlur(null)
+                      props.onChange(null)
                     }
                   }
                 }}
@@ -205,8 +203,8 @@ export const DatePicker = (props: Props) => {
                   locale={language}
                   open={open}
                   selected={props.value}
-                  onChange={(v: Date) => {
-                    props.onBlur(v)
+                  onChange={(value: Date) => {
+                    props.onChange(value)
                     setOpen(false)
                   }}
                   peekNextMonth

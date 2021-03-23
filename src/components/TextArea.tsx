@@ -16,7 +16,6 @@ export type TextAreaProps = {
   error: boolean
   hasFocus?: boolean
   label?: LabelProps
-  onBlur?: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
   readOnly?: boolean
@@ -62,12 +61,11 @@ export const TextArea = (props: TextAreaProps) => {
           className="frr-textarea"
           data-test-id={props.dataTestId}
           disabled={props.disabled || props.readOnly}
-          onBlur={() => {
-            const v = (props.value || '').trim()
-            props.onBlur?.(v)
+          onChange={(event: any) => {
+            props.onChange?.(event.target.value)
           }}
-          onChange={(e: any) => {
-            props.onChange?.(e.target.value)
+          onBlur={() => {
+            props.onChange?.((props.value || '').trim())
           }}
           onFocus={props.onFocus}
           ref={inputRef}

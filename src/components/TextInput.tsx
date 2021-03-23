@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
@@ -20,7 +20,6 @@ export type Props = {
   maxLength?: number
   minLength?: number
   name?: string
-  onBlur?: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
   onlyOnBlur?: boolean
@@ -46,6 +45,14 @@ export const TextInput = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
+  useEffect(() => {
+    let timerId: number = null
+    if (props.onChange) {
+      timerId = setTimeout(() => props.onChange(internalValue), 50)
+    }
+    return () => clearTimeout(timerId)
+  }, [internalValue])
+
   // Focus field (e.g. on error)
   useEffect(() => {
     let timerId: number = null
@@ -63,7 +70,7 @@ export const TextInput = (props: Props) => {
   const placeholder = props.placeholder
     ? translate(props.placeholder)
     : undefined
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -104,18 +111,16 @@ export const TextInput = (props: Props) => {
           minLength={props.minLength}
           name={props.name}
           ref={inputRef}
-          onChange={(e: any) => {
-            setInternalValue(e.target.value)
-            props.onChange?.(e.target.value)
+          onChange={(event: any) => {
+            setInternalValue(event.target.value)
             // if (!props.onlyOnBlur) {
             //   // @ts-ignore
             //   props.onChange?.(e.target.value)
             // }
           }}
           onBlur={() => {
-            const v = (internalValue || '').trim()
-            setInternalValue(v)
-            props.onBlur?.(v)
+            const newValue = (internalValue || '').trim()
+            setInternalValue(newValue)
           }}
           onFocus={props.onFocus}
           placeholder={placeholder}
