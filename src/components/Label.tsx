@@ -31,17 +31,15 @@ const LabelTextWrapper = styled.div`
 
 const DescriptionPopup = createStyled(styled.div`
   position: absolute;
-  top: 32px;
+  top: 48px;
   left: 48px;
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;
 `)
 
 const DescriptionIconWrapper = createStyled(styled.span`
-  position: relative;
-  
   & svg {
-    position: absolute;
-
+    vertical-align: top;
+    
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
