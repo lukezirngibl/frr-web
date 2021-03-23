@@ -42,6 +42,7 @@ export const TextInput = (props: Props) => {
   const language = useLanguage()
   const translate = useTranslate(language)
 
+  const [isFocus, setIsFocus] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
   useEffect(() => {
     setInternalValue(props.value)
@@ -110,21 +111,27 @@ export const TextInput = (props: Props) => {
           name={props.name}
           ref={inputRef}
           onChange={(e: any) => {
-            const newValue = props.parseValue?.(e.target.value) || e.target.value
-            setInternalValue(newValue)
-            props.onChange?.(newValue)
+            setInternalValue(e.target.value)
+            props.onChange?.(e.target.value)
+            if (!isFocus) {
+              // Required for browser auto-fill fields to ensure the form gets the values
+              props.onBlur?.(e.target.value)
+            }
             // if (!props.onlyOnBlur) {
             //   // @ts-ignore
             //   props.onChange?.(e.target.value)
             // }
           }}
           onBlur={() => {
-            let newValue = (internalValue || '').trim()
-            newValue = props.parseValue?.(newValue) || newValue
-            setInternalValue(newValue)
-            props.onBlur?.(newValue)
+            const v = (internalValue || '').trim()
+            setInternalValue(v)
+            setIsFocus(false)
+            props.onBlur?.(v)
           }}
-          onFocus={props.onFocus}
+          onFocus={() => {
+            setIsFocus(true)
+            props.onFocus
+          }}
           placeholder={placeholder}
           type={props.inputType}
           value={value}
