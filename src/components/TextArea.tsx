@@ -31,6 +31,8 @@ export const TextArea = (props: TextAreaProps) => {
   const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
+  const [isFocus, setIsFocus] = useState(false)
+
   // Focus field (e.g. on error)
   useEffect(() => {
     let timerId: number = null
@@ -65,11 +67,19 @@ export const TextArea = (props: TextAreaProps) => {
           onBlur={() => {
             const v = (props.value || '').trim()
             props.onBlur?.(v)
+            setIsFocus(false)
           }}
           onChange={(e: any) => {
             props.onChange?.(e.target.value)
+            if (!isFocus) {
+              // Required for browser auto-fill fields to ensure the form gets the values
+              props.onBlur?.(e.target.value)
+            }
           }}
-          onFocus={props.onFocus}
+          onFocus={() => {
+            setIsFocus(true)
+            props.onFocus()
+          }}
           ref={inputRef}
           value={props.value}
         />
