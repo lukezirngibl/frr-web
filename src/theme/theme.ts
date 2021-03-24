@@ -96,10 +96,11 @@ export type AppTheme = {
     wrapper: CSSProperties
   }
   slider: {
-    wrapper: CSSProperties
-    valueWrapper: CSSProperties
+    label: CSSProperties
     prefix: CSSProperties
     value: CSSProperties
+    valueWrapper: CSSProperties
+    wrapper: CSSProperties
   }
   materialSlider: MaterialSliderStyles
   select: {
@@ -268,10 +269,11 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
   },
   slider: {
-    wrapper: {},
-    valueWrapper: {},
+    label: {},
     prefix: {},
     value: {},
+    valueWrapper: {},
+    wrapper: {},
   },
   materialSlider: {
     active: {},

@@ -26,6 +26,7 @@ export type Props = {
   onlyOnBlur?: boolean
   placeholder?: string
   prefix?: string
+  parseValue?: (value: string | null) => string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<AppTheme['textInput']>
@@ -64,7 +65,7 @@ export const TextInput = (props: Props) => {
   const placeholder = props.placeholder
     ? translate(props.placeholder)
     : undefined
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -105,12 +106,14 @@ export const TextInput = (props: Props) => {
           minLength={props.minLength}
           name={props.name}
           ref={inputRef}
-          onChange={(e: any) => {
-            setInternalValue(e.target.value)
-            props.onChange?.(e.target.value)
+          onChange={(event: any) => {
+            const newValue = event.target.value
+
+            setInternalValue(newValue)
+            props.onChange?.(newValue)
             if (!isFocus) {
               // Required for browser auto-fill fields to ensure the form gets the values
-              props.onBlur?.(e.target.value)
+              props.onBlur?.(newValue)
             }
             // if (!props.onlyOnBlur) {
             //   // @ts-ignore
@@ -118,10 +121,12 @@ export const TextInput = (props: Props) => {
             // }
           }}
           onBlur={() => {
-            const v = (internalValue || '').trim()
-            setInternalValue(v)
+            let newValue = (internalValue || '').trim()
+            newValue = props.parseValue?.(newValue) || newValue
+
+            setInternalValue(newValue)
             setIsFocus(false)
-            props.onBlur?.(v)
+            props.onBlur?.(newValue)
           }}
           onFocus={() => {
             setIsFocus(true)

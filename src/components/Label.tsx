@@ -21,7 +21,7 @@ const DescriptionPopupAnimation = keyframes`
   }
 `
 
-export const LabelWrapper = styled.div``
+export const LabelWrapper = createStyled('div')
 
 const LabelTextWrapper = styled.div`
   position: relative;
@@ -31,17 +31,15 @@ const LabelTextWrapper = styled.div`
 
 const DescriptionPopup = createStyled(styled.div`
   position: absolute;
-  top: 32px;
+  top: 48px;
   left: 48px;
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;
 `)
 
 const DescriptionIconWrapper = createStyled(styled.span`
-  position: relative;
-  
   & svg {
-    position: absolute;
-
+    vertical-align: top;
+    
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
@@ -83,9 +81,9 @@ export const Label = (props: LabelProps) => {
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
     : [props.errorLabel]
-
+  
   return (
-    <LabelWrapper {...getInlineStyle('wrapper')}>
+    <LabelWrapper {...getCSSStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
         {props.error && (
           <Icon
