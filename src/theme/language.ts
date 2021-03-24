@@ -1,3 +1,6 @@
+import { useAppInsightsContext } from '@microsoft/applicationinsights-react-js'
+import { captureException, withScope, Severity } from '@sentry/browser'
+
 import de from 'date-fns/locale/de'
 import en from 'date-fns/locale/en-GB'
 import fr from 'date-fns/locale/fr'
@@ -44,11 +47,22 @@ export const LanguageContext = React.createContext<Language>(Language.EN)
 export const useTranslate = (language: Language): ((key: string) => string) => {
   const translations = React.useContext(TranslationsContext)
 
+  // For tracking of missing keys
+  const appInsights = useAppInsightsContext()
+
   const translate = (key: string) => {
+    let translatedText = `${key}`
     if (translations[key] && translations[key][language]) {
-      return translations[key][language]
+      translatedText = translations[key][language]
+    } else {
+      appInsights?.trackEvent({ name: 'MissingTranslationKey' }, { key })
+      withScope(scope => {
+        scope.setLevel(Severity.Warning)
+        captureException(new ReferenceError(`MissingTranslationKey: '${key}'`))
+      })
     }
-    return `${key}`
+    
+    return translatedText
   }
 
   return translate
