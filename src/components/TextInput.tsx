@@ -66,10 +66,6 @@ export const TextInput = (props: Props) => {
     ? translate(props.placeholder)
     : undefined
   
-  useEffect(() => {
-    props.onChange?.(value)
-  }, [value])
-
   return (
     <>
       {props.label && <Label {...props.label} />}
