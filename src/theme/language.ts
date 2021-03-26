@@ -60,7 +60,7 @@ export const useTranslate = (language: Language): ((key: string) => string) => {
     } else if (isNaN(Number(key)) && !NonRelevantKeys.includes(key)) {
       const exception = `MissingTranslationKey - ${language.toUpperCase()}: ${key}`
       console.log(exception)
-      
+      console.log('APP INSIGHTS', appInsights)
       appInsights?.trackException({
         exception: new ReferenceError(exception),
         severityLevel: SeverityLevel.Warning,
