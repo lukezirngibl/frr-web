@@ -1,7 +1,6 @@
 import { useAppInsightsContext } from '@microsoft/applicationinsights-react-js'
 import { SeverityLevel } from '@microsoft/applicationinsights-web'
-import { captureException, withScope, Severity, captureMessage } from '@sentry/browser'
-
+import { captureMessage, Severity, withScope } from '@sentry/browser'
 import de from 'date-fns/locale/de'
 import en from 'date-fns/locale/en-GB'
 import fr from 'date-fns/locale/fr'
@@ -45,7 +44,14 @@ export const useLanguage = (): Language => {
 
 export const LanguageContext = React.createContext<Language>(Language.EN)
 
-const NonRelevantKeys = ['---', ':', 'dev']
+let TrackedMissingKeys = [
+  '---',
+  ':',
+  'dev',
+  '07X XXX XX XX',
+  'Privatkredit',
+  '',
+]
 
 export const useTranslate = (language: Language): ((key: string) => string) => {
   const translations = React.useContext(TranslationsContext)
@@ -57,7 +63,8 @@ export const useTranslate = (language: Language): ((key: string) => string) => {
     let translatedText = `${key}`
     if (translations[key] && translations[key][language]) {
       translatedText = translations[key][language]
-    } else if (isNaN(Number(key)) && !NonRelevantKeys.includes(key)) {
+    } else if (isNaN(Number(key)) && !TrackedMissingKeys.includes(key)) {
+      // TODO: Refactor out of frr-web library to remove dependency to tracking tools
       const exception = `MissingTranslationKey - ${language.toUpperCase()}: ${key}`
       console.log(exception)
       console.log('APP INSIGHTS', appInsights)
@@ -69,8 +76,9 @@ export const useTranslate = (language: Language): ((key: string) => string) => {
         scope.setLevel(Severity.Warning)
         captureMessage(exception)
       })
+      TrackedMissingKeys.push(key)
     }
-    
+
     return translatedText
   }
 
