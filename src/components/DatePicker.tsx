@@ -1,4 +1,4 @@
-import { format, isValid, parse } from 'date-fns'
+import { format, isValid, parseISO, parse } from 'date-fns'
 import React from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, {
@@ -20,7 +20,13 @@ import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  > div > input::-webkit-inner-spin-button,
+  > div > input::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+`
 const DatePickerIconWrapper = styled.div``
 
 const DatePickerAnimation = keyframes`
@@ -86,6 +92,26 @@ export type Props = {
   value: Date | null
 }
 
+function getValidDateOrMonthValue(value: string): string {
+  const resultValue = value.length > 1 ? value : `0${value}`
+  return resultValue
+}
+
+function getValidYearValue(value: string): string {
+  const resultValue = value.length == 4 ? value : `1900`
+  return resultValue
+}
+
+function formatDate(date: Date): string {
+  const formattedDate = `${getValidYearValue(
+    `${date.getFullYear()}`,
+  )}-${getValidDateOrMonthValue(
+    `${date.getMonth() + 1}`,
+  )}-${getValidDateOrMonthValue(`${date.getDate()}`)}`
+
+  return formattedDate
+}
+
 export const DatePicker = (props: Props) => {
   /* Styles */
   const theme = useAppTheme()
@@ -122,6 +148,18 @@ export const DatePicker = (props: Props) => {
 
   const [open, setOpen] = React.useState(false)
 
+  const [propsValue, setPropsValue] = React.useState(props.value)
+  const [textInputValue, setTextInputValue] = React.useState(
+    formatDate(props.value),
+  )
+
+  React.useEffect(() => {
+    if (propsValue !== props.value && props.value) {
+      setTextInputValue(formatDate(props.value))
+      setPropsValue(props.value)
+    }
+  }, [props.value])
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -145,7 +183,7 @@ export const DatePicker = (props: Props) => {
               hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
-              value={props.value ? format(props.value, props.dateFormat) : null}
+              value={props.value ? textInputValue : null}
               dataTestId={props.dataTestId}
             />
           ) : (
@@ -153,39 +191,28 @@ export const DatePicker = (props: Props) => {
               <TextInput
                 hasFocus={props.hasFocus}
                 onChange={() => {}}
+                maxLength={4}
+                pattern={'[1-9][0-9]{3}'}
+                max={'9999-12-31'}
                 onBlur={(v: any) => {
                   try {
-                    const dateValue = parse(v, 'P', new Date(), { locale }) as
-                      | Date
-                      | 'Invalid Date'
+                    const formattedDate = parseISO(formatDate(new Date(v))) as
+                    | Date
+                    | 'Invalid Date'
 
-                    if (dateValue == 'Invalid Date') {
+                    if (formattedDate == 'Invalid Date') {
                       throw 'Invalid Date'
                     }
 
-                    props.onBlur(dateValue as Date)
+                    props.onBlur(formattedDate)
                   } catch (err) {
-                    const testValue = parse(
-                      v,
-                      props.dateFormat || 'yyyy-MM-dd',
-                      new Date(),
-                    ) as Date | 'Invalid Date'
-
-                    if (testValue !== 'Invalid Date') {
-                      props.onBlur(testValue as Date)
-                    } else {
-                      props.onBlur(null)
-                    }
+                    props.onBlur(parseISO(formatDate(new Date('1900-01-01'))))
                   }
                 }}
                 error={props.error}
-                inputType={'text'}
+                inputType={'date'}
                 placeholder={mapLanguageToLocaleFormat[language]}
-                value={
-                  isValid(props.value)
-                    ? format(props.value, 'P', { locale })
-                    : null
-                }
+                value={textInputValue}
                 dataTestId={props.dataTestId}
               />
 
@@ -206,7 +233,8 @@ export const DatePicker = (props: Props) => {
                   open={open}
                   selected={props.value}
                   onChange={(v: Date) => {
-                    props.onBlur(v)
+                    const formattedDate = parseISO(formatDate(v))
+                    props.onBlur(formattedDate)
                     setOpen(false)
                   }}
                   peekNextMonth
