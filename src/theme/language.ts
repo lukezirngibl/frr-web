@@ -44,14 +44,7 @@ export const useLanguage = (): Language => {
 
 export const LanguageContext = React.createContext<Language>(Language.EN)
 
-let TrackedMissingKeys = [
-  '---',
-  ':',
-  'dev',
-  '07X XXX XX XX',
-  'Privatkredit',
-  '',
-]
+let TrackedMissingKeys = ['---', ':', 'dev', '']
 
 export const useTranslate = (language: Language): ((key: string) => string) => {
   const translations = React.useContext(TranslationsContext)
