@@ -67,7 +67,6 @@ export const useTranslate = (language: Language): ((key: string) => string) => {
       // TODO: Refactor out of frr-web library to remove dependency to tracking tools
       const exception = `MissingTranslationKey - ${language.toUpperCase()}: ${key}`
       console.log(exception)
-      console.log('APP INSIGHTS', appInsights)
       appInsights?.trackException({
         exception: new ReferenceError(exception),
         severityLevel: SeverityLevel.Warning,
