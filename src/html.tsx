@@ -3,6 +3,7 @@ import { Language, useLanguage, useTranslate } from './theme/language'
 import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
 import { renderHtml } from './utils/renderHtml'
+import { useTranslation } from 'react-i18next'
 
 type Label =
   | string
@@ -81,13 +82,13 @@ export const Element = (
   const getStyle = useInlineStyle(theme, 'html')({})
   const elementStyle = getStyle(element)
 
-  const language = useLanguage()
-  const translate = useTranslate(language)
+  // const language = useLanguage()
+  const { t: translate } = useTranslation()
 
   let str: string | ReactNode = ''
 
   if (typeof props.label === 'function') {
-    str = props.label({ language, translate })
+    str = props.label({ translate })
   } else if (!translationKey) {
     str = translate(props.label)
   } else {
