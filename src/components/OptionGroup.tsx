@@ -38,7 +38,7 @@ export const OptionGroup = (props: Props) => {
 
   const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}

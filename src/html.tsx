@@ -1,14 +1,13 @@
 import React, { ReactNode } from 'react'
-import { Language, useLanguage, useTranslate } from './theme/language'
+import { useTranslation } from 'react-i18next'
 import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
 import { renderHtml } from './utils/renderHtml'
-import { useTranslation } from 'react-i18next'
 
-type Label =
+export type LabelText =
   | string
   | ((params: {
-      language: Language
+      // language: Language
       translate: (k: string) => string
     }) => string | ReactNode)
 
@@ -18,7 +17,7 @@ type Props = {
   dataThemeId?: string
   disabled?: any
   Icon?: ReactNode
-  label: Label
+  label: LabelText
   readOnly?: boolean
   style?: CSSProperties
   translationKey?: string

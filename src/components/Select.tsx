@@ -8,6 +8,7 @@ import { Options } from '../util'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
+import { useTranslation } from 'react-i18next'
 
 const Wrapper = styled.div``
 const SelectWrapper = styled.select``
@@ -32,8 +33,9 @@ export const Select = (props: Props) => {
   const { label } = props
 
   const theme = useAppTheme()
+
   const language = useLanguage()
-  const translate = useTranslate(language)
+  const { t: translate } = useTranslation()
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
