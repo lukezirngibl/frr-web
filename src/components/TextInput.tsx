@@ -32,7 +32,6 @@ export type Props = {
   style?: Partial<AppTheme['textInput']>
   value: string | null
   max?: string
-  pattern?: string
 }
 
 export const TextInput = (props: Props) => {
@@ -138,7 +137,6 @@ export const TextInput = (props: Props) => {
           type={props.inputType}
           value={value}
           max={props.max}
-          pattern={props.pattern}
         ></Input>
       </InputWrapper>
     </>

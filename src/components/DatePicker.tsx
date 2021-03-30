@@ -1,4 +1,4 @@
-import { format, isValid, parseISO, parse } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import React from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, {
@@ -19,6 +19,8 @@ import { useInlineStyle } from '../theme/util'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
+
+const MAXIMUM_DATE = '9999-12-31'
 
 const Wrapper = styled.div`
   > div > input::-webkit-inner-spin-button,
@@ -92,26 +94,6 @@ export type Props = {
   value: Date | null
 }
 
-function getValidDateOrMonthValue(value: string): string {
-  const resultValue = value.length > 1 ? value : `0${value}`
-  return resultValue
-}
-
-function getValidYearValue(value: string): string {
-  const resultValue = value.length == 4 ? value : `1900`
-  return resultValue
-}
-
-function formatDate(date: Date): string {
-  const formattedDate = `${getValidYearValue(
-    `${date.getFullYear()}`,
-  )}-${getValidDateOrMonthValue(
-    `${date.getMonth() + 1}`,
-  )}-${getValidDateOrMonthValue(`${date.getDate()}`)}`
-
-  return formattedDate
-}
-
 export const DatePicker = (props: Props) => {
   /* Styles */
   const theme = useAppTheme()
@@ -135,7 +117,6 @@ export const DatePicker = (props: Props) => {
   /* Language and locales */
 
   const language = useLanguage()
-  const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
 
@@ -150,15 +131,20 @@ export const DatePicker = (props: Props) => {
 
   const [propsValue, setPropsValue] = React.useState(props.value)
   const [textInputValue, setTextInputValue] = React.useState(
-    formatDate(props.value),
+    format(new Date(props.value), 'yyyy-MM-dd'),
   )
 
   React.useEffect(() => {
-    if (propsValue !== props.value && props.value) {
-      setTextInputValue(formatDate(props.value))
+    if (props.value && propsValue !== props.value) {
+      setTextInputValue(format(new Date(props.value), 'yyyy-MM-dd'))
       setPropsValue(props.value)
     }
   }, [props.value])
+
+  function onBlur(v: any) {
+    const formattedDate = parseISO(format(new Date(v), 'yyyy-MM-dd'))
+    props.onBlur(formattedDate)
+  }
 
   return (
     <>
@@ -174,8 +160,7 @@ export const DatePicker = (props: Props) => {
             <TextInput
               onChange={(v: any) => {
                 try {
-                  const dateValue = new Date(v)
-                  props.onBlur(dateValue)
+                  onBlur(v)
                 } catch (err) {
                   props.onBlur(null)
                 }
@@ -191,23 +176,9 @@ export const DatePicker = (props: Props) => {
               <TextInput
                 hasFocus={props.hasFocus}
                 onChange={() => {}}
-                maxLength={4}
-                pattern={'[1-9][0-9]{3}'}
-                max={'9999-12-31'}
+                max={MAXIMUM_DATE}
                 onBlur={(v: any) => {
-                  try {
-                    const formattedDate = parseISO(formatDate(new Date(v))) as
-                    | Date
-                    | 'Invalid Date'
-
-                    if (formattedDate == 'Invalid Date') {
-                      throw 'Invalid Date'
-                    }
-
-                    props.onBlur(formattedDate)
-                  } catch (err) {
-                    props.onBlur(parseISO(formatDate(new Date('1900-01-01'))))
-                  }
+                  onBlur(v)
                 }}
                 error={props.error}
                 inputType={'date'}
@@ -233,8 +204,7 @@ export const DatePicker = (props: Props) => {
                   open={open}
                   selected={props.value}
                   onChange={(v: Date) => {
-                    const formattedDate = parseISO(formatDate(v))
-                    props.onBlur(formattedDate)
+                    onBlur(v)
                     setOpen(false)
                   }}
                   peekNextMonth
