@@ -1,6 +1,5 @@
 import { useAppInsightsContext } from '@microsoft/applicationinsights-react-js'
 import { SeverityLevel } from '@microsoft/applicationinsights-web'
-import { captureMessage, Severity, withScope } from '@sentry/browser'
 import de from 'date-fns/locale/de'
 import en from 'date-fns/locale/en-GB'
 import fr from 'date-fns/locale/fr'
@@ -63,10 +62,6 @@ export const useTranslate = (language: Language): ((key: string) => string) => {
       appInsights?.trackException({
         exception: new ReferenceError(exception),
         severityLevel: SeverityLevel.Warning,
-      })
-      withScope((scope) => {
-        scope.setLevel(Severity.Warning)
-        captureMessage(exception)
       })
       TrackedMissingKeys.push(key)
     }
