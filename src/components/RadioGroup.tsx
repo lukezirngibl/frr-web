@@ -11,23 +11,29 @@ const Wrapper = createStyled('div')
 const Item = createStyled(styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around !important;
   padding-left: 8px;
+  align-items: flex-start;
 `)
 
-const OuterRadio = styled.div`
-  width: 24px;
-  height: 24px;
-  padding: 4px;
+const OuterRadio = styled.label`
+  padding: 0px !important;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: center;
   cursor: pointer;
 `
 
-const InnerRadio = styled.div`
-  width: 100%;
-  height: 100%;
+const InnerRadio = styled.input`
+  padding: 4px;
   border-radius: 50%;
+  margin-bottom: 4px;
+  margin-left: 3px;
+  cursor: pointer;
+
+  &:checked {
+    background-color: black;
+  }
 `
 
 export type Props = {
@@ -55,29 +61,28 @@ export const RadioGroup = (props: Props) => {
           const active = o.value === props.value
           return (
             <Item
-              {...getCSSStyles('item')}
               key={k}
-              onClick={() => {
-                props.onChange(o.value)
-              }}
               data-test-id={`${props.dataTestId}:${o.value}`}
+              {...getCSSStyles('item')}
             >
-              <P {...getCSSStyles('label')} label={o.label} />
+              <label htmlFor={o.label}><P label={o.label} /></label>
               <OuterRadio
                 {...getInlineStyle({
                   radioOuter: true,
                   radioOuterActive: active,
                   radioOuterError: props.error,
                 })}
+                htmlFor={o.label}
               >
-                {active && (
-                  <InnerRadio
-                    {...getInlineStyle({
-                      radioInner: true,
-                      radioInnerActive: active,
-                    })}
-                  ></InnerRadio>
-                )}
+                <InnerRadio
+                  type="radio"
+                  checked={active}
+                  id={o.label}
+                  value={o.label}
+                  onChange={() => {
+                    props.onChange(o.value)
+                  }}
+                />
               </OuterRadio>
             </Item>
           )
