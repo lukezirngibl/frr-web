@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { createStyled, useInlineStyle } from '../theme/util'
 import { MediaQuery, useAppTheme } from '../theme/theme'
 import { useLanguage, useTranslate } from '../theme/language'
+import { useTranslation } from 'react-i18next'
 
 const LinkWrapper = createStyled(styled.a`
   display: flex;
@@ -50,10 +51,10 @@ export const Link = (props: LinkProps) => {
   const icon = props.icon.type ? getIcon(props.icon.type) : null 
 
   // Translation
-  const language = useLanguage()
-  const translate = useTranslate(language)
+  // const language = useLanguage()
+  // const translate = useTranslate(language)
 
-  
+  const { t: translate } = useTranslation()
 
   return (
     <LinkWrapper onClick={props.onClick} {...props.style}>

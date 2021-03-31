@@ -76,7 +76,7 @@ export const Label = (props: LabelProps) => {
   const [open, setOpen] = React.useState(false)
 
   // Error
-  const language = useLanguage()
+  // const language = useLanguage()
 
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel

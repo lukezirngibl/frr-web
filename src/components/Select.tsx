@@ -34,15 +34,15 @@ export const Select = (props: Props) => {
 
   const theme = useAppTheme()
 
-  const language = useLanguage()
-  const { t: translate } = useTranslation()
+  // const language = useLanguage()
+  const { t: translate, i18n } = useTranslation()
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
   let options =
     typeof props.options === 'function'
-      ? props.options(language)
+      ? props.options(i18n.language)
       : props.options
   
   const parseOptions = (
