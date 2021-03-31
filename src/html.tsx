@@ -82,19 +82,20 @@ export const Element = (
   const elementStyle = getStyle(element)
 
   // const language = useLanguage()
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation('bob_credit_2rxv5l')
 
   let str: string | ReactNode = ''
 
   if (typeof props.label === 'function') {
     str = props.label({ translate })
   } else if (!translationKey) {
-    str = translate(props.label)
+    str = translate(props.label, data)
   } else {
     str = props.label
   }
 
-  const htmlText = injectDataIntoText(str, data, translate)
+  //  const htmlText = injectDataIntoText(str, data, translate)
+  const htmlText = str
 
   const HtmlElement = HtmlElements[element]
 
