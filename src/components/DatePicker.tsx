@@ -130,9 +130,7 @@ export const DatePicker = (props: Props) => {
   const [open, setOpen] = React.useState(false)
 
   const [propsValue, setPropsValue] = React.useState(props.value)
-  const [textInputValue, setTextInputValue] = React.useState(
-    format(new Date(props.value), 'yyyy-MM-dd'),
-  )
+  const [textInputValue, setTextInputValue] = React.useState(null)
 
   React.useEffect(() => {
     if (props.value && propsValue !== props.value) {
@@ -142,8 +140,12 @@ export const DatePicker = (props: Props) => {
   }, [props.value])
 
   function onBlur(v: any) {
-    const formattedDate = parseISO(format(new Date(v), 'yyyy-MM-dd'))
-    props.onBlur(formattedDate)
+    if(v) {
+      const formattedDate = parseISO(format(new Date(v), 'yyyy-MM-dd'))
+      props.onBlur(formattedDate)
+    } else {
+      props.onBlur(null)
+    }
   }
 
   return (
