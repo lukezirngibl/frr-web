@@ -41,14 +41,22 @@ export const useLanguage = (): Language => {
 
 export const LanguageContext = React.createContext<Language>(Language.EN)
 
+let TrackedMissingKeys = ['---', ':', 'dev', '']
+
 export const useTranslate = (language: Language): ((key: string) => string) => {
   const translations = React.useContext(TranslationsContext)
 
   const translate = (key: string) => {
+    let translatedText = `${key}`
     if (translations[key] && translations[key][language]) {
-      return translations[key][language]
+      translatedText = translations[key][language]
+    } else if (isNaN(Number(key)) && !TrackedMissingKeys.includes(key)) {
+      // TODO: Refactor out of frr-web library to remove dependency to tracking tools
+      const exception = `MissingTranslationKey - ${language.toUpperCase()}: ${key}`
+      console.warn(exception)
     }
-    return `${key}`
+
+    return translatedText
   }
 
   return translate
