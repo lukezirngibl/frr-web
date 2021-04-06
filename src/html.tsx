@@ -17,7 +17,7 @@ type Props = {
   dataThemeId?: string
   disabled?: any
   Icon?: ReactNode
-  label: Label
+  label?: Label
   readOnly?: boolean
   style?: CSSProperties
   translationKey?: string
@@ -41,12 +41,16 @@ const HtmlElements = {
 export const injectDataIntoText = (
   str: any,
   data: Record<string, string>,
-  translate: (str: string) => string,
+  // translate: (str: string) => string,
 ): string =>
-  Object.keys(data || {}).reduce(
-    (s, k) => s.replace(`{{${k}}}`, translate(data[k])),
-    str,
-  )
+  str > ''
+    ? Object.keys(data || {}).reduce(
+        (s, k) => s.replace(`{{${k}}}`, data[k]),
+        str,
+      )
+    : Object.keys(data || {})
+        .map((key) => `${data[key]}`)
+        .join(', ')
 
 export const Element = (
   props: Props & {
@@ -88,13 +92,14 @@ export const Element = (
 
   if (typeof props.label === 'function') {
     str = props.label({ language, translate })
-  } else if (!translationKey) {
+  } else if (!!props.label && !translationKey) {
     str = translate(props.label)
   } else {
     str = props.label
   }
 
-  const htmlText = injectDataIntoText(str, data, translate)
+  // const htmlText = injectDataIntoText(str, data, translate)
+  const htmlText = injectDataIntoText(str, data)
 
   const HtmlElement = HtmlElements[element]
 

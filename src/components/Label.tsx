@@ -51,7 +51,7 @@ const DescriptionIconWrapper = createStyled(styled.span`
 
 export type LabelProps = {
   description?: string | ((params: { language: Language }) => ReactNode)
-  discriptionData?: Record<string, string>
+  descriptionData?: Record<string, string>
   error?: boolean
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
@@ -123,7 +123,7 @@ export const Label = (props: LabelProps) => {
               <P
                 {...getCSSStyle('descriptionText')}
                 label={props.description}
-                data={props.discriptionData}
+                data={props.descriptionData}
               />
             </DescriptionPopup>
           </ClickAwayListener>
