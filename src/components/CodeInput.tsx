@@ -2,46 +2,20 @@ import React from 'react'
 import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
-const CodeInputWrapper = styled.div<{ activeBorderColor: string }>`
-  display: flex;
-  align-items: center;
-
-  input {
-    width: 36px;
-    height: 56px;
-    border-radius: 4px;
-    caret-color: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    text-align: center;
-    font-size: 24px;
-    margin-right: 8px;
-    cursor: pointer;
-
-    div {
-      overflow: visible !important;
-    }
-
-    &:focus {
-      outline: 0;
-      background: transparent !important;
-      border-color: ${(props) => props.activeBorderColor} !important;
-    }
+const CodeInputWrapper = createStyled('div')
+const Input = createStyled(styled.input`
+  div {
+    overflow: visible !important;
   }
-`
-
-const Input = styled.input`
-  padding: 0;
-  text-align: center;
-`
+`)
 
 export type Props = {
   label?: LabelProps
   value: string
   onChange: (v: string) => void
-  activeBorderColor: string
   length: number
   style?: Partial<AppTheme['codeInput']>
 }
@@ -52,7 +26,7 @@ const replaceChar = (str: string, char: string, index: number) => {
 
 export const CodeInput = (props: Props) => {
   const theme = useAppTheme()
-  const getStyle = useInlineStyle(theme, 'codeInput')(props.style)
+  const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
 
   const refs: Array<React.RefObject<typeof Input>> = range(
     0,
@@ -70,46 +44,41 @@ export const CodeInput = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <CodeInputWrapper
-        activeBorderColor={props.activeBorderColor}
-        {...getStyle('wrapper')}
-      >
+      <CodeInputWrapper {...getStyle('wrapper')}>
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
-            ref={refs[i] as any}
-            value={intervalValue[i] === '-' ? '' : intervalValue[i]}
-            {...getStyle('input')}
-            onClick={(e) => {
-              setIntervalValue(replaceChar(intervalValue, '-', i))
-            }}
-            type="number"
-            onChange={(e) => {
+            onClick={() => setIntervalValue(replaceChar(intervalValue, '-', i))}
+            onChange={(e: any) => {
               const v = e.target.value.replace('-', ' ').trim()
               if (v === '') {
                 const prev = intervalValue[i]
                 const newValue = replaceChar(intervalValue, '-', i)
                 setIntervalValue(newValue)
                 if (prev === ' ') {
-                  const next = refs[i - 1]
-                  ;(refs[i] as any).current.blur()
-                  if (next && next.current) {
+                  refs[i].current.blur()
+                  const next = refs[i - 1]?.current as any
+                  if (next) {
                     setIntervalValue(replaceChar(newValue, '-', i - 1))
-                    ;(next.current as any).focus()
+                    next.focus()
                   }
                 }
               } else {
                 const newValue = replaceChar(intervalValue, v, i)
                 setIntervalValue(newValue)
 
-                const next = refs[i + 1]
-                ;(refs[i] as any).current.blur()
-                if (next && next.current) {
+                refs[i].current.blur()
+                const next = refs[i + 1]?.current as any
+                if (next) {
                   setIntervalValue(replaceChar(newValue, '-', i + 1))
-                  ;(next.current as any).focus()
+                  next.focus()
                 }
               }
             }}
+            ref={refs[i] as any}
+            type="number"
+            value={intervalValue[i] === '-' ? '' : intervalValue[i]}
+            {...getStyle('input')}
           ></Input>
         ))}
       </CodeInputWrapper>
