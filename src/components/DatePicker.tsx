@@ -131,6 +131,7 @@ export const DatePicker = (props: Props) => {
 
   const [propsValue, setPropsValue] = React.useState(props.value)
   const [textInputValue, setTextInputValue] = React.useState(null)
+  const [type, setType] = React.useState('text')
 
   React.useEffect(() => {
     if (props.value && propsValue !== props.value) {
@@ -145,7 +146,12 @@ export const DatePicker = (props: Props) => {
       props.onBlur(formattedDate)
     } else {
       props.onBlur(null)
+      setType('text')
     }
+  }
+
+  function onFocus() {
+    setType('date')
   }
 
   return (
@@ -178,12 +184,13 @@ export const DatePicker = (props: Props) => {
               <TextInput
                 hasFocus={props.hasFocus}
                 onChange={() => {}}
+                onFocus={onFocus}
                 max={MAXIMUM_DATE}
                 onBlur={(v: any) => {
                   onBlur(v)
                 }}
                 error={props.error}
-                inputType={'date'}
+                inputType={type}
                 placeholder={mapLanguageToLocaleFormat[language]}
                 value={textInputValue}
                 dataTestId={props.dataTestId}
