@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { useAppTheme, AppTheme } from '../theme/theme'
 import { P } from '../html'
 import { Icon } from './Icon'
@@ -13,6 +13,8 @@ const mapTypeToIcon: { [k in ChecklistType]: string } = {
   [ChecklistType.Allowed]: 'checkmark',
   [ChecklistType.Disallowed]: 'close',
 }
+
+const Container = createStyled('div')
 
 export type Checklist = {
   type: ChecklistType
@@ -37,18 +39,18 @@ export const StaticChecklist = (props: Props) => {
 
   return (
     <>
-      <div {...getInlineStyle('wrapper')}>
+      <Container {...getCSSStyles('wrapper')}>
         {props.title && <P label={props.title} {...getCSSStyles('title')} />}
         {props.description && (
           <P label={props.description} {...getCSSStyles('description')} />
         )}
-        <div {...getInlineStyle('listsWrapper')}>
+        <Container {...getCSSStyles('listsWrapper')}>
           {props.list.map((l, k1) => (
-            <div key={k1} {...getInlineStyle('list')}>
+            <Container key={k1} {...getCSSStyles('list')}>
               {l.title && <P label={l.title} />}
-              <div {...getInlineStyle('itemsList')}>
+              <Container {...getCSSStyles('itemsList')}>
                 {l.items.map((i, k2) => (
-                  <div key={k2} {...getInlineStyle('item')}>
+                  <Container key={k2} {...getCSSStyles('item')}>
                     <Icon
                       icon={mapTypeToIcon[l.type]}
                       size={18}
@@ -59,13 +61,13 @@ export const StaticChecklist = (props: Props) => {
                       })}
                     />
                     <P label={i.label} {...getCSSStyles('itemLabel')}></P>
-                  </div>
+                  </Container>
                 ))}
-              </div>
-            </div>
+              </Container>
+            </Container>
           ))}
-        </div>
-      </div>
+        </Container>
+      </Container>
     </>
   )
 }

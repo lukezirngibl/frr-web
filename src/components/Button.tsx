@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled, { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
+import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
@@ -25,6 +26,7 @@ const mapTypeToStyleKey: {
 
 export type Props = {
   label: string
+  labelMobile?: string
   onClick?: () => void
   disabled?: boolean
   style?: Partial<AppTheme['button']>
@@ -61,6 +63,8 @@ export const Button = (props: Props) => {
           // @ts-ignore
           onClicked()
         }
+  
+  const { isMobile } = useMobileTouch()
 
   return (
     <ButtonWrapper
@@ -76,7 +80,7 @@ export const Button = (props: Props) => {
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
         {...getCSSStyle('label')}
-        label={props.label}
+        label={isMobile && props.labelMobile || props.label}
       />
       {props.loading && (
         <Loading
