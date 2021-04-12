@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles } from '../theme/util'
-import { Options } from '../util'
 import { Label, LabelProps } from './Label'
-import { P } from '../html'
+import { Options, P } from '../html'
 
 const Wrapper = styled.div`
   display: flex;

@@ -4,6 +4,14 @@ import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
 import { renderHtml } from './utils/renderHtml'
 
+export type Options<Value> = Array<{
+  label?: string
+  name?: string
+  value: Value
+  disabled?: boolean
+  isLabelTranslated?: boolean
+}>
+
 export type LabelText =
   | string
   | ((params: {
@@ -20,7 +28,7 @@ type Props = {
   label?: LabelText
   readOnly?: boolean
   style?: CSSProperties
-  translationKey?: string
+  isLabelTranslated?: boolean
   value?: any
 }
 
@@ -75,10 +83,10 @@ export const Element = (
     disabled,
     element,
     Icon,
+    isLabelTranslated,
     label,
     readOnly,
     style = {},
-    translationKey,
     value,
   } = props
   const theme = useAppTheme()
@@ -92,7 +100,7 @@ export const Element = (
 
   if (typeof props.label === 'function') {
     str = props.label({ translate })
-  } else if (!!props.label && !translationKey) {
+  } else if (!!props.label && !isLabelTranslated) {
     str = translate(props.label, data)
   } else {
     str = props.label
@@ -109,11 +117,7 @@ export const Element = (
       disabled={disabled}
       dataThemeId={elementStyle.dataThemeId}
       dataTestId={dataThemeId}
-      itemID={
-        (typeof label === 'function'
-          ? '<computed>'
-          : translationKey || label) as string
-      }
+      itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
       style={{
         ...elementStyle.style,

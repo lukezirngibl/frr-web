@@ -1,19 +1,19 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Option } from '../html'
-import { Language, useLanguage, useTranslate } from '../theme/language'
+import { Option, Options } from '../html'
+import { Language } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useCSSStyles, useInlineStyle } from '../theme/util'
-import { Options } from '../util'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
-import { useTranslation } from 'react-i18next'
 
 const Wrapper = styled.div``
 const SelectWrapper = styled.select``
 
 type Value = string | number | null
+
 
 export type Props = {
   label?: LabelProps
@@ -34,7 +34,6 @@ export const Select = (props: Props) => {
 
   const theme = useAppTheme()
 
-  // const language = useLanguage()
   const { t: translate, i18n } = useTranslation()
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
@@ -58,8 +57,8 @@ export const Select = (props: Props) => {
           .map((o) => ({
             ...o,
             name: o.label ? translate(o.label) : o.name,
-            translationKey: `${o.label}`,
-            label: undefined,
+            isLabelTranslated: true,
+            label: `${o.label}`,
           }))
           .sort((a, b) =>
             replaceUmlaute(a.name.toLowerCase()) >
@@ -89,7 +88,7 @@ export const Select = (props: Props) => {
 
     ...parseOptions(
       props.priority
-        ? [...options.filter((o) => props.priority.includes(o.value))]
+        ? [...options.filter((option) => props.priority.includes(option.value))]
         : [],
     ),
     ...(props.priority
@@ -103,7 +102,7 @@ export const Select = (props: Props) => {
       : []),
     ...parseOptions(
       props.priority
-        ? options.filter((o) => !props.priority.includes(o.value))
+        ? options.filter((option) => !props.priority.includes(option.value))
         : options,
     ),
   ]
@@ -128,14 +127,14 @@ export const Select = (props: Props) => {
           }}
           data-test-id={props.dataTestId}
         >
-          {options.map((o, i) => (
+          {options.map((option, optionIndex) => (
             <Option
-              value={o.value === null ? 'null' : o.value}
-              key={i}
-              disabled={o.disabled}
+              value={option.value === null ? 'null' : option.value}
+              key={optionIndex}
+              disabled={option.disabled}
               {...getCSSStyles('option')}
-              label={o.label || o.name}
-              translationKey={o.translationKey}
+              label={option.label || option.name}
+              isLabelTranslated={option.isLabelTranslated}
             />
           ))}
         </SelectWrapper>

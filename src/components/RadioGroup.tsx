@@ -3,8 +3,7 @@ import { LabelProps, Label } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles, createStyled } from '../theme/util'
 import styled from 'styled-components'
-import { Options } from '../util'
-import { P } from '../html'
+import { Options, P } from '../html'
 
 const Wrapper = createStyled('div')
 
