@@ -3,7 +3,6 @@ import ClickAwayListener from 'react-click-away-listener'
 import styled, { css, keyframes } from 'styled-components'
 // import { InfoIcon } from '../assets/Info'
 import { LabelText, P } from '../html'
-import { useLanguage } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Icon } from './Icon'
@@ -51,7 +50,7 @@ const DescriptionIconWrapper = createStyled(styled.span`
 
 export type LabelProps = {
   description?: LabelText
-  discriptionData?: Record<string, string>
+  descriptionData?: Record<string, string>
   error?: boolean
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
@@ -123,7 +122,7 @@ export const Label = (props: LabelProps) => {
               <P
                 {...getCSSStyle('descriptionText')}
                 label={props.description}
-                data={props.discriptionData}
+                data={props.descriptionData}
               />
             </DescriptionPopup>
           </ClickAwayListener>

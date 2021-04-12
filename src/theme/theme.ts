@@ -157,6 +157,7 @@ export type AppTheme = {
   }
   popoverDropdown: {
     button: CSSProperties
+    burgerMenuButton: CSSProperties
     label: CSSProperties
     icon: CSSProperties
   }
@@ -187,6 +188,7 @@ const defaultAppTheme: AppTheme = {
   },
   popoverDropdown: {
     button: {},
+    burgerMenuButton: {},
     label: {},
     icon: {},
   },

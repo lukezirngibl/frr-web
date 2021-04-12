@@ -132,7 +132,7 @@ export const TextInput = (props: Props) => {
           }}
           onFocus={() => {
             setIsFocus(true)
-            props.onFocus
+            props.onFocus?.()
           }}
           placeholder={placeholder}
           type={props.inputType}
