@@ -204,7 +204,7 @@ export const DatePicker = (props: Props) => {
                 <ReactDatePicker
                   locale={language}
                   open={open}
-                  selected={props.value}
+                  selected={props.value || new Date()}
                   onChange={(v: Date) => {
                     props.onBlur(v)
                     setOpen(false)
