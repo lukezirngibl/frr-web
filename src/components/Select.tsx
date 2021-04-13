@@ -14,7 +14,6 @@ const SelectWrapper = styled.select``
 
 type Value = string | number | null
 
-
 export type Props = {
   label?: LabelProps
   options: Options<Value> | ((lan: Language) => Options<Value>)
@@ -43,26 +42,21 @@ export const Select = (props: Props) => {
     typeof props.options === 'function'
       ? props.options(i18n.language)
       : props.options
-  
-  const parseOptions = (
-    options: Array<{
-      value: Value
-      disabled?: boolean
-      label?: string
-      name?: string
-    }>,
-  ) =>
+
+  const parseOptions = (options: Options<Value>) =>
     props.alphabetize
       ? options
-          .map((o) => ({
-            ...o,
-            name: o.label ? translate(o.label) : o.name,
+          .map((option) => ({
+            ...option,
+            name: option.name || option.label,
             isLabelTranslated: true,
-            label: `${o.label}`,
+            label: option.isLabelTranslated
+              ? option.label
+              : translate(option.label),
           }))
           .sort((a, b) =>
-            replaceUmlaute(a.name.toLowerCase()) >
-            replaceUmlaute(b.name.toLowerCase())
+            replaceUmlaute(a.label.toLowerCase()) >
+            replaceUmlaute(b.label.toLowerCase())
               ? 1
               : -1,
           )
@@ -75,12 +69,13 @@ export const Select = (props: Props) => {
             {
               value: null,
               disabled: true,
-              label: 'pleaseSelect',
+              label: 'formFields.select.defaultLabel',
             },
             {
               value: '---',
               disabled: true,
               label: '---',
+              isLabelTranslated: true,
             },
           ]
         : [],

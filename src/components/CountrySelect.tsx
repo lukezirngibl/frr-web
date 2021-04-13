@@ -8,7 +8,7 @@ export const CountrySelect = (props: Props) => {
   return (
     <Select
       {...props}
-      options={COUNTRIES_ALPHA_3.map((c) => ({ label: c, value: c }))}
+      options={COUNTRIES_ALPHA_3.map((country) => ({ label: `country.${country}`, value: country }))}
       alphabetize
     />
   )
