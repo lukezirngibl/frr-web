@@ -108,7 +108,7 @@ export const DatePicker = (props: Props) => {
   /* Language and locales */
 
   const language = useLanguage()
-  // const locale = mapLanguageToLocale[language]
+  const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
 
@@ -201,7 +201,7 @@ export const DatePicker = (props: Props) => {
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
-                  locale={'de-CH'}
+                  locale={locale}
                   open={open}
                   selected={props.value || new Date()}
                   onChange={(v: Date) => {
