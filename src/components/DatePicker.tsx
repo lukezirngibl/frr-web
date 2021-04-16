@@ -11,7 +11,6 @@ import { useMobileTouch } from '../hooks/useMobileTouch'
 import {
   mapLanguageToLocale,
   mapLanguageToLocaleString,
-  mapLanguageToLocaleFormat,
   useLanguage,
 } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
@@ -109,7 +108,7 @@ export const DatePicker = (props: Props) => {
   /* Language and locales */
 
   const language = useLanguage()
-  const locale = mapLanguageToLocale[language]
+  // const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
 
@@ -155,7 +154,7 @@ export const DatePicker = (props: Props) => {
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
-                    const dateValue = parse(v, 'P', new Date(), { locale }) as
+                    const dateValue = parse(v, 'dd.MM.yyyy', new Date()) as
                       | Date
                       | 'Invalid Date'
 
@@ -180,10 +179,10 @@ export const DatePicker = (props: Props) => {
                 }}
                 error={props.error}
                 inputType={'text'}
-                placeholder={mapLanguageToLocaleFormat[language]}
+                placeholder={'dateFormatPlaceholder'}
                 value={
                   isValid(props.value)
-                    ? format(props.value, 'P', { locale })
+                    ? format(props.value, 'dd.MM.yyyy')
                     : null
                 }
                 dataTestId={props.dataTestId}
@@ -202,7 +201,7 @@ export const DatePicker = (props: Props) => {
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
-                  locale={language}
+                  locale={'de-CH'}
                   open={open}
                   selected={props.value || new Date()}
                   onChange={(v: Date) => {
