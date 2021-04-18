@@ -94,7 +94,7 @@ export const Element = (
   const elementStyle = getStyle(element)
 
   // const language = useLanguage()
-  const { t: translate } = useTranslation('bob_credit_2rxv5l')
+  const { t: translate } = useTranslation()
 
   let str: string | ReactNode = ''
 
