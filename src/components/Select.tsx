@@ -92,6 +92,7 @@ export const Select = (props: Props) => {
             value: '---',
             disabled: true,
             label: '---',
+            isLabelTranslated: true,
           },
         ]
       : []),
