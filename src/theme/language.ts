@@ -18,13 +18,6 @@ export const mapLanguageToLocaleString: { [k in Language]: string } = {
   [Language.IT]: 'it',
 }
 
-export const mapLanguageToLocaleFormat: { [k in Language]: string } = {
-  [Language.DE]: 'DD.MM.YYYY',
-  [Language.EN]: 'DD/MM/YYYY',
-  [Language.FR]: 'DD.MM.YYYY',
-  [Language.IT]: 'DD.MM.YYYY',
-}
-
 export const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.DE]: de,
   [Language.EN]: en,
