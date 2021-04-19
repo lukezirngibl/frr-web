@@ -1,25 +1,19 @@
+import { Options } from "./html"
+
 export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,
 ): Array<K> => Object.keys(x) as Array<K>
 
-export type Options<T> = Array<{
-  label?: string
-  name?: string
-  value: T
-  disabled?: boolean
-  translationKey?: string
-}>
-
 export const processOptions = (
-  raw: Array<{ label?: string; name?: string; value: string | number }>,
+  raw: Options<string | number>,
   translate: (s: string) => string,
 ): Array<{ text: string; value: string | number }> =>
-  raw.map((o) => ({
+  raw.map((option) => ({
     text:
-      o.label !== undefined
-        ? typeof o.label === 'string'
-          ? translate(o.label)
-          : `${o.label}`
-        : o.name || 'Unknown',
-    value: o.value,
+      option.label !== undefined
+        ? typeof option.label === 'string' && !option.isLabelTranslated
+          ? translate(option.label)
+          : `${option.label}`
+        : option.name || 'Unknown',
+    value: option.value,
   }))

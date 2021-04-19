@@ -3,8 +3,7 @@ import { LabelProps, Label } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle, useCSSStyles, createStyled } from '../theme/util'
 import styled from 'styled-components'
-import { Options } from '../util'
-import { P } from '../html'
+import { Options, P } from '../html'
 
 const Wrapper = createStyled('div')
 
@@ -46,7 +45,7 @@ export const RadioGroup = (props: Props) => {
 
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
-
+  
   return (
     <>
       {props.label && <Label {...props.label} />}

@@ -120,7 +120,7 @@ export const Slider = (props: Props) => {
     [theme],
   ) as any
 
-  const prefix = props.isCurrency ? 'CHF' : props.prefix
+  const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
 
   const labelStyle = getInlineStyles('label')
   return (

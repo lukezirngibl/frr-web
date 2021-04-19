@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
-import { Options } from '../util'
+import { Options } from '../html'
 import { Label, LabelProps } from './Label'
 
 export type Props = {

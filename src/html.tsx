@@ -1,13 +1,21 @@
 import React, { ReactNode } from 'react'
-import { Language, useLanguage, useTranslate } from './theme/language'
+import { useTranslation } from 'react-i18next'
 import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
 import { renderHtml } from './utils/renderHtml'
 
-type Label =
+export type Options<Value> = Array<{
+  label?: string
+  name?: string
+  value: Value
+  disabled?: boolean
+  isLabelTranslated?: boolean
+}>
+
+export type LabelText =
   | string
   | ((params: {
-      language: Language
+      // language: Language
       translate: (k: string) => string
     }) => string | ReactNode)
 
@@ -17,10 +25,10 @@ type Props = {
   dataThemeId?: string
   disabled?: any
   Icon?: ReactNode
-  label?: Label
+  label?: LabelText
   readOnly?: boolean
   style?: CSSProperties
-  translationKey?: string
+  isLabelTranslated?: boolean
   value?: any
 }
 
@@ -75,31 +83,31 @@ export const Element = (
     disabled,
     element,
     Icon,
+    isLabelTranslated,
     label,
     readOnly,
     style = {},
-    translationKey,
     value,
   } = props
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
   const elementStyle = getStyle(element)
 
-  const language = useLanguage()
-  const translate = useTranslate(language)
+  // const language = useLanguage()
+  const { t: translate } = useTranslation()
 
   let str: string | ReactNode = ''
 
   if (typeof props.label === 'function') {
-    str = props.label({ language, translate })
-  } else if (!!props.label && !translationKey) {
-    str = translate(props.label)
+    str = props.label({ translate })
+  } else if (!!props.label && !isLabelTranslated) {
+    str = translate(props.label, data)
   } else {
     str = props.label
   }
 
-  // const htmlText = injectDataIntoText(str, data, translate)
-  const htmlText = injectDataIntoText(str, data)
+  //  const htmlText = injectDataIntoText(str, data, translate)
+  const htmlText = str
 
   const HtmlElement = HtmlElements[element]
 
@@ -109,11 +117,7 @@ export const Element = (
       disabled={disabled}
       dataThemeId={elementStyle.dataThemeId}
       dataTestId={dataThemeId}
-      itemID={
-        (typeof label === 'function'
-          ? '<computed>'
-          : translationKey || label) as string
-      }
+      itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
       style={{
         ...elementStyle.style,

@@ -2,8 +2,7 @@ import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import styled, { css, keyframes } from 'styled-components'
 // import { InfoIcon } from '../assets/Info'
-import { P } from '../html'
-import { Language, useLanguage } from '../theme/language'
+import { LabelText, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Icon } from './Icon'
@@ -50,16 +49,16 @@ const DescriptionIconWrapper = createStyled(styled.span`
 `)
 
 export type LabelProps = {
-  description?: string | ((params: { language: Language }) => ReactNode)
+  description?: LabelText
   descriptionData?: Record<string, string>
   error?: boolean
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
-  label: string | ((params: { language: Language }) => ReactNode)
+  label: LabelText
   labelData?: Record<string, string>
-  renderChildren?: ReactNode | ((params: { language: Language }) => ReactNode)
+  renderChildren?: ReactNode | (() => ReactNode)
   style?: Partial<AppTheme['label']>
-  sublabel?: string | ((params: { language: Language }) => ReactNode)
+  sublabel?: LabelText
   sublabelData?: Record<string, string>
 }
 
@@ -76,7 +75,7 @@ export const Label = (props: LabelProps) => {
   const [open, setOpen] = React.useState(false)
 
   // Error
-  const language = useLanguage()
+  // const language = useLanguage()
 
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
@@ -148,7 +147,7 @@ export const Label = (props: LabelProps) => {
         ))}
       {props.renderChildren &&
         (typeof props.renderChildren === 'function' ? (
-          props.renderChildren({ language })
+          props.renderChildren()
         ) : (
           <>{props.renderChildren}</>
         ))}

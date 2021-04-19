@@ -1,10 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Option } from '../html'
-import { Language, useLanguage, useTranslate } from '../theme/language'
+import { Option, Options } from '../html'
+import { Language } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useCSSStyles, useInlineStyle } from '../theme/util'
-import { Options } from '../util'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
@@ -32,36 +32,31 @@ export const Select = (props: Props) => {
   const { label } = props
 
   const theme = useAppTheme()
-  const language = useLanguage()
-  const translate = useTranslate(language)
+
+  const { t: translate, i18n } = useTranslation()
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
   let options =
     typeof props.options === 'function'
-      ? props.options(language)
+      ? props.options(i18n.language)
       : props.options
-  
-  const parseOptions = (
-    options: Array<{
-      value: Value
-      disabled?: boolean
-      label?: string
-      name?: string
-    }>,
-  ) =>
+
+  const parseOptions = (options: Options<Value>) =>
     props.alphabetize
       ? options
-          .map((o) => ({
-            ...o,
-            name: o.label ? translate(o.label) : o.name,
-            translationKey: `${o.label}`,
-            label: undefined,
+          .map((option) => ({
+            ...option,
+            name: option.name || option.label,
+            isLabelTranslated: true,
+            label: option.isLabelTranslated
+              ? option.label
+              : translate(option.label),
           }))
           .sort((a, b) =>
-            replaceUmlaute(a.name.toLowerCase()) >
-            replaceUmlaute(b.name.toLowerCase())
+            replaceUmlaute(a.label.toLowerCase()) >
+            replaceUmlaute(b.label.toLowerCase())
               ? 1
               : -1,
           )
@@ -74,12 +69,13 @@ export const Select = (props: Props) => {
             {
               value: null,
               disabled: true,
-              label: 'pleaseSelect',
+              label: 'formFields.select.defaultLabel',
             },
             {
               value: '---',
               disabled: true,
               label: '---',
+              isLabelTranslated: true,
             },
           ]
         : [],
@@ -87,7 +83,7 @@ export const Select = (props: Props) => {
 
     ...parseOptions(
       props.priority
-        ? [...options.filter((o) => props.priority.includes(o.value))]
+        ? [...options.filter((option) => props.priority.includes(option.value))]
         : [],
     ),
     ...(props.priority
@@ -96,12 +92,13 @@ export const Select = (props: Props) => {
             value: '---',
             disabled: true,
             label: '---',
+            isLabelTranslated: true,
           },
         ]
       : []),
     ...parseOptions(
       props.priority
-        ? options.filter((o) => !props.priority.includes(o.value))
+        ? options.filter((option) => !props.priority.includes(option.value))
         : options,
     ),
   ]
@@ -126,14 +123,14 @@ export const Select = (props: Props) => {
           }}
           data-test-id={props.dataTestId}
         >
-          {options.map((o, i) => (
+          {options.map((option, optionIndex) => (
             <Option
-              value={o.value === null ? 'null' : o.value}
-              key={i}
-              disabled={o.disabled}
+              value={option.value === null ? 'null' : option.value}
+              key={optionIndex}
+              disabled={option.disabled}
               {...getCSSStyles('option')}
-              label={o.label || o.name}
-              translationKey={o.translationKey}
+              label={option.label || option.name}
+              isLabelTranslated={option.isLabelTranslated}
             />
           ))}
         </SelectWrapper>

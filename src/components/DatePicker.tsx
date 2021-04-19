@@ -6,6 +6,7 @@ import ReactDatePicker, {
   registerLocale,
 } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import {
@@ -107,7 +108,9 @@ export const DatePicker = (props: Props) => {
 
   /* Language and locales */
 
-  const language = useLanguage()
+  // const language = useLanguage()
+  const { i18n } = useTranslation()
+  const language = i18n.language
   const locale = mapLanguageToLocale[language]
 
   const { isMobileTouch } = useMobileTouch()
