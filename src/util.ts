@@ -1,4 +1,4 @@
-import { Options } from "./html"
+import { Options } from './html'
 
 export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,
