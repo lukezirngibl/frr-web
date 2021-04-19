@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   height: 32px;
   width: 52px;
+  min-width: 52px;
   padding: 2px;
   border-radius: 16px;
   cursor: pointer;
