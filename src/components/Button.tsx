@@ -64,7 +64,7 @@ export const Button = (props: Props) => {
           onClicked()
         }
   
-  const { isMobile } = useMobileTouch()
+  const { isMobile } = useMobileTouch()
 
   return (
     <ButtonWrapper
