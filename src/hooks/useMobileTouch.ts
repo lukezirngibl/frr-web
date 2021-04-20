@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { MediaQuery } from '../theme/theme'
 
-const _window = window as any
 
 export const useTouchDetector = (): void => {
+  const _window = window as any
+
   // Check for on-touch event on window
   const [isTouchInitialized, setTouchInitialized] = useState(
     _window.__IS_TOUCH_SCREEN__ !== undefined,
@@ -26,6 +27,8 @@ export const useTouchDetector = (): void => {
 
 export const useMobileTouch = (): { isMobile: boolean, isTouch: boolean, isMobileTouch: boolean } => {
   const isMobile = useMediaQuery({ query: MediaQuery.Mobile })
+
+  const _window = window as any
 
   const isTouch = _window.__IS_TOUCH_SCREEN__
   const isMobileTouch = isMobile && isTouch
