@@ -108,7 +108,6 @@ export const DatePicker = (props: Props) => {
 
   /* Language and locales */
 
-  // const language = useLanguage()
   const { i18n } = useTranslation()
   const language = i18n.language
   const locale = mapLanguageToLocale[language]

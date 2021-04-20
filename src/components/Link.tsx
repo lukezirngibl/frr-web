@@ -51,9 +51,6 @@ export const Link = (props: LinkProps) => {
   const icon = props.icon.type ? getIcon(props.icon.type) : null 
 
   // Translation
-  // const language = useLanguage()
-  // const translate = useTranslate(language)
-
   const { t: translate } = useTranslation()
 
   return (
