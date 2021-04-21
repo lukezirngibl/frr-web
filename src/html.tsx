@@ -15,7 +15,6 @@ export type Options<Value> = Array<{
 export type LabelText =
   | string
   | ((params: {
-      // language: Language
       translate: (k: string) => string
     }) => string | ReactNode)
 
@@ -49,7 +48,6 @@ const HtmlElements = {
 export const injectDataIntoText = (
   str: any,
   data: Record<string, string>,
-  // translate: (str: string) => string,
 ): string =>
   str > ''
     ? Object.keys(data || {}).reduce(
@@ -93,7 +91,6 @@ export const Element = (
   const getStyle = useInlineStyle(theme, 'html')({})
   const elementStyle = getStyle(element)
 
-  // const language = useLanguage()
   const { t: translate } = useTranslation()
 
   let str: string | ReactNode = ''
@@ -106,7 +103,6 @@ export const Element = (
     str = props.label
   }
 
-  //  const htmlText = injectDataIntoText(str, data, translate)
   const htmlText = str
 
   const HtmlElement = HtmlElements[element]

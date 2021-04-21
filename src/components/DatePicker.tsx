@@ -3,7 +3,7 @@ import React from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, {
   ReactDatePickerProps,
-  registerLocale,
+  registerLocale
 } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
@@ -11,8 +11,7 @@ import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import {
   mapLanguageToLocale,
-  mapLanguageToLocaleString,
-  useLanguage,
+  mapLanguageToLocaleString
 } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
@@ -108,7 +107,6 @@ export const DatePicker = (props: Props) => {
 
   /* Language and locales */
 
-  // const language = useLanguage()
   const { i18n } = useTranslation()
   const language = i18n.language
   const locale = mapLanguageToLocale[language]
