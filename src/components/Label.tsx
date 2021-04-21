@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import styled, { css, keyframes } from 'styled-components'
-// import { InfoIcon } from '../assets/Info'
 import { LabelText, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'

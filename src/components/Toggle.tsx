@@ -40,7 +40,6 @@ export const Toggle = (props: Props) => {
   React.useEffect(() => {
     if (props.value === null && props.defaultValue !== undefined) {
       props.onChange(props.defaultValue)
-      // console.log('Toggle: ', props.defaultValue)
     }
   }, [])
 

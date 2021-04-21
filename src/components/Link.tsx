@@ -1,10 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import { createStyled, useInlineStyle } from '../theme/util'
-import { MediaQuery, useAppTheme } from '../theme/theme'
-import { useLanguage, useTranslate } from '../theme/language'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
+import { MediaQuery, useAppTheme } from '../theme/theme'
+import { createStyled, useInlineStyle } from '../theme/util'
 
 const LinkWrapper = createStyled(styled.a`
   display: flex;
@@ -34,8 +32,8 @@ const LinkText = styled.span`
 `
 type LinkProps = {
   icon?: {
-    type: 'edit' | 'info'
-    style: { cssStyles: string, dataThemeId: string }
+    type: 'edit' | 'info'
+    style: { cssStyles: string; dataThemeId: string }
   }
   label?: string
   onClick: () => unknown
@@ -48,7 +46,7 @@ export const Link = (props: LinkProps) => {
 
   // Icon
   const getIcon = useInlineStyle(theme, 'icon')({})
-  const icon = props.icon.type ? getIcon(props.icon.type) : null 
+  const icon = props.icon.type ? getIcon(props.icon.type) : null
 
   // Translation
   const { t: translate } = useTranslation()
