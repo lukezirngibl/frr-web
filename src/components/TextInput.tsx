@@ -1,10 +1,8 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
-import { useLanguage, useTranslate } from '../theme/language'
-import { useTranslation } from 'react-i18next'
 
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
@@ -40,8 +38,6 @@ export const TextInput = (props: Props) => {
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
-  // const language = useLanguage()
-  // const translate = useTranslate(language)
   const { t: translate } = useTranslation()
 
   const [isFocus, setIsFocus] = useState(false)
@@ -67,7 +63,7 @@ export const TextInput = (props: Props) => {
   const placeholder = props.placeholder
     ? translate(props.placeholder)
     : undefined
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}

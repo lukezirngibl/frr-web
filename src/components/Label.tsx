@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import styled, { css, keyframes } from 'styled-components'
-// import { InfoIcon } from '../assets/Info'
 import { LabelText, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
@@ -75,8 +74,6 @@ export const Label = (props: LabelProps) => {
   const [open, setOpen] = React.useState(false)
 
   // Error
-  // const language = useLanguage()
-
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
     : [props.errorLabel]
