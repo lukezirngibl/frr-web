@@ -6,7 +6,6 @@ export type Props = {
   label?: LabelProps
   onChange: (n: number) => void
   value: number | null | undefined
-  debouncedDelay?: number
   max?: number
   min?: number
 } & Omit<TextInputProps, 'onChange' | 'value'>
