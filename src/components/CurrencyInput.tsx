@@ -24,7 +24,6 @@ const parseAmount = (v: string): string => {
 export const CurrencyInput = (props: Props) => {
   const { value } = props
 
-  console.log('CURRENCY VALUE', value)
   return (
     <TextInput
       {...props}

@@ -60,7 +60,7 @@ export const Toggle = (props: Props) => {
             ...(props.value ? getInlineStyle('circleActive') : {}),
           }}
         >
-          <input
+          <button
             style={{
               width: 1,
               height: 1,
