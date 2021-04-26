@@ -7,6 +7,7 @@ import {
 import TableCell from '@material-ui/core/TableCell'
 import clsx from 'clsx'
 import React, { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AutoSizer,
   Column,
@@ -88,7 +89,7 @@ const InnerTable = <T extends {}>(
     })
   }
 
-  const cellRenderer: TableCellRenderer = cell => {
+  const cellRenderer: TableCellRenderer = (cell) => {
     const { cellData, columnIndex } = cell
 
     return (
@@ -129,6 +130,7 @@ const InnerTable = <T extends {}>(
     label,
     columnIndex,
   }: TableHeaderProps & { columnIndex: number }) => {
+    const { t } = useTranslation()
     return (
       <TableCell
         component="div"
@@ -141,7 +143,7 @@ const InnerTable = <T extends {}>(
         style={{ height: 48, borderBottomColor: 'rgb(243,243,245)' }}
         align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
-        <span>{label}</span>
+        <span>{t(label)}</span>
       </TableCell>
     )
   }
@@ -169,7 +171,7 @@ const InnerTable = <T extends {}>(
             return (
               <Column
                 key={dataKey}
-                headerRenderer={headerProps =>
+                headerRenderer={(headerProps) =>
                   headerRenderer({
                     ...headerProps,
                     columnIndex: index,
