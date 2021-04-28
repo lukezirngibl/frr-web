@@ -55,6 +55,7 @@ export type LabelProps = {
   errorLabelData?: Record<string, string>
   label: LabelText
   labelData?: Record<string, string>
+  localeNamespace?: string
   renderChildren?: ReactNode | (() => ReactNode)
   style?: Partial<AppTheme['label']>
   sublabel?: LabelText
@@ -97,6 +98,7 @@ export const Label = (props: LabelProps) => {
             labelTextError: props.error,
           })}
           label={props.label}
+          localeNamespace={props.localeNamespace}
           data={props.labelData}
           Icon={
             props.description ? (
@@ -119,6 +121,7 @@ export const Label = (props: LabelProps) => {
               <P
                 {...getCSSStyle('descriptionText')}
                 label={props.description}
+                localeNamespace={props.localeNamespace}
                 data={props.descriptionData}
               />
             </DescriptionPopup>
@@ -130,6 +133,7 @@ export const Label = (props: LabelProps) => {
         <P
           {...getCSSStyle('sublabelText')}
           label={props.sublabel}
+          localeNamespace={props.localeNamespace}
           data={props.sublabelData}
         />
       )}
@@ -138,6 +142,7 @@ export const Label = (props: LabelProps) => {
           <P
             key={errorLabel}
             label={errorLabel || 'fieldError'}
+            localeNamespace={props.localeNamespace}
             data={props.errorLabelData}
             {...getCSSStyle('errorLabel')}
           />

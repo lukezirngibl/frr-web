@@ -71,6 +71,7 @@ interface Row {
 type Props<T extends {}> = {
   data: Array<T>
   columns: Array<ColumnData>
+  localeNamespace?: string 
   onRowClick?: (item: T) => void
   renderCell: (params: {
     rowData: T
@@ -82,6 +83,8 @@ type Props<T extends {}> = {
 const InnerTable = <T extends {}>(
   props: Props<T> & WithStyles<typeof styles>,
 ) => {
+  const { t: translate } = useTranslation(props.localeNamespace)
+
   const getRowClassName = (row: Row) => {
     const { index } = row
     return clsx(props.classes.tableRow, classes.flexContainer, {
@@ -130,7 +133,6 @@ const InnerTable = <T extends {}>(
     label,
     columnIndex,
   }: TableHeaderProps & { columnIndex: number }) => {
-    const { t } = useTranslation()
     return (
       <TableCell
         component="div"
@@ -143,7 +145,7 @@ const InnerTable = <T extends {}>(
         style={{ height: 48, borderBottomColor: 'rgb(243,243,245)' }}
         align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
-        <span>{t(label)}</span>
+        <span>{translate(label)}</span>
       </TableCell>
     )
   }

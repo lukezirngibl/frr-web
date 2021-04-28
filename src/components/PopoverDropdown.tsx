@@ -12,10 +12,11 @@ import { useMobileTouch } from '../hooks/useMobileTouch'
 const DrodownSelector = createStyled('div')
 
 export type Props = {
-  style?: Partial<AppTheme['popoverDropdown']>
-  label: string
   hasIcon?: boolean
   hasMobileBurgerMenu?: boolean
+  label: string
+  localeNamespace?: string
+  style?: Partial<AppTheme['popoverDropdown']>
 } & Omit<PopoverWithItemsProps, 'trigger'>
 
 export const PopoverDropdown = (props: Props) => {
@@ -41,7 +42,11 @@ export const PopoverDropdown = (props: Props) => {
             <Icon icon="menu" size={20} />
           ) : (
             <>
-              <P label={props.label} {...getCSSStyles(['label'])} />
+              <P
+                label={props.label}
+                localeNamespace={props.localeNamespace}
+                {...getCSSStyles(['label'])}
+              />
               {props.hasIcon && (
                 <Icon
                   icon="expand_more"

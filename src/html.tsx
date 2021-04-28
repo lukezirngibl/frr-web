@@ -25,6 +25,7 @@ type Props = {
   disabled?: any
   Icon?: ReactNode
   label?: LabelText
+  localeNamespace?: string
   readOnly?: boolean
   style?: CSSProperties
   isLabelTranslated?: boolean
@@ -83,6 +84,7 @@ export const Element = (
     Icon,
     isLabelTranslated,
     label,
+    localeNamespace,
     readOnly,
     style = {},
     value,
@@ -91,7 +93,7 @@ export const Element = (
   const getStyle = useInlineStyle(theme, 'html')({})
   const elementStyle = getStyle(element)
 
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation(localeNamespace)
 
   let str: string | ReactNode = ''
 

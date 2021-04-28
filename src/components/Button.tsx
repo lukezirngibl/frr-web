@@ -25,16 +25,17 @@ const mapTypeToStyleKey: {
 }
 
 export type Props = {
+  dataTestId?: string
+  disabled?: boolean
+  icon?: IconProps
   label: string
   labelMobile?: string
-  onClick?: () => void
-  disabled?: boolean
-  style?: Partial<AppTheme['button']>
+  localeNamespace?: string
   loading?: boolean
+  onClick?: () => void
   override?: CSSProperties
+  style?: Partial<AppTheme['button']>
   type?: ButtonType
-  icon?: IconProps
-  dataTestId?: string
 }
 
 const Test = styled.div``
@@ -60,10 +61,9 @@ export const Button = (props: Props) => {
       ? undefined
       : () => {
           setIsClicked(true)
-          // @ts-ignore
           onClicked()
         }
-  
+
   const { isMobile } = useMobileTouch()
 
   return (
@@ -80,7 +80,8 @@ export const Button = (props: Props) => {
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
         {...getCSSStyle('label')}
-        label={isMobile && props.labelMobile || props.label}
+        label={(isMobile && props.labelMobile) || props.label}
+        localeNamespace={props.localeNamespace}
       />
       {props.loading && (
         <Loading

@@ -13,9 +13,10 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
-  inputType?: string
   hasFocus?: boolean
+  inputType?: string
   label?: LabelProps
+  localeNamespace?: string
   maxLength?: number
   minLength?: number
   name?: string
@@ -23,9 +24,9 @@ export type Props = {
   onChange?: (value: string) => void
   onFocus?: () => void
   onlyOnBlur?: boolean
+  parseValue?: (value: string | null) => string
   placeholder?: string
   prefix?: string
-  parseValue?: (value: string | null) => string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<AppTheme['textInput']>
@@ -38,7 +39,7 @@ export const TextInput = (props: Props) => {
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation(props.localeNamespace)
 
   const [isFocus, setIsFocus] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)

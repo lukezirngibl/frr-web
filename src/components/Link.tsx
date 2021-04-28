@@ -36,6 +36,7 @@ type LinkProps = {
     style: { cssStyles: string; dataThemeId: string }
   }
   label?: string
+  localeNamespace?: string
   onClick: () => unknown
   style: { cssStyles: string; dataThemeId: string }
 }
@@ -49,7 +50,7 @@ export const Link = (props: LinkProps) => {
   const icon = props.icon.type ? getIcon(props.icon.type) : null
 
   // Translation
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation(props.localeNamespace)
 
   return (
     <LinkWrapper onClick={props.onClick} {...props.style}>

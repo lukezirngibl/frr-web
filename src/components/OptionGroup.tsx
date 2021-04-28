@@ -22,14 +22,15 @@ const Item = styled.div`
 `
 
 export type Props = {
-  label?: LabelProps
-  onChange: (v: string) => void
-  value: string | null
-  options: Options<string>
-  disabled?: boolean
-  style?: Partial<AppTheme['optionGroup']>
-  error?: boolean
   dataTestId?: string
+  disabled?: boolean
+  error?: boolean
+  label?: LabelProps
+  localeNamespace?: string
+  onChange: (v: string) => void
+  options: Options<string>
+  style?: Partial<AppTheme['optionGroup']>
+  value: string | null
 }
 
 export const OptionGroup = (props: Props) => {
@@ -37,7 +38,7 @@ export const OptionGroup = (props: Props) => {
 
   const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -66,6 +67,7 @@ export const OptionGroup = (props: Props) => {
                 labelActive: item.value === props.value,
               })}
               label={item.label}
+              localeNamespace={props.localeNamespace}
             />
           </Item>
         ))}
