@@ -38,8 +38,6 @@ export type Props = {
   type?: ButtonType
 }
 
-const Test = styled.div``
-
 export const Button = (props: Props) => {
   /* Style hooks */
   const type = props.type || ButtonType.Secondary

@@ -71,12 +71,13 @@ interface Row {
 type Props<T extends {}> = {
   data: Array<T>
   columns: Array<ColumnData>
-  localeNamespace?: string 
+  localeNamespace?: string
   onRowClick?: (item: T) => void
   renderCell: (params: {
     rowData: T
     index: number
     value: string
+    translate: (v: string, p?: any) => string
   }) => ReactNode
 }
 
@@ -124,6 +125,7 @@ const InnerTable = <T extends {}>(
           rowData: cell.rowData,
           index: columnIndex,
           value: cellData,
+          translate,
         })}
       </TableCell>
     )

@@ -25,10 +25,11 @@ export type Checklist = {
 }
 
 export type Props = {
-  list: Array<Checklist>
-  title?: string
   description?: string
+  list: Array<Checklist>
+  localeNamespace?: string
   style?: Partial<AppTheme['staticChecklist']>
+  title?: string
 }
 
 export const StaticChecklist = (props: Props) => {
@@ -40,14 +41,26 @@ export const StaticChecklist = (props: Props) => {
   return (
     <>
       <Container {...getCSSStyles('wrapper')}>
-        {props.title && <P label={props.title} {...getCSSStyles('title')} />}
+        {props.title && (
+          <P
+            label={props.title}
+            localeNamespace={props.localeNamespace}
+            {...getCSSStyles('title')}
+          />
+        )}
         {props.description && (
-          <P label={props.description} {...getCSSStyles('description')} />
+          <P
+            label={props.description}
+            localeNamespace={props.localeNamespace}
+            {...getCSSStyles('description')}
+          />
         )}
         <Container {...getCSSStyles('listsWrapper')}>
           {props.list.map((l, k1) => (
             <Container key={k1} {...getCSSStyles('list')}>
-              {l.title && <P label={l.title} />}
+              {l.title && (
+                <P label={l.title} localeNamespace={props.localeNamespace} />
+              )}
               <Container {...getCSSStyles('itemsList')}>
                 {l.items.map((i, k2) => (
                   <Container key={k2} {...getCSSStyles('item')}>
@@ -60,7 +73,11 @@ export const StaticChecklist = (props: Props) => {
                         iconDisallowed: l.type !== ChecklistType.Allowed,
                       })}
                     />
-                    <P label={i.label} {...getCSSStyles('itemLabel')}></P>
+                    <P
+                      label={i.label}
+                      localeNamespace={props.localeNamespace}
+                      {...getCSSStyles('itemLabel')}
+                    ></P>
                   </Container>
                 ))}
               </Container>
