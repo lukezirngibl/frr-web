@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MediaQuery, useAppTheme } from '../theme/theme'
 import { createStyled, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 
 const LinkWrapper = createStyled(styled.a`
   display: flex;
@@ -36,7 +37,7 @@ type LinkProps = {
     style: { cssStyles: string; dataThemeId: string }
   }
   label?: string
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   onClick: () => unknown
   style: { cssStyles: string; dataThemeId: string }
 }

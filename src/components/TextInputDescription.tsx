@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { P } from '../html'
 import { MediaQuery, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { Checklist, StaticChecklist } from './StaticChecklist'
 
@@ -17,7 +18,7 @@ const TextWrapper = createStyled('div')
 export type Props = {
   description?: string
   label?: LabelProps
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   list?: Array<Checklist>
   title?: string
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles } from '../theme/util'
-import { Label, LabelProps } from './Label'
 import { Options, P } from '../html'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
+import { Label, LabelProps } from './Label'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ export type Props = {
   disabled?: boolean
   error?: boolean
   label?: LabelProps
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   onChange: (v: string) => void
   options: Options<string>
   style?: Partial<AppTheme['optionGroup']>

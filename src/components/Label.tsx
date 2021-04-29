@@ -4,6 +4,7 @@ import styled, { css, keyframes } from 'styled-components'
 import { LabelText, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 
 const DescriptionPopupAnimation = keyframes`
@@ -37,7 +38,7 @@ const DescriptionPopup = createStyled(styled.div`
 const DescriptionIconWrapper = createStyled(styled.span`
   & svg {
     vertical-align: top;
-    
+
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
@@ -55,7 +56,7 @@ export type LabelProps = {
   errorLabelData?: Record<string, string>
   label: LabelText
   labelData?: Record<string, string>
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   renderChildren?: ReactNode | (() => ReactNode)
   style?: Partial<AppTheme['label']>
   sublabel?: LabelText
@@ -78,7 +79,7 @@ export const Label = (props: LabelProps) => {
   const errorLabels = Array.isArray(props.errorLabel)
     ? props.errorLabel
     : [props.errorLabel]
-  
+
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>

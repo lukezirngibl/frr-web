@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
 const InputWrapper = createStyled('div')
@@ -16,7 +17,7 @@ export type Props = {
   hasFocus?: boolean
   inputType?: string
   label?: LabelProps
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   maxLength?: number
   minLength?: number
   name?: string

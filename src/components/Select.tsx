@@ -5,6 +5,7 @@ import { Option, Options } from '../html'
 import { Language } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
@@ -20,7 +21,7 @@ export type Props = {
   disabled?: boolean
   error?: boolean
   label?: LabelProps
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   onChange: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Array<string | number>
@@ -131,6 +132,7 @@ export const Select = (props: Props) => {
               disabled={option.disabled}
               {...getCSSStyles('option')}
               label={option.label || option.name}
+              localeNamespace={props.localeNamespace}
               isLabelTranslated={option.isLabelTranslated}
             />
           ))}

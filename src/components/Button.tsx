@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
 
@@ -30,7 +31,7 @@ export type Props = {
   icon?: IconProps
   label: string
   labelMobile?: string
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   loading?: boolean
   onClick?: () => void
   override?: CSSProperties

@@ -5,6 +5,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
 import { MaterialSliderStyles, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
@@ -90,6 +91,7 @@ export type Props = {
   step: number | null
   editable?: boolean
   label?: LabelProps
+  localeNamespace?: LocaleNamespace
   scale?: any
   ariaLabelledby?: any
   marks?: any
@@ -125,14 +127,22 @@ export const Slider = (props: Props) => {
   const labelStyle = getInlineStyles('label')
   return (
     <div style={{ width: '100%' }}>
-      {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
+      {props.label && (
+        <Label {...props.label} style={{ wrapper: labelStyle.style }} />
+      )}
       <SliderWrapper {...getCSSStyles('wrapper')}>
         <ValueWrapper
           {...getCSSStyles('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
           })}
         >
-          {prefix && <P label={prefix} {...getCSSStyles('prefix')} />}
+          {prefix && (
+            <P
+              label={prefix}
+              localeNamespace={props.localeNamespace}
+              {...getCSSStyles('prefix')}
+            />
+          )}
           <ValueText {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </ValueText>

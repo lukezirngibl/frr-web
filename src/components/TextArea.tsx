@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Label, LabelProps } from './Label'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
+import { Label, LabelProps } from './Label'
 
 const InputWrapper = styled.div``
 

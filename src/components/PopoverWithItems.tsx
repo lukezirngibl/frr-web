@@ -1,8 +1,9 @@
 import React from 'react'
-import { SimplePopover } from './PopOver'
-import { createStyled, useInlineStyle } from '../theme/util'
 import { P } from '../html'
-import { useAppTheme, AppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
+import { SimplePopover } from './PopOver'
 
 const Wrapper = createStyled('div')
 
@@ -11,7 +12,7 @@ const Item = createStyled('div')
 export type Props = {
   trigger: (c: any) => React.ReactNode
   items: Array<{ label: string; onClick: () => void; disabled?: boolean }>
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   style?: Partial<AppTheme['popoverWithItems']>
 }
 

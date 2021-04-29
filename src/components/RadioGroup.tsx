@@ -1,9 +1,10 @@
 import React from 'react'
-import { LabelProps, Label } from './Label'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles, createStyled } from '../theme/util'
 import styled from 'styled-components'
 import { Options, P } from '../html'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
+import { Label, LabelProps } from './Label'
 
 const Wrapper = createStyled('div')
 
@@ -33,7 +34,7 @@ export type Props = {
   dataTestId?: string
   error?: boolean
   label?: LabelProps
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   name?: string
   onChange: (value: string) => void
   options: Options<string>

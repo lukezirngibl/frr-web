@@ -15,6 +15,7 @@ import {
   TableCellRenderer,
   TableHeaderProps,
 } from 'react-virtualized'
+import { LocaleNamespace } from '../translation'
 
 declare module '@material-ui/core/styles/withStyles' {
   // Augment the BaseCSSProperties so that we can control jss-rtl
@@ -60,7 +61,7 @@ const styles = (theme: Theme) =>
 interface ColumnData {
   dataKey: string
   label: string
-  numeric?: boolean
+  isNumeric?: boolean
   width: number
 }
 
@@ -71,7 +72,7 @@ interface Row {
 type Props<T extends {}> = {
   data: Array<T>
   columns: Array<ColumnData>
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   onRowClick?: (item: T) => void
   renderCell: (params: {
     rowData: T
@@ -84,7 +85,7 @@ type Props<T extends {}> = {
 const InnerTable = <T extends {}>(
   props: Props<T> & WithStyles<typeof styles>,
 ) => {
-  const { t: translate } = useTranslation(props.localeNamespace)
+  const { t: translate } = useTranslation(props.localeNamespace)
 
   const getRowClassName = (row: Row) => {
     const { index } = row
@@ -94,7 +95,7 @@ const InnerTable = <T extends {}>(
   }
 
   const cellRenderer: TableCellRenderer = (cell) => {
-    const { cellData, columnIndex } = cell
+    const { cellData, columnIndex, rowData } = cell
 
     return (
       <TableCell
@@ -104,25 +105,22 @@ const InnerTable = <T extends {}>(
         })}
         variant="body"
         onClick={() => {
-          if (props.onRowClick) {
-            props.onRowClick(cell.rowData)
-          }
-
           // this.props.setDetailId(some(`${cell.rowData.id}-${cell.rowData.app}`))
+          props.onRowClick?.(rowData)
         }}
         style={{
           height: 48,
           backgroundColor:
-            cell.rowData.status === 'OrderConfirmed' ? '#e9f7ec' : 'white',
+            rowData.isConfirmed ? '#e9f7ec' : 'white',
         }}
         align={
-          (columnIndex !== null && columns[columnIndex].numeric) || false
+          (columnIndex !== null && columns[columnIndex].isNumeric) || false
             ? 'right'
             : 'left'
         }
       >
         {props.renderCell({
-          rowData: cell.rowData,
+          rowData: rowData,
           index: columnIndex,
           value: cellData,
           translate,
@@ -145,7 +143,7 @@ const InnerTable = <T extends {}>(
         )}
         variant="head"
         style={{ height: 48, borderBottomColor: 'rgb(243,243,245)' }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
+        align={columns[columnIndex].isNumeric || false ? 'right' : 'left'}
       >
         <span>{translate(label)}</span>
       </TableCell>

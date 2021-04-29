@@ -15,6 +15,7 @@ import {
 } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
@@ -79,6 +80,7 @@ export type Props = {
   error?: boolean
   hasFocus?: boolean
   label?: LabelProps
+  localeNamespace?: LocaleNamespace
   onChange: (value: Date) => void
   onBlur: (value: Date) => void
   style?: Partial<AppTheme['datePicker']>
@@ -180,6 +182,7 @@ export const DatePicker = (props: Props) => {
                 }}
                 error={props.error}
                 inputType={'text'}
+                localeNamespace={props.localeNamespace}
                 placeholder={'dateFormatPlaceholder'}
                 value={
                   isValid(props.value)

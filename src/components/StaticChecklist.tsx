@@ -1,7 +1,8 @@
 import React from 'react'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
-import { useAppTheme, AppTheme } from '../theme/theme'
 import { P } from '../html'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 
 export enum ChecklistType {
@@ -27,7 +28,7 @@ export type Checklist = {
 export type Props = {
   description?: string
   list: Array<Checklist>
-  localeNamespace?: string
+  localeNamespace?: LocaleNamespace
   style?: Partial<AppTheme['staticChecklist']>
   title?: string
 }
