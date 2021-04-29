@@ -106,8 +106,6 @@ export const Element = (
     str = props.label
   }
 
-  console.log('TRANSLATE', props, str)
-
   const htmlText = str
 
   const HtmlElement = HtmlElements[element]
