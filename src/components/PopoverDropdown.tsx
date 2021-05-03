@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useMobileTouch } from '../hooks/useMobileTouch'
+import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
-import {
-  Props as PopoverWithItemsProps,
-  PopoverWithItems,
-} from './PopoverWithItems'
-import { P } from '../html'
+import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
-import { useMobileTouch } from '../hooks/useMobileTouch'
+import {
+  PopoverWithItems,
+  Props as PopoverWithItemsProps,
+} from './PopoverWithItems'
 
 const DrodownSelector = createStyled('div')
 
 export type Props = {
-  style?: Partial<AppTheme['popoverDropdown']>
-  label: string
   hasIcon?: boolean
   hasMobileBurgerMenu?: boolean
+  label: string
+  localeNamespace?: LocaleNamespace
+  style?: Partial<AppTheme['popoverDropdown']>
 } & Omit<PopoverWithItemsProps, 'trigger'>
 
 export const PopoverDropdown = (props: Props) => {
@@ -41,7 +43,11 @@ export const PopoverDropdown = (props: Props) => {
             <Icon icon="menu" size={20} />
           ) : (
             <>
-              <P label={props.label} {...getCSSStyles(['label'])} />
+              <P
+                label={props.label}
+                localeNamespace={props.localeNamespace}
+                {...getCSSStyles(['label'])}
+              />
               {props.hasIcon && (
                 <Icon
                   icon="expand_more"

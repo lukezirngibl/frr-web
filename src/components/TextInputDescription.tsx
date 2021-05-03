@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { P } from '../html'
 import { MediaQuery, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { Checklist, StaticChecklist } from './StaticChecklist'
 
@@ -15,10 +16,11 @@ const LabelWrapper = createStyled(styled.div`
 const TextWrapper = createStyled('div')
 
 export type Props = {
-  title?: string
-  label?: LabelProps
   description?: string
+  label?: LabelProps
+  localeNamespace?: LocaleNamespace
   list?: Array<Checklist>
+  title?: string
 }
 
 export const TextInputDescription = (props: Props) => {
@@ -26,21 +28,37 @@ export const TextInputDescription = (props: Props) => {
   const getLabelStyle = useCSSStyles(theme, 'label')({})
   const getTextStyle = useCSSStyles(theme, 'textInputDescription')({})
 
+  const label = { localeNamespace: props.localeNamespace, ...props.label }
   return (
     <>
       {props.label ? (
-        props.label && <Label {...props.label} />
+        props.label && <Label {...label} />
       ) : (
         <LabelWrapper {...getLabelStyle('wrapper')}>
           <br />
         </LabelWrapper>
       )}
       <TextWrapper {...getTextStyle('wrapper')}>
-        {props.title && <P label={props.title} {...getTextStyle('title')} />}
-        {props.description && (
-          <P label={props.description} {...getTextStyle('description')} />
+        {props.title && (
+          <P
+            label={props.title}
+            localeNamespace={props.localeNamespace}
+            {...getTextStyle('title')}
+          />
         )}
-        {props.list && <StaticChecklist list={props.list} />}
+        {props.description && (
+          <P
+            label={props.description}
+            localeNamespace={props.localeNamespace}
+            {...getTextStyle('description')}
+          />
+        )}
+        {props.list && (
+          <StaticChecklist
+            list={props.list}
+            localeNamespace={props.localeNamespace}
+          />
+        )}
       </TextWrapper>
     </>
   )

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MediaQuery, useAppTheme } from '../theme/theme'
 import { createStyled, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 
 const LinkWrapper = createStyled(styled.a`
   display: flex;
@@ -36,6 +37,7 @@ type LinkProps = {
     style: { cssStyles: string; dataThemeId: string }
   }
   label?: string
+  localeNamespace?: LocaleNamespace
   onClick: () => unknown
   style: { cssStyles: string; dataThemeId: string }
 }
@@ -49,7 +51,7 @@ export const Link = (props: LinkProps) => {
   const icon = props.icon.type ? getIcon(props.icon.type) : null
 
   // Translation
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation(props.localeNamespace)
 
   return (
     <LinkWrapper onClick={props.onClick} {...props.style}>

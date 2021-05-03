@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CSSProperties, useAppTheme } from './theme/theme'
 import { createStyled, useInlineStyle } from './theme/util'
+import { LocaleNamespace, Translate } from './translation'
 import { renderHtml } from './utils/renderHtml'
 
 export type Options<Value> = Array<{
@@ -15,7 +16,7 @@ export type Options<Value> = Array<{
 export type LabelText =
   | string
   | ((params: {
-      translate: (k: string) => string
+      translate: Translate
     }) => string | ReactNode)
 
 type Props = {
@@ -25,6 +26,7 @@ type Props = {
   disabled?: any
   Icon?: ReactNode
   label?: LabelText
+  localeNamespace?: LocaleNamespace
   readOnly?: boolean
   style?: CSSProperties
   isLabelTranslated?: boolean
@@ -83,6 +85,7 @@ export const Element = (
     Icon,
     isLabelTranslated,
     label,
+    localeNamespace,
     readOnly,
     style = {},
     value,
@@ -91,7 +94,7 @@ export const Element = (
   const getStyle = useInlineStyle(theme, 'html')({})
   const elementStyle = getStyle(element)
 
-  const { t: translate } = useTranslation()
+  const { t: translate } = useTranslation(localeNamespace)
 
   let str: string | ReactNode = ''
 

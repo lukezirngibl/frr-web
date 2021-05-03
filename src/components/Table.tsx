@@ -7,6 +7,7 @@ import {
 import TableCell from '@material-ui/core/TableCell'
 import clsx from 'clsx'
 import React, { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AutoSizer,
   Column,
@@ -14,6 +15,7 @@ import {
   TableCellRenderer,
   TableHeaderProps,
 } from 'react-virtualized'
+import { LocaleNamespace } from '../translation'
 
 declare module '@material-ui/core/styles/withStyles' {
   // Augment the BaseCSSProperties so that we can control jss-rtl
@@ -59,7 +61,7 @@ const styles = (theme: Theme) =>
 interface ColumnData {
   dataKey: string
   label: string
-  numeric?: boolean
+  isNumeric?: boolean
   width: number
 }
 
@@ -70,17 +72,21 @@ interface Row {
 type Props<T extends {}> = {
   data: Array<T>
   columns: Array<ColumnData>
+  localeNamespace?: LocaleNamespace
   onRowClick?: (item: T) => void
   renderCell: (params: {
     rowData: T
     index: number
     value: string
+    translate: (v: string, p?: any) => string
   }) => ReactNode
 }
 
 const InnerTable = <T extends {}>(
   props: Props<T> & WithStyles<typeof styles>,
 ) => {
+  const { t: translate } = useTranslation(props.localeNamespace)
+
   const getRowClassName = (row: Row) => {
     const { index } = row
     return clsx(props.classes.tableRow, classes.flexContainer, {
@@ -88,8 +94,8 @@ const InnerTable = <T extends {}>(
     })
   }
 
-  const cellRenderer: TableCellRenderer = cell => {
-    const { cellData, columnIndex } = cell
+  const cellRenderer: TableCellRenderer = (cell) => {
+    const { cellData, columnIndex, rowData } = cell
 
     return (
       <TableCell
@@ -99,27 +105,25 @@ const InnerTable = <T extends {}>(
         })}
         variant="body"
         onClick={() => {
-          if (props.onRowClick) {
-            props.onRowClick(cell.rowData)
-          }
-
           // this.props.setDetailId(some(`${cell.rowData.id}-${cell.rowData.app}`))
+          props.onRowClick?.(rowData)
         }}
         style={{
           height: 48,
           backgroundColor:
-            cell.rowData.status === 'OrderConfirmed' ? '#e9f7ec' : 'white',
+            rowData.isConfirmed ? '#e9f7ec' : 'white',
         }}
         align={
-          (columnIndex !== null && columns[columnIndex].numeric) || false
+          (columnIndex !== null && columns[columnIndex].isNumeric) || false
             ? 'right'
             : 'left'
         }
       >
         {props.renderCell({
-          rowData: cell.rowData,
+          rowData: rowData,
           index: columnIndex,
           value: cellData,
+          translate,
         })}
       </TableCell>
     )
@@ -139,9 +143,9 @@ const InnerTable = <T extends {}>(
         )}
         variant="head"
         style={{ height: 48, borderBottomColor: 'rgb(243,243,245)' }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
+        align={columns[columnIndex].isNumeric || false ? 'right' : 'left'}
       >
-        <span>{label}</span>
+        <span>{translate(label)}</span>
       </TableCell>
     )
   }
@@ -169,7 +173,7 @@ const InnerTable = <T extends {}>(
             return (
               <Column
                 key={dataKey}
-                headerRenderer={headerProps =>
+                headerRenderer={(headerProps) =>
                   headerRenderer({
                     ...headerProps,
                     columnIndex: index,

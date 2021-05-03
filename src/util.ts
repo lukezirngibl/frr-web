@@ -1,4 +1,5 @@
 import { Options } from './html'
+import { Translate } from './translation'
 
 export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,
@@ -6,7 +7,7 @@ export const keys = <A extends Record<string, unknown>, K extends keyof A>(
 
 export const processOptions = (
   raw: Options<string | number>,
-  translate: (s: string) => string,
+  translate: Translate
 ): Array<{ text: string; value: string | number }> =>
   raw.map((option) => ({
     text:

@@ -5,6 +5,7 @@ import { Option, Options } from '../html'
 import { Language } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
@@ -15,17 +16,18 @@ const SelectWrapper = styled.select``
 type Value = string | number | null
 
 export type Props = {
-  label?: LabelProps
-  options: Options<Value> | ((lan: Language) => Options<Value>)
-  onChange: (value: Value) => void
-  style?: Partial<AppTheme['select']>
-  priority?: Array<string | number>
-  value: Value
-  disabled?: boolean
-  readOnly?: boolean
-  error?: boolean
-  dataTestId?: string
   alphabetize?: boolean
+  dataTestId?: string
+  disabled?: boolean
+  error?: boolean
+  label?: LabelProps
+  localeNamespace?: LocaleNamespace
+  onChange: (value: Value) => void
+  options: Options<Value> | ((lan: Language) => Options<Value>)
+  priority?: Array<string | number>
+  readOnly?: boolean
+  style?: Partial<AppTheme['select']>
+  value: Value
 }
 
 export const Select = (props: Props) => {
@@ -33,7 +35,7 @@ export const Select = (props: Props) => {
 
   const theme = useAppTheme()
 
-  const { t: translate, i18n } = useTranslation()
+  const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
@@ -130,6 +132,7 @@ export const Select = (props: Props) => {
               disabled={option.disabled}
               {...getCSSStyles('option')}
               label={option.label || option.name}
+              localeNamespace={props.localeNamespace}
               isLabelTranslated={option.isLabelTranslated}
             />
           ))}

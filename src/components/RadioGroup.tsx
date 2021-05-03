@@ -1,9 +1,10 @@
 import React from 'react'
-import { LabelProps, Label } from './Label'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, useCSSStyles, createStyled } from '../theme/util'
 import styled from 'styled-components'
 import { Options, P } from '../html'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
+import { Label, LabelProps } from './Label'
 
 const Wrapper = createStyled('div')
 
@@ -30,14 +31,15 @@ const InnerRadio = styled.div`
 `
 
 export type Props = {
-  onChange: (value: string) => void
-  value: string
+  dataTestId?: string
+  error?: boolean
   label?: LabelProps
+  localeNamespace?: LocaleNamespace
+  name?: string
+  onChange: (value: string) => void
   options: Options<string>
   style?: Partial<AppTheme['radioGroup']>
-  error?: boolean
-  dataTestId?: string
-  name?: string
+  value: string
 }
 
 export const RadioGroup = (props: Props) => {
@@ -45,23 +47,27 @@ export const RadioGroup = (props: Props) => {
 
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
-  
+
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyles('wrapper')}>
-        {props.options.map((o, k) => {
-          const active = o.value === props.value
+        {props.options.map((option, k) => {
+          const active = option.value === props.value
           return (
             <Item
               {...getCSSStyles('item')}
               key={k}
               onClick={() => {
-                props.onChange(o.value)
+                props.onChange(option.value)
               }}
-              data-test-id={`${props.dataTestId}:${o.value}`}
+              data-test-id={`${props.dataTestId}:${option.value}`}
             >
-              <P {...getCSSStyles('label')} label={o.label} />
+              <P
+                {...getCSSStyles('label')}
+                label={option.label}
+                localeNamespace={props.localeNamespace}
+              />
               <OuterRadio
                 {...getInlineStyle({
                   radioOuter: true,

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { LocaleNamespace } from '../translation'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
 
@@ -25,19 +26,18 @@ const mapTypeToStyleKey: {
 }
 
 export type Props = {
+  dataTestId?: string
+  disabled?: boolean
+  icon?: IconProps
   label: string
   labelMobile?: string
-  onClick?: () => void
-  disabled?: boolean
-  style?: Partial<AppTheme['button']>
+  localeNamespace?: LocaleNamespace
   loading?: boolean
+  onClick?: () => void
   override?: CSSProperties
+  style?: Partial<AppTheme['button']>
   type?: ButtonType
-  icon?: IconProps
-  dataTestId?: string
 }
-
-const Test = styled.div``
 
 export const Button = (props: Props) => {
   /* Style hooks */
@@ -60,10 +60,9 @@ export const Button = (props: Props) => {
       ? undefined
       : () => {
           setIsClicked(true)
-          // @ts-ignore
           onClicked()
         }
-  
+
   const { isMobile } = useMobileTouch()
 
   return (
@@ -80,7 +79,8 @@ export const Button = (props: Props) => {
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
         {...getCSSStyle('label')}
-        label={isMobile && props.labelMobile || props.label}
+        label={(isMobile && props.labelMobile) || props.label}
+        localeNamespace={props.localeNamespace}
       />
       {props.loading && (
         <Loading
