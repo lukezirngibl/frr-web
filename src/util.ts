@@ -5,9 +5,10 @@ export const keys = <A extends Record<string, unknown>, K extends keyof A>(
   x: A,
 ): Array<K> => Object.keys(x) as Array<K>
 
+// @ts-ignore
 export const processOptions = (
   raw: Options<string | number>,
-  translate: Translate
+  translate: Translate,
 ): Array<{ text: string; value: string | number }> =>
   raw.map((option) => ({
     text:
