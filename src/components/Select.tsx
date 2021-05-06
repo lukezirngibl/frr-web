@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { Option, Options } from '../html'
 import { Language } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 
-const Wrapper = styled.div``
-const SelectWrapper = styled.select``
+const Wrapper = createStyled('div')
+const SelectWrapper = createStyled('select')
 
 type Value = string | number | null
 
@@ -108,9 +108,9 @@ export const Select = (props: Props) => {
   return (
     <>
       {label && <Label {...label} />}
-      <Wrapper {...getInlineStyle('wrapper')}>
+      <Wrapper {...getCSSStyles('wrapper')}>
         <SelectWrapper
-          {...getInlineStyle(
+          {...getCSSStyles(
             {
               select: true,
               errorWrapper: props.error,
