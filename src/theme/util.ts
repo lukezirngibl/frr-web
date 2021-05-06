@@ -28,7 +28,7 @@ const nonPixelKeys = [
   'fontWeight',
   'lineHeight',
   'opacity',
-  'zIndex'
+  'zIndex',
 ]
 
 export const mapStylesToCSS = (style) =>
@@ -90,11 +90,11 @@ export const getUseInlineStyle = <Theme>() => <C extends keyof Theme>(
     }
 
     const dataThemeId = `${
-        className ? `${className}:` : ''
-      }${componentKey}:${keys.reduce(
-        (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
-        '',
-      )}`
+      className ? `${className}:` : ''
+    }${componentKey}:${keys.reduce(
+      (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
+      '',
+    )}`
     return {
       dataThemeId,
       style: omitKeys(
@@ -126,6 +126,7 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
 ) => (override?: Partial<Theme[C]>) => <K extends keyof Theme[C]>(
   elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
   internalOverride?: CSSProperties,
+  className?: string,
 ): { cssStyles: string; dataThemeId: string } => {
   let keys = []
 
@@ -207,12 +208,16 @@ export const getUseCSSStyles = <Theme>() => <C extends keyof Theme>(
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
+  const dataThemeId = `${
+    className ? `${className}:` : ''
+  }${componentKey}:${keys.reduce(
+    (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
+    '',
+  )}`
+
   return {
     cssStyles,
-    dataThemeId: `${componentKey}:${keys.reduce(
-      (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
-      '',
-    )}`,
+    dataThemeId,
   }
 }
 export const useCSSStyles = getUseCSSStyles<AppTheme>()

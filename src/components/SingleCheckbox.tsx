@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Label, LabelProps } from './Label'
 import styled from 'styled-components'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 
-const Wrapper = styled.div``
+const Wrapper =  createStyled('div')
 
 export type Props = {
   onChange: (value: boolean) => void
@@ -20,8 +20,9 @@ export const SingleCheckbox = (props: Props) => {
   const { value } = props
 
   const theme = useAppTheme()
+  const getCSSStyles = useCSSStyles(theme, 'singleCheckbox')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
-
+  const inputStyle = getInlineStyle('input', { marginLeft: 16 })
   return (
     <>
       {props.label && (
@@ -30,12 +31,13 @@ export const SingleCheckbox = (props: Props) => {
           {...props.label}
         ></Label>
       )}
-      <Wrapper {...getInlineStyle('wrapper')}>
+      <Wrapper {...getCSSStyles('wrapper')}>
         <input
           type="checkbox"
           checked={value}
           onChange={() => props.onChange(!value)}
-          {...getInlineStyle('input', { marginLeft: 16 })}
+          style={inputStyle.style}
+          data-theme-id={inputStyle.dataThemeId}
         />
       </Wrapper>
     </>

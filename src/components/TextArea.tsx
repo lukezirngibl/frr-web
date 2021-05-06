@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
-const InputWrapper = styled.div``
+const InputWrapper = createStyled('div')
 
-const Input = styled.textarea<{ disabled?: boolean }>`
-  width: 100%;
-`
+const Input = createStyled('textarea')
 
 export type TextAreaProps = {
   dataTestId?: string
@@ -28,10 +26,14 @@ export const TextArea = (props: TextAreaProps) => {
   const inputRef = useRef(null)
 
   const theme = useAppTheme()
-  const getTextAreaStyle = useInlineStyle(theme, 'textArea')(props.style)
+  const getTextAreaStyle = useCSSStyles(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
   const [isFocus, setIsFocus] = useState(false)
+const [internalValue, setInternalValue] = useState(props.value)
+useEffect(() => {
+  setInternalValue(props.value)
+}, [props.value])
 
   // Focus field (e.g. on error)
   useEffect(() => {
@@ -47,41 +49,49 @@ export const TextArea = (props: TextAreaProps) => {
     <>
       {props.label && <Label {...props.label} />}
       <InputWrapper
-        {...{
-          ...getInputStyle('wrapper'),
-          ...getTextAreaStyle('wrapper'),
-          ...(props.disabled ? getInputStyle('disabledWrapper') : {}),
-          ...(props.readOnly ? getInputStyle('readOnlyWrapper') : {}),
-        }}
+        {...getTextAreaStyle(
+          'wrapper',
+          getInputStyle({
+            disabledWrapper: props.disabled,
+            readOnlyWrapper: props.readOnly,
+          }).style,
+        )}
       >
         <Input
-          {...{
-            ...getInputStyle('input'),
-            ...getTextAreaStyle('input'),
-            ...(props.disabled ? getInputStyle('disabledInput') : {}),
-            ...(props.readOnly ? getInputStyle('readOnlyInput') : {}),
-          }}
+          {...getTextAreaStyle(
+            'input',
+            getInputStyle({
+              disabledInput: props.disabled,
+              readOnlyInput: props.readOnly,
+            }).style,
+          )}
           className="frr-textarea"
           data-test-id={props.dataTestId}
           disabled={props.disabled || props.readOnly}
           onBlur={() => {
-            const v = (props.value || '').trim()
-            props.onBlur?.(v)
+            let newValue = (internalValue || '').trim()
+
+            setInternalValue(newValue)
             setIsFocus(false)
+            props.onBlur?.(newValue)
           }}
-          onChange={(e: any) => {
-            props.onChange?.(e.target.value)
+          onChange={(event: any) => {
+            const newValue = event.target.value
+
+            setInternalValue(newValue)
+            props.onChange?.(newValue)
+
             if (!isFocus) {
               // Required for browser auto-fill fields to ensure the form gets the values
-              props.onBlur?.(e.target.value)
+              props.onBlur?.(newValue)
             }
           }}
           onFocus={() => {
             setIsFocus(true)
-            props.onFocus()
+            props.onFocus?.()
           }}
           ref={inputRef}
-          value={props.value}
+          value={internalValue}
         />
       </InputWrapper>
     </>
