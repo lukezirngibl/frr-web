@@ -52,6 +52,7 @@ const styles = (theme: Theme) =>
     },
     tableCell: {
       flex: 1,
+      lineHeight: 1.1,
     },
     noClick: {
       cursor: 'initial',
