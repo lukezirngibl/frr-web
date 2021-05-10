@@ -83,7 +83,12 @@ type Props<T extends {}> = {
   }) => ReactNode
 }
 
-const InnerTable = <T extends {}>(
+export type RowBaseData = {
+  isConfirmed?: boolean // TODO: Refactor into application and set background color there
+  backgroundColor?: string
+}
+
+const InnerTable = <T extends RowBaseData>(
   props: Props<T> & WithStyles<typeof styles>,
 ) => {
   const { t: translate } = useTranslation(props.localeNamespace)
@@ -105,14 +110,13 @@ const InnerTable = <T extends {}>(
           [classes.noClick]: props.onRowClick === null,
         })}
         variant="body"
-        onClick={() => {
-          // this.props.setDetailId(some(`${cell.rowData.id}-${cell.rowData.app}`))
-          props.onRowClick?.(rowData)
-        }}
+        onClick={() => props.onRowClick?.(rowData)}
         style={{
           height: 48,
           backgroundColor:
-            rowData.isConfirmed ? '#e9f7ec' : 'white',
+            rowData.backgroundColor ||
+            (rowData.isConfirmed && '#e9f7ec') ||
+            'white',
         }}
         align={
           (columnIndex !== null && columns[columnIndex].isNumeric) || false
@@ -121,7 +125,7 @@ const InnerTable = <T extends {}>(
         }
       >
         {props.renderCell({
-          rowData: rowData,
+          rowData,
           index: columnIndex,
           value: cellData,
           translate,
@@ -195,6 +199,6 @@ const InnerTable = <T extends {}>(
 
 const InnerTableWithStyles = withStyles(styles)(InnerTable) as any
 
-export const Table = <T extends {}>(props: Props<T>) => {
+export const Table = <T extends RowBaseData>(props: Props<T>) => {
   return <InnerTableWithStyles {...(props as any)} />
 }
