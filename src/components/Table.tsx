@@ -46,8 +46,9 @@ const styles = (theme: Theme) =>
       cursor: 'pointer',
     },
     tableRowHover: {
+      transition: 'background-color 0.3s ease-out',
       '&:hover': {
-        backgroundColor: theme.palette.grey[200],
+        backgroundColor: 'var(--color-background-hover)',
       },
     },
     tableCell: {
@@ -83,12 +84,7 @@ type Props<T extends {}> = {
   }) => ReactNode
 }
 
-export type RowBaseData = {
-  isConfirmed?: boolean // TODO: Refactor into application and set background color there
-  backgroundColor?: string
-}
-
-const InnerTable = <T extends RowBaseData>(
+const InnerTable = <T extends {}>(
   props: Props<T> & WithStyles<typeof styles>,
 ) => {
   const { t: translate } = useTranslation(props.localeNamespace)
@@ -199,6 +195,6 @@ const InnerTable = <T extends RowBaseData>(
 
 const InnerTableWithStyles = withStyles(styles)(InnerTable) as any
 
-export const Table = <T extends RowBaseData>(props: Props<T>) => {
+export const Table = <T extends {}>(props: Props<T>) => {
   return <InnerTableWithStyles {...(props as any)} />
 }
