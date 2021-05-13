@@ -44,6 +44,9 @@ export type AppTheme = {
     secondary: CSSProperties
     common: CSSProperties
     spinner: CSSProperties
+    primaryLabel: CSSProperties
+    secondaryLabel: CSSProperties
+    chromelessLabel: CSSProperties
   }
   label: {
     descriptionIcon: CSSProperties
@@ -216,6 +219,9 @@ const defaultAppTheme: AppTheme = {
     chromeless: {},
     primary: {},
     label: {},
+    primaryLabel: {},
+    secondaryLabel: {},
+    chromelessLabel: {},
     secondary: {},
     common: {},
     spinner: {},
