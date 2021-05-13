@@ -75,11 +75,6 @@ export type AppTheme = {
     readOnlyWrapper: CSSProperties
     wrapper: CSSProperties
   }
-  textInputDescription: {
-    wrapper: CSSProperties
-    title: CSSProperties
-    description: CSSProperties
-  }
   textArea: {
     disabled: CSSProperties
     input: CSSProperties
@@ -252,11 +247,6 @@ const defaultAppTheme: AppTheme = {
     readOnlyInput: {},
     readOnlyWrapper: {},
     wrapper: {},
-  },
-  textInputDescription: {
-    wrapper: {},
-    title: {},
-    description: {},
   },
   textArea: {
     disabled: {},

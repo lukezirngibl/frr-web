@@ -11,6 +11,11 @@ export type FormTheme = {
     wrapper: CSSProperties
     description: CSSProperties
   }
+  staticField: {
+    wrapper: CSSProperties
+    text: CSSProperties
+    button: CSSProperties
+  }
   section: {
     description: CSSProperties
     introduction: CSSProperties
@@ -51,6 +56,11 @@ export const defaultFormTheme: FormTheme = {
     wrapper: {},
     contentWrapper: {},
     content: {},
+  },
+  staticField: {
+    wrapper: {},
+    text: {},
+    button: {},
   },
   sectionRight: {
     wrapper: {},

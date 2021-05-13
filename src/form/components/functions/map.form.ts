@@ -23,6 +23,8 @@ const processFormFieldGroup = <T, V>(
       newValues = processFormFieldRow(field, func)
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
+    } else if (field.type === FormFieldType.Static) {
+      newValues = []
     } else {
       newValues = [func(field)]
     }
@@ -42,7 +44,7 @@ const processFormSectionFields = <T, V>(
       newValues = processFormFieldGroup(field, func)
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
-    } else if (field.type === FormFieldType.TextInputDescription) {
+    } else if (field.type === FormFieldType.Static) {
       newValues = []
     } else {
       newValues = [func(field)]
@@ -65,7 +67,7 @@ export const mapFormFields = <T, V>(
       newValues = processFormSectionFields(field.fields as any, func)
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
-    } else if (field.type === FormFieldType.TextInputDescription) {
+    } else if (field.type === FormFieldType.Static) {
       newValues = []
     } else {
       newValues = [func(field)]

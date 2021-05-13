@@ -11,6 +11,7 @@ import {
   FormFieldType,
   GroupField,
 } from './types'
+import { StaticField } from './StaticField'
 
 const GroupWrapper = createStyled('div')
 
@@ -64,6 +65,16 @@ export const FieldGroup = <FormData extends {}>(
           <FieldMultiInput
             key={`field-${fieldIndex}`}
             field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.Static:
+        return (
+          <StaticField
+            {...field}
+            key={`field-${fieldIndex}`}
             fieldIndex={fieldIndex}
             {...commonFieldProps}
           />

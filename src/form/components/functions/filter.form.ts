@@ -94,8 +94,6 @@ const processFormSectionFields = <T>(
     } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
       const groups = processRepeatGroup(f, data)
       return [...acc, ...processFormSectionFields(groups, fn, data, isVisible)]
-    } else if (f.type === FormFieldType.TextInputDescription) {
-      return acc
     } else {
       return [...acc, ...(fn(f) ? [f] : [])]
     }
@@ -139,7 +137,7 @@ const filterByFunc = <T>(data: T, fn: Fn<T>) => (
     } else if (f.type === FormFieldType.FormFieldRepeatSection) {
       const sections = processRepeatSection(f, data, () => '')
       return [...groups, ...filterByFunc(data, fn)(sections)]
-    } else if (f.type === FormFieldType.TextInputDescription) {
+    } else if (f.type === FormFieldType.Static) {
       return groups
     } else {
       return [...groups, ...(fn(f) ? [f] : [])]

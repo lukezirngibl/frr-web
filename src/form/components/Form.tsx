@@ -11,7 +11,6 @@ import styled from 'styled-components'
 import { FormTheme, useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { FormLens, setScrolled } from '../util'
-import { FieldDescription } from './FieldDescription'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
@@ -27,6 +26,7 @@ import {
   SingleFormField,
   InternalFormField,
 } from './types'
+import { StaticField } from './StaticField'
 
 type OnInvalidSubmitType<FormData> = (params: {
   errors: Array<FieldError>
@@ -206,15 +206,15 @@ export const Form = <FormData extends {}>({
           />
         )
 
-      case FormFieldType.TextInputDescription:
+      case FormFieldType.Static: {
         return (
-          <FieldDescription
-            field={field}
+          <StaticField
+            {...field}
             fieldIndex={fieldIndex}
             key={`field-${fieldIndex}`}
-            formReadOnly={readOnly}
           />
         )
+      }
 
       case FormFieldType.FormSection:
         return (

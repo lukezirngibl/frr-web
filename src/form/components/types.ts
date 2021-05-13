@@ -15,7 +15,7 @@ import { Props as SwithProps } from '../../components/Switch'
 import { Props as TextProps } from '../../components/Text'
 import { TextAreaProps } from '../../components/TextArea'
 import { Props as TextInputProps } from '../../components/TextInput'
-import { Props as TextInputDescriptionProps } from '../../components/TextInputDescription'
+import { Props as StaticFieldProps } from './StaticField'
 import { Props as TextNumberInputProps } from '../../components/TextNumberInput'
 import { Props as ToggleProps } from '../../components/Toggle'
 import { Props as YesNoOptionGroupProps } from '../../components/YesNoOptionGroup'
@@ -56,6 +56,7 @@ export enum FormFieldType {
   OptionGroup = 'OptionGroup',
   RadioGroup = 'RadioGroup',
   SingleCheckbox = 'SingleCheckbox',
+  Button = '',
   Slider = 'Slider',
   Switch = 'Switch',
   TextArea = 'TextArea',
@@ -242,8 +243,8 @@ export type TextInputField<FormData> = FormInput<
   FormFieldType.TextInput
 >
 
-export type TextInputDescriptionField<FormData> = TextInputDescriptionProps & {
-  type: FormFieldType.TextInputDescription
+export type StaticField<FormData> = StaticFieldProps & {
+  type: FormFieldType.Static
   isVisible?: (formData: FormData) => boolean
 }
 
@@ -318,6 +319,7 @@ export const fieldMap = {
   [FormFieldType.FormSection]: null,
   [FormFieldType.FormText]: null,
   [FormFieldType.Static]: null,
+  [FormFieldType.Button]: null,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
@@ -329,22 +331,16 @@ export const fieldMap = {
   [FormFieldType.Switch]: null as SwitchField<unknown>,
   [FormFieldType.TextArea]: null as TextAreaField<unknown>,
   [FormFieldType.TextInput]: null as TextInputField<unknown>,
-  [FormFieldType.TextInputDescription]: null as TextInputDescriptionField<unknown>,
+  [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
   [FormFieldType.YesNoRadioGroup]: null as YesNoRadioGroupField<unknown>,
-} as const
+} as any
 
 export type SingleFormField<FormData> = (
-  | // | CheckboxGroupField<FormData>
-  // | CountryDropdownField<FormData>
-  // | DropdownField<FormData>
-  // | DropdownNumberField<FormData>
-  // | InputWithDropdownField<FormData>
-
-  CodeInputField<FormData>
+  | CodeInputField<FormData>
   | CountrySelectField<FormData>
   | CurrencyInputField<FormData>
   | DatePickerField<FormData>
@@ -388,6 +384,7 @@ export type SingleFieldOrRow<FormData> =
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
+  | StaticField<FormData>
   | SingleFormField<FormData>
   | FormFieldRow<FormData>
 
@@ -412,14 +409,14 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
 export type InternalSectionField<FormData> =
   | MultiInputField<FormData>
   | SingleFormField<FormData>
-  | TextInputDescriptionField<FormData>
+  | StaticField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
 
 export type SectionField<FormData> =
   | MultiInputField<FormData>
   | SingleFormField<FormData>
-  | TextInputDescriptionField<FormData>
+  | StaticField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormFieldRepeatGroup<FormData>
@@ -456,7 +453,7 @@ export type FormSection<FormData> = {
 
 export type InternalFormField<FormData> =
   | SingleFormField<FormData>
-  | TextInputDescriptionField<FormData>
+  | StaticField<FormData>
   | MultiInputField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
@@ -464,7 +461,7 @@ export type InternalFormField<FormData> =
 
 export type FormField<FormData> =
   | SingleFormField<FormData>
-  | TextInputDescriptionField<FormData>
+  | StaticField<FormData>
   | MultiInputField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>

@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
-import { FieldDescription } from './FieldDescription'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
@@ -18,6 +17,7 @@ import {
   SectionField,
   InternalSectionField,
 } from './types'
+import { StaticField } from './StaticField'
 
 const Container = createStyled('div')
 const TitleSpaceMobile = styled.div`
@@ -96,13 +96,12 @@ export const FieldSection = <FormData extends {}>({
           />
         )
 
-      case FormFieldType.TextInputDescription:
+      case FormFieldType.Static:
         return (
-          <FieldDescription
-            field={field}
+          <StaticField
+            {...field}
             fieldIndex={fieldIndex}
             key={`field-${fieldIndex}`}
-            formReadOnly={formReadOnly}
           />
         )
 

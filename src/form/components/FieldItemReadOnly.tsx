@@ -142,6 +142,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.YesNoOptionGroup]: defaultBooleanMapper,
   [FormFieldType.YesNoRadioGroup]: defaultBooleanMapper,
   [FormFieldType.Static]: () => '',
+  [FormFieldType.Button]: () => '',
 }
 
 /*
