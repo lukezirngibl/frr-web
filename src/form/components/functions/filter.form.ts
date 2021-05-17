@@ -56,7 +56,8 @@ const processGroupFields = <T>(
 ): Array<GroupField<T>> =>
   fields.reduce((acc: Array<GroupField<T>>, f) => {
     if (Array.isArray(f)) {
-      return [...acc, processFormFieldRow(f, fn, isVisible)]
+      const row = processFormFieldRow(f, fn, isVisible)
+      return [...acc, ...(row.length > 0 ? row : [])]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
     } else {
@@ -86,7 +87,8 @@ const processFormSectionFields = <T>(
 ): SectionFields<T> =>
   fields.reduce((acc: Array<SectionField<T>>, f) => {
     if (Array.isArray(f)) {
-      return [...acc, processFormFieldRow(f, fn, isVisible)]
+      const row = processFormFieldRow(f, fn, isVisible)
+      return [...acc, ...(row.length > 0 ? row : [])]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
     } else if (f.type === FormFieldType.FormFieldGroup) {
@@ -124,7 +126,8 @@ const filterByFunc = <T>(data: T, fn: Fn<T>) => (
 ): Array<InternalFormField<T>> =>
   formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
     if (Array.isArray(f)) {
-      return [...groups, processFormFieldRow(f, fn)]
+      const row = processFormFieldRow(f, fn)
+      return [...groups, ...(row.length > 0 ? row : [])]
     } else if (f.type === FormFieldType.FormFieldGroup) {
       return [...groups, ...processGroup(f, fn)]
     } else if (f.type === FormFieldType.FormSection) {
@@ -150,10 +153,22 @@ export const filterByVisible = <T>(data: T) => {
   })
 }
 
+const formGroupTypes = [
+  FormFieldType.FormFieldRepeatGroup,
+  FormFieldType.FormFieldRepeatSection,
+  FormFieldType.FormFieldGroup,
+  FormFieldType.FormSection,
+  FormFieldType.MultiInput,
+]
+
 export const filterByHidden = <T>(data: T) => {
   return filterByFunc(data, (i) => {
-    // console.log(i, 'isVisible' in i ? !i.isVisible(data) : false)
+    let defaultValue = false
 
-    return 'isVisible' in i ? !i.isVisible(data) : true
+    if ('type' in i && formGroupTypes.includes(i.type)) {
+      defaultValue = true
+    }
+
+    return 'isVisible' in i ? !i.isVisible(data) : defaultValue
   })
 }

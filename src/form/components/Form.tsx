@@ -27,6 +27,7 @@ import {
   InternalFormField,
 } from './types'
 import { StaticField } from './StaticField'
+import { flatten } from './functions/flatten'
 
 type OnInvalidSubmitType<FormData> = (params: {
   errors: Array<FieldError>
@@ -106,15 +107,25 @@ export const Form = <FormData extends {}>({
 
   const [showValidation, setShowValidation] = React.useState(false)
 
-  const [initialData] = React.useState<FormData>(data)
-
-  const hiddenFormFields = filterByHidden(data)(formFields)
+  const hiddenFormFields = flatten(filterByHidden(data)(formFields), data)
   const visibleFormFields = filterByVisible(data)(formFields)
 
+  const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
+    if (onChangeWithLens) {
+      onChangeWithLens(lens, value)
+    } else {
+      onChange(lens.set(value)(data))
+    }
+  }
+
   useEffect(() => {
-    // console.log('visibleFormFields: ', visibleFormFields)
-    // console.log('hiddenFormFields: ', hiddenFormFields)
-  }, [data])
+    hiddenFormFields.forEach((f) => {
+      const v = f.lens.get(data)
+      if (v !== null) {
+        internalOnChange(f.lens, null)
+      }
+    })
+  }, [hiddenFormFields])
 
   useEffect(() => {
     setShowValidation(false)
@@ -148,14 +159,6 @@ export const Form = <FormData extends {}>({
         onSubmit?.({ dispatch, formState: data })
         analytics?.onSubmit?.()
       }
-    }
-  }
-
-  const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
-    if (onChangeWithLens) {
-      onChangeWithLens(lens, value)
-    } else {
-      onChange(lens.set(value)(data))
     }
   }
 
@@ -248,7 +251,6 @@ export const Form = <FormData extends {}>({
 
       <FormContent {...getFormStyle('content')}>
         {/* formFields.map(renderFormField) */}
-
         {visibleFormFields.map(renderField)}
       </FormContent>
 
