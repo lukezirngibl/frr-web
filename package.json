@@ -14,7 +14,7 @@
     "prepare": "install-peers && husky install",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
-    "clean": "rm -rf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/styled-components node_modules/react-i18next",
+    "clean": "rm -rf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/styled-components node_modules/react-i18next",
     "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch",
     "prettier:fix": "yarn prettier --write .",
     "prettier:check": "yarn prettier --check ."
