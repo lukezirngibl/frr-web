@@ -61,7 +61,7 @@ export type Props = {
 )
 
 export const StaticField = (
-  props: Props & { fieldIndex: number; localeNamespace?: LocaleNamespace },
+  props: Props & { fieldIndex: number; localeNamespace?: LocaleNamespace; formReadOnly: boolean },
 ) => {
   const theme = useFormTheme()
 
@@ -73,7 +73,7 @@ export const StaticField = (
   const getLabelStyle = useAppCSSSTyles(appTheme, 'label')({})
 
   const label = { localeNamespace: props.localeNamespace, ...props.label }
-  return (
+  return props.formReadOnly ? null : (
     <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
       {props.label ? (
         <Label {...label} />
