@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import styled, { SimpleInterpolation } from 'styled-components'
 
 const LoadingWrapper = styled.div<{ css?: SimpleInterpolation }>`
-  ${props => props.css};
+  ${(props) => props.css};
 
   .lds-spinner {
     color: official;

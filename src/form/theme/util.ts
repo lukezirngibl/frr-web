@@ -5,9 +5,7 @@ import { CSSProperties } from 'styled-components'
 export const useInlineStyle: <C extends keyof FormTheme>(
   theme: FormTheme,
   componentKey: C,
-) => (
-  override?: Partial<FormTheme[C]>,
-) => <K extends keyof FormTheme[C]>(
+) => (override?: Partial<FormTheme[C]>) => <K extends keyof FormTheme[C]>(
   elementKeys: Array<K> | K,
   internalOverride?: CSSProperties,
   className?: string,

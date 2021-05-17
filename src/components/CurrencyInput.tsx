@@ -31,11 +31,7 @@ export const CurrencyInput = (props: Props) => {
       onChange={(v) => {
         props.onChange(getValue(v))
       }}
-      value={
-        value === null || isNaN(value) || value === undefined
-          ? undefined
-          : `${value}`
-      }
+      value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
       parseValue={parseAmount}
     />
   )

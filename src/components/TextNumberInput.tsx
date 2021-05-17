@@ -10,8 +10,7 @@ export type Props = {
   min?: number
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
-const getValue = (v: string): number | undefined | null =>
-  isNaN(Number(v)) ? undefined : Number(v)
+const getValue = (v: string): number | undefined | null => (isNaN(Number(v)) ? undefined : Number(v))
 
 export const TextNumberInput = (props: Props) => {
   const { value } = props
@@ -19,7 +18,7 @@ export const TextNumberInput = (props: Props) => {
   return (
     <TextInput
       {...props}
-      onChange={v => {
+      onChange={(v) => {
         props.onChange(getValue(v))
       }}
       inputType="number"

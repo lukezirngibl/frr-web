@@ -358,9 +358,7 @@ export const useAppTheme = (): AppTheme => {
   return theme
 }
 
-export const AppThemeContext = React.createContext<AppTheme>(
-  undefined as AppTheme,
-)
+export const AppThemeContext = React.createContext<AppTheme>(undefined as AppTheme)
 
 AppThemeContext.displayName = 'AppThemeContext'
 
@@ -371,19 +369,16 @@ export enum MediaQuery {
 
 type GenericThemeConfig = Record<string, Record<string, any>>
 
-export const createThemeConfigure = <Theme extends GenericThemeConfig, R>(
-  defaultTheme: Theme,
-) => (userTheme: Theme) =>
-  Object.keys(defaultTheme).reduce(
-    (components, componentKey) => ({
-      ...components,
-      [componentKey]: Object.keys(defaultTheme[componentKey]).reduce(
-        (componentStyles, styleKey) => {
-          const isCSSStyles =
-            typeof defaultTheme[componentKey][styleKey] === 'string'
+export const createThemeConfigure =
+  <Theme extends GenericThemeConfig, R>(defaultTheme: Theme) =>
+  (userTheme: Theme) =>
+    Object.keys(defaultTheme).reduce(
+      (components, componentKey) => ({
+        ...components,
+        [componentKey]: Object.keys(defaultTheme[componentKey]).reduce((componentStyles, styleKey) => {
+          const isCSSStyles = typeof defaultTheme[componentKey][styleKey] === 'string'
 
-          const userThemeVal =
-            userTheme[componentKey]?.[styleKey] || (isCSSStyles && '') || {}
+          const userThemeVal = userTheme[componentKey]?.[styleKey] || (isCSSStyles && '') || {}
 
           return {
             ...componentStyles,
@@ -394,13 +389,9 @@ export const createThemeConfigure = <Theme extends GenericThemeConfig, R>(
                   ...userThemeVal,
                 },
           }
-        },
-        {},
-      ),
-    }),
-    {},
-  ) as R
+        }, {}),
+      }),
+      {},
+    ) as R
 
-export const configureAppTheme = createThemeConfigure<AppThemeConfig, AppTheme>(
-  defaultAppTheme,
-)
+export const configureAppTheme = createThemeConfigure<AppThemeConfig, AppTheme>(defaultAppTheme)

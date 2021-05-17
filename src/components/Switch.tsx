@@ -29,10 +29,7 @@ export const Switch = (props: Props) => {
   return (
     <Wrapper className={value ? 'mui-active-switch' : ''}>
       {props.label && (
-        <Label
-          style={{ wrapper: { marginBottom: 0, marginRight: 'auto' } }}
-          {...props.label}
-        ></Label>
+        <Label style={{ wrapper: { marginBottom: 0, marginRight: 'auto' } }} {...props.label}></Label>
       )}
       <MaterialSwitch
         checked={value}

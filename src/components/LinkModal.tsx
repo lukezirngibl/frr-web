@@ -133,10 +133,7 @@ export const LinkModal = (props: Props) => {
   }
 
   React.useEffect(() => {
-    if (
-      props.config.isSome() &&
-      props.config.value.type === ModalLinkType.PDF
-    ) {
+    if (props.config.isSome() && props.config.value.type === ModalLinkType.PDF) {
       getPDF(props.config.value.url)
     }
   }, [props.config])

@@ -31,10 +31,10 @@ export const TextArea = (props: TextAreaProps) => {
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
   const [isFocus, setIsFocus] = useState(false)
-const [internalValue, setInternalValue] = useState(props.value)
-useEffect(() => {
-  setInternalValue(props.value)
-}, [props.value])
+  const [internalValue, setInternalValue] = useState(props.value)
+  useEffect(() => {
+    setInternalValue(props.value)
+  }, [props.value])
 
   // Focus field (e.g. on error)
   useEffect(() => {

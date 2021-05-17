@@ -433,9 +433,7 @@ export type SectionField<FormData> =
   | FormFieldRepeatGroup<FormData>
 
 export type SectionFields<FormData> = Array<SectionField<FormData>>
-export type InternalSectionFields<FormData> = Array<
-  InternalSectionField<FormData>
->
+export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   fields: Array<SingleFieldOrRow<FormData>>

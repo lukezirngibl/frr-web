@@ -28,10 +28,9 @@ export const CodeInput = (props: Props) => {
   const theme = useAppTheme()
   const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
 
-  const refs: Array<React.RefObject<typeof Input>> = range(
-    0,
-    props.length - 1,
-  ).map((i) => React.createRef())
+  const refs: Array<React.RefObject<typeof Input>> = range(0, props.length - 1).map((i) =>
+    React.createRef(),
+  )
 
   const [intervalValue, setIntervalValue] = React.useState(
     props.value || range(0, props.length - 1).reduce((str) => `${str}-`, ''),

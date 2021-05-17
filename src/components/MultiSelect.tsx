@@ -17,9 +17,7 @@ export type Props = {
 export const MultiSelect = (props: Props) => {
   return (
     <>
-      {props.label && (
-        <Label localeNamespace={props.localeNamespace} {...props.label} />
-      )}
+      {props.label && <Label localeNamespace={props.localeNamespace} {...props.label} />}
       <Select
         className="basic-multi-select"
         classNamePrefix="select"

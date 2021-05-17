@@ -40,10 +40,7 @@ export const Select = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
-  let options =
-    typeof props.options === 'function'
-      ? props.options(i18n.language)
-      : props.options
+  let options = typeof props.options === 'function' ? props.options(i18n.language) : props.options
 
   const parseOptions = (options: Options<Value>) =>
     props.alphabetize
@@ -52,15 +49,10 @@ export const Select = (props: Props) => {
             ...option,
             name: option.name || option.label,
             isLabelTranslated: true,
-            label: option.isLabelTranslated
-              ? option.label
-              : translate(option.label),
+            label: option.isLabelTranslated ? option.label : translate(option.label),
           }))
           .sort((a, b) =>
-            replaceUmlaute(a.label.toLowerCase()) >
-            replaceUmlaute(b.label.toLowerCase())
-              ? 1
-              : -1,
+            replaceUmlaute(a.label.toLowerCase()) > replaceUmlaute(b.label.toLowerCase()) ? 1 : -1,
           )
       : options
 
@@ -84,9 +76,7 @@ export const Select = (props: Props) => {
     ),
 
     ...parseOptions(
-      props.priority
-        ? [...options.filter((option) => props.priority.includes(option.value))]
-        : [],
+      props.priority ? [...options.filter((option) => props.priority.includes(option.value))] : [],
     ),
     ...(props.priority
       ? [
@@ -99,9 +89,7 @@ export const Select = (props: Props) => {
         ]
       : []),
     ...parseOptions(
-      props.priority
-        ? options.filter((option) => !props.priority.includes(option.value))
-        : options,
+      props.priority ? options.filter((option) => !props.priority.includes(option.value)) : options,
     ),
   ]
 

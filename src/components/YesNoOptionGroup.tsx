@@ -25,7 +25,7 @@ export const YesNoOptionGroup = (props: Props) => {
       {...otherProps}
       options={options}
       value={props.value ? 'true' : 'false'}
-      onChange={v => {
+      onChange={(v) => {
         props.onChange(v === 'true' ? true : false)
       }}
     />

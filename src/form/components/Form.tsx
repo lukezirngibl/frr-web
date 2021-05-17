@@ -1,8 +1,4 @@
-import {
-  Button,
-  ButtonType,
-  Props as ButtonProps,
-} from '../../components/Button'
+import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
 import React, { ReactNode, useEffect, useState } from 'react'
@@ -29,10 +25,7 @@ import {
 import { StaticField } from './StaticField'
 import { flatten } from './functions/flatten'
 
-type OnInvalidSubmitType<FormData> = (params: {
-  errors: Array<FieldError>
-  formState: FormData
-}) => void
+type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
 export type FormAnalytics<FormData> = {
   onSubmit?: () => void
@@ -172,18 +165,10 @@ export const Form = <FormData extends {}>({
     style,
   }
 
-  const renderField = (
-    field: InternalFormField<FormData>,
-    fieldIndex: number,
-  ) => {
+  const renderField = (field: InternalFormField<FormData>, fieldIndex: number) => {
     if (Array.isArray(field)) {
       return (
-        <FieldRow
-          key={`field-form-${fieldIndex}`}
-          fieldIndex={0}
-          field={field}
-          {...commonFieldProps}
-        />
+        <FieldRow key={`field-form-${fieldIndex}`} fieldIndex={0} field={field} {...commonFieldProps} />
       )
     }
 
@@ -210,13 +195,7 @@ export const Form = <FormData extends {}>({
         )
 
       case FormFieldType.Static: {
-        return (
-          <StaticField
-            {...field}
-            fieldIndex={fieldIndex}
-            key={`field-${fieldIndex}`}
-          />
-        )
+        return <StaticField {...field} fieldIndex={fieldIndex} key={`field-${fieldIndex}`} />
       }
 
       case FormFieldType.FormSection:
@@ -265,13 +244,9 @@ export const Form = <FormData extends {}>({
               dataTestId={
                 button.type === ButtonType.Primary
                   ? 'form:primary'
-                  : `form:${(
-                      button.type || ButtonType.Secondary
-                    ).toLowerCase()}:${k + 1}`
+                  : `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
               }
-              disabled={
-                button.isDisabled ? button.isDisabled(data) : !!button.disabled
-              }
+              disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
               onClick={() => button.onClick({ submit, dispatch })}
             />
           ))}

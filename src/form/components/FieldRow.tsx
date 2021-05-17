@@ -42,11 +42,7 @@ export const FieldRow = <FormData extends {}>({
   const getRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
 
   return (
-    <FieldRowWrapper
-      key={`row-${fieldIndex}`}
-      {...getRowStyle('wrapper')}
-      readOnly={formReadOnly}
-    >
+    <FieldRowWrapper key={`row-${fieldIndex}`} {...getRowStyle('wrapper')} readOnly={formReadOnly}>
       {field.map((fieldItem, fieldItemIndex) => (
         <FieldRowItem
           data={data}

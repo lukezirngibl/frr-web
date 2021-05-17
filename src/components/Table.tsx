@@ -1,9 +1,4 @@
-import {
-  createStyles,
-  Theme,
-  withStyles,
-  WithStyles,
-} from '@material-ui/core/styles'
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles'
 import TableCell from '@material-ui/core/TableCell'
 import clsx from 'clsx'
 import React, { ReactNode } from 'react'
@@ -84,9 +79,7 @@ type Props<T extends {}> = {
   }) => ReactNode
 }
 
-const InnerTable = <T extends {}>(
-  props: Props<T> & WithStyles<typeof styles>,
-) => {
+const InnerTable = <T extends {}>(props: Props<T> & WithStyles<typeof styles>) => {
   const { t: translate } = useTranslation(props.localeNamespace)
 
   const getRowClassName = (row: Row) => {
@@ -110,11 +103,7 @@ const InnerTable = <T extends {}>(
         style={{
           height: 48,
         }}
-        align={
-          (columnIndex !== null && columns[columnIndex].isNumeric) || false
-            ? 'right'
-            : 'left'
-        }
+        align={(columnIndex !== null && columns[columnIndex].isNumeric) || false ? 'right' : 'left'}
       >
         {props.renderCell({
           rowData,
@@ -126,18 +115,11 @@ const InnerTable = <T extends {}>(
     )
   }
 
-  const headerRenderer = ({
-    label,
-    columnIndex,
-  }: TableHeaderProps & { columnIndex: number }) => {
+  const headerRenderer = ({ label, columnIndex }: TableHeaderProps & { columnIndex: number }) => {
     return (
       <TableCell
         component="div"
-        className={clsx(
-          props.classes.tableCell,
-          props.classes.flexContainer,
-          props.classes.noClick,
-        )}
+        className={clsx(props.classes.tableCell, props.classes.flexContainer, props.classes.noClick)}
         variant="head"
         style={{ height: 48, borderBottomColor: 'rgb(243,243,245)' }}
         align={columns[columnIndex].isNumeric || false ? 'right' : 'left'}

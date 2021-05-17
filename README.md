@@ -25,11 +25,7 @@ import React, { useEffect } from 'react'
 import { Button } from '../../components'
 import { AppThemeContext, configureAppTheme } from '../../theme/theme'
 import { configureLanguage, Language } from '../../theme/language'
-import {
-  TranslationsContext,
-  Translations,
-  LanguageContext,
-} from '../../theme/language'
+import { TranslationsContext, Translations, LanguageContext } from '../../theme/language'
 
 const appTheme = configureAppTheme({
   button: {
