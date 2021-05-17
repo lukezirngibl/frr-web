@@ -1,6 +1,7 @@
 import React from 'react'
 import { P } from '../../html'
 import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { useCSSStyles as useAppCSSSTyles } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
 import { Label, LabelProps } from '../../components/Label'
 import { Checklist, StaticChecklist } from '../../components/StaticChecklist'
@@ -8,6 +9,7 @@ import { useFormTheme } from '../theme/theme'
 import { createStyled } from '../../theme/util'
 import { Props as ButtonProps, Button } from '../../components/Button'
 import styled from 'styled-components'
+import { MediaQuery, useAppTheme } from '../../theme/theme'
 
 export const FieldRowWrapper = createStyled(styled.div`
   & > * {
@@ -24,6 +26,12 @@ export const FieldRowWrapper = createStyled(styled.div`
   }
 `)
 
+const LabelWrapper = createStyled(styled.div`
+  @media ${MediaQuery.Small} {
+    display: none;
+  }
+`)
+
 const StaticWrapper = createStyled('div')
 
 export enum StaticFieldType {
@@ -37,14 +45,17 @@ export type Props = {
 } & (
   | {
       subtype: StaticFieldType.Button
+      title?: string
       button: ButtonProps
     }
   | {
       subtype: StaticFieldType.Text
+      title?: string
       text: string
     }
   | {
       subtype: StaticFieldType.Checklist
+      title?: string
       checklist: Array<Checklist>
     }
 )
@@ -53,37 +64,40 @@ export const StaticField = (
   props: Props & { fieldIndex: number; localeNamespace?: LocaleNamespace },
 ) => {
   const theme = useFormTheme()
+
   const getCSSStyle = useCSSStyles(theme, 'staticField')({})
   const getInlineStyle = useInlineStyle(theme, 'staticField')({})
   const getRowStyle = useCSSStyles(theme, 'row')({})
 
+  const appTheme = useAppTheme()
+  const getLabelStyle = useAppCSSSTyles(appTheme, 'label')({})
+
   const label = { localeNamespace: props.localeNamespace, ...props.label }
   return (
-    <FieldRowWrapper
-      key={`row-${props.fieldIndex}`}
-      {...getRowStyle('wrapper')}
-    >
-      {props.label && <Label {...label} />}
+    <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
+      {props.label ? (
+        <Label {...label} />
+      ) : (
+        <LabelWrapper {...getLabelStyle('wrapper')}>
+          <br />
+        </LabelWrapper>
+      )}
+
       <StaticWrapper {...getCSSStyle('wrapper')}>
+        {props.title && (
+          <P label={props.title} localeNamespace={props.localeNamespace} {...getCSSStyle('title')} />
+        )}
+
         {props.subtype === StaticFieldType.Text && (
-          <P
-            label={props.text}
-            localeNamespace={props.localeNamespace}
-            {...getCSSStyle('text')}
-          />
+          <P label={props.text} localeNamespace={props.localeNamespace} {...getCSSStyle('text')} />
         )}
         {props.subtype === StaticFieldType.Checklist && (
-          <StaticChecklist
-            list={props.checklist}
-            localeNamespace={props.localeNamespace}
-          />
+          <StaticChecklist list={props.checklist} localeNamespace={props.localeNamespace} />
         )}
         {props.subtype === StaticFieldType.Button && (
           <Button
             {...props.button}
-            override={
-              getInlineStyle(['button'], props.button.override || {}).style
-            }
+            override={getInlineStyle(['button'], props.button.override || {}).style}
           />
         )}
       </StaticWrapper>

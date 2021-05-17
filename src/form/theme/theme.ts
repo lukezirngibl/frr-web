@@ -13,6 +13,7 @@ export type FormTheme = {
   }
   staticField: {
     wrapper: CSSProperties
+    title: CSSProperties
     text: CSSProperties
     button: CSSProperties
   }
@@ -59,6 +60,7 @@ export const defaultFormTheme: FormTheme = {
   },
   staticField: {
     wrapper: {},
+    title: {},
     text: {},
     button: {},
   },
@@ -105,13 +107,8 @@ export const useFormTheme = (): FormTheme => {
   return theme
 }
 
-export const FormThemeContext = React.createContext<FormTheme>(
-  undefined as FormTheme,
-)
+export const FormThemeContext = React.createContext<FormTheme>(undefined as FormTheme)
 
 FormThemeContext.displayName = 'FormThemeContext'
 
-export const configureFormTheme = createThemeConfigure<
-  FormThemeConfig,
-  FormTheme
->(defaultFormTheme)
+export const configureFormTheme = createThemeConfigure<FormThemeConfig, FormTheme>(defaultFormTheme)
