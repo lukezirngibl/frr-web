@@ -20,6 +20,7 @@ export type TextAreaProps = {
   readOnly?: boolean
   style?: Partial<AppTheme['textArea']>
   value: string
+  htmlRows?: number
 }
 
 export const TextArea = (props: TextAreaProps) => {
@@ -65,6 +66,7 @@ useEffect(() => {
               readOnlyInput: props.readOnly,
             }).style,
           )}
+          rows={props.htmlRows || 10}
           className="frr-textarea"
           data-test-id={props.dataTestId}
           disabled={props.disabled || props.readOnly}
