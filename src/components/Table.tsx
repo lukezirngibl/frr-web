@@ -46,12 +46,14 @@ const styles = (theme: Theme) =>
       cursor: 'pointer',
     },
     tableRowHover: {
+      transition: 'background-color 0.3s ease-out',
       '&:hover': {
         backgroundColor: theme.palette.grey[200],
       },
     },
     tableCell: {
       flex: 1,
+      lineHeight: 1.1,
     },
     noClick: {
       cursor: 'initial',
@@ -104,10 +106,7 @@ const InnerTable = <T extends {}>(
           [classes.noClick]: props.onRowClick === null,
         })}
         variant="body"
-        onClick={() => {
-          // this.props.setDetailId(some(`${cell.rowData.id}-${cell.rowData.app}`))
-          props.onRowClick?.(rowData)
-        }}
+        onClick={() => props.onRowClick?.(rowData)}
         style={{
           height: 48,
         }}
@@ -118,7 +117,7 @@ const InnerTable = <T extends {}>(
         }
       >
         {props.renderCell({
-          rowData: rowData,
+          rowData,
           index: columnIndex,
           value: cellData,
           translate,
