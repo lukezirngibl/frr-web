@@ -20,6 +20,7 @@ import { YesNoRadioGroup } from '../../components/YesNoRadioGroup'
 import { LocaleNamespace } from '../../translation'
 import React from 'react'
 import { FormFieldType, SingleFormField } from './types'
+import { FileInput } from '../../components/FileInput'
 
 // import { CheckboxGroup } from '../../components/CheckboxGroup'
 // import { Dropdown } from '../../components/Dropdown'
@@ -390,6 +391,21 @@ export const Field = <FormData extends {}>({
         error={hasError}
         label={label}
         localeNamespace={localeNamespace}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.FileInput) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <FileInput
+        {...fieldProps}
+        key={
+          typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`
+        }
+        value={lens.get(data)}
+        onChange={onBlur}
+        label={label}
       />
     )
   }

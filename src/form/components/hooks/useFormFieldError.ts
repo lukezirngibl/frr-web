@@ -6,7 +6,7 @@ export const computeFieldError = <FormData>({
   data,
   field,
 }: {
-  value: string | string[] | boolean | number | Date | null
+  value: string | string[] | boolean | number | Date | null | File
   data: FormData
   field: SingleFormField<FormData>
 }): FieldError => {
@@ -67,7 +67,7 @@ export const useFormFieldError = <FormData>({
   field,
   showValidation,
 }: {
-  value: string | string[] | number | Date | boolean | null
+  value: string | string[] | number | Date | boolean | null | File
   data: FormData
   field: SingleFormField<FormData>
   showValidation: boolean

@@ -124,6 +124,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.FormFieldRepeatSection]: () => '',
   [FormFieldType.FormSection]: () => '',
   [FormFieldType.FormText]: () => '',
+  [FormFieldType.FileInput]: () => '',
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,

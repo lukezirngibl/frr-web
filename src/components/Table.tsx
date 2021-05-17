@@ -110,8 +110,6 @@ const InnerTable = <T extends {}>(
         }}
         style={{
           height: 48,
-          backgroundColor:
-            rowData.isConfirmed ? '#e9f7ec' : 'white',
         }}
         align={
           (columnIndex !== null && columns[columnIndex].isNumeric) || false

@@ -80,6 +80,9 @@ export type AppTheme = {
     input: CSSProperties
     wrapper: CSSProperties
   }
+  fileInput: {
+    wrapper: CSSProperties
+  }
   staticChecklist: {
     description: CSSProperties
     iconAllowed: CSSProperties
@@ -180,6 +183,9 @@ export type AppTheme = {
 }
 
 const defaultAppTheme: AppTheme = {
+  fileInput: {
+    wrapper: {},
+  },
   modal: {
     outerWrapper: {},
     innerWrapper: {},

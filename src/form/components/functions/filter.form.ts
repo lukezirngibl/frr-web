@@ -56,7 +56,7 @@ const processGroupFields = <T>(
 ): Array<GroupField<T>> =>
   fields.reduce((acc: Array<GroupField<T>>, f) => {
     if (Array.isArray(f)) {
-      return [...acc, ...processFormFieldRow(f, fn, isVisible)]
+      return [...acc, processFormFieldRow(f, fn, isVisible)]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
     } else {
@@ -86,7 +86,7 @@ const processFormSectionFields = <T>(
 ): SectionFields<T> =>
   fields.reduce((acc: Array<SectionField<T>>, f) => {
     if (Array.isArray(f)) {
-      return [...acc, ...processFormFieldRow(f, fn, isVisible)]
+      return [...acc, processFormFieldRow(f, fn, isVisible)]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
     } else if (f.type === FormFieldType.FormFieldGroup) {
@@ -124,7 +124,7 @@ const filterByFunc = <T>(data: T, fn: Fn<T>) => (
 ): Array<InternalFormField<T>> =>
   formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
     if (Array.isArray(f)) {
-      return [...groups, ...processFormFieldRow(f, fn)]
+      return [...groups, processFormFieldRow(f, fn)]
     } else if (f.type === FormFieldType.FormFieldGroup) {
       return [...groups, ...processGroup(f, fn)]
     } else if (f.type === FormFieldType.FormSection) {

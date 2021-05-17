@@ -1,7 +1,7 @@
 import React from 'react'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useInlineStyle } from '../theme/util'
+import { createStyled, useInlineStyle, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { SimplePopover } from './PopOver'
 
@@ -19,6 +19,7 @@ export type Props = {
 export const PopoverWithItems = (props: Props) => {
   const theme = useAppTheme()
   const getInlineStyle = useInlineStyle(theme, 'popoverWithItems')(props.style)
+  const getCSSStyle = useCSSStyles(theme, 'popoverWithItems')(props.style)
 
   return (
     <SimplePopover
@@ -34,12 +35,12 @@ export const PopoverWithItems = (props: Props) => {
                 item.onClick()
                 close()
               }}
-              {...getInlineStyle(['item'])}
+              {...getCSSStyle(['item'])}
             >
               <P
                 label={item.label}
                 localeNamespace={props.localeNamespace}
-                {...getInlineStyle(['itemLabel'])}
+                {...getCSSStyle(['itemLabel'])}
               />
             </Item>
           ))}

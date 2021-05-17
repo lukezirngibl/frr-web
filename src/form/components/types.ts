@@ -20,6 +20,7 @@ import { Props as TextNumberInputProps } from '../../components/TextNumberInput'
 import { Props as ToggleProps } from '../../components/Toggle'
 import { Props as YesNoOptionGroupProps } from '../../components/YesNoOptionGroup'
 import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
+import { Props as FileInputProps } from '../../components/FileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
@@ -68,6 +69,7 @@ export enum FormFieldType {
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
   Static = 'Static',
+  FileInput = 'FileInput',
 }
 
 export enum Orientation {
@@ -103,6 +105,13 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
   }
   _value?: P['value']
 }
+
+export type FileInputField<FormData> = FormInput<
+  File | null,
+  FileInputProps,
+  FormLens<FormData, File | null>,
+  FormFieldType.FileInput
+>
 
 export type FormTextField<FormData> = FormInput<
   string,
@@ -308,6 +317,7 @@ export const fieldMap = {
   // [FormFieldType.Dropdown]: null as DropdownField<unknown>,
   // [FormFieldType.DropdownNumber]: null as DropdownField<unknown>,
 
+  [FormFieldType.FileInput]: null as FileInputField<unknown>,
   [FormFieldType.CodeInput]: null as CodeInputField<unknown>,
   [FormFieldType.CountrySelect]: null as CountrySelectField<unknown>,
   [FormFieldType.CurrencyInput]: null as CurrencyInputField<unknown>,
@@ -340,6 +350,7 @@ export const fieldMap = {
 } as any
 
 export type SingleFormField<FormData> = (
+  | FileInputField<FormData>
   | CodeInputField<FormData>
   | CountrySelectField<FormData>
   | CurrencyInputField<FormData>
