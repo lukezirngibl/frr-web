@@ -48,7 +48,7 @@ const styles = (theme: Theme) =>
     tableRowHover: {
       transition: 'background-color 0.3s ease-out',
       '&:hover': {
-        backgroundColor: 'var(--color-background-hover)',
+        backgroundColor: theme.palette.grey[200],
       },
     },
     tableCell: {
