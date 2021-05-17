@@ -5,15 +5,16 @@ import { TextNumberInput, Props as TextNumberProps } from './TextNumberInput'
 
 export type Props = {
   label?: LabelProps
-  onChange: (n: string) => void
+  onChange: (n: number | null) => void
   value: number | null | undefined
   max?: number
   min?: number
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
-const getValue = (v: string): string | null => {
+const getValue = (v: string): number | null => {
   const value = v.replace(',', '.')
-  return value
+  const num = Number(value)
+  return isNaN(num) ? null : num
 }
 
 const parseAmount = (v: string): string => {
@@ -30,7 +31,11 @@ export const CurrencyInput = (props: Props) => {
       onChange={(v) => {
         props.onChange(getValue(v))
       }}
-      value={!value || isNaN(value) ? undefined : `${value}`}
+      value={
+        value === null || isNaN(value) || value === undefined
+          ? undefined
+          : `${value}`
+      }
       parseValue={parseAmount}
     />
   )

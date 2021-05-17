@@ -25,6 +25,14 @@ const mapTypeToStyleKey: {
   [ButtonType.Secondary]: 'secondary',
 }
 
+const mapTypeToStyleLabelKey: {
+  [k in ButtonType]: keyof Partial<AppTheme['button']>
+} = {
+  [ButtonType.Chromeless]: 'chromelessLabel',
+  [ButtonType.Primary]: 'primaryLabel',
+  [ButtonType.Secondary]: 'secondaryLabel',
+}
+
 export type Props = {
   dataTestId?: string
   disabled?: boolean
@@ -78,7 +86,7 @@ export const Button = (props: Props) => {
         style={{
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
-        {...getCSSStyle('label')}
+        {...getCSSStyle(['label', mapTypeToStyleLabelKey[type]])}
         label={(isMobile && props.labelMobile) || props.label}
         localeNamespace={props.localeNamespace}
       />

@@ -22,14 +22,14 @@ npm install frr-web
 
 ```ts
 import React, { useEffect } from 'react'
-import { Button } from 'frr-web/lib/components'
-import { AppThemeContext, configureAppTheme } from 'frr-web/lib/theme/theme'
-import { configureLanguage, Language } from 'frr-web/lib/theme/language'
+import { Button } from '../../components'
+import { AppThemeContext, configureAppTheme } from '../../theme/theme'
+import { configureLanguage, Language } from '../../theme/language'
 import {
   TranslationsContext,
   Translations,
   LanguageContext,
-} from 'frr-web/lib/theme/language'
+} from '../../theme/language'
 
 const appTheme = configureAppTheme({
   button: {
@@ -66,11 +66,122 @@ const App = () => {
 }
 ```
 
+## Form Motivation
+
+It seems like 90% of a frontend developer's life is implementing forms. Forms, forms, forms. They're boring and styling them is a pain. You usually end up with way too much code for something that seems so boilerplate. For this reason, I've been using a configurable typesafe form instead. You provide the styling & layout once via a context hook and BOOM, you can crank out tons of forms throughout your app with just a configuration array. NO STYLING. NO JSX. Of course there are limitiations, but for your standard day-to-day forms, this library should be suitable.
+
+### Form Example
+
+```ts
+import * as React from 'react'
+import { Lens } from 'monocle-ts'
+import { FormThemeContext, configureFormTheme } from 'frr-form/lib/theme/theme'
+import { FormField, Form } from 'frr-form/lib/components/Form'
+import { FormFieldType } from 'frr-form/lib/components/types'
+
+type Person = {
+  name: string
+  hairColor: string
+  age: number
+  height: number
+  description: string
+  email: string
+  website: string
+}
+
+const mkLens = Lens.fromPath<Person>()
+
+export const personFormFields: Array<FormField<Person, any>> = [
+  {
+    type: FormFieldType.FormSection,
+    title: 'Information',
+    fields: [
+      [
+        {
+          label: 'Name',
+          type: FormFieldType.TextInput,
+          lens: mkLens(['name']),
+          required: true,
+        },
+
+        {
+          label: 'Hair color',
+          type: FormFieldType.TextInput,
+          lens: mkLens(['hairColor']),
+          required: true,
+        },
+      ],
+      [
+        {
+          label: 'Age',
+          type: FormFieldType.TextNumber,
+          lens: mkLens(['age']),
+          required: true,
+        },
+        {
+          label: 'Height',
+          type: FormFieldType.TextNumber,
+          lens: mkLens(['height']),
+          required: true,
+        },
+      ],
+      [
+        {
+          label: 'Description',
+          type: FormFieldType.TextInput,
+          lens: mkLens(['description']),
+          required: true,
+        },
+      ],
+      [
+        {
+          label: 'Email',
+          type: FormFieldType.TextInput,
+          lens: mkLens(['email']),
+          required: true,
+        },
+        {
+          label: 'Website',
+          type: FormFieldType.TextInput,
+          lens: mkLens(['website']),
+          required: true,
+        },
+      ],
+    ],
+  },
+]
+
+const personData = {
+  name: 'Luke',
+  hairColor: 'brown',
+  age: 23,
+  height: 194,
+  description: 'average height',
+  email: 'luke@google.com',
+  website: 'www.foronered.com',
+}
+
+const FormTheme = configureFormTheme({})
+
+export const App = () => (
+  <FormThemeContext.Provider value={FormTheme}>
+    <Form<Person>
+      formFields={personFormFields}
+      data={personData}
+      onChange={(p) => {
+        // add update function
+      }}
+    />
+  </FormThemeContext.Provider>
+)
+```
+
 ## Development
 
 ### Build library
 
 To build the library, run the build script.
+
 1. Install packages: `yarn`
 2. Build library with types: `yarn build`
 
@@ -82,15 +193,17 @@ Follow these steps to run the library build in watch mode:
 2. Start the build in watch mode (babel): `yarn babel:watch`
 
 To rebuild the types the following actions are required (for the why see **IMPORTANT NOTE** below):
+
 1. (Quit watch mode: `ctrl c`).
 2. Run: `yarn build-types`
 3. Start babel again: `yarn babel:watch`
 
 ### Use package in linked (watch-)mode
+
 You might want to link this library to the consuming application and keep it in watch mode to develop in parallel.
 
 - Create a symlink: `yarn link` (This you have to **do only once**)
-- Run build with babel: `yarn babel:watch` 
+- Run build with babel: `yarn babel:watch`
 
 **IMPORTANT NOTE**
 Types are not transpiled by Babel. As a consequence, changes of types require a rebuild of the types with the TypeScript compiler in order for consuming applications to receive them.
@@ -98,5 +211,3 @@ Types are not transpiled by Babel. As a consequence, changes of types require a 
 As the TypeScript compiler requires all dependencies including peerDependencies, we first have to install those as well. Unfortunately libraries like React or Style-Components cannot handle duplicate installations of the same package in one application and will crash in the browser during rendering.
 
 That is why we have to clean the _node_modules_ from all peerDependencies before using it. And that is also why we cannot really use the TypeScript compiler to develop in watch-mode with linked modules.
-
-

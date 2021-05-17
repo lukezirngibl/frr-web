@@ -44,6 +44,9 @@ export type AppTheme = {
     secondary: CSSProperties
     common: CSSProperties
     spinner: CSSProperties
+    primaryLabel: CSSProperties
+    secondaryLabel: CSSProperties
+    chromelessLabel: CSSProperties
   }
   label: {
     descriptionIcon: CSSProperties
@@ -72,14 +75,12 @@ export type AppTheme = {
     readOnlyWrapper: CSSProperties
     wrapper: CSSProperties
   }
-  textInputDescription: {
-    wrapper: CSSProperties
-    title: CSSProperties
-    description: CSSProperties
-  }
   textArea: {
     disabled: CSSProperties
     input: CSSProperties
+    wrapper: CSSProperties
+  }
+  fileInput: {
     wrapper: CSSProperties
   }
   staticChecklist: {
@@ -182,6 +183,9 @@ export type AppTheme = {
 }
 
 const defaultAppTheme: AppTheme = {
+  fileInput: {
+    wrapper: {},
+  },
   modal: {
     outerWrapper: {},
     innerWrapper: {},
@@ -216,6 +220,9 @@ const defaultAppTheme: AppTheme = {
     chromeless: {},
     primary: {},
     label: {},
+    primaryLabel: {},
+    secondaryLabel: {},
+    chromelessLabel: {},
     secondary: {},
     common: {},
     spinner: {},
@@ -246,11 +253,6 @@ const defaultAppTheme: AppTheme = {
     readOnlyInput: {},
     readOnlyWrapper: {},
     wrapper: {},
-  },
-  textInputDescription: {
-    wrapper: {},
-    title: {},
-    description: {},
   },
   textArea: {
     disabled: {},

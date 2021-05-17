@@ -109,10 +109,6 @@ const InnerTable = <T extends {}>(
         onClick={() => props.onRowClick?.(rowData)}
         style={{
           height: 48,
-          backgroundColor:
-            rowData.backgroundColor ||
-            (rowData.isConfirmed && '#e9f7ec') ||
-            'white',
         }}
         align={
           (columnIndex !== null && columns[columnIndex].isNumeric) || false

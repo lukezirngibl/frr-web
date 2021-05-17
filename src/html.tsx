@@ -15,9 +15,7 @@ export type Options<Value> = Array<{
 
 export type LabelText =
   | string
-  | ((params: {
-      translate: Translate
-    }) => string | ReactNode)
+  | ((params: { translate: Translate }) => string | ReactNode)
 
 type Props = {
   cssStyles?: string
