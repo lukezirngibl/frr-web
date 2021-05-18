@@ -20,8 +20,9 @@ const processFormFieldRow = <T>(
   a: Array<SingleFormField<T>>,
   fn: Fn<T>,
   isVisible: (d: T) => boolean = () => true,
-): Array<SingleFormField<T>> =>
-  a.reduce(
+): Array<SingleFormField<T>> => {
+  console.log('FORM ROW', a)
+  return a.reduce(
     (acc: Array<SingleFormField<T>>, j: SingleFormField<T>) =>
       fn({
         ...j,
@@ -36,6 +37,7 @@ const processFormFieldRow = <T>(
         : acc,
     [],
   )
+}
 
 const processMultiInput = <T>(
   s: MultiInputField<T>,
