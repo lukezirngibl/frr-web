@@ -1,15 +1,13 @@
 import React from 'react'
-import { P } from '../../html'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
-import { useCSSStyles as useAppCSSSTyles } from '../../theme/util'
-import { LocaleNamespace } from '../../translation'
+import styled from 'styled-components'
+import { Button, Props as ButtonProps } from '../../components/Button'
 import { Label, LabelProps } from '../../components/Label'
 import { Checklist, StaticChecklist } from '../../components/StaticChecklist'
-import { useFormTheme } from '../theme/theme'
+import { P } from '../../html'
 import { createStyled } from '../../theme/util'
-import { Props as ButtonProps, Button } from '../../components/Button'
-import styled from 'styled-components'
-import { MediaQuery, useAppTheme } from '../../theme/theme'
+import { LocaleNamespace } from '../../translation'
+import { useFormTheme } from '../theme/theme'
+import { useCSSStyles, useInlineStyle } from '../theme/util'
 
 export const FieldRowWrapper = createStyled(styled.div`
   & > * {
@@ -23,12 +21,6 @@ export const FieldRowWrapper = createStyled(styled.div`
     &:last-child {
       margin-right: 0;
     }
-  }
-`)
-
-const LabelWrapper = createStyled(styled.div`
-  @media ${MediaQuery.Small} {
-    display: none;
   }
 `)
 
@@ -66,9 +58,6 @@ export const StaticField = (
   const getCSSStyle = useCSSStyles(theme, 'staticField')({})
   const getInlineStyle = useInlineStyle(theme, 'staticField')({})
   const getRowStyle = useCSSStyles(theme, 'row')({})
-
-  const appTheme = useAppTheme()
-  const getLabelStyle = useAppCSSSTyles(appTheme, 'label')({})
 
   const label = { localeNamespace: props.localeNamespace, ...props.label }
 
