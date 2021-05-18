@@ -1,20 +1,23 @@
+import { Translate } from '../../../translation'
+import { processRepeatGroup, processRepeatSection } from '../../util'
 import {
-  FormFieldType,
   FormField,
+  FormFieldGroup,
+  FormFieldType,
   FormSection,
+  GroupField,
+  InternalFormField,
+  MultiInputField,
   SectionField,
   SectionFields,
   SingleFormField,
-  GroupField,
-  MultiInputField,
-  FormFieldGroup,
-  InternalFormField,
-  FormFieldRepeatSection,
-  FormFieldRepeatGroup,
 } from '../types'
-import { processRepeatGroup, processRepeatSection } from '../../util'
-import { Translate } from '../../../translation'
 
+export type FilterParams<T> = {
+  data: T
+  formFields: Array<FormField<T>>
+  translate: Translate
+}
 type Fn<T> = (i: FormField<T>) => boolean
 
 const processFormFieldRow = <T>(
@@ -120,41 +123,35 @@ const processFormSection = <T>(
       ]
     : []
 
-const filterByFunc =
-  <T>(data: T, fn: Fn<T>, translate: Translate) =>
-  (formFields: Array<FormField<T>>): Array<InternalFormField<T>> =>
-    formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
-      if (Array.isArray(f)) {
-        const row = processFormFieldRow(f, fn)
-        return [...groups, ...(row.length > 0 ? row : [])]
-      } else if (f.type === FormFieldType.FormFieldGroup) {
-        return [...groups, ...processGroup(f, fn)]
-      } else if (f.type === FormFieldType.FormSection) {
-        return [...groups, ...processFormSection(f, fn, data)]
-      } else if (f.type === FormFieldType.MultiInput) {
-        return [...groups, ...processMultiInput(f, fn)]
-      } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
-        const groups = processRepeatGroup(f, data)
-        return [...groups, ...filterByFunc(data, fn, translate)(groups)]
-      } else if (f.type === FormFieldType.FormFieldRepeatSection) {
-        const sections = processRepeatSection(f, data, translate)
-        return [...groups, ...filterByFunc(data, fn, translate)(sections)]
-      } else if (f.type === FormFieldType.Static) {
-        return groups
-      } else {
-        return [...groups, ...(fn(f) ? [f] : [])]
-      }
-    }, [])
+const filterByFunc = <T>(
+  { data, formFields, translate }: FilterParams<T>,
+  fn: Fn<T>,
+): Array<InternalFormField<T>> =>
+  formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
+    if (Array.isArray(f)) {
+      const row = processFormFieldRow(f, fn)
+      return [...groups, ...(row.length > 0 ? row : [])]
+    } else if (f.type === FormFieldType.FormFieldGroup) {
+      return [...groups, ...processGroup(f, fn)]
+    } else if (f.type === FormFieldType.FormSection) {
+      return [...groups, ...processFormSection(f, fn, data)]
+    } else if (f.type === FormFieldType.MultiInput) {
+      return [...groups, ...processMultiInput(f, fn)]
+    } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
+      const groups = processRepeatGroup(f, data)
+      return [...groups, ...filterByFunc({ data, formFields: groups, translate }, fn)]
+    } else if (f.type === FormFieldType.FormFieldRepeatSection) {
+      const sections = processRepeatSection(f, data, translate)
+      return [...groups, ...filterByFunc({ data, formFields: sections, translate }, fn)]
+    } else if (f.type === FormFieldType.Static) {
+      return groups
+    } else {
+      return [...groups, ...(fn(f) ? [f] : [])]
+    }
+  }, [])
 
-export const filterByVisible = <T>(data: T, translate: Translate) => {
-  return filterByFunc(
-    data,
-    (field) => {
-      return 'isVisible' in field ? field.isVisible(data) : true
-    },
-    translate,
-  )
-}
+export const filterByVisible = <T>(params: FilterParams<T>) =>
+  filterByFunc<T>(params, (field) => ('isVisible' in field ? field.isVisible(params.data) : true))
 
 const formGroupTypes = [
   FormFieldType.FormFieldRepeatGroup,
@@ -163,43 +160,13 @@ const formGroupTypes = [
   FormFieldType.MultiInput,
 ]
 
-export const filterByHidden = <T>(data: T, translate: Translate) => {
-  return filterByFunc(
-    data,
-    (field) => {
-      let defaultValue = false
-      if ('type' in field && formGroupTypes.includes(field.type)) {
-        return 'isVisible' in field ? !field.isVisible(data) : true
-      } else if ('type' in field && field.type === FormFieldType.FormSection) {
-        return true
-      } else {
-        return 'isVisible' in field ? !field.isVisible(data) : false
-      }
-    },
-    translate,
-  )
-}
-
-export const filterChangedRepeatFormFields = <T>(
-  data: T,
-  formFields: Array<FormField<T>>,
-): Array<{ field: FormFieldRepeatSection<T> | FormFieldRepeatGroup<T>; value: Array<any> }> =>
-  formFields
-    .filter(
-      (field) =>
-        'type' in field &&
-        (field.type === FormFieldType.FormFieldRepeatSection ||
-          field.type === FormFieldType.FormFieldRepeatGroup) &&
-        field.length.get(data) - field.lens.get(data).length !== 0,
-    )
-    .map((field: FormFieldRepeatSection<T> | FormFieldRepeatGroup<T>) => {
-      const length = field.length.get(data) as number
-      const list = field.lens.get(data) as Array<any>
-
-      return {
-        field,
-        value: Array.from({
-          length,
-        }).map((_, index) => list[index]),
-      }
-    })
+export const filterByHidden = <T>(params: FilterParams<T>) =>
+  filterByFunc<T>(params, (field) => {
+    if ('type' in field && formGroupTypes.includes(field.type)) {
+      return 'isVisible' in field ? !field.isVisible(params.data) : true
+    } else if ('type' in field && field.type === FormFieldType.FormSection) {
+      return true
+    } else {
+      return 'isVisible' in field ? !field.isVisible(params.data) : false
+    }
+  })
