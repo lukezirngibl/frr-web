@@ -45,17 +45,15 @@ export type Props = {
 } & (
   | {
       subtype: StaticFieldType.Button
-      title?: string
       button: ButtonProps
     }
   | {
       subtype: StaticFieldType.Text
-      title?: string
       text: string
     }
   | {
       subtype: StaticFieldType.Checklist
-      title?: string
+      checklistDescription?: string
       checklist: Array<Checklist>
     }
 )
@@ -76,24 +74,23 @@ export const StaticField = (
 
   return props.formReadOnly ? null : (
     <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
-      {props.label ? (
-        <Label {...label} />
-      ) : (
-        <LabelWrapper {...getLabelStyle('wrapper')}>
-          <br />
-        </LabelWrapper>
-      )}
+      {props.label ? <Label {...label} /> : <Label label={() => ''} />}
 
       <StaticWrapper {...getCSSStyle('wrapper')}>
-        {props.title && (
-          <P label={props.title} localeNamespace={props.localeNamespace} {...getCSSStyle('title')} />
-        )}
-
         {props.subtype === StaticFieldType.Text && (
           <P label={props.text} localeNamespace={props.localeNamespace} {...getCSSStyle('text')} />
         )}
         {props.subtype === StaticFieldType.Checklist && (
-          <StaticChecklist list={props.checklist} localeNamespace={props.localeNamespace} />
+          <>
+            {props.checklistDescription && (
+              <P
+                label={props.checklistDescription}
+                localeNamespace={props.localeNamespace}
+                {...getCSSStyle('title')}
+              />
+            )}
+            <StaticChecklist list={props.checklist} localeNamespace={props.localeNamespace} />
+          </>
         )}
         {props.subtype === StaticFieldType.Button && (
           <Button
