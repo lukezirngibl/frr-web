@@ -8,15 +8,10 @@ import {
 
 type Fn<T, V> = (i: SingleFormField<T>) => V
 
-const processFormFieldRow = <T, V>(
-  a: Array<SingleFormField<T>>,
-  func: Fn<T, V>,
-): Array<V> => a.map((j) => func(j))
+const processFormFieldRow = <T, V>(a: Array<SingleFormField<T>>, func: Fn<T, V>): Array<V> =>
+  a.map((j) => func(j))
 
-const processFormFieldGroup = <T, V>(
-  group: FormFieldGroup<T>,
-  func: Fn<T, V>,
-): Array<V> =>
+const processFormFieldGroup = <T, V>(group: FormFieldGroup<T>, func: Fn<T, V>): Array<V> =>
   group.fields.reduce((values, field) => {
     let newValues = []
     if (Array.isArray(field)) {
@@ -32,10 +27,7 @@ const processFormFieldGroup = <T, V>(
     return [...values, ...newValues]
   }, [] as Array<V>)
 
-const processFormSectionFields = <T, V>(
-  fields: InternalSectionFields<T>,
-  func: Fn<T, V>,
-): Array<V> =>
+const processFormSectionFields = <T, V>(fields: InternalSectionFields<T>, func: Fn<T, V>): Array<V> =>
   fields.reduce((values, field) => {
     let newValues = []
     if (Array.isArray(field)) {
@@ -53,10 +45,7 @@ const processFormSectionFields = <T, V>(
     return [...values, ...newValues]
   }, [] as Array<V>)
 
-export const mapFormFields = <T, V>(
-  formFields: Array<InternalFormField<T>>,
-  func: Fn<T, V>,
-): Array<V> =>
+export const mapFormFields = <T, V>(formFields: Array<InternalFormField<T>>, func: Fn<T, V>): Array<V> =>
   formFields.reduce((values: Array<V>, field: InternalFormField<T>) => {
     let newValues = []
     if (Array.isArray(field)) {

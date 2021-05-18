@@ -31,10 +31,7 @@ export const FieldMultiInput = <FormData extends {}>({
   // Form styles
   const theme = useFormTheme()
 
-  const getFieldMultiInputStyle = useInlineStyle(
-    theme,
-    'fieldMultiInput',
-  )({ item: field.itemStyle })
+  const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
   const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
 
@@ -63,11 +60,7 @@ export const FieldMultiInput = <FormData extends {}>({
 
   if (formReadOnly) {
     return (
-      <FieldRowWrapper
-        key={`row-${fieldIndex}`}
-        {...getCssRowStyle('wrapper')}
-        readOnly={formReadOnly}
-      >
+      <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
         <FieldItemReadOnly
           {...commonFieldProps}
           field={field as MultiInputField<FormData>}
@@ -78,17 +71,11 @@ export const FieldMultiInput = <FormData extends {}>({
   }
 
   return (
-    <FieldRowWrapper
-      key={`row-${fieldIndex}`}
-      {...getCssRowStyle('wrapper')}
-      readOnly={formReadOnly}
-    >
+    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
       <FieldScrollableWrapper
         key={`field-${fieldIndex}`}
         isScrollToError={
-          field.fields.findIndex(
-            (fieldItem) => fieldItem.lens.id() === errorFieldId,
-          ) !== -1
+          field.fields.findIndex((fieldItem) => fieldItem.lens.id() === errorFieldId) !== -1
         }
         {...getRowStyle('item')}
       >
@@ -101,10 +88,7 @@ export const FieldMultiInput = <FormData extends {}>({
           />
         )}
 
-        <WrapperItem
-          {...getFieldMultiInputStyle('item')}
-          key={`field-mulit-input-${fieldIndex}`}
-        >
+        <WrapperItem {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${fieldIndex}`}>
           {field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}

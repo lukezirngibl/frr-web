@@ -76,9 +76,7 @@ export const Label = (props: LabelProps) => {
   const [open, setOpen] = React.useState(false)
 
   // Error
-  const errorLabels = Array.isArray(props.errorLabel)
-    ? props.errorLabel
-    : [props.errorLabel]
+  const errorLabels = Array.isArray(props.errorLabel) ? props.errorLabel : [props.errorLabel]
 
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
@@ -115,10 +113,7 @@ export const Label = (props: LabelProps) => {
 
         {open && props.description && (
           <ClickAwayListener onClickAway={() => setOpen(false)}>
-            <DescriptionPopup
-              onClick={() => setOpen(false)}
-              {...getCSSStyle('descriptionPopup')}
-            >
+            <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyle('descriptionPopup')}>
               <P
                 {...getCSSStyle('descriptionText')}
                 label={props.description}

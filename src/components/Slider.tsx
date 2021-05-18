@@ -117,19 +117,14 @@ export const Slider = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
-  const MaterialSlider = React.useMemo(
-    () => createSlider(theme.materialSlider),
-    [theme],
-  ) as any
+  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
   const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
 
   const labelStyle = getInlineStyles('label')
   return (
     <div style={{ width: '100%' }}>
-      {props.label && (
-        <Label {...props.label} style={{ wrapper: labelStyle.style }} />
-      )}
+      {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <SliderWrapper {...getCSSStyles('wrapper')}>
         <ValueWrapper
           {...getCSSStyles('valueWrapper', {
@@ -137,11 +132,7 @@ export const Slider = (props: Props) => {
           })}
         >
           {prefix && (
-            <P
-              label={prefix}
-              localeNamespace={props.localeNamespace}
-              {...getCSSStyles('prefix')}
-            />
+            <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
           )}
           <ValueText {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}

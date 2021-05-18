@@ -73,6 +73,7 @@ export const StaticField = (
   const getLabelStyle = useAppCSSSTyles(appTheme, 'label')({})
 
   const label = { localeNamespace: props.localeNamespace, ...props.label }
+
   return props.formReadOnly ? null : (
     <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
       {props.label ? (

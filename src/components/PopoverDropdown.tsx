@@ -5,10 +5,7 @@ import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
-import {
-  PopoverWithItems,
-  Props as PopoverWithItemsProps,
-} from './PopoverWithItems'
+import { PopoverWithItems, Props as PopoverWithItemsProps } from './PopoverWithItems'
 
 const DrodownSelector = createStyled('div')
 
@@ -48,13 +45,7 @@ export const PopoverDropdown = (props: Props) => {
                 localeNamespace={props.localeNamespace}
                 {...getCSSStyles(['label'])}
               />
-              {props.hasIcon && (
-                <Icon
-                  icon="expand_more"
-                  size={18}
-                  {...getInlineStyle(['icon'])}
-                />
-              )}
+              {props.hasIcon && <Icon icon="expand_more" size={18} {...getInlineStyle(['icon'])} />}
             </>
           )}
         </DrodownSelector>

@@ -56,7 +56,7 @@ export const Search = (props: Props) => {
       <SearchBar
         value={value}
         placeholder={props.placeholder}
-        onChange={e => {
+        onChange={(e) => {
           setValue(e.target.value)
           // @ts-ignore
           onChange(e.target.value)

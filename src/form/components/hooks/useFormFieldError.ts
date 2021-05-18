@@ -21,10 +21,7 @@ export const computeFieldError = <FormData>({
   value = typeof value === 'string' ? value.trim() : value
 
   if (isRequired && (value === '' || value === null || value === undefined)) {
-    if (
-      field.type === FormFieldType.FormattedDatePicker ||
-      field.type === FormFieldType.DatePicker
-    ) {
+    if (field.type === FormFieldType.FormattedDatePicker || field.type === FormFieldType.DatePicker) {
       error = 'formFields.error.invalidDate'
     } else {
       error = 'formFields.error.fieldRequired'
@@ -82,11 +79,7 @@ export const useFormFieldError = <FormData>({
   return fieldError.error
 }
 
-export const useFormFieldErrors = ({
-  errors,
-}: {
-  errors: Array<FieldError>
-}): Array<string> => {
+export const useFormFieldErrors = ({ errors }: { errors: Array<FieldError> }): Array<string> => {
   const [error, setError] = useState([])
   useEffect(() => {
     const errorLabels = new Set(errors.map((error) => error.error))

@@ -11,9 +11,7 @@ export type Props = {
 
 export const FormattedDatePicker = (props: Props) => {
   const { onChange, onBlur, value, dateFormat, ...otherProps } = props
-  const val: Date = props.value
-    ? parse(props.value, props.dateFormat, new Date())
-    : null
+  const val: Date = props.value ? parse(props.value, props.dateFormat, new Date()) : null
 
   return (
     <DatePicker

@@ -56,10 +56,7 @@ export const Link = (props: LinkProps) => {
   return (
     <LinkWrapper onClick={props.onClick} {...props.style}>
       {icon?.style.svg && (
-        <LinkIcon
-          dangerouslySetInnerHTML={{ __html: icon.style.svg }}
-          {...props.icon.style}
-        />
+        <LinkIcon dangerouslySetInnerHTML={{ __html: icon.style.svg }} {...props.icon.style} />
       )}
       {props.label && <LinkText>{translate(props.label)}</LinkText>}
     </LinkWrapper>

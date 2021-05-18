@@ -13,9 +13,7 @@ export type Options<Value> = Array<{
   isLabelTranslated?: boolean
 }>
 
-export type LabelText =
-  | string
-  | ((params: { translate: Translate }) => string | ReactNode)
+export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
 
 type Props = {
   cssStyles?: string
@@ -45,33 +43,16 @@ const HtmlElements = {
   a: createStyled('a'),
 }
 
-export const injectDataIntoText = (
-  str: any,
-  data: Record<string, string>,
-): string =>
+export const injectDataIntoText = (str: any, data: Record<string, string>): string =>
   str > ''
-    ? Object.keys(data || {}).reduce(
-        (s, k) => s.replace(`{{${k}}}`, data[k]),
-        str,
-      )
+    ? Object.keys(data || {}).reduce((s, k) => s.replace(`{{${k}}}`, data[k]), str)
     : Object.keys(data || {})
         .map((key) => `${data[key]}`)
         .join(', ')
 
 export const Element = (
   props: Props & {
-    element:
-      | 'button'
-      | 'h1'
-      | 'h2'
-      | 'h3'
-      | 'h4'
-      | 'h5'
-      | 'h6'
-      | 'li'
-      | 'option'
-      | 'p'
-      | 'a'
+    element: 'button' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'option' | 'p' | 'a'
   },
 ) => {
   const {
@@ -136,10 +117,6 @@ export const H4 = (props: Props) => <Element {...props} element={'h4'} />
 export const H5 = (props: Props) => <Element {...props} element={'h5'} />
 export const H6 = (props: Props) => <Element {...props} element={'h6'} />
 export const Li = (props: Props) => <Element {...props} element={'li'} />
-export const Option = (props: Props) => (
-  <Element {...props} element={'option'} />
-)
+export const Option = (props: Props) => <Element {...props} element={'option'} />
 export const P = (props: Props) => <Element {...props} element={'p'} />
-export const button = (props: Props) => (
-  <Element {...props} element={'button'} />
-)
+export const button = (props: Props) => <Element {...props} element={'button'} />

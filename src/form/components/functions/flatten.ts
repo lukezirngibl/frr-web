@@ -67,7 +67,6 @@ export const flatten = <T>(formFields: Array<FormField<T>>, data: T): Array<Sing
       array = [...array, ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], [])]
     } else if (f.type === FormFieldType.FormFieldRepeatSection) {
       const sections = processRepeatSection(f, data, (v) => v)
-
       array = [...array, ...sections.reduce((acc, s) => [...acc, ...processFormSection(s, data)], [])]
     } else {
       array = [...array, f]

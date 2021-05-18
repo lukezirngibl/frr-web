@@ -5,12 +5,7 @@ import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
-import {
-  CommonThreadProps,
-  FormFieldGroup,
-  FormFieldType,
-  GroupField,
-} from './types'
+import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 import { StaticField } from './StaticField'
 
 const GroupWrapper = createStyled('div')
@@ -20,9 +15,7 @@ type FieldGroup<FormData> = CommonThreadProps<FormData> & {
 }
 
 // ------------------------------------
-export const FieldGroup = <FormData extends {}>(
-  props: FieldGroup<FormData>,
-) => {
+export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => {
   const {
     data,
     field: fieldGroup,
@@ -44,10 +37,7 @@ export const FieldGroup = <FormData extends {}>(
     ...otherProps,
   }
 
-  const renderGroupField = (
-    field: GroupField<FormData>,
-    fieldIndex: number,
-  ) => {
+  const renderGroupField = (field: GroupField<FormData>, fieldIndex: number) => {
     if (Array.isArray(field)) {
       return (
         <FieldRow
@@ -93,32 +83,19 @@ export const FieldGroup = <FormData extends {}>(
   }
   return (
     <GroupWrapper
-      key={
-        typeof fieldGroupIndex === 'string'
-          ? fieldGroupIndex
-          : `group-${fieldGroupIndex}`
-      }
-      {...getCSSStyle(
-        'wrapper',
-        fieldGroup.style ? fieldGroup.style.wrapper || {} : {},
-      )}
+      key={typeof fieldGroupIndex === 'string' ? fieldGroupIndex : `group-${fieldGroupIndex}`}
+      {...getCSSStyle('wrapper', fieldGroup.style ? fieldGroup.style.wrapper || {} : {})}
     >
       {fieldGroup.title && (
         <P
-          {...getCSSStyle(
-            'title',
-            fieldGroup.style ? fieldGroup.style.title || {} : {},
-          )}
+          {...getCSSStyle('title', fieldGroup.style ? fieldGroup.style.title || {} : {})}
           label={fieldGroup.title}
           localeNamespace={localeNamespace}
         />
       )}
       {fieldGroup.description && (
         <P
-          {...getCSSStyle(
-            'description',
-            fieldGroup.style ? fieldGroup.style.description || {} : {},
-          )}
+          {...getCSSStyle('description', fieldGroup.style ? fieldGroup.style.description || {} : {})}
           label={fieldGroup.description}
           localeNamespace={localeNamespace}
         />
