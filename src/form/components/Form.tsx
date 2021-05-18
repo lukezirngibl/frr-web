@@ -3,6 +3,7 @@ import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FormTheme, useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
@@ -94,15 +95,15 @@ export const Form = <FormData extends {}>({
   renderTopChildren,
   style,
 }: FormProps<FormData>) => {
+  const { t: translate } = useTranslation(localeNamespace)
   const dispatch = useDispatch()
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
 
   const [showValidation, setShowValidation] = React.useState(false)
 
-  const hiddenFormFields = flatten(filterByHidden(data)(formFields), data)
-  // const visibleFormFields = filterByVisible(data)(formFields)
-
+  const hiddenFormFields = flatten(filterByHidden(data, translate)(formFields), data)
+  const visibleFormFields = filterByVisible(data, translate)(formFields)
   const changedRepeatFields = filterChangedRepeatFormFields(data, formFields)
 
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
@@ -113,16 +114,11 @@ export const Form = <FormData extends {}>({
     }
   }
 
-  console.log('FORM DATA - DEBTS', JSON.stringify((data as any).customer.financials.debts, null, 2))
-  console.log('HIDDEN FIELDS', hiddenFormFields)
-
   useEffect(() => {
     hiddenFormFields.forEach((f) => {
       const v = f.lens.get(data)
       if (v !== null) {
         internalOnChange(f.lens, null)
-      } else if (f.type === FormFieldType.NumberSelect) {
-        internalOnChange(f.lens, 0)
       }
     })
   }, [hiddenFormFields])
@@ -152,9 +148,9 @@ export const Form = <FormData extends {}>({
     if (disableValidation) {
       onSubmit({ dispatch, formState: data })
     } else {
-      const errors = [] /* mapFormFields(visibleFormFields, getFieldError).filter(
+      const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
-      ) */
+      )
 
       if (errors.length > 0) {
         setErrorFieldId(errors[0].fieldId)
@@ -249,8 +245,8 @@ export const Form = <FormData extends {}>({
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>
-        {formFields.map(renderField)}
-        {/* visibleFormFields.map(renderField) */}
+        {/* formFields.map(renderField) */}
+        {visibleFormFields.map(renderField)}
       </FormContent>
 
       {renderBottomChildren && renderBottomChildren(data)}
