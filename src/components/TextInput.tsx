@@ -58,13 +58,8 @@ export const TextInput = (props: Props) => {
     return () => clearTimeout(timerId)
   }, [props.hasFocus])
 
-  const value =
-    (props.proccessValue
-      ? props.proccessValue(internalValue)
-      : internalValue) || ''
-  const placeholder = props.placeholder
-    ? translate(props.placeholder)
-    : undefined
+  const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
+  const placeholder = props.placeholder ? translate(props.placeholder) : undefined
 
   return (
     <>
@@ -89,9 +84,7 @@ export const TextInput = (props: Props) => {
             errorHook: props.error,
           })}
         />
-        {props.prefix && (
-          <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>
-        )}
+        {props.prefix && <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>}
         <Input
           {...getCSSStyle({
             input: true,

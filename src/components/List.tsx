@@ -77,22 +77,14 @@ export const List = (props: Props) => {
           <div key={k}>
             <ListItem>
               {p.count !== undefined && <Count>{p.count}</Count>}
-              {p.price !== undefined && (
-                <Price>${p.price.toLocaleString()}</Price>
-              )}
-              {p.percentage !== undefined && (
-                <Percentage>{p.percentage}%</Percentage>
-              )}
+              {p.price !== undefined && <Price>${p.price.toLocaleString()}</Price>}
+              {p.percentage !== undefined && <Percentage>{p.percentage}%</Percentage>}
               {p.name && <Name>{p.name}</Name>}
             </ListItem>
             {p.subItems &&
               p.subItems.map((i, ik) => (
                 <ListItem key={ik} style={{ height: 28, paddingLeft: 48 }}>
-                  <Count
-                    style={{ fontWeight: 400, opacity: 0.7, fontSize: 11 }}
-                  >
-                    {i.count}
-                  </Count>
+                  <Count style={{ fontWeight: 400, opacity: 0.7, fontSize: 11 }}>{i.count}</Count>
                   <Name style={{ fontSize: 10 }}>{i.label}</Name>
                 </ListItem>
               ))}

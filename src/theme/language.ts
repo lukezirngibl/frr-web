@@ -23,5 +23,3 @@ export const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.FR]: fr,
   [Language.IT]: it,
 }
-
-

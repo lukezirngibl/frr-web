@@ -81,7 +81,7 @@ const PersonForm = (props: { person: Person }) => (
   <Form<Person, any>
     formFields={personFormFields}
     data={props.person}
-    onChange={p => {
+    onChange={(p) => {
       // add update function
     }}
   />

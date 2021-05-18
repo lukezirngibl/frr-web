@@ -43,11 +43,7 @@ export const StaticChecklist = (props: Props) => {
     <>
       <Container {...getCSSStyles('wrapper')}>
         {props.title && (
-          <P
-            label={props.title}
-            localeNamespace={props.localeNamespace}
-            {...getCSSStyles('title')}
-          />
+          <P label={props.title} localeNamespace={props.localeNamespace} {...getCSSStyles('title')} />
         )}
         {props.description && (
           <P
@@ -59,9 +55,7 @@ export const StaticChecklist = (props: Props) => {
         <Container {...getCSSStyles('listsWrapper')}>
           {props.list.map((l, k1) => (
             <Container key={k1} {...getCSSStyles('list')}>
-              {l.title && (
-                <P label={l.title} localeNamespace={props.localeNamespace} />
-              )}
+              {l.title && <P label={l.title} localeNamespace={props.localeNamespace} />}
               <Container {...getCSSStyles('itemsList')}>
                 {l.items.map((i, k2) => (
                   <Container key={k2} {...getCSSStyles('item')}>

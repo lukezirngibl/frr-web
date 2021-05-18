@@ -12,9 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 type Props = {
-  trigger: (props: {
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
-  }) => React.ReactNode
+  trigger: (props: { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => React.ReactNode
   render: (p: { close: () => void }) => React.ReactNode
   style?: CSSProperties
   onClose?: () => void

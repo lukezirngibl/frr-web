@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 
-const Wrapper =  createStyled('div')
+const Wrapper = createStyled('div')
 
 export type Props = {
   onChange: (value: boolean) => void
@@ -25,12 +25,7 @@ export const SingleCheckbox = (props: Props) => {
   const inputStyle = getInlineStyle('input', { marginLeft: 16 })
   return (
     <>
-      {props.label && (
-        <Label
-          style={{ wrapper: { marginBottom: 0 } }}
-          {...props.label}
-        ></Label>
-      )}
+      {props.label && <Label style={{ wrapper: { marginBottom: 0 } }} {...props.label}></Label>}
       <Wrapper {...getCSSStyles('wrapper')}>
         <input
           type="checkbox"

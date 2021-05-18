@@ -10,13 +10,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
-import {
-  CommonThreadProps,
-  fieldMap,
-  FormFieldType,
-  MultiInputField,
-  SingleFormField,
-} from './types'
+import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
 
 /*
  * Value mapper
@@ -37,32 +31,19 @@ type MapperParams<T> = {
   language?: Language
 }
 
-const defaultStringNumberMapper = ({
-  value,
-  prefix,
-}: MapperParams<string | number | null>): string =>
+const defaultStringNumberMapper = ({ value, prefix }: MapperParams<string | number | null>): string =>
   `${prefix > '' ? `${prefix} ` : ''} ${value ? `${value}` : ''}`
 
-const defaultCountryMapper = ({
-  value,
-  translate,
-}: MapperParams<string | null>): string =>
+const defaultCountryMapper = ({ value, translate }: MapperParams<string | null>): string =>
   value > '' ? translate(`country.${value.toLowerCase()}`) : ''
 
-const defaultDateStringMapper = ({
-  value,
-  language,
-}: MapperParams<string | null>): string => {
+const defaultDateStringMapper = ({ value, language }: MapperParams<string | null>): string => {
   const locale = mapLanguageToLocale[language]
-  return value && isValid(new Date(value))
-    ? format(new Date(value), 'dd.MM.yyyy', { locale })
-    : ''
+  return value && isValid(new Date(value)) ? format(new Date(value), 'dd.MM.yyyy', { locale }) : ''
 }
 
-const defaultBooleanMapper = ({
-  value,
-  translate,
-}: MapperParams<boolean>): string => translate(value ? 'yes' : 'no')
+const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): string =>
+  translate(value ? 'yes' : 'no')
 
 const defaultCurrencyMapper = ({ value }: MapperParams<number>): string =>
   formatter.long.format(value || 0)
@@ -90,10 +71,9 @@ const defaultOptionMapper = (
     options: Array<{ label?: string; value: string }>
   },
 ): string => {
-  return findFirst(
-    params.options,
-    (option) => option.value === params.value,
-  ).fold('', (option) => params.translate(option.label))
+  return findFirst(params.options, (option) => option.value === params.value).fold('', (option) =>
+    params.translate(option.label),
+  )
 }
 
 const defaultReadOnlyMappers: {
@@ -115,9 +95,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.CountrySelect]: defaultCountryMapper,
   [FormFieldType.CurrencyInput]: defaultCurrencyMapper,
   [FormFieldType.DatePicker]: (v) =>
-    !!v
-      ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] })
-      : '',
+    !!v ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,
   [FormFieldType.FormFieldGroup]: () => '',
   [FormFieldType.FormFieldRepeatGroup]: () => '',
@@ -181,25 +159,17 @@ type FieldItemReadOnlyValueProps<FormData> = {
   localeNamespace?: LocaleNamespace
 }
 
-const FieldItemReadOnlyValue = <FormData extends {}>(
-  props: FieldItemReadOnlyValueProps<FormData>,
-) => {
+const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyValueProps<FormData>) => {
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
   const readOnlyStyle: Array<'value' | 'valueHighlighted'> = ['value']
 
-  const readOnlyMapper =
-    props.field.readOnlyMapper || defaultReadOnlyMappers[props.field.type]
+  const readOnlyMapper = props.field.readOnlyMapper || defaultReadOnlyMappers[props.field.type]
 
-  props.field.readOnlyOptions?.isHighlighted &&
-    readOnlyStyle.push('valueHighlighted')
+  props.field.readOnlyOptions?.isHighlighted && readOnlyStyle.push('valueHighlighted')
 
   return props.field.readOnlyOptions?.image ? (
-    <Image
-      src={props.field.readOnlyOptions.image}
-      alt="value image"
-      {...props.getFieldStyle('image')}
-    />
+    <Image src={props.field.readOnlyOptions.image} alt="value image" {...props.getFieldStyle('image')} />
   ) : (
     <P
       {...props.getFieldStyle(readOnlyStyle)}
@@ -226,9 +196,7 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   width?: number
 }
 
-export const FieldItemReadOnly = <FormData extends {}>(
-  props: FieldItemReadOnlyProps<FormData>,
-) => {
+export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyProps<FormData>) => {
   const theme = useFormTheme()
   const getRowStyle = useCSSStyles(theme, 'row')({})
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')({})

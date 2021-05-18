@@ -1,9 +1,8 @@
 import { Options } from './html'
 import { Translate } from './translation'
 
-export const keys = <A extends Record<string, unknown>, K extends keyof A>(
-  x: A,
-): Array<K> => Object.keys(x) as Array<K>
+export const keys = <A extends Record<string, unknown>, K extends keyof A>(x: A): Array<K> =>
+  Object.keys(x) as Array<K>
 
 // @ts-ignore
 export const processOptions = (

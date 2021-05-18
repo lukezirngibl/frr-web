@@ -59,31 +59,19 @@ export const StaticField = (
 
   const label = { localeNamespace: props.localeNamespace, ...props.label }
   return (
-    <FieldRowWrapper
-      key={`row-${props.fieldIndex}`}
-      {...getRowStyle('wrapper')}
-    >
+    <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
       {props.label && <Label {...label} />}
       <StaticWrapper {...getCSSStyle('wrapper')}>
         {props.subtype === StaticFieldType.Text && (
-          <P
-            label={props.text}
-            localeNamespace={props.localeNamespace}
-            {...getCSSStyle('text')}
-          />
+          <P label={props.text} localeNamespace={props.localeNamespace} {...getCSSStyle('text')} />
         )}
         {props.subtype === StaticFieldType.Checklist && (
-          <StaticChecklist
-            list={props.checklist}
-            localeNamespace={props.localeNamespace}
-          />
+          <StaticChecklist list={props.checklist} localeNamespace={props.localeNamespace} />
         )}
         {props.subtype === StaticFieldType.Button && (
           <Button
             {...props.button}
-            override={
-              getInlineStyle(['button'], props.button.override || {}).style
-            }
+            override={getInlineStyle(['button'], props.button.override || {}).style}
           />
         )}
       </StaticWrapper>

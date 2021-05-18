@@ -17,7 +17,7 @@ export const NumberInput = (props: Props) => {
     <TextInput
       {...otherProps}
       value={`${value}`}
-      onChange={v => {
+      onChange={(v) => {
         onChange(Number(v))
       }}
       inputType="number"

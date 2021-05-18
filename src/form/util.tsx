@@ -31,7 +31,7 @@ export interface LensFromPath<S> {
     K2 extends keyof S[K1],
     K3 extends keyof S[K1][K2],
     K4 extends keyof S[K1][K2][K3],
-    K5 extends keyof S[K1][K2][K3][K4]
+    K5 extends keyof S[K1][K2][K3][K4],
   >(
     path: [K1, K2, K3, K4, K5],
   ): FormLens<S, S[K1][K2][K3][K4][K5]>
@@ -39,17 +39,15 @@ export interface LensFromPath<S> {
     K1 extends keyof S,
     K2 extends keyof S[K1],
     K3 extends keyof S[K1][K2],
-    K4 extends keyof S[K1][K2][K3]
+    K4 extends keyof S[K1][K2][K3],
   >(
     path: [K1, K2, K3, K4],
   ): FormLens<S, S[K1][K2][K3][K4]>
-  <K1 extends keyof S, K2 extends keyof S[K1], K3 extends keyof S[K1][K2]>(
-    path: [K1, K2, K3],
-  ): FormLens<S, S[K1][K2][K3]>
-  <K1 extends keyof S, K2 extends keyof S[K1]>(path: [K1, K2]): FormLens<
+  <K1 extends keyof S, K2 extends keyof S[K1], K3 extends keyof S[K1][K2]>(path: [K1, K2, K3]): FormLens<
     S,
-    S[K1][K2]
+    S[K1][K2][K3]
   >
+  <K1 extends keyof S, K2 extends keyof S[K1]>(path: [K1, K2]): FormLens<S, S[K1][K2]>
   <K1 extends keyof S>(path: [K1]): FormLens<S, S[K1]>
 }
 
@@ -74,17 +72,10 @@ export const createItemLens = (arrayLens: any, index: number) =>
       ),
     )
 
-export const updateArrayAtIndex = <T extends {}>(
-  array: Array<T>,
-  index: number,
-  item: T,
-): Array<T> => {
+export const updateArrayAtIndex = <T extends {}>(array: Array<T>, index: number, item: T): Array<T> => {
   let filled = array
   if (index > array.length - 1) {
-    filled = [
-      ...array,
-      ...range(array.length, index).map((i) => ({})),
-    ] as Array<T>
+    filled = [...array, ...range(array.length, index).map((i) => ({}))] as Array<T>
   }
   return [...filled.slice(0, index), item, ...filled.slice(index + 1)]
 }
@@ -105,11 +96,7 @@ export const createFakeFormLens = (
     set: (v: any) => (data: any) => {
       const o: any = arrayLens.get(data)
       const i: any = (itemLens.getOption(data) as any).getOrElse({})
-      const newArray = updateArrayAtIndex(
-        o,
-        index,
-        lens.set(v)({ ...(i || {}) }),
-      )
+      const newArray = updateArrayAtIndex(o, index, lens.set(v)({ ...(i || {}) }))
       return arrayLens.set(newArray)(data)
     },
   }
@@ -132,11 +119,7 @@ export const processRepeatGroup = <FormData extends {}>(
       } else {
         return {
           ...repeatGroup,
-          lens: createFakeFormLens(
-            fieldRepeatGroup.lens,
-            index,
-            repeatGroup.lens,
-          ),
+          lens: createFakeFormLens(fieldRepeatGroup.lens, index, repeatGroup.lens),
         }
       }
     }),
@@ -171,11 +154,7 @@ export const processRepeatSection = <FormData extends {}>(
         } else {
           return {
             ...repeatSectionField,
-            lens: createFakeFormLens(
-              fieldRepeatSection.lens,
-              index,
-              repeatSectionField.lens,
-            ),
+            lens: createFakeFormLens(fieldRepeatSection.lens, index, repeatSectionField.lens),
           }
         }
       }),

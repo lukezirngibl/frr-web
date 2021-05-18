@@ -1,18 +1,12 @@
 import { format, isValid, parse } from 'date-fns'
 import React from 'react'
 import ClickAwayListener from 'react-click-away-listener'
-import ReactDatePicker, {
-  ReactDatePickerProps,
-  registerLocale
-} from 'react-datepicker'
+import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
-import {
-  mapLanguageToLocale,
-  mapLanguageToLocaleString
-} from '../theme/language'
+import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -74,9 +68,7 @@ const DatePickerCalendarWrapper = styled.div`
 export type Props = {
   dataTestId?: string
   dateFormat?: string
-  datePickerProps?: Partial<
-    Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>
-  >
+  datePickerProps?: Partial<Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>>
   error?: boolean
   hasFocus?: boolean
   label?: LabelProps
@@ -92,18 +84,9 @@ export const DatePicker = (props: Props) => {
   const theme = useAppTheme()
   const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
 
-  const styleIconWrapper = getStyle(
-    'iconWrapper',
-    props.error ? getStyle('errorWrapper').style : {},
-  )
-  const styleIconHook1 = getStyle(
-    'hook1',
-    props.error ? getStyle('errorHook').style : {},
-  )
-  const styleIconHook2 = getStyle(
-    'hook2',
-    props.error ? getStyle('errorHook').style : {},
-  )
+  const styleIconWrapper = getStyle('iconWrapper', props.error ? getStyle('errorWrapper').style : {})
+  const styleIconHook1 = getStyle('hook1', props.error ? getStyle('errorHook').style : {})
+  const styleIconHook2 = getStyle('hook2', props.error ? getStyle('errorHook').style : {})
 
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
@@ -116,10 +99,7 @@ export const DatePicker = (props: Props) => {
   const { isMobileTouch } = useMobileTouch()
 
   React.useEffect(() => {
-    registerLocale(
-      mapLanguageToLocaleString[language],
-      mapLanguageToLocale[language],
-    )
+    registerLocale(mapLanguageToLocaleString[language], mapLanguageToLocale[language])
   }, [language])
 
   const [open, setOpen] = React.useState(false)
@@ -157,9 +137,7 @@ export const DatePicker = (props: Props) => {
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
-                    const dateValue = parse(v, 'dd.MM.yyyy', new Date()) as
-                      | Date
-                      | 'Invalid Date'
+                    const dateValue = parse(v, 'dd.MM.yyyy', new Date()) as Date | 'Invalid Date'
 
                     if (dateValue == 'Invalid Date') {
                       throw 'Invalid Date'
@@ -167,11 +145,9 @@ export const DatePicker = (props: Props) => {
 
                     props.onBlur(dateValue as Date)
                   } catch (err) {
-                    const testValue = parse(
-                      v,
-                      props.dateFormat || 'yyyy-MM-dd',
-                      new Date(),
-                    ) as Date | 'Invalid Date'
+                    const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
+                      | Date
+                      | 'Invalid Date'
 
                     if (testValue !== 'Invalid Date') {
                       props.onBlur(testValue as Date)
@@ -184,11 +160,7 @@ export const DatePicker = (props: Props) => {
                 inputType={'text'}
                 localeNamespace={props.localeNamespace}
                 placeholder={'dateFormatPlaceholder'}
-                value={
-                  isValid(props.value)
-                    ? format(props.value, 'dd.MM.yyyy')
-                    : null
-                }
+                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
               />
 

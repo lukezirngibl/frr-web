@@ -59,10 +59,7 @@ export const FieldSection = <FormData extends {}>({
     style,
   }
 
-  const renderSectionField = (
-    field: InternalSectionField<FormData>,
-    fieldIndex: number,
-  ) => {
+  const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {
     if (Array.isArray(field)) {
       return (
         <FieldRow
@@ -97,13 +94,7 @@ export const FieldSection = <FormData extends {}>({
         )
 
       case FormFieldType.Static:
-        return (
-          <StaticField
-            {...field}
-            fieldIndex={fieldIndex}
-            key={`field-${fieldIndex}`}
-          />
-        )
+        return <StaticField {...field} fieldIndex={fieldIndex} key={`field-${fieldIndex}`} />
 
       default:
         return (
@@ -121,20 +112,13 @@ export const FieldSection = <FormData extends {}>({
   return (
     <>
       <Container
-        key={
-          typeof fieldSectionIndex === 'string'
-            ? fieldSectionIndex
-            : `section-${fieldSectionIndex}`
-        }
+        key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
         readOnly={formReadOnly}
         {...getSectionStyle('wrapper', fieldSection.style?.wrapper || {})}
       >
         {!formReadOnly && fieldSection.introduction && (
           <P
-            {...getSectionStyle(
-              'introduction',
-              fieldSection.style?.introduction || {},
-            )}
+            {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
             readOnly={formReadOnly}
             label={fieldSection.introduction}
             localeNamespace={localeNamespace}
@@ -143,10 +127,7 @@ export const FieldSection = <FormData extends {}>({
 
         {formReadOnly && fieldSection.introductionReadOnly && (
           <P
-            {...getSectionStyle(
-              'introduction',
-              fieldSection.style?.introduction || {},
-            )}
+            {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
             readOnly={formReadOnly}
             label={fieldSection.introductionReadOnly}
             localeNamespace={localeNamespace}
@@ -177,10 +158,7 @@ export const FieldSection = <FormData extends {}>({
           </Container>
 
           {!!fieldSection.onEdit && (
-            <Container
-              {...getSectionRightStyle('wrapper')}
-              readOnly={formReadOnly}
-            >
+            <Container {...getSectionRightStyle('wrapper')} readOnly={formReadOnly}>
               <Link
                 icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
                 label={fieldSection.editLabel}
