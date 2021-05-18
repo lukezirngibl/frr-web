@@ -117,8 +117,6 @@ export const Form = <FormData extends {}>({
     }
   }
 
-  console.log('FORM DATA', JSON.stringify((data as any).customer.financials.debts, null, 2))
-
   useEffect(() => {
     hiddenFormFields.forEach((f) => {
       const v = f.lens.get(data)
