@@ -8,9 +8,7 @@ import {
 } from '../types'
 import { processRepeatGroup, processRepeatSection } from '../../util'
 
-const processFormFieldGroup = <T>(
-  g: FormFieldGroup<T>,
-): Array<SingleFormField<T>> => {
+const processFormFieldGroup = <T>(g: FormFieldGroup<T>): Array<SingleFormField<T>> => {
   let acc: Array<SingleFormField<T>> = []
   for (let f of g.fields) {
     if (Array.isArray(f)) {
@@ -27,10 +25,7 @@ const processFormFieldGroup = <T>(
   return acc
 }
 
-const processFormSectionFields = <T>(
-  fields: SectionFields<T>,
-  data: T,
-): Array<SingleFormField<T>> => {
+const processFormSectionFields = <T>(fields: SectionFields<T>, data: T): Array<SingleFormField<T>> => {
   let acc: Array<SingleFormField<T>> = []
   for (let f of fields) {
     if (Array.isArray(f)) {
@@ -39,10 +34,7 @@ const processFormSectionFields = <T>(
       acc = [...acc, ...processFormFieldGroup(f)]
     } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
       const groups = processRepeatGroup(f, data)
-      acc = [
-        ...acc,
-        ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], []),
-      ]
+      acc = [...acc, ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], [])]
     } else if (f.type === FormFieldType.MultiInput) {
       acc = [...acc, ...f.fields]
     } else if (f.type === FormFieldType.Static) {
@@ -54,15 +46,10 @@ const processFormSectionFields = <T>(
   return acc
 }
 
-const processFormSection = <T>(
-  s: FormSection<T>,
-  data: T,
-): Array<SingleFormField<T>> => processFormSectionFields(s.fields, data)
+const processFormSection = <T>(s: FormSection<T>, data: T): Array<SingleFormField<T>> =>
+  processFormSectionFields(s.fields, data)
 
-export const flatten = <T>(
-  formFields: Array<FormField<T>>,
-  data: T,
-): Array<SingleFormField<T>> => {
+export const flatten = <T>(formFields: Array<FormField<T>>, data: T): Array<SingleFormField<T>> => {
   let array: Array<SingleFormField<T>> = []
   for (let f of formFields) {
     if (Array.isArray(f)) {
@@ -77,19 +64,11 @@ export const flatten = <T>(
       array = array
     } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
       const groups = processRepeatGroup(f, data)
-      array = [
-        ...array,
-        ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], []),
-      ]
+      array = [...array, ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], [])]
     } else if (f.type === FormFieldType.FormFieldRepeatSection) {
       const sections = processRepeatSection(f, data, (v) => v)
-      array = [
-        ...array,
-        ...sections.reduce(
-          (acc, s) => [...acc, ...processFormSection(s, data)],
-          [],
-        ),
-      ]
+
+      array = [...array, ...sections.reduce((acc, s) => [...acc, ...processFormSection(s, data)], [])]
     } else {
       array = [...array, f]
     }
