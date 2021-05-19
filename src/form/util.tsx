@@ -132,6 +132,7 @@ export const processRepeatSection = <FormData extends {}>(
   translate: Translate,
 ) => {
   const length = fieldRepeatSection.length.get(data)
+
   return Array.from({
     length,
   }).map((_, index) => {
@@ -144,6 +145,7 @@ export const processRepeatSection = <FormData extends {}>(
     return {
       type: FormFieldType.FormSection,
       title,
+      isVisible: fieldRepeatSection.isVisible,
       editLabel: fieldRepeatSection.editLabel,
       onEdit: fieldRepeatSection.onEdit,
       fields: fieldRepeatSection.fields.map((repeatSectionField) => {

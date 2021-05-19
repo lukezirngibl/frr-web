@@ -94,7 +94,14 @@ export const FieldSection = <FormData extends {}>({
         )
 
       case FormFieldType.Static:
-        return <StaticField {...field} fieldIndex={fieldIndex} key={`field-${fieldIndex}`} />
+        return (
+          <StaticField
+            {...field}
+            fieldIndex={fieldIndex}
+            formReadOnly={formReadOnly}
+            key={`field-${fieldIndex}`}
+          />
+        )
 
       default:
         return (

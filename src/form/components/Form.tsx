@@ -1,9 +1,10 @@
+import React, { ReactNode, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
-import React, { ReactNode, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
 import { FormTheme, useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { FormLens, setScrolled } from '../util'
@@ -11,19 +12,22 @@ import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
+import { filterByHidden, filterByVisible } from './functions/filter.form'
+import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
+import { flatten } from './functions/flatten'
 import { mapFormFields } from './functions/map.form'
-import { filterByVisible, filterByHidden } from './functions/filter.form'
 import { computeFieldError } from './hooks/useFormFieldError'
+import { StaticField } from './StaticField'
 import {
   DisplayType,
   FieldError,
   FormField,
+  FormFieldRepeatGroup,
+  FormFieldRepeatSection,
   FormFieldType,
-  SingleFormField,
   InternalFormField,
+  SingleFormField,
 } from './types'
-import { StaticField } from './StaticField'
-import { flatten } from './functions/flatten'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -94,14 +98,16 @@ export const Form = <FormData extends {}>({
   renderTopChildren,
   style,
 }: FormProps<FormData>) => {
+  const { t: translate } = useTranslation(localeNamespace)
   const dispatch = useDispatch()
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
 
   const [showValidation, setShowValidation] = React.useState(false)
 
-  const hiddenFormFields = flatten(filterByHidden(data)(formFields), data)
-  const visibleFormFields = filterByVisible(data)(formFields)
+  const hiddenFormFields = flatten(filterByHidden({ data, formFields, translate }), data)
+  const visibleFormFields = filterByVisible({ data, formFields, translate })
+  const changedRepeatFields = filterChangedRepeatFormFields({ data, formFields, translate })
 
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
     if (onChangeWithLens) {
@@ -119,6 +125,12 @@ export const Form = <FormData extends {}>({
       }
     })
   }, [hiddenFormFields])
+
+  useEffect(() => {
+    changedRepeatFields.forEach((repeatSection) => {
+      internalOnChange(repeatSection.field.lens, repeatSection.value)
+    })
+  }, [changedRepeatFields])
 
   useEffect(() => {
     setShowValidation(false)
@@ -195,7 +207,14 @@ export const Form = <FormData extends {}>({
         )
 
       case FormFieldType.Static: {
-        return <StaticField {...field} fieldIndex={fieldIndex} key={`field-${fieldIndex}`} />
+        return (
+          <StaticField
+            {...field}
+            fieldIndex={fieldIndex}
+            formReadOnly={readOnly}
+            key={`field-${fieldIndex}`}
+          />
+        )
       }
 
       case FormFieldType.FormSection:
@@ -229,7 +248,7 @@ export const Form = <FormData extends {}>({
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>
-        {/* formFields.map(renderFormField) */}
+        {/* formFields.map(renderField) */}
         {visibleFormFields.map(renderField)}
       </FormContent>
 
