@@ -106,10 +106,17 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
   _value?: P['value']
 }
 
+type NullableAndUndefinabled<T> = T | null | undefined
+type NullableAndUndefinabledLens<FormData, T> =
+  | FormLens<FormData, T>
+  | FormLens<FormData, T | null>
+  | FormLens<FormData, T | undefined>
+  | FormLens<FormData, T | null | undefined>
+
 export type FileInputField<FormData> = FormInput<
-  File | null,
+  NullableAndUndefinabled<File>,
   FileInputProps,
-  FormLens<FormData, File | null>,
+  NullableAndUndefinabledLens<FormData, File>,
   FormFieldType.FileInput
 >
 
@@ -121,44 +128,44 @@ export type FormTextField<FormData> = FormInput<
 >
 
 export type OptionGroupField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   OptionGroupProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.OptionGroup
 >
 
 export type SliderField<FormData> = FormInput<
-  number | null,
+  NullableAndUndefinabled<number>,
   SliderProps,
-  FormLens<FormData, number>,
+  NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.Slider
 >
 
 export type ToggleField<FormData> = FormInput<
-  boolean | null,
+  NullableAndUndefinabled<boolean>,
   ToggleProps,
-  FormLens<FormData, boolean> | FormLens<FormData, boolean | null>,
+  NullableAndUndefinabledLens<FormData, boolean>,
   FormFieldType.Toggle
 >
 
 export type RadioGroupField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   RadioGroupProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.RadioGroup
 >
 
 export type CodeInputField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   CodeInputProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.CodeInput
 >
 
 export type CurrencyInputField<FormData> = FormInput<
-  number | null,
+  NullableAndUndefinabled<number>,
   CurrencyInputProps,
-  FormLens<FormData, number> | FormLens<FormData, number | null>,
+  NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.CurrencyInput
 >
 
@@ -170,16 +177,16 @@ export type MultiSelectField<FormData> = FormInput<
 >
 
 export type TextSelectField<FormData> = FormInput<
-  string | number | null,
+  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
   SelectProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.TextSelect
 >
 
 export type NumberSelectField<FormData> = FormInput<
-  string | number | null,
+  NullableAndUndefinabled<number> | NullableAndUndefinabled<string>,
   SelectProps,
-  FormLens<FormData, number> | FormLens<FormData, number | null>,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.NumberSelect
 >
 
@@ -191,64 +198,30 @@ export type SwitchField<FormData> = FormInput<
 >
 
 export type CountrySelectField<FormData> = FormInput<
-  string | number | null,
+  NullableAndUndefinabled<number> | NullableAndUndefinabled<string>,
   CountrySelectProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.CountrySelect
 >
 
-// export type CountryDropdownField<FormData> = FormInput<
-//   string | null,
-//   CountryDropdownProps,
-//   FormLens<FormData, string> | FormLens<FormData, string | null>,
-//   FormFieldType.CountryDropdown
-// >
-
-// export type InputWithDropdownField<FormData> = FormInput<
-//   string | null,
-//   InputWithDropdownProps,
-//   FormLens<FormData, string> | FormLens<FormData, string | null>,
-//   FormFieldType.InputWithDropdown
-// >
-
-// export type DropdownNumberField<FormData> = FormInput<
-//   number | null,
-//   DropdownNumberProps,
-//   FormLens<FormData, number> | FormLens<FormData, number | null>,
-//   FormFieldType.DropdownNumber
-// >
-// export type DropdownField<FormData> = FormInput<
-//   string | null,
-//   DropdownProps,
-//   FormLens<FormData, string> | FormLens<FormData, string | null>,
-//   FormFieldType.Dropdown
-// >
-
-// export type CheckboxGroupField<FormData> = FormInput<
-//   Array<string>,
-//   CheckboxGroupProps,
-//   FormLens<FormData, Array<string>>,
-//   FormFieldType.CheckboxGroup
-// >
-
 export type TextAreaField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   TextAreaProps,
-  FormLens<FormData, string>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextArea
 >
 
 export type TextNumberInputField<FormData> = FormInput<
-  number | null,
+  NullableAndUndefinabled<number>,
   TextNumberInputProps,
-  FormLens<FormData, number>,
+  NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.TextNumber
 >
 
 export type TextInputField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   TextInputProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextInput
 >
 
@@ -258,37 +231,37 @@ export type StaticField<FormData> = StaticFieldProps & {
 }
 
 export type YesNoOptionGroupField<FormData> = FormInput<
-  boolean | null,
+  NullableAndUndefinabled<boolean>,
   YesNoOptionGroupProps,
-  FormLens<FormData, boolean> | FormLens<FormData, boolean | null>,
+  NullableAndUndefinabledLens<FormData, boolean>,
   FormFieldType.YesNoOptionGroup
 >
 
 export type YesNoRadioGroupField<FormData> = FormInput<
-  boolean | null,
+  NullableAndUndefinabled<boolean>,
   YesNoRadioGroupProps,
-  FormLens<FormData, boolean> | FormLens<FormData, boolean | null>,
+  NullableAndUndefinabledLens<FormData, boolean>,
   FormFieldType.YesNoRadioGroup
 >
 
 export type DatePickerField<FormData> = FormInput<
-  Date | null,
+  NullableAndUndefinabled<Date>,
   DatePickerProps,
-  FormLens<FormData, Date> | FormLens<FormData, Date | null>,
+  NullableAndUndefinabledLens<FormData, Date>,
   FormFieldType.DatePicker
 >
 
 export type FormattedDatePickerField<FormData> = FormInput<
-  string | null,
+  NullableAndUndefinabled<string>,
   FormattedDatePickerProps,
-  FormLens<FormData, string> | FormLens<FormData, string | null>,
+  NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.FormattedDatePicker
 >
 
 export type NumberInputField<FormData> = FormInput<
-  number | null,
+  NullableAndUndefinabled<number>,
   NumberInputProps,
-  FormLens<FormData, number> | FormLens<FormData, number | null>,
+  NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.NumberInput
 >
 
