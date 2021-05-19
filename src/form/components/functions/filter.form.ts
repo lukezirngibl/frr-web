@@ -151,7 +151,9 @@ const filterByFunc = <T>(
   }, [])
 
 export const filterByVisible = <T>(params: FilterParams<T>) =>
-  filterByFunc<T>(params, (field) => ('isVisible' in field ? field.isVisible(params.data) : true))
+  filterByFunc<T>(params, (field) => {
+    return 'isVisible' in field && field.isVisible ? field.isVisible(params.data) : true
+  })
 
 const formGroupTypes = [
   FormFieldType.FormFieldRepeatGroup,
@@ -163,10 +165,10 @@ const formGroupTypes = [
 export const filterByHidden = <T>(params: FilterParams<T>) =>
   filterByFunc<T>(params, (field) => {
     if ('type' in field && formGroupTypes.includes(field.type)) {
-      return 'isVisible' in field ? !field.isVisible(params.data) : true
+      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data) : true
     } else if ('type' in field && field.type === FormFieldType.FormSection) {
       return true
     } else {
-      return 'isVisible' in field ? !field.isVisible(params.data) : false
+      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data) : false
     }
   })
