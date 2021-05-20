@@ -39,6 +39,7 @@ const styles = (theme: Theme) =>
     },
     tableRow: {
       cursor: 'pointer',
+      overflow: 'visible !important',
     },
     tableRowHover: {
       transition: 'background-color 0.3s ease-out',
