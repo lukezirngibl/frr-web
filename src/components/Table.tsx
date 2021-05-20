@@ -43,7 +43,14 @@ const styles = (theme: Theme) =>
     tableRowHover: {
       transition: 'background-color 0.3s ease-out',
       '&:hover': {
-        backgroundColor: theme.palette.grey[200],
+        backgroundColor: theme.palette.grey[300],
+        '& .is-confirmed': {
+          backgroundColor: 'rgba(180, 227, 190, 0.5)',
+        },
+      },
+      '& .is-confirmed': {
+        backgroundColor: '#e9f7ec',
+        transition: 'background-color 0.3s ease-out',
       },
     },
     tableCell: {
@@ -97,12 +104,13 @@ const InnerTable = <T extends {}>(props: Props<T> & WithStyles<typeof styles>) =
         component="div"
         className={clsx(classes.tableCell, classes.flexContainer, {
           [classes.noClick]: props.onRowClick === null,
+          'is-confirmed': rowData.isConfirmed,
         })}
         variant="body"
         onClick={() => props.onRowClick?.(rowData)}
         style={{
           height: 48,
-          backgroundColor: rowData.isConfirmed ? '#e9f7ec' : 'white',
+          // backgroundColor: rowData.isConfirmed ? '#e9f7ec' : 'transparent',
         }}
         align={(columnIndex !== null && columns[columnIndex].isNumeric) || false ? 'right' : 'left'}
       >
