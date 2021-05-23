@@ -70,6 +70,7 @@ export type AppTheme = {
     hook: CSSProperties
     input: CSSProperties
     prefix: CSSProperties
+    postfix: CSSProperties
     readOnlyHook: CSSProperties
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
@@ -249,6 +250,7 @@ const defaultAppTheme: AppTheme = {
     hook: {},
     input: {},
     prefix: {},
+    postfix: {},
     readOnlyHook: {},
     readOnlyInput: {},
     readOnlyWrapper: {},
