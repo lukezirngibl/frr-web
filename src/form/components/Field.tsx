@@ -1,6 +1,7 @@
 import { CodeInput } from '../../components/CodeInput'
 import { CountrySelect } from '../../components/CountrySelect'
 import { CurrencyInput } from '../../components/CurrencyInput'
+import { ColorPicker } from '../../components/ColorPicker'
 import { DatePicker } from '../../components/DatePicker'
 import { FormattedDatePicker } from '../../components/FormattedDatePicker'
 import { MultiSelect } from '../../components/MultiSelect'
@@ -145,6 +146,20 @@ export const Field = <FormData extends {}>({
         onBlur={onBlur}
         label={label}
         localeNamespace={localeNamespace}
+        dataTestId={dataTestId}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.ColorPicker) {
+    const { type, lens, validate, required, ...fieldProps } = field
+    return (
+      <ColorPicker
+        {...fieldProps}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        value={lens.get(data)}
+        onChange={onChange}
+        label={label}
         dataTestId={dataTestId}
       />
     )

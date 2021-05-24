@@ -5,7 +5,7 @@ import { Language, mapLanguageToLocale } from '../../theme/language'
 import { MediaQuery } from '../../theme/theme'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace, Translate } from '../../translation'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
@@ -48,6 +48,20 @@ const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): stri
 const defaultCurrencyMapper = ({ value }: MapperParams<number>): string =>
   formatter.long.format(value || 0)
 
+const defaultColorMapper = ({ value }: MapperParams<string>): ReactNode => (
+  <div
+    style={{
+      width: 16,
+      height: 16,
+      borderRadius: '50%',
+      backgroundColor: value,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '0, 0, 0, 0.3',
+    }}
+  ></div>
+)
+
 const defaultOptionArrayMapper = (
   params: MapperParams<Array<string>> & {
     options: Array<{ label?: string; value: string }>
@@ -83,7 +97,7 @@ const defaultReadOnlyMappers: {
       translate: Translate
       language?: Language
     },
-  ) => string
+  ) => string | ReactNode
 } = {
   // [FormFieldType.CheckboxGroup]: defaultOptionArrayMapper,
   // [FormFieldType.CountryDropdown]: defaultStrNumMapper,
@@ -94,6 +108,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.CodeInput]: defaultStringNumberMapper,
   [FormFieldType.CountrySelect]: defaultCountryMapper,
   [FormFieldType.CurrencyInput]: defaultCurrencyMapper,
+  [FormFieldType.ColorPicker]: defaultColorMapper,
   [FormFieldType.DatePicker]: (v) =>
     !!v ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,

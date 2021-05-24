@@ -112,6 +112,11 @@ export type AppTheme = {
     icon: CSSProperties
     select: CSSProperties
   }
+  colorPicker: {
+    circle: CSSProperties
+    labelModal: CSSProperties
+    wrapper: CSSProperties
+  }
   datePicker: {
     errorHook: CSSProperties
     errorWrapper: CSSProperties
@@ -298,6 +303,11 @@ const defaultAppTheme: AppTheme = {
     errorWrapper: {},
     icon: {},
     select: {},
+  },
+  colorPicker: {
+    circle: {},
+    labelModal: {},
+    wrapper: {},
   },
   datePicker: {
     errorHook: {},
