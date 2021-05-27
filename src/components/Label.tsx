@@ -83,6 +83,10 @@ export const Label = (props: LabelProps) => {
 
   let { description } = props
 
+  if (!description && typeof props.label === 'string' && i18n.exists(`${props.label}-info`)) {
+    description = translate(`${props.label}-info`)
+  }
+
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
       <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
