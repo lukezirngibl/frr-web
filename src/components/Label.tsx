@@ -5,6 +5,7 @@ import { LabelText, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
+import { useTranslation } from 'react-i18next'
 import { Icon } from './Icon'
 
 const DescriptionPopupAnimation = keyframes`
@@ -64,6 +65,8 @@ export type LabelProps = {
 }
 
 export const Label = (props: LabelProps) => {
+  const { t: translate, i18n } = useTranslation(props.localeNamespace)
+
   // Styles
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
@@ -77,6 +80,8 @@ export const Label = (props: LabelProps) => {
 
   // Error
   const errorLabels = Array.isArray(props.errorLabel) ? props.errorLabel : [props.errorLabel]
+
+  let { description } = props
 
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
@@ -100,7 +105,7 @@ export const Label = (props: LabelProps) => {
           localeNamespace={props.localeNamespace}
           data={props.labelData}
           Icon={
-            props.description ? (
+            description ? (
               <DescriptionIconWrapper
                 onClick={() => setOpen(true)}
                 dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
@@ -111,12 +116,12 @@ export const Label = (props: LabelProps) => {
           }
         />
 
-        {open && props.description && (
+        {open && description && (
           <ClickAwayListener onClickAway={() => setOpen(false)}>
             <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyle('descriptionPopup')}>
               <P
                 {...getCSSStyle('descriptionText')}
-                label={props.description}
+                label={description}
                 localeNamespace={props.localeNamespace}
                 data={props.descriptionData}
               />
