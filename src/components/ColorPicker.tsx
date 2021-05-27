@@ -10,16 +10,16 @@ import { LocaleNamespace } from '../translation'
 import { Button, ButtonType } from './Button'
 import { Label, LabelProps } from './Label'
 
-const ColorPickerContainer = styled.div`
+const ColorPickerWrapper = createStyled('div')
+const ColorPickerContainer = createStyled(styled.div`
   position: relative;
   width: 100%;
   display: flex;
   flex-flow: column;
   align-items: center;
-`
+`)
 
 const ColorCircle = createStyled(styled.a<{ color: string; open: boolean }>`
-  position: relative;
   cursor: pointer;
   border-radius: 50%;
   background-color: ${({ color }) => color};
@@ -27,8 +27,8 @@ const ColorCircle = createStyled(styled.a<{ color: string; open: boolean }>`
 
 const ColorPickerOverlay = styled.div`
   position: absolute;
-  width: 240px;
-  left: -350%;
+  width: 264px;
+  right: 64px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
@@ -127,66 +127,68 @@ export const ColorPicker = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
 
-      <ColorPickerContainer>
-        <ClickAwayListener
-          onClickAway={() => {
-            open && setOpen(false)
-          }}
-        >
-          <ColorCircle
-            {...getCSSStyles('circle')}
-            color={selectedColor}
-            data-test-id={props.dataTestId}
-            onClick={() => !props.readOnly && !open && setOpen(true)}
-            open={open}
+      <ColorPickerWrapper {...getCSSStyles('wrapper')}>
+        <ColorPickerContainer>
+          <ClickAwayListener
+            onClickAway={() => {
+              open && setOpen(false)
+            }}
           >
-            {open && (
-              <>
-                <ColorPickerOverlayClose onClick={() => setOpen(false)} />
+            <ColorCircle
+              {...getCSSStyles('circle')}
+              color={selectedColor}
+              data-test-id={props.dataTestId}
+              onClick={() => !props.readOnly && !open && setOpen(true)}
+              open={open}
+            >
+              {open && (
+                <>
+                  <ColorPickerOverlayClose onClick={() => setOpen(false)} />
 
-                <ColorPickerOverlay className="animated fadeIn">
-                  <ColorPickerModal {...getModalCSSStyles('innerWrapper')}>
-                    {props.labelModal && (
-                      <div className="grid-title">
-                        <P
-                          {...getCSSStyles('labelModal')}
-                          label={props.labelModal}
-                          localeNamespace={props.localeNamespace}
+                  <ColorPickerOverlay className="animated fadeIn">
+                    <ColorPickerModal {...getModalCSSStyles('innerWrapper')}>
+                      {props.labelModal && (
+                        <div className="grid-title">
+                          <P
+                            {...getCSSStyles('labelModal')}
+                            label={props.labelModal}
+                            localeNamespace={props.localeNamespace}
+                          />
+                        </div>
+                      )}
+                      <ColorPickerContent className="grid-picker">
+                        <SketchPicker
+                          color={selectedColor}
+                          onChangeComplete={(color) =>
+                            setSelectedColor(`rgba(${Object.values(color.rgb).join(',')})`)
+                          }
+                        />
+                      </ColorPickerContent>
+
+                      <div className="grid-actions">
+                        <Button
+                          type={ButtonType.Secondary}
+                          onClick={() => setOpen(false)}
+                          label={t('colorPicker.cancel')}
+                        />
+
+                        <Button
+                          label={t('colorPicker.setColor')}
+                          type={ButtonType.Primary}
+                          onClick={() => {
+                            setOpen(false)
+                            props.onChange(selectedColor)
+                          }}
                         />
                       </div>
-                    )}
-                    <ColorPickerContent className="grid-picker">
-                      <SketchPicker
-                        color={selectedColor}
-                        onChangeComplete={(color) =>
-                          setSelectedColor(`rgba(${Object.values(color.rgb).join(',')})`)
-                        }
-                      />
-                    </ColorPickerContent>
-
-                    <div className="grid-actions">
-                      <Button
-                        type={ButtonType.Secondary}
-                        onClick={() => setOpen(false)}
-                        label={t('colorPicker.cancel')}
-                      />
-
-                      <Button
-                        label={t('colorPicker.setColor')}
-                        type={ButtonType.Primary}
-                        onClick={() => {
-                          setOpen(false)
-                          props.onChange(selectedColor)
-                        }}
-                      />
-                    </div>
-                  </ColorPickerModal>
-                </ColorPickerOverlay>
-              </>
-            )}
-          </ColorCircle>
-        </ClickAwayListener>
-      </ColorPickerContainer>
+                    </ColorPickerModal>
+                  </ColorPickerOverlay>
+                </>
+              )}
+            </ColorCircle>
+          </ClickAwayListener>
+        </ColorPickerContainer>
+      </ColorPickerWrapper>
     </>
   )
 }
