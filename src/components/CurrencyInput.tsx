@@ -14,12 +14,12 @@ export type Props = {
 const getValue = (v: string): number | null => {
   const value = v.replace(',', '.')
   const num = Number(value)
-  return isNaN(num) ? null : num
+  return v === '' || isNaN(num) ? null : num
 }
 
 const parseAmount = (v: string): string => {
   const value = Number(v.replace(',', '.'))
-  return isNaN(value) ? v : value.toFixed(2).replace(/\.0{2}$/, '')
+  return v === '' || isNaN(value) ? v : value.toFixed(2).replace(/\.0{2}$/, '')
 }
 
 export const CurrencyInput = (props: Props) => {
