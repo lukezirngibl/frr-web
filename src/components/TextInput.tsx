@@ -130,7 +130,7 @@ export const TextInput = (props: Props) => {
           type={props.inputType}
           value={value}
         ></Input>
-        {props.postfix && <Prefix {...getCSSStyle('postfix')}>{props.postfix}</Prefix>}
+        {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
       </InputWrapper>
     </>
   )

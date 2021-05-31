@@ -50,7 +50,7 @@ const ColorPickerOverlayClose = styled.div`
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 9999;
+  z-index: 999;
 `
 
 const ColorPickerModal = createStyled(styled.div`
@@ -109,7 +109,7 @@ export type Props = {
   value: string | null
 }
 export const ColorPicker = (props: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(props.localeNamespace)
 
   const theme = useAppTheme()
   const getModalCSSStyles = useCSSStyles(theme, 'modal')()
@@ -170,6 +170,12 @@ export const ColorPicker = (props: Props) => {
                           type={ButtonType.Secondary}
                           onClick={() => setOpen(false)}
                           label={t('colorPicker.cancel')}
+                          style={{
+                            secondary: {
+                              flexGrow: 1,
+                              marginRight: 4,
+                            },
+                          }}
                         />
 
                         <Button
@@ -178,6 +184,12 @@ export const ColorPicker = (props: Props) => {
                           onClick={() => {
                             setOpen(false)
                             props.onChange(selectedColor)
+                          }}
+                          style={{
+                            primary: {
+                              flexGrow: 2,
+                              marginLeft: 4,
+                            },
                           }}
                         />
                       </div>
