@@ -28,6 +28,7 @@ export type Props = {
   parseValue?: (value: string | null) => string
   placeholder?: string
   prefix?: string
+  postfix?: string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<AppTheme['textInput']>
@@ -129,6 +130,7 @@ export const TextInput = (props: Props) => {
           type={props.inputType}
           value={value}
         ></Input>
+        {props.postfix && <Prefix {...getCSSStyle('postfix')}>{props.postfix}</Prefix>}
       </InputWrapper>
     </>
   )

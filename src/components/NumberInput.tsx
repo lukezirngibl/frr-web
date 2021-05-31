@@ -7,12 +7,13 @@ export type Props = {
   value: number
   step?: number
   label?: LabelProps
+  unit?: string
   max?: number
   min?: number
 } & Omit<TextInputProps, 'onChange' | 'label' | 'value'>
 
 export const NumberInput = (props: Props) => {
-  const { onChange, value, ...otherProps } = props
+  const { onChange, value, unit, ...otherProps } = props
   return (
     <TextInput
       {...otherProps}
@@ -21,6 +22,7 @@ export const NumberInput = (props: Props) => {
         onChange(Number(v))
       }}
       inputType="number"
+      postfix={unit}
     />
   )
 }

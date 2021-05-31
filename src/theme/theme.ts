@@ -70,6 +70,7 @@ export type AppTheme = {
     hook: CSSProperties
     input: CSSProperties
     prefix: CSSProperties
+    postfix: CSSProperties
     readOnlyHook: CSSProperties
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
@@ -110,6 +111,11 @@ export type AppTheme = {
     errorWrapper: CSSProperties
     icon: CSSProperties
     select: CSSProperties
+  }
+  colorPicker: {
+    circle: CSSProperties
+    labelModal: CSSProperties
+    wrapper: CSSProperties
   }
   datePicker: {
     errorHook: CSSProperties
@@ -249,6 +255,7 @@ const defaultAppTheme: AppTheme = {
     hook: {},
     input: {},
     prefix: {},
+    postfix: {},
     readOnlyHook: {},
     readOnlyInput: {},
     readOnlyWrapper: {},
@@ -296,6 +303,11 @@ const defaultAppTheme: AppTheme = {
     errorWrapper: {},
     icon: {},
     select: {},
+  },
+  colorPicker: {
+    circle: {},
+    labelModal: {},
+    wrapper: {},
   },
   datePicker: {
     errorHook: {},
