@@ -39,6 +39,7 @@
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "2.1.266",
     "react-click-away-listener": "^2.0.0",
+    "react-color": "^2.19.3",
     "react-datepicker": "^3.6.0",
     "react-day-picker": "^7.4.8",
     "react-html-parser": "^2.0.2",

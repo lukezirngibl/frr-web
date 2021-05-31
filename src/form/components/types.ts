@@ -1,6 +1,7 @@
 import { Props as CodeInputProps } from '../../components/CodeInput'
 import { Props as CountrySelectProps } from '../../components/CountrySelect'
 import { Props as CurrencyInputProps } from '../../components/CurrencyInput'
+import { Props as ColorPickerProps } from '../../components/ColorPicker'
 import { Props as DatePickerProps } from '../../components/DatePicker'
 import { Props as FormattedDatePickerProps } from '../../components/FormattedDatePicker'
 import { LabelProps } from '../../components/Label'
@@ -43,6 +44,7 @@ export enum FormFieldType {
   CodeInput = 'CodeInput',
   CountrySelect = 'CountrySelect',
   CurrencyInput = 'CurrencyInput',
+  ColorPicker = 'ColorPicker',
   DatePicker = 'DatePicker',
   FormattedDatePicker = 'FormattedDatePicker',
   FormFieldGroup = 'FormFieldGroup',
@@ -244,6 +246,13 @@ export type YesNoRadioGroupField<FormData> = FormInput<
   FormFieldType.YesNoRadioGroup
 >
 
+export type ColorPickerField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  ColorPickerProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.ColorPicker
+>
+
 export type DatePickerField<FormData> = FormInput<
   NullableAndUndefinabled<Date>,
   DatePickerProps,
@@ -294,6 +303,7 @@ export const fieldMap = {
   [FormFieldType.CodeInput]: null as CodeInputField<unknown>,
   [FormFieldType.CountrySelect]: null as CountrySelectField<unknown>,
   [FormFieldType.CurrencyInput]: null as CurrencyInputField<unknown>,
+  [FormFieldType.ColorPicker]: null as ColorPickerField<unknown>,
   [FormFieldType.DatePicker]: null as DatePickerField<unknown>,
   [FormFieldType.FormattedDatePicker]: null as FormattedDatePickerField<unknown>,
   [FormFieldType.FormFieldGroup]: null,
@@ -327,6 +337,7 @@ export type SingleFormField<FormData> = (
   | CodeInputField<FormData>
   | CountrySelectField<FormData>
   | CurrencyInputField<FormData>
+  | ColorPickerField<FormData>
   | DatePickerField<FormData>
   | FormattedDatePickerField<FormData>
   | MultiSelectField<FormData>
