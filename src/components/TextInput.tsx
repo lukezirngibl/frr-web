@@ -4,6 +4,7 @@ import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
+import { useDebouncedCallback } from 'use-debounce/lib'
 
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
@@ -12,6 +13,7 @@ const Prefix = createStyled('p')
 
 export type Props = {
   dataTestId?: string
+  debounce?: number
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
@@ -45,6 +47,7 @@ export const TextInput = (props: Props) => {
 
   const [isFocus, setIsFocus] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
+
   useEffect(() => {
     setInternalValue(props.value)
   }, [props.value])
@@ -61,6 +64,18 @@ export const TextInput = (props: Props) => {
 
   const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
   const placeholder = props.placeholder ? translate(props.placeholder) : undefined
+
+  const [debounceOnChange] = useDebouncedCallback((v: string) => {
+    props?.onChange(v)
+  }, props.debounce || 0)
+
+  const onChange = (v: string) => {
+    if (props.debounce === undefined) {
+      props?.onChange(v)
+    } else {
+      debounceOnChange(v)
+    }
+  }
 
   return (
     <>
@@ -101,23 +116,19 @@ export const TextInput = (props: Props) => {
           name={props.name}
           ref={inputRef}
           onChange={(event: any) => {
-            const newValue = event.target.value
+            const newValue = event.target.value as string
 
             setInternalValue(newValue)
-            props.onChange?.(newValue)
+            onChange?.(newValue)
+
             if (!isFocus) {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur?.(newValue)
             }
-            // if (!props.onlyOnBlur) {
-            //   // @ts-ignore
-            //   props.onChange?.(e.target.value)
-            // }
           }}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
             newValue = props.parseValue?.(newValue) || newValue
-
             setInternalValue(newValue)
             setIsFocus(false)
             props.onBlur?.(newValue)
