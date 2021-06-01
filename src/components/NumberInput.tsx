@@ -1,4 +1,5 @@
 import React from 'react'
+import { LocaleNamespace } from '../translation'
 import { LabelProps } from './Label'
 import { Props as TextInputProps, TextInput } from './TextInput'
 
@@ -7,6 +8,7 @@ export type Props = {
   value: number
   step?: number
   label?: LabelProps
+  localeNamespace?: LocaleNamespace
   unit?: string
   max?: number
   min?: number

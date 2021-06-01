@@ -160,6 +160,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data)}
         onChange={onChange}
         label={label}
+        localeNamespace={localeNamespace}
         dataTestId={dataTestId}
       />
     )
@@ -306,6 +307,7 @@ export const Field = <FormData extends {}>({
         onChange={onBlur}
         error={hasError}
         label={label}
+        localeNamespace={localeNamespace}
       />
     )
   }
