@@ -28,7 +28,8 @@ const ColorCircle = createStyled(styled.a<{ color: string; open: boolean }>`
 const ColorPickerOverlay = styled.div`
   position: absolute;
   width: 264px;
-  right: 64px;
+  top: -64px;
+  right: 96px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
@@ -50,7 +51,7 @@ const ColorPickerOverlayClose = styled.div`
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 9999;
+  z-index: 999;
 `
 
 const ColorPickerModal = createStyled(styled.div`
@@ -81,7 +82,7 @@ const ColorPickerModal = createStyled(styled.div`
 `)
 
 const ColorPickerContent = styled.div`
-  .scketch-picker {
+  .sketch-picker {
     box-shadow: none !important;
     border-radius: none !important;
   }
@@ -109,7 +110,7 @@ export type Props = {
   value: string | null
 }
 export const ColorPicker = (props: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(props.localeNamespace)
 
   const theme = useAppTheme()
   const getModalCSSStyles = useCSSStyles(theme, 'modal')()
@@ -156,7 +157,7 @@ export const ColorPicker = (props: Props) => {
                           />
                         </div>
                       )}
-                      <ColorPickerContent className="grid-picker">
+                      <ColorPickerContent className="grid-content">
                         <SketchPicker
                           color={selectedColor}
                           onChangeComplete={(color) =>
@@ -170,6 +171,12 @@ export const ColorPicker = (props: Props) => {
                           type={ButtonType.Secondary}
                           onClick={() => setOpen(false)}
                           label={t('colorPicker.cancel')}
+                          style={{
+                            secondary: {
+                              flexGrow: 1,
+                              marginRight: 4,
+                            },
+                          }}
                         />
 
                         <Button
@@ -178,6 +185,12 @@ export const ColorPicker = (props: Props) => {
                           onClick={() => {
                             setOpen(false)
                             props.onChange(selectedColor)
+                          }}
+                          style={{
+                            primary: {
+                              flexGrow: 2,
+                              marginLeft: 4,
+                            },
                           }}
                         />
                       </div>
