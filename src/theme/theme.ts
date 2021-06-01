@@ -186,9 +186,29 @@ export type AppTheme = {
     outerWrapper: CSSProperties
     innerWrapper: CSSProperties
   }
+  table: {
+    tableWrapper: CSSProperties
+    listWrapper: CSSProperties
+    rowWrapper: CSSProperties
+    rowCell: CSSProperties
+    rowText: CSSProperties
+    headerWrapper: CSSProperties
+    headerCell: CSSProperties
+    headerText: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
+  table: {
+    tableWrapper: {},
+    listWrapper: {},
+    rowWrapper: {},
+    rowCell: {},
+    rowText: {},
+    headerWrapper: {},
+    headerCell: {},
+    headerText: {},
+  },
   fileInput: {
     wrapper: {},
   },

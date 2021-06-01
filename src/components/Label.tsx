@@ -85,11 +85,11 @@ export const Label = (props: LabelProps) => {
 
   const generatedDescriptionKey = `${props.label}-info`
 
-  // description = description
-  //   ? description
-  //   : translate(generatedDescriptionKey) !== generatedDescriptionKey
-  //   ? generatedDescriptionKey
-  //   : null
+  description = description
+    ? description
+    : translate(generatedDescriptionKey) !== generatedDescriptionKey
+    ? generatedDescriptionKey
+    : null
 
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>

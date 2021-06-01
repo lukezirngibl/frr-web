@@ -1,16 +1,19 @@
+// import { Label } from './Label'
+// import { LabelProps } from './Label'
+// import { Options } from '../html'
+// import { AppTheme, useAppTheme } from '../theme/theme'
+// import { createStyled, useCSSStyles } from '../theme/util'
+// import { LocaleNamespace } from '../translation'
+// import { processOptions } from '../util'
 // import React from 'react'
+// import { useTranslation } from 'react-i18next'
 // import {
 //   Dropdown as SemanticDropdown,
 //   StrictDropdownProps as SemanticDropdownProps,
 // } from 'semantic-ui-react'
 // import styled from 'styled-components'
-// import { Options, Language, processOptions } from '../util'
-// import { getTranslation, getLanguageContext } from '../theme/language'
-// import { Label, LabelProps } from './Label'
-// import { AppTheme, getThemeContext } from '../theme/theme'
-// import { useInlineStyle } from '../theme/util'
 
-// const DropdownWrapper = styled.div`
+// const DropdownWrapper = createStyled(styled.div`
 //   width: 100%;
 
 //   &.disabled .label {
@@ -23,47 +26,39 @@
 //       color: white !important;
 //     }
 //   }
-// `
+// `)
 
 // type Value = string | number
 
 // export type Props = {
-//   label?: LabelProps
-//   options: Options<Value> | ((lan: Language) => Options<Value>)
-//   onChange: (value: string) => void
-//   style?: Partial<AppTheme['dropdown']>
-//   error?: boolean
-//   value: string
 //   disabled?: boolean
-//   readOnly?: boolean
 //   dropdownProps?: SemanticDropdownProps
+//   error?: boolean
+//   label?: LabelProps
+//   localeNamespace?: LocaleNamespace
+//   onChange: (value: string) => void
+//   options: Options<Value>
+//   readOnly?: boolean
+//   style?: Partial<AppTheme['dropdown']>
+//   value: string
 // }
 
 // export const Dropdown = (props: Props) => {
-//   const {
-//     onChange,
-//     options,
-//     error,
-//     disabled,
-//     dropdownProps,
-//     readOnly,
-//     ...otherProps
-//   } = props
+//   const { disabled, dropdownProps, error, localeNamespace, onChange, options, readOnly, ...otherProps } =
+//     props
 
-//   const theme = React.useContext(getThemeContext())
-//   const language = React.useContext(getLanguageContext())
-//   const translate = getTranslation(language)
-
-//   const getStyle = useInlineStyle(theme, 'dropdown')(props.style)
+//   const theme = useAppTheme()
+//   const getCSSStyles = useCSSStyles(theme, 'dropdown')(props.style)
+//   const { t } = useTranslation(props.localeNamespace)
+//   // const language = useLanguage()
+//   // const translate = useTranslate(language)
 
 //   return (
 //     <>
-//       {props.label && <Label {...props.label} />}
+//       {props.label && <Label localeNamespace={localeNamespace} {...props.label} />}
 //       <DropdownWrapper
-//         className={`frr-dropdown-wrapper ${
-//           error ? 'error' : disabled ? 'disabled' : ''
-//         }`}
-//         {...getStyle('wrapper')}
+//         className={`frr-dropdown-wrapper ${error ? 'error' : disabled ? 'disabled' : ''}`}
+//         {...getCSSStyles('wrapper')}
 //       >
 //         <SemanticDropdown
 //           placeholder="Select"
@@ -73,11 +68,7 @@
 //             onChange(value as string)
 //           }}
 //           search
-//           value={props.value}
-//           options={processOptions(
-//             typeof options === 'function' ? options(language) : options,
-//             translate,
-//           )}
+//           options={processOptions(options, t)}
 //           error={error}
 //           disabled={disabled}
 //           readOnly={readOnly}
