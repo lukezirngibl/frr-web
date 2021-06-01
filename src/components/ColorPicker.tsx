@@ -28,7 +28,8 @@ const ColorCircle = createStyled(styled.a<{ color: string; open: boolean }>`
 const ColorPickerOverlay = styled.div`
   position: absolute;
   width: 264px;
-  right: 64px;
+  top: -64px;
+  right: 96px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
@@ -81,7 +82,7 @@ const ColorPickerModal = createStyled(styled.div`
 `)
 
 const ColorPickerContent = styled.div`
-  .scketch-picker {
+  .sketch-picker {
     box-shadow: none !important;
     border-radius: none !important;
   }
@@ -156,7 +157,7 @@ export const ColorPicker = (props: Props) => {
                           />
                         </div>
                       )}
-                      <ColorPickerContent className="grid-picker">
+                      <ColorPickerContent className="grid-content">
                         <SketchPicker
                           color={selectedColor}
                           onChangeComplete={(color) =>
