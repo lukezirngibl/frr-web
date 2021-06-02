@@ -65,7 +65,7 @@ export type LabelProps = {
 }
 
 export const Label = (props: LabelProps) => {
-  const { t: translate, i18n } = useTranslation(props.localeNamespace)
+  const { i18n } = useTranslation(props.localeNamespace)
 
   // Styles
   const theme = useAppTheme()
@@ -85,11 +85,7 @@ export const Label = (props: LabelProps) => {
 
   const generatedDescriptionKey = `${props.label}-info`
 
-  description = description
-    ? description
-    : translate(generatedDescriptionKey) !== generatedDescriptionKey
-    ? generatedDescriptionKey
-    : null
+  description = description || (i18n.exists(generatedDescriptionKey) && generatedDescriptionKey) || null
 
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
