@@ -43,7 +43,11 @@ export const Table = <T extends {}>(props: Props<T>) => {
         {...getCSSStyle('rowWrapper')}
         key={params.key}
         style={params.style}
-        onClick={() => props.onRowClick(row)}
+        onClick={() => {
+          if (props.onRowClick) {
+            props.onRowClick(row)
+          }
+        }}
       >
         {props.columns.map((c) => {
           const value = row[c.dataKey]
