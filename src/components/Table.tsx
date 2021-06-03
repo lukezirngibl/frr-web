@@ -6,8 +6,8 @@ import { useAppTheme, AppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { Loading } from './Loading'
 import { P } from '../html'
+import { CSSProperties } from 'styled-components'
 
-const NoResultsFoundLabel = createStyled('p')
 const NoResultsFoundWrapper = createStyled('div')
 const LoaderWrapper = createStyled('div')
 const TableWrapper = createStyled('div')
@@ -31,10 +31,11 @@ export type TableColumns<T extends {}> = Array<TableColumn<T>>
 type Props<T extends {}> = {
   data: RemoteData<any, Array<T>>
   columns: TableColumns<T>
-  onRowClick?: (item: T) => void
+  onRowClick?: (row: T) => void
   noResultsLabel?: string
   localeNamespace: Namespace
   style?: Partial<AppTheme['table']>
+  getRowStyle?: (row: T) => CSSProperties
 }
 
 export const Table = <T extends {}>(props: Props<T>) => {
@@ -47,7 +48,7 @@ export const Table = <T extends {}>(props: Props<T>) => {
     const row = (props.data as RemoteSuccess<any, Array<T>>).value[params.index]
     return (
       <Row
-        {...getCSSStyle('rowWrapper')}
+        {...getCSSStyle('rowWrapper', props.getRowStyle ? props.getRowStyle(row) : {})}
         key={params.key}
         style={params.style}
         onClick={() => {
@@ -60,7 +61,11 @@ export const Table = <T extends {}>(props: Props<T>) => {
           const value = row[c.dataKey]
           return (
             <RowCell
-              {...getCSSStyle('rowCell', { width: c.width, flexShrink: 0, flexGrow: 0 })}
+              {...getCSSStyle('rowCell', {
+                width: c.width,
+                flexShrink: 0,
+                flexGrow: 0,
+              })}
               key={c.dataKey}
             >
               {c.customRender ? (
