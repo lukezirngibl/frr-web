@@ -195,6 +195,10 @@ export type AppTheme = {
     headerWrapper: CSSProperties
     headerCell: CSSProperties
     headerText: CSSProperties
+    loadingWrapper: CSSProperties
+    noResultsWrapper: CSSProperties
+    noResultsLabel: CSSProperties
+    loading: CSSProperties
   }
 }
 
@@ -208,6 +212,10 @@ const defaultAppTheme: AppTheme = {
     headerWrapper: {},
     headerCell: {},
     headerText: {},
+    loadingWrapper: {},
+    noResultsWrapper: {},
+    noResultsLabel: {},
+    loading: {},
   },
   fileInput: {
     wrapper: {},

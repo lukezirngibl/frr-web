@@ -936,14 +936,14 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@devexperts/remote-data-ts@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@devexperts/remote-data-ts/-/remote-data-ts-2.0.5.tgz#7a8ec88587ca132e8d608e23abf453423026f63b"
-  integrity sha512-Eb84KGBFyhGFIK0WCyl7pT0MSOaj+4ZWJLBd7gaW6/GyeMBzpOyZyJls8QIYcpef3hUPx4rH0x2Dy3xq9mUFaw==
+"@devexperts/remote-data-ts@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@devexperts/remote-data-ts/-/remote-data-ts-0.6.0.tgz#79442cebdf5b79a2ab1277fb721f4952af8099e8"
+  integrity sha512-SQmKfaCdNUsmHGNMMdcVFEDlspYWATN56IPFqUWPH/2VTWixNrAvHPPld9eU4Kh+PGYB3jmEcFlWS78juPyMig==
   dependencies:
-    fp-ts "^2.0.0"
-    io-ts "^2.0.0"
-    io-ts-types "^0.5.7"
+    fp-ts "^1.18.0"
+    io-ts "^1.8.6"
+    io-ts-types "^0.4.7"
     tslib "^1.9.3"
 
 "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
@@ -1923,15 +1923,10 @@ for-in@^1.0.2:
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
-fp-ts@1.19.5:
+fp-ts@1.19.5, fp-ts@^1.0.0, fp-ts@^1.18.0:
   version "1.19.5"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-1.19.5.tgz#3da865e585dfa1fdfd51785417357ac50afc520a"
   integrity sha512-wDNqTimnzs8QqpldiId9OavWK2NptormjXnRJTQecNjzwfyp6P/8s/zG8e4h3ja3oqkKaY72UlTjQYt/1yXf9A==
-
-fp-ts@^2.0.0:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.8.1.tgz#b1812171469a7c0fcbc0b770ac2568f8356d1993"
-  integrity sha512-HuA/6roEliHoBgEOLCKmGRcM90e2trW/ITZZ9d9P/ra7PreqQagC3Jg6OzqWkai13KUbG90b8QO9rHPBGK/ckw==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -2148,15 +2143,17 @@ install-peers-cli@^2.2.0:
     commander "^2.20.0"
     executioner "^2.0.1"
 
-io-ts-types@^0.5.7:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/io-ts-types/-/io-ts-types-0.5.10.tgz#54d2400c81de2a1bc97151b07faabc9ddd3ebb07"
-  integrity sha512-QVkgEsW03wTSgZ/PCZyan0boHmkPWExQob4nZ3pOxX/YQ9iWXLGPHMqYxSV0OpE/ulJA01owqTvsvFv+SfmiGg==
+io-ts-types@^0.4.7:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/io-ts-types/-/io-ts-types-0.4.8.tgz#e5fd8940ce7a5ddd780083c33989b3f8978918c2"
+  integrity sha512-E/o4y8I/yP5sVcC731K3T2Zi6BTvJljyJLqhHYkxzkc9fr9vAC2cU0y0xZ5aJqEDfl76zMeEiXkAkf/3gQYlvA==
 
-io-ts@^2.0.0:
-  version "2.2.10"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.10.tgz#447d02df51717464a90712b146ec8dbc21b4a74b"
-  integrity sha512-WHx5jJe7hPpc6JoSIVbD+Xn6tYqe3cRvNpX24d8Wi15/kxhRWa8apo0Gzag6Xg99sCNY9OHKylw/Vhv0JAbNPQ==
+io-ts@^1.8.6:
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-1.10.4.tgz#cd5401b138de88e4f920adbcb7026e2d1967e6e2"
+  integrity sha512-b23PteSnYXSONJ6JQXRAlvJhuw8KOtkqa87W4wDtvMrud/DTJd5X+NpOOI+O/zZwVq6v0VLAaJ+1EDViKEuN9g==
+  dependencies:
+    fp-ts "^1.0.0"
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"

@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "version": "2.2.17",
+  "version": "2.2.20",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -23,6 +23,7 @@
     "lib/**/*"
   ],
   "peerDependencies": {
+    "@devexperts/remote-data-ts": "0.6.0",
     "@material-ui/core": "^4.9.10",
     "@material-ui/styles": "^4.9.10",
     "frr-util": "^1.0.3",
@@ -34,7 +35,7 @@
     "styled-components": "^5.0.0"
   },
   "dependencies": {
-    "@devexperts/remote-data-ts": "^2.0.5",
+    "@devexperts/remote-data-ts": "0.6.0",
     "date-fns": "^2.19.0",
     "fp-ts": "1.19.5",
     "monocle-ts": "2.0.0",
