@@ -14,6 +14,7 @@ const LoaderWrapper = createStyled('div')
 const TableWrapper = createStyled('div')
 const ListWrapper = createStyled('div')
 const Header = createStyled('div')
+const HeaderOuterWrapper = createStyled('div')
 const HeaderCell = createStyled('div')
 const HeaderValue = createStyled('p')
 const Row = createStyled('div')
@@ -45,6 +46,8 @@ export const Table = <T extends {}>(props: Props<T>) => {
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'table')(props.style)
 
+  const totalWidth = props.columns.reduce((sum, c) => sum + c.width, 0)
+
   const rowRenderer = (params: ListRowProps) => {
     const row = (props.data as RemoteSuccess<any, Array<T>>).value[params.index]
     return (
@@ -63,7 +66,7 @@ export const Table = <T extends {}>(props: Props<T>) => {
           return (
             <RowCell
               {...getCSSStyle('rowCell', {
-                width: c.width,
+                width: `${(c.width / totalWidth) * 100}%`,
                 flexShrink: 0,
                 flexGrow: 0,
               })}
@@ -83,18 +86,25 @@ export const Table = <T extends {}>(props: Props<T>) => {
 
   return (
     <TableWrapper {...getCSSStyle('tableWrapper')}>
-      <Header {...getCSSStyle('headerWrapper')}>
-        {props.columns.map((c) => {
-          return (
-            <HeaderCell
-              {...getCSSStyle('headerCell', { width: c.width, flexShrink: 0, flexGrow: 0 })}
-              key={c.dataKey}
-            >
-              <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
-            </HeaderCell>
-          )
-        })}
-      </Header>
+      <HeaderOuterWrapper {...getCSSStyle('headerOuterWrapper')}>
+        <Header {...getCSSStyle('headerWrapper')}>
+          {props.columns.map((c) => {
+            return (
+              <HeaderCell
+                {...getCSSStyle('headerCell', {
+                  width: `${(c.width / totalWidth) * 100}%`,
+                  flexShrink: 0,
+                  flexGrow: 0,
+                })}
+                key={c.dataKey}
+              >
+                <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
+              </HeaderCell>
+            )
+          })}
+        </Header>
+      </HeaderOuterWrapper>
+
       <ListWrapper {...getCSSStyle('listWrapper')}>
         {props.data.fold(
           <></>,
