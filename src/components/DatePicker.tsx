@@ -129,6 +129,9 @@ export const DatePicker = (props: Props) => {
               inputType={'date'}
               value={props.value ? format(props.value, props.dateFormat) : null}
               dataTestId={props.dataTestId}
+              style={{
+                wrapper: props.style.wrapper,
+              }}
             />
           ) : (
             <>
@@ -162,6 +165,9 @@ export const DatePicker = (props: Props) => {
                 placeholder={'dateFormatPlaceholder'}
                 value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
+                style={{
+                  wrapper: props.style.wrapper,
+                }}
               />
 
               <DatePickerIconWrapper

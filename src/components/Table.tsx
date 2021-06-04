@@ -4,6 +4,7 @@ import { useTranslation, Namespace } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
 import { useAppTheme, AppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
+import { Translate } from '../translation'
 import { Loading } from './Loading'
 import { P } from '../html'
 import { CSSProperties } from 'styled-components'
@@ -22,7 +23,7 @@ const RowValue = createStyled('p')
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
   label: string
-  customRender?: (value: T[keyof T], row: T) => ReactNode
+  customRender?: (value: T[keyof T], row: T, translate: Translate) => ReactNode
   width: number
 }
 
@@ -69,7 +70,7 @@ export const Table = <T extends {}>(props: Props<T>) => {
               key={c.dataKey}
             >
               {c.customRender ? (
-                c.customRender(value, row)
+                c.customRender(value, row, translate)
               ) : (
                 <RowValue {...getCSSStyle('rowText')}>{value}</RowValue>
               )}

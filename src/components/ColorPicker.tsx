@@ -184,6 +184,7 @@ export const ColorPicker = (props: Props) => {
                           type={ButtonType.Primary}
                           onClick={() => {
                             setOpen(false)
+                            console.log('ON CHANGE COLOR', selectedColor)
                             props.onChange(selectedColor)
                           }}
                           style={{

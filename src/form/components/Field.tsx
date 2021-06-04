@@ -158,7 +158,7 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data)}
-        onChange={onChange}
+        onChange={onBlur}
         label={label}
         localeNamespace={localeNamespace}
         dataTestId={dataTestId}
@@ -171,13 +171,13 @@ export const Field = <FormData extends {}>({
     return (
       <CountrySelect
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
+        dataTestId={dataTestId}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
-        dataTestId={dataTestId}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -187,11 +187,12 @@ export const Field = <FormData extends {}>({
     return (
       <Slider
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         dataTestId={dataTestId}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -201,12 +202,13 @@ export const Field = <FormData extends {}>({
     return (
       <YesNoOptionGroup
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
-        label={label}
         dataTestId={dataTestId}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -216,12 +218,13 @@ export const Field = <FormData extends {}>({
     return (
       <YesNoRadioGroup
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
-        label={label}
         dataTestId={dataTestId}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -231,12 +234,13 @@ export const Field = <FormData extends {}>({
     return (
       <OptionGroup
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
-        label={label}
-        error={hasError}
         dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -246,12 +250,13 @@ export const Field = <FormData extends {}>({
     return (
       <RadioGroup
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
-        label={label}
-        error={hasError}
         dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -302,12 +307,12 @@ export const Field = <FormData extends {}>({
     return (
       <NumberInput
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -332,13 +337,13 @@ export const Field = <FormData extends {}>({
     return (
       <Select
         {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         label={label}
         localeNamespace={localeNamespace}
-        error={hasError}
-        dataTestId={dataTestId}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -348,13 +353,13 @@ export const Field = <FormData extends {}>({
     return (
       <Select
         {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         label={label}
         localeNamespace={localeNamespace}
-        error={hasError}
-        dataTestId={dataTestId}
+        onChange={(value: any) => (value && !isNaN(value) ? onBlur(Number(value)) : onBlur(null))}
+        value={lens.get(data)}
       />
     )
   }
@@ -364,12 +369,12 @@ export const Field = <FormData extends {}>({
     return (
       <MultiSelect
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -380,9 +385,9 @@ export const Field = <FormData extends {}>({
       <FileInput
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
         label={label}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -392,13 +397,13 @@ export const Field = <FormData extends {}>({
     return (
       <CurrencyInput
         {...fieldProps}
-        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        value={lens.get(data)}
-        onChange={onBlur}
+        dataTestId={dataTestId}
         error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
-        dataTestId={dataTestId}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }
