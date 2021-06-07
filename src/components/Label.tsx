@@ -88,7 +88,7 @@ export const Label = (props: LabelProps) => {
   description =
     description ||
     (t(generatedDescriptionKey) !== generatedDescriptionKey && generatedDescriptionKey) ||
-    generatedDescriptionKey
+    null
 
   return (
     <LabelWrapper {...getCSSStyle('wrapper')}>
