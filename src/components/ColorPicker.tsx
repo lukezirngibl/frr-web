@@ -91,7 +91,6 @@ const ColorPickerContent = styled.div`
 export type Props = {
   dataTestId?: string
   label?: LabelProps
-  labelModal?: string
   localeNamespace?: LocaleNamespace
   onChange?: (c: string) => void
   readOnly?: boolean
@@ -106,14 +105,17 @@ export const ColorPicker = (props: Props) => {
   const getCSSStyles = useCSSStyles(theme, 'colorPicker')(props.style)
 
   const [initialized, setInitialized] = useState(false)
-  const [selectedColor, setSelectedColor] = useState(props.value || '')
+  const [color, setColor] = useState(`rgba(${props.value})` || '')
+  const [newColor, setNewColor] = useState(`rgba(${props.value})` || '')
   const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     setInitialized(true)
   }, [initialized])
 
-  const rgbaColor = selectedColor > '' ? `rgba(${selectedColor})` : ''
+  useEffect(() => {
+    setColor(props.value > '' ? `rgba(${props.value})` : '')
+  }, [props.value])
 
   return (
     <>
@@ -128,7 +130,7 @@ export const ColorPicker = (props: Props) => {
           >
             <ColorCircle
               {...getCSSStyles('circle')}
-              color={rgbaColor}
+              color={color}
               data-test-id={props.dataTestId}
               onClick={() => !props.readOnly && !open && setOpen(true)}
               open={open}
@@ -139,21 +141,18 @@ export const ColorPicker = (props: Props) => {
 
                   <ColorPickerOverlay className="animated fadeIn">
                     <ColorPickerModal {...getModalCSSStyles('innerWrapper')}>
-                      {props.labelModal && (
-                        <div className="grid-title">
-                          <P
-                            {...getCSSStyles('labelModal')}
-                            label={props.labelModal}
-                            localeNamespace={props.localeNamespace}
-                          />
-                        </div>
-                      )}
+                      <div className="grid-title">
+                        <P
+                          {...getCSSStyles('labelModal')}
+                          label={props.label.label}
+                          localeNamespace={props.localeNamespace}
+                        />
+                      </div>
+
                       <ColorPickerContent className="grid-content">
                         <SketchPicker
-                          color={rgbaColor}
-                          onChangeComplete={(color) =>
-                            setSelectedColor(Object.values(color.rgb).join(','))
-                          }
+                          color={newColor > '' ? `rgba(${newColor})` : ''}
+                          onChangeComplete={(col) => setNewColor(Object.values(col.rgb).join(','))}
                         />
                       </ColorPickerContent>
 
@@ -175,8 +174,7 @@ export const ColorPicker = (props: Props) => {
                           type={ButtonType.Primary}
                           onClick={() => {
                             setOpen(false)
-                            console.log('ON CHANGE COLOR', selectedColor)
-                            props.onChange(selectedColor)
+                            props.onChange(newColor)
                           }}
                           style={{
                             primary: {

@@ -184,7 +184,7 @@ export const DatePicker = (props: Props) => {
               >
                 <div style={styleIconHook1.style} />
                 <div style={styleIconHook2.style} />
-                <Icon icon="calendar_today" size={16} />
+                <Icon icon="calendar_today" size={16} color={styleIconHook1.style.color} />
               </DatePickerIconWrapper>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
