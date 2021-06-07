@@ -130,9 +130,9 @@ export type FormTextField<FormData> = FormInput<
 >
 
 export type OptionGroupField<FormData> = FormInput<
-  NullableAndUndefinabled<string>,
+  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
   OptionGroupProps,
-  NullableAndUndefinabledLens<FormData, string>,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.OptionGroup
 >
 

@@ -203,6 +203,19 @@ export type AppTheme = {
     noResultsLabel: CSSProperties
     loading: CSSProperties
   }
+  navigation: {
+    carrot: CSSProperties
+    item: CSSProperties
+    itemActive: CSSProperties
+    itemCircle: CSSProperties
+    itemCircleActive: CSSProperties
+    itemLabel: CSSProperties
+    itemLabelActive: CSSProperties
+    itemNumber: CSSProperties
+    itemWrapper: CSSProperties
+    wrapperInner: CSSProperties
+    wrapperOuter: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
@@ -391,6 +404,19 @@ const defaultAppTheme: AppTheme = {
   icon: {
     edit: {},
     info: {},
+  },
+  navigation: {
+    carrot: {},
+    item: {},
+    itemActive: {},
+    itemCircle: {},
+    itemCircleActive: {},
+    itemLabel: {},
+    itemLabelActive: {},
+    itemNumber: {},
+    itemWrapper: {},
+    wrapperInner: {},
+    wrapperOuter: {},
   },
 }
 
