@@ -88,17 +88,6 @@ const ColorPickerContent = styled.div`
   }
 `
 
-// const CancelButton = styled(Button)`
-//   margin-left: 8px;
-//   z-index: 99999;
-// `
-
-// const SaveButton = styled(Button)`
-//   margin-right: 8px;
-//   width: 110px;
-//   z-index: 999999;
-// `
-
 export type Props = {
   dataTestId?: string
   label?: LabelProps
@@ -107,7 +96,7 @@ export type Props = {
   onChange?: (c: string) => void
   readOnly?: boolean
   style?: Partial<AppTheme['colorPicker']>
-  value: string | null
+  value: string | null // Color string in format "<r>,<g>,<b>,<a>" (e.g. "0,122,247,0.8")
 }
 export const ColorPicker = (props: Props) => {
   const { t } = useTranslation(props.localeNamespace)
@@ -124,6 +113,8 @@ export const ColorPicker = (props: Props) => {
     setInitialized(true)
   }, [initialized])
 
+  const rgbaColor = selectedColor > '' ? `rgba(${selectedColor})` : ''
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -137,7 +128,7 @@ export const ColorPicker = (props: Props) => {
           >
             <ColorCircle
               {...getCSSStyles('circle')}
-              color={selectedColor}
+              color={rgbaColor}
               data-test-id={props.dataTestId}
               onClick={() => !props.readOnly && !open && setOpen(true)}
               open={open}
@@ -159,9 +150,9 @@ export const ColorPicker = (props: Props) => {
                       )}
                       <ColorPickerContent className="grid-content">
                         <SketchPicker
-                          color={selectedColor}
+                          color={rgbaColor}
                           onChangeComplete={(color) =>
-                            setSelectedColor(`rgba(${Object.values(color.rgb).join(',')})`)
+                            setSelectedColor(Object.values(color.rgb).join(','))
                           }
                         />
                       </ColorPickerContent>
