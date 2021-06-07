@@ -131,6 +131,9 @@ export const DatePicker = (props: Props) => {
               dataTestId={props.dataTestId}
               style={{
                 wrapper: props.style.wrapper,
+                disabledInput: props.style.disabledInput,
+                errorInput: props.style.errorInput,
+                input: props.style.input,
               }}
             />
           ) : (
@@ -167,6 +170,9 @@ export const DatePicker = (props: Props) => {
                 dataTestId={props.dataTestId}
                 style={{
                   wrapper: props.style.wrapper,
+                  disabledInput: props.style.disabledInput,
+                  errorInput: props.style.errorInput,
+                  input: props.style.input,
                 }}
               />
 

@@ -118,13 +118,16 @@ export type AppTheme = {
     wrapper: CSSProperties
   }
   datePicker: {
+    disabledInput: CSSProperties
     errorHook: CSSProperties
+    errorInput: CSSProperties
     errorWrapper: CSSProperties
     hook1: CSSProperties
     hook2: CSSProperties
     iconWrapper: CSSProperties
-    wrapper: CSSProperties
+    input: CSSProperties
     reactDatePicker?: string
+    wrapper: CSSProperties
   }
   dropdown: {
     wrapper: CSSProperties
@@ -338,11 +341,14 @@ const defaultAppTheme: AppTheme = {
     wrapper: {},
   },
   datePicker: {
+    disabledInput: {},
     errorHook: {},
+    errorInput: {},
     errorWrapper: {},
     hook1: {},
     hook2: {},
     iconWrapper: {},
+    input: {},
     reactDatePicker: '',
     wrapper: {},
   },
