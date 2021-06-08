@@ -14,7 +14,7 @@ import rgbHex from 'rgb-hex'
 const ColorPickerWrapper = createStyled('div')
 const ColorPickerContainer = createStyled(styled.div`
   position: relative;
-  width: 64px;
+  width: 48px;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -90,7 +90,7 @@ const ColorPickerContent = styled.div`
 `
 
 const ColorLabelWrapper = styled.div`
-  width: calc(100% - 64px);
+  width: calc(100% - 48px);
 `
 
 export type Props = {
