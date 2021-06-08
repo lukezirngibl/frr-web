@@ -53,8 +53,9 @@ export type FormProps<FormData> = {
   formFields: Array<FormField<FormData>>
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
-  onChange: (formState: FormData) => void
+  onChange?: (formState: FormData) => void
   onChangeWithLens?: (lens: FormLens<FormData, any>, value: any) => void
+  onEdit?: (params: { dispatch: any }) => void
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
   onSubmit?: (params: { dispatch: any; formState: FormData }) => void
   readOnly?: boolean
@@ -93,6 +94,7 @@ export const Form = <FormData extends {}>({
   localeNamespace,
   onChange,
   onChangeWithLens,
+  onEdit,
   onInvalidSubmit,
   onSubmit,
   readOnly,
@@ -114,7 +116,7 @@ export const Form = <FormData extends {}>({
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
     if (onChangeWithLens) {
       onChangeWithLens(lens, value)
-    } else {
+    } else if (onChange) {
       onChange(lens.set(value)(data))
     }
   }
@@ -225,6 +227,7 @@ export const Form = <FormData extends {}>({
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
+            onEdit={onEdit}
             {...commonFieldProps}
           />
         )
@@ -245,7 +248,12 @@ export const Form = <FormData extends {}>({
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
 
   return !isVisible || isVisible(data) ? (
-    <FormWrapper {...getFormStyle('wrapper')} className={formClassName} data-test-id={dataTestId}>
+    <FormWrapper
+      {...getFormStyle('wrapper')}
+      className={formClassName}
+      data-test-id={dataTestId}
+      readonly={readOnly}
+    >
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>

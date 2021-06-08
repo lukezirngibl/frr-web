@@ -30,6 +30,7 @@ const TitleSpaceMobile = styled.div`
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
+  onEdit?: (params: { dispatch: any }) => void
 }
 
 export const FieldSection = <FormData extends {}>({
@@ -40,6 +41,7 @@ export const FieldSection = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
+  onEdit,
   showValidation,
   style,
 }: FieldSection<FormData>) => {
@@ -115,6 +117,8 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
+  const onEditSection = fieldSection.onEdit || onEdit
+
   // Render
   return (
     <>
@@ -164,13 +168,13 @@ export const FieldSection = <FormData extends {}>({
             {fieldSection.fields.map(renderSectionField)}
           </Container>
 
-          {!!fieldSection.onEdit && (
+          {onEditSection && (
             <Container {...getSectionRightStyle('wrapper')} readOnly={formReadOnly}>
               <Link
                 icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
                 label={fieldSection.editLabel}
                 localeNamespace={localeNamespace}
-                onClick={() => fieldSection.onEdit({ dispatch })}
+                onClick={() => onEditSection({ dispatch })}
                 style={getSectionRightStyle('editLink')}
               />
             </Container>
