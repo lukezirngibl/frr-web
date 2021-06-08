@@ -40,8 +40,8 @@ export const Navigation = (props: Props) => {
                 item: true,
                 itemActive:
                   props.navigationActiveType === NavigationActiveType.Single
-                    ? itemActiveIndex === itemIndex
-                    : itemActiveIndex <= itemIndex,
+                    ? itemIndex === itemActiveIndex
+                    : itemIndex <= itemActiveIndex,
               })}
             >
               <ItemNumber
