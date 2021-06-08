@@ -9,11 +9,12 @@ import { createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Button, ButtonType } from './Button'
 import { Label, LabelProps } from './Label'
+import rgbHex from 'rgb-hex'
 
 const ColorPickerWrapper = createStyled('div')
 const ColorPickerContainer = createStyled(styled.div`
   position: relative;
-  width: 100%;
+  width: 64px;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -29,7 +30,7 @@ const ColorPickerOverlay = styled.div`
   position: absolute;
   width: 264px;
   top: -64px;
-  right: 96px;
+  right: 64px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
@@ -88,6 +89,10 @@ const ColorPickerContent = styled.div`
   }
 `
 
+const ColorLabelWrapper = styled.div`
+  width: calc(100% - 64px);
+`
+
 export type Props = {
   dataTestId?: string
   label?: LabelProps
@@ -122,6 +127,16 @@ export const ColorPicker = (props: Props) => {
       {props.label && <Label {...props.label} />}
 
       <ColorPickerWrapper {...getCSSStyles('wrapper')}>
+        {color > '' && (
+          <ColorLabelWrapper>
+            <P
+              label={`#${rgbHex(color.replace(',1)', ')'))}`}
+              isLabelTranslated
+              {...getCSSStyles('labelColor')}
+            />
+            <P label={color.split(',').join(', ')} isLabelTranslated {...getCSSStyles('labelColor')} />
+          </ColorLabelWrapper>
+        )}
         <ColorPickerContainer>
           <ClickAwayListener
             onClickAway={() => {

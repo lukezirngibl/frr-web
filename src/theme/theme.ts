@@ -114,6 +114,7 @@ export type AppTheme = {
   }
   colorPicker: {
     circle: CSSProperties
+    labelColor: CSSProperties
     labelModal: CSSProperties
     wrapper: CSSProperties
   }
@@ -351,6 +352,7 @@ const defaultAppTheme: AppTheme = {
   colorPicker: {
     circle: {},
     labelModal: {},
+    labelColor: {},
     wrapper: {},
   },
   datePicker: {
