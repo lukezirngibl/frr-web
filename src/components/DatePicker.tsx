@@ -8,14 +8,16 @@ import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
+import { useInlineStyle, createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 
-const Wrapper = styled.div``
-const DatePickerIconWrapper = styled.div``
+const Wrapper = createStyled('div')
+const DatePickerIconWrapper = createStyled('div')
+const Hook1 = createStyled('div')
+const Hook2 = createStyled('div')
 
 const DatePickerAnimation = keyframes`
   from {
@@ -82,11 +84,22 @@ export type Props = {
 export const DatePicker = (props: Props) => {
   /* Styles */
   const theme = useAppTheme()
-  const getStyle = useInlineStyle(theme, 'datePicker')(props.style)
+  const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
 
-  const styleIconWrapper = getStyle('iconWrapper', props.error ? getStyle('errorWrapper').style : {})
-  const styleIconHook1 = getStyle('hook1', props.error ? getStyle('errorHook').style : {})
-  const styleIconHook2 = getStyle('hook2', props.error ? getStyle('errorHook').style : {})
+  const styleIconWrapper = getStyle({
+    iconWrapper: true,
+    errorWrapper: !!props.error,
+  })
+
+  const styleIconHook1 = getStyle({
+    hook1: true,
+    errorHook: !!props.error,
+  })
+
+  const styleIconHook2 = getStyle({
+    hook2: true,
+    errorHook: !!props.error,
+  })
 
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
@@ -181,9 +194,9 @@ export const DatePicker = (props: Props) => {
                 }}
                 {...styleIconWrapper}
               >
-                <div style={styleIconHook1.style} />
-                <div style={styleIconHook2.style} />
-                <Icon icon="calendar_today" size={16} color={styleIconHook1.style.color} />
+                <Hook1 {...styleIconHook1} />
+                <Hook2 {...styleIconHook2} />
+                <Icon icon="calendar_today" size={16} />
               </DatePickerIconWrapper>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
