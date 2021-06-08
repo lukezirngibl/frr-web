@@ -117,6 +117,15 @@ export const DatePicker = (props: Props) => {
 
   const [open, setOpen] = React.useState(false)
 
+  const textInputStyle = props.style
+    ? {
+        wrapper: props.style.wrapper,
+        disabledInput: props.style.disabledInput,
+        errorInput: props.style.errorInput,
+        input: props.style.input,
+      }
+    : undefined
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -142,9 +151,7 @@ export const DatePicker = (props: Props) => {
               inputType={'date'}
               value={props.value ? format(props.value, props.dateFormat) : null}
               dataTestId={props.dataTestId}
-              style={{
-                wrapper: (props.style || {}).wrapper,
-              }}
+              style={textInputStyle}
             />
           ) : (
             <>
@@ -178,9 +185,7 @@ export const DatePicker = (props: Props) => {
                 placeholder={'dateFormatPlaceholder'}
                 value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
-                style={{
-                  wrapper: (props.style || {}).wrapper,
-                }}
+                style={textInputStyle}
               />
 
               <DatePickerIconWrapper

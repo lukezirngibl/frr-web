@@ -114,17 +114,21 @@ export type AppTheme = {
   }
   colorPicker: {
     circle: CSSProperties
+    labelColor: CSSProperties
     labelModal: CSSProperties
     wrapper: CSSProperties
   }
   datePicker: {
+    disabledInput: CSSProperties
     errorHook: CSSProperties
+    errorInput: CSSProperties
     errorWrapper: CSSProperties
     hook1: CSSProperties
     hook2: CSSProperties
     iconWrapper: CSSProperties
-    wrapper: CSSProperties
+    input: CSSProperties
     reactDatePicker?: string
+    wrapper: CSSProperties
   }
   dropdown: {
     wrapper: CSSProperties
@@ -200,6 +204,19 @@ export type AppTheme = {
     noResultsLabel: CSSProperties
     loading: CSSProperties
     headerOuterWrapper: CSSProperties
+  }
+  navigation: {
+    carrot: CSSProperties
+    item: CSSProperties
+    itemActive: CSSProperties
+    itemCircle: CSSProperties
+    itemCircleActive: CSSProperties
+    itemLabel: CSSProperties
+    itemLabelActive: CSSProperties
+    itemNumber: CSSProperties
+    itemWrapper: CSSProperties
+    wrapperInner: CSSProperties
+    wrapperOuter: CSSProperties
   }
 }
 
@@ -337,14 +354,18 @@ const defaultAppTheme: AppTheme = {
   colorPicker: {
     circle: {},
     labelModal: {},
+    labelColor: {},
     wrapper: {},
   },
   datePicker: {
+    disabledInput: {},
     errorHook: {},
+    errorInput: {},
     errorWrapper: {},
     hook1: {},
     hook2: {},
     iconWrapper: {},
+    input: {},
     reactDatePicker: '',
     wrapper: {},
   },
@@ -387,6 +408,19 @@ const defaultAppTheme: AppTheme = {
   icon: {
     edit: {},
     info: {},
+  },
+  navigation: {
+    carrot: {},
+    item: {},
+    itemActive: {},
+    itemCircle: {},
+    itemCircleActive: {},
+    itemLabel: {},
+    itemLabelActive: {},
+    itemNumber: {},
+    itemWrapper: {},
+    wrapperInner: {},
+    wrapperOuter: {},
   },
 }
 

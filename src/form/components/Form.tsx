@@ -45,6 +45,7 @@ export type FormProps<FormData> = {
     }
   >
   children?: ReactNode
+  className?: string
   data: FormData
   dataTestId?: string
   disableValidation?: boolean
@@ -83,6 +84,7 @@ const FormContent = createStyled(styled.div`
 export const Form = <FormData extends {}>({
   analytics,
   buttons,
+  className,
   data,
   dataTestId,
   disableValidation,
@@ -239,12 +241,11 @@ export const Form = <FormData extends {}>({
     }
   }
 
+  let formClassName = `${className} ` || ''
+  formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
+
   return !isVisible || isVisible(data) ? (
-    <FormWrapper
-      {...getFormStyle('wrapper')}
-      className={readOnly ? 'readonly' : ''}
-      data-test-id={dataTestId}
-    >
+    <FormWrapper {...getFormStyle('wrapper')} className={formClassName} data-test-id={dataTestId}>
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>

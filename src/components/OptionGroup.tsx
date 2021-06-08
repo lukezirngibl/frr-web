@@ -2,25 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import { Options, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
-const Wrapper = styled.div`
+const Wrapper = createStyled(styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-`
+`)
 
-const Item = styled.div`
+const Item = createStyled(styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &.inactive:last-child {
-    border-right-width: 0 !important;
-  }
-`
+`)
 
 export type Props = {
   dataTestId?: string
@@ -28,23 +24,22 @@ export type Props = {
   error?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
-  onChange: (v: string) => void
-  options: Options<string>
+  onChange: (v: string | number) => void
+  options: Options<string | number>
   style?: Partial<AppTheme['optionGroup']>
-  value: string | null
+  value: string | number | null
 }
 
 export const OptionGroup = (props: Props) => {
   const theme = useAppTheme()
 
-  const getInlineStyle = useInlineStyle(theme, 'optionGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
-        {...getInlineStyle({
+        {...getCSSStyles({
           wrapper: true,
           errorWrapper: props.error,
         })}
@@ -57,7 +52,7 @@ export const OptionGroup = (props: Props) => {
               props.onChange(item.value)
             }}
             data-test-id={`${props.dataTestId}:${item.value}`}
-            {...getInlineStyle({
+            {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,
             })}

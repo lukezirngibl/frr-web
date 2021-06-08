@@ -36,7 +36,7 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       borderRadius: 12,
       marginTop: -9,
       marginLeft: -8,
-      '&:focus, &:hover, &$active': {
+      '&:focus, &:hover, &:active': {
         backgroundColor: 'rgb(230,170,59)',
       },
       ...(materialStyles.thumb || {}),

@@ -9,11 +9,12 @@ import { createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Button, ButtonType } from './Button'
 import { Label, LabelProps } from './Label'
+import rgbHex from 'rgb-hex'
 
 const ColorPickerWrapper = createStyled('div')
 const ColorPickerContainer = createStyled(styled.div`
   position: relative;
-  width: 100%;
+  width: 48px;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -29,7 +30,7 @@ const ColorPickerOverlay = styled.div`
   position: absolute;
   width: 264px;
   top: -64px;
-  right: 96px;
+  right: 64px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
@@ -88,26 +89,18 @@ const ColorPickerContent = styled.div`
   }
 `
 
-// const CancelButton = styled(Button)`
-//   margin-left: 8px;
-//   z-index: 99999;
-// `
-
-// const SaveButton = styled(Button)`
-//   margin-right: 8px;
-//   width: 110px;
-//   z-index: 999999;
-// `
+const ColorLabelWrapper = styled.div`
+  width: calc(100% - 48px);
+`
 
 export type Props = {
   dataTestId?: string
   label?: LabelProps
-  labelModal?: string
   localeNamespace?: LocaleNamespace
   onChange?: (c: string) => void
   readOnly?: boolean
   style?: Partial<AppTheme['colorPicker']>
-  value: string | null
+  value: string | null // Color string in format "<r>,<g>,<b>,<a>" (e.g. "0,122,247,0.8")
 }
 export const ColorPicker = (props: Props) => {
   const { t } = useTranslation(props.localeNamespace)
@@ -117,18 +110,33 @@ export const ColorPicker = (props: Props) => {
   const getCSSStyles = useCSSStyles(theme, 'colorPicker')(props.style)
 
   const [initialized, setInitialized] = useState(false)
-  const [selectedColor, setSelectedColor] = useState(props.value || '')
+  const [color, setColor] = useState(`rgba(${props.value})` || '')
+  const [newColor, setNewColor] = useState(`rgba(${props.value})` || '')
   const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     setInitialized(true)
   }, [initialized])
 
+  useEffect(() => {
+    setColor(props.value > '' ? `rgba(${props.value})` : '')
+  }, [props.value])
+
   return (
     <>
       {props.label && <Label {...props.label} />}
 
       <ColorPickerWrapper {...getCSSStyles('wrapper')}>
+        {color > '' && (
+          <ColorLabelWrapper>
+            <P
+              label={`#${rgbHex(color.replace(',1)', ')'))}`}
+              isLabelTranslated
+              {...getCSSStyles('labelColor')}
+            />
+            <P label={color.split(',').join(', ')} isLabelTranslated {...getCSSStyles('labelColor')} />
+          </ColorLabelWrapper>
+        )}
         <ColorPickerContainer>
           <ClickAwayListener
             onClickAway={() => {
@@ -137,7 +145,7 @@ export const ColorPicker = (props: Props) => {
           >
             <ColorCircle
               {...getCSSStyles('circle')}
-              color={selectedColor}
+              color={color}
               data-test-id={props.dataTestId}
               onClick={() => !props.readOnly && !open && setOpen(true)}
               open={open}
@@ -148,21 +156,18 @@ export const ColorPicker = (props: Props) => {
 
                   <ColorPickerOverlay className="animated fadeIn">
                     <ColorPickerModal {...getModalCSSStyles('innerWrapper')}>
-                      {props.labelModal && (
-                        <div className="grid-title">
-                          <P
-                            {...getCSSStyles('labelModal')}
-                            label={props.labelModal}
-                            localeNamespace={props.localeNamespace}
-                          />
-                        </div>
-                      )}
+                      <div className="grid-title">
+                        <P
+                          {...getCSSStyles('labelModal')}
+                          label={props.label.label}
+                          localeNamespace={props.localeNamespace}
+                        />
+                      </div>
+
                       <ColorPickerContent className="grid-content">
                         <SketchPicker
-                          color={selectedColor}
-                          onChangeComplete={(color) =>
-                            setSelectedColor(`rgba(${Object.values(color.rgb).join(',')})`)
-                          }
+                          color={newColor > '' ? `rgba(${newColor})` : ''}
+                          onChangeComplete={(col) => setNewColor(Object.values(col.rgb).join(','))}
                         />
                       </ColorPickerContent>
 
@@ -184,8 +189,7 @@ export const ColorPicker = (props: Props) => {
                           type={ButtonType.Primary}
                           onClick={() => {
                             setOpen(false)
-                            console.log('ON CHANGE COLOR', selectedColor)
-                            props.onChange(selectedColor)
+                            props.onChange(newColor)
                           }}
                           style={{
                             primary: {
