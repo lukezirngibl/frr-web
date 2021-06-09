@@ -230,7 +230,6 @@ export const Form = <FormData extends {}>({
             field={field}
             fieldIndex={fieldIndex}
             onFormEdit={onEdit}
-            isFormEdit={isEdit}
             {...commonFieldProps}
           />
         )

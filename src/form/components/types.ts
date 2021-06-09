@@ -443,6 +443,7 @@ export type FormSection<FormData> = {
   title?: string
   titleData?: any
   type: FormFieldType.FormSection
+  TitleCenterComponent?: ReactNode
 }
 
 export type InternalFormField<FormData> =

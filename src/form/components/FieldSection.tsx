@@ -1,37 +1,21 @@
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
 import { MediaQuery } from '../../theme/theme'
 import { createStyled } from '../../theme/util'
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
-import {
-  CommonThreadProps,
-  FormFieldType,
-  FormSection,
-  SectionField,
-  InternalSectionField,
-} from './types'
 import { StaticField } from './StaticField'
-
-const Container = createStyled('div')
-const TitleSpaceMobile = styled.div`
-  display: none;
-  @media ${MediaQuery.Mobile} {
-    display: block;
-    margin-bottom: 32px;
-  }
-`
+import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
   onFormEdit?: (params: { dispatch: any }) => void
-  isFormEdit?: boolean
 }
 
 export const FieldSection = <FormData extends {}>({
@@ -43,7 +27,6 @@ export const FieldSection = <FormData extends {}>({
   localeNamespace,
   onChange,
   onFormEdit,
-  isFormEdit,
   showValidation,
   style,
 }: FieldSection<FormData>) => {
@@ -149,15 +132,30 @@ export const FieldSection = <FormData extends {}>({
 
         <Container {...getSectionStyle('contentWrapper')}>
           <Container {...getSectionStyle('content')}>
-            {fieldSection.title && (
-              <P
-                {...getSectionStyle('title', fieldSection.style?.title || {})}
-                readOnly={formReadOnly}
-                label={fieldSection.title}
-                data={fieldSection.titleData}
-                localeNamespace={localeNamespace}
-              />
-            )}
+            {fieldSection.title
+              ? (fieldSection.TitleCenterComponent && (
+                  <Container {...getSectionStyle('titleWrapper')}>
+                    <P
+                      {...getSectionStyle('title', fieldSection.style?.title || {})}
+                      readOnly={formReadOnly}
+                      label={fieldSection.title}
+                      data={fieldSection.titleData}
+                      localeNamespace={localeNamespace}
+                    />
+
+                    {fieldSection.TitleCenterComponent}
+                  </Container>
+                )) || (
+                  <P
+                    {...getSectionStyle('title', fieldSection.style?.title || {})}
+                    readOnly={formReadOnly}
+                    label={fieldSection.title}
+                    data={fieldSection.titleData}
+                    localeNamespace={localeNamespace}
+                  />
+                )
+              : null}
+
             {formReadOnly && !fieldSection.title && <TitleSpaceMobile />}
 
             {!formReadOnly && fieldSection.description && (
@@ -187,3 +185,12 @@ export const FieldSection = <FormData extends {}>({
     </>
   )
 }
+
+const Container = createStyled('div')
+const TitleSpaceMobile = styled.div`
+  display: none;
+  @media ${MediaQuery.Mobile} {
+    display: block;
+    margin-bottom: 32px;
+  }
+`

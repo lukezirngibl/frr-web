@@ -18,12 +18,13 @@ export type FormTheme = {
     button: CSSProperties
   }
   section: {
+    content: CSSProperties
+    contentWrapper: CSSProperties
     description: CSSProperties
     introduction: CSSProperties
     title: CSSProperties
+    titleWrapper: CSSProperties
     wrapper: CSSProperties
-    contentWrapper: CSSProperties
-    content: CSSProperties
   }
   sectionRight: {
     wrapper: CSSProperties
@@ -53,12 +54,13 @@ export type FormTheme = {
 
 export const defaultFormTheme: FormTheme = {
   section: {
+    content: {},
+    contentWrapper: {},
     description: {},
     introduction: {},
     title: {},
+    titleWrapper: {},
     wrapper: {},
-    contentWrapper: {},
-    content: {},
   },
   staticField: {
     wrapper: {},
