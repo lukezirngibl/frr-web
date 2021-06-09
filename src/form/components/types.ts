@@ -441,6 +441,7 @@ export type FormSection<FormData> = {
   onEdit?: (params: { dispatch: any }) => void
   style?: Partial<FormTheme['section']>
   title?: string
+  titleData?: any
   type: FormFieldType.FormSection
 }
 

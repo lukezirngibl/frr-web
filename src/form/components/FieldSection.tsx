@@ -119,7 +119,7 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = fieldSection.onEdit || (!isFormEdit && onFormEdit)
+  const onEditSection = fieldSection.onEdit || onFormEdit
 
   // Render
   return (
@@ -154,6 +154,7 @@ export const FieldSection = <FormData extends {}>({
                 {...getSectionStyle('title', fieldSection.style?.title || {})}
                 readOnly={formReadOnly}
                 label={fieldSection.title}
+                data={fieldSection.titleData}
                 localeNamespace={localeNamespace}
               />
             )}
