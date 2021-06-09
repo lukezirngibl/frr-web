@@ -40,12 +40,14 @@ export type FormTheme = {
     item: CSSProperties
   }
   fieldReadOnly: {
-    wrapper: CSSProperties
+    image: CSSProperties
     item: CSSProperties
+    label: CSSProperties
+    textAreaItem: CSSProperties
+    textAreaValue: CSSProperties
     value: CSSProperties
     valueHighlighted: CSSProperties
-    image: CSSProperties
-    label: CSSProperties
+    wrapper: CSSProperties
   }
 }
 
@@ -88,12 +90,14 @@ export const defaultFormTheme: FormTheme = {
     item: {},
   },
   fieldReadOnly: {
-    wrapper: {},
+    image: {},
     item: {},
+    label: {},
+    textAreaItem: {},
+    textAreaValue: {},
     value: {},
     valueHighlighted: {},
-    image: {},
-    label: {},
+    wrapper: {},
   },
 }
 

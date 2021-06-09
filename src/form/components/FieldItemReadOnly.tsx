@@ -177,25 +177,46 @@ type FieldItemReadOnlyValueProps<FormData> = {
 const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyValueProps<FormData>) => {
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
-  const readOnlyStyle: Array<'value' | 'valueHighlighted'> = ['value']
+  const readOnlyStyle: Array<'value' | 'valueHighlighted' | 'textAreaValue'> = ['value']
 
   const readOnlyMapper = props.field.readOnlyMapper || defaultReadOnlyMappers[props.field.type]
 
   props.field.readOnlyOptions?.isHighlighted && readOnlyStyle.push('valueHighlighted')
+  props.field.type === FormFieldType.TextArea && readOnlyStyle.push('textAreaValue')
 
-  return props.field.readOnlyOptions?.image ? (
-    <Image src={props.field.readOnlyOptions.image} alt="value image" {...props.getFieldStyle('image')} />
-  ) : (
-    <P
-      {...props.getFieldStyle(readOnlyStyle)}
-      label={readOnlyMapper({
-        ...props.field,
-        value: props.field.lens.get(props.data),
-        translate,
-        language: i18n.language as Language,
-      } as any)}
-      isLabelTranslated
-    />
+  return (
+    (props.field.readOnlyOptions?.image && (
+      <Image
+        src={props.field.readOnlyOptions.image}
+        alt="value image"
+        {...props.getFieldStyle('image')}
+      />
+    )) ||
+    (props.field.type === FormFieldType.TextArea && (
+      <FieldItemValueWrapper {...props.getFieldStyle('textAreaItem')}>
+        <P
+          {...props.getFieldStyle(readOnlyStyle)}
+          label={readOnlyMapper({
+            ...props.field,
+            value: props.field.lens.get(props.data),
+            translate,
+            language: i18n.language as Language,
+          } as any)}
+          isLabelTranslated
+        />
+      </FieldItemValueWrapper>
+    )) || (
+      <P
+        {...props.getFieldStyle(readOnlyStyle)}
+        label={readOnlyMapper({
+          ...props.field,
+          value: props.field.lens.get(props.data),
+          translate,
+          language: i18n.language as Language,
+        } as any)}
+        isLabelTranslated
+      />
+    )
   )
 }
 
@@ -213,8 +234,8 @@ type FieldItemReadOnlyProps<FormData> = Omit<
 
 export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyProps<FormData>) => {
   const theme = useFormTheme()
-  const getRowStyle = useCSSStyles(theme, 'row')({})
-  const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')({})
+  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
+  const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   return (
     <FormFieldWrapper

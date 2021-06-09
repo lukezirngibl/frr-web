@@ -30,7 +30,8 @@ const TitleSpaceMobile = styled.div`
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
-  onEdit?: (params: { dispatch: any }) => void
+  onFormEdit?: (params: { dispatch: any }) => void
+  isFormEdit?: boolean
 }
 
 export const FieldSection = <FormData extends {}>({
@@ -41,7 +42,8 @@ export const FieldSection = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
-  onEdit,
+  onFormEdit,
+  isFormEdit,
   showValidation,
   style,
 }: FieldSection<FormData>) => {
@@ -117,7 +119,7 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = fieldSection.onEdit || onEdit
+  const onEditSection = fieldSection.onEdit || (!isFormEdit && onFormEdit)
 
   // Render
   return (

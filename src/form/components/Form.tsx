@@ -51,6 +51,7 @@ export type FormProps<FormData> = {
   disableValidation?: boolean
   display?: DisplayType
   formFields: Array<FormField<FormData>>
+  isEdit?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
   onChange?: (formState: FormData) => void
@@ -90,6 +91,7 @@ export const Form = <FormData extends {}>({
   dataTestId,
   disableValidation,
   formFields,
+  isEdit,
   isVisible,
   localeNamespace,
   onChange,
@@ -227,7 +229,8 @@ export const Form = <FormData extends {}>({
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
-            onEdit={onEdit}
+            onFormEdit={onEdit}
+            isFormEdit={isEdit}
             {...commonFieldProps}
           />
         )
@@ -252,7 +255,7 @@ export const Form = <FormData extends {}>({
       {...getFormStyle('wrapper')}
       className={formClassName}
       data-test-id={dataTestId}
-      readonly={readOnly}
+      readOnly={readOnly}
     >
       {renderTopChildren && renderTopChildren(data)}
 
@@ -264,7 +267,7 @@ export const Form = <FormData extends {}>({
       {renderBottomChildren && renderBottomChildren(data)}
 
       {buttons && (
-        <ButtonContainer {...getFormStyle('buttonContainer')}>
+        <ButtonContainer {...getFormStyle('buttonContainer')} disabled={isEdit !== undefined && !isEdit}>
           {buttons.map((button, k) => (
             <Button
               {...button}
