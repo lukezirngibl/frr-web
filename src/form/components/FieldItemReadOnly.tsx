@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
+import rgbHex from 'rgb-hex'
 
 /*
  * Value mapper
@@ -48,18 +49,44 @@ const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): stri
 const defaultCurrencyMapper = ({ value }: MapperParams<number>): string =>
   formatter.long.format(value || 0)
 
+const ColorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+`
+const ColorLabelWrapper = styled.div`
+  margin-left: 16px;
+`
+
+const colorLabelStyle = {
+  color: 'var(--color-secondary)',
+  fontSize: 'var(--font-size-small)',
+  lineHeight: 1.2,
+}
+
 const defaultColorMapper = ({ value }: MapperParams<string>): ReactNode => (
-  <div
-    style={{
-      width: 16,
-      height: 16,
-      borderRadius: '50%',
-      backgroundColor: value,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: '0, 0, 0, 0.3',
-    }}
-  ></div>
+  <ColorWrapper>
+    <div
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        backgroundColor: `rgba(${value})`,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '0, 0, 0, 0.3',
+      }}
+    ></div>
+    <ColorLabelWrapper>
+      <P
+        label={`#${rgbHex(`rgba(${value.replace(',1)', ')')})`)}`}
+        isLabelTranslated
+        style={colorLabelStyle}
+      />
+      <P label={`rgba(${value.split(',').join(', ')})`} isLabelTranslated style={colorLabelStyle} />
+    </ColorLabelWrapper>
+  </ColorWrapper>
 )
 
 const defaultOptionArrayMapper = (
@@ -177,25 +204,43 @@ type FieldItemReadOnlyValueProps<FormData> = {
 const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyValueProps<FormData>) => {
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
-  const readOnlyStyle: Array<'value' | 'valueHighlighted'> = ['value']
+  const readOnlyStyle: Array<'value' | 'valueHighlighted' | 'textAreaValue'> = ['value']
 
   const readOnlyMapper = props.field.readOnlyMapper || defaultReadOnlyMappers[props.field.type]
 
   props.field.readOnlyOptions?.isHighlighted && readOnlyStyle.push('valueHighlighted')
+  props.field.type === FormFieldType.TextArea && readOnlyStyle.push('textAreaValue')
 
-  return props.field.readOnlyOptions?.image ? (
-    <Image src={props.field.readOnlyOptions.image} alt="value image" {...props.getFieldStyle('image')} />
+  if (props.field.readOnlyOptions?.image) {
+    return (
+      <Image
+        src={props.field.readOnlyOptions.image}
+        alt="value image"
+        {...props.getFieldStyle('image')}
+      />
+    )
+  }
+
+  const value = readOnlyMapper({
+    ...props.field,
+    value: props.field.lens.get(props.data),
+    translate,
+    language: i18n.language as Language,
+  } as any)
+
+  return (props.field.type === FormFieldType.TextArea && (
+    <FieldItemValueWrapper {...props.getFieldStyle('textAreaItem')}>
+      {typeof value === 'string' ? (
+        <P {...props.getFieldStyle(readOnlyStyle)} label={value} isLabelTranslated />
+      ) : (
+        value
+      )}
+    </FieldItemValueWrapper>
+  )) ||
+    typeof value === 'string' ? (
+    <P {...props.getFieldStyle(readOnlyStyle)} label={value} isLabelTranslated />
   ) : (
-    <P
-      {...props.getFieldStyle(readOnlyStyle)}
-      label={readOnlyMapper({
-        ...props.field,
-        value: props.field.lens.get(props.data),
-        translate,
-        language: i18n.language as Language,
-      } as any)}
-      isLabelTranslated
-    />
+    <>{value}</>
   )
 }
 
@@ -213,8 +258,8 @@ type FieldItemReadOnlyProps<FormData> = Omit<
 
 export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyProps<FormData>) => {
   const theme = useFormTheme()
-  const getRowStyle = useCSSStyles(theme, 'row')({})
-  const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')({})
+  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
+  const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   return (
     <FormFieldWrapper

@@ -179,6 +179,10 @@ export const getUseCSSStyles =
       ${mapStylesToCSS(styles[':disabled'] || {})}
     }
 
+    &[disabled] {
+      ${mapStylesToCSS(styles[':disabled'] || {})}
+    }
+
     &[readonly] {
       ${mapStylesToCSS(styles[':readonly'] || {})}
     }
