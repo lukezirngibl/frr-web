@@ -51,10 +51,12 @@ export type FormProps<FormData> = {
   disableValidation?: boolean
   display?: DisplayType
   formFields: Array<FormField<FormData>>
+  isEdit?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
-  onChange: (formState: FormData) => void
+  onChange?: (formState: FormData) => void
   onChangeWithLens?: (lens: FormLens<FormData, any>, value: any) => void
+  onEdit?: (params: { dispatch: any }) => void
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
   onSubmit?: (params: { dispatch: any; formState: FormData }) => void
   readOnly?: boolean
@@ -89,10 +91,12 @@ export const Form = <FormData extends {}>({
   dataTestId,
   disableValidation,
   formFields,
+  isEdit,
   isVisible,
   localeNamespace,
   onChange,
   onChangeWithLens,
+  onEdit,
   onInvalidSubmit,
   onSubmit,
   readOnly,
@@ -114,7 +118,7 @@ export const Form = <FormData extends {}>({
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
     if (onChangeWithLens) {
       onChangeWithLens(lens, value)
-    } else {
+    } else if (onChange) {
       onChange(lens.set(value)(data))
     }
   }
@@ -225,6 +229,7 @@ export const Form = <FormData extends {}>({
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
+            onFormEdit={onEdit}
             {...commonFieldProps}
           />
         )
@@ -245,7 +250,12 @@ export const Form = <FormData extends {}>({
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
 
   return !isVisible || isVisible(data) ? (
-    <FormWrapper {...getFormStyle('wrapper')} className={formClassName} data-test-id={dataTestId}>
+    <FormWrapper
+      {...getFormStyle('wrapper')}
+      className={formClassName}
+      data-test-id={dataTestId}
+      readOnly={readOnly}
+    >
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>
@@ -256,7 +266,7 @@ export const Form = <FormData extends {}>({
       {renderBottomChildren && renderBottomChildren(data)}
 
       {buttons && (
-        <ButtonContainer {...getFormStyle('buttonContainer')}>
+        <ButtonContainer {...getFormStyle('buttonContainer')} disabled={isEdit !== undefined && !isEdit}>
           {buttons.map((button, k) => (
             <Button
               {...button}

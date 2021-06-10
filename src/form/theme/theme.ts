@@ -18,12 +18,13 @@ export type FormTheme = {
     button: CSSProperties
   }
   section: {
+    content: CSSProperties
+    contentWrapper: CSSProperties
     description: CSSProperties
     introduction: CSSProperties
     title: CSSProperties
+    titleWrapper: CSSProperties
     wrapper: CSSProperties
-    contentWrapper: CSSProperties
-    content: CSSProperties
   }
   sectionRight: {
     wrapper: CSSProperties
@@ -40,23 +41,26 @@ export type FormTheme = {
     item: CSSProperties
   }
   fieldReadOnly: {
-    wrapper: CSSProperties
+    image: CSSProperties
     item: CSSProperties
+    label: CSSProperties
+    textAreaItem: CSSProperties
+    textAreaValue: CSSProperties
     value: CSSProperties
     valueHighlighted: CSSProperties
-    image: CSSProperties
-    label: CSSProperties
+    wrapper: CSSProperties
   }
 }
 
 export const defaultFormTheme: FormTheme = {
   section: {
+    content: {},
+    contentWrapper: {},
     description: {},
     introduction: {},
     title: {},
+    titleWrapper: {},
     wrapper: {},
-    contentWrapper: {},
-    content: {},
   },
   staticField: {
     wrapper: {},
@@ -88,12 +92,14 @@ export const defaultFormTheme: FormTheme = {
     item: {},
   },
   fieldReadOnly: {
-    wrapper: {},
+    image: {},
     item: {},
+    label: {},
+    textAreaItem: {},
+    textAreaValue: {},
     value: {},
     valueHighlighted: {},
-    image: {},
-    label: {},
+    wrapper: {},
   },
 }
 

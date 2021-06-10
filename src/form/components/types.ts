@@ -100,7 +100,7 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
     params: Omit<P, 'onChange' | 'onBlur'> & {
       translate: Translate
     },
-  ) => string
+  ) => string | ReactNode
   readOnlyOptions?: {
     isHighlighted?: boolean
     image?: string
@@ -441,7 +441,9 @@ export type FormSection<FormData> = {
   onEdit?: (params: { dispatch: any }) => void
   style?: Partial<FormTheme['section']>
   title?: string
+  titleData?: any
   type: FormFieldType.FormSection
+  TitleCenterComponent?: ReactNode
 }
 
 export type InternalFormField<FormData> =

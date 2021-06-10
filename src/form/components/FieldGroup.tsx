@@ -20,6 +20,7 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
     data,
     field: fieldGroup,
     fieldIndex: fieldGroupIndex,
+    formReadOnly,
     localeNamespace,
     onChange,
     style,
@@ -31,6 +32,7 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
 
   const commonFieldProps = {
     data,
+    formReadOnly,
     localeNamespace,
     onChange,
     style,
@@ -81,15 +83,18 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
         )
     }
   }
+
   return (
     <GroupWrapper
       key={typeof fieldGroupIndex === 'string' ? fieldGroupIndex : `group-${fieldGroupIndex}`}
+      readOnly={formReadOnly}
       {...getCSSStyle('wrapper', fieldGroup.style ? fieldGroup.style.wrapper || {} : {})}
     >
       {fieldGroup.title && (
         <P
           {...getCSSStyle('title', fieldGroup.style ? fieldGroup.style.title || {} : {})}
           label={fieldGroup.title}
+          readOnly={formReadOnly}
           localeNamespace={localeNamespace}
         />
       )}
