@@ -100,7 +100,7 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
     params: Omit<P, 'onChange' | 'onBlur'> & {
       translate: Translate
     },
-  ) => string
+  ) => string | ReactNode
   readOnlyOptions?: {
     isHighlighted?: boolean
     image?: string

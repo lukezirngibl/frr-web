@@ -185,6 +185,9 @@ export type AppTheme = {
     info: {
       svg?: string
     }
+    settings: {
+      svg?: string
+    }
   }
   modal: {
     outerWrapper: CSSProperties
@@ -408,6 +411,7 @@ const defaultAppTheme: AppTheme = {
   icon: {
     edit: {},
     info: {},
+    settings: {},
   },
   navigation: {
     carrot: {},

@@ -19,7 +19,7 @@ const LinkIcon = createStyled(styled.span`
     polygon {
       fill: currentColor;
 
-      &[fill='none']: {
+      &[fill='none'] {
         fill: none;
       }
     }
@@ -32,14 +32,15 @@ const LinkText = styled.span`
   }
 `
 type LinkProps = {
+  className?: string
   icon?: {
-    type: 'edit' | 'info'
-    style: { cssStyles: string; dataThemeId: string }
+    type: 'edit' | 'info' | 'settings'
+    style: { cssStyles?: string; dataThemeId: string }
   }
   label?: string
   localeNamespace?: LocaleNamespace
   onClick: () => unknown
-  style: { cssStyles: string; dataThemeId: string }
+  style?: { cssStyles: string; dataThemeId: string }
 }
 
 export const Link = (props: LinkProps) => {
@@ -54,7 +55,7 @@ export const Link = (props: LinkProps) => {
   const { t: translate } = useTranslation(props.localeNamespace)
 
   return (
-    <LinkWrapper onClick={props.onClick} {...props.style}>
+    <LinkWrapper onClick={props.onClick} {...props.style} className={props.className}>
       {icon?.style.svg && (
         <LinkIcon dangerouslySetInnerHTML={{ __html: icon.style.svg }} {...props.icon.style} />
       )}
