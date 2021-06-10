@@ -127,16 +127,6 @@ export const ColorPicker = (props: Props) => {
       {props.label && <Label {...props.label} />}
 
       <ColorPickerWrapper {...getCSSStyles('wrapper')}>
-        {color > '' && (
-          <ColorLabelWrapper>
-            <P
-              label={`#${rgbHex(color.replace(',1)', ')'))}`}
-              isLabelTranslated
-              {...getCSSStyles('labelColor')}
-            />
-            <P label={color.split(',').join(', ')} isLabelTranslated {...getCSSStyles('labelColor')} />
-          </ColorLabelWrapper>
-        )}
         <ColorPickerContainer>
           <ClickAwayListener
             onClickAway={() => {
@@ -206,6 +196,17 @@ export const ColorPicker = (props: Props) => {
             </ColorCircle>
           </ClickAwayListener>
         </ColorPickerContainer>
+
+        {color > '' && (
+          <ColorLabelWrapper>
+            <P
+              label={`#${rgbHex(color.replace(',1)', ')'))}`}
+              isLabelTranslated
+              {...getCSSStyles('labelColor')}
+            />
+            <P label={color.split(',').join(', ')} isLabelTranslated {...getCSSStyles('labelColor')} />
+          </ColorLabelWrapper>
+        )}
       </ColorPickerWrapper>
     </>
   )

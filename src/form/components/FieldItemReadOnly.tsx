@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
+import rgbHex from 'rgb-hex'
 
 /*
  * Value mapper
@@ -48,18 +49,44 @@ const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): stri
 const defaultCurrencyMapper = ({ value }: MapperParams<number>): string =>
   formatter.long.format(value || 0)
 
+const ColorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+`
+const ColorLabelWrapper = styled.div`
+  margin-left: 16px;
+`
+
+const colorLabelStyle = {
+  color: 'var(--color-secondary)',
+  fontSize: 'var(--font-size-small)',
+  lineHeight: 1.2,
+}
+
 const defaultColorMapper = ({ value }: MapperParams<string>): ReactNode => (
-  <div
-    style={{
-      width: 16,
-      height: 16,
-      borderRadius: '50%',
-      backgroundColor: value,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: '0, 0, 0, 0.3',
-    }}
-  ></div>
+  <ColorWrapper>
+    <div
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        backgroundColor: `rgba(${value})`,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '0, 0, 0, 0.3',
+      }}
+    ></div>
+    <ColorLabelWrapper>
+      <P
+        label={`#${rgbHex(`rgba(${value.replace(',1)', ')')})`)}`}
+        isLabelTranslated
+        style={colorLabelStyle}
+      />
+      <P label={`rgba(${value.split(',').join(', ')})`} isLabelTranslated style={colorLabelStyle} />
+    </ColorLabelWrapper>
+  </ColorWrapper>
 )
 
 const defaultOptionArrayMapper = (
