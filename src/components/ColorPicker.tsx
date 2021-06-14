@@ -29,8 +29,8 @@ const ColorCircle = createStyled(styled.a<{ color: string; open: boolean }>`
 const ColorPickerOverlay = styled.div`
   position: absolute;
   width: 264px;
-  top: -64px;
-  right: 64px;
+  top: -96px;
+  right: -96px;
   z-index: 9999;
 
   @media ${MediaQuery.Mobile} {
