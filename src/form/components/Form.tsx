@@ -40,7 +40,7 @@ export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
   buttons?: Array<
     Omit<ButtonProps, 'onClick'> & {
-      onClick: (params: { submit: () => void; dispatch: any }) => void
+      onClick: (params: { submit: () => boolean; dispatch: any }) => void
       isDisabled?: (d: FormData) => boolean
     }
   >
@@ -166,11 +166,14 @@ export const Form = <FormData extends {}>({
         setShowValidation(true)
         onInvalidSubmit?.({ errors, formState: data })
         analytics?.onInvalidSubmit?.({ errors, formState: data })
+        return false
       } else {
         onSubmit?.({ dispatch, formState: data })
         analytics?.onSubmit?.()
       }
     }
+
+    return true
   }
 
   const commonFieldProps = {
