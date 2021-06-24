@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 
+import { P } from '../html'
 import { Button, ButtonType } from './Button'
+import { LocaleNamespace } from '../translation'
 
 type FileRejections = {
   file: File
@@ -14,8 +16,9 @@ type UploadDropzoneProps = {
   onCancel: () => void
   onSubmit: () => void
   setData: (items: any) => void
-  acceptedFilesToUpload?: string
+  acceptedFileTypes?: string
   maxFilesToUpload?: number
+  localeNamespace?: LocaleNamespace
 }
 
 // const PDF = 'application/pdf'
@@ -25,12 +28,15 @@ export const UploadDropzone = ({
   onCancel,
   onSubmit,
   setData,
-  acceptedFilesToUpload,
+  acceptedFileTypes,
   maxFilesToUpload,
+  localeNamespace,
 }: UploadDropzoneProps) => {
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejections[]>([])
-  const isOnlyImagesAllowed = acceptedFilesToUpload === IMAGE
+  const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
+
+  const { t: translate } = useTranslation(localeNamespace)
 
   const {
     acceptedFiles,
@@ -41,7 +47,7 @@ export const UploadDropzone = ({
     isDragAccept,
     isDragReject,
   } = useDropzone({
-    accept: acceptedFilesToUpload,
+    accept: acceptedFileTypes,
     maxFiles: maxFilesToUpload,
     disabled: maxFilesToUpload
       ? acceptedFileItems.length >= maxFilesToUpload
@@ -93,16 +99,18 @@ export const UploadDropzone = ({
         {...getRootProps({ isDragActive, isDragAccept, isDragReject, className: 'dropzone disabled' })}
       >
         <input {...getInputProps()} />
-        <p>{`Drag 'n drop some${
-          isOnlyImagesAllowed && ' image'
-        } files here, or click to select files`}</p>
+        <P
+          label={translate(
+            `Drag 'n drop some${isOnlyImagesAllowed && ' image'} files here, or click to select files`,
+          )}
+        />
       </Container>
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
           <aside>
             {acceptedFileItems.length > 0 && (
               <Section>
-                <h4 style={{ color: 'green' }}>Accepted files</h4>
+                <h4 style={{ color: 'green' }}>{translate(`Accepted files`)}</h4>
                 {acceptedFileItems.map((file: File) => (
                   <ListItem key={file.name}>
                     {isOnlyImagesAllowed && (
@@ -114,19 +122,17 @@ export const UploadDropzone = ({
                         style={{ marginRight: '10px' }}
                       />
                     )}
-                    <span style={{ fontSize: 12 }}>
-                      {file.name} - {formatFileSize(file.size)}
-                    </span>
+                    <P label={`${file.name} - ${formatFileSize(file.size)}`} style={{ fontSize: 12 }} />
                   </ListItem>
                 ))}
               </Section>
             )}
             {rejectedFileItems.length > 0 && (
               <Section>
-                <h4 style={{ color: 'red' }}>{`Rejected files - ${getErrorMessage()}`}</h4>
+                <h4 style={{ color: 'red' }}>{translate(`Rejected files - ${getErrorMessage()}`)}</h4>
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
-                    <span style={{ fontSize: 12 }}>{file.name}</span>
+                    <P label={`${file.name}`} style={{ fontSize: 12 }} />
                   </ListItem>
                 ))}
               </Section>
