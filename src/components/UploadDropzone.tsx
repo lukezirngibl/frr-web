@@ -18,6 +18,7 @@ type UploadDropzoneProps = {
   setData: (items: any) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
+  maxFileSize?: number
   localeNamespace?: LocaleNamespace
 }
 
@@ -31,6 +32,7 @@ export const UploadDropzone = ({
   acceptedFileTypes,
   maxFilesToUpload,
   localeNamespace,
+  maxFileSize,
 }: UploadDropzoneProps) => {
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejections[]>([])
@@ -49,6 +51,7 @@ export const UploadDropzone = ({
   } = useDropzone({
     accept: acceptedFileTypes,
     maxFiles: maxFilesToUpload,
+    maxSize: maxFileSize,
     disabled: maxFilesToUpload
       ? acceptedFileItems.length >= maxFilesToUpload
       : acceptedFileItems.length > 0,
