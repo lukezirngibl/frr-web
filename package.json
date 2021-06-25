@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "0.6.0",
+    "@material-ui/icons": "^4.11.2",
     "date-fns": "^2.19.0",
     "fp-ts": "1.19.5",
     "monocle-ts": "2.0.0",
