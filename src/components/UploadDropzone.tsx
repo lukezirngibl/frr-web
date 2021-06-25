@@ -91,9 +91,11 @@ export const UploadDropzone = ({
 
   function getErrorMessage() {
     if (maxFilesToUpload && fileRejections.length > maxFilesToUpload)
-      return `Too many files selected (maximun files: ${maxFilesToUpload})`
-    if (isOnlyImagesAllowed) return 'upload jpg, png, gif or svg image'
-    return 'upload PDF documents'
+      return `${translate('Too many files selected')} (${translate(
+        'maximun files',
+      )}: ${maxFilesToUpload})`
+    if (isOnlyImagesAllowed) return translate('upload jpg, png, gif or svg image')
+    return translate('upload PDF documents')
   }
 
   return (
@@ -107,6 +109,12 @@ export const UploadDropzone = ({
             `Drag 'n drop some${isOnlyImagesAllowed && ' image'} files here, or click to select files`,
           )}
         />
+        {maxFileSize && (
+          <P
+            style={{ fontSize: 12 }}
+            label={`${translate('Maximum file size allowed')} ${formatFileSize(maxFileSize)}`}
+          />
+        )}
       </Container>
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
@@ -125,7 +133,11 @@ export const UploadDropzone = ({
                         style={{ marginRight: '10px' }}
                       />
                     )}
-                    <P label={`${file.name} - ${formatFileSize(file.size)}`} style={{ fontSize: 12 }} />
+                    <P
+                      isLabelTranslated
+                      label={`${file.name} - ${formatFileSize(file.size)}`}
+                      style={{ fontSize: 12 }}
+                    />
                   </ListItem>
                 ))}
               </Section>
@@ -135,7 +147,17 @@ export const UploadDropzone = ({
                 <h4 style={{ color: 'red' }}>{translate(`Rejected files - ${getErrorMessage()}`)}</h4>
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
-                    <P label={`${file.name}`} style={{ fontSize: 12 }} />
+                    <P
+                      isLabelTranslated
+                      label={`${file.name}${
+                        maxFileSize && file.size > maxFileSize
+                          ? ` - ${translate('file size bigger than')} ${formatFileSize(
+                              maxFileSize,
+                            )} (${formatFileSize(file.size)})`
+                          : ''
+                      }`}
+                      style={{ fontSize: 12 }}
+                    />
                   </ListItem>
                 ))}
               </Section>
@@ -146,6 +168,7 @@ export const UploadDropzone = ({
       <ButtonsWrapper>
         <Button label="cancel" onClick={onCancel} override={{ marginRight: 16 }} />
         <Button
+          disabled={acceptedFileItems.length === 0}
           label="save"
           type={ButtonType.Primary}
           onClick={() => {
