@@ -14,8 +14,8 @@ type FileRejections = {
 }
 
 type UploadDropzoneProps = {
-  onCancel: () => void
-  onSubmit: () => void
+  onCancel?: () => void
+  onSubmit?: () => void
   setData: (items: any) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
@@ -30,8 +30,8 @@ export const UploadDropzone = ({
   onCancel,
   onSubmit,
   setData,
-  acceptedFileTypes,
-  maxFilesToUpload,
+  acceptedFileTypes = 'image/*, application/pdf',
+  maxFilesToUpload = 1,
   localeNamespace,
   maxFileSize,
 }: UploadDropzoneProps) => {
@@ -114,20 +114,16 @@ export const UploadDropzone = ({
 
   return (
     <div>
-      <Container
-        {...getRootProps({ isDragActive, isDragAccept, isDragReject, className: 'dropzone disabled' })}
-      >
-        <input {...getInputProps()} />
-        {maxFilesToUpload === acceptedFileItems.length ? (
-          <P
-            label={translate(`Maximum number of files allowed to upload (${maxFilesToUpload}) reached`)}
-          />
-        ) : (
+      {maxFilesToUpload === acceptedFileItems.length ? null : (
+        <Container
+          {...getRootProps({ isDragActive, isDragAccept, isDragReject, className: 'dropzone disabled' })}
+        >
+          <input {...getInputProps()} />
           <>
             <P
               label={translate(
                 `Drag 'n drop some${
-                  isOnlyImagesAllowed && ' image'
+                  isOnlyImagesAllowed === true ? ' image' : ''
                 } files here, or click to select files`,
               )}
             />
@@ -138,16 +134,36 @@ export const UploadDropzone = ({
               />
             )}
           </>
-        )}
-      </Container>
+        </Container>
+      )}
+
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
           <aside>
             {acceptedFileItems.length > 0 && (
-              <Section>
-                <h4 style={{ color: 'green' }}>{translate(`Accepted files`)}</h4>
+              <Section
+                style={
+                  maxFilesToUpload === 1
+                    ? {
+                        paddingTop: '0px',
+                        display: 'flex',
+                        width: '100%',
+                        whiteSpace: 'nowrap',
+                        alignItems: 'center',
+                      }
+                    : null
+                }
+              >
+                {maxFilesToUpload === 1 ? (
+                  <h4 style={{ color: 'green' }}>{translate(`Accepted file`)}</h4>
+                ) : (
+                  <h4 style={{ color: 'green' }}>{translate(`Accepted files`)}</h4>
+                )}
                 {acceptedFileItems.map((file: File) => (
-                  <ListItem key={file.name}>
+                  <ListItem
+                    key={file.name}
+                    style={maxFilesToUpload === 1 ? { padding: '0 20px' } : null}
+                  >
                     {isOnlyImagesAllowed && (
                       <img
                         src={URL.createObjectURL(file)}
@@ -201,18 +217,20 @@ export const UploadDropzone = ({
           </aside>
         </section>
       )}
-      <ButtonsWrapper>
-        <Button label="cancel" onClick={onCancel} override={{ marginRight: 16 }} />
-        <Button
-          disabled={acceptedFileItems.length === 0}
-          label="save"
-          type={ButtonType.Primary}
-          onClick={() => {
-            onSubmit()
-            onCancel()
-          }}
-        />
-      </ButtonsWrapper>
+      {onSubmit && (
+        <ButtonsWrapper>
+          <Button label="cancel" onClick={onCancel} override={{ marginRight: 16 }} />
+          <Button
+            disabled={acceptedFileItems.length === 0}
+            label="save"
+            type={ButtonType.Primary}
+            onClick={() => {
+              onSubmit()
+              onCancel()
+            }}
+          />
+        </ButtonsWrapper>
+      )}
     </div>
   )
 }
