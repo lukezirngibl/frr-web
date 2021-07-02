@@ -1,34 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import { Options, P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
-
-const Wrapper = createStyled('div')
-
-const Item = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 8px;
-`)
-
-const OuterRadio = styled.div`
-  width: 24px;
-  height: 24px;
-  padding: 4px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-`
-
-const InnerRadio = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`
 
 export type Props = {
   dataTestId?: string
@@ -62,12 +39,14 @@ export const RadioGroup = (props: Props) => {
                 props.onChange(option.value)
               }}
               data-test-id={`${props.dataTestId}:${option.value}`}
+              htmlFor={`${props.dataTestId}-${k}`}
             >
               <P
                 {...getCSSStyles('label')}
                 label={option.label}
                 localeNamespace={props.localeNamespace}
               />
+              <input type="radio" id={`${props.dataTestId}-${k}`} checked={active} />
               <OuterRadio
                 {...getInlineStyle({
                   radioOuter: true,
@@ -91,3 +70,27 @@ export const RadioGroup = (props: Props) => {
     </>
   )
 }
+
+const Wrapper = createStyled('div')
+
+const Item = createStyled(styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+`)
+
+const OuterRadio = styled.div`
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+`
+
+const InnerRadio = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`
