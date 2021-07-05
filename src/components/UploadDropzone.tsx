@@ -14,9 +14,7 @@ type FileRejections = {
 }
 
 type UploadDropzoneProps = {
-  onCancel?: () => void
-  onSubmit?: () => void
-  setData: (items: any) => void
+  onChange: (items: any) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
   maxFileSize?: number
@@ -27,9 +25,7 @@ type UploadDropzoneProps = {
 const IMAGE = 'image/*'
 
 export const UploadDropzone = ({
-  onCancel,
-  onSubmit,
-  setData,
+  onChange,
   acceptedFileTypes = 'image/*, application/pdf',
   maxFilesToUpload = 1,
   localeNamespace,
@@ -102,8 +98,8 @@ export const UploadDropzone = ({
   }, [fileRejections])
 
   useEffect(() => {
-    setData(acceptedFileItems)
-  }, [acceptedFileItems, setData])
+    onChange(acceptedFileItems)
+  }, [acceptedFileItems, onChange])
 
   function formatFileSize(size: number) {
     const formattedSize: number = size / 1000
@@ -155,9 +151,9 @@ export const UploadDropzone = ({
                 }
               >
                 {maxFilesToUpload === 1 ? (
-                  <h4 style={{ color: 'green' }}>{translate(`Accepted file`)}</h4>
+                  <P style={{ color: 'green', fontSize: 12 }} label={translate(`Accepted file`)} />
                 ) : (
-                  <h4 style={{ color: 'green' }}>{translate(`Accepted files`)}</h4>
+                  <P style={{ color: 'green', fontSize: 12 }} label={translate(`Accepted files`)} />
                 )}
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
@@ -191,7 +187,7 @@ export const UploadDropzone = ({
             )}
             {rejectedFileItems.length > 0 && (
               <Section>
-                <h4 style={{ color: 'red' }}>{translate('Rejected files')}</h4>
+                <P style={{ color: 'red' }} label={translate(`Rejected files`)} />
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
                     <P
@@ -211,25 +207,11 @@ export const UploadDropzone = ({
             )}
             {errorMessage && (
               <Section>
-                <h4 style={{ color: 'red' }}>{`${translate('Error')}: ${errorMessage}`}</h4>
+                <P style={{ color: 'red' }} label={`${translate('Error')}: ${errorMessage}`} />
               </Section>
             )}
           </aside>
         </section>
-      )}
-      {onSubmit && (
-        <ButtonsWrapper>
-          <Button label="cancel" onClick={onCancel} override={{ marginRight: 16 }} />
-          <Button
-            disabled={acceptedFileItems.length === 0}
-            label="save"
-            type={ButtonType.Primary}
-            onClick={() => {
-              onSubmit()
-              onCancel()
-            }}
-          />
-        </ButtonsWrapper>
       )}
     </div>
   )
