@@ -151,11 +151,10 @@ export const UploadDropzone = ({
                     : null
                 }
               >
-                {maxFilesToUpload === 1 ? (
-                  <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFile'} />
-                ) : (
-                  <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFiles'} />
-                )}
+                <P
+                  {...getCSSStyle('acceptedFilesLabel')}
+                  label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
+                />
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
                     key={file.name}
