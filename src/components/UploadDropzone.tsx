@@ -78,9 +78,9 @@ export const UploadDropzone = ({
           (file) => file.name === acceptedFiles.find((f) => f.name === file.name)?.name,
         ) !== undefined
       ) {
-        setErrorMessage(`${translate('File already selected')}`)
+        setErrorMessage(translate('dropzone.rejectedFile.fileAlreadySelected'))
       } else if (acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload) {
-        setErrorMessage(`${translate('Too many files selected')} (max: ${maxFilesToUpload})`)
+        setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
       }
     }
   }, [acceptedFiles])
@@ -97,9 +97,9 @@ export const UploadDropzone = ({
       )
 
       if (maxFilesToUpload && fileRejections.length > maxFilesToUpload)
-        setErrorMessage(`${translate('Too many files selected')} (max: ${maxFilesToUpload})`)
-      else if (isOnlyImagesAllowed) setErrorMessage(`${translate('Upload jpg, png, gif or svg image')}`)
-      else setErrorMessage(`${translate('Upload PDF documents')}`)
+        setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
+      else if (isOnlyImagesAllowed) setErrorMessage(translate('dropzone.rejectedFile.fileFormat'))
+      else setErrorMessage(translate('dropzone.rejectedFile.uploadPdfMessage'))
     }
   }, [fileRejections])
 
@@ -120,17 +120,14 @@ export const UploadDropzone = ({
         <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
           <input {...getInputProps()} />
           <>
-            <P
-              label={translate(
-                `Drag 'n drop some${
-                  isOnlyImagesAllowed === true ? ' image' : ''
-                } files here, or click to select files`,
-              )}
-            />
+            <P label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'} />
             {maxFileSize && (
               <P
                 style={{ fontSize: 12 }}
-                label={`${translate('Maximum file size allowed')} ${formatFileSize(maxFileSize)}`}
+                label={'dropzone.sublabel'}
+                data={{
+                  maxFileSize: formatFileSize(maxFileSize),
+                }}
               />
             )}
           </>
@@ -155,9 +152,9 @@ export const UploadDropzone = ({
                 }
               >
                 {maxFilesToUpload === 1 ? (
-                  <P {...getCSSStyle('acceptedFilesLabel')} label={translate(`Accepted file`)} />
+                  <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFile'} />
                 ) : (
-                  <P {...getCSSStyle('acceptedFilesLabel')} label={translate(`Accepted files`)} />
+                  <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFiles'} />
                 )}
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
@@ -191,18 +188,21 @@ export const UploadDropzone = ({
             )}
             {rejectedFileItems.length > 0 && (
               <Section>
-                <P {...getCSSStyle('rejectedFilesLabel')} label={translate(`Rejected files`)} />
+                <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
                     <P
                       isLabelTranslated
-                      label={`${file.name}${
+                      label={
                         maxFileSize && file.size > maxFileSize
-                          ? ` - ${translate('file size bigger than')} ${formatFileSize(
-                              maxFileSize,
-                            )} (${formatFileSize(file.size)})`
-                          : ''
-                      }`}
+                          ? 'dropzone.rejectedFile.fileSizeMessage'
+                          : `${file.name}`
+                      }
+                      data={{
+                        fileName: file.name,
+                        maxFileSize: formatFileSize(maxFileSize),
+                        fileSize: formatFileSize(file.size),
+                      }}
                       {...getCSSStyle('rejectedFileItem')}
                     />
                   </ListItem>
@@ -211,7 +211,13 @@ export const UploadDropzone = ({
             )}
             {errorMessage && (
               <Section>
-                <P {...getCSSStyle('errorMessage')} label={`${translate('Error')}: ${errorMessage}`} />
+                <P
+                  {...getCSSStyle('errorMessage')}
+                  label={'dropzone.errorLabel'}
+                  data={{
+                    errorMessage: errorMessage,
+                  }}
+                />
               </Section>
             )}
           </aside>
