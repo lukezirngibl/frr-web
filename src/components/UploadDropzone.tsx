@@ -4,8 +4,9 @@ import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
+import { useCSSStyles } from '../theme/util'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { P } from '../html'
-import { Button, ButtonType } from './Button'
 import { LocaleNamespace } from '../translation'
 
 type FileRejections = {
@@ -14,27 +15,28 @@ type FileRejections = {
 }
 
 type UploadDropzoneProps = {
-  onCancel: () => void
-  onSubmit: () => void
-  setData: (items: any) => void
+  onChange: (items: any) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
   maxFileSize?: number
   localeNamespace?: LocaleNamespace
+  style?: Partial<AppTheme['uploadDropzone']>
 }
 
 // const PDF = 'application/pdf'
 const IMAGE = 'image/*'
 
 export const UploadDropzone = ({
-  onCancel,
-  onSubmit,
-  setData,
-  acceptedFileTypes,
-  maxFilesToUpload,
+  onChange,
+  acceptedFileTypes = 'image/*, application/pdf',
+  maxFilesToUpload = 1,
   localeNamespace,
   maxFileSize,
+  style,
 }: UploadDropzoneProps) => {
+  const theme = useAppTheme()
+  const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
+
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejections[]>([])
   const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
@@ -76,9 +78,9 @@ export const UploadDropzone = ({
           (file) => file.name === acceptedFiles.find((f) => f.name === file.name)?.name,
         ) !== undefined
       ) {
-        setErrorMessage(`${translate('File already selected')}`)
+        setErrorMessage(translate('dropzone.rejectedFile.fileAlreadySelected'))
       } else if (acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload) {
-        setErrorMessage(`${translate('Too many files selected')} (max: ${maxFilesToUpload})`)
+        setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
       }
     }
   }, [acceptedFiles])
@@ -95,15 +97,15 @@ export const UploadDropzone = ({
       )
 
       if (maxFilesToUpload && fileRejections.length > maxFilesToUpload)
-        setErrorMessage(`${translate('Too many files selected')} (max: ${maxFilesToUpload})`)
-      else if (isOnlyImagesAllowed) setErrorMessage(`${translate('Upload jpg, png, gif or svg image')}`)
-      else setErrorMessage(`${translate('Upload PDF documents')}`)
+        setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
+      else if (isOnlyImagesAllowed) setErrorMessage(translate('dropzone.rejectedFile.fileFormat'))
+      else setErrorMessage(translate('dropzone.rejectedFile.uploadPdfMessage'))
     }
   }, [fileRejections])
 
   useEffect(() => {
-    setData(acceptedFileItems)
-  }, [acceptedFileItems, setData])
+    onChange(acceptedFileItems)
+  }, [acceptedFileItems, onChange])
 
   function formatFileSize(size: number) {
     const formattedSize: number = size / 1000
@@ -114,40 +116,50 @@ export const UploadDropzone = ({
 
   return (
     <div>
-      <Container
-        {...getRootProps({ isDragActive, isDragAccept, isDragReject, className: 'dropzone disabled' })}
-      >
-        <input {...getInputProps()} />
-        {maxFilesToUpload === acceptedFileItems.length ? (
-          <P
-            label={translate(`Maximum number of files allowed to upload (${maxFilesToUpload}) reached`)}
-          />
-        ) : (
+      {maxFilesToUpload === acceptedFileItems.length ? null : (
+        <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
+          <input {...getInputProps()} />
           <>
-            <P
-              label={translate(
-                `Drag 'n drop some${
-                  isOnlyImagesAllowed && ' image'
-                } files here, or click to select files`,
-              )}
-            />
+            <P label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'} />
             {maxFileSize && (
               <P
                 style={{ fontSize: 12 }}
-                label={`${translate('Maximum file size allowed')} ${formatFileSize(maxFileSize)}`}
+                label={'dropzone.sublabel'}
+                data={{
+                  maxFileSize: formatFileSize(maxFileSize),
+                }}
               />
             )}
           </>
-        )}
-      </Container>
+        </Container>
+      )}
+
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
           <aside>
             {acceptedFileItems.length > 0 && (
-              <Section>
-                <h4 style={{ color: 'green' }}>{translate(`Accepted files`)}</h4>
+              <Section
+                style={
+                  maxFilesToUpload === 1
+                    ? {
+                        paddingTop: '0px',
+                        display: 'flex',
+                        width: '100%',
+                        whiteSpace: 'nowrap',
+                        alignItems: 'center',
+                      }
+                    : null
+                }
+              >
+                <P
+                  {...getCSSStyle('acceptedFilesLabel')}
+                  label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
+                />
                 {acceptedFileItems.map((file: File) => (
-                  <ListItem key={file.name}>
+                  <ListItem
+                    key={file.name}
+                    style={maxFilesToUpload === 1 ? { padding: '0 20px' } : null}
+                  >
                     {isOnlyImagesAllowed && (
                       <img
                         src={URL.createObjectURL(file)}
@@ -160,7 +172,7 @@ export const UploadDropzone = ({
                     <P
                       isLabelTranslated
                       label={`${file.name} - ${formatFileSize(file.size)}`}
-                      style={{ fontSize: 12 }}
+                      {...getCSSStyle('acceptedFileItem')}
                     />
                     <HighlightOffIcon
                       style={{ color: 'red', cursor: 'pointer', marginLeft: '10px' }}
@@ -175,19 +187,22 @@ export const UploadDropzone = ({
             )}
             {rejectedFileItems.length > 0 && (
               <Section>
-                <h4 style={{ color: 'red' }}>{translate('Rejected files')}</h4>
+                <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
                     <P
                       isLabelTranslated
-                      label={`${file.name}${
+                      label={
                         maxFileSize && file.size > maxFileSize
-                          ? ` - ${translate('file size bigger than')} ${formatFileSize(
-                              maxFileSize,
-                            )} (${formatFileSize(file.size)})`
-                          : ''
-                      }`}
-                      style={{ fontSize: 12 }}
+                          ? 'dropzone.rejectedFile.fileSizeMessage'
+                          : `${file.name}`
+                      }
+                      data={{
+                        fileName: file.name,
+                        maxFileSize: formatFileSize(maxFileSize),
+                        fileSize: formatFileSize(file.size),
+                      }}
+                      {...getCSSStyle('rejectedFileItem')}
                     />
                   </ListItem>
                 ))}
@@ -195,24 +210,18 @@ export const UploadDropzone = ({
             )}
             {errorMessage && (
               <Section>
-                <h4 style={{ color: 'red' }}>{`${translate('Error')}: ${errorMessage}`}</h4>
+                <P
+                  {...getCSSStyle('errorMessage')}
+                  label={'dropzone.errorLabel'}
+                  data={{
+                    errorMessage: errorMessage,
+                  }}
+                />
               </Section>
             )}
           </aside>
         </section>
       )}
-      <ButtonsWrapper>
-        <Button label="cancel" onClick={onCancel} override={{ marginRight: 16 }} />
-        <Button
-          disabled={acceptedFileItems.length === 0}
-          label="save"
-          type={ButtonType.Primary}
-          onClick={() => {
-            onSubmit()
-            onCancel()
-          }}
-        />
-      </ButtonsWrapper>
     </div>
   )
 }

@@ -221,6 +221,13 @@ export type AppTheme = {
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
   }
+  uploadDropzone: {
+    acceptedFilesLabel: CSSProperties
+    rejectedFilesLabel: CSSProperties
+    acceptedFileItem: CSSProperties
+    rejectedFileItem: CSSProperties
+    errorMessage: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
@@ -425,6 +432,13 @@ const defaultAppTheme: AppTheme = {
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},
+  },
+  uploadDropzone: {
+    acceptedFilesLabel: {},
+    rejectedFilesLabel: {},
+    acceptedFileItem: {},
+    rejectedFileItem: {},
+    errorMessage: {},
   },
 }
 
