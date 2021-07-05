@@ -4,8 +4,9 @@ import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
+import { useCSSStyles } from '../theme/util'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { P } from '../html'
-import { Button, ButtonType } from './Button'
 import { LocaleNamespace } from '../translation'
 
 type FileRejections = {
@@ -19,6 +20,7 @@ type UploadDropzoneProps = {
   maxFilesToUpload?: number
   maxFileSize?: number
   localeNamespace?: LocaleNamespace
+  style?: Partial<AppTheme['uploadDropzone']>
 }
 
 // const PDF = 'application/pdf'
@@ -30,7 +32,11 @@ export const UploadDropzone = ({
   maxFilesToUpload = 1,
   localeNamespace,
   maxFileSize,
+  style,
 }: UploadDropzoneProps) => {
+  const theme = useAppTheme()
+  const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
+
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejections[]>([])
   const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
@@ -111,9 +117,7 @@ export const UploadDropzone = ({
   return (
     <div>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
-        <Container
-          {...getRootProps({ isDragActive, isDragAccept, isDragReject, className: 'dropzone disabled' })}
-        >
+        <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
           <input {...getInputProps()} />
           <>
             <P
@@ -151,9 +155,9 @@ export const UploadDropzone = ({
                 }
               >
                 {maxFilesToUpload === 1 ? (
-                  <P style={{ color: 'green', fontSize: 12 }} label={translate(`Accepted file`)} />
+                  <P {...getCSSStyle('acceptedFilesLabel')} label={translate(`Accepted file`)} />
                 ) : (
-                  <P style={{ color: 'green', fontSize: 12 }} label={translate(`Accepted files`)} />
+                  <P {...getCSSStyle('acceptedFilesLabel')} label={translate(`Accepted files`)} />
                 )}
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
@@ -172,7 +176,7 @@ export const UploadDropzone = ({
                     <P
                       isLabelTranslated
                       label={`${file.name} - ${formatFileSize(file.size)}`}
-                      style={{ fontSize: 12 }}
+                      {...getCSSStyle('acceptedFileItem')}
                     />
                     <HighlightOffIcon
                       style={{ color: 'red', cursor: 'pointer', marginLeft: '10px' }}
@@ -187,7 +191,7 @@ export const UploadDropzone = ({
             )}
             {rejectedFileItems.length > 0 && (
               <Section>
-                <P style={{ color: 'red' }} label={translate(`Rejected files`)} />
+                <P {...getCSSStyle('rejectedFilesLabel')} label={translate(`Rejected files`)} />
                 {rejectedFileItems.map(({ file, errors }: FileRejections) => (
                   <ListItem key={file.name}>
                     <P
@@ -199,7 +203,7 @@ export const UploadDropzone = ({
                             )} (${formatFileSize(file.size)})`
                           : ''
                       }`}
-                      style={{ fontSize: 12 }}
+                      {...getCSSStyle('rejectedFileItem')}
                     />
                   </ListItem>
                 ))}
@@ -207,7 +211,7 @@ export const UploadDropzone = ({
             )}
             {errorMessage && (
               <Section>
-                <P style={{ color: 'red' }} label={`${translate('Error')}: ${errorMessage}`} />
+                <P {...getCSSStyle('errorMessage')} label={`${translate('Error')}: ${errorMessage}`} />
               </Section>
             )}
           </aside>
