@@ -42,6 +42,7 @@ export const UploadDropzone = ({
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejection[]>([])
   const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
   const [errorMessage, setErrorMessage] = useState<string>()
+  const [loadFiles, setLoadFiles] = useState(false)
 
   const { t: translate } = useTranslation(localeNamespace)
 
@@ -73,6 +74,7 @@ export const UploadDropzone = ({
       acceptedFiles.map((file: File) => setAcceptedFileItems((prev) => [...prev, file]))
       setRejectedFileItems([])
       setErrorMessage(undefined)
+      setLoadFiles(true)
     } else {
       if (
         acceptedFileItems.find(
@@ -105,8 +107,11 @@ export const UploadDropzone = ({
   }, [fileRejections])
 
   useEffect(() => {
-    onChange(acceptedFileItems)
-  }, [acceptedFileItems, onChange])
+    if (loadFiles) {
+      onChange(acceptedFileItems)
+      setLoadFiles(false)
+    }
+  }, [loadFiles, acceptedFileItems, onChange])
 
   function formatFileSize(size: number) {
     const formattedSize: number = size / 1000
@@ -118,7 +123,11 @@ export const UploadDropzone = ({
   return (
     <div>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
-        <Container {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}>
+        <Container
+          {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}
+          {...getCSSStyle('container')}
+          className="uploadDropZone-container"
+        >
           <input {...getInputProps()} />
           <>
             <P label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'} />
