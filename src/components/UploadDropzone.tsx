@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDropzone } from 'react-dropzone'
+import { useDropzone, FileRejection } from 'react-dropzone'
 import styled from 'styled-components'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
@@ -9,13 +9,14 @@ import { AppTheme, useAppTheme } from '../theme/theme'
 import { P } from '../html'
 import { LocaleNamespace } from '../translation'
 
-type FileRejections = {
-  file: File
-  errors: any
+type DragProps = {
+  isDragActive: boolean
+  isDragAccept: boolean
+  isDragReject: boolean
 }
 
 type UploadDropzoneProps = {
-  onChange: (items: any) => void
+  onChange: (files: Array<File>) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
   maxFileSize?: number
@@ -38,7 +39,7 @@ export const UploadDropzone = ({
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
 
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
-  const [rejectedFileItems, setRejectedFileItems] = useState<FileRejections[]>([])
+  const [rejectedFileItems, setRejectedFileItems] = useState<FileRejection[]>([])
   const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
   const [errorMessage, setErrorMessage] = useState<string>()
 
@@ -92,7 +93,7 @@ export const UploadDropzone = ({
         ({ file }) => file.name === fileRejections.find((f) => f.file.name === file.name)?.file.name,
       ) === undefined
     ) {
-      fileRejections.map(({ file, errors }: FileRejections) =>
+      fileRejections.map(({ file, errors }: FileRejection) =>
         setRejectedFileItems((prev) => [...prev, { file, errors }]),
       )
 
@@ -117,7 +118,7 @@ export const UploadDropzone = ({
   return (
     <div>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
-        <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
+        <Container {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}>
           <input {...getInputProps()} />
           <>
             <P label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'} />
@@ -188,7 +189,7 @@ export const UploadDropzone = ({
             {rejectedFileItems.length > 0 && (
               <Section>
                 <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
-                {rejectedFileItems.map(({ file, errors }: FileRejections) => (
+                {rejectedFileItems.map(({ file, errors }: FileRejection) => (
                   <ListItem key={file.name}>
                     <P
                       isLabelTranslated
@@ -226,7 +227,7 @@ export const UploadDropzone = ({
   )
 }
 
-const getColor = (props: any) => {
+const getColor = (props: DragProps) => {
   if (props.isDragAccept) {
     return '#00e676'
   }
@@ -239,7 +240,7 @@ const getColor = (props: any) => {
   return '#eeeeee'
 }
 
-const Container = styled.div`
+const Container = styled.div<DragProps>`
   flex: 1;
   display: flex;
   flex-direction: column;
