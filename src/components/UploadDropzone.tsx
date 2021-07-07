@@ -4,7 +4,7 @@ import { useDropzone, FileRejection } from 'react-dropzone'
 import styled from 'styled-components'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
-import { useCSSStyles } from '../theme/util'
+import { useCSSStyles, createStyled } from '../theme/util'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { P } from '../html'
 import { LocaleNamespace } from '../translation'
@@ -126,7 +126,6 @@ export const UploadDropzone = ({
         <Container
           {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}
           {...getCSSStyle('container')}
-          className="uploadDropZone-container"
         >
           <input {...getInputProps()} />
           <>
@@ -249,21 +248,9 @@ const getColor = (props: DragProps) => {
   return '#eeeeee'
 }
 
-const Container = styled.div<DragProps>`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border-width: 2px;
-  border-radius: 2px;
+const Container = createStyled(styled.div<DragProps>`
   border-color: ${(props) => getColor(props)};
-  border-style: dashed;
-  background-color: #fafafa;
-  color: #bdbdbd;
-  outline: none;
-  transition: border 0.24s ease-in-out;
-`
+`)
 
 const Section = styled.div`
   padding-top: 20px;
@@ -274,23 +261,4 @@ const ListItem = styled.div`
   align-items: center;
   width: 100%;
   padding: 5px 20px 0;
-`
-
-const ButtonsWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 32px 0 0;
-`
-
-const RemoveElementButton = styled.span`
-  color: white;
-  background-color: red;
-  margin-left: 20px;
-  cursor: pointer;
-  border: 2px solid red;
-  border-radius: 100%;
-  padding: 1px 4px;
-  font-size: 8px;
 `
