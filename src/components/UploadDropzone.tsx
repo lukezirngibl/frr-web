@@ -237,15 +237,15 @@ export const UploadDropzone = ({
 
 const getColor = (props: DragProps) => {
   if (props.isDragAccept) {
-    return '#00e676'
+    return 'var(--color-uploadDropzoneIsDragAccept)'
   }
   if (props.isDragReject) {
-    return '#ff1744'
+    return 'var(--color-uploadDropzoneIsDragReject)'
   }
   if (props.isDragActive) {
-    return '#2196f3'
+    return 'var(--color-uploadDropzoneIsDragActive)'
   }
-  return '#eeeeee'
+  return 'var(--color-uploadDropzoneDefault)'
 }
 
 const Container = createStyled(styled.div<DragProps>`
