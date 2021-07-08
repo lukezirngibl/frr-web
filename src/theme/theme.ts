@@ -83,6 +83,14 @@ export type AppTheme = {
   }
   fileInput: {
     wrapper: CSSProperties
+    uploadDropzone: {
+      container: CSSProperties
+      acceptedFilesLabel: CSSProperties
+      rejectedFilesLabel: CSSProperties
+      acceptedFileItem: CSSProperties
+      rejectedFileItem: CSSProperties
+      errorMessage: CSSProperties
+    }
   }
   staticChecklist: {
     description: CSSProperties
@@ -222,6 +230,7 @@ export type AppTheme = {
     wrapperOuter: CSSProperties
   }
   uploadDropzone: {
+    container: CSSProperties
     acceptedFilesLabel: CSSProperties
     rejectedFilesLabel: CSSProperties
     acceptedFileItem: CSSProperties
@@ -248,6 +257,14 @@ const defaultAppTheme: AppTheme = {
   },
   fileInput: {
     wrapper: {},
+    uploadDropzone: {
+      container: {},
+      acceptedFilesLabel: {},
+      rejectedFilesLabel: {},
+      acceptedFileItem: {},
+      rejectedFileItem: {},
+      errorMessage: {},
+    },
   },
   modal: {
     outerWrapper: {},
@@ -434,6 +451,7 @@ const defaultAppTheme: AppTheme = {
     wrapperOuter: {},
   },
   uploadDropzone: {
+    container: {},
     acceptedFilesLabel: {},
     rejectedFilesLabel: {},
     acceptedFileItem: {},
