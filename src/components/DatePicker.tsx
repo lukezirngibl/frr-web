@@ -117,6 +117,8 @@ export const DatePicker = (props: Props) => {
 
   const [open, setOpen] = React.useState(false)
 
+  const inputStyle = getStyle('input')
+  console.log('INPUT', inputStyle, props.style.wrapper)
   const textInputStyle = props.style
     ? {
         wrapper: props.style.wrapper,
