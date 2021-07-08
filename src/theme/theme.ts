@@ -134,7 +134,7 @@ export type AppTheme = {
     hook1: CSSProperties
     hook2: CSSProperties
     iconWrapper: CSSProperties
-    input: CSSProperties
+    inputWrapper: CSSProperties
     reactDatePicker?: string
     wrapper: CSSProperties
   }
@@ -392,7 +392,7 @@ const defaultAppTheme: AppTheme = {
     hook1: {},
     hook2: {},
     iconWrapper: {},
-    input: {},
+    inputWrapper: {},
     reactDatePicker: '',
     wrapper: {},
   },
