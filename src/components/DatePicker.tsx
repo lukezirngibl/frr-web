@@ -85,6 +85,7 @@ export const DatePicker = (props: Props) => {
   /* Styles */
   const theme = useAppTheme()
   const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'datePicker')(props.style)
 
   const styleIconWrapper = getStyle({
     iconWrapper: true,
@@ -117,16 +118,16 @@ export const DatePicker = (props: Props) => {
 
   const [open, setOpen] = React.useState(false)
 
-  const inputStyle = getStyle('input')
-  console.log('INPUT', inputStyle, props.style.wrapper)
-  const textInputStyle = props.style
-    ? {
-        wrapper: props.style.wrapper,
-        disabledInput: props.style.disabledInput,
-        errorInput: props.style.errorInput,
-        input: props.style.input,
-      }
-    : undefined
+  const textInputStyle =
+    (props.style && {
+      wrapper: props.style.inputWrapper,
+      disabledInput: props.style.disabledInput,
+      errorInput: props.style.errorInput,
+    }) ||
+    (!isMobileTouch && {
+      wrapper: getInlineStyle('inputWrapper').style,
+    }) ||
+    undefined
 
   return (
     <>
