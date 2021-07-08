@@ -25,10 +25,7 @@ export const FileInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyle('wrapper')}>
-        <UploadDropzone
-          {...getCSSStyle('uploadDropzone')}
-          onChange={(files: Array<File>) => props.onChange(files[0])}
-        />
+        <UploadDropzone onChange={(files) => props.onChange(files[0])} />
       </Wrapper>
     </>
   )
