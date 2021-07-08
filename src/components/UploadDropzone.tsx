@@ -129,10 +129,13 @@ export const UploadDropzone = ({
         >
           <input {...getInputProps()} />
           <>
-            <P label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'} />
+            <P
+              label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'}
+              {...getCSSStyle('dropzoneLabel')}
+            />
             {maxFileSize && (
               <P
-                style={{ fontSize: 12 }}
+                {...getCSSStyle('dropzoneSublabel')}
                 label={'dropzone.sublabel'}
                 data={{
                   maxFileSize: formatFileSize(maxFileSize),
@@ -147,19 +150,7 @@ export const UploadDropzone = ({
         <section className="section">
           <aside>
             {acceptedFileItems.length > 0 && (
-              <Section
-                style={
-                  maxFilesToUpload === 1
-                    ? {
-                        paddingTop: '0px',
-                        display: 'flex',
-                        width: '100%',
-                        whiteSpace: 'nowrap',
-                        alignItems: 'center',
-                      }
-                    : null
-                }
-              >
+              <Section {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
                 <P
                   {...getCSSStyle('acceptedFilesLabel')}
                   label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
@@ -167,15 +158,13 @@ export const UploadDropzone = ({
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
                     key={file.name}
-                    style={maxFilesToUpload === 1 ? { padding: '0 20px' } : null}
+                    {...getCSSStyle(maxFilesToUpload === 1 ? 'listSingleItem' : 'listItem')}
                   >
-                    {isOnlyImagesAllowed && (
-                      <img
+                    {file.name.endsWith('.png' || '.jpeg' || '.svg') && (
+                      <ItemIcon
                         src={URL.createObjectURL(file)}
-                        width={40}
-                        height={40}
                         alt={file.name}
-                        style={{ marginRight: '10px' }}
+                        {...getCSSStyle('imageItem')}
                       />
                     )}
                     <P
@@ -183,22 +172,23 @@ export const UploadDropzone = ({
                       label={`${file.name} - ${formatFileSize(file.size)}`}
                       {...getCSSStyle('acceptedFileItem')}
                     />
-                    <HighlightOffIcon
-                      style={{ color: 'red', cursor: 'pointer', marginLeft: '10px' }}
-                      onClick={() => {
-                        setAcceptedFileItems(acceptedFileItems.filter((e) => file.name !== e.name))
-                        setErrorMessage(undefined)
-                      }}
-                    />
+                    <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
+                      <HighlightOffIcon
+                        onClick={() => {
+                          setAcceptedFileItems(acceptedFileItems.filter((e) => file.name !== e.name))
+                          setErrorMessage(undefined)
+                        }}
+                      />
+                    </RemoveItemIcon>
                   </ListItem>
                 ))}
               </Section>
             )}
             {rejectedFileItems.length > 0 && (
-              <Section>
+              <Section {...getCSSStyle('section')}>
                 <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
                 {rejectedFileItems.map(({ file, errors }: FileRejection) => (
-                  <ListItem key={file.name}>
+                  <ListItem key={file.name} {...getCSSStyle('listItem')}>
                     <P
                       isLabelTranslated
                       label={
@@ -218,7 +208,7 @@ export const UploadDropzone = ({
               </Section>
             )}
             {errorMessage && (
-              <Section>
+              <Section {...getCSSStyle('section')}>
                 <P
                   {...getCSSStyle('errorMessage')}
                   label={'dropzone.errorLabel'}
@@ -252,13 +242,10 @@ const Container = createStyled(styled.div<DragProps>`
   border-color: ${(props) => getColor(props)};
 `)
 
-const Section = styled.div`
-  padding-top: 20px;
-`
+const Section = createStyled('div')
 
-const ListItem = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 5px 20px 0;
-`
+const ListItem = createStyled('div')
+
+const ItemIcon = createStyled('img')
+
+const RemoveItemIcon = createStyled('div')
