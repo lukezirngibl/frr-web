@@ -237,9 +237,23 @@ export type AppTheme = {
     listSingleItem: CSSProperties
     removeItemIcon: CSSProperties
   }
+  pdfViewer: {
+    pageSelectorWrapper: CSSProperties
+    pageSelector: CSSProperties
+    pageNumber: CSSProperties
+    pdfWrapper: CSSProperties
+    downloadButton: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
+  pdfViewer: {
+    pageSelectorWrapper: {},
+    pageSelector: {},
+    pageNumber: {},
+    pdfWrapper: {},
+    downloadButton: {},
+  },
   table: {
     tableWrapper: {},
     listWrapper: {},
