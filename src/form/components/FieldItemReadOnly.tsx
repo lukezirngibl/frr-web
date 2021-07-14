@@ -214,6 +214,7 @@ const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyVal
   if (props.field.readOnlyOptions?.image) {
     return (
       <Image
+        data-test-id={props.field.lens.id()}
         src={props.field.readOnlyOptions.image}
         alt="value image"
         {...props.getFieldStyle('image')}
