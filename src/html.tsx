@@ -97,9 +97,9 @@ export const Element = (
     <HtmlElement
       cssStyles={cssStyles}
       disabled={disabled}
-      dataThemeId={elementStyle.dataThemeId}
-      data-test-id={dataTestId || dataThemeId}
-      data-value={`${dataValue}`}
+      dataThemeId={dataThemeId || elementStyle.dataThemeId}
+      data-test-id={dataTestId}
+      data-value={dataValue ? `${dataValue}` : undefined}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
       style={{
