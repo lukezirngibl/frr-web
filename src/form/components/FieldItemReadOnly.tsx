@@ -231,14 +231,26 @@ const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyVal
   return (props.field.type === FormFieldType.TextArea && (
     <FieldItemValueWrapper {...props.getFieldStyle('textAreaItem')}>
       {typeof value === 'string' ? (
-        <P {...props.getFieldStyle(readOnlyStyle)} label={value} isLabelTranslated />
+        <P
+          {...props.getFieldStyle(readOnlyStyle)}
+          label={value}
+          isLabelTranslateddataTestId={props.field.lens.id()}
+          dataTestId={props.field.lens.id()}
+          dataValue={props.field.lens.get(props.data)}
+        />
       ) : (
         value
       )}
     </FieldItemValueWrapper>
   )) ||
     typeof value === 'string' ? (
-    <P {...props.getFieldStyle(readOnlyStyle)} label={value} isLabelTranslated />
+    <P
+      {...props.getFieldStyle(readOnlyStyle)}
+      label={value}
+      isLabelTranslated
+      dataTestId={props.field.lens.id()}
+      dataValue={props.field.lens.get(props.data)}
+    />
   ) : (
     <>{value}</>
   )

@@ -18,6 +18,8 @@ export type LabelText = string | ((params: { translate: Translate }) => string |
 type Props = {
   cssStyles?: string
   data?: { [k: string]: string }
+  dataTestId?: string
+  dataValue?: string | number
   dataThemeId?: string
   disabled?: any
   Icon?: ReactNode
@@ -58,6 +60,8 @@ export const Element = (
   const {
     cssStyles,
     data,
+    dataTestId,
+    dataValue,
     dataThemeId,
     disabled,
     element,
@@ -94,7 +98,8 @@ export const Element = (
       cssStyles={cssStyles}
       disabled={disabled}
       dataThemeId={elementStyle.dataThemeId}
-      dataTestId={dataThemeId}
+      data-test-id={dataTestId || dataThemeId}
+      data-value={`${dataValue}`}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
       style={{
