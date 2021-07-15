@@ -103,7 +103,7 @@ export type Props = {
 
 export const Slider = (props: Props) => {
   const theme = useAppTheme()
-
+  
   const getInlineStyles = useInlineStyle(theme, 'slider')({})
   const getCSSStyles = useCSSStyles(theme, 'slider')({})
 
@@ -125,7 +125,7 @@ export const Slider = (props: Props) => {
   return (
     <div style={{ width: '100%' }}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <SliderWrapper {...getCSSStyles('wrapper')}>
+      <SliderWrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId} >
         <ValueWrapper
           {...getCSSStyles('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
