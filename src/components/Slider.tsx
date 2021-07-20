@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
-import { MaterialSliderStyles, useAppTheme } from '../theme/theme'
+import { MaterialSliderStyles, useAppTheme, AppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
@@ -99,13 +99,14 @@ export type Props = {
   reverse?: boolean
   prefix?: string
   isCurrency?: boolean
+  style?: Partial<AppTheme['slider']>
 }
 
 export const Slider = (props: Props) => {
   const theme = useAppTheme()
-  
-  const getInlineStyles = useInlineStyle(theme, 'slider')({})
-  const getCSSStyles = useCSSStyles(theme, 'slider')({})
+
+  const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'slider')(props.style)
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
@@ -123,7 +124,7 @@ export const Slider = (props: Props) => {
 
   const labelStyle = getInlineStyles('label')
   return (
-    <div style={{ width: '100%' }}>
+    <div {...getInlineStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <SliderWrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId} >
         <ValueWrapper
@@ -137,19 +138,6 @@ export const Slider = (props: Props) => {
           <ValueText {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </ValueText>
-          {/* <input
-            style={{
-              width: 1,
-              height: 1,
-              opacity: 0,
-            }}
-            data-test-id={props.dataTestId}
-            value={`${props.value}`}
-            onChange={(e: any) => {
-              const v = Number(e.target.value)
-              onChange(v)
-            }}
-          /> */}
         </ValueWrapper>
 
         <MaterialSlider

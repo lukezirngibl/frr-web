@@ -103,6 +103,7 @@ export type AppTheme = {
     value: CSSProperties
     valueWrapper: CSSProperties
     wrapper: CSSProperties
+    outerWrapper: CSSProperties
   }
   materialSlider: MaterialSliderStyles
   select: {
@@ -365,6 +366,7 @@ const defaultAppTheme: AppTheme = {
     value: {},
     valueWrapper: {},
     wrapper: {},
+    outerWrapper: {},
   },
   materialSlider: {
     active: {},
