@@ -15,8 +15,7 @@ var Formatter = new Intl.NumberFormat('de-CH', {
   minimumFractionDigits: 0,
 })
 
-const SliderWrapper = createStyled('div')
-const ValueWrapper = createStyled('div')
+const Wrapper = createStyled('div')
 const ValueText = createStyled('p')
 
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
@@ -123,11 +122,12 @@ export const Slider = (props: Props) => {
   const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
 
   const labelStyle = getInlineStyles('label')
+
   return (
-    <div {...getInlineStyles('outerWrapper', { width: '100%' })}>
+    <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <SliderWrapper {...getCSSStyles('wrapper')}>
-        <ValueWrapper
+      <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId} >
+        <Wrapper
           {...getCSSStyles('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
           })}
@@ -138,20 +138,7 @@ export const Slider = (props: Props) => {
           <ValueText {...getCSSStyles('value')}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </ValueText>
-          {/* <input
-            style={{
-              width: 1,
-              height: 1,
-              opacity: 0,
-            }}
-            data-test-id={props.dataTestId}
-            value={`${props.value}`}
-            onChange={(e: any) => {
-              const v = Number(e.target.value)
-              onChange(v)
-            }}
-          /> */}
-        </ValueWrapper>
+        </Wrapper>
 
         <MaterialSlider
           value={internalValue}
@@ -167,7 +154,7 @@ export const Slider = (props: Props) => {
           aria-labelledby={props.ariaLabelledby}
           marks={props.marks}
         />
-      </SliderWrapper>
-    </div>
+      </Wrapper>
+    </Wrapper>
   )
 }

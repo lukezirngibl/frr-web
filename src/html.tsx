@@ -99,7 +99,7 @@ export const Element = (
       disabled={disabled}
       dataThemeId={dataThemeId || elementStyle.dataThemeId}
       data-test-id={dataTestId}
-      data-value={dataValue ? `${dataValue}` : undefined}
+      data-value={dataValue !== undefined ? `${dataValue}` : undefined}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
       style={{
