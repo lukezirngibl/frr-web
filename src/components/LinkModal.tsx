@@ -63,7 +63,6 @@ export type Props = {
   modalOpen: boolean
   config: ModalLinkConfig
   setConfig: (v: ModalLinkConfig) => void
-  bearerToken?: string
 }
 
 export const LinkModal = (props: Props) => {
