@@ -12,20 +12,20 @@ const Wrapper = createStyled('div')
 export type Props = {
   label?: LabelProps
   buttonProps?: Partial<ButtonProps>
-  style?: Partial<AppTheme['fileInput']>
-  onChange: (n: File | null) => void
-  value: File | null
+  style?: Partial<AppTheme['multiFileInput']>
+  onChange: (n: Array<File> | []) => void
+  value: Array<File> | []
 }
 
-export const FileInput = (props: Props) => {
+export const MultiFileInput = (props: Props) => {
   const theme = useAppTheme()
-  const getCSSStyle = useCSSStyles(theme, 'fileInput')(props.style)
+  const getCSSStyle = useCSSStyles(theme, 'multiFileInput')(props.style)
 
   return (
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyle('wrapper')}>
-        <UploadDropzone onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} />
+        <UploadDropzone onChange={(files) => props.onChange(files)} />
       </Wrapper>
     </>
   )

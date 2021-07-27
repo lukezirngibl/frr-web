@@ -107,6 +107,8 @@ const defaultOptionArrayMapper = (
         .join(', ')
     : ''
 
+const defaultFileArrayMapper = (params: MapperParams<Array<File>>) => Array.isArray(params.value) ? params.value : []
+
 const defaultOptionMapper = (
   params: MapperParams<string | number> & {
     options: Array<{ label?: string; value: string }>
@@ -145,6 +147,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.FormSection]: () => '',
   [FormFieldType.FormText]: () => '',
   [FormFieldType.FileInput]: () => '',
+  [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
