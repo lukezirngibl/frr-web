@@ -48,7 +48,7 @@ export const FieldMultiInput = <FormData extends {}>({
     setErrors(newErrors)
   }, [])
 
-  const errorLabel = useFormFieldErrors({ errors })
+  const { errorLabel, errorDataTestId } = useFormFieldErrors({ errors })
 
   const commonFieldProps = {
     data,
@@ -84,6 +84,7 @@ export const FieldMultiInput = <FormData extends {}>({
             localeNamespace={localeNamespace}
             error={errorLabel.length > 0}
             errorLabel={errorLabel}
+            errorDataTestId={errorDataTestId}
             {...field.label}
           />
         )}
