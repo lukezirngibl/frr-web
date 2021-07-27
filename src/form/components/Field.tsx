@@ -22,6 +22,7 @@ import { LocaleNamespace } from '../../translation'
 import React from 'react'
 import { FormFieldType, SingleFormField } from './types'
 import { FileInput } from '../../components/FileInput'
+import { MultiFileInput } from '../../components/MultiFileInput'
 
 // import { CheckboxGroup } from '../../components/CheckboxGroup'
 // import { Dropdown } from '../../components/Dropdown'
@@ -383,6 +384,19 @@ export const Field = <FormData extends {}>({
     const { lens, validate, required, ...fieldProps } = field
     return (
       <FileInput
+        {...fieldProps}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        onChange={onBlur}
+        value={lens.get(data)}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.MultiFileInput) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <MultiFileInput
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}

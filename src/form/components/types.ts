@@ -22,6 +22,7 @@ import { Props as ToggleProps } from '../../components/Toggle'
 import { Props as YesNoOptionGroupProps } from '../../components/YesNoOptionGroup'
 import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
 import { Props as FileInputProps } from '../../components/FileInput'
+import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
@@ -72,6 +73,7 @@ export enum FormFieldType {
   YesNoRadioGroup = 'YesNoRadioGroup',
   Static = 'Static',
   FileInput = 'FileInput',
+  MultiFileInput = 'MultiFileInput',
 }
 
 export enum Orientation {
@@ -120,6 +122,13 @@ export type FileInputField<FormData> = FormInput<
   FileInputProps,
   NullableAndUndefinabledLens<FormData, File>,
   FormFieldType.FileInput
+>
+
+export type MultiFileInputField<FormData> = FormInput<
+  NullableAndUndefinabled<Array<File>>,
+  MultiFileInputProps,
+  NullableAndUndefinabledLens<FormData, Array<File>>,
+  FormFieldType.MultiFileInput
 >
 
 export type FormTextField<FormData> = FormInput<
@@ -334,6 +343,7 @@ export const fieldMap = {
 
 export type SingleFormField<FormData> = (
   | FileInputField<FormData>
+  | MultiFileInputField<FormData>
   | CodeInputField<FormData>
   | CountrySelectField<FormData>
   | CurrencyInputField<FormData>

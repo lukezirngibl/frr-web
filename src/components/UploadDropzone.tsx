@@ -30,7 +30,7 @@ const IMAGE = 'image/*'
 export const UploadDropzone = ({
   onChange,
   acceptedFileTypes = 'image/*, application/pdf',
-  maxFilesToUpload = 1,
+  maxFilesToUpload,
   localeNamespace,
   maxFileSize,
   style,
@@ -69,7 +69,7 @@ export const UploadDropzone = ({
       acceptedFileItems.find(
         (file) => file.name === acceptedFiles.find((f) => f.name === file.name)?.name,
       ) === undefined &&
-      acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload
+      (!!maxFilesToUpload ? acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload : true)
     ) {
       acceptedFiles.map((file: File) => setAcceptedFileItems((prev) => [...prev, file]))
       setRejectedFileItems([])
@@ -82,7 +82,7 @@ export const UploadDropzone = ({
         ) !== undefined
       ) {
         setErrorMessage(translate('dropzone.rejectedFile.fileAlreadySelected'))
-      } else if (acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload) {
+      } else if (!!maxFilesToUpload && acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload) {
         setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
       }
     }
@@ -99,7 +99,7 @@ export const UploadDropzone = ({
         setRejectedFileItems((prev) => [...prev, { file, errors }]),
       )
 
-      if (maxFilesToUpload && fileRejections.length > maxFilesToUpload)
+      if (!!maxFilesToUpload && fileRejections.length > maxFilesToUpload)
         setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
       else if (isOnlyImagesAllowed) setErrorMessage(translate('dropzone.rejectedFile.fileFormat'))
       else setErrorMessage(translate('dropzone.rejectedFile.uploadPdfMessage'))
