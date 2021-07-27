@@ -84,6 +84,9 @@ export type AppTheme = {
   fileInput: {
     wrapper: CSSProperties
   }
+  multiFileInput: {
+    wrapper: CSSProperties
+  }
   staticChecklist: {
     description: CSSProperties
     iconAllowed: CSSProperties
@@ -271,6 +274,9 @@ const defaultAppTheme: AppTheme = {
     headerOuterWrapper: {},
   },
   fileInput: {
+    wrapper: {},
+  },
+  multiFileInput: {
     wrapper: {},
   },
   modal: {
