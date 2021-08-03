@@ -55,6 +55,7 @@ export type LabelProps = {
   error?: boolean
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
+  errorDataTestId?: string
   label: LabelText
   labelData?: Record<string, string>
   localeNamespace?: LocaleNamespace
@@ -152,6 +153,8 @@ export const Label = (props: LabelProps) => {
             label={errorLabel || 'fieldError'}
             localeNamespace={props.localeNamespace}
             data={props.errorLabelData}
+            dataTestId={props.errorDataTestId}
+            dataValue={errorLabel}
             {...getCSSStyle('errorLabel')}
           />
         ))}

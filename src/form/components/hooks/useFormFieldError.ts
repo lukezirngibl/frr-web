@@ -79,12 +79,18 @@ export const useFormFieldError = <FormData>({
   return fieldError.error
 }
 
-export const useFormFieldErrors = ({ errors }: { errors: Array<FieldError> }): Array<string> => {
-  const [error, setError] = useState([])
+export const useFormFieldErrors = ({
+  errors,
+}: {
+  errors: Array<FieldError>
+}): { errorLabel: Array<string>; errorDataTestId?: string } => {
+  const [errorLabel, setErrorLabel] = useState([])
   useEffect(() => {
     const errorLabels = new Set(errors.map((error) => error.error))
-    setError(Array.from(errorLabels))
+    setErrorLabel(Array.from(errorLabels))
   }, [errors])
 
-  return error
+  const errorDataTestId = errors.length > 0 ? `${errors[0].fieldId}.error` : undefined
+
+  return { errorLabel, errorDataTestId }
 }

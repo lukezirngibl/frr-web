@@ -64,6 +64,7 @@ export const Field = <FormData extends {}>({
     label = {
       error: errorLabel !== null,
       errorLabel,
+      errorDataTestId: `${field.lens.id()}.error`,
       localeNamespace,
       ...label,
     }
