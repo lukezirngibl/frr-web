@@ -173,7 +173,9 @@ export const FieldSection = <FormData extends {}>({
           <Container
             {...getSectionRightStyle('wrapper')}
             readOnly={formReadOnly}
-            dataTestId={`link-edit-section`}
+            data-test-id={
+              fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'
+            }
           >
             <Link
               icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
