@@ -20,6 +20,7 @@ type FieldSection<FormData> = CommonThreadProps<FormData> & {
 
 export const FieldSection = <FormData extends {}>({
   data,
+  dataTestId,
   errorFieldId,
   field: fieldSection,
   fieldIndex: fieldSectionIndex,
@@ -110,6 +111,7 @@ export const FieldSection = <FormData extends {}>({
       <Container
         key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
         readOnly={formReadOnly}
+        dataTestId={dataTestId}
         {...getSectionStyle('wrapper', fieldSection.style?.wrapper || {})}
       >
         {!formReadOnly && fieldSection.introduction && (
@@ -170,7 +172,7 @@ export const FieldSection = <FormData extends {}>({
           </Container>
 
           {onEditSection && (
-            <Container {...getSectionRightStyle('wrapper')} readOnly={formReadOnly}>
+            <Container {...getSectionRightStyle('wrapper')} readOnly={formReadOnly} dataTestId={`link-edit-section`}>
               <Link
                 icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
                 label={fieldSection.editLabel}

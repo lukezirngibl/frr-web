@@ -441,6 +441,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
 }
 
 export type FormSection<FormData> = {
+  dataTestId?: string
   description?: string
   fieldComponent?: ReactNode
   fields: SectionFields<FormData>
