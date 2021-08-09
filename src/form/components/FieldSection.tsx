@@ -20,7 +20,6 @@ type FieldSection<FormData> = CommonThreadProps<FormData> & {
 
 export const FieldSection = <FormData extends {}>({
   data,
-  dataTestId,
   errorFieldId,
   field: fieldSection,
   fieldIndex: fieldSectionIndex,
@@ -107,47 +106,35 @@ export const FieldSection = <FormData extends {}>({
 
   // Render
   return (
-    <>
-      <Container
-        key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
-        readOnly={formReadOnly}
-        dataTestId={dataTestId}
-        {...getSectionStyle('wrapper', fieldSection.style?.wrapper || {})}
-      >
-        {!formReadOnly && fieldSection.introduction && (
-          <P
-            {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
-            readOnly={formReadOnly}
-            label={fieldSection.introduction}
-            localeNamespace={localeNamespace}
-          />
-        )}
+    <Container
+      key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
+      readOnly={formReadOnly}
+      data-test-id={fieldSection.dataTestId}
+      {...getSectionStyle('wrapper', fieldSection.style?.wrapper || {})}
+    >
+      {!formReadOnly && fieldSection.introduction && (
+        <P
+          {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
+          readOnly={formReadOnly}
+          label={fieldSection.introduction}
+          localeNamespace={localeNamespace}
+        />
+      )}
 
-        {formReadOnly && fieldSection.introductionReadOnly && (
-          <P
-            {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
-            readOnly={formReadOnly}
-            label={fieldSection.introductionReadOnly}
-            localeNamespace={localeNamespace}
-          />
-        )}
+      {formReadOnly && fieldSection.introductionReadOnly && (
+        <P
+          {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
+          readOnly={formReadOnly}
+          label={fieldSection.introductionReadOnly}
+          localeNamespace={localeNamespace}
+        />
+      )}
 
-        <Container {...getSectionStyle('contentWrapper')}>
-          <Container {...getSectionStyle('content')}>
-            {fieldSection.title
-              ? (fieldSection.TitleCenterComponent && (
-                  <Container {...getSectionStyle('titleWrapper')}>
-                    <P
-                      {...getSectionStyle('title', fieldSection.style?.title || {})}
-                      readOnly={formReadOnly}
-                      label={fieldSection.title}
-                      data={fieldSection.titleData}
-                      localeNamespace={localeNamespace}
-                    />
-
-                    {fieldSection.TitleCenterComponent}
-                  </Container>
-                )) || (
+      <Container {...getSectionStyle('contentWrapper')}>
+        <Container {...getSectionStyle('content')}>
+          {fieldSection.title
+            ? (fieldSection.TitleCenterComponent && (
+                <Container {...getSectionStyle('titleWrapper')}>
                   <P
                     {...getSectionStyle('title', fieldSection.style?.title || {})}
                     readOnly={formReadOnly}
@@ -155,36 +142,50 @@ export const FieldSection = <FormData extends {}>({
                     data={fieldSection.titleData}
                     localeNamespace={localeNamespace}
                   />
-                )
-              : null}
 
-            {formReadOnly && !fieldSection.title && <TitleSpaceMobile />}
+                  {fieldSection.TitleCenterComponent}
+                </Container>
+              )) || (
+                <P
+                  {...getSectionStyle('title', fieldSection.style?.title || {})}
+                  readOnly={formReadOnly}
+                  label={fieldSection.title}
+                  data={fieldSection.titleData}
+                  localeNamespace={localeNamespace}
+                />
+              )
+            : null}
 
-            {!formReadOnly && fieldSection.description && (
-              <P
-                {...getSectionStyle('description')}
-                label={fieldSection.description}
-                localeNamespace={localeNamespace}
-              />
-            )}
+          {formReadOnly && !fieldSection.title && <TitleSpaceMobile />}
 
-            {fieldSection.fields.map(renderSectionField)}
-          </Container>
-
-          {onEditSection && (
-            <Container {...getSectionRightStyle('wrapper')} readOnly={formReadOnly} dataTestId={`link-edit-section`}>
-              <Link
-                icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
-                label={fieldSection.editLabel}
-                localeNamespace={localeNamespace}
-                onClick={() => onEditSection({ dispatch })}
-                style={getSectionRightStyle('editLink')}
-              />
-            </Container>
+          {!formReadOnly && fieldSection.description && (
+            <P
+              {...getSectionStyle('description')}
+              label={fieldSection.description}
+              localeNamespace={localeNamespace}
+            />
           )}
+
+          {fieldSection.fields.map(renderSectionField)}
         </Container>
+
+        {onEditSection && (
+          <Container
+            {...getSectionRightStyle('wrapper')}
+            readOnly={formReadOnly}
+            dataTestId={`link-edit-section`}
+          >
+            <Link
+              icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
+              label={fieldSection.editLabel}
+              localeNamespace={localeNamespace}
+              onClick={() => onEditSection({ dispatch })}
+              style={getSectionRightStyle('editLink')}
+            />
+          </Container>
+        )}
       </Container>
-    </>
+    </Container>
   )
 }
 
