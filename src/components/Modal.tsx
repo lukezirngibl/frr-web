@@ -1,17 +1,15 @@
-import { Modal as MaterialUiModal, ModalProps } from '@material-ui/core'
-import React, { FC, useEffect, ReactNode } from 'react'
-import styled from 'styled-components'
-import { useAppTheme, AppTheme } from '../theme/theme'
+import { Modal as MaterialUiModal } from '@material-ui/core'
+import React, { ReactNode } from 'react'
+import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
 
-const ModalOuterWrapper = createStyled('div')
 const ModalInnerWrapper = createStyled('div')
 
 type Props = {
-  open: boolean
   children: ReactNode
+  onClose?: () => void
+  open: boolean
   style?: Partial<AppTheme['modal']>
-  modalProps?: Partial<ModalProps>
 }
 
 export const Modal = (props: Props) => {
@@ -22,7 +20,7 @@ export const Modal = (props: Props) => {
   return (
     <MaterialUiModal
       open={props.open}
-      {...(props.modalProps || {})}
+      onClose={props.onClose}
       style={getInlineStyle('outerWrapper').style}
     >
       <ModalInnerWrapper {...getCSSStyle('innerWrapper')}>
