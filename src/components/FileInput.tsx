@@ -1,19 +1,16 @@
 import React from 'react'
-
-import { LabelProps, Label } from './Label'
-import { Props as ButtonProps } from './Button'
-import { AppTheme } from '../theme/theme'
-import { useCSSStyles, createStyled } from '../theme/util'
-import { useAppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles } from '../theme/util'
+import { Label, LabelProps } from './Label'
 import { UploadDropzone } from './UploadDropzone'
 
 const Wrapper = createStyled('div')
 
 export type Props = {
+  dataTestId?: string
   label?: LabelProps
-  buttonProps?: Partial<ButtonProps>
-  style?: Partial<AppTheme['fileInput']>
   onChange: (n: File | null) => void
+  style?: Partial<AppTheme['fileInput']>
   value: File | null
 }
 
@@ -24,7 +21,7 @@ export const FileInput = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <Wrapper {...getCSSStyle('wrapper')}>
+      <Wrapper {...getCSSStyle('wrapper')} data-test-id={props.dataTestId}>
         <UploadDropzone onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} />
       </Wrapper>
     </>

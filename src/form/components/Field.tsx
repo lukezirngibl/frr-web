@@ -386,6 +386,7 @@ export const Field = <FormData extends {}>({
     return (
       <FileInput
         {...fieldProps}
+        dataTestId={dataTestId}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         onChange={onBlur}

@@ -71,7 +71,7 @@ export const LinkModal = (props: Props) => {
   return (
     <Modal
       open={props.modalOpen}
-      onBackdropClick={() => {
+      onClose={() => {
         setIframeLoading(true)
         props.setConfig(none)
       }}
