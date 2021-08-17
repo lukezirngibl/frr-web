@@ -1,10 +1,7 @@
 import React from 'react'
-
-import { LabelProps, Label } from './Label'
-import { Props as ButtonProps } from './Button'
-import { AppTheme } from '../theme/theme'
-import { useCSSStyles, createStyled } from '../theme/util'
-import { useAppTheme } from '../theme/theme'
+import { AppTheme, useAppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles } from '../theme/util'
+import { Label, LabelProps } from './Label'
 import { UploadDropzone } from './UploadDropzone'
 
 const Wrapper = createStyled('div')
