@@ -22,8 +22,6 @@ import {
   DisplayType,
   FieldError,
   FormField,
-  FormFieldRepeatGroup,
-  FormFieldRepeatSection,
   FormFieldType,
   InternalFormField,
   SingleFormField,
@@ -266,15 +264,19 @@ export const Form = <FormData extends {}>({
       {renderBottomChildren && renderBottomChildren(data)}
 
       {buttons && (
-        <ButtonContainer {...getFormStyle('buttonContainer')} disabled={isEdit !== undefined && !isEdit} data-test-id="form-actions">
+        <ButtonContainer
+          {...getFormStyle('buttonContainer')}
+          disabled={isEdit !== undefined && !isEdit}
+          data-test-id="form-actions"
+        >
           {buttons.map((button, k) => (
             <Button
               {...button}
               key={k}
               dataTestId={
-                button.type === ButtonType.Primary
-                  ? 'form:primary'
-                  : `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
+                button.dataTestId ||
+                (button.type === ButtonType.Primary && 'form:primary') ||
+                `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
               }
               disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
               onClick={() => button.onClick({ submit, dispatch })}
