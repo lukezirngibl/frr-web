@@ -22,7 +22,7 @@ export const FileInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyle('wrapper')} data-test-id={props.dataTestId}>
-        <UploadDropzone onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} />
+        <UploadDropzone key={props.dataTestId} onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} />
       </Wrapper>
     </>
   )
