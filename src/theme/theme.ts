@@ -211,6 +211,10 @@ export type AppTheme = {
     noResultsLabel: CSSProperties
     loading: CSSProperties
     headerOuterWrapper: CSSProperties
+    descriptionIcon: CSSProperties
+    descriptionIconWrapper: CSSProperties
+    descriptionPopup: CSSProperties
+    descriptionText: CSSProperties
   }
   navigation: {
     carrot: CSSProperties
@@ -272,6 +276,10 @@ const defaultAppTheme: AppTheme = {
     noResultsLabel: {},
     loading: {},
     headerOuterWrapper: {},
+    descriptionIcon: {},
+    descriptionIconWrapper: {},
+    descriptionPopup: {},
+    descriptionText: {}
   },
   fileInput: {
     wrapper: {},
