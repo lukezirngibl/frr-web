@@ -70,7 +70,7 @@ export const Table = <T extends {}>(props: Props<T>) => {
       <Row
         {...getCSSStyle(
           'rowWrapper',
-          props.getRowStyle ? { ...props.getRowStyle(row), rowSpecificStyle } : rowSpecificStyle,
+          props.getRowStyle ? { ...props.getRowStyle(row), ...rowSpecificStyle } : rowSpecificStyle,
         )}
         style={params.style}
         key={params.key}
