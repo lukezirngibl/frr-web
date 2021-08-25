@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react'
 import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
 import { useTranslation, Namespace } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
-import styled, { css, CSSProperties, keyframes } from 'styled-components'
-import ClickAwayListener from 'react-click-away-listener'
+import styled, { css, CSSProperties } from 'styled-components'
+import { Popover } from '@material-ui/core'
 
 import { useAppTheme, AppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
@@ -16,7 +16,6 @@ export type TableColumn<T extends {}> = {
   dataKey: keyof T
   label: string
   labelInfo?: string
-  labelInfoStyle?: CSSProperties
   customRender?: (value: T[keyof T], row: T, translate: Translate) => ReactNode
   width: number
   isAmountValue?: boolean
@@ -44,6 +43,20 @@ export const Table = <T extends {}>(props: Props<T>) => {
   const infoIcon = getIcon('info')
 
   const [openPopup, setOpenPopup] = React.useState<string>('')
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+
+  const handleClick = (event, dataKey) => {
+    setAnchorEl(event.currentTarget)
+    setOpenPopup(dataKey)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+    setOpenPopup('')
+  }
+
+  const open = Boolean(anchorEl)
 
   const totalWidth = props.columns.reduce((sum, c) => sum + c.width, 0)
 
@@ -100,25 +113,36 @@ export const Table = <T extends {}>(props: Props<T>) => {
                 {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
                   <>
                     <DescriptionIconWrapper
-                      onClick={() => setOpenPopup(c.dataKey.toString())}
+                      onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                        handleClick(event, c.dataKey.toString())
+                      }
                       dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
                       svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
                       {...getCSSStyle('descriptionIconWrapper')}
                     />
-                    {openPopup === c.dataKey && (
-                      <ClickAwayListener onClickAway={() => setOpenPopup('')}>
-                        <DescriptionPopup
-                          onClick={() => setOpenPopup('')}
-                          {...getCSSStyle('descriptionPopup')}
-                          style={c.labelInfoStyle}
-                        >
+                    {openPopup === c.dataKey.toString() && (
+                      <Popover
+                        id={`Popover-${c.dataKey}`}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                      >
+                        <DescriptionPopup {...getCSSStyle('descriptionPopup')}>
                           <P
                             {...getCSSStyle('descriptionText')}
                             label={c.labelInfo}
                             localeNamespace={props.localeNamespace}
                           />
                         </DescriptionPopup>
-                      </ClickAwayListener>
+                      </Popover>
                     )}
                   </>
                 ) : null}
@@ -188,19 +212,6 @@ const RowAmountValue = createStyled(styled.p`
   overflow: hidden;
 `)
 
-const DescriptionPopupAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-
 const DescriptionIconWrapper = createStyled(styled.span`
   & svg {
     vertical-align: top;
@@ -214,8 +225,4 @@ const DescriptionIconWrapper = createStyled(styled.span`
   }
 `)
 
-const DescriptionPopup = createStyled(styled.div`
-  position: absolute;
-  top: 48px;
-  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
-`)
+const DescriptionPopup = createStyled('div')
