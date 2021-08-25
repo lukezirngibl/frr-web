@@ -11,6 +11,7 @@ import { P } from '../html'
 
 import { Loading } from './Loading'
 import { SimplePopover } from './PopOver'
+import { Icon } from './Icon'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
@@ -39,11 +40,6 @@ export const Table = <T extends {}>(props: Props<T>) => {
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'table')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'table')(props.style)
-
-  const getIcon = useInlineStyle(theme, 'icon')({})
-  const infoIcon = getIcon('info')
-
-  const [openPopup, setOpenPopup] = React.useState<string>('')
 
   const totalWidth = props.columns.reduce((sum, c) => sum + c.width, 0)
 
@@ -107,27 +103,23 @@ export const Table = <T extends {}>(props: Props<T>) => {
                   <SimplePopover
                     style={getInlineStyle('descriptionOuterWrapper').style}
                     trigger={({ onClick }) => (
-                      <DescriptionIconWrapper
-                        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                          onClick(event)
-                          setOpenPopup(c.dataKey.toString())
-                        }}
-                        dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
-                        svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
-                        {...getCSSStyle('descriptionIconWrapper')}
-                      />
+                      <DescriptionIconWrapper {...getCSSStyle('descriptionIconWrapper')}>
+                        <Icon
+                          icon="info_outline"
+                          style={getInlineStyle('descriptionIcon').style}
+                          onClick={onClick}
+                        />
+                      </DescriptionIconWrapper>
                     )}
-                    render={() =>
-                      openPopup === c.dataKey.toString() && (
-                        <DescriptionPopup {...getCSSStyle('descriptionPopup')}>
-                          <P
-                            {...getCSSStyle('descriptionText')}
-                            label={c.labelInfo}
-                            localeNamespace={props.localeNamespace}
-                          />
-                        </DescriptionPopup>
-                      )
-                    }
+                    render={() => (
+                      <DescriptionPopup {...getCSSStyle('descriptionPopup')}>
+                        <P
+                          {...getCSSStyle('descriptionText')}
+                          label={c.labelInfo}
+                          localeNamespace={props.localeNamespace}
+                        />
+                      </DescriptionPopup>
+                    )}
                   ></SimplePopover>
                 ) : null}
               </HeaderCell>
@@ -196,14 +188,5 @@ const RowAmountValue = createStyled(styled.p`
   overflow: hidden;
 `)
 
-const DescriptionIconWrapper = createStyled(styled.span`
-  & svg {
-    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
-      css`
-        ${svgCSSStyles}
-      `}
-    color: currentColor;
-  }
-`)
-
 const DescriptionPopup = createStyled('div')
+const DescriptionIconWrapper = createStyled('div')
