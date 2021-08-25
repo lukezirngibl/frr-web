@@ -49,11 +49,17 @@ export const Table = <T extends {}>(props: Props<T>) => {
 
   const rowRenderer = (params: ListRowProps) => {
     const row = (props.data as RemoteSuccess<any, Array<T>>).value[params.index]
+    const rowSpecificStyle = {
+      ...(params.style || {}),
+      cursor: !!props.onRowClick ? 'pointer' : 'default',
+    }
     return (
       <Row
-        {...getCSSStyle('rowWrapper', props.getRowStyle ? props.getRowStyle(row) : {})}
+        {...getCSSStyle(
+          'rowWrapper',
+          props.getRowStyle ? { ...props.getRowStyle(row), rowSpecificStyle } : rowSpecificStyle,
+        )}
         key={params.key}
-        style={params.style}
         onClick={() => {
           if (props.onRowClick) {
             props.onRowClick(row)
