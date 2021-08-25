@@ -3,7 +3,6 @@ import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
 import { useTranslation, Namespace } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
 import styled, { css, CSSProperties } from 'styled-components'
-import { Popover } from '@material-ui/core'
 
 import { useAppTheme, AppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
@@ -11,6 +10,7 @@ import { Translate } from '../translation'
 import { P } from '../html'
 
 import { Loading } from './Loading'
+import { SimplePopover } from './PopOver'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
@@ -38,25 +38,12 @@ export const Table = <T extends {}>(props: Props<T>) => {
 
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'table')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'table')(props.style)
 
   const getIcon = useInlineStyle(theme, 'icon')({})
   const infoIcon = getIcon('info')
 
   const [openPopup, setOpenPopup] = React.useState<string>('')
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-
-  const handleClick = (event, dataKey) => {
-    setAnchorEl(event.currentTarget)
-    setOpenPopup(dataKey)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-    setOpenPopup('')
-  }
-
-  const open = Boolean(anchorEl)
 
   const totalWidth = props.columns.reduce((sum, c) => sum + c.width, 0)
 
@@ -111,30 +98,21 @@ export const Table = <T extends {}>(props: Props<T>) => {
               >
                 <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
                 {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
-                  <>
-                    <DescriptionIconWrapper
-                      onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                        handleClick(event, c.dataKey.toString())
-                      }
-                      dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
-                      svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
-                      {...getCSSStyle('descriptionIconWrapper')}
-                    />
-                    {openPopup === c.dataKey.toString() && (
-                      <Popover
-                        id={`Popover-${c.dataKey}`}
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'center',
+                  <SimplePopover
+                    style={getInlineStyle('descriptionOuterWrapper').style}
+                    trigger={({ onClick }) => (
+                      <DescriptionIconWrapper
+                        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                          onClick(event)
+                          setOpenPopup(c.dataKey.toString())
                         }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'center',
-                        }}
-                      >
+                        dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
+                        svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
+                        {...getCSSStyle('descriptionIconWrapper')}
+                      />
+                    )}
+                    render={() =>
+                      openPopup === c.dataKey.toString() && (
                         <DescriptionPopup {...getCSSStyle('descriptionPopup')}>
                           <P
                             {...getCSSStyle('descriptionText')}
@@ -142,9 +120,9 @@ export const Table = <T extends {}>(props: Props<T>) => {
                             localeNamespace={props.localeNamespace}
                           />
                         </DescriptionPopup>
-                      </Popover>
-                    )}
-                  </>
+                      )
+                    }
+                  ></SimplePopover>
                 ) : null}
               </HeaderCell>
             )

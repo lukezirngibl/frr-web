@@ -211,6 +211,7 @@ export type AppTheme = {
     noResultsLabel: CSSProperties
     loading: CSSProperties
     headerOuterWrapper: CSSProperties
+    descriptionOuterWrapper: CSSProperties
     descriptionIcon: CSSProperties
     descriptionIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
@@ -276,6 +277,7 @@ const defaultAppTheme: AppTheme = {
     noResultsLabel: {},
     loading: {},
     headerOuterWrapper: {},
+    descriptionOuterWrapper: {},
     descriptionIcon: {},
     descriptionIconWrapper: {},
     descriptionPopup: {},
