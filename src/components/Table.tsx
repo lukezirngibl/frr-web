@@ -64,15 +64,15 @@ export const Table = <T extends {}>(props: Props<T>) => {
   const rowRenderer = (params: ListRowProps) => {
     const row = (props.data as RemoteSuccess<any, Array<T>>).value[params.index]
     const rowSpecificStyle = {
-      ...(params.style || {}),
       cursor: !!props.onRowClick ? 'pointer' : 'default',
-    }
+    } as any
     return (
       <Row
         {...getCSSStyle(
           'rowWrapper',
           props.getRowStyle ? { ...props.getRowStyle(row), rowSpecificStyle } : rowSpecificStyle,
         )}
+        style={params.style}
         key={params.key}
         onClick={() => {
           if (props.onRowClick) {
