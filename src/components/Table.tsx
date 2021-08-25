@@ -2,40 +2,21 @@ import React, { ReactNode } from 'react'
 import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
 import { useTranslation, Namespace } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
-import { useAppTheme, AppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
-import { Translate } from '../translation'
-import { Loading } from './Loading'
-import { P } from '../html'
-import styled, { CSSProperties } from 'styled-components'
+import styled, { css, CSSProperties } from 'styled-components'
 
-const NoResultsFoundWrapper = createStyled('div')
-const LoaderWrapper = createStyled('div')
-const TableWrapper = createStyled('div')
-const ListWrapper = createStyled('div')
-const Header = createStyled('div')
-const HeaderOuterWrapper = createStyled('div')
-const HeaderCell = createStyled('div')
-const HeaderValue = createStyled(styled.p`
-  text-overflow: ellipsis;
-  overflow: hidden;
-`)
-const Row = createStyled('div')
-const RowCell = createStyled('div')
-const RowValue = createStyled(styled.p`
-  text-overflow: ellipsis;
-  overflow: hidden;
-`)
-const RowAmountValue = createStyled(styled.p`
-  text-align: right;
-  max-width: 90px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`)
+import { useAppTheme, AppTheme } from '../theme/theme'
+import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import { Translate } from '../translation'
+import { P } from '../html'
+
+import { Loading } from './Loading'
+import { SimplePopover } from './PopOver'
+import { Icon } from './Icon'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
   label: string
+  labelInfo?: string
   customRender?: (value: T[keyof T], row: T, translate: Translate) => ReactNode
   width: number
   isAmountValue?: boolean
@@ -58,6 +39,7 @@ export const Table = <T extends {}>(props: Props<T>) => {
 
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'table')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'table')(props.style)
 
   const totalWidth = props.columns.reduce((sum, c) => sum + c.width, 0)
 
@@ -117,6 +99,29 @@ export const Table = <T extends {}>(props: Props<T>) => {
                 key={c.dataKey}
               >
                 <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
+                {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
+                  <SimplePopover
+                    style={getInlineStyle('descriptionOuterWrapper').style}
+                    trigger={({ onClick }) => (
+                      <DescriptionIconWrapper {...getCSSStyle('descriptionIconWrapper')}>
+                        <Icon
+                          icon="info_outline"
+                          style={getInlineStyle('descriptionIcon').style}
+                          onClick={onClick}
+                        />
+                      </DescriptionIconWrapper>
+                    )}
+                    render={() => (
+                      <DescriptionPopup {...getCSSStyle('descriptionPopup')}>
+                        <P
+                          {...getCSSStyle('descriptionText')}
+                          label={c.labelInfo}
+                          localeNamespace={props.localeNamespace}
+                        />
+                      </DescriptionPopup>
+                    )}
+                  ></SimplePopover>
+                ) : null}
               </HeaderCell>
             )
           })}
@@ -158,3 +163,30 @@ export const Table = <T extends {}>(props: Props<T>) => {
     </TableWrapper>
   )
 }
+
+const NoResultsFoundWrapper = createStyled('div')
+const LoaderWrapper = createStyled('div')
+const TableWrapper = createStyled('div')
+const ListWrapper = createStyled('div')
+const Header = createStyled('div')
+const HeaderOuterWrapper = createStyled('div')
+const HeaderCell = createStyled('div')
+const HeaderValue = createStyled(styled.p`
+  text-overflow: ellipsis;
+  overflow: hidden;
+`)
+const Row = createStyled('div')
+const RowCell = createStyled('div')
+const RowValue = createStyled(styled.p`
+  text-overflow: ellipsis;
+  overflow: hidden;
+`)
+const RowAmountValue = createStyled(styled.p`
+  text-align: right;
+  max-width: 90px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`)
+
+const DescriptionPopup = createStyled('div')
+const DescriptionIconWrapper = createStyled('div')
