@@ -248,9 +248,27 @@ export type AppTheme = {
     pdfWrapper: CSSProperties
     downloadButton: CSSProperties
   }
+  buttonGroup: {
+    wrapper: CSSProperties
+    item: CSSProperties
+    itemActive: CSSProperties
+    icon: CSSProperties
+    iconActive: CSSProperties
+    label: CSSProperties
+    labelActive: CSSProperties
+  }
 }
 
 const defaultAppTheme: AppTheme = {
+  buttonGroup: {
+    wrapper: {},
+    item: {},
+    itemActive: {},
+    icon: {},
+    iconActive: {},
+    label: {},
+    labelActive: {},
+  },
   pdfViewer: {
     pageSelectorWrapper: {},
     pageSelector: {},
