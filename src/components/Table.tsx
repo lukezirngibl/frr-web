@@ -214,13 +214,10 @@ const RowAmountValue = createStyled(styled.p`
 
 const DescriptionIconWrapper = createStyled(styled.span`
   & svg {
-    vertical-align: top;
-
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
       `}
-
     color: currentColor;
   }
 `)
