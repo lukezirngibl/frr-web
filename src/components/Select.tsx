@@ -74,9 +74,7 @@ export const Select = (props: Props) => {
       : []),
     ,
     ...(props.priority
-      ? props.priority
-          .map((prio) => options.find((option) => option.value === prio))
-          .filter((option: any) => !!option)
+      ? props.priority.map((prio) => options.find((option) => option.value === prio)).filter(Boolean)
       : []),
     ,
     ...(props.priority
