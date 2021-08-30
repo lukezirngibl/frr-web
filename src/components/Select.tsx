@@ -57,27 +57,28 @@ export const Select = (props: Props) => {
       : options
 
   options = [
-    ...parseOptions(
-      props.value === null || props.value === undefined
-        ? [
-            {
-              value: null,
-              disabled: true,
-              label: 'formFields.select.defaultLabel',
-            },
-            {
-              value: '---',
-              disabled: true,
-              label: '---',
-              isLabelTranslated: true,
-            },
-          ]
-        : [],
-    ),
-
-    ...parseOptions(
-      props.priority ? [...options.filter((option) => props.priority.includes(option.value))] : [],
-    ),
+    ...(props.value === null || props.value === undefined
+      ? [
+          {
+            value: null,
+            disabled: true,
+            label: 'formFields.select.defaultLabel',
+          },
+          {
+            value: '---',
+            disabled: true,
+            label: '---',
+            isLabelTranslated: true,
+          },
+        ]
+      : []),
+    ,
+    ...(props.priority
+      ? props.priority
+          .map((prio) => options.find((option) => option.value === prio))
+          .filter((option: any) => !!option)
+      : []),
+    ,
     ...(props.priority
       ? [
           {
