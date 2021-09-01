@@ -78,6 +78,7 @@ export const CodeInput = (props: Props) => {
             type="number"
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
             {...getStyle('input')}
+            autoFocus={i === 0 ? true : false}
           ></Input>
         ))}
       </CodeInputWrapper>
