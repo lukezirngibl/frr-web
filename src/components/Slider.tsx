@@ -119,7 +119,7 @@ export const Slider = (props: Props) => {
   }, [props.value])
 
   React.useEffect(() => {
-    if (props.value === 0 && props.defaultValue !== undefined) {
+    if ((props.value === null || props.value === undefined) && props.defaultValue !== undefined) {
       props.onChange(props.defaultValue)
     }
   }, [])
