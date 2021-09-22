@@ -99,6 +99,7 @@ export type Props = {
   prefix?: string
   isCurrency?: boolean
   style?: Partial<AppTheme['slider']>
+  defaultValue?: number
 }
 
 export const Slider = (props: Props) => {
@@ -117,6 +118,12 @@ export const Slider = (props: Props) => {
     setInternalValue(props.value)
   }, [props.value])
 
+  React.useEffect(() => {
+    if ((props.value === null || props.value === undefined) && props.defaultValue !== undefined) {
+      props.onChange(props.defaultValue)
+    }
+  }, [])
+
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
   const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
@@ -126,7 +133,7 @@ export const Slider = (props: Props) => {
   return (
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId} >
+      <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
         <Wrapper
           {...getCSSStyles('valueWrapper', {
             flexDirection: props.reverse ? 'row-reverse' : 'row',
