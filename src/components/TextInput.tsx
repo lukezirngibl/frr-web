@@ -130,8 +130,9 @@ export const TextInput = (props: Props) => {
             let newValue = (internalValue || '').trim()
             newValue = props.parseValue?.(newValue) || newValue
             setInternalValue(newValue)
-            setIsFocus(false)
             onChange?.(newValue)
+            setIsFocus(false)
+            
             props.onBlur?.(newValue)
           }}
           onFocus={() => {
