@@ -131,6 +131,7 @@ export const TextInput = (props: Props) => {
             newValue = props.parseValue?.(newValue) || newValue
             setInternalValue(newValue)
             setIsFocus(false)
+            onChange?.(newValue)
             props.onBlur?.(newValue)
           }}
           onFocus={() => {
