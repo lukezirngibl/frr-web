@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
 import { useTranslation, Namespace } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
@@ -17,9 +17,11 @@ export type TableColumn<T extends {}> = {
   dataKey: keyof T
   label: string
   labelInfo?: string
-  customRender?: (value: T[keyof T], row: T, translate: Translate) => ReactNode
+  customRender?: (value: T[keyof T], row: T, translate: Translate, valueElement?: ReactElement) => ReactNode
   width: number
   isAmountValue?: boolean
+  isHighlightedForSearch?: boolean
+  valueCustomRender?: (value: T[keyof T], translate: Translate) => ReactElement | undefined
 }
 
 export type TableColumns<T extends {}> = Array<TableColumn<T>>
@@ -64,6 +66,8 @@ export const Table = <T extends {}>(props: Props<T>) => {
       >
         {props.columns.map((c) => {
           const value = row[c.dataKey]
+          const valueCustomRender = c.valueCustomRender && c.valueCustomRender(value, translate) || undefined
+          
           return (
             <RowCell
               {...getCSSStyle('rowCell', {
@@ -73,10 +77,10 @@ export const Table = <T extends {}>(props: Props<T>) => {
               })}
               key={c.dataKey}
             >
-              {(c.customRender && c.customRender(value, row, translate)) ||
+              {c.customRender && c.customRender(value, row, translate, valueCustomRender) ||
                 (c.isAmountValue && (
-                  <RowAmountValue {...getCSSStyle('rowText')}>{value}</RowAmountValue>
-                )) || <RowValue {...getCSSStyle('rowText')}>{value}</RowValue>}
+                  <RowAmountValue {...getCSSStyle('rowText')}>{!!valueCustomRender ? valueCustomRender : value}</RowAmountValue>
+                )) || <RowValue {...getCSSStyle('rowText')}>{!!valueCustomRender ? valueCustomRender : value}</RowValue>}
             </RowCell>
           )
         })}
