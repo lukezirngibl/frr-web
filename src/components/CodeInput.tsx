@@ -21,7 +21,7 @@ export type Props = {
 }
 
 const replaceChar = (str: string, char: string, index: number) => {
-  return str.substr(0, index) + char + str.substr(index + 1)
+  return str.substr(0, index) + char.charAt(0) + str.substr(index + 1)
 }
 
 export const CodeInput = (props: Props) => {
