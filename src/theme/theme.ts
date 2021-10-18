@@ -230,6 +230,11 @@ export type AppTheme = {
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
   }
+  loading: {
+    wrapper: CSSProperties
+    item: CSSProperties
+    label: CSSProperties
+  }
   uploadDropzone: {
     container: CSSProperties
     dropzoneLabel: CSSProperties
@@ -264,7 +269,7 @@ export type AppTheme = {
   }
 }
 
-const defaultAppTheme: AppTheme = {
+export const defaultAppTheme: AppTheme = {
   buttonGroup: {
     wrapper: {},
     item: {},
@@ -299,7 +304,7 @@ const defaultAppTheme: AppTheme = {
     descriptionIcon: {},
     descriptionIconWrapper: {},
     descriptionPopup: {},
-    descriptionText: {}
+    descriptionText: {},
   },
   fileInput: {
     wrapper: {},
@@ -491,6 +496,11 @@ const defaultAppTheme: AppTheme = {
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},
+  },
+  loading: {
+    wrapper: {},
+    item: {},
+    label: {},
   },
   uploadDropzone: {
     container: {},
