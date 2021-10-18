@@ -79,7 +79,7 @@ export const CodeInput = (props: Props) => {
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
             {...getStyle('input')}
             autoFocus={i === 0 ? true : false}
-            autoComplete={'off'}
+            autoComplete={'nope'}
           ></Input>
         ))}
       </CodeInputWrapper>
