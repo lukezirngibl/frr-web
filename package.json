@@ -17,7 +17,9 @@
     "clean": "rm -rf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/styled-components node_modules/react-i18next",
     "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch",
     "prettier:fix": "yarn prettier --write .",
-    "prettier:check": "yarn prettier --check ."
+    "prettier:check": "yarn prettier --check .",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "files": [
     "lib/**/*"
@@ -63,10 +65,15 @@
     "@babel/plugin-transform-react-jsx": "^7.12.17",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-typescript": "^7.13.0",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/react": "^6.3.12",
     "@types/react": "^17.0.3",
     "@types/react-datepicker": "^3.1.7",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.0.0",
+    "babel-loader": "^8.2.2",
     "husky": ">=6",
     "install-peers-cli": "^2.2.0",
     "lint-staged": "^11.0.0",

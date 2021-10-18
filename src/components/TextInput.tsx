@@ -54,7 +54,7 @@ export const TextInput = (props: Props) => {
 
   // Focus field (e.g. on error)
   useEffect(() => {
-    let timerId: number = null
+    let timerId: any = null
     if (props.hasFocus && inputRef.current) {
       // Timeout is required to keep scrollIntoView smooth
       timerId = setTimeout(() => inputRef.current.focus(), 500)
@@ -132,7 +132,7 @@ export const TextInput = (props: Props) => {
             setInternalValue(newValue)
             onChange?.(newValue)
             setIsFocus(false)
-            
+
             props.onBlur?.(newValue)
           }}
           onFocus={() => {
