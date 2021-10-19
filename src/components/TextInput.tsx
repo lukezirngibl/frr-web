@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import { useDebouncedCallback } from 'use-debounce/lib'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
-import { useDebouncedCallback } from 'use-debounce/lib'
 
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
@@ -33,14 +33,14 @@ export type Props = {
   postfix?: string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
-  style?: Partial<AppTheme['textInput']>
+  style?: Partial<ComponentTheme['textInput']>
   value: string | null
 }
 
 export const TextInput = (props: Props) => {
   const inputRef = useRef(null)
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
   const { t: translate } = useTranslation(props.localeNamespace)

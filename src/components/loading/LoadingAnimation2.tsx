@@ -1,8 +1,8 @@
-import { P } from '../../html'
 import React from 'react'
 import styled from 'styled-components'
-import { useAppTheme } from '../../theme/theme'
-import { createStyled, useCSSStyles } from '../../theme/util'
+import { P } from '../../html'
+import { useComponentTheme, useCSSStyles } from '../../theme/theme.components'
+import { createStyled } from '../../theme/util'
 
 // source: https://tobiasahlin.com/spinkit/
 
@@ -67,7 +67,7 @@ const Animation1Item = createStyled(styled.div`
 `)
 
 export const LoadingAnimation1 = (props: { label?: string }) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'loading')({})
 
   return (
@@ -137,7 +137,7 @@ const Animation2Item = createStyled(styled.div`
   }
 `)
 export const LoadingAnimation2 = (props: { label?: string }) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'loading')({})
 
   return (

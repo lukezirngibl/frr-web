@@ -1,10 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { Option, Options } from '../html'
 import { Language } from '../theme/language'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
@@ -26,14 +30,14 @@ export type Props = {
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Array<string | number>
   readOnly?: boolean
-  style?: Partial<AppTheme['select']>
+  style?: Partial<ComponentTheme['select']>
   value: Value
 }
 
 export const Select = (props: Props) => {
   const { label } = props
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 

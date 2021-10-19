@@ -1,8 +1,13 @@
 import React from 'react'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 import { PopoverWithItems, Props as PopoverWithItemsProps } from './PopoverWithItems'
@@ -14,12 +19,12 @@ export type Props = {
   hasMobileBurgerMenu?: boolean
   label: string
   localeNamespace?: LocaleNamespace
-  style?: Partial<AppTheme['popoverDropdown']>
+  style?: Partial<ComponentTheme['popoverDropdown']>
 } & Omit<PopoverWithItemsProps, 'trigger'>
 
 export const PopoverDropdown = (props: Props) => {
   const { style, label, hasIcon, ...otherProps } = props
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'popoverDropdown')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'popoverDropdown')(props.style)
 

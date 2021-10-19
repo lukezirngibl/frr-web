@@ -1,17 +1,16 @@
 import { format, isValid } from 'date-fns'
 import { findFirst } from 'fp-ts/lib/Array'
-import { P } from '../../html'
-import { Language, mapLanguageToLocale } from '../../theme/language'
-import { MediaQuery } from '../../theme/theme'
-import { createStyled } from '../../theme/util'
-import { LocaleNamespace, Translate } from '../../translation'
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles } from '../theme/util'
-import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
 import rgbHex from 'rgb-hex'
+import styled from 'styled-components'
+import { P } from '../../html'
+import { MediaQuery } from '../../theme/configure.theme'
+import { Language, mapLanguageToLocale } from '../../theme/language'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
+import { LocaleNamespace, Translate } from '../../translation'
+import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
 
 /*
  * Value mapper
@@ -107,7 +106,8 @@ const defaultOptionArrayMapper = (
         .join(', ')
     : ''
 
-const defaultFileArrayMapper = (params: MapperParams<Array<File>>) => Array.isArray(params.value) ? params.value : []
+const defaultFileArrayMapper = (params: MapperParams<Array<File>>) =>
+  Array.isArray(params.value) ? params.value : []
 
 const defaultOptionMapper = (
   params: MapperParams<string | number> & {

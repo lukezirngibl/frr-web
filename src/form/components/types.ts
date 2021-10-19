@@ -26,7 +26,7 @@ import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
-import { FormTheme } from '../theme/theme'
+import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'

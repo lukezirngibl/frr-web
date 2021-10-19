@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { CSSProperties, createThemeConfigure } from '../../theme/theme'
+import { CSSProperties, createThemeConfigure } from './configure.theme'
+import { getUseCSSStyles, getUseInlineStyle } from './util'
 
 export type FormTheme = {
   row: {
@@ -52,6 +53,8 @@ export type FormTheme = {
   }
 }
 
+export type FormThemeConfig = { [k in keyof FormTheme]?: Partial<FormTheme[k]> }
+
 export const defaultFormTheme: FormTheme = {
   section: {
     content: {},
@@ -103,7 +106,15 @@ export const defaultFormTheme: FormTheme = {
   },
 }
 
-export type FormThemeConfig = { [k in keyof FormTheme]?: Partial<FormTheme[k]> }
+// React Contect
+
+export const FormThemeContext = React.createContext<FormTheme>(undefined as FormTheme)
+
+FormThemeContext.displayName = 'FormThemeContext'
+
+export const configureFormTheme = createThemeConfigure<FormThemeConfig, FormTheme>(defaultFormTheme)
+
+// Hooks
 
 export const useFormTheme = (): FormTheme => {
   const theme = React.useContext(FormThemeContext)
@@ -113,8 +124,24 @@ export const useFormTheme = (): FormTheme => {
   return theme
 }
 
-export const FormThemeContext = React.createContext<FormTheme>(undefined as FormTheme)
+export const useInlineStyle: <C extends keyof FormTheme>(
+  theme: FormTheme,
+  componentKey: C,
+) => (override?: Partial<FormTheme[C]>) => <K extends keyof FormTheme[C]>(
+  elementKeys: Array<K> | K,
+  internalOverride?: CSSProperties,
+  className?: string,
+) => {
+  style: FormTheme[C][K]
+  dataThemeId: string
+} = getUseInlineStyle<FormTheme>()
 
-FormThemeContext.displayName = 'FormThemeContext'
-
-export const configureFormTheme = createThemeConfigure<FormThemeConfig, FormTheme>(defaultFormTheme)
+export const useCSSStyles: <C extends keyof FormTheme>(
+  theme: FormTheme,
+  componentKey: C,
+) => (
+  override?: Partial<FormTheme[C]>,
+) => <K extends keyof FormTheme[C]>(
+  elementKeys: Array<K> | K,
+  internalOverride?: CSSProperties,
+) => { cssStyles: string; dataThemeId: string } = getUseCSSStyles<FormTheme>()

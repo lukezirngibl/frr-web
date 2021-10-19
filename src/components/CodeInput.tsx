@@ -1,8 +1,8 @@
-import React from 'react'
-import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import React from 'react'
+import styled from 'styled-components'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = createStyled('div')
@@ -17,7 +17,7 @@ export type Props = {
   value: string
   onChange: (v: string) => void
   length: number
-  style?: Partial<AppTheme['codeInput']>
+  style?: Partial<ComponentTheme['codeInput']>
 }
 
 const replaceChar = (str: string, char: string, index: number) => {
@@ -25,7 +25,7 @@ const replaceChar = (str: string, char: string, index: number) => {
 }
 
 export const CodeInput = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
 
   const refs: Array<React.RefObject<typeof Input>> = range(0, props.length - 1).map((i) =>

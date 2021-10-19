@@ -1,6 +1,6 @@
-import { configureAppTheme, AppThemeConfig } from '../theme/theme'
+import { configureComponentTheme, ComponentThemeConfig } from '../theme/theme.components'
 
-export const storybookTheme: Partial<AppThemeConfig> = {
+export const storybookTheme: Partial<ComponentThemeConfig> = {
   button: {
     common: {
       ':hover': {
@@ -27,4 +27,4 @@ export const storybookTheme: Partial<AppThemeConfig> = {
   },
 }
 
-export const appTheme = configureAppTheme(storybookTheme)
+export const componentTheme = configureComponentTheme(storybookTheme)

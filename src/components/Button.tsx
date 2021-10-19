@@ -3,8 +3,13 @@ import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce/lib'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
@@ -18,7 +23,7 @@ export enum ButtonType {
 }
 
 const mapTypeToStyleKey: {
-  [k in ButtonType]: keyof Partial<AppTheme['button']>
+  [k in ButtonType]: keyof Partial<ComponentTheme['button']>
 } = {
   [ButtonType.Chromeless]: 'chromeless',
   [ButtonType.Primary]: 'primary',
@@ -26,7 +31,7 @@ const mapTypeToStyleKey: {
 }
 
 const mapTypeToStyleLabelKey: {
-  [k in ButtonType]: keyof Partial<AppTheme['button']>
+  [k in ButtonType]: keyof Partial<ComponentTheme['button']>
 } = {
   [ButtonType.Chromeless]: 'chromelessLabel',
   [ButtonType.Primary]: 'primaryLabel',
@@ -43,14 +48,14 @@ export type Props = {
   loading?: boolean
   onClick?: () => void
   override?: CSSProperties
-  style?: Partial<AppTheme['button']>
+  style?: Partial<ComponentTheme['button']>
   type?: ButtonType
 }
 
 export const Button = (props: Props) => {
   /* Style hooks */
   const type = props.type || ButtonType.Secondary
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
   const getCSSStyle = useCSSStyles(theme, 'button')(props.style)

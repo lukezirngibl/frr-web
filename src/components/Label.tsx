@@ -1,11 +1,16 @@
 import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
+import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { LabelText, P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { useTranslation } from 'react-i18next'
 import { Icon } from './Icon'
 
 const DescriptionPopupAnimation = keyframes`
@@ -60,7 +65,7 @@ export type LabelProps = {
   labelData?: Record<string, string>
   localeNamespace?: LocaleNamespace
   renderChildren?: ReactNode | (() => ReactNode)
-  style?: Partial<AppTheme['label']>
+  style?: Partial<ComponentTheme['label']>
   sublabel?: LabelText
   sublabelData?: Record<string, string>
 }
@@ -69,7 +74,7 @@ export const Label = (props: LabelProps) => {
   const { t, i18n } = useTranslation(props.localeNamespace)
 
   // Styles
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'label')(props.style)
 
