@@ -2,7 +2,7 @@ import React from 'react'
 // @ts-ignore
 import { ComponentMeta } from '@storybook/react'
 
-import { ComponentThemeContext } from '../theme/theme.components'
+import { ComponentThemeContext, configureComponentTheme } from '../theme/theme.components'
 import { componentTheme } from './storybook.theme'
 
 export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
@@ -18,7 +18,7 @@ export const createStory =
     return (
       //   <TranslationsContext.Provider value={translations}>
       //     <LanguageContext.Provider value={Language.EN}>
-      <ComponentThemeContext.Provider value={componentTheme}>
+      <ComponentThemeContext.Provider value={configureComponentTheme(componentTheme)}>
         <Component {...props} />
       </ComponentThemeContext.Provider>
       //     </LanguageContext.Provider>

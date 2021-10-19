@@ -76,6 +76,7 @@ export const Element = (
   } = props
   const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
+
   const elementStyle = getStyle(element)
 
   const { t: translate } = useTranslation(localeNamespace)
@@ -91,7 +92,6 @@ export const Element = (
   }
 
   const htmlText = str
-
   const HtmlElement = HtmlElements[element]
 
   return (

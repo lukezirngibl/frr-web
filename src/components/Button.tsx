@@ -63,7 +63,7 @@ export const Button = (props: Props) => {
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
 
-  const [onClicked] = useDebouncedCallback(() => {
+  const onClicked = useDebouncedCallback(() => {
     props.onClick()
     setIsClicked(false)
   }, 300)

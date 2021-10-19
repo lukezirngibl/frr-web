@@ -65,7 +65,7 @@ export const TextInput = (props: Props) => {
   const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
   const placeholder = props.placeholder ? translate(props.placeholder) : undefined
 
-  const [debounceOnChange] = useDebouncedCallback((v: string) => {
+  const debounceOnChange = useDebouncedCallback((v: string) => {
     props?.onChange(v)
   }, props.debounce || 0)
 
