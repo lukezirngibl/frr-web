@@ -27,6 +27,8 @@ export type Props = {
   downloadButton?: { filename: string }
   bearerToken?: string
   style?: Partial<AppTheme['pdfViewer']>
+  scale?: number;
+  width?: number;
 }
 
 export const PdfViewer = (props: Props) => {
@@ -146,7 +148,7 @@ export const PdfViewer = (props: Props) => {
               setPageNumber(pageNumber)
             }}
           />
-          <Page loading={<Loading style={{ transform: 'scale(0.6)' }} />} pageNumber={pageNumber} />
+          <Page loading={<Loading style={{ transform: 'scale(0.6)' }} />} pageNumber={pageNumber} width={props.width || 800} scale={props.scale} />
         </Document>
       </PdfWrapper>
     </>
