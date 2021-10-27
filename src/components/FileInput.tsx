@@ -12,6 +12,7 @@ export type Props = {
   onChange: (n: File | null) => void
   style?: Partial<AppTheme['fileInput']>
   value: File | null
+  acceptedFileTypes?: string
 }
 
 export const FileInput = (props: Props) => {
@@ -22,7 +23,7 @@ export const FileInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyle('wrapper')} data-test-id={props.dataTestId}>
-        <UploadDropzone key={props.dataTestId} onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} />
+        <UploadDropzone key={props.dataTestId} onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} acceptedFileTypes={props.acceptedFileTypes} />
       </Wrapper>
     </>
   )
