@@ -12,11 +12,10 @@ export type Props = {
   onChange: (n: File | null) => void
   style?: Partial<AppTheme['fileInput']>
   value: File | null
-  uploadDropzoneProps: Partial<UploadDropzoneProps>
+  uploadDropzoneProps?: Partial<UploadDropzoneProps>
 }
 
 export const FileInput = (props: Props) => {
-  const { maxFilesToUpload = 1 } = props.uploadDropzoneProps
   const theme = useAppTheme()
   const getCSSStyle = useCSSStyles(theme, 'fileInput')(props.style)
 
@@ -27,9 +26,7 @@ export const FileInput = (props: Props) => {
         <UploadDropzone
           key={props.dataTestId}
           onChange={(files) => props.onChange(files[0])}
-          maxFilesToUpload={maxFilesToUpload}
-          acceptedFileTypes={props.uploadDropzoneProps.acceptedFileTypes}
-          maxFileSize={props.uploadDropzoneProps.maxFileSize}
+          {...(props.uploadDropzoneProps || {})}
         />
       </Wrapper>
     </>
