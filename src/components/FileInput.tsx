@@ -2,7 +2,7 @@ import React from 'react'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { Label, LabelProps } from './Label'
-import { UploadDropzone } from './UploadDropzone'
+import { UploadDropzone, UploadDropzoneProps } from './UploadDropzone'
 
 const Wrapper = createStyled('div')
 
@@ -12,7 +12,7 @@ export type Props = {
   onChange: (n: File | null) => void
   style?: Partial<AppTheme['fileInput']>
   value: File | null
-  acceptedFileTypes?: string
+  uploadDropzoneProps?: Partial<UploadDropzoneProps>
 }
 
 export const FileInput = (props: Props) => {
@@ -23,7 +23,11 @@ export const FileInput = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyle('wrapper')} data-test-id={props.dataTestId}>
-        <UploadDropzone key={props.dataTestId} onChange={(files) => props.onChange(files[0])} maxFilesToUpload={1} acceptedFileTypes={props.acceptedFileTypes} />
+        <UploadDropzone
+          key={props.dataTestId}
+          onChange={(files) => props.onChange(files[0])}
+          {...(props.uploadDropzoneProps || {})}
+        />
       </Wrapper>
     </>
   )
