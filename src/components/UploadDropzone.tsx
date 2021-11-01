@@ -15,7 +15,7 @@ type DragProps = {
   isDragReject: boolean
 }
 
-type UploadDropzoneProps = {
+export type UploadDropzoneProps = {
   onChange: (files: Array<File>) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
