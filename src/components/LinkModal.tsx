@@ -2,51 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Modal } from '@material-ui/core'
 import { Option, none } from 'fp-ts/lib/Option'
+
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
-
-const IframeOuterWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 36px;
-`
-
-const IframeWrapper = styled.div`
-  width: 100%;
-  max-width: 600px;
-  max-height: 1000px;
-  border-radius: 8px;
-  background-color: white;
-  height: 100%;
-  position: relative;
-
-  object {
-    width: 100%;
-    height: 100%;
-  }
-
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0 !important;
-    outline: 0 !important;
-  }
-`
-
-const IframeLoader = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 export enum ModalLinkType {
   PDF = 'PDF',
@@ -57,6 +15,7 @@ type ModalLinkConfig = Option<{
   url: string
   bearerToken?: string
   type: ModalLinkType
+  downloadButton?: { filename: string }
 }>
 
 export type Props = {
@@ -120,3 +79,46 @@ export const LinkModal = (props: Props) => {
     </Modal>
   )
 }
+
+const IframeOuterWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+`
+
+const IframeWrapper = styled.div`
+  width: 100%;
+  max-width: 600px;
+  max-height: 1000px;
+  border-radius: 8px;
+  background-color: white;
+  height: 100%;
+  position: relative;
+
+  object {
+    width: 100%;
+    height: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0 !important;
+    outline: 0 !important;
+  }
+`
+
+const IframeLoader = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
