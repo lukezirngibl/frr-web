@@ -5,6 +5,7 @@ import { Option, none } from 'fp-ts/lib/Option'
 
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
+import { MediaQuery } from '../theme/theme'
 
 export enum ModalLinkType {
   PDF = 'PDF',
@@ -86,7 +87,9 @@ const IframeOuterWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 36px;
+  @media ${MediaQuery.Small} {
+    border-radius: 0px;
+  }
 `
 
 const IframeWrapper = styled.div`
@@ -98,6 +101,10 @@ const IframeWrapper = styled.div`
   height: 100%;
   position: relative;
 
+  @media ${MediaQuery.Small} {
+    border-radius: 0px;
+  }
+  
   object {
     width: 100%;
     height: 100%;
