@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Modal } from '@material-ui/core'
 import { Option, none } from 'fp-ts/lib/Option'
@@ -17,6 +17,7 @@ type ModalLinkConfig = Option<{
   bearerToken?: string
   type: ModalLinkType
   downloadButton?: { filename: string }
+  onClose?: () => void
 }>
 
 export type Props = {
@@ -26,17 +27,32 @@ export type Props = {
 }
 
 export const LinkModal = (props: Props) => {
-  const [iframeLoading, setIframeLoading] = React.useState(true)
+  const [iframeLoading, setIframeLoading] = useState(true)
+
+  const [viewerWidth, setViewerWidth] = useState(800)
+  const [windowWidth, setWindowWith] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const onWindowResize = () => setWindowWith(window.innerWidth)
+    window.addEventListener('resize', onWindowResize)
+    return () => window.removeEventListener('resize', onWindowResize)
+  }, [])
+
+  useEffect(() => {
+    if (windowWidth < 840) {
+      setViewerWidth(windowWidth)
+    } else {
+      setViewerWidth(800)
+    }
+  }, [windowWidth])
+
+  const onClose = () => {
+    setIframeLoading(true)
+    props.setConfig(none)
+  }
 
   return (
-    <Modal
-      open={props.modalOpen}
-      onClose={() => {
-        setIframeLoading(true)
-        props.setConfig(none)
-      }}
-      style={{ display: 'flex' }}
-    >
+    <Modal open={props.modalOpen} onClose={onClose} style={{ display: 'flex' }}>
       {props.config.fold(<div />, (modalConfig) => (
         <IframeOuterWrapper
           onClick={() => {
@@ -50,7 +66,7 @@ export const LinkModal = (props: Props) => {
             }}
             style={
               modalConfig.type === ModalLinkType.PDF
-                ? { overflowY: 'auto', overflowX: 'hidden' }
+                ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
                 : { overflow: 'hidden' }
             }
           >
@@ -65,6 +81,8 @@ export const LinkModal = (props: Props) => {
                 onLoadSuccess={() => {
                   setIframeLoading(false)
                 }}
+                onClose={onClose}
+                width={viewerWidth}
               />
             ) : (
               <iframe
@@ -93,18 +111,17 @@ const IframeOuterWrapper = styled.div`
 `
 
 const IframeWrapper = styled.div`
+  height: 100%;
   width: 100%;
-  max-width: 600px;
-  max-height: 1000px;
+  max-width: 800px;
   border-radius: 8px;
   background-color: white;
-  height: 100%;
   position: relative;
 
   @media ${MediaQuery.Small} {
     border-radius: 0px;
   }
-  
+
   object {
     width: 100%;
     height: 100%;

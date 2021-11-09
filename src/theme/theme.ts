@@ -252,6 +252,7 @@ export type AppTheme = {
     pageNumber: CSSProperties
     pdfWrapper: CSSProperties
     downloadButton: CSSProperties
+    closeButton: CSSProperties
   }
   buttonGroup: {
     wrapper: CSSProperties
@@ -280,6 +281,7 @@ const defaultAppTheme: AppTheme = {
     pageNumber: {},
     pdfWrapper: {},
     downloadButton: {},
+    closeButton: {},
   },
   table: {
     tableWrapper: {},

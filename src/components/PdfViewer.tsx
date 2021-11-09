@@ -15,6 +15,7 @@ const PageNumber = createStyled('p')
 const PageSelector = createStyled('div')
 const PdfWrapper = createStyled('div')
 const DownloadButton = createStyled('div')
+const CloseButton = createStyled('div')
 
 export enum ModalLinkType {
   PDF = 'PDF',
@@ -25,6 +26,7 @@ export type Props = {
   onLoadSuccess: () => void
   url: string
   downloadButton?: { filename: string }
+  onClose?: () => void
   bearerToken?: string
   style?: Partial<AppTheme['pdfViewer']>
   scale?: number;
@@ -132,6 +134,15 @@ export const PdfViewer = (props: Props) => {
           />
         </PageSelector>
       </PageSelectorWrapper>
+      {props.onClose && (
+        <CloseButton
+          {...getCSSStyle('closeButton')}
+          onClick={props.onClose}
+        >
+          <Icon icon="close" size={24} onClick={(e) => {}} />
+        </CloseButton>
+      )}
+      
       <PdfWrapper {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
@@ -148,7 +159,12 @@ export const PdfViewer = (props: Props) => {
               setPageNumber(pageNumber)
             }}
           />
-          <Page loading={<Loading style={{ transform: 'scale(0.6)' }} />} pageNumber={pageNumber} width={props.width || 800} scale={props.scale} />
+          <Page
+            loading={<Loading style={{ transform: 'scale(0.6)' }} />}
+            pageNumber={pageNumber}
+            width={props.width || 800}
+            scale={props.scale}
+          />
         </Document>
       </PdfWrapper>
     </>
