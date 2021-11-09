@@ -23,14 +23,16 @@ export enum ModalLinkType {
 }
 
 export type Props = {
-  onLoadSuccess: () => void
-  url: string
-  downloadButton?: { filename: string }
-  onClose?: () => void
   bearerToken?: string
+  downloadButton?: { filename: string }
+  isFullscreen?: boolean
+  onClose?: () => void
+  onFullscreenChanged?: (v: boolean) => void
+  onLoadSuccess: () => void
+  scale?: number
   style?: Partial<AppTheme['pdfViewer']>
-  scale?: number;
-  width?: number;
+  url: string
+  width?: number
 }
 
 export const PdfViewer = (props: Props) => {
@@ -134,15 +136,20 @@ export const PdfViewer = (props: Props) => {
           />
         </PageSelector>
       </PageSelectorWrapper>
-      {props.onClose && (
+
+      {(props.onFullscreenChanged || props.onClose) && (
         <CloseButton
           {...getCSSStyle('closeButton')}
-          onClick={props.onClose}
+          onClick={props.onFullscreenChanged || props.onClose}
         >
-          <Icon icon="close" size={24} onClick={(e) => {}} />
+          <Icon
+            icon={props.onFullscreenChanged && (props.isFullscreen &&  'close' || 'fullscreen') || 'close'}
+            size={24}
+            onClick={(e) => {}}
+          />
         </CloseButton>
       )}
-      
+
       <PdfWrapper {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
