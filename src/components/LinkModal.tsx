@@ -64,6 +64,7 @@ export const LinkModal = (props: Props) => {
             onClick={(e) => {
               e.stopPropagation()
             }}
+            isPdf={modalConfig.type === ModalLinkType.PDF}
             style={
               modalConfig.type === ModalLinkType.PDF
                 ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
@@ -110,16 +111,18 @@ const IframeOuterWrapper = styled.div`
   }
 `
 
-const IframeWrapper = styled.div`
-  height: 100%;
+const IframeWrapper = styled.div<{ isPdf: boolean }>`
+  height: ${({ isPdf }) => (isPdf ? '1200px' : '100%')};
   width: 100%;
   max-width: 800px;
+  max-height: 100%;
   border-radius: 8px;
   background-color: white;
   position: relative;
 
   @media ${MediaQuery.Small} {
     border-radius: 0px;
+    height: 100%;
   }
 
   object {
