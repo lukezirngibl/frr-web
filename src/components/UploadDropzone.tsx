@@ -82,7 +82,10 @@ export const UploadDropzone = ({
         ) !== undefined
       ) {
         setErrorMessage(translate('dropzone.rejectedFile.fileAlreadySelected'))
-      } else if (!!maxFilesToUpload && acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload) {
+      } else if (
+        !!maxFilesToUpload &&
+        acceptedFiles.length + acceptedFileItems.length <= maxFilesToUpload
+      ) {
         setErrorMessage(translate('dropzone.rejectedFile.tooManyFiles', { maxFilesToUpload }))
       }
     }
@@ -190,7 +193,6 @@ export const UploadDropzone = ({
                 {rejectedFileItems.map(({ file, errors }: FileRejection) => (
                   <ListItem key={file.name} {...getCSSStyle('listItem')}>
                     <P
-                      isLabelTranslated
                       label={
                         maxFileSize && file.size > maxFileSize
                           ? 'dropzone.rejectedFile.fileSizeMessage'
