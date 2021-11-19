@@ -5,7 +5,8 @@ import { Option, none } from 'fp-ts/lib/Option'
 
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
-import { MediaQuery } from '../theme/theme'
+import { MediaQuery } from '../theme/configure.theme'
+
 
 export enum ModalLinkType {
   PDF = 'PDF',

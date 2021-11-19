@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -37,7 +36,7 @@ export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
   buttons?: Array<
     Omit<ButtonProps, 'onClick'> & {
-      onClick: (params: { submit: () => void; dispatch: any }) => void
+      onClick: (params: { submit: () => void }) => void
       isDisabled?: (d: FormData) => boolean
     }
   >
@@ -53,9 +52,9 @@ export type FormProps<FormData> = {
   localeNamespace?: LocaleNamespace
   onChange?: (formState: FormData) => void
   onChangeWithLens?: (lens: FormLens<FormData, any>, value: any) => void
-  onEdit?: (params: { dispatch: any }) => void
+  onEdit?: () => void
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
-  onSubmit?: (params: { dispatch: any; formState: FormData }) => void
+  onSubmit?: (params: { formState: FormData }) => void
   readOnly?: boolean
   renderBottomChildren?: (f: FormData) => ReactNode
   renderTopChildren?: (f: FormData) => ReactNode
@@ -102,7 +101,6 @@ export const Form = <FormData extends {}>({
   style,
 }: FormProps<FormData>) => {
   const { t: translate } = useTranslation(localeNamespace)
-  const dispatch = useDispatch()
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
 
@@ -152,7 +150,7 @@ export const Form = <FormData extends {}>({
   const submit = () => {
     setErrorFieldId(null)
     if (disableValidation) {
-      onSubmit({ dispatch, formState: data })
+      onSubmit({ formState: data })
     } else {
       const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
@@ -164,7 +162,7 @@ export const Form = <FormData extends {}>({
         onInvalidSubmit?.({ errors, formState: data })
         analytics?.onInvalidSubmit?.({ errors, formState: data })
       } else {
-        onSubmit?.({ dispatch, formState: data })
+        onSubmit?.({ formState: data })
         analytics?.onSubmit?.()
       }
     }
@@ -278,7 +276,7 @@ export const Form = <FormData extends {}>({
                 `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
               }
               disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-              onClick={() => button.onClick({ submit, dispatch })}
+              onClick={() => button.onClick({ submit })}
             />
           ))}
         </ButtonContainer>

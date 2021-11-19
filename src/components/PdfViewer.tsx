@@ -29,7 +29,7 @@ export type Props = {
   onFullscreenChanged?: (v: boolean) => void
   onLoadSuccess: () => void
   scale?: number
-  style?: Partial<AppTheme['pdfViewer']>
+  style?: Partial<ComponentTheme['pdfViewer']>
   url: string
   width?: number
 }
