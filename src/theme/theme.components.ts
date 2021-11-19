@@ -248,6 +248,7 @@ export type ComponentTheme = {
     pageNumber: CSSProperties
     pdfWrapper: CSSProperties
     downloadButton: CSSProperties
+    closeButton: CSSProperties
   }
   buttonGroup: {
     wrapper: CSSProperties
@@ -278,6 +279,7 @@ export const defaultComponentTheme: ComponentTheme = {
     pageNumber: {},
     pdfWrapper: {},
     downloadButton: {},
+    closeButton: {},
   },
   table: {
     tableWrapper: {},

@@ -14,6 +14,7 @@ const PageNumber = createStyled('p')
 const PageSelector = createStyled('div')
 const PdfWrapper = createStyled('div')
 const DownloadButton = createStyled('div')
+const CloseButton = createStyled('div')
 
 export enum ModalLinkType {
   PDF = 'PDF',
@@ -21,13 +22,16 @@ export enum ModalLinkType {
 }
 
 export type Props = {
-  onLoadSuccess: () => void
-  url: string
-  downloadButton?: { filename: string }
   bearerToken?: string
-  style?: Partial<ComponentTheme['pdfViewer']>
-  scale?: number;
-  width?: number;
+  downloadButton?: { filename: string }
+  isFullscreen?: boolean
+  onClose?: () => void
+  onFullscreenChanged?: (v: boolean) => void
+  onLoadSuccess: () => void
+  scale?: number
+  style?: Partial<AppTheme['pdfViewer']>
+  url: string
+  width?: number
 }
 
 export const PdfViewer = (props: Props) => {
@@ -131,6 +135,20 @@ export const PdfViewer = (props: Props) => {
           />
         </PageSelector>
       </PageSelectorWrapper>
+
+      {(props.onFullscreenChanged || props.onClose) && (
+        <CloseButton
+          {...getCSSStyle('closeButton')}
+          onClick={props.onFullscreenChanged || props.onClose}
+        >
+          <Icon
+            icon={props.onFullscreenChanged && (props.isFullscreen &&  'close' || 'fullscreen') || 'close'}
+            size={24}
+            onClick={(e) => {}}
+          />
+        </CloseButton>
+      )}
+
       <PdfWrapper {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
@@ -147,7 +165,12 @@ export const PdfViewer = (props: Props) => {
               setPageNumber(pageNumber)
             }}
           />
-          <Page loading={<Loading style={{ transform: 'scale(0.6)' }} />} pageNumber={pageNumber} width={props.width || 800} scale={props.scale} />
+          <Page
+            loading={<Loading style={{ transform: 'scale(0.6)' }} />}
+            pageNumber={pageNumber}
+            width={props.width || 800}
+            scale={props.scale}
+          />
         </Document>
       </PdfWrapper>
     </>

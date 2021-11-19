@@ -14,7 +14,7 @@ type DragProps = {
   isDragReject: boolean
 }
 
-type UploadDropzoneProps = {
+export type UploadDropzoneProps = {
   onChange: (files: Array<File>) => void
   acceptedFileTypes?: string
   maxFilesToUpload?: number
@@ -192,7 +192,6 @@ export const UploadDropzone = ({
                 {rejectedFileItems.map(({ file, errors }: FileRejection) => (
                   <ListItem key={file.name} {...getCSSStyle('listItem')}>
                     <P
-                      isLabelTranslated
                       label={
                         maxFileSize && file.size > maxFileSize
                           ? 'dropzone.rejectedFile.fileSizeMessage'
