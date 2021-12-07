@@ -39,7 +39,7 @@
     "@material-ui/icons": "^4.11.2",
     "date-fns": "^2.19.0",
     "fp-ts": "1.19.5",
-    "monocle-ts": "2.3.11",
+    "monocle-ts": "2.0.0",
     "pdfjs-dist": "2.10.377",
     "react-click-away-listener": "^2.0.0",
     "react-color": "^2.19.3",
