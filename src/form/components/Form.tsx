@@ -67,7 +67,7 @@ const ButtonContainer = createStyled(styled.div`
   justify-content: center;
 `)
 
-const FormWrapper = createStyled(styled.div`
+const FormWrapper = createStyled(styled.form`
   display: flex;
   flex-direction: column;
   flex-grow: 1;

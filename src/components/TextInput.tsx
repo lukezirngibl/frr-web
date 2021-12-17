@@ -12,6 +12,7 @@ const Hook = createStyled('div')
 const Prefix = createStyled('p')
 
 export type Props = {
+  autocomplete?: string
   dataTestId?: string
   debounce?: number
   disabled?: boolean
@@ -108,6 +109,7 @@ export const TextInput = (props: Props) => {
             readOnlyInput: props.readOnly,
             errorInput: props.error,
           })}
+          autoComplete={props.autocomplete}
           className="frr-text-input"
           data-test-id={props.dataTestId}
           disabled={props.readOnly || props.disabled}
