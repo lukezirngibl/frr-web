@@ -15,6 +15,7 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "sourceMap": true,
+    "inlineSources": true,
     "target": "es5",
     "module": "commonjs",
     "declaration": true,
