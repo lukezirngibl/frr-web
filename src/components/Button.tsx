@@ -64,14 +64,15 @@ export const Button = (props: Props) => {
   const [isClicked, setIsClicked] = useState(false)
 
   const onClicked = useDebouncedCallback(() => {
-    props.onClick()
+    props.onClick?.()
     setIsClicked(false)
   }, 300)
 
   const handleClicked =
     props.disabled || props.loading
       ? undefined
-      : () => {
+      : (e: MouseEvent) => {
+          e.preventDefault()
           setIsClicked(true)
           onClicked()
         }
@@ -81,7 +82,7 @@ export const Button = (props: Props) => {
   return (
     <ButtonWrapper
       className={isClicked ? 'animate' : ''}
-      data-test-id={props.dataTestId}
+      data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
