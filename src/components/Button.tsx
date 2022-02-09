@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CSSProperties } from 'styled-components'
-import { useDebouncedCallback } from 'use-debounce/lib'
+import { useDebouncedCallback } from 'use-debounce'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import {
