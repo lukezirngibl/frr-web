@@ -40,7 +40,6 @@ export type FormProps<FormData> = {
       isDisabled?: (d: FormData) => boolean
     }
   >
-  buttonContainerClassName?: string
   children?: ReactNode
   className?: string
   data: FormData
@@ -245,8 +244,6 @@ export const Form = <FormData extends {}>({
 
   let formClassName = `${className} ` || ''
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
-
-  console.log('BUTTON CLASSNAME', buttonContainerClassName)
   
   return !isVisible || isVisible(data) ? (
     <FormWrapper
@@ -267,7 +264,6 @@ export const Form = <FormData extends {}>({
       {buttons && (
         <ButtonContainer
           {...getFormStyle('buttonContainer')}
-          className={buttonContainerClassName}
           disabled={isEdit !== undefined && !isEdit}
           data-test-id="form-actions"
         >
