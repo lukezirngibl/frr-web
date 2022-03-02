@@ -5,20 +5,20 @@ import it from 'date-fns/locale/it'
 
 export enum Language {
   EN = 'en',
-  DE = 'de',
+  DE_CH = 'de-CH',
   FR = 'fr',
   IT = 'it',
 }
 
 export const mapLanguageToLocaleString: { [k in Language]: string } = {
-  [Language.DE]: 'de',
+  [Language.DE_CH]: 'de',
   [Language.EN]: 'en-GB',
   [Language.FR]: 'fr',
   [Language.IT]: 'it',
 }
 
 export const mapLanguageToLocale: { [k in Language]: Locale } = {
-  [Language.DE]: de,
+  [Language.DE_CH]: de,
   [Language.EN]: en,
   [Language.FR]: fr,
   [Language.IT]: it,

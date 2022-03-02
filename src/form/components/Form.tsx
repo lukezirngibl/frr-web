@@ -82,7 +82,6 @@ const FormContent = createStyled(styled.div`
 export const Form = <FormData extends {}>({
   analytics,
   buttons,
-  buttonContainerClassName,
   className,
   data,
   dataTestId,
