@@ -51,7 +51,7 @@ export const OptionGroup = (props: Props) => {
             onClick={() => {
               props.onChange(item.value)
             }}
-            data-test-id={`${props.dataTestId}:${item.value}`}
+            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
             {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,
