@@ -76,7 +76,6 @@ const FormWrapper = createStyled(styled.form`
 const FormContent = createStyled(styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 `)
 
 export const Form = <FormData extends {}>({
@@ -254,7 +253,6 @@ export const Form = <FormData extends {}>({
       {renderTopChildren && renderTopChildren(data)}
 
       <FormContent {...getFormStyle('content')}>
-        {/* formFields.map(renderField) */}
         {visibleFormFields.map(renderField)}
       </FormContent>
 
