@@ -74,6 +74,14 @@ export const CodeInput = (props: Props) => {
                 }
               }
             }}
+            onKeyDown={(e: any) => {
+              if (e.keyCode === 8) {
+                const prev = refs[i - 1]?.current as any
+                if (prev) {
+                  prev.focus()
+                }
+              }
+            }}
             ref={refs[i] as any}
             type="number"
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
