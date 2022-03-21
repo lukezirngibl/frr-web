@@ -50,7 +50,7 @@ export const CodeInput = (props: Props) => {
             onClick={() => setIntervalValue(replaceChar(intervalValue, '-', i))}
             onChange={(e: any) => {
               const v = e.target.value.replace('-', ' ').trim()
-              if (v === '') {
+              if (v === '' || isNaN(v)) {
                 const prev = intervalValue[i]
                 const newValue = replaceChar(intervalValue, '-', i)
                 setIntervalValue(newValue)
@@ -83,7 +83,7 @@ export const CodeInput = (props: Props) => {
               }
             }}
             ref={refs[i] as any}
-            type="number"
+            inputType="number"
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
             {...getStyle('input')}
             autoFocus={i === 0 ? true : false}
