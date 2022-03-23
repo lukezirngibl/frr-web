@@ -4,7 +4,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
-  "contributors": ["Joel Meiller <joel@oscillate.ch>"],
+  "contributors": [
+    "Joel Meiller <joel@oscillate.ch>"
+  ],
   "version": "3.0.13",
   "keywords": [],
   "scripts": {
