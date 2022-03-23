@@ -1,6 +1,7 @@
 import { range } from 'fp-ts/lib/Array'
 import React from 'react'
 import styled from 'styled-components'
+import { useMobileTouch } from '../hooks/useMobileTouch'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
@@ -25,6 +26,7 @@ const replaceChar = (str: string, char: string, index: number) => {
 }
 
 export const CodeInput = (props: Props) => {
+  const { isMobile } = useMobileTouch()
   const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
 
@@ -84,6 +86,7 @@ export const CodeInput = (props: Props) => {
             }}
             ref={refs[i] as any}
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
+            type={isMobile ? 'number' : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */}
             {...getStyle('input')}
             autoFocus={i === 0 ? true : false}
             autoComplete={'nope'}
