@@ -83,7 +83,6 @@ export const CodeInput = (props: Props) => {
               }
             }}
             ref={refs[i] as any}
-            type="number"
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
             {...getStyle('input')}
             autoFocus={i === 0 ? true : false}
