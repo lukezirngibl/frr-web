@@ -49,6 +49,7 @@ export const CodeInput = (props: Props) => {
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
+            name={`code-value-${i}`}
             onClick={() => setIntervalValue(replaceChar(intervalValue, '-', i))}
             onChange={(e: any) => {
               const v = e.target.value.replace('-', ' ').trim()
