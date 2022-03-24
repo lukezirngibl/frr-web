@@ -50,6 +50,7 @@ export type Props = {
   onClick?: () => void
   override?: CSSProperties
   style?: Partial<ComponentTheme['button']>
+  tabIndex?: number
   type?: ButtonType
 }
 
@@ -87,6 +88,7 @@ export const Button = (props: Props) => {
       data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
+      tabIndex={props.tabIndex}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}
