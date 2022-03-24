@@ -42,6 +42,7 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   icon?: IconProps
+  id?: string
   label: string
   labelMobile?: string
   localeNamespace?: LocaleNamespace
@@ -81,6 +82,7 @@ export const Button = (props: Props) => {
 
   return (
     <ButtonWrapper
+      id={props.id}
       className={isClicked ? 'animate' : ''}
       data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
