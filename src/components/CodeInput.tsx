@@ -49,8 +49,6 @@ export const CodeInput = (props: Props) => {
     }
   }, [props.value])
 
-  console.log('OTP VALUE', props.value, props.value === '', !props.value)
-
   return (
     <>
       {props.label && <Label {...props.label} />}
