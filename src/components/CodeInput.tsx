@@ -46,6 +46,7 @@ export const CodeInput = (props: Props) => {
   React.useEffect(() => {
     if (props.value === '') {
       setIntervalValue(range(0, props.length - 1).reduce((str) => `${str}-`, ''))
+      refs[0].current?.focus()
     }
   }, [props.value])
 
@@ -99,9 +100,9 @@ export const CodeInput = (props: Props) => {
                 ? 'number'
                 : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */
             }
+            inputtype="number"
+            autoComplete="off"
             {...getStyle('input')}
-            autoFocus={i === 0 ? true : false}
-            autoComplete={'nope'}
           />
         ))}
       </CodeInputWrapper>
