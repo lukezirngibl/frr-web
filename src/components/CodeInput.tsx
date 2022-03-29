@@ -42,6 +42,15 @@ export const CodeInput = (props: Props) => {
     props.onChange(intervalValue)
   }, [intervalValue])
 
+  // Clear code input field
+  React.useEffect(() => {
+    if (props.value === '') {
+      setIntervalValue(range(0, props.length - 1).reduce((str) => `${str}-`, ''))
+    }
+  }, [props.value])
+
+  console.log('OTP VALUE', props.value, props.value === '', !props.value)
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -87,7 +96,11 @@ export const CodeInput = (props: Props) => {
             }}
             ref={refs[i] as any}
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
-            type={isMobile ? 'number' : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */}
+            type={
+              isMobile
+                ? 'number'
+                : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */
+            }
             {...getStyle('input')}
             autoFocus={i === 0 ? true : false}
             autoComplete={'nope'}
