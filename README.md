@@ -185,11 +185,11 @@ To build the library, run the build script.
 
 Follow these steps to run the library build in watch mode:
 
-1. Build the types first: `yarn build`
-2. Start the build in watch mode (babel): `yarn babel:watch`
+1. Start the build in watch mode (babel): `yarn build:watch`
 
-To rebuild the types the following actions are required (for the why see **IMPORTANT NOTE** below):
+### Use package in linked (watch-)mode
 
-1. (Quit watch mode: `ctrl c`).
-2. Run: `yarn build-types`
-3. Start babel again: `yarn babel:watch`
+You might want to link this library to the consuming application and keep it in watch mode to develop in parallel.
+
+- Create a symlink: `yarn link` (This you have to **do only once**)
+- Run build with babel: `yarn build:watch`
