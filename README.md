@@ -193,17 +193,3 @@ To rebuild the types the following actions are required (for the why see **IMPOR
 1. (Quit watch mode: `ctrl c`).
 2. Run: `yarn build-types`
 3. Start babel again: `yarn babel:watch`
-
-### Use package in linked (watch-)mode
-
-You might want to link this library to the consuming application and keep it in watch mode to develop in parallel.
-
-- Create a symlink: `yarn link` (This you have to **do only once**)
-- Run build with babel: `yarn babel:watch`
-
-**IMPORTANT NOTE**
-Types are not transpiled by Babel. As a consequence, changes of types require a rebuild of the types with the TypeScript compiler in order for consuming applications to receive them.
-
-As the TypeScript compiler requires all dependencies including peerDependencies, we first have to install those as well. Unfortunately libraries like React or Style-Components cannot handle duplicate installations of the same package in one application and will crash in the browser during rendering.
-
-That is why we have to clean the _node_modules_ from all peerDependencies before using it. And that is also why we cannot really use the TypeScript compiler to develop in watch-mode with linked modules.
