@@ -24,54 +24,6 @@ const DatePickerIconWrapper = createStyled('div')
 const Hook1 = createStyled('div')
 const Hook2 = createStyled('div')
 
-const DatePickerAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-const DatePickerCalendarWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  /* Default date picker styles */
-
-  & .react-datepicker__triangle {
-    display: none !important;
-  }
-  & .react-datepicker-popper {
-    width: 100%;
-    margin: 0;
-    transform: none !important;
-    z-index: 999;
-  }
-  & .react-datepicker-wrapper {
-    display: none !important;
-  }
-
-  & .react-datepicker  {
-    position: absolute;
-    top: 64px;
-    right: 0;
-    animation: ${DatePickerAnimation} 0.15s ease-out;
-  }
-
-  ${({ cssStyles }: { cssStyles: string }) =>
-    cssStyles > ''
-      ? css`
-          ${cssStyles}
-        `
-      : ''}
-`
-
 export type Props = {
   dataTestId?: string
   dateFormat?: string
@@ -84,6 +36,18 @@ export type Props = {
   onBlur: (value: Date) => void
   style?: Partial<ComponentTheme['datePicker']>
   value: Date | null
+}
+
+const parseDate = (value: string): Date | 'Invalid Date' => {
+  let dateValue: Date
+
+  if (value && value.includes('.')) {
+    dateValue = parse(value, 'dd.MM.yyyy', new Date())
+  } else {
+    dateValue = parse(value, 'ddMMyyyy', new Date())
+  }
+
+  return dateValue
 }
 
 export const DatePicker = (props: Props) => {
@@ -168,9 +132,9 @@ export const DatePicker = (props: Props) => {
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
-                    const dateValue = parse(v, 'dd.MM.yyyy', new Date()) as Date | 'Invalid Date'
+                    const dateValue = parseDate(v)
 
-                    if (dateValue == 'Invalid Date') {
+                    if (dateValue === 'Invalid Date') {
                       throw 'Invalid Date'
                     }
 
@@ -230,3 +194,51 @@ export const DatePicker = (props: Props) => {
     </>
   )
 }
+
+const DatePickerAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: top center;
+    transform: scale(0, 0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: top center;
+    transform: scale(1, 1);
+  }
+`
+const DatePickerCalendarWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* Default date picker styles */
+
+  & .react-datepicker__triangle {
+    display: none !important;
+  }
+  & .react-datepicker-popper {
+    width: 100%;
+    margin: 0;
+    transform: none !important;
+    z-index: 999;
+  }
+  & .react-datepicker-wrapper {
+    display: none !important;
+  }
+
+  & .react-datepicker  {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    animation: ${DatePickerAnimation} 0.15s ease-out;
+  }
+
+  ${({ cssStyles }: { cssStyles: string }) =>
+    cssStyles > ''
+      ? css`
+          ${cssStyles}
+        `
+      : ''}
+`
