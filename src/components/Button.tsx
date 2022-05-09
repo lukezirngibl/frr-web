@@ -42,6 +42,7 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   icon?: IconProps
+  id?: string
   label: string
   labelMobile?: string
   localeNamespace?: LocaleNamespace
@@ -49,6 +50,7 @@ export type Props = {
   onClick?: () => void
   override?: CSSProperties
   style?: Partial<ComponentTheme['button']>
+  tabIndex?: number
   type?: ButtonType
 }
 
@@ -81,10 +83,12 @@ export const Button = (props: Props) => {
 
   return (
     <ButtonWrapper
+      id={props.id}
       className={isClicked ? 'animate' : ''}
       data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
+      tabIndex={props.tabIndex}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}
