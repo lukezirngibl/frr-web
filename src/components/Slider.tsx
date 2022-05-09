@@ -142,7 +142,7 @@ export const Slider = (props: Props) => {
           {prefix && (
             <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
           )}
-          <ValueText {...getCSSStyles('value')}>
+          <ValueText {...getCSSStyles('value')} data-test-id="amnout" data-value={internalValue}>
             {props.isCurrency ? Formatter.format(internalValue) : internalValue}
           </ValueText>
         </Wrapper>
