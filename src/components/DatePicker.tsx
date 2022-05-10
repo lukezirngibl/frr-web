@@ -34,13 +34,10 @@ export type Props = {
 }
 
 const parseDate = (value: string): Date | 'Invalid Date' => {
-  let dateValue: Date
+  const cleanedValue = value ? value.replace(/\D/g, '') : ''
+  const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
 
-  if (value && value.includes('.')) {
-    dateValue = parse(value, 'dd.MM.yyyy', new Date())
-  } else {
-    dateValue = parse(value, 'ddMMyyyy', new Date())
-  }
+  console.log('DATE VALUE', dateValue)
 
   return dateValue
 }
@@ -93,6 +90,9 @@ export const DatePicker = (props: Props) => {
     }) ||
     undefined
 
+  
+  console.log('PROPS VALUE', props.value, isValid(new Date(props.value)))
+
   return (
     <>
       {props.label && <Label {...props.label} />}
@@ -116,7 +116,7 @@ export const DatePicker = (props: Props) => {
               hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
-              value={props.value ? format(props.value, props.dateFormat) : null}
+              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
               dataTestId={props.dataTestId}
               style={textInputStyle}
             />
@@ -150,7 +150,7 @@ export const DatePicker = (props: Props) => {
                 inputType={'text'}
                 localeNamespace={props.localeNamespace}
                 placeholder={'dateFormatPlaceholder'}
-                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
+                value={isValid(new Date(props.value)) ? format(new Date(props.value), 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
                 style={textInputStyle}
               />
