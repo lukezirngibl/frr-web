@@ -37,8 +37,6 @@ const parseDate = (value: string): Date | 'Invalid Date' => {
   const cleanedValue = value ? value.replace(/\D/g, '') : ''
   const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
 
-  console.log('DATE VALUE', dateValue)
-
   return dateValue
 }
 
@@ -89,9 +87,6 @@ export const DatePicker = (props: Props) => {
       wrapper: getInlineStyle('inputWrapper').style,
     }) ||
     undefined
-
-  
-  console.log('PROPS VALUE', props.value, isValid(new Date(props.value)))
 
   return (
     <>

@@ -17,7 +17,6 @@ export const FormattedDatePicker = (props: Props) => {
     <DatePicker
       value={val as Date}
       onChange={(value: Date) => {
-        console.log('--> ON CHANGE DATE', value)
         if (value !== null && isValid(value)) {
           onChange(format(value, props.dateFormat))
         } else {
@@ -25,7 +24,6 @@ export const FormattedDatePicker = (props: Props) => {
         }
       }}
       onBlur={(value: Date) => {
-        console.log('--> ON BLUR DATE', value)
         if (value !== null && isValid(value)) {
           onBlur(format(value, props.dateFormat))
         } else {
