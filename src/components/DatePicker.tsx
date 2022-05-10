@@ -39,13 +39,8 @@ export type Props = {
 }
 
 const parseDate = (value: string): Date | 'Invalid Date' => {
-  let dateValue: Date
-
-  if (value && value.includes('.')) {
-    dateValue = parse(value, 'dd.MM.yyyy', new Date())
-  } else {
-    dateValue = parse(value, 'ddMMyyyy', new Date())
-  }
+  const cleanedValue = value ? value.replace(/\D/g, '') : ''
+  const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
 
   return dateValue
 }
@@ -121,7 +116,7 @@ export const DatePicker = (props: Props) => {
               hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
-              value={props.value ? format(props.value, props.dateFormat) : null}
+              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
               dataTestId={props.dataTestId}
               style={textInputStyle}
             />
