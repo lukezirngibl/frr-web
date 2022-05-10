@@ -145,7 +145,7 @@ export const DatePicker = (props: Props) => {
                 inputType={'text'}
                 localeNamespace={props.localeNamespace}
                 placeholder={'dateFormatPlaceholder'}
-                value={isValid(new Date(props.value)) ? format(new Date(props.value), 'dd.MM.yyyy') : null}
+                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
                 style={textInputStyle}
               />
