@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import { FieldError, FormFieldType, SingleFormField } from '../types'
 
 export const computeFieldError = <FormData>({
-  value,
   data,
   field,
+  isValidate,
+  value,
 }: {
-  value: string | string[] | boolean | number | Date | null | File | Array<File>
   data: FormData
   field: SingleFormField<FormData>
+  isValidate: boolean
+  value: string | string[] | boolean | number | Date | null | File | Array<File>
 }): FieldError => {
   let error = null
   const isRequired =
@@ -28,11 +30,11 @@ export const computeFieldError = <FormData>({
     }
   }
 
-  if (!error && !!field.validate) {
+  if (isValidate && !error && !!field.validate) {
     error = field.validate(value)
   }
 
-  if (!error && field.type === FormFieldType.CurrencyInput && !!value) {
+  if (isValidate && !error && field.type === FormFieldType.CurrencyInput && !!value) {
     const cleanedValue = Number(`${value}`.replace(',', '.'))
     if (isNaN(cleanedValue)) {
       error = 'formFields.error.invalidAmount'
@@ -59,22 +61,24 @@ export const computeFieldError = <FormData>({
 }
 
 export const useFormFieldError = <FormData>({
-  value,
   data,
   field,
+  isDirty,
   showValidation,
+  value,
 }: {
-  value: string | string[] | number | Date | boolean | null | File | Array<File>
   data: FormData
   field: SingleFormField<FormData>
+  isDirty: boolean
   showValidation: boolean
+  value: string | string[] | number | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
   useEffect(() => {
-    showValidation
-      ? setFieldError(computeFieldError({ value, field, data }))
+    showValidation || isDirty
+      ? setFieldError(computeFieldError({ value, field, data, isValidate: showValidation }))
       : setFieldError({ error: null, fieldId: null })
-  }, [value, showValidation])
+  }, [value, showValidation, isDirty])
 
   return fieldError.error
 }

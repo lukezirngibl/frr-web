@@ -145,7 +145,7 @@ export const Form = <FormData extends {}>({
     field: SingleFormField<FormData>,
   ): { error: string | null; fieldId: string } => {
     const value = field.lens.get(data)
-    return computeFieldError({ value, data, field })
+    return computeFieldError({ value, data, field, isValidate: true })
   }
 
   const [errorFieldId, setErrorFieldId] = useState(null)

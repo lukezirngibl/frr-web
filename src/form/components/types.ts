@@ -291,13 +291,13 @@ export type SingleCheckboxField<FormData> = FormInput<
 >
 
 type CommonFieldProps<FormData> = {
-  isVisible?: (formData: FormData) => boolean
   isDisabled?: boolean
-  validate?: (value: any) => null | string
-  maxwidth?: number
+  isVisible?: (formData: FormData) => boolean
   itemStyle?: CSSProperties
-  required?: boolean | ((formData: FormData) => boolean)
+  maxwidth?: number
   renderChildren?: () => ReactNode
+  required?: boolean | ((formData: FormData) => boolean)
+  validate?: (value: any) => null | string
 }
 
 // @ts-ignore

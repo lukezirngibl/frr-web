@@ -38,17 +38,38 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
 
   // Value handling
+  const [fieldChanged, setFieldChanged] = useState(false)
   const [value, setValue] = useState(field.lens.get(data))
   useEffect(() => {
     setValue(field.lens.get(data))
   }, [field.lens.get(data)])
 
   const onBlur = (value: any) => {
+    setFieldChanged(true)
     onChange(field.lens, value)
   }
 
+  const isDirty = value !== null
+
+  console.log(
+    field.lens.id(),
+    'IS DIRTY',
+    isDirty,
+    'VALUE',
+    value,
+    field.lens.get(data),
+    'FIELD CHANGED',
+    fieldChanged,
+  )
+
   // Error handling
-  const errorLabel = useFormFieldError({ value, data, field, showValidation })
+  const errorLabel = useFormFieldError({
+    value,
+    data,
+    field,
+    isDirty,
+    showValidation: showValidation || fieldChanged,
+  })
   const hasError = errorLabel !== null
 
   useEffect(() => {
