@@ -2,8 +2,8 @@ import React from 'react'
 // @ts-ignore
 import { ComponentMeta } from '@storybook/react'
 
-import { Button, Props, ButtonType } from '../components/Button'
-import { createStory, meta } from './storybook.helpers'
+import { Button, Props, ButtonType } from '../../components/Button'
+import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta({
