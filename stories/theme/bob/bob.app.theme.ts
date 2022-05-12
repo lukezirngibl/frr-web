@@ -1,4 +1,4 @@
-import { AppThemeConfig } from "../../../theme/theme";
+import { AppThemeConfig } from "../../../src/theme/theme";
 
 export const appTheme: Partial<AppThemeConfig> = {
   modal: {
@@ -13,7 +13,7 @@ export const appTheme: Partial<AppThemeConfig> = {
     },
     innerWrapper: {
       boxShadow:
-                '0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
+        '0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
       width: '100%',
       backgroundColor: 'white',
       padding: 24,
@@ -600,6 +600,10 @@ export const appTheme: Partial<AppThemeConfig> = {
       ':hover': {
         filter: 'brightness(80%)',
       },
+      ':disabled': {
+        opacity: 0.6,
+        pointerEvents: 'none',
+      },
     },
     chromeless: {
       background: 'transparent',
@@ -607,6 +611,9 @@ export const appTheme: Partial<AppThemeConfig> = {
       borderColor: 'black',
       borderWidth: 1,
       borderStyle: 'solid',
+      ':hover': {
+        borderColor: 'var(--color-accent)',
+      },
     },
     primary: {
       backgroundColor: 'var(--color-accent)',

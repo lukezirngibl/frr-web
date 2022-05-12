@@ -1,5 +1,4 @@
-import { createGlobalStyle, SimpleInterpolation } from 'styled-components'
-import { styleConfig } from '../stories/theme/bob/bob.styleConfig'
+import { createGlobalStyle } from 'styled-components'
 
 export type StyleConfig = {
   colorBackgroundAccent: string
@@ -76,7 +75,6 @@ const setStyleConfigInBaseStyle = (params: {
   isStyleConfigActive: boolean
   styleConfig: StyleConfig
 }) => {
-  console.log('--> CONFIG', styleConfig)
   let mappedBaseStyle = params.brandBaseStyle
 
   if (params.isStyleConfigActive) {
@@ -92,7 +90,6 @@ const setStyleConfigInBaseStyle = (params: {
     mappedBaseStyle = Object.keys(styleConfig).reduce<string>((baseStyle, styleKey) => {
       const searchKey = `<${styleKey}>`
       const styleValue = styleConfig[styleKey as keyof StyleConfig]
-      console.log('SEARCH KEY', searchKey)
       if (!styleValue) {
         return baseStyle
       } else if (ColorKeys.includes(styleKey)) {
@@ -106,7 +103,6 @@ const setStyleConfigInBaseStyle = (params: {
     }, mappedBaseStyle)
   }
 
-  console.log('MAPPED BASE STYLE', mappedBaseStyle)
   return mappedBaseStyle
 }
 
@@ -115,11 +111,7 @@ export const configureBaseStyle = (params: {
   brandBaseStyle: string
   isStyleConfigActive: boolean
   styleConfig: StyleConfig
-}) => {
-  console.log('CONFIGURE BASE STYLE', params.styleConfig)
-
-  return createGlobalStyle`
+}) => createGlobalStyle`
   ${params.baseStyle}
   ${setStyleConfigInBaseStyle(params)}
 `
-}

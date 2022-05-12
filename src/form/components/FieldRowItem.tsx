@@ -12,7 +12,7 @@ const FieldContainer = styled.div`
   position: relative;
   width: 100%;
 `
-type Props<FormData> = CommonThreadProps<FormData> & {
+export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
   onError?: (error: { error: string; fieldId: string }) => void
   isNotScrollable?: boolean
