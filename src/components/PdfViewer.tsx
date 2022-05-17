@@ -8,7 +8,9 @@ import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
 import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
+if (pdfjs && pdfjs.GlobalWorkerOptions && pdfjs.GlobalWorkerOptions.workerSrc) {
+  pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
+}
 
 const PageSelectorWrapper = createStyled('div')
 const PageNumber = createStyled('p')
@@ -143,7 +145,9 @@ export const PdfViewer = (props: Props) => {
           onClick={props.onFullscreenChanged || props.onClose}
         >
           <Icon
-            icon={props.onFullscreenChanged && (props.isFullscreen &&  'close' || 'fullscreen') || 'close'}
+            icon={
+              (props.onFullscreenChanged && ((props.isFullscreen && 'close') || 'fullscreen')) || 'close'
+            }
             size={24}
             onClick={(e) => {}}
           />
