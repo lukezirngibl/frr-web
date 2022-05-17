@@ -42,7 +42,7 @@
     "react-day-picker": "^7.4.8",
     "react-dropzone": "^11.3.2",
     "react-html-parser": "^2.0.2",
-    "react-pdf": "^4.2.0",
+    "react-pdf": "5.7.2",
     "react-redux": "^7.0.0",
     "react-responsive": "^8.2.0",
     "react-select": "^3.1.0",
