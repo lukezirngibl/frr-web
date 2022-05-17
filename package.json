@@ -21,10 +21,10 @@
     "lib/**/*"
   ],
   "peerDependencies": {
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "react-i18next": "^11.8.13",
-    "styled-components": "5.3.5"
+    "styled-components": "^5.0.0"
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "0.6.0",
