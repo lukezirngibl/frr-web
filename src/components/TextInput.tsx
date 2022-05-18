@@ -4,7 +4,7 @@ import { AppTheme, useAppTheme } from '../theme/theme'
 import { createStyled, useCSSStyles } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
-import { useDebouncedCallback } from 'use-debounce/lib'
+import { useDebouncedCallback } from 'use-debounce'
 
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
@@ -65,7 +65,7 @@ export const TextInput = (props: Props) => {
   const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
   const placeholder = props.placeholder ? translate(props.placeholder) : undefined
 
-  const [debounceOnChange] = useDebouncedCallback((v: string) => {
+  const debounceOnChange = useDebouncedCallback((v: string) => {
     props?.onChange(v)
   }, props.debounce || 0)
 

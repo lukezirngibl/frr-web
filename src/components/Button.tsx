@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CSSProperties } from 'styled-components'
-import { useDebouncedCallback } from 'use-debounce/lib'
+import { useDebouncedCallback } from 'use-debounce'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import { AppTheme, useAppTheme } from '../theme/theme'
@@ -58,7 +58,7 @@ export const Button = (props: Props) => {
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
 
-  const [onClicked] = useDebouncedCallback(() => {
+  const onClicked = useDebouncedCallback(() => {
     props.onClick()
     setIsClicked(false)
   }, 300)
