@@ -24,54 +24,6 @@ const DatePickerIconWrapper = createStyled('div')
 const Hook1 = createStyled('div')
 const Hook2 = createStyled('div')
 
-const DatePickerAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-const DatePickerCalendarWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  /* Default date picker styles */
-
-  & .react-datepicker__triangle {
-    display: none !important;
-  }
-  & .react-datepicker-popper {
-    width: 100%;
-    margin: 0;
-    transform: none !important;
-    z-index: 999;
-  }
-  & .react-datepicker-wrapper {
-    display: none !important;
-  }
-
-  & .react-datepicker  {
-    position: absolute;
-    top: 64px;
-    right: 0;
-    animation: ${DatePickerAnimation} 0.15s ease-out;
-  }
-
-  ${({ cssStyles }: { cssStyles: string }) =>
-    cssStyles > ''
-      ? css`
-          ${cssStyles}
-        `
-      : ''}
-`
-
 export type Props = {
   dataTestId?: string
   dateFormat?: string
@@ -84,6 +36,13 @@ export type Props = {
   onBlur: (value: Date) => void
   style?: Partial<ComponentTheme['datePicker']>
   value: Date | null
+}
+
+const parseDate = (value: string): Date | 'Invalid Date' => {
+  const cleanedValue = value ? value.replace(/\D/g, '') : ''
+  const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
+
+  return dateValue
 }
 
 export const DatePicker = (props: Props) => {
@@ -157,7 +116,7 @@ export const DatePicker = (props: Props) => {
               hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
-              value={props.value ? format(props.value, props.dateFormat) : null}
+              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
               dataTestId={props.dataTestId}
               style={textInputStyle}
             />
@@ -168,9 +127,9 @@ export const DatePicker = (props: Props) => {
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
-                    const dateValue = parse(v, 'dd.MM.yyyy', new Date()) as Date | 'Invalid Date'
+                    const dateValue = parseDate(v)
 
-                    if (dateValue == 'Invalid Date') {
+                    if (dateValue === 'Invalid Date') {
                       throw 'Invalid Date'
                     }
 
@@ -230,3 +189,51 @@ export const DatePicker = (props: Props) => {
     </>
   )
 }
+
+const DatePickerAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: top center;
+    transform: scale(0, 0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: top center;
+    transform: scale(1, 1);
+  }
+`
+const DatePickerCalendarWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  /* Default date picker styles */
+
+  & .react-datepicker__triangle {
+    display: none !important;
+  }
+  & .react-datepicker-popper {
+    width: 100%;
+    margin: 0;
+    transform: none !important;
+    z-index: 999;
+  }
+  & .react-datepicker-wrapper {
+    display: none !important;
+  }
+
+  & .react-datepicker  {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    animation: ${DatePickerAnimation} 0.15s ease-out;
+  }
+
+  ${({ cssStyles }: { cssStyles: string }) =>
+    cssStyles > ''
+      ? css`
+          ${cssStyles}
+        `
+      : ''}
+`
