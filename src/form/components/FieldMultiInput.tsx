@@ -93,7 +93,7 @@ export const FieldMultiInput = <FormData extends {}>({
           {field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
-              key={`field-item-${fieldItemIndex}`}
+              key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
               field={fieldItem}
               fieldIndex={fieldItemIndex}
               errorFieldId={errorFieldId}

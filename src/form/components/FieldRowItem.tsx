@@ -51,17 +51,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
 
   const isDirty = value !== null
 
-  // console.log(
-  //   field.lens.id(),
-  //   'IS DIRTY',
-  //   isDirty,
-  //   'VALUE',
-  //   value,
-  //   field.lens.get(data),
-  //   'FIELD CHANGED',
-  //   fieldChanged,
-  // )
-
   // Error handling
   const isError = showValidation || fieldChanged
   const errorLabel = useFormFieldError({
