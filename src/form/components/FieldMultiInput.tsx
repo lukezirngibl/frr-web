@@ -37,7 +37,7 @@ export const FieldMultiInput = <FormData extends {}>({
 
   // Error
   const [errors, setErrors] = useState([])
-  const onError = useCallback((error: { error: string; fieldId: string }) => {
+  const onError = (error: { error: string; fieldId: string }) => {
     const errorIndex = errors.findIndex((err) => err.fieldId === error.fieldId)
     const newErrors = [...errors]
     if (errorIndex === -1 && !!error.error) {
@@ -45,8 +45,8 @@ export const FieldMultiInput = <FormData extends {}>({
     } else if (errorIndex > -1) {
       newErrors[errorIndex] = error
     }
-    setErrors(newErrors)
-  }, [])
+    setErrors(newErrors.filter(err => !!err.error))
+  }
 
   const { errorLabel, errorDataTestId } = useFormFieldErrors({ errors })
 
