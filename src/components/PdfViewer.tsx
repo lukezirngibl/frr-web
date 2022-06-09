@@ -1,12 +1,9 @@
-import { pdfjs } from 'react-pdf'
 import React from 'react'
-import { Document, Outline, Page } from 'react-pdf'
+import { Document, Outline, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Icon } from './Icon'
 import { Loading } from './Loading'
-
-pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js'
 
 const PageSelectorWrapper = createStyled('div')
 const PageNumber = createStyled('p')
