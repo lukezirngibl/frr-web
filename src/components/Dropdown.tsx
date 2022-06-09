@@ -60,6 +60,7 @@ export const Dropdown = (props: Props) => {
         className={`frr-dropdown-wrapper ${error ? 'error' : disabled ? 'disabled' : ''}`}
         {...getCSSStyles('wrapper')}
       >
+        {/* @ts-ignore */}
         <SemanticDropdown
           placeholder="Select"
           fluid

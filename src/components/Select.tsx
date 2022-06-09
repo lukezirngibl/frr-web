@@ -40,7 +40,8 @@ export const Select = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
-  let options = typeof props.options === 'function' ? props.options(i18n.language) : props.options
+  let options =
+    typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options
 
   const parseOptions = (options: Options<Value>) =>
     props.alphabetize

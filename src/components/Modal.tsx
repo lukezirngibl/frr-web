@@ -18,6 +18,7 @@ export const Modal = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'modal')(props.style)
 
   return (
+    // @ts-ignore
     <MaterialUiModal
       open={props.open}
       onClose={props.onClose}
