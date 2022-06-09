@@ -132,18 +132,12 @@ export const PdfViewer = (props: Props) => {
         </PageSelector>
       </PageSelectorWrapper>
 
-      {(props.onFullscreenChanged || props.onClose) && (
+      {((props.isFullscreen && props.onFullscreenChanged) || props.onClose) && (
         <CloseButton
           {...getCSSStyle('closeButton')}
           onClick={props.onFullscreenChanged || props.onClose}
         >
-          <Icon
-            icon={
-              (props.onFullscreenChanged && ((props.isFullscreen && 'close') || 'fullscreen')) || 'close'
-            }
-            size={24}
-            onClick={(e) => {}}
-          />
+          <Icon icon={props.isFullscreen ? 'fullscreen' : 'close'} size={24} />
         </CloseButton>
       )}
 
