@@ -521,7 +521,9 @@ export const ComponentThemeContext = React.createContext<ComponentTheme>(undefin
 
 ComponentThemeContext.displayName = 'ComponentThemeContext'
 
-export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig, ComponentTheme>(defaultComponentTheme)
+export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig, ComponentTheme>(
+  defaultComponentTheme,
+)
 
 // Hooks
 
