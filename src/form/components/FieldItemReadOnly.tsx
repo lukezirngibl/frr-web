@@ -10,7 +10,14 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
-import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
+import {
+  CommonThreadProps,
+  fieldMap,
+  FormFieldType,
+  MultiInputAutocompleteField,
+  MultiInputField,
+  SingleFormField,
+} from './types'
 import rgbHex from 'rgb-hex'
 
 /*
@@ -107,7 +114,8 @@ const defaultOptionArrayMapper = (
         .join(', ')
     : ''
 
-const defaultFileArrayMapper = (params: MapperParams<Array<File>>) => Array.isArray(params.value) ? params.value : []
+const defaultFileArrayMapper = (params: MapperParams<Array<File>>) =>
+  Array.isArray(params.value) ? params.value : []
 
 const defaultOptionMapper = (
   params: MapperParams<string | number> & {
@@ -150,6 +158,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
+  [FormFieldType.MultiInputAutocomplete]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
   [FormFieldType.NumberSelect]: defaultOptionMapper,
   [FormFieldType.OptionGroup]: defaultOptionMapper,
@@ -268,7 +277,7 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   CommonThreadProps<FormData>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
-  field: SingleFormField<FormData> | MultiInputField<FormData>
+  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutocompleteField<FormData>
   width?: number
 }
 
@@ -295,7 +304,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
           />
         )}
         <FieldItemValueWrapper {...getFieldStyle('item')}>
-          {props.field.type === FormFieldType.MultiInput ? (
+          {props.field.type === FormFieldType.MultiInput ||
+          props.field.type === FormFieldType.MultiInputAutocomplete ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
               return (
                 <FieldItemReadOnlyValue<FormData>

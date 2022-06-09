@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react'
 import { useFormTheme } from '../theme/theme'
 import { useCSSStyles } from '../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 import { StaticField } from './StaticField'
@@ -55,6 +56,16 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

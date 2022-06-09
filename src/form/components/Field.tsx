@@ -44,6 +44,7 @@ type FieldItemProps<FormData> = {
   localeNamespace?: LocaleNamespace
   onChange: (value: any) => void
   onBlur: (value: any) => void
+  onKeyUp?: (value: any) => void
 }
 
 export const Field = <FormData extends {}>({
@@ -56,6 +57,7 @@ export const Field = <FormData extends {}>({
   localeNamespace,
   onChange,
   onBlur,
+  onKeyUp,
 }: FieldItemProps<FormData>) => {
   const dataTestId = field.lens.id()
 
@@ -95,6 +97,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data) || ''}
         onChange={onChange}
         onBlur={onBlur}
+        onKeyUp={onKeyUp}
         hasFocus={hasFocus}
         error={hasError}
         label={label}

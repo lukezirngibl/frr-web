@@ -10,6 +10,7 @@ import { useCSSStyles } from '../theme/util'
 import { FormLens, setScrolled } from '../util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
@@ -203,6 +204,16 @@ export const Form = <FormData extends {}>({
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
