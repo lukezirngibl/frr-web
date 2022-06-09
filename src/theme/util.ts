@@ -1,5 +1,6 @@
 import styled, { css, CSSProperties } from 'styled-components'
-import { AppTheme, MediaQuery } from './theme'
+import { MediaQuery } from './configure.theme'
+
 
 export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Array<keyof T>) =>
   Object.keys(obj).reduce(
@@ -99,7 +100,6 @@ export const getUseInlineStyle =
         }
       }
   }
-export const useInlineStyle = getUseInlineStyle<AppTheme>()
 
 /*
  * Generates the CSS style object for a styled component created with the createStyled() function
@@ -204,4 +204,3 @@ export const getUseCSSStyles =
       dataThemeId,
     }
   }
-export const useCSSStyles = getUseCSSStyles<AppTheme>()

@@ -23,7 +23,6 @@ export const MultiSelect = (props: Props) => {
         classNamePrefix="select"
         getOptionLabel={(o) => (o.label ? o.label : o.name)}
         isMulti
-        localeNamespace={props.localeNamespace}
         name="colors"
         onChange={(v) => props.onChange((v || []).map((i) => i.value))}
         options={props.options}

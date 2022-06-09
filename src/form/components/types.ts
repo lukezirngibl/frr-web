@@ -26,7 +26,7 @@ import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
-import { FormTheme } from '../theme/theme'
+import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
@@ -435,7 +435,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
-  onEdit?: (params: { dispatch: any }) => void
+  onEdit?: () => void
   title?: (params: { index: number; translate: Translate }) => string
   type: FormFieldType.FormFieldRepeatSection
 }
@@ -449,7 +449,7 @@ export type FormSection<FormData> = {
   introductionReadOnly?: string
   isVisible?: (formData: FormData) => boolean
   editLabel?: string
-  onEdit?: (params: { dispatch: any }) => void
+  onEdit?: () => void
   style?: Partial<FormTheme['section']>
   title?: string
   titleData?: any

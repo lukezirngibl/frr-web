@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useDropzone, FileRejection } from 'react-dropzone'
-import styled from 'styled-components'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-
-import { useCSSStyles, createStyled } from '../theme/util'
-import { AppTheme, useAppTheme } from '../theme/theme'
+import React, { useEffect, useState } from 'react'
+import { FileRejection, useDropzone } from 'react-dropzone'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 import { P } from '../html'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 
 type DragProps = {
@@ -21,7 +20,7 @@ export type UploadDropzoneProps = {
   maxFilesToUpload?: number
   maxFileSize?: number
   localeNamespace?: LocaleNamespace
-  style?: Partial<AppTheme['uploadDropzone']>
+  style?: Partial<ComponentTheme['uploadDropzone']>
 }
 
 // const PDF = 'application/pdf'
@@ -35,7 +34,7 @@ export const UploadDropzone = ({
   maxFileSize,
   style,
 }: UploadDropzoneProps) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
 
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])

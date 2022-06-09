@@ -1,12 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Icon } from './Icon'
-import { Loading } from './Loading'
-import { Document, Page, Outline } from 'react-pdf'
 import pdfjs from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import React from 'react'
+import { Document, Outline, Page } from 'react-pdf'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
+import { Icon } from './Icon'
+import { Loading } from './Loading'
 
 if (pdfjs && pdfjs.GlobalWorkerOptions && pdfjs.GlobalWorkerOptions.workerSrc) {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
@@ -32,7 +31,7 @@ export type Props = {
   onFullscreenChanged?: (v: boolean) => void
   onLoadSuccess: () => void
   scale?: number
-  style?: Partial<AppTheme['pdfViewer']>
+  style?: Partial<ComponentTheme['pdfViewer']>
   url: string
   width?: number
 }
@@ -42,7 +41,7 @@ export const PdfViewer = (props: Props) => {
   const [pageNumber, setPageNumber] = React.useState(1)
   const [file, setFile] = React.useState<string | ArrayBuffer>()
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'pdfViewer')(props.style)
 
   const getPDF = (url: string) => {

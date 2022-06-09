@@ -7,8 +7,13 @@ import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle, createStyled, useCSSStyles } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
@@ -29,7 +34,7 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   onChange: (value: Date) => void
   onBlur: (value: Date) => void
-  style?: Partial<AppTheme['datePicker']>
+  style?: Partial<ComponentTheme['datePicker']>
   value: Date | null
 }
 
@@ -42,7 +47,7 @@ const parseDate = (value: string): Date | 'Invalid Date' => {
 
 export const DatePicker = (props: Props) => {
   /* Styles */
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'datePicker')(props.style)
 

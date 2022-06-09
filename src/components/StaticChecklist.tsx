@@ -1,7 +1,12 @@
 import React from 'react'
 import { P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 
@@ -29,12 +34,12 @@ export type Props = {
   description?: string
   list: Array<Checklist>
   localeNamespace?: LocaleNamespace
-  style?: Partial<AppTheme['staticChecklist']>
+  style?: Partial<ComponentTheme['staticChecklist']>
   title?: string
 }
 
 export const StaticChecklist = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'staticChecklist')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'staticChecklist')(props.style)

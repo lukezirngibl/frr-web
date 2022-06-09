@@ -1,12 +1,10 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
-import { MediaQuery } from '../../theme/theme'
+import { MediaQuery } from '../../theme/configure.theme'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles } from '../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
@@ -15,7 +13,7 @@ import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } f
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
-  onFormEdit?: (params: { dispatch: any }) => void
+  onFormEdit?: () => void
 }
 
 export const FieldSection = <FormData extends {}>({
@@ -30,7 +28,6 @@ export const FieldSection = <FormData extends {}>({
   showValidation,
   style,
 }: FieldSection<FormData>) => {
-  const dispatch = useDispatch()
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || {})
@@ -181,7 +178,7 @@ export const FieldSection = <FormData extends {}>({
               icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
               label={fieldSection.editLabel}
               localeNamespace={localeNamespace}
-              onClick={() => onEditSection({ dispatch })}
+              onClick={onEditSection}
               style={getSectionRightStyle('editLink')}
             />
           </Container>

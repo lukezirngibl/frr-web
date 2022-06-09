@@ -3,8 +3,13 @@ import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
@@ -18,7 +23,7 @@ export enum ButtonType {
 }
 
 const mapTypeToStyleKey: {
-  [k in ButtonType]: keyof Partial<AppTheme['button']>
+  [k in ButtonType]: keyof Partial<ComponentTheme['button']>
 } = {
   [ButtonType.Chromeless]: 'chromeless',
   [ButtonType.Primary]: 'primary',
@@ -26,7 +31,7 @@ const mapTypeToStyleKey: {
 }
 
 const mapTypeToStyleLabelKey: {
-  [k in ButtonType]: keyof Partial<AppTheme['button']>
+  [k in ButtonType]: keyof Partial<ComponentTheme['button']>
 } = {
   [ButtonType.Chromeless]: 'chromelessLabel',
   [ButtonType.Primary]: 'primaryLabel',
@@ -37,20 +42,22 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   icon?: IconProps
+  id?: string
   label: string
   labelMobile?: string
   localeNamespace?: LocaleNamespace
   loading?: boolean
   onClick?: () => void
   override?: CSSProperties
-  style?: Partial<AppTheme['button']>
+  style?: Partial<ComponentTheme['button']>
+  tabIndex?: number
   type?: ButtonType
 }
 
 export const Button = (props: Props) => {
   /* Style hooks */
   const type = props.type || ButtonType.Secondary
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
   const getCSSStyle = useCSSStyles(theme, 'button')(props.style)
@@ -59,14 +66,15 @@ export const Button = (props: Props) => {
   const [isClicked, setIsClicked] = useState(false)
 
   const onClicked = useDebouncedCallback(() => {
-    props.onClick()
+    props.onClick?.()
     setIsClicked(false)
   }, 300)
 
   const handleClicked =
     props.disabled || props.loading
       ? undefined
-      : () => {
+      : (e: MouseEvent) => {
+          e.preventDefault()
           setIsClicked(true)
           onClicked()
         }
@@ -75,10 +83,12 @@ export const Button = (props: Props) => {
 
   return (
     <ButtonWrapper
+      id={props.id}
       className={isClicked ? 'animate' : ''}
-      data-test-id={props.dataTestId}
+      data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
+      tabIndex={props.tabIndex}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}

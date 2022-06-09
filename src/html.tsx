@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CSSProperties, useAppTheme } from './theme/theme'
-import { createStyled, useInlineStyle } from './theme/util'
+import { CSSProperties } from './theme/configure.theme'
+import { useComponentTheme, useInlineStyle } from './theme/theme.components'
+import { createStyled } from './theme/util'
 import { LocaleNamespace, Translate } from './translation'
 import { renderHtml } from './utils/renderHtml'
 
@@ -73,8 +74,9 @@ export const Element = (
     style = {},
     value,
   } = props
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
+
   const elementStyle = getStyle(element)
 
   const { t: translate } = useTranslation(localeNamespace)
@@ -90,7 +92,6 @@ export const Element = (
   }
 
   const htmlText = str
-
   const HtmlElement = HtmlElements[element]
 
   return (

@@ -1,15 +1,6 @@
 import * as React from 'react'
-import { CSSProperties as sc_CSSProperties } from 'styled-components'
-
-export type CSSProperties = sc_CSSProperties &
-  Partial<{
-    ':hover': CSSProperties
-    ':focus': CSSProperties
-    ':disabled': CSSProperties
-    ':readonly': CSSProperties
-    '@media-mobile': CSSProperties
-    '@animation': string
-  }>
+import { createThemeConfigure, CSSProperties } from './configure.theme'
+import { getUseCSSStyles, getUseInlineStyle } from './util'
 
 export type MaterialSliderStyles = {
   active?: CSSProperties
@@ -23,7 +14,7 @@ export type MaterialSliderStyles = {
   track?: CSSProperties
 }
 
-export type AppTheme = {
+export type ComponentTheme = {
   html: {
     a: CSSProperties
     p: CSSProperties
@@ -230,6 +221,11 @@ export type AppTheme = {
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
   }
+  loading: {
+    wrapper: CSSProperties
+    item: CSSProperties
+    label: CSSProperties
+  }
   uploadDropzone: {
     container: CSSProperties
     dropzoneLabel: CSSProperties
@@ -265,7 +261,9 @@ export type AppTheme = {
   }
 }
 
-const defaultAppTheme: AppTheme = {
+export type ComponentThemeConfig = { [k in keyof ComponentTheme]?: Partial<ComponentTheme[k]> }
+
+export const defaultComponentTheme: ComponentTheme = {
   buttonGroup: {
     wrapper: {},
     item: {},
@@ -301,7 +299,7 @@ const defaultAppTheme: AppTheme = {
     descriptionIcon: {},
     descriptionIconWrapper: {},
     descriptionPopup: {},
-    descriptionText: {}
+    descriptionText: {},
   },
   fileInput: {
     wrapper: {},
@@ -494,6 +492,11 @@ const defaultAppTheme: AppTheme = {
     wrapperInner: {},
     wrapperOuter: {},
   },
+  loading: {
+    wrapper: {},
+    item: {},
+    label: {},
+  },
   uploadDropzone: {
     container: {},
     dropzoneLabel: {},
@@ -512,50 +515,23 @@ const defaultAppTheme: AppTheme = {
   },
 }
 
-export type AppThemeConfig = { [k in keyof AppTheme]?: Partial<AppTheme[k]> }
+// React Context
 
-export const useAppTheme = (): AppTheme => {
-  const theme = React.useContext(AppThemeContext)
+export const ComponentThemeContext = React.createContext<ComponentTheme>(undefined as ComponentTheme)
+
+ComponentThemeContext.displayName = 'ComponentThemeContext'
+
+export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig, ComponentTheme>(defaultComponentTheme)
+
+// Hooks
+
+export const useComponentTheme = (): ComponentTheme => {
+  const theme = React.useContext(ComponentThemeContext)
   if (!theme) {
-    throw new Error(`AppTheme not found`)
+    throw new Error(`ComponentTheme not found`)
   }
   return theme
 }
 
-export const AppThemeContext = React.createContext<AppTheme>(undefined as AppTheme)
-
-AppThemeContext.displayName = 'AppThemeContext'
-
-export enum MediaQuery {
-  Mobile = '(max-width: 768px)',
-  Small = '(max-width: 840px)',
-}
-
-type GenericThemeConfig = Record<string, Record<string, any>>
-
-export const createThemeConfigure =
-  <Theme extends GenericThemeConfig, R>(defaultTheme: Theme) =>
-  (userTheme: Theme) =>
-    Object.keys(defaultTheme).reduce(
-      (components, componentKey) => ({
-        ...components,
-        [componentKey]: Object.keys(defaultTheme[componentKey]).reduce((componentStyles, styleKey) => {
-          const isCSSStyles = typeof defaultTheme[componentKey][styleKey] === 'string'
-
-          const userThemeVal = userTheme[componentKey]?.[styleKey] || (isCSSStyles && '') || {}
-
-          return {
-            ...componentStyles,
-            [styleKey]: isCSSStyles
-              ? userThemeVal
-              : {
-                  ...defaultTheme[componentKey][styleKey],
-                  ...userThemeVal,
-                },
-          }
-        }, {}),
-      }),
-      {},
-    ) as R
-
-export const configureAppTheme = createThemeConfigure<AppThemeConfig, AppTheme>(defaultAppTheme)
+export const useInlineStyle = getUseInlineStyle<ComponentTheme>()
+export const useCSSStyles = getUseCSSStyles<ComponentTheme>()

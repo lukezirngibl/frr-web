@@ -1,8 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { MediaQuery, useAppTheme } from '../theme/theme'
-import { createStyled, useInlineStyle } from '../theme/util'
+import { MediaQuery } from '../theme/configure.theme'
+import { useComponentTheme, useInlineStyle } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 
 const LinkWrapper = createStyled(styled.a`
@@ -45,7 +46,7 @@ type LinkProps = {
 
 export const Link = (props: LinkProps) => {
   // App styles
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   // Icon
   const getIcon = useInlineStyle(theme, 'icon')({})

@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 const InputWrapper = createStyled('div')
@@ -18,7 +22,7 @@ export type TextAreaProps = {
   onChange?: (value: string) => void
   onFocus?: () => void
   readOnly?: boolean
-  style?: Partial<AppTheme['textArea']>
+  style?: Partial<ComponentTheme['textArea']>
   value: string
   htmlRows?: number
 }
@@ -26,7 +30,7 @@ export type TextAreaProps = {
 export const TextArea = (props: TextAreaProps) => {
   const inputRef = useRef(null)
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getTextAreaStyle = useCSSStyles(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 

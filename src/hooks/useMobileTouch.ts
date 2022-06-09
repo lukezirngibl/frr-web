@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { MediaQuery } from '../theme/theme'
+import { MediaQuery } from '../theme/configure.theme'
 
 export const useTouchDetector = (): void => {
   const _window = window as any

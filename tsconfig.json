@@ -14,7 +14,12 @@
     "noUnusedLocals": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
+<<<<<<< HEAD
     "sourceMap": false,
+=======
+    "sourceMap": true,
+    "inlineSources": true,
+>>>>>>> master-mybob
     "target": "es5",
     "module": "commonjs",
     "declaration": true,

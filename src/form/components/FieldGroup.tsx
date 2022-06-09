@@ -1,12 +1,11 @@
+import React from 'react'
 import { P } from '../../html'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
-import React, { ReactNode } from 'react'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles } from '../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldRow } from './FieldRow'
-import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 import { StaticField } from './StaticField'
+import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 
 const GroupWrapper = createStyled('div')
 

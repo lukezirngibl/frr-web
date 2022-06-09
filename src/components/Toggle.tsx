@@ -1,8 +1,7 @@
 import React from 'react'
-import { LabelProps, Label } from './Label'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { useInlineStyle } from '../theme/util'
 import styled from 'styled-components'
+import { ComponentTheme, useComponentTheme, useInlineStyle } from '../theme/theme.components'
+import { Label, LabelProps } from './Label'
 
 const Wrapper = styled.div`
   transition: all ease 0.7s;
@@ -27,7 +26,7 @@ export type Props = {
   onChange: (value: boolean) => void
   value: boolean | null
   label?: LabelProps
-  style?: Partial<AppTheme['toggle']>
+  style?: Partial<ComponentTheme['toggle']>
   defaultValue?: boolean
   error?: boolean
   dataTestId?: string
@@ -35,7 +34,7 @@ export type Props = {
 }
 
 export const Toggle = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getInlineStyle = useInlineStyle(theme, 'toggle')(props.style)
 
   React.useEffect(() => {

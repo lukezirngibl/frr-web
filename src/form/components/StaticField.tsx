@@ -6,8 +6,7 @@ import { Checklist, StaticChecklist } from '../../components/StaticChecklist'
 import { P } from '../../html'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { useFormTheme, useInlineStyle, useCSSStyles } from '../../theme/theme.form'
 
 export const FieldRowWrapper = createStyled(styled.div`
   & > * {
