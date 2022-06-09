@@ -32,6 +32,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-i18next": "^11.8.12",
+    "react-redux": "^7.0.0",
     "semantic-ui-react": "^2.0.3"
   },
   "dependencies": {

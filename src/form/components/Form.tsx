@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -36,7 +37,7 @@ export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
   buttons?: Array<
     Omit<ButtonProps, 'onClick'> & {
-      onClick: (params: { submit: () => void }) => void
+      onClick: (params: { submit: () => void; dispatch: any }) => void
       isDisabled?: (d: FormData) => boolean
     }
   >
@@ -99,6 +100,7 @@ export const Form = <FormData extends {}>({
   renderTopChildren,
   style,
 }: FormProps<FormData>) => {
+  const dispatch = useDispatch()
   const { t: translate } = useTranslation(localeNamespace)
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
@@ -242,7 +244,7 @@ export const Form = <FormData extends {}>({
 
   let formClassName = `${className} ` || ''
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
-  
+
   return !isVisible || isVisible(data) ? (
     <FormWrapper
       {...getFormStyle('wrapper')}
@@ -252,9 +254,7 @@ export const Form = <FormData extends {}>({
     >
       {renderTopChildren && renderTopChildren(data)}
 
-      <FormContent {...getFormStyle('content')}>
-        {visibleFormFields.map(renderField)}
-      </FormContent>
+      <FormContent {...getFormStyle('content')}>{visibleFormFields.map(renderField)}</FormContent>
 
       {renderBottomChildren && renderBottomChildren(data)}
 
@@ -274,7 +274,7 @@ export const Form = <FormData extends {}>({
                 `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
               }
               disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-              onClick={() => button.onClick({ submit })}
+              onClick={() => button.onClick({ submit, dispatch })}
             />
           ))}
         </ButtonContainer>

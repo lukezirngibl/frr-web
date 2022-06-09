@@ -8,10 +8,12 @@ export enum Language {
   DE_CH = 'de-CH',
   FR = 'fr',
   IT = 'it',
+  DE = 'de', // deprecated
 }
 
 export const mapLanguageToLocaleString: { [k in Language]: string } = {
   [Language.DE_CH]: 'de',
+  [Language.DE]: 'de',
   [Language.EN]: 'en-GB',
   [Language.FR]: 'fr',
   [Language.IT]: 'it',
@@ -22,4 +24,5 @@ export const mapLanguageToLocale: { [k in Language]: Locale } = {
   [Language.EN]: en,
   [Language.FR]: fr,
   [Language.IT]: it,
+  [Language.DE]: de,
 }
