@@ -1,7 +1,6 @@
 import styled, { css, CSSProperties } from 'styled-components'
 import { MediaQuery } from './configure.theme'
 
-
 export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Array<keyof T>) =>
   Object.keys(obj).reduce(
     (o: T, k: string) => (keysIn.includes(k as keyof T) ? o : { ...o, [k]: obj[k] }),
@@ -77,6 +76,7 @@ export const getUseInlineStyle =
           keys = Object.keys(elementKeys).filter((k) => elementKeys[k])
         }
 
+        // @ts-ignore
         const dataThemeId = `${className ? `${className}:` : ''}${componentKey}:${keys.reduce(
           (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
           '',
@@ -194,6 +194,7 @@ export const getUseCSSStyles =
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
+    // @ts-ignore
     const dataThemeId = `${className ? `${className}:` : ''}${componentKey}:${keys.reduce(
       (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
       '',
