@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
@@ -13,7 +14,7 @@ import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } f
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
-  onFormEdit?: () => void
+  onFormEdit?: (params: { dispatch: any }) => void
 }
 
 export const FieldSection = <FormData extends {}>({
@@ -28,6 +29,8 @@ export const FieldSection = <FormData extends {}>({
   showValidation,
   style,
 }: FieldSection<FormData>) => {
+  const dispatch = useDispatch()
+
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || {})
@@ -178,7 +181,7 @@ export const FieldSection = <FormData extends {}>({
               icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
               label={fieldSection.editLabel}
               localeNamespace={localeNamespace}
-              onClick={onEditSection}
+              onClick={() => onEditSection({ dispatch })}
               style={getSectionRightStyle('editLink')}
             />
           </Container>
