@@ -1,5 +1,4 @@
-import pdfjs from 'pdfjs-dist'
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
+import { pdfjs } from 'react-pdf'
 import React from 'react'
 import { Document, Outline, Page } from 'react-pdf'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
@@ -7,9 +6,7 @@ import { createStyled } from '../theme/util'
 import { Icon } from './Icon'
 import { Loading } from './Loading'
 
-if (pdfjs && pdfjs.GlobalWorkerOptions && pdfjs.GlobalWorkerOptions.workerSrc) {
-  pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
-}
+pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js'
 
 const PageSelectorWrapper = createStyled('div')
 const PageNumber = createStyled('p')
