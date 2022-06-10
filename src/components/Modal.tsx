@@ -1,7 +1,12 @@
 import { Modal as MaterialUiModal } from '@material-ui/core'
 import React, { ReactNode } from 'react'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 
 const ModalInnerWrapper = createStyled('div')
 
@@ -9,11 +14,11 @@ type Props = {
   children: ReactNode
   onClose?: () => void
   open: boolean
-  style?: Partial<AppTheme['modal']>
+  style?: Partial<ComponentTheme['modal']>
 }
 
 export const Modal = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'modal')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'modal')(props.style)
 

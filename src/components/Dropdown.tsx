@@ -1,10 +1,3 @@
-import { Label } from './Label'
-import { LabelProps } from './Label'
-import { Options } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
-import { LocaleNamespace } from '../translation'
-import { processOptions } from '../util'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,6 +5,12 @@ import {
   StrictDropdownProps as SemanticDropdownProps,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { Options } from '../html'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
+import { LocaleNamespace } from '../translation'
+import { processOptions } from '../util'
+import { Label, LabelProps } from './Label'
 
 const DropdownWrapper = createStyled(styled.div`
   width: 100%;
@@ -39,7 +38,7 @@ export type Props = {
   onChange: (value: string) => void
   options: Options<Value>
   readOnly?: boolean
-  style?: Partial<AppTheme['dropdown']>
+  style?: Partial<ComponentTheme['dropdown']>
   value: string
 }
 
@@ -47,7 +46,7 @@ export const Dropdown = (props: Props) => {
   const { disabled, dropdownProps, error, localeNamespace, onChange, options, readOnly, ...otherProps } =
     props
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'dropdown')(props.style)
   const { t } = useTranslation(props.localeNamespace)
   // const language = useLanguage()

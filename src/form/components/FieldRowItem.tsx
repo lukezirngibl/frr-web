@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormFieldError } from './hooks/useFormFieldError'
 import { CommonThreadProps, SingleFormField } from './types'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
-import { useFormTheme } from '../theme/theme'
-import styled from 'styled-components'
 
 const FieldContainer = styled.div`
   position: relative;

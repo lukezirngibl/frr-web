@@ -1,7 +1,12 @@
 import React from 'react'
-import { useAppTheme, AppTheme } from '../theme/theme'
-import { useCSSStyles, createStyled, useInlineStyle } from '../theme/util'
 import { P } from '../html'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { Icon } from './Icon'
 
 const Wrapper = createStyled('div')
@@ -22,7 +27,7 @@ type Props = {
     )
   >
 
-  style?: Partial<AppTheme['buttonGroup']>
+  style?: Partial<ComponentTheme['buttonGroup']>
 } & (
   | {
       type: ButtonGroupType.Multi
@@ -37,7 +42,7 @@ type Props = {
 )
 
 export const ButtonGroup = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'buttonGroup')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'buttonGroup')(props.style)
 

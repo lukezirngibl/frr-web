@@ -1,14 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
+import { Document, Outline, Page } from 'react-pdf/dist/esm/entry.webpack5'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { Icon } from './Icon'
 import { Loading } from './Loading'
-import { Document, Page, Outline } from 'react-pdf'
-import pdfjs from 'pdfjs-dist'
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
-
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 const PageSelectorWrapper = createStyled('div')
 const PageNumber = createStyled('p')
@@ -30,7 +25,7 @@ export type Props = {
   onFullscreenChanged?: (v: boolean) => void
   onLoadSuccess: () => void
   scale?: number
-  style?: Partial<AppTheme['pdfViewer']>
+  style?: Partial<ComponentTheme['pdfViewer']>
   url: string
   width?: number
 }
@@ -40,7 +35,7 @@ export const PdfViewer = (props: Props) => {
   const [pageNumber, setPageNumber] = React.useState(1)
   const [file, setFile] = React.useState<string | ArrayBuffer>()
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'pdfViewer')(props.style)
 
   const getPDF = (url: string) => {
@@ -137,16 +132,12 @@ export const PdfViewer = (props: Props) => {
         </PageSelector>
       </PageSelectorWrapper>
 
-      {(props.onFullscreenChanged || props.onClose) && (
+      {((props.isFullscreen && props.onFullscreenChanged) || props.onClose) && (
         <CloseButton
           {...getCSSStyle('closeButton')}
           onClick={props.onFullscreenChanged || props.onClose}
         >
-          <Icon
-            icon={props.onFullscreenChanged && (props.isFullscreen &&  'close' || 'fullscreen') || 'close'}
-            size={24}
-            onClick={(e) => {}}
-          />
+          <Icon icon={props.isFullscreen ? 'fullscreen' : 'close'} size={24} />
         </CloseButton>
       )}
 
