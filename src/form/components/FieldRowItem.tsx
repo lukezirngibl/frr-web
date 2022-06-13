@@ -49,7 +49,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   }, [formValue])
 
   useEffect(() => {
-    console.log(props.field.changeOnKeystroke, 'value: ', value)
     if (props.field.changeOnKeystroke && value !== formValue) {
       setFieldChanged(true)
       onChange(field.lens, value)
