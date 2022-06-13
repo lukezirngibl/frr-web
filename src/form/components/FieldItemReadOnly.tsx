@@ -10,7 +10,16 @@ import { Language, mapLanguageToLocale } from '../../theme/language'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace, Translate } from '../../translation'
-import { CommonThreadProps, fieldMap, FormFieldType, MultiInputField, SingleFormField } from './types'
+
+import {
+  CommonThreadProps,
+  fieldMap,
+  FormFieldType,
+  MultiInputAutocompleteField,
+  MultiInputField,
+  SingleFormField,
+} from './types'
+
 
 /*
  * Value mapper
@@ -150,6 +159,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
+  [FormFieldType.MultiInputAutocomplete]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
   [FormFieldType.NumberSelect]: defaultOptionMapper,
   [FormFieldType.OptionGroup]: defaultOptionMapper,
@@ -268,7 +278,7 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   CommonThreadProps<FormData>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
-  field: SingleFormField<FormData> | MultiInputField<FormData>
+  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutocompleteField<FormData>
   width?: number
 }
 
@@ -295,7 +305,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
           />
         )}
         <FieldItemValueWrapper {...getFieldStyle('item')}>
-          {props.field.type === FormFieldType.MultiInput ? (
+          {props.field.type === FormFieldType.MultiInput ||
+          props.field.type === FormFieldType.MultiInputAutocomplete ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
               return (
                 <FieldItemReadOnlyValue<FormData>

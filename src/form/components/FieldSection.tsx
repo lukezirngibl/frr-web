@@ -8,6 +8,7 @@ import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
@@ -73,6 +74,16 @@ export const FieldSection = <FormData extends {}>({
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

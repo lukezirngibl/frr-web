@@ -9,6 +9,7 @@ import { LocaleNamespace } from '../../translation'
 import { FormLens, setScrolled } from '../util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
@@ -143,7 +144,7 @@ export const Form = <FormData extends {}>({
     field: SingleFormField<FormData>,
   ): { error: string | null; fieldId: string } => {
     const value = field.lens.get(data)
-    return computeFieldError({ value, data, field })
+    return computeFieldError({ value, data, field, isValidate: true })
   }
 
   const [errorFieldId, setErrorFieldId] = useState(null)
@@ -201,6 +202,16 @@ export const Form = <FormData extends {}>({
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
