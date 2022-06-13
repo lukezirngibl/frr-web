@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Document, Outline, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
@@ -21,9 +21,11 @@ export type Props = {
   bearerToken?: string
   downloadButton?: { filename: string }
   isFullscreen?: boolean
+  type?: ModalLinkType
   onClose?: () => void
   onFullscreenChanged?: (v: boolean) => void
   onLoadSuccess: () => void
+  children?: ReactNode
   scale?: number
   style?: Partial<ComponentTheme['pdfViewer']>
   url: string
@@ -76,7 +78,7 @@ export const PdfViewer = (props: Props) => {
 
   return (
     <>
-      {props.downloadButton && (
+      {props.downloadButton && props.type === ModalLinkType.PDF && (
         <DownloadButton
           {...getCSSStyle('downloadButton')}
           onClick={() => {
@@ -96,40 +98,42 @@ export const PdfViewer = (props: Props) => {
         </DownloadButton>
       )}
       <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}>
-        <PageSelector {...getCSSStyle('pageSelector')}>
-          <Icon
-            icon="keyboard_arrow_left"
-            size={24}
-            onClick={(e) => {
-              e.stopPropagation()
-              if (pageNumber !== 1) {
-                setPageNumber(pageNumber - 1)
-                // setIframeLoading(true)
-              }
-            }}
-            style={{
-              opacity: pageNumber === 1 ? 0.2 : 1,
-            }}
-          />
+        {props.type === ModalLinkType.PDF && (
+          <PageSelector {...getCSSStyle('pageSelector')}>
+            <Icon
+              icon="keyboard_arrow_left"
+              size={24}
+              onClick={(e) => {
+                e.stopPropagation()
+                if (pageNumber !== 1) {
+                  setPageNumber(pageNumber - 1)
+                  // setIframeLoading(true)
+                }
+              }}
+              style={{
+                opacity: pageNumber === 1 ? 0.2 : 1,
+              }}
+            />
 
-          <PageNumber {...getCSSStyle('pageNumber')}>
-            {pageNumber} / {numPages}
-          </PageNumber>
-          <Icon
-            icon="keyboard_arrow_right"
-            size={24}
-            onClick={(e) => {
-              e.stopPropagation()
-              if (pageNumber !== numPages) {
-                setPageNumber(pageNumber + 1)
-                // setIframeLoading(true)
-              }
-            }}
-            style={{
-              opacity: pageNumber === numPages ? 0.2 : 1,
-            }}
-          />
-        </PageSelector>
+            <PageNumber {...getCSSStyle('pageNumber')}>
+              {pageNumber} / {numPages}
+            </PageNumber>
+            <Icon
+              icon="keyboard_arrow_right"
+              size={24}
+              onClick={(e) => {
+                e.stopPropagation()
+                if (pageNumber !== numPages) {
+                  setPageNumber(pageNumber + 1)
+                  // setIframeLoading(true)
+                }
+              }}
+              style={{
+                opacity: pageNumber === numPages ? 0.2 : 1,
+              }}
+            />
+          </PageSelector>
+        )}
       </PageSelectorWrapper>
 
       {((props.isFullscreen && props.onFullscreenChanged) || props.onClose) && (
@@ -142,28 +146,32 @@ export const PdfViewer = (props: Props) => {
       )}
 
       <PdfWrapper {...getCSSStyle('pdfWrapper')}>
-        <Document
-          loading={<Loading style={{ transform: 'scale(0.6)' }} />}
-          file={{
-            data: file,
-          }}
-          onLoadSuccess={({ numPages }) => {
-            props.onLoadSuccess()
-            setNumPages(numPages)
-          }}
-        >
-          <Outline
-            onItemClick={({ pageNumber }) => {
-              setPageNumber(pageNumber)
-            }}
-          />
-          <Page
+        {props.type === ModalLinkType.PDF ? (
+          <Document
             loading={<Loading style={{ transform: 'scale(0.6)' }} />}
-            pageNumber={pageNumber}
-            width={props.width || 800}
-            scale={props.scale}
-          />
-        </Document>
+            file={{
+              data: file,
+            }}
+            onLoadSuccess={({ numPages }) => {
+              props.onLoadSuccess()
+              setNumPages(numPages)
+            }}
+          >
+            <Outline
+              onItemClick={({ pageNumber }) => {
+                setPageNumber(pageNumber)
+              }}
+            />
+            <Page
+              loading={<Loading style={{ transform: 'scale(0.6)' }} />}
+              pageNumber={pageNumber}
+              width={props.width || 800}
+              scale={props.scale}
+            />
+          </Document>
+        ) : (
+          props.children
+        )}
       </PdfWrapper>
     </>
   )
