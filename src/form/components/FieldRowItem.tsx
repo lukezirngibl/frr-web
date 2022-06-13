@@ -38,12 +38,23 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   const theme = useFormTheme()
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
 
+  const formValue = field.lens.get(data)
+
   // Value handling
   const [fieldChanged, setFieldChanged] = useState(false)
-  const [value, setValue] = useState(field.lens.get(data))
+  const [value, setValue] = useState(formValue)
+
   useEffect(() => {
-    setValue(field.lens.get(data))
-  }, [field.lens.get(data)])
+    setValue(formValue)
+  }, [formValue])
+
+  useEffect(() => {
+    console.log(props.field.changeOnKeystroke, 'value: ', value)
+    if (props.field.changeOnKeystroke && value !== formValue) {
+      setFieldChanged(true)
+      onChange(field.lens, value)
+    }
+  }, [value])
 
   const onBlur = (value: any) => {
     setFieldChanged(true)
