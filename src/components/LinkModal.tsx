@@ -4,8 +4,13 @@ import { Modal } from '@material-ui/core'
 import { Option, none } from 'fp-ts/lib/Option'
 
 import { Loading } from './Loading'
-import { ModalLinkType, PdfViewer } from './PdfViewer'
+import { PdfViewer } from './PdfViewer'
 import { MediaQuery } from '../theme/configure.theme'
+
+export enum ModalLinkType {
+  PDF = 'PDF',
+  IFrame = 'Iframe',
+}
 
 type ModalLinkConfig = Option<{
   url: string
@@ -72,22 +77,23 @@ export const LinkModal = (props: Props) => {
                 <Loading style={{ transform: 'scale(0.6)' }} />
               </IframeLoader>
             )}
-
-            <PdfViewer
-              {...modalConfig}
-              onLoadSuccess={() => {
-                setIframeLoading(false)
-              }}
-              onClose={onClose}
-              width={viewerWidth}
-            >
+            {modalConfig.type === ModalLinkType.PDF ? (
+              <PdfViewer
+                {...modalConfig}
+                onLoadSuccess={() => {
+                  setIframeLoading(false)
+                }}
+                onClose={onClose}
+                width={viewerWidth}
+              />
+            ) : (
               <iframe
                 src={modalConfig.url}
                 onLoad={() => {
                   setIframeLoading(false)
                 }}
-              />
-            </PdfViewer>
+              ></iframe>
+            )}
           </IframeWrapper>
         </IframeOuterWrapper>
       ))}
