@@ -34,9 +34,9 @@ export const CodeInput = (props: Props) => {
     React.createRef(),
   )
 
-  const [intervalValue, setIntervalValue] = React.useState(
-    props.value || range(0, props.length - 1).reduce((str) => `${str}-`, ''),
-  )
+  const defaultStr = range(0, props.length - 1).reduce((str) => `${str}-`, '')
+
+  const [intervalValue, setIntervalValue] = React.useState(props.value || defaultStr)
 
   React.useEffect(() => {
     props.onChange(intervalValue)
@@ -44,8 +44,14 @@ export const CodeInput = (props: Props) => {
 
   // Clear code input field
   React.useEffect(() => {
-    if (props.value === '') {
+    if (
+      props.value === '' ||
+      props.value === null ||
+      props.value === undefined ||
+      props.value === defaultStr
+    ) {
       setIntervalValue(range(0, props.length - 1).reduce((str) => `${str}-`, ''))
+
       refs[0].current?.focus()
     }
   }, [props.value])
