@@ -193,3 +193,21 @@ You might want to link this library to the consuming application and keep it in 
 
 - Create a symlink: `yarn link` (This you have to **do only once**)
 - Run build with babel: `yarn build:watch`
+
+### Use package in linked (watch-)mode updated!
+
+cd YOUR_PROJECT
+cd node_modules/react
+yarn link
+cd ../react-dom
+yarn link
+
+cd PACKAGE_YOU_DEBUG_LOCALLY
+yarn link
+yarn install
+yarn link react
+yarn link react-dom
+yarn build:watch
+
+cd YOUR_PROJECT
+yarn link PACKAGE_YOU_DEBUG_LOCALLY
