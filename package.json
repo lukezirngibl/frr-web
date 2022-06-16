@@ -32,7 +32,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-i18next": "^11.8.12",
-    "react-redux": "^7.0.0",
+    "react-redux": "7.2.5",
     "semantic-ui-react": "^2.0.3"
   },
   "dependencies": {
@@ -42,7 +42,7 @@
     "@material-ui/styles": "^4.9.10",
     "date-fns": "^2.19.0",
     "fp-ts": "1.19.5",
-    "frr-util": "^1.0.3",
+    "frr-util": "1.0.5",
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "^2.14.305",
     "react-click-away-listener": "^2.0.0",
