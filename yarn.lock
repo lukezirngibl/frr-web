@@ -6175,6 +6175,11 @@ inline-style-parser@0.1.1:
   resolved "https://registry.yarnpkg.com/inline-style-parser/-/inline-style-parser-0.1.1.tgz#ec8a3b429274e9c0a1f1c4ffa9453a7fef72cea1"
   integrity sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==
 
+input-core@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/input-core/-/input-core-2.1.0.tgz#e414c90ca103e786ae8d946a013db92b2b67e1e8"
+  integrity sha512-Va2U9xDvLKWxtyqyKJqYjkgkY23C6Xfvb73coTCMEivsxhUjyWGln2esaP/zan5yMur0LzrJg9ac+22UxyVV4g==
+
 install-peers-cli@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/install-peers-cli/-/install-peers-cli-2.2.0.tgz#f76f1ec8ac9fa7f920c05743e011554edad85f8d"
@@ -8671,12 +8676,19 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-maskinput@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-maskinput/-/react-maskinput-3.2.0.tgz#0c56cd12c450645054da159d8908b014993e8156"
+  integrity sha512-4JHk1ylfZ3fMPvh50PZZLy9AjRIhQ9UHH/7CgMk+HkDKO1BpIM2/vJefOsKn0HA7hHxUe/Sf3DPkwIh9Hh7Ukg==
+  dependencies:
+    input-core "^2.1.0"
+
 react-onclickoutside@^6.12.0:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.12.2.tgz#8e6cf80c7d17a79f2c908399918158a7b02dda01"
   integrity sha512-NMXGa223OnsrGVp5dJHkuKxQ4czdLmXSp5jSV9OqiCky9LOpPATn3vLldc+q5fK3gKbEHvr7J1u0yhBh/xYkpA==
 
-react-pdf@5.7.2:
+react-pdf@^5.7.2:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-5.7.2.tgz#c458dedf7983822668b40dcac1eae052c1f6e056"
   integrity sha512-hdDwvf007V0i2rPCqQVS1fa70CXut17SN3laJYlRHzuqcu8sLLjEoeXihty6c0Ev5g1mw31b8OT8EwRw1s8C4g==

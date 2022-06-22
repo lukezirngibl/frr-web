@@ -1,28 +1,40 @@
 import { format, isValid, parse } from 'date-fns'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
+import MaskInput from 'react-maskinput'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
-import {
-  ComponentTheme,
-  useComponentTheme,
-  useCSSStyles,
-  useInlineStyle
-} from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
+import { MaskedDateInput } from './MaskedDateInput'
 import { TextInput } from './TextInput'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
 
 const Wrapper = createStyled('div')
 const DatePickerIconWrapper = createStyled('div')
 const Hook1 = createStyled('div')
 const Hook2 = createStyled('div')
+
+const InputWrapper = createStyled('div')
+const InputWrapperContainer = styled(InputWrapper)<{ inputCSSStyles: string }>`
+  input {
+    ${({ inputCSSStyles }) =>
+      css`
+        ${inputCSSStyles}
+      `}
+  }
+`
 
 export type Props = {
   dataTestId?: string
@@ -38,18 +50,31 @@ export type Props = {
   value: Date | null
 }
 
-const parseDate = (value: string): Date | 'Invalid Date' => {
-  const cleanedValue = value ? value.replace(/\D/g, '') : ''
+const parseDate = (e: any): Date | 'Invalid Date' => {
+  const cleanedValue = e.target.value ? e.target.value.replace(/\D/g, '') : ''
   const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
-
   return dateValue
 }
 
 export const DatePicker = (props: Props) => {
+  const inputRef = useRef(null)
+  const { isMobileTouch } = useMobileTouch()
+
   /* Styles */
   const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'datePicker')(props.style)
+
+  const textInputStyle =
+    (props.style && {
+      wrapper: props.style.inputWrapper,
+      disabledInput: props.style.disabledInput,
+      errorInput: props.style.errorInput,
+    }) ||
+    (!isMobileTouch && {
+      wrapper: getInlineStyle('inputWrapper').style,
+    }) ||
+    undefined
 
   const styleIconWrapper = getStyle({
     iconWrapper: true,
@@ -74,24 +99,11 @@ export const DatePicker = (props: Props) => {
   const language = i18n.language
   const locale = mapLanguageToLocale[language]
 
-  const { isMobileTouch } = useMobileTouch()
-
-  React.useEffect(() => {
+  useEffect(() => {
     registerLocale(mapLanguageToLocaleString[language], mapLanguageToLocale[language])
   }, [language])
 
   const [open, setOpen] = React.useState(false)
-
-  const textInputStyle =
-    (props.style && {
-      wrapper: props.style.inputWrapper,
-      disabledInput: props.style.disabledInput,
-      errorInput: props.style.errorInput,
-    }) ||
-    (!isMobileTouch && {
-      wrapper: getInlineStyle('inputWrapper').style,
-    }) ||
-    undefined
 
   return (
     <>
@@ -122,10 +134,9 @@ export const DatePicker = (props: Props) => {
             />
           ) : (
             <>
-              <TextInput
+              <MaskedDateInput
                 hasFocus={props.hasFocus}
-                onChange={() => {}}
-                onBlur={(v: any) => {
+                onBlur={(v: string) => {
                   try {
                     const dateValue = parseDate(v)
 
@@ -147,9 +158,7 @@ export const DatePicker = (props: Props) => {
                   }
                 }}
                 error={props.error}
-                inputType={'text'}
                 localeNamespace={props.localeNamespace}
-                placeholder={'dateFormatPlaceholder'}
                 value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
                 dataTestId={props.dataTestId}
                 style={textInputStyle}
@@ -207,9 +216,7 @@ const DatePickerCalendarWrapper = styled.div`
   top: 0;
   left: 0;
   right: 0;
-
   /* Default date picker styles */
-
   & .react-datepicker__triangle {
     display: none !important;
   }
@@ -222,14 +229,12 @@ const DatePickerCalendarWrapper = styled.div`
   & .react-datepicker-wrapper {
     display: none !important;
   }
-
-  & .react-datepicker  {
+  & .react-datepicker {
     position: absolute;
     top: 64px;
     right: 0;
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
-
   ${({ cssStyles }: { cssStyles: string }) =>
     cssStyles > ''
       ? css`
