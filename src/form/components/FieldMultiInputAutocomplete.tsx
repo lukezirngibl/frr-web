@@ -72,40 +72,53 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
   const zipField = field.fields[0]
   const cityField = field.fields[1]
 
+  const [filteredCitiesById, setFilteredCitiesById] = useState<Array<City>>([])
+
+  // Select
   const [selectCityOptions, setSelectCityOptions] = useState<Options<Value>>([])
-  const [filteredCitiesById, setFilteredCitiesById] = useState<Array<City>>()
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const [showSelect, setShowSelect] = useState<boolean>(false)
 
+  // fields value
+  const [isCityValueUpdated, setIsCityValueUpdated] = useState<boolean>(false)
+
+  const changeCityValue = (value: string | null) => {
+    onChange(cityField.lens, value)
+    setIsCityValueUpdated(true)
+  }
+
   const onKeyUp = (value: string) => {
     if (value !== '') {
-      setShowSelect(true)
       const target = field.cities.filter((city) => city.zip.toString().startsWith(value))
       setFilteredCitiesById(target)
       setSelectCityOptions(target.map((t: City) => ({ label: t.searchstring, value: t.id })))
-      if (target.length === 1) setSelectedCity(target[0])
-      if (target.length === 0) setShowSelect(false)
+
+      if (!!selectedCity && selectedCity.id.toString() !== value) setSelectedCity(null)
     } else {
-      setShowSelect(false)
       setSelectCityOptions([])
       setFilteredCitiesById([])
-      setSelectedCity(null)
     }
   }
 
   useEffect(() => {
+    if (filteredCitiesById.length > 0) setShowSelect(true)
+    if (filteredCitiesById.length === 1) setSelectedCity(filteredCitiesById[0])
+    else if (filteredCitiesById.length === 0) setShowSelect(false)
+  }, [filteredCitiesById])
+
+  useEffect(() => {
     if (!!selectedCity) {
-      setSelectCityOptions([{ label: selectedCity.searchstring, value: selectedCity.id }])
-      onChange(zipField.lens, selectedCity.zip.toString())
-      onChange(cityField.lens, selectedCity.city)
+      changeCityValue(selectedCity.city)
       setShowSelect(false)
     }
-    if (selectedCity === null) {
-      setSelectCityOptions([])
-      onChange(zipField.lens, null)
-      onChange(cityField.lens, null)
-    }
   }, [selectedCity])
+
+  useEffect(() => {
+    if (!!selectedCity && isCityValueUpdated) {
+      onChange(zipField.lens, selectedCity.zip.toString())
+      setIsCityValueUpdated(false)
+    }
+  }, [isCityValueUpdated])
 
   if (formReadOnly) {
     return (
@@ -153,6 +166,7 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
 
           {showSelect ? (
             <Select
+              dataTestId={`${cityField.lens.id()}-select-item`}
               options={selectCityOptions}
               onChange={(value) =>
                 setSelectedCity(
