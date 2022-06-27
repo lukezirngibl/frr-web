@@ -45,6 +45,7 @@ export const MaskedDateInput = (props: Props) => {
   /* Internal value */
 
   const [internalValue, setInternalValue] = useState(props.value)
+  const [lastValue, setLastValue] = useState('')
 
   useEffect(() => {
     setInternalValue(props.value)
@@ -69,7 +70,6 @@ export const MaskedDateInput = (props: Props) => {
       setMaskString('DD.MM.YYYY')
       setMask('00.00.0000')
     }
-    console.log(mask, maskString)
     return value
   }
 
@@ -114,9 +114,9 @@ export const MaskedDateInput = (props: Props) => {
           alwaysShowMask
           onChange={(e) => {
             const value = onChangeMasked(e)
-
             setInternalValue(value)
             props.onChange?.(value)
+            setLastValue(value)
 
             if (!isFocus) {
               // Required for browser auto-fill fields to ensure the form gets the values
@@ -125,7 +125,6 @@ export const MaskedDateInput = (props: Props) => {
           }}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
-
             setInternalValue(newValue)
             setIsFocus(false)
             props.onBlur(newValue)
@@ -135,7 +134,7 @@ export const MaskedDateInput = (props: Props) => {
           }}
           maskString={maskString}
           mask={mask}
-          value={internalValue}
+          value={internalValue || lastValue}
         />
       </InputWrapperContainer>
     </>

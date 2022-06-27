@@ -146,9 +146,7 @@ export const DatePicker = (props: Props) => {
 
                     props.onBlur(dateValue as Date)
                   } catch (err) {
-                    const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
-                      | Date
-                      | 'Invalid Date'
+                    const testValue = parse(v, 'dd.MM.yyyy', new Date()) as Date | 'Invalid Date'
 
                     if (testValue !== 'Invalid Date') {
                       props.onBlur(testValue as Date)
