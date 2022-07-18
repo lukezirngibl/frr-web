@@ -4,6 +4,7 @@ import { useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
+import { useFormConfig } from './form.hooks'
 import { useFormFieldError } from './hooks/useFormFieldError'
 import { CommonThreadProps, SingleFormField } from './types'
 
@@ -32,9 +33,11 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     onError,
     onKeyUp,
     showValidation,
+
     style,
   } = props
 
+  const { disableDirtyValidation } = useFormConfig()
   const theme = useFormTheme()
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
 
@@ -79,7 +82,8 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     data,
     field,
     isDirty,
-    showValidation: showValidation || fieldChanged,
+    showValidation: showValidation || (fieldChanged && !disableDirtyValidation),
+    disableDirtyValidation,
   })
   const hasError = errorLabel !== null
 

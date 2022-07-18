@@ -12,6 +12,7 @@ import { CommonThreadProps, MultiInputAutocompleteField } from './types'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
+import { useFormConfig } from './form.hooks'
 
 type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutocompleteField<FormData>
@@ -37,9 +38,11 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
   localeNamespace,
   onChange,
   showValidation,
+
   style,
 }: FieldRowProps<FormData>) => {
   // Form styles
+  const { disableDirtyValidation } = useFormConfig()
   const theme = useFormTheme()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
@@ -66,6 +69,7 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
     formReadOnly,
     localeNamespace,
     showValidation,
+
     style,
   }
 

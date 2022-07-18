@@ -6,6 +6,7 @@ import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
+import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputField } from './types'
 
@@ -25,10 +26,12 @@ export const FieldMultiInput = <FormData extends {}>({
   localeNamespace,
   onChange,
   showValidation,
+
   style,
 }: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
+  const { disableDirtyValidation } = useFormConfig()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
@@ -54,6 +57,7 @@ export const FieldMultiInput = <FormData extends {}>({
     formReadOnly,
     localeNamespace,
     showValidation,
+    disableDirtyValidation,
     style,
   }
 

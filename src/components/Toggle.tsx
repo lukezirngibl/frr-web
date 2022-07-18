@@ -68,7 +68,8 @@ export const Toggle = (props: Props) => {
             data-test-id={props.dataTestId}
             value={`${props.value}`}
             onChange={() => {}}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
               props.onChange(!props.value)
             }}
           />

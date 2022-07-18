@@ -65,17 +65,19 @@ export const useFormFieldError = <FormData>({
   field,
   isDirty,
   showValidation,
+  disableDirtyValidation,
   value,
 }: {
   data: FormData
   field: SingleFormField<FormData>
   isDirty: boolean
   showValidation: boolean
+  disableDirtyValidation: boolean
   value: string | string[] | number | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
   useEffect(() => {
-    showValidation || isDirty
+    showValidation || (isDirty && !disableDirtyValidation)
       ? setFieldError(computeFieldError({ value, field, data, isValidate: showValidation }))
       : setFieldError({ error: null, fieldId: null })
   }, [value, showValidation, isDirty])

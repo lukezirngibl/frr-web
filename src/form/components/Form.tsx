@@ -26,6 +26,7 @@ import {
   InternalFormField,
   SingleFormField,
 } from './types'
+import { FormConfigContext } from './form.hooks'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -50,6 +51,7 @@ export type FormProps<FormData> = {
   display?: DisplayType
   formFields: Array<FormField<FormData>>
   isEdit?: boolean
+  disableDirtyValidation?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
   onChange?: (formState: FormData) => void
@@ -97,6 +99,7 @@ export const Form = <FormData extends {}>({
   onInvalidSubmit,
   onSubmit,
   readOnly,
+  disableDirtyValidation,
   renderBottomChildren,
   renderTopChildren,
   style,
@@ -160,6 +163,7 @@ export const Form = <FormData extends {}>({
 
       if (errors.length > 0) {
         setErrorFieldId(errors[0].fieldId)
+
         setShowValidation(true)
         onInvalidSubmit?.({ errors, formState: data })
         analytics?.onInvalidSubmit?.({ errors, formState: data })
@@ -257,40 +261,46 @@ export const Form = <FormData extends {}>({
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
 
   return !isVisible || isVisible(data) ? (
-    <FormWrapper
-      {...getFormStyle('wrapper')}
-      className={formClassName}
-      data-test-id={dataTestId}
-      readOnly={readOnly}
+    <FormConfigContext.Provider
+      value={{
+        disableDirtyValidation: !!disableDirtyValidation,
+      }}
     >
-      {renderTopChildren && renderTopChildren(data)}
+      <FormWrapper
+        {...getFormStyle('wrapper')}
+        className={formClassName}
+        data-test-id={dataTestId}
+        readOnly={readOnly}
+      >
+        {renderTopChildren && renderTopChildren(data)}
 
-      <FormContent {...getFormStyle('content')}>{visibleFormFields.map(renderField)}</FormContent>
+        <FormContent {...getFormStyle('content')}>{visibleFormFields.map(renderField)}</FormContent>
 
-      {renderBottomChildren && renderBottomChildren(data)}
+        {renderBottomChildren && renderBottomChildren(data)}
 
-      {buttons && (
-        <ButtonContainer
-          {...getFormStyle('buttonContainer')}
-          disabled={isEdit !== undefined && !isEdit}
-          data-test-id="form-actions"
-        >
-          {buttons.map((button, k) => (
-            <Button
-              {...button}
-              key={k}
-              dataTestId={
-                button.dataTestId ||
-                (button.type === ButtonType.Primary && 'form:primary') ||
-                `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
-              }
-              disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-              onClick={() => button.onClick({ submit, dispatch })}
-            />
-          ))}
-        </ButtonContainer>
-      )}
-    </FormWrapper>
+        {buttons && (
+          <ButtonContainer
+            {...getFormStyle('buttonContainer')}
+            disabled={isEdit !== undefined && !isEdit}
+            data-test-id="form-actions"
+          >
+            {buttons.map((button, k) => (
+              <Button
+                {...button}
+                key={k}
+                dataTestId={
+                  button.dataTestId ||
+                  (button.type === ButtonType.Primary && 'form:primary') ||
+                  `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
+                }
+                disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
+                onClick={() => button.onClick({ submit, dispatch })}
+              />
+            ))}
+          </ButtonContainer>
+        )}
+      </FormWrapper>
+    </FormConfigContext.Provider>
   ) : (
     <></>
   )

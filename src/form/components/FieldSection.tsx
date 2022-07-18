@@ -28,6 +28,7 @@ export const FieldSection = <FormData extends {}>({
   onChange,
   onFormEdit,
   showValidation,
+
   style,
 }: FieldSection<FormData>) => {
   const dispatch = useDispatch()
