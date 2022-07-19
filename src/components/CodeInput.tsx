@@ -45,9 +45,10 @@ export const CodeInput = (props: Props) => {
   // Clear code input field
   React.useEffect(() => {
     if (
-      !!intervalValue &&
-      intervalValue !== defaultStr &&
-      (props.value === '' || props.value === null || props.value === undefined)
+      props.value === '' ||
+      props.value === null ||
+      props.value === undefined ||
+      props.value === defaultStr
     ) {
       setIntervalValue(defaultStr)
       refs[0].current?.focus()
@@ -64,7 +65,6 @@ export const CodeInput = (props: Props) => {
             name={`code-value-${i}`}
             onClick={() => setIntervalValue(replaceChar(intervalValue, '-', i))}
             onChange={(e: any) => {
-              e.preventDefault()
               const v = e.target.value.replace('-', ' ').trim()
               if (v === '' || isNaN(v)) {
                 const prev = intervalValue[i]
@@ -105,6 +105,7 @@ export const CodeInput = (props: Props) => {
                 ? 'number'
                 : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */
             }
+            inputtype="number"
             autoComplete="off"
             {...getStyle('input')}
           />
