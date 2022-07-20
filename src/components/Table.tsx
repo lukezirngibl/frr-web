@@ -15,7 +15,7 @@ import { Translate } from '../translation'
 import { Icon } from './Icon'
 import { Loading } from './Loading'
 import { SimplePopover } from './PopOver'
-import { TableSortingIcons } from './TableSortingIcons'
+import { SortValue, TableSortingIcons } from './TableSortingIcons'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
@@ -39,8 +39,11 @@ export type TableColumns<T extends {}> = Array<TableColumn<T>>
 type Props<T extends {}> = {
   data: RemoteData<any, Array<T>>
   columns: TableColumns<T>
-  columnKeyActive?: string
-  onColumnSortingClick?: (params: { columnKey: string; value: string }) => void
+  sorting?: {
+    onClick: (params: { columnKey: string; value: string }) => void
+    columnKeyActive: string
+    sortValue: SortValue
+  }
   onRowClick?: (row: T) => void
   noResultsLabel?: string
   localeNamespace: Namespace
@@ -125,9 +128,12 @@ export const Table = <T extends {}>(props: Props<T>) => {
                 {c.isSortable && (
                   <TableSortingIcons
                     style={props.style}
-                    columnKeyActive={props.columnKeyActive}
-                    onClick={props.onColumnSortingClick}
-                    columnKey={c.dataKey as string}
+                    columnKeyActive={props.sorting.columnKeyActive}
+                    onClick={props.sorting.onClick}
+                    column={{
+                      columnKey: c.dataKey as string,
+                      sortValue: props.sorting.sortValue as SortValue,
+                    }}
                   />
                 )}
                 {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
