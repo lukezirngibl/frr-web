@@ -202,6 +202,8 @@ yarn link
 cd ../react-dom
 yarn link
 
+## sometimes you need also to link react-redux
+
 cd PACKAGE_YOU_DEBUG_LOCALLY
 yarn link
 yarn install
