@@ -205,6 +205,8 @@ export type ComponentTheme = {
     descriptionOuterWrapper: CSSProperties
     descriptionIcon: CSSProperties
     descriptionIconWrapper: CSSProperties
+    sortingIcon: CSSProperties
+    sortingIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
     descriptionText: CSSProperties
   }
@@ -298,6 +300,8 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionOuterWrapper: {},
     descriptionIcon: {},
     descriptionIconWrapper: {},
+    sortingIcon: {},
+    sortingIconWrapper: {},
     descriptionPopup: {},
     descriptionText: {},
   },

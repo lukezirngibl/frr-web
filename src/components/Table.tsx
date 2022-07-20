@@ -15,6 +15,7 @@ import { Translate } from '../translation'
 import { Icon } from './Icon'
 import { Loading } from './Loading'
 import { SimplePopover } from './PopOver'
+import { TableSortingIcons } from './TableSortingIcons'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
@@ -29,6 +30,7 @@ export type TableColumn<T extends {}> = {
   width: number
   isAmountValue?: boolean
   isHighlightedForSearch?: boolean
+  isSortable?: boolean
   valueCustomRender?: (value: T[keyof T], translate: Translate) => ReactElement | undefined
 }
 
@@ -37,6 +39,8 @@ export type TableColumns<T extends {}> = Array<TableColumn<T>>
 type Props<T extends {}> = {
   data: RemoteData<any, Array<T>>
   columns: TableColumns<T>
+  columnKeyActive?: string
+  onColumnSortingClick?: (params: { columnKey: string; value: string }) => void
   onRowClick?: (row: T) => void
   noResultsLabel?: string
   localeNamespace: Namespace
@@ -118,6 +122,14 @@ export const Table = <T extends {}>(props: Props<T>) => {
                 key={c.dataKey}
               >
                 <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
+                {c.isSortable && (
+                  <TableSortingIcons
+                    style={props.style}
+                    columnKeyActive={props.columnKeyActive}
+                    onClick={props.onColumnSortingClick}
+                    columnKey={c.dataKey as string}
+                  />
+                )}
                 {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
                   <SimplePopover
                     style={getInlineStyle('descriptionOuterWrapper').style}
