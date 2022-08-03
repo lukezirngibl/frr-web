@@ -20,7 +20,6 @@ import {
   SingleFormField,
 } from './types'
 
-
 /*
  * Value mapper
  */
@@ -156,6 +155,8 @@ const defaultReadOnlyMappers: {
   [FormFieldType.FormSection]: () => '',
   [FormFieldType.FormText]: () => '',
   [FormFieldType.FileInput]: () => '',
+  [FormFieldType.MaskedDatePicker]: defaultDateStringMapper,
+  [FormFieldType.MaskedInput]: defaultStringNumberMapper,
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
