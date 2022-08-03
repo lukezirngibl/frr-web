@@ -42,7 +42,6 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
   style,
 }: FieldRowProps<FormData>) => {
   // Form styles
-  const { disableDirtyValidation } = useFormConfig()
   const theme = useFormTheme()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
@@ -64,12 +63,14 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
 
   const { errorLabel, errorDataTestId } = useFormFieldErrors({ errors })
 
+  const { disableDirtyValidation } = useFormConfig()
+
   const commonFieldProps = {
     data,
     formReadOnly,
     localeNamespace,
     showValidation,
-
+    disableDirtyValidation,
     style,
   }
 
