@@ -1,6 +1,6 @@
-import { AppThemeConfig } from "../../../src/theme/theme";
+import { ComponentTheme } from '../../../src/theme/theme.components'
 
-export const appTheme: Partial<AppThemeConfig> = {
+export const componentTheme: Partial<ComponentTheme> = {
   modal: {
     outerWrapper: {
       display: 'flex',
@@ -88,6 +88,8 @@ export const appTheme: Partial<AppThemeConfig> = {
       padding: '0 16px',
       cursor: 'pointer',
     },
+    popover: {},
+    itemLabel: {},
   },
   popoverDropdown: {
     icon: {
@@ -150,6 +152,8 @@ export const appTheme: Partial<AppThemeConfig> = {
       justifyContent: 'center',
       position: 'relative',
     },
+    disabledInput: {},
+    errorInput: {},
     hook1: {
       display: 'none',
     },
@@ -229,6 +233,7 @@ export const appTheme: Partial<AppThemeConfig> = {
   },
   slider: {
     label: {},
+    outerWrapper: {},
     wrapper: {
       margin: '16px 0 32px',
       width: '100%',
@@ -407,6 +412,7 @@ export const appTheme: Partial<AppThemeConfig> = {
     radioInner: {
       backgroundColor: 'var(--color-input)',
     },
+    radioInnerActive: {},
     item: {
       flexDirection: 'row-reverse',
       width: 112,
@@ -578,6 +584,7 @@ export const appTheme: Partial<AppThemeConfig> = {
       color: 'var(--color-input)',
     },
     labelActive: {},
+    errorWrapper: {},
   },
 
   button: {
@@ -649,6 +656,9 @@ export const appTheme: Partial<AppThemeConfig> = {
       fontSize: 'var(--button-font-size)',
       '@animation': 'button-secondary-animation 200ms ease-out',
     },
+    primaryLabel: {},
+    secondaryLabel: {},
+    chromelessLabel: {},
     spinner: {},
   },
   fileInput: {
@@ -754,6 +764,7 @@ export const appTheme: Partial<AppThemeConfig> = {
         backgroundColor: '#f5f5f5',
       },
     },
+    dropzoneLabel: {},
     dropzoneSublabel: {
       fontSize: 12,
     },
@@ -816,5 +827,6 @@ export const appTheme: Partial<AppThemeConfig> = {
     info: {
       svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 46 46"><circle cx="16" cy="16" r="20" stroke-width="2" stroke="currentColor" fill="none" /><path fill="currentColor" stroke="none" d="M17.333 25.333v-16h-4.667v2.667h2v13.333h-2v2.667h6.667v-2.667z"></path><path fill="currentColor" stroke="none" d="M14.667 4h2.667v2.667h-2.667v-2.667z"></path></svg>',
     },
+    settings: {}
   },
 }

@@ -1,4 +1,4 @@
-import { FormThemeConfig } from "../../../src/form/theme/theme";
+import { FormThemeConfig } from "../../../src/theme/theme.form";
 
 export const formTheme: Partial<FormThemeConfig> = {
   form: {
