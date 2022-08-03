@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
-import { MediaQuery } from '../../theme/theme'
+import { MediaQuery } from '../../theme/configure.theme'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles } from '../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
@@ -28,9 +28,11 @@ export const FieldSection = <FormData extends {}>({
   onChange,
   onFormEdit,
   showValidation,
+
   style,
 }: FieldSection<FormData>) => {
   const dispatch = useDispatch()
+
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || {})
@@ -73,6 +75,16 @@ export const FieldSection = <FormData extends {}>({
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

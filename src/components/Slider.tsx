@@ -3,8 +3,14 @@ import { withStyles } from '@material-ui/styles'
 import React from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
-import { MaterialSliderStyles, useAppTheme, AppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  MaterialSliderStyles,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
@@ -98,19 +104,19 @@ export type Props = {
   reverse?: boolean
   prefix?: string
   isCurrency?: boolean
-  style?: Partial<AppTheme['slider']>
+  style?: Partial<ComponentTheme['slider']>
   defaultValue?: number
 }
 
 export const Slider = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'slider')(props.style)
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
-  const [onChange] = useDebouncedCallback((v: number) => {
+  const onChange = useDebouncedCallback((v: number) => {
     props.onChange(v)
   }, 200)
 

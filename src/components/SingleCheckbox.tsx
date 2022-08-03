@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { Label, LabelProps } from './Label'
 import styled from 'styled-components'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 
 const Wrapper = createStyled('div')
 
@@ -12,14 +17,14 @@ export type Props = {
   disabled?: boolean
   error: boolean
   name?: string
-  style?: AppTheme['singleCheckbox']
+  style?: ComponentTheme['singleCheckbox']
   label?: LabelProps
 }
 
 export const SingleCheckbox = (props: Props) => {
   const { value } = props
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'singleCheckbox')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
   const inputStyle = getInlineStyle('input', { marginLeft: 16 })

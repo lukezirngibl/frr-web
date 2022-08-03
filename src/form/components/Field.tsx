@@ -1,9 +1,12 @@
+import React from 'react'
 import { CodeInput } from '../../components/CodeInput'
+import { ColorPicker } from '../../components/ColorPicker'
 import { CountrySelect } from '../../components/CountrySelect'
 import { CurrencyInput } from '../../components/CurrencyInput'
-import { ColorPicker } from '../../components/ColorPicker'
 import { DatePicker } from '../../components/DatePicker'
+import { FileInput } from '../../components/FileInput'
 import { FormattedDatePicker } from '../../components/FormattedDatePicker'
+import { MultiFileInput } from '../../components/MultiFileInput'
 import { MultiSelect } from '../../components/MultiSelect'
 import { NumberInput } from '../../components/NumberInput'
 import { OptionGroup } from '../../components/OptionGroup'
@@ -19,10 +22,7 @@ import { Toggle } from '../../components/Toggle'
 import { YesNoOptionGroup } from '../../components/YesNoOptionGroup'
 import { YesNoRadioGroup } from '../../components/YesNoRadioGroup'
 import { LocaleNamespace } from '../../translation'
-import React from 'react'
 import { FormFieldType, SingleFormField } from './types'
-import { FileInput } from '../../components/FileInput'
-import { MultiFileInput } from '../../components/MultiFileInput'
 
 // import { CheckboxGroup } from '../../components/CheckboxGroup'
 // import { Dropdown } from '../../components/Dropdown'
@@ -44,6 +44,7 @@ type FieldItemProps<FormData> = {
   localeNamespace?: LocaleNamespace
   onChange: (value: any) => void
   onBlur: (value: any) => void
+  onKeyUp?: (value: any) => void
 }
 
 export const Field = <FormData extends {}>({
@@ -56,6 +57,7 @@ export const Field = <FormData extends {}>({
   localeNamespace,
   onChange,
   onBlur,
+  onKeyUp,
 }: FieldItemProps<FormData>) => {
   const dataTestId = field.lens.id()
 
@@ -95,6 +97,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data) || ''}
         onChange={onChange}
         onBlur={onBlur}
+        onKeyUp={onKeyUp}
         hasFocus={hasFocus}
         error={hasError}
         label={label}

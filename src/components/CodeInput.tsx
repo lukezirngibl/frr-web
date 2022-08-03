@@ -1,8 +1,9 @@
-import React from 'react'
-import styled, { StyledComponent } from 'styled-components'
 import { range } from 'fp-ts/lib/Array'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import React from 'react'
+import styled from 'styled-components'
+import { useMobileTouch } from '../hooks/useMobileTouch'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = createStyled('div')
@@ -17,7 +18,7 @@ export type Props = {
   value: string
   onChange: (v: string) => void
   length: number
-  style?: Partial<AppTheme['codeInput']>
+  style?: Partial<ComponentTheme['codeInput']>
 }
 
 const replaceChar = (str: string, char: string, index: number) => {
@@ -25,20 +26,34 @@ const replaceChar = (str: string, char: string, index: number) => {
 }
 
 export const CodeInput = (props: Props) => {
-  const theme = useAppTheme()
+  const { isMobile } = useMobileTouch()
+  const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
 
   const refs: Array<React.RefObject<typeof Input>> = range(0, props.length - 1).map((i) =>
     React.createRef(),
   )
 
-  const [intervalValue, setIntervalValue] = React.useState(
-    props.value || range(0, props.length - 1).reduce((str) => `${str}-`, ''),
-  )
+  const defaultStr = range(0, props.length - 1).reduce((str) => `${str}-`, '')
+
+  const [intervalValue, setIntervalValue] = React.useState(props.value || defaultStr)
 
   React.useEffect(() => {
     props.onChange(intervalValue)
   }, [intervalValue])
+
+  // Clear code input field
+  React.useEffect(() => {
+    if (
+      props.value === '' ||
+      props.value === null ||
+      props.value === undefined ||
+      props.value === defaultStr
+    ) {
+      setIntervalValue(defaultStr)
+      refs[0].current?.focus()
+    }
+  }, [props.value])
 
   return (
     <>
@@ -47,10 +62,11 @@ export const CodeInput = (props: Props) => {
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
+            name={`code-value-${i}`}
             onClick={() => setIntervalValue(replaceChar(intervalValue, '-', i))}
             onChange={(e: any) => {
               const v = e.target.value.replace('-', ' ').trim()
-              if (v === '') {
+              if (v === '' || isNaN(v)) {
                 const prev = intervalValue[i]
                 const newValue = replaceChar(intervalValue, '-', i)
                 setIntervalValue(newValue)
@@ -83,12 +99,16 @@ export const CodeInput = (props: Props) => {
               }
             }}
             ref={refs[i] as any}
-            type="number"
             value={intervalValue[i] === '-' ? '' : intervalValue[i]}
+            type={
+              isMobile
+                ? 'number'
+                : 'text' /* Hack to avoid issues with a bug in firefox when using type=number */
+            }
+            inputtype="number"
+            autoComplete="off"
             {...getStyle('input')}
-            autoFocus={i === 0 ? true : false}
-            autoComplete={'nope'}
-          ></Input>
+          />
         ))}
       </CodeInputWrapper>
     </>

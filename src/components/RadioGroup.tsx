@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Options, P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
@@ -38,12 +43,12 @@ export type Props = {
   name?: string
   onChange: (value: string) => void
   options: Options<string>
-  style?: Partial<AppTheme['radioGroup']>
+  style?: Partial<ComponentTheme['radioGroup']>
   value: string
 }
 
 export const RadioGroup = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)

@@ -26,7 +26,7 @@ import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
-import { FormTheme } from '../theme/theme'
+import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
@@ -55,6 +55,7 @@ export enum FormFieldType {
   FormText = 'FormText',
   MultiSelect = 'MultiSelect',
   MultiInput = 'MultiInput',
+  MultiInputAutocomplete = 'MultiInputAutocomplete',
   NumberInput = 'NumberInput',
   NumberSelect = 'NumberSelect',
   OptionGroup = 'OptionGroup',
@@ -295,6 +296,7 @@ type CommonFieldProps<FormData> = {
   isVisible?: (formData: FormData) => boolean
   itemStyle?: CSSProperties
   maxwidth?: number
+  changeOnKeystroke?: boolean
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
   validate?: (value: any) => null | string
@@ -324,6 +326,7 @@ export const fieldMap = {
   [FormFieldType.Button]: null,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
+  [FormFieldType.MultiInputAutocomplete]: null as MultiInputAutocompleteField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
   [FormFieldType.NumberSelect]: null as NumberSelectField<unknown>,
   [FormFieldType.OptionGroup]: null as OptionGroupField<unknown>,
@@ -376,6 +379,15 @@ export type MultiInputField<FormData> = {
   isVisible?: (formData: FormData) => boolean
 }
 
+export type MultiInputAutocompleteField<FormData> = {
+  label?: LabelProps
+  type: FormFieldType.MultiInputAutocomplete
+  fields: Array<SingleFormField<FormData>>
+  itemStyle?: CSSProperties
+  isVisible?: (formData: FormData) => boolean
+  cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
+}
+
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 
 // export type Fields<FormData> = Array<
@@ -385,10 +397,12 @@ export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 export type SingleFieldOrRow<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | FormFieldRow<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | StaticField<FormData>
   | SingleFormField<FormData>
   | FormFieldRow<FormData>
@@ -413,6 +427,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
 
 export type InternalSectionField<FormData> =
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -420,6 +435,7 @@ export type InternalSectionField<FormData> =
 
 export type SectionField<FormData> =
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -461,6 +477,7 @@ export type InternalFormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
@@ -469,6 +486,7 @@ export type FormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
+  | MultiInputAutocompleteField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>

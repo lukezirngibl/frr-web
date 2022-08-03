@@ -1,12 +1,12 @@
-import { Label } from '../../components/Label'
-import { createStyled } from '../../theme/util'
 import React, { useCallback, useState } from 'react'
-import { useFormTheme } from '../theme/theme'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
+import { Label } from '../../components/Label'
+import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
+import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputField } from './types'
 
@@ -26,10 +26,12 @@ export const FieldMultiInput = <FormData extends {}>({
   localeNamespace,
   onChange,
   showValidation,
+
   style,
 }: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
+  const { disableDirtyValidation } = useFormConfig()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
@@ -55,6 +57,7 @@ export const FieldMultiInput = <FormData extends {}>({
     formReadOnly,
     localeNamespace,
     showValidation,
+    disableDirtyValidation,
     style,
   }
 

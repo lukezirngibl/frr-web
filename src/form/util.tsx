@@ -116,6 +116,8 @@ export const processRepeatGroup = <FormData extends {}>(
         return <></>
       } else if (repeatGroup.type === FormFieldType.MultiInput) {
         return repeatGroup
+      } else if (repeatGroup.type === FormFieldType.MultiInputAutocomplete) {
+        return repeatGroup
       } else {
         return {
           ...repeatGroup,
@@ -152,6 +154,8 @@ export const processRepeatSection = <FormData extends {}>(
         if (Array.isArray(repeatSectionField)) {
           return <></>
         } else if (repeatSectionField.type === FormFieldType.MultiInput) {
+          return repeatSectionField
+        } else if (repeatSectionField.type === FormFieldType.MultiInputAutocomplete) {
           return repeatSectionField
         } else {
           return {

@@ -185,25 +185,31 @@ To build the library, run the build script.
 
 Follow these steps to run the library build in watch mode:
 
-1. Build the types first: `yarn build`
-2. Start the build in watch mode (babel): `yarn babel:watch`
-
-To rebuild the types the following actions are required (for the why see **IMPORTANT NOTE** below):
-
-1. (Quit watch mode: `ctrl c`).
-2. Run: `yarn build-types`
-3. Start babel again: `yarn babel:watch`
+1. Start the build in watch mode (babel): `yarn build:watch`
 
 ### Use package in linked (watch-)mode
 
 You might want to link this library to the consuming application and keep it in watch mode to develop in parallel.
 
 - Create a symlink: `yarn link` (This you have to **do only once**)
-- Run build with babel: `yarn babel:watch`
+- Run build with babel: `yarn build:watch`
 
-**IMPORTANT NOTE**
-Types are not transpiled by Babel. As a consequence, changes of types require a rebuild of the types with the TypeScript compiler in order for consuming applications to receive them.
+### Use package in linked (watch-)mode updated!
 
-As the TypeScript compiler requires all dependencies including peerDependencies, we first have to install those as well. Unfortunately libraries like React or Style-Components cannot handle duplicate installations of the same package in one application and will crash in the browser during rendering.
+cd YOUR_PROJECT
+cd node_modules/react
+yarn link
+cd ../react-dom
+yarn link
 
-That is why we have to clean the _node_modules_ from all peerDependencies before using it. And that is also why we cannot really use the TypeScript compiler to develop in watch-mode with linked modules.
+## sometimes you need also to link react-redux
+
+cd PACKAGE_YOU_DEBUG_LOCALLY
+yarn link
+yarn install
+yarn link react
+yarn link react-dom
+yarn build:watch
+
+cd YOUR_PROJECT
+yarn link PACKAGE_YOU_DEBUG_LOCALLY

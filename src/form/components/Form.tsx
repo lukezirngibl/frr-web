@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
+import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
-import { FormTheme, useFormTheme } from '../theme/theme'
-import { useCSSStyles } from '../theme/util'
 import { FormLens, setScrolled } from '../util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
+import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
@@ -26,6 +26,7 @@ import {
   InternalFormField,
   SingleFormField,
 } from './types'
+import { FormConfigContext } from './form.hooks'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -50,13 +51,14 @@ export type FormProps<FormData> = {
   display?: DisplayType
   formFields: Array<FormField<FormData>>
   isEdit?: boolean
+  disableDirtyValidation?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
   onChange?: (formState: FormData) => void
   onChangeWithLens?: (lens: FormLens<FormData, any>, value: any) => void
-  onEdit?: (params: { dispatch: any }) => void
+  onEdit?: () => void
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
-  onSubmit?: (params: { dispatch: any; formState: FormData }) => void
+  onSubmit?: (params: { formState: FormData }) => void
   readOnly?: boolean
   renderBottomChildren?: (f: FormData) => ReactNode
   renderTopChildren?: (f: FormData) => ReactNode
@@ -69,7 +71,7 @@ const ButtonContainer = createStyled(styled.div`
   justify-content: center;
 `)
 
-const FormWrapper = createStyled(styled.div`
+const FormWrapper = createStyled(styled.form`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -78,7 +80,6 @@ const FormWrapper = createStyled(styled.div`
 const FormContent = createStyled(styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 `)
 
 export const Form = <FormData extends {}>({
@@ -98,12 +99,13 @@ export const Form = <FormData extends {}>({
   onInvalidSubmit,
   onSubmit,
   readOnly,
+  disableDirtyValidation,
   renderBottomChildren,
   renderTopChildren,
   style,
 }: FormProps<FormData>) => {
-  const { t: translate } = useTranslation(localeNamespace)
   const dispatch = useDispatch()
+  const { t: translate } = useTranslation(localeNamespace)
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
 
@@ -153,7 +155,7 @@ export const Form = <FormData extends {}>({
   const submit = () => {
     setErrorFieldId(null)
     if (disableValidation) {
-      onSubmit({ dispatch, formState: data })
+      onSubmit({ formState: data })
     } else {
       const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
@@ -161,11 +163,12 @@ export const Form = <FormData extends {}>({
 
       if (errors.length > 0) {
         setErrorFieldId(errors[0].fieldId)
+
         setShowValidation(true)
         onInvalidSubmit?.({ errors, formState: data })
         analytics?.onInvalidSubmit?.({ errors, formState: data })
       } else {
-        onSubmit?.({ dispatch, formState: data })
+        onSubmit?.({ formState: data })
         analytics?.onSubmit?.()
       }
     }
@@ -203,6 +206,16 @@ export const Form = <FormData extends {}>({
       case FormFieldType.MultiInput:
         return (
           <FieldMultiInput
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.MultiInputAutocomplete:
+        return (
+          <FieldMultiInputAutocomplete
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
@@ -248,43 +261,46 @@ export const Form = <FormData extends {}>({
   formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
 
   return !isVisible || isVisible(data) ? (
-    <FormWrapper
-      {...getFormStyle('wrapper')}
-      className={formClassName}
-      data-test-id={dataTestId}
-      readOnly={readOnly}
+    <FormConfigContext.Provider
+      value={{
+        disableDirtyValidation: !!disableDirtyValidation,
+      }}
     >
-      {renderTopChildren && renderTopChildren(data)}
+      <FormWrapper
+        {...getFormStyle('wrapper')}
+        className={formClassName}
+        data-test-id={dataTestId}
+        readOnly={readOnly}
+      >
+        {renderTopChildren && renderTopChildren(data)}
 
-      <FormContent {...getFormStyle('content')}>
-        {/* formFields.map(renderField) */}
-        {visibleFormFields.map(renderField)}
-      </FormContent>
+        <FormContent {...getFormStyle('content')}>{visibleFormFields.map(renderField)}</FormContent>
 
-      {renderBottomChildren && renderBottomChildren(data)}
+        {renderBottomChildren && renderBottomChildren(data)}
 
-      {buttons && (
-        <ButtonContainer
-          {...getFormStyle('buttonContainer')}
-          disabled={isEdit !== undefined && !isEdit}
-          data-test-id="form-actions"
-        >
-          {buttons.map((button, k) => (
-            <Button
-              {...button}
-              key={k}
-              dataTestId={
-                button.dataTestId ||
-                (button.type === ButtonType.Primary && 'form:primary') ||
-                `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
-              }
-              disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-              onClick={() => button.onClick({ submit, dispatch })}
-            />
-          ))}
-        </ButtonContainer>
-      )}
-    </FormWrapper>
+        {buttons && (
+          <ButtonContainer
+            {...getFormStyle('buttonContainer')}
+            disabled={isEdit !== undefined && !isEdit}
+            data-test-id="form-actions"
+          >
+            {buttons.map((button, k) => (
+              <Button
+                {...button}
+                key={k}
+                dataTestId={
+                  button.dataTestId ||
+                  (button.type === ButtonType.Primary && 'form:primary') ||
+                  `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
+                }
+                disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
+                onClick={() => button.onClick({ submit, dispatch })}
+              />
+            ))}
+          </ButtonContainer>
+        )}
+      </FormWrapper>
+    </FormConfigContext.Provider>
   ) : (
     <></>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Options, P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 
 const NavigationWrapper = createStyled('div')
 const NavigationInnerWrapper = createStyled('div')
@@ -20,11 +20,11 @@ type Props = {
   navigationActiveType?: NavigationActiveType
   items: Options<string>
   selectedItem: string
-  style?: Partial<AppTheme['navigation']>
+  style?: Partial<ComponentTheme['navigation']>
 }
 
 export const Navigation = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getCSSStyles = useCSSStyles(theme, 'navigation')(props.style)
 

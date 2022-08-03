@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { SketchPicker } from 'react-color'
 import { useTranslation } from 'react-i18next'
+import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
 import { P } from '../html'
-import { AppTheme, MediaQuery, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import { MediaQuery } from '../theme/configure.theme'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Button, ButtonType } from './Button'
 import { Label, LabelProps } from './Label'
-import rgbHex from 'rgb-hex'
 
 const ColorPickerWrapper = createStyled('div')
 const ColorPickerContainer = createStyled(styled.div`
@@ -99,13 +100,13 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   onChange?: (c: string) => void
   readOnly?: boolean
-  style?: Partial<AppTheme['colorPicker']>
+  style?: Partial<ComponentTheme['colorPicker']>
   value: string | null // Color string in format "<r>,<g>,<b>,<a>" (e.g. "0,122,247,0.8")
 }
 export const ColorPicker = (props: Props) => {
   const { t } = useTranslation(props.localeNamespace)
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getModalCSSStyles = useCSSStyles(theme, 'modal')()
   const getCSSStyles = useCSSStyles(theme, 'colorPicker')(props.style)
 

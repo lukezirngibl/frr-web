@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
+import { useFormConfig } from './form.hooks'
 import { useFormFieldError } from './hooks/useFormFieldError'
 import { CommonThreadProps, SingleFormField } from './types'
-import { useCSSStyles, useInlineStyle } from '../theme/util'
-import { useFormTheme } from '../theme/theme'
-import styled from 'styled-components'
 
 const FieldContainer = styled.div`
   position: relative;
@@ -16,6 +16,7 @@ export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
   onError?: (error: { error: string; fieldId: string }) => void
   isNotScrollable?: boolean
+  onKeyUp?: (value: string) => void
 }
 // ------------------------------------
 
@@ -30,19 +31,32 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     localeNamespace,
     onChange,
     onError,
+    onKeyUp,
     showValidation,
+
     style,
   } = props
 
+  const { disableDirtyValidation } = useFormConfig()
   const theme = useFormTheme()
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
 
+  const formValue = field.lens.get(data)
+
   // Value handling
   const [fieldChanged, setFieldChanged] = useState(false)
-  const [value, setValue] = useState(field.lens.get(data))
+  const [value, setValue] = useState(formValue)
+
   useEffect(() => {
-    setValue(field.lens.get(data))
-  }, [field.lens.get(data)])
+    setValue(formValue)
+  }, [formValue])
+
+  useEffect(() => {
+    if (props.field.changeOnKeystroke && value !== formValue) {
+      setFieldChanged(true)
+      onChange(field.lens, value)
+    }
+  }, [value])
 
   const onBlur = (value: any) => {
     setFieldChanged(true)
@@ -52,13 +66,14 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   const isDirty = value !== null
 
   // Error handling
-  const isError = showValidation || fieldChanged
+  const isError = showValidation || (fieldChanged && !disableDirtyValidation)
   const errorLabel = useFormFieldError({
     value,
     data,
     field,
     isDirty,
     showValidation: isError,
+    disableDirtyValidation,
   })
   const hasError = errorLabel !== null
 
@@ -91,6 +106,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         localeNamespace={localeNamespace}
         onBlur={onBlur}
         onChange={setValue}
+        onKeyUp={onKeyUp}
       />
     )) || (
       <FieldContainer>
@@ -109,6 +125,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             localeNamespace={localeNamespace}
             onBlur={onBlur}
             onChange={setValue}
+            onKeyUp={onKeyUp}
           />
         </FieldScrollableWrapper>
         {field.renderChildren?.()}

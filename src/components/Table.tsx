@@ -1,26 +1,36 @@
-import React, { ReactElement, ReactNode } from 'react'
 import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
-import { useTranslation, Namespace } from 'react-i18next'
+import React, { ReactElement, ReactNode } from 'react'
+import { Namespace, useTranslation } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
-import styled, { css, CSSProperties } from 'styled-components'
-
-import { useAppTheme, AppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles, useInlineStyle } from '../theme/util'
-import { Translate } from '../translation'
+import styled, { CSSProperties } from 'styled-components'
 import { P } from '../html'
-
+import {
+  ComponentTheme,
+  useComponentTheme,
+  useCSSStyles,
+  useInlineStyle,
+} from '../theme/theme.components'
+import { createStyled } from '../theme/util'
+import { Translate } from '../translation'
+import { Icon } from './Icon'
 import { Loading } from './Loading'
 import { SimplePopover } from './PopOver'
-import { Icon } from './Icon'
+import { SortValue, TableSortingIcons } from './TableSortingIcons'
 
 export type TableColumn<T extends {}> = {
   dataKey: keyof T
   label: string
   labelInfo?: string
-  customRender?: (value: T[keyof T], row: T, translate: Translate, valueElement?: ReactElement) => ReactNode
+  customRender?: (
+    value: T[keyof T],
+    row: T,
+    translate: Translate,
+    valueElement?: ReactElement,
+  ) => ReactNode
   width: number
   isAmountValue?: boolean
   isHighlightedForSearch?: boolean
+  isSortable?: boolean
   valueCustomRender?: (value: T[keyof T], translate: Translate) => ReactElement | undefined
 }
 
@@ -29,17 +39,22 @@ export type TableColumns<T extends {}> = Array<TableColumn<T>>
 type Props<T extends {}> = {
   data: RemoteData<any, Array<T>>
   columns: TableColumns<T>
+  sorting?: {
+    onClick: (params: { columnKey: string; value: string }) => void
+    columnKeyActive: string
+    sortValue: SortValue
+  }
   onRowClick?: (row: T) => void
   noResultsLabel?: string
   localeNamespace: Namespace
-  style?: Partial<AppTheme['table']>
+  style?: Partial<ComponentTheme['table']>
   getRowStyle?: (row: T) => CSSProperties
 }
 
 export const Table = <T extends {}>(props: Props<T>) => {
   const { t: translate } = useTranslation(props.localeNamespace)
 
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'table')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'table')(props.style)
 
@@ -66,8 +81,9 @@ export const Table = <T extends {}>(props: Props<T>) => {
       >
         {props.columns.map((c) => {
           const value = row[c.dataKey]
-          const valueCustomRender = c.valueCustomRender && c.valueCustomRender(value, translate) || undefined
-          
+          const valueCustomRender =
+            (c.valueCustomRender && c.valueCustomRender(value, translate)) || undefined
+
           return (
             <RowCell
               {...getCSSStyle('rowCell', {
@@ -77,10 +93,16 @@ export const Table = <T extends {}>(props: Props<T>) => {
               })}
               key={c.dataKey}
             >
-              {c.customRender && c.customRender(value, row, translate, valueCustomRender) ||
+              {(c.customRender && c.customRender(value, row, translate, valueCustomRender)) ||
                 (c.isAmountValue && (
-                  <RowAmountValue {...getCSSStyle('rowText')}>{!!valueCustomRender ? valueCustomRender : value}</RowAmountValue>
-                )) || <RowValue {...getCSSStyle('rowText')}>{!!valueCustomRender ? valueCustomRender : value}</RowValue>}
+                  <RowAmountValue {...getCSSStyle('rowText')}>
+                    {!!valueCustomRender ? valueCustomRender : value}
+                  </RowAmountValue>
+                )) || (
+                  <RowValue {...getCSSStyle('rowText')}>
+                    {!!valueCustomRender ? valueCustomRender : value}
+                  </RowValue>
+                )}
             </RowCell>
           )
         })}
@@ -103,6 +125,17 @@ export const Table = <T extends {}>(props: Props<T>) => {
                 key={c.dataKey}
               >
                 <HeaderValue {...getCSSStyle('headerText')}>{translate(c.label)}</HeaderValue>
+                {c.isSortable && (
+                  <TableSortingIcons
+                    style={props.style}
+                    columnKeyActive={props.sorting.columnKeyActive}
+                    onClick={props.sorting.onClick}
+                    column={{
+                      columnKey: c.dataKey as string,
+                      sortValue: props.sorting.sortValue as SortValue,
+                    }}
+                  />
+                )}
                 {c.labelInfo !== undefined && translate(c.labelInfo).trim().length > 0 ? (
                   <SimplePopover
                     style={getInlineStyle('descriptionOuterWrapper').style}

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Options, P } from '../html'
-import { AppTheme, useAppTheme } from '../theme/theme'
-import { createStyled, useCSSStyles } from '../theme/util'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
@@ -26,12 +26,12 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
   options: Options<string | number>
-  style?: Partial<AppTheme['optionGroup']>
+  style?: Partial<ComponentTheme['optionGroup']>
   value: string | number | null
 }
 
 export const OptionGroup = (props: Props) => {
-  const theme = useAppTheme()
+  const theme = useComponentTheme()
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
@@ -51,7 +51,7 @@ export const OptionGroup = (props: Props) => {
             onClick={() => {
               props.onChange(item.value)
             }}
-            data-test-id={`${props.dataTestId}:${item.value}`}
+            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
             {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,

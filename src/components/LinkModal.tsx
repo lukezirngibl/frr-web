@@ -5,7 +5,10 @@ import { Option, none } from 'fp-ts/lib/Option'
 
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
-import { MediaQuery } from '../theme/theme'
+import { MediaQuery } from '../theme/configure.theme'
+import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
+import { Icon } from './Icon'
 
 export enum ModalLinkType {
   PDF = 'PDF',
@@ -27,6 +30,9 @@ export type Props = {
 }
 
 export const LinkModal = (props: Props) => {
+  const theme = useComponentTheme()
+  const getCSSStyle = useCSSStyles(theme, 'pdfViewer')({})
+
   const [iframeLoading, setIframeLoading] = useState(true)
 
   const [viewerWidth, setViewerWidth] = useState(800)
@@ -52,6 +58,7 @@ export const LinkModal = (props: Props) => {
   }
 
   return (
+    // @ts-ignore
     <Modal open={props.modalOpen} onClose={onClose} style={{ display: 'flex' }}>
       {props.config.fold(<div />, (modalConfig) => (
         <IframeOuterWrapper
@@ -86,12 +93,21 @@ export const LinkModal = (props: Props) => {
                 width={viewerWidth}
               />
             ) : (
-              <iframe
-                src={modalConfig.url}
-                onLoad={() => {
-                  setIframeLoading(false)
-                }}
-              ></iframe>
+              <>
+                <iframe
+                  src={modalConfig.url}
+                  onLoad={() => {
+                    setIframeLoading(false)
+                  }}
+                ></iframe>
+
+                <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
+                {modalConfig.onClose && (
+                  <CloseButton {...getCSSStyle('closeButton')} onClick={modalConfig.onClose}>
+                    <Icon icon={'close'} size={24} />
+                  </CloseButton>
+                )}
+              </>
             )}
           </IframeWrapper>
         </IframeOuterWrapper>
@@ -100,12 +116,17 @@ export const LinkModal = (props: Props) => {
   )
 }
 
+const CloseButton = createStyled('div')
+const PageSelectorWrapper = createStyled('div')
+
 const IframeOuterWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 32px;
+
   @media ${MediaQuery.Small} {
     border-radius: 0px;
   }
