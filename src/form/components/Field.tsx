@@ -6,6 +6,8 @@ import { CurrencyInput } from '../../components/CurrencyInput'
 import { DatePicker } from '../../components/DatePicker'
 import { FileInput } from '../../components/FileInput'
 import { FormattedDatePicker } from '../../components/FormattedDatePicker'
+import { MaskedDatePicker } from '../../components/MaskedDatePicker'
+import { MaskedInput } from '../../components/MaskedInput'
 import { MultiFileInput } from '../../components/MultiFileInput'
 import { MultiSelect } from '../../components/MultiSelect'
 import { NumberInput } from '../../components/NumberInput'
@@ -107,6 +109,24 @@ export const Field = <FormData extends {}>({
     )
   }
 
+  if (field.type === FormFieldType.MaskedInput) {
+    const { type, lens, validate, required, ...fieldProps } = field
+    return (
+      <MaskedInput
+        {...fieldProps}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        value={lens.get(data) || ''}
+        onChange={onChange}
+        onBlur={onBlur}
+        hasFocus={hasFocus}
+        error={hasError}
+        label={label}
+        localeNamespace={localeNamespace}
+        dataTestId={dataTestId}
+      />
+    )
+  }
+
   if (field.type === FormFieldType.Toggle) {
     const { type, lens, validate, required, ...fieldProps } = field
     return (
@@ -125,6 +145,24 @@ export const Field = <FormData extends {}>({
     const { type, lens, validate, required, ...fieldProps } = field
     return (
       <FormattedDatePicker
+        {...fieldProps}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        hasFocus={hasFocus}
+        error={hasError}
+        value={lens.get(data)}
+        onChange={onChange}
+        onBlur={onBlur}
+        label={label}
+        localeNamespace={localeNamespace}
+        dataTestId={dataTestId}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.MaskedDatePicker) {
+    const { type, lens, validate, required, ...fieldProps } = field
+    return (
+      <MaskedDatePicker
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         hasFocus={hasFocus}
