@@ -16,6 +16,8 @@ import { Props as SwithProps } from '../../components/Switch'
 import { Props as TextProps } from '../../components/Text'
 import { TextAreaProps } from '../../components/TextArea'
 import { Props as TextInputProps } from '../../components/TextInput'
+import { Props as MaskedDatePickerProps } from '../../components/MaskedDatePicker'
+import { Props as MaskedInputProps } from '../../components/MaskedInput'
 import { Props as StaticFieldProps } from './StaticField'
 import { Props as TextNumberInputProps } from '../../components/TextNumberInput'
 import { Props as ToggleProps } from '../../components/Toggle'
@@ -53,6 +55,8 @@ export enum FormFieldType {
   FormFieldRepeatSection = 'FormFieldRepeatSection',
   FormSection = 'FormSection',
   FormText = 'FormText',
+  MaskedDatePicker = 'MaskedDatePicker',
+  MaskedInput = 'MaskedInput',
   MultiSelect = 'MultiSelect',
   MultiInput = 'MultiInput',
   MultiInputAutocomplete = 'MultiInputAutocomplete',
@@ -237,6 +241,13 @@ export type TextInputField<FormData> = FormInput<
   FormFieldType.TextInput
 >
 
+export type MaskedInputField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  MaskedInputProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.MaskedInput
+>
+
 export type StaticField<FormData> = StaticFieldProps & {
   type: FormFieldType.Static
   isVisible?: (formData: FormData) => boolean
@@ -275,6 +286,13 @@ export type FormattedDatePickerField<FormData> = FormInput<
   FormattedDatePickerProps,
   NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.FormattedDatePicker
+>
+
+export type MaskedDatePickerField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  MaskedDatePickerProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.MaskedDatePicker
 >
 
 export type NumberInputField<FormData> = FormInput<
@@ -324,6 +342,8 @@ export const fieldMap = {
   [FormFieldType.FormText]: null,
   [FormFieldType.Static]: null,
   [FormFieldType.Button]: null,
+  [FormFieldType.MaskedDatePicker]: null as MaskedDatePickerField<unknown>,
+  [FormFieldType.MaskedInput]: null as TextInputField<unknown>,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
   [FormFieldType.MultiInputAutocomplete]: null as MultiInputAutocompleteField<unknown>,
@@ -353,6 +373,8 @@ export type SingleFormField<FormData> = (
   | ColorPickerField<FormData>
   | DatePickerField<FormData>
   | FormattedDatePickerField<FormData>
+  | MaskedDatePickerField<FormData>
+  | MaskedInputField<FormData>
   | MultiSelectField<FormData>
   | NumberInputField<FormData>
   | NumberSelectField<FormData>
