@@ -1,34 +1,36 @@
 import React from 'react'
 import { parse, format, isValid } from 'date-fns'
-import { MaskedDatePicker, Props as DatePickerProps } from './MaskedDatePicker'
+import { DatePicker, Props as DatePickerProps } from './DatePicker'
 
 export type Props = {
   onChange: (value: string | null) => void
   onBlur: (value: string | null) => void
   value: string | null
   dateFormat: string
-  maskInput?: DatePickerProps['maskInput']
-} & Omit<DatePickerProps, 'onChange' | 'onBlur' | 'value' | 'maskInput'>
+} & Omit<DatePickerProps, 'onChange' | 'onBlur' | 'value'>
 
 export const FormattedDatePicker = (props: Props) => {
-  const { onChange, onBlur, dateFormat, ...otherProps } = props
-        console.log('DATE VALUE', props.value, isValid(new Date(props.value)))
+  const { onChange, onBlur, value, dateFormat, ...otherProps } = props
+  const val: Date = props.value ? parse(props.value, props.dateFormat, new Date()) : null
 
   return (
-    <MaskedDatePicker
-      value={props.value}
-      onBlur={(value: string) => {
-        console.log('ON BLUR VALUE', value, isValid(new Date(value)), format(new Date(value), dateFormat))
-        if (value !== null && isValid(new Date(value))) {
-          onBlur(value)
+    <DatePicker
+      value={val as Date}
+      onChange={(value: Date) => {
+        if (value !== null && isValid(value)) {
+          onChange(format(value, props.dateFormat))
+        } else {
+          onChange(null)
+        }
+      }}
+      onBlur={(value: Date) => {
+        if (value !== null && isValid(value)) {
+          onBlur(format(value, props.dateFormat))
         } else {
           onBlur(null)
         }
       }}
       dateFormat={dateFormat}
-      maskInput={
-        props.maskInput || { alwaysShowMask: true, maskString: 'DD.MM.YYYY', mask: '00.00.0000' }
-      }
       {...otherProps}
     />
   )
