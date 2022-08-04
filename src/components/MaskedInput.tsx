@@ -80,7 +80,9 @@ export const MaskedInput = (props: Props) => {
           wrapper: true,
           errorWrapper: props.error,
           disabledInput:
-            isFocus || (!!internalValue && internalValue !== maskString) || internalValue !== lastValue
+            isFocus ||
+            (!!internalValue && internalValue !== maskString) ||
+            (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
               ? false
               : true,
         })}
@@ -89,7 +91,9 @@ export const MaskedInput = (props: Props) => {
             input: true,
             errorInput: props.error,
             disabledInput:
-              isFocus || (!!internalValue && internalValue !== maskString) || internalValue !== lastValue
+              isFocus ||
+              (!!internalValue && internalValue !== maskString) ||
+              (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
                 ? false
                 : true,
           }),
