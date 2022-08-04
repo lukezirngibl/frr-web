@@ -151,10 +151,7 @@ export const Field = <FormData extends {}>({
         error={hasError}
         value={lens.get(data)}
         onChange={onChange}
-        onBlur={value => {
-          console.log('VALUE', value)
-          onBlur(value)
-        }}
+        onBlur={onBlur}
         label={label}
         localeNamespace={localeNamespace}
         dataTestId={dataTestId}
