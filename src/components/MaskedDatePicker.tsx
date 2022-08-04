@@ -28,6 +28,7 @@ export type Props = {
   hasFocus?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
+  onChange: (value: string) => void
   onBlur: (value: string) => void
   style?: Partial<ComponentTheme['datePicker']>
   value: string | null
@@ -130,20 +131,19 @@ export const MaskedDatePicker = (props: Props) => {
             <>
               <MaskedInput
                 hasFocus={props.hasFocus}
-                onBlur={(value: string) => {
+                onBlur={(v: string) => {
                   try {
-                    const dateValue = parseDate(value)
+                    const dateValue = parseDate(v)
 
                     if (dateValue === 'Invalid Date') {
                       throw 'Invalid Date'
                     }
-
-                    props.onBlur(String(dateValue))
+                    props.onBlur(format(dateValue, props.dateFormat))
                   } catch (err) {
                     if (err === 'Invalid Date') {
                       props.onBlur(null)
                     } else {
-                      const testValue = parse(value, props.dateFormat || 'yyyy-MM-dd', new Date()) as
+                      const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
                         | Date
                         | 'Invalid Date'
 
@@ -189,7 +189,7 @@ export const MaskedDatePicker = (props: Props) => {
                   selected={!!props.value ? new Date(props.value) : new Date()}
                   onChange={(value: Date) => {
                     if (value !== null && isValid(value)) {
-                      props.onBlur(String(value))
+                      props.onBlur(format(value, props.dateFormat))
                     } else {
                       props.onBlur(null)
                     }
