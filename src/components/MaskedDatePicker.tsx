@@ -32,7 +32,7 @@ export type Props = {
   onBlur: (value: string) => void
   style?: Partial<ComponentTheme['datePicker']>
   value: string | null
-  maskInput: {
+  maskInput?: {
     alwaysShowMask?: boolean
     mask?: string
     maskString?: string
@@ -48,8 +48,16 @@ const parseDate = (value: string): Date | 'Invalid Date' => {
   return dateValue
 }
 
+const DefaultMaskInput = {
+  alwaysShowMask: true,
+  mask: '00.00.0000',
+  maskString: 'DD.MM.YYYY',
+}
+
 export const MaskedDatePicker = (props: Props) => {
   const { isMobileTouch } = useMobileTouch()
+
+  const maskInput = props.maskInput || DefaultMaskInput
 
   /* Styles */
   const theme = useComponentTheme()
@@ -164,11 +172,7 @@ export const MaskedDatePicker = (props: Props) => {
                 }
                 dataTestId={props.dataTestId}
                 style={textInputStyle}
-                maskInput={{
-                  alwaysShowMask: props.maskInput.alwaysShowMask !== undefined ? props.maskInput.alwaysShowMask : true,
-                  mask: props.maskInput.mask || '00.00.0000',
-                  maskString: props.maskInput.maskString || 'DD.MM.YYYY',
-                }}
+                maskInput={maskInput}
               />
 
               <DatePickerIconWrapper
