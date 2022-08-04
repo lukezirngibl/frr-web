@@ -22,5 +22,5 @@
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src", "stories/components/CodeInput.stories.tsx"]
+  "include": ["src", "stories"]
 }
