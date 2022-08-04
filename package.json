@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.0.55",
+  "version": "3.0.56",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -17,7 +17,7 @@
     "build:local": "tsc && yarn clean",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
     "babel:watch": "yarn babel:build --watch",
-    "clean": "rimraf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/styled-components node_modules/react-i18next node_modules/i18next",
+    "clean": "rimraf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/styled-components node_modules/react-i18next",
     "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch",
     "prettier:fix": "yarn prettier --write .",
     "prettier:check": "yarn prettier --check .",

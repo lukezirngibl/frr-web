@@ -143,10 +143,11 @@ export const MaskedDatePicker = (props: Props) => {
                   try {
                     const dateValue = parseDate(v)
 
-                    if (dateValue === 'Invalid Date') {
+                    if (dateValue.toString() === 'Invalid Date') {
                       throw 'Invalid Date'
+                    } else {
+                      props.onBlur(format(dateValue as Date, props.dateFormat))
                     }
-                    props.onBlur(format(dateValue, props.dateFormat))
                   } catch (err) {
                     if (err === 'Invalid Date') {
                       props.onBlur(null)
