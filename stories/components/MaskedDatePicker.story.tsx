@@ -42,6 +42,30 @@ export const Initial = () => (
   </div>
 )
 
+export const Preset = () => (
+  <div style={{ maxWidth: 600 }}>
+    {story({
+      field: {
+        type: FormFieldType.MaskedDatePicker,
+        lens: formLens(['birthDate']),
+        label: { label: 'Geburtsdatum' },
+        dateFormat: 'yyyy-MM-dd',
+        maskInput: { alwaysShowMask: true, maskString: 'DD/MM/YYYY', mask: '00/00/0000' },
+      },
+      fieldIndex: 0,
+      formReadOnly: false,
+      style: {},
+      data: {
+        birthDate: '1990-03-23',
+      },
+      onChange: (lens, value) => {
+        alert(`ON CHANGE\nDate value: ${value}`)
+      },
+      showValidation: false,
+    })}
+  </div>
+)
+
 export const Readonly = () => (
   <div style={{ maxWidth: 360 }}>
     {story({
