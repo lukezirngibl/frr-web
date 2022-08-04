@@ -106,6 +106,12 @@ export const MaskedInput = (props: Props) => {
           }
         }}
       >
+        <Hook
+          {...getCSSStyle({
+            hook: true,
+            errorHook: props.error,
+          })}
+        />
         <MaskInput
           getReference={(el) => {
             inputRef.current = el
@@ -149,3 +155,5 @@ const InputWrapperContainer = styled(InputWrapper)<{ inputCSSStyles: string }>`
     `};
   }
 `
+const Hook = createStyled('div')
+

@@ -111,7 +111,7 @@ export const MaskedDatePicker = (props: Props) => {
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
-                  props.onBlur(String(dateValue))
+                  props.onBlur(format(dateValue, props.dateFormat))
                 } catch (err) {
                   props.onBlur(null)
                 }
@@ -165,9 +165,9 @@ export const MaskedDatePicker = (props: Props) => {
                 dataTestId={props.dataTestId}
                 style={textInputStyle}
                 maskInput={{
-                  alwaysShowMask: props.maskInput.alwaysShowMask,
-                  mask: props.maskInput.mask,
-                  maskString: props.maskInput.maskString,
+                  alwaysShowMask: props.maskInput.alwaysShowMask !== undefined ? props.maskInput.alwaysShowMask : true,
+                  mask: props.maskInput.mask || '00.00.0000',
+                  maskString: props.maskInput.maskString || 'DD.MM.YYYY',
                 }}
               />
 

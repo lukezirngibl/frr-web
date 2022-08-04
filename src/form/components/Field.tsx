@@ -171,6 +171,7 @@ export const Field = <FormData extends {}>({
         hasFocus={hasFocus}
         error={hasError}
         value={lens.get(data)}
+        onChange={onChange}
         onBlur={onBlur}
         label={label}
         localeNamespace={localeNamespace}
