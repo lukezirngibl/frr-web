@@ -11,12 +11,14 @@ export type Props = {
 } & Omit<DatePickerProps, 'onChange' | 'onBlur' | 'value' | 'maskInput'>
 
 export const FormattedDatePicker = (props: Props) => {
-  const { onChange, onBlur, value, dateFormat, ...otherProps } = props
+  const { onChange, onBlur, dateFormat, ...otherProps } = props
+        console.log('DATE VALUE', props.value, isValid(new Date(props.value)))
 
   return (
     <MaskedDatePicker
       value={props.value}
       onBlur={(value: string) => {
+        console.log('ON BLUR VALUE', value, isValid(new Date(value)), format(new Date(value), dateFormat))
         if (value !== null && isValid(new Date(value))) {
           onBlur(value)
         } else {
