@@ -5,6 +5,7 @@ import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
 import { brand } from './theme/bob/bob.brand'
+import { FormConfigContext } from '../src/form/components/form.hooks'
 
 export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
   title: string
@@ -29,7 +30,9 @@ export const createStory =
       <ComponentThemeContext.Provider value={configureComponentTheme(brand.componentTheme)}>
         <BaseStyle />
         <FormThemeContext.Provider value={configureFormTheme(brand.formTheme)}>
-          <Component {...props} />
+          <FormConfigContext.Provider value={{ disableDirtyValidation: false }}>
+            <Component {...props} />
+          </FormConfigContext.Provider>
         </FormThemeContext.Provider>
       </ComponentThemeContext.Provider>
       //   </LanguageContext.Provider>

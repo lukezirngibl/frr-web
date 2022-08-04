@@ -22,5 +22,5 @@
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src", "stories"]
+  "include": ["src"]
 }
