@@ -47,6 +47,7 @@ export const FieldMultiInput = <FormData extends {}>({
     } else if (errorIndex > -1) {
       newErrors[errorIndex] = error
     }
+    console.log('ERRORS', error, errors, newErrors)
     setErrors(newErrors.filter(err => !!err.error))
   }
 
