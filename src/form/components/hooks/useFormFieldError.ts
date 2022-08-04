@@ -23,7 +23,11 @@ export const computeFieldError = <FormData>({
   value = typeof value === 'string' ? value.trim() : value
 
   if (isRequired && (value === '' || value === null || value === undefined)) {
-    if (field.type === FormFieldType.FormattedDatePicker || field.type === FormFieldType.DatePicker) {
+    if (
+      field.type === FormFieldType.FormattedDatePicker ||
+      field.type === FormFieldType.DatePicker ||
+      field.type === FormFieldType.MaskedDatePicker
+    ) {
       error = 'formFields.error.invalidDate'
     } else {
       error = 'formFields.error.fieldRequired'
