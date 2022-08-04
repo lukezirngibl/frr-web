@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.0.47",
+  "version": "3.0.50",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,9 @@
     "prepare": "install-peers && husky install",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
-    "clean": "rimraf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/styled-components node_modules/react-i18next",
+    "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
+    "babel:watch": "yarn babel:build --watch",
+    "clean": "rimraf node_modules/@material-ui/core node_modules/@material-ui/styles node_modules/react node_modules/react-dom node_modules/react-redux node_modules/styled-components node_modules/react-i18next",
     "patch": "yarn run build-types && git add -A && git commit -m 'patch' && npm version patch",
     "prettier:fix": "yarn prettier --write .",
     "prettier:check": "yarn prettier --check .",
@@ -29,11 +31,13 @@
     "@devexperts/remote-data-ts": "0.6.0",
     "@material-ui/core": "^4.9.10",
     "@material-ui/styles": "^4.9.10",
+    "i18next": "^20.1.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-i18next": "^11.8.12",
     "react-redux": "7.2.5",
-    "semantic-ui-react": "^2.0.3"
+    "semantic-ui-react": "^2.0.3",
+    "styled-components": "^5.0.0"
   },
   "dependencies": {
     "@devexperts/remote-data-ts": "0.6.0",
@@ -62,14 +66,22 @@
     "use-debounce": "7.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.3.12",
-    "@storybook/addon-essentials": "^6.3.12",
-    "@storybook/addon-links": "^6.3.12",
-    "@storybook/react": "^6.3.12",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
+    "@babel/plugin-transform-react-jsx": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@storybook/addon-actions": "^6.4.22",
+    "@storybook/addon-essentials": "^6.4.22",
+    "@storybook/addon-links": "^6.4.22",
+    "@storybook/react": "^6.4.22",
     "@types/react": "^17.0.3",
     "@types/react-datepicker": "^4.1.7",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.0.0",
+    "babel-loader": "^8.2.5",
     "husky": ">=6",
     "install-peers-cli": "^2.2.0",
     "lint-staged": "^11.0.0",

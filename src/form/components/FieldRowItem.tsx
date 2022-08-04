@@ -12,7 +12,7 @@ const FieldContainer = styled.div`
   position: relative;
   width: 100%;
 `
-type Props<FormData> = CommonThreadProps<FormData> & {
+export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
   onError?: (error: { error: string; fieldId: string }) => void
   isNotScrollable?: boolean
@@ -65,31 +65,21 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
 
   const isDirty = value !== null
 
-  // console.log(
-  //   field.lens.id(),
-  //   'IS DIRTY',
-  //   isDirty,
-  //   'VALUE',
-  //   value,
-  //   field.lens.get(data),
-  //   'FIELD CHANGED',
-  //   fieldChanged,
-  // )
-
   // Error handling
+  const isError = showValidation || (fieldChanged && !disableDirtyValidation)
   const errorLabel = useFormFieldError({
     value,
     data,
     field,
     isDirty,
-    showValidation: showValidation || (fieldChanged && !disableDirtyValidation),
+    showValidation: isError,
     disableDirtyValidation,
   })
   const hasError = errorLabel !== null
 
   useEffect(() => {
-    showValidation && onError?.({ error: errorLabel, fieldId: field.lens.id() })
-  }, [showValidation, errorLabel])
+    isError && onError?.({ error: errorLabel, fieldId: field.lens.id() })
+  }, [isError, errorLabel])
 
   // Render components
   if (formReadOnly || field.readOnly) {

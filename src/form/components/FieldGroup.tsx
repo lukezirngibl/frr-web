@@ -85,7 +85,7 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
       default:
         return (
           <FieldRow
-            key={`field-${fieldIndex}`}
+            key={`field-${field.lens.id()}-${fieldIndex}`}
             field={[field]}
             fieldIndex={fieldIndex}
             {...commonFieldProps}
