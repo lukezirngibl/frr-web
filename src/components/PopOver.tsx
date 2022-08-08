@@ -55,7 +55,7 @@ export const SimplePopover = (props: Props) => {
           horizontal: 'center',
         }}
       >
-        {props.render({ close: handleClose })}
+        <>{props.render({ close: handleClose })}</>
       </Popover>
     </div>
   )

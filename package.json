@@ -13,7 +13,7 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "link:react": "yarn link @devexperts/remote-data-ts @material-ui/core @material-ui/styles i18next react react-dom react-i18next react-redux semantic-ui-react styled-components",
-    "build:prepare": "install-peers && husky install",
+    "prepare": "install-peers && husky install",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
