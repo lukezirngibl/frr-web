@@ -95,7 +95,7 @@ const defineOnError = (error: FieldError) => (errors: Array<FieldError>) => {
   } else if (errorIndex > -1) {
     newErrors[errorIndex] = error
   }
-  return newErrors
+  return newErrors.filter((error) => !!error.error)
 }
 
 export const useFormFieldErrors = (): {
@@ -111,7 +111,7 @@ export const useFormFieldErrors = (): {
 
   // Determine error label
   useEffect(() => {
-    const errorLabels = new Set(errors.filter((error) => error.error).map((error) => error.error))
+    const errorLabels = new Set(errors.filter((error) => !!error.error).map((error) => error.error))
     setErrorLabel(Array.from(errorLabels))
   }, [errors])
 
