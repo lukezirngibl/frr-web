@@ -111,7 +111,7 @@ export const useFormFieldErrors = (): {
 
   // Determine error label
   useEffect(() => {
-    const errorLabels = new Set(errors.map((error) => error.error))
+    const errorLabels = new Set(errors.filter((error) => error.error).map((error) => error.error))
     setErrorLabel(Array.from(errorLabels))
   }, [errors])
 
