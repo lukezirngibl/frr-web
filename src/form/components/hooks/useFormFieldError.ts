@@ -95,8 +95,6 @@ const defineOnError = (error: FieldError) => (errors: Array<FieldError>) => {
   } else if (errorIndex > -1) {
     newErrors[errorIndex] = error
   }
-  console.log('+++ ERRORS', JSON.stringify(newErrors, null, 2), JSON.stringify(errors, null, 2))
-
   return newErrors
 }
 
