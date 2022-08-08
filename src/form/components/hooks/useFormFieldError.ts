@@ -69,19 +69,17 @@ export const useFormFieldError = <FormData>({
   field,
   isDirty,
   showValidation,
-  disableDirtyValidation,
   value,
 }: {
   data: FormData
   field: SingleFormField<FormData>
   isDirty: boolean
   showValidation: boolean
-  disableDirtyValidation: boolean
   value: string | string[] | number | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
   useEffect(() => {
-    showValidation || (isDirty && !disableDirtyValidation)
+    showValidation || isDirty
       ? setFieldError(computeFieldError({ value, field, data, isValidate: showValidation }))
       : setFieldError({ error: null, fieldId: null })
   }, [value, showValidation, isDirty])
@@ -89,12 +87,31 @@ export const useFormFieldError = <FormData>({
   return fieldError.error
 }
 
-export const useFormFieldErrors = ({
-  errors,
-}: {
-  errors: Array<FieldError>
-}): { errorLabel: Array<string>; errorDataTestId?: string } => {
+const defineOnError = (error: FieldError) => (errors: Array<FieldError>) => {
+  const errorIndex = errors.findIndex((err) => err.fieldId === error.fieldId)
+  const newErrors = [...errors]
+  if (errorIndex === -1 && !!error.error) {
+    newErrors.push(error)
+  } else if (errorIndex > -1) {
+    newErrors[errorIndex] = error
+  }
+  console.log('+++ ERRORS', JSON.stringify(newErrors, null, 2), JSON.stringify(errors, null, 2))
+
+  return newErrors
+}
+
+export const useFormFieldErrors = (): {
+  errorLabel: Array<string>
+  errorDataTestId?: string
+  onError: (error: FieldError) => void
+} => {
+  const [errors, setErrors] = useState([])
   const [errorLabel, setErrorLabel] = useState([])
+
+  // Define onError action handler
+  const onError = (error: { error: string; fieldId: string }) => setErrors(defineOnError(error))
+
+  // Determine error label
   useEffect(() => {
     const errorLabels = new Set(errors.map((error) => error.error))
     setErrorLabel(Array.from(errorLabels))
@@ -102,5 +119,5 @@ export const useFormFieldErrors = ({
 
   const errorDataTestId = errors.length > 0 ? `${errors[0].fieldId}.error` : undefined
 
-  return { errorLabel, errorDataTestId }
+  return { errorLabel, errorDataTestId, onError }
 }

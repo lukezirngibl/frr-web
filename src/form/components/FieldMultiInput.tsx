@@ -31,26 +31,14 @@ export const FieldMultiInput = <FormData extends {}>({
 }: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
-  const { disableDirtyValidation } = useFormConfig()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
   const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
   const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
 
   // Error
-  const [errors, setErrors] = useState([])
-  const onError = (error: { error: string; fieldId: string }) => {
-    const errorIndex = errors.findIndex((err) => err.fieldId === error.fieldId)
-    const newErrors = [...errors]
-    if (errorIndex === -1 && !!error.error) {
-      newErrors.push(error)
-    } else if (errorIndex > -1) {
-      newErrors[errorIndex] = error
-    }
-    setErrors(newErrors.filter(err => !!err.error))
-  }
-
-  const { errorLabel, errorDataTestId } = useFormFieldErrors({ errors })
+  const { disableDirtyValidation } = useFormConfig()
+  const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
     data,
