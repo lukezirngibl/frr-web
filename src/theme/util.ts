@@ -8,11 +8,12 @@ export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Arr
   )
 
 export const dynamicStyleKeys = [
-  ':hover',
+  ':active',
+  ':disabled',
   ':focus',
+  ':hover',
   ':invalid',
   ':readonly',
-  ':disabled',
   '@media-mobile',
 ]
 
@@ -162,6 +163,10 @@ export const getUseCSSStyles =
 
     const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
+
+    &:active {
+      ${mapStylesToCSS(styles[':active'] || {})}
+    }
 
     &:hover {
       ${mapStylesToCSS(styles[':hover'] || {})}

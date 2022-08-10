@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Option, Options } from '../html'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
@@ -13,11 +12,18 @@ import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
-
-const Wrapper = createStyled('div')
-const SelectWrapper = createStyled('select')
+import ReactSelect, { OptionProps } from 'react-select'
+import { Options, OptionType } from '../html'
 
 type Value = string | number | null
+
+type InternalOption = {
+  label?: string
+  name?: string
+  value: Value
+  isDisabled?: boolean
+  isLabelTranslated?: boolean
+}
 
 export type Props = {
   alphabetize?: boolean
@@ -44,7 +50,7 @@ export const Select = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
 
-  let options =
+  const transformedOptions =
     typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options
 
   const parseOptions = (options: Options<Value>) =>
@@ -61,7 +67,7 @@ export const Select = (props: Props) => {
           )
       : options
 
-  options = [
+  const options: Array<InternalOption> = [
     ...(props.value === null || props.value === undefined
       ? [
           {
@@ -79,7 +85,9 @@ export const Select = (props: Props) => {
       : []),
     ,
     ...(props.priority
-      ? props.priority.map((prio) => options.find((option) => option.value === prio)).filter(Boolean)
+      ? props.priority
+          .map((prio) => transformedOptions.find((option) => option.value === prio))
+          .filter(Boolean)
       : []),
     ,
     ...(props.priority
@@ -93,15 +101,98 @@ export const Select = (props: Props) => {
         ]
       : []),
     ...parseOptions(
-      props.priority ? options.filter((option) => !props.priority.includes(option.value)) : options,
+      props.priority
+        ? transformedOptions.filter((option) => !props.priority.includes(option.value))
+        : transformedOptions,
     ),
   ]
+    .filter(Boolean)
+    .map((option) => ({ ...option, isDisabled: option.disabled }))
+
+  const getOptionLabel = (option: InternalOption) => {
+    const label = option.label || option.name
+    let optionLabel: string
+
+    if (option.isLabelTranslated) {
+      optionLabel = label
+    } else {
+      optionLabel = translate(label)
+    }
+
+    return optionLabel
+  }
+
+  const selectStyle = getInlineStyle(
+    {
+      select: true,
+      errorWrapper: props.error,
+    },
+    {},
+    'select-wrapper',
+  ).style as any
+  const optionStyle = getInlineStyle('option').style as any
 
   return (
     <>
       {label && <Label {...label} />}
       <Wrapper {...getCSSStyles('wrapper')}>
-        <SelectWrapper
+        <ReactSelect
+          styles={{
+            control: () => {
+              return {
+                alignItems: 'center',
+                boxShadow: undefined,
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                label: 'control',
+                minHeight: 38,
+                outline: '0 !important',
+                position: 'relative',
+                transition: 'all 100ms',
+                ...selectStyle,
+              }
+            },
+            // menuPortal: (provided) => ({
+            //   ...provided,
+            //   zIndex: 999,
+            // }),
+            menu: (provided) => ({
+              ...provided,
+              boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+              zIndex: 999,
+            }),
+            option: (provided, state) => {
+              const style = {
+                ...provided,
+                ...optionStyle,
+                backgroundColor:
+                  (state.isDisabled && 'transparent') ||
+                  optionStyle.backgroundColor ||
+                  optionStyle.background ||
+                  provided.backgroundColor,
+                '&:active':
+                  (state.isDisabled && { backgroundColor: 'transparent' }) ||
+                  optionStyle[':active'] ||
+                  provided['&:active'],
+              }
+              return style
+            },
+            indicatorSeparator: () => ({ display: 'none' }),
+          }}
+          getOptionLabel={getOptionLabel}
+          onChange={(option) => {
+            props.onChange(option.value === 'null' ? null : option.value)
+          }}
+          menuPortalTarget={document.body}
+          isDisabled={props.disabled || props.readOnly}
+          openMenuOnFocus
+          options={options}
+          value={options.find((option) => option.value === props.value)}
+          data-test-id={props.dataTestId}
+        />
+        {/* <SelectWrapper
           {...getCSSStyles(
             {
               select: true,
@@ -128,9 +219,12 @@ export const Select = (props: Props) => {
               isLabelTranslated={option.isLabelTranslated}
             />
           ))}
-        </SelectWrapper>
-        <Icon icon="expand_more" size={16} {...getInlineStyle('icon')} />
+          </SelectWrapper>
+        <Icon icon="expand_more" size={16} {...getInlineStyle('icon')} /> */}
       </Wrapper>
     </>
   )
 }
+
+const Wrapper = createStyled('div')
+// const SelectWrapper = createStyled('select')

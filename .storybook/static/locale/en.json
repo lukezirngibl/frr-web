@@ -1,3 +1,9 @@
 {
-  "dateFormatPlaceholder": "DD/MM/YYYY"
+  "dateFormatPlaceholder": "DD/MM/YYYY",
+
+  "formFields": {
+    "select": {
+      "defaultLabel": "Please choose ..."
+    }
+  }
 }
