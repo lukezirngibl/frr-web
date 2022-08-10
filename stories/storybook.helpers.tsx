@@ -24,6 +24,7 @@ export const createStory =
 
     const Component = C as any
 
+    console.log('STYLE', brand)
     return (
       // <TranslationsContext.Provider value={translations}>
       //   <LanguageContext.Provider value={Language.EN}>

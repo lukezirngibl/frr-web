@@ -46,7 +46,7 @@ export const Select = (props: Props) => {
 
   const theme = useComponentTheme()
   const { isMobileTouch } = useMobileTouch()
-  const { t: translate, i18n } = useTranslation(props.localeNamespace)
+  const { t, i18n } = useTranslation(props.localeNamespace)
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
@@ -61,7 +61,7 @@ export const Select = (props: Props) => {
             ...option,
             name: option.name || option.label,
             isLabelTranslated: true,
-            label: option.isLabelTranslated ? option.label : translate(option.label),
+            label: option.isLabelTranslated ? option.label : t(option.label),
           }))
           .sort((a, b) =>
             replaceUmlaute(a.label.toLowerCase()) > replaceUmlaute(b.label.toLowerCase()) ? 1 : -1,
@@ -69,7 +69,7 @@ export const Select = (props: Props) => {
       : options
 
   const options: Array<InternalOption> = [
-    ...(props.value === null || props.value === undefined
+    ...((props.value === null || props.value === undefined) && isMobileTouch
       ? [
           {
             value: null,
@@ -117,7 +117,7 @@ export const Select = (props: Props) => {
     if (option.isLabelTranslated) {
       optionLabel = label
     } else {
-      optionLabel = translate(label)
+      optionLabel = t(label)
     }
 
     return optionLabel
@@ -131,8 +131,9 @@ export const Select = (props: Props) => {
     {},
     'select-wrapper',
   ).style as any
-  const optionStyle = getInlineStyle('option').style as any
   const iconStyle = getInlineStyle('icon').style as any
+  const menuStyle = getInlineStyle('menu').style as any
+  const optionStyle = getInlineStyle('option').style as any
   const valueStyle = getInlineStyle('value').style as any
   const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
@@ -163,7 +164,6 @@ export const Select = (props: Props) => {
                   value={option.value === null ? 'null' : option.value}
                   key={optionIndex}
                   disabled={option.isDisabled}
-                  {...getCSSStyles('option')}
                   label={option.label || option.name}
                   localeNamespace={props.localeNamespace}
                   isLabelTranslated={option.isLabelTranslated}
@@ -193,22 +193,23 @@ export const Select = (props: Props) => {
               },
               menu: (provided) => ({
                 ...provided,
+                backgroundColor: 'var(--color-form-field-background-secondary)',
                 boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+                ...menuStyle,
                 zIndex: 999,
               }),
               option: (provided, state) => {
+                if (state.isSelected) {
+                  console.log('OPTION STYLE', provided, state)
+                }
                 const style = {
                   ...provided,
                   ...optionStyle,
                   backgroundColor:
-                    (state.isDisabled && 'transparent') ||
+                    (state.isDisabled && !state.isFocused && 'transparent') ||
                     optionStyle.backgroundColor ||
                     optionStyle.background ||
                     provided.backgroundColor,
-                  '&:active':
-                    (state.isDisabled && { backgroundColor: 'transparent' }) ||
-                    optionStyle[':active'] ||
-                    provided['&:active'],
                 }
                 return style
               },
@@ -227,6 +228,7 @@ export const Select = (props: Props) => {
             onChange={(option) => {
               props.onChange(option.value === 'null' ? null : option.value)
             }}
+            placeholder={t('formFields.select.defaultLabel')}
             menuPortalTarget={document.body}
             isDisabled={props.disabled || props.readOnly}
             openMenuOnFocus
