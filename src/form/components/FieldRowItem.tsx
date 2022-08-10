@@ -63,7 +63,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     onChange(field.lens, value)
   }
 
-  const isDirty = value !== null
+  const isDirty = value !== null && !disableDirtyValidation
 
   // Error handling
   const isError = showValidation || (fieldChanged && !disableDirtyValidation)
@@ -73,7 +73,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     field,
     isDirty,
     showValidation: isError,
-    disableDirtyValidation,
   })
   const hasError = errorLabel !== null
 

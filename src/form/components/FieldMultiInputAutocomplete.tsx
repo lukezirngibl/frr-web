@@ -49,21 +49,8 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
   const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
 
   // Error
-  const [errors, setErrors] = useState([])
-  const onError = useCallback((error: { error: string; fieldId: string }) => {
-    const errorIndex = errors.findIndex((err) => err.fieldId === error.fieldId)
-    const newErrors = [...errors]
-    if (errorIndex === -1 && !!error.error) {
-      newErrors.push(error)
-    } else if (errorIndex > -1) {
-      newErrors[errorIndex] = error
-    }
-    setErrors(newErrors)
-  }, [])
-
-  const { errorLabel, errorDataTestId } = useFormFieldErrors({ errors })
-
   const { disableDirtyValidation } = useFormConfig()
+  const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
     data,
