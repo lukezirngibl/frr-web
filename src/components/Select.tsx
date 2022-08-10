@@ -12,8 +12,9 @@ import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
-import ReactSelect, { OptionProps } from 'react-select'
-import { Options, OptionType } from '../html'
+import ReactSelect from 'react-select'
+import { Options, Option } from '../html'
+import { useMobileTouch } from '../hooks/useMobileTouch'
 
 type Value = string | number | null
 
@@ -44,7 +45,7 @@ export const Select = (props: Props) => {
   const { label } = props
 
   const theme = useComponentTheme()
-
+  const { isMobileTouch } = useMobileTouch()
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
@@ -131,100 +132,113 @@ export const Select = (props: Props) => {
     'select-wrapper',
   ).style as any
   const optionStyle = getInlineStyle('option').style as any
+  const iconStyle = getInlineStyle('icon').style as any
+  const valueStyle = getInlineStyle('value').style as any
+  const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
   return (
     <>
       {label && <Label {...label} />}
       <Wrapper {...getCSSStyles('wrapper')}>
-        <ReactSelect
-          styles={{
-            control: () => {
-              return {
-                alignItems: 'center',
-                boxShadow: undefined,
-                boxSizing: 'border-box',
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                label: 'control',
-                minHeight: 38,
-                outline: '0 !important',
-                position: 'relative',
-                transition: 'all 100ms',
-                ...selectStyle,
-              }
-            },
-            // menuPortal: (provided) => ({
-            //   ...provided,
-            //   zIndex: 999,
-            // }),
-            menu: (provided) => ({
-              ...provided,
-              boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-              zIndex: 999,
-            }),
-            option: (provided, state) => {
-              const style = {
+        {isMobileTouch ? (
+          <>
+            <SelectWrapper
+              {...getCSSStyles(
+                {
+                  select: true,
+                  errorWrapper: props.error,
+                },
+                {},
+                'select-wrapper',
+              )}
+              disabled={props.disabled || props.readOnly}
+              value={props.value === null ? 'null' : props.value}
+              onChange={(e) => {
+                props.onChange(e.target.value === 'null' ? null : e.target.value)
+              }}
+              data-test-id={props.dataTestId}
+            >
+              {options.map((option, optionIndex) => (
+                <Option
+                  value={option.value === null ? 'null' : option.value}
+                  key={optionIndex}
+                  disabled={option.isDisabled}
+                  {...getCSSStyles('option')}
+                  label={option.label || option.name}
+                  localeNamespace={props.localeNamespace}
+                  isLabelTranslated={option.isLabelTranslated}
+                />
+              ))}
+            </SelectWrapper>
+            <Icon icon="expand_more" size={16} {...getInlineStyle({ icon: true, iconMobile: true })} />
+          </>
+        ) : (
+          <ReactSelect
+            styles={{
+              control: () => {
+                return {
+                  ...selectStyle,
+                }
+              },
+              dropdownIndicator: (provided) => {
+                return {
+                  ...provided,
+                  ...iconStyle,
+                  transition: 'color 1.5s, opacity 1.5s',
+                  ':hover': {
+                    color: 'var(--color-primary)',
+                    opacity: 1.0,
+                  },
+                }
+              },
+              menu: (provided) => ({
                 ...provided,
-                ...optionStyle,
-                backgroundColor:
-                  (state.isDisabled && 'transparent') ||
-                  optionStyle.backgroundColor ||
-                  optionStyle.background ||
-                  provided.backgroundColor,
-                '&:active':
-                  (state.isDisabled && { backgroundColor: 'transparent' }) ||
-                  optionStyle[':active'] ||
-                  provided['&:active'],
-              }
-              return style
-            },
-            indicatorSeparator: () => ({ display: 'none' }),
-          }}
-          getOptionLabel={getOptionLabel}
-          onChange={(option) => {
-            props.onChange(option.value === 'null' ? null : option.value)
-          }}
-          menuPortalTarget={document.body}
-          isDisabled={props.disabled || props.readOnly}
-          openMenuOnFocus
-          options={options}
-          value={options.find((option) => option.value === props.value)}
-          data-test-id={props.dataTestId}
-        />
-        {/* <SelectWrapper
-          {...getCSSStyles(
-            {
-              select: true,
-              errorWrapper: props.error,
-            },
-            {},
-            'select-wrapper',
-          )}
-          disabled={props.disabled || props.readOnly}
-          value={props.value === null ? 'null' : props.value}
-          onChange={(e) => {
-            props.onChange(e.target.value === 'null' ? null : e.target.value)
-          }}
-          data-test-id={props.dataTestId}
-        >
-          {options.map((option, optionIndex) => (
-            <Option
-              value={option.value === null ? 'null' : option.value}
-              key={optionIndex}
-              disabled={option.disabled}
-              {...getCSSStyles('option')}
-              label={option.label || option.name}
-              localeNamespace={props.localeNamespace}
-              isLabelTranslated={option.isLabelTranslated}
-            />
-          ))}
-          </SelectWrapper>
-        <Icon icon="expand_more" size={16} {...getInlineStyle('icon')} /> */}
+                boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+                zIndex: 999,
+              }),
+              option: (provided, state) => {
+                const style = {
+                  ...provided,
+                  ...optionStyle,
+                  backgroundColor:
+                    (state.isDisabled && 'transparent') ||
+                    optionStyle.backgroundColor ||
+                    optionStyle.background ||
+                    provided.backgroundColor,
+                  '&:active':
+                    (state.isDisabled && { backgroundColor: 'transparent' }) ||
+                    optionStyle[':active'] ||
+                    provided['&:active'],
+                }
+                return style
+              },
+              valueContainer: (provided) => {
+                return {
+                  ...provided,
+                  ...valueContainerStyle,
+                }
+              },
+              singleValue: (provided) => {
+                return { ...provided, ...valueStyle }
+              },
+              indicatorSeparator: () => ({ display: 'none' }),
+            }}
+            getOptionLabel={getOptionLabel}
+            onChange={(option) => {
+              props.onChange(option.value === 'null' ? null : option.value)
+            }}
+            menuPortalTarget={document.body}
+            isDisabled={props.disabled || props.readOnly}
+            openMenuOnFocus
+            options={options}
+            value={options.find((option) => option.value === props.value)}
+            data-test-id={props.dataTestId}
+          />
+        )}
       </Wrapper>
     </>
   )
 }
 
 const Wrapper = createStyled('div')
-// const SelectWrapper = createStyled('select')
+const SelectWrapper = createStyled('select')

@@ -105,7 +105,10 @@ export type ComponentTheme = {
     wrapper: CSSProperties
     errorWrapper: CSSProperties
     icon: CSSProperties
+    iconMobile: CSSProperties
     select: CSSProperties
+    value: CSSProperties
+    valueContainer: CSSProperties
   }
   colorPicker: {
     circle: CSSProperties
@@ -424,7 +427,10 @@ export const defaultComponentTheme: ComponentTheme = {
     wrapper: {},
     errorWrapper: {},
     icon: {},
+    iconMobile: {},
     select: {},
+    valueContainer: {},
+    value: {},
   },
   colorPicker: {
     circle: {},
