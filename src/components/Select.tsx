@@ -33,6 +33,8 @@ export type Props = {
   error?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
+  menuPortalTarget?: HTMLElement
+  selectParentElement?: string
   onChange: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Array<string | number>
@@ -40,6 +42,8 @@ export type Props = {
   style?: Partial<ComponentTheme['select']>
   value: Value
 }
+
+const mapInternalOption = (option) => ({ ...option, isDisabled: option.disabled })
 
 export const Select = (props: Props) => {
   const { label } = props
@@ -68,11 +72,11 @@ export const Select = (props: Props) => {
           )
       : options
 
-  const options: Array<InternalOption> = [
-    ...((props.value === null || props.value === undefined) && isMobileTouch
+  const options: Options<Value> = [
+    ...(props.value === null || props.value === undefined
       ? [
           {
-            value: null,
+            value: isMobileTouch ? null : 'default',
             disabled: true,
             label: 'formFields.select.defaultLabel',
           },
@@ -106,9 +110,7 @@ export const Select = (props: Props) => {
         ? transformedOptions.filter((option) => !props.priority.includes(option.value))
         : transformedOptions,
     ),
-  ]
-    .filter(Boolean)
-    .map((option) => ({ ...option, isDisabled: option.disabled }))
+  ].filter(Boolean)
 
   const getOptionLabel = (option: InternalOption) => {
     const label = option.label || option.name
@@ -163,7 +165,7 @@ export const Select = (props: Props) => {
                 <Option
                   value={option.value === null ? 'null' : option.value}
                   key={optionIndex}
-                  disabled={option.isDisabled}
+                  disabled={option.disabled}
                   label={option.label || option.name}
                   localeNamespace={props.localeNamespace}
                   isLabelTranslated={option.isLabelTranslated}
@@ -199,9 +201,6 @@ export const Select = (props: Props) => {
                 zIndex: 999,
               }),
               option: (provided, state) => {
-                if (state.isSelected) {
-                  console.log('OPTION STYLE', provided, state)
-                }
                 const style = {
                   ...provided,
                   ...optionStyle,
@@ -228,11 +227,17 @@ export const Select = (props: Props) => {
             onChange={(option) => {
               props.onChange(option.value === 'null' ? null : option.value)
             }}
-            placeholder={t('formFields.select.defaultLabel')}
-            menuPortalTarget={document.body}
             isDisabled={props.disabled || props.readOnly}
+            menuPortalTarget={props.menuPortalTarget || document.body}
+            onMenuOpen={() => {
+              document.getElementById(props.selectParentElement || 'root').style['pointer-events'] = 'none'
+            }}
+            onMenuClose={() => {
+              document.getElementById(props.selectParentElement || 'root').style['pointer-events'] = 'all'
+            }}
             openMenuOnFocus
-            options={options}
+            options={options.map(mapInternalOption)}
+            placeholder={t('formFields.select.defaultLabel')}
             value={options.find((option) => option.value === props.value)}
             data-test-id={props.dataTestId}
           />
