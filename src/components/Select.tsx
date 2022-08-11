@@ -13,7 +13,7 @@ import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import ReactSelect from 'react-select'
-import { Options, Option } from '../html'
+import { Options, Option, OptionType } from '../html'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 
 type Value = string | number | null
@@ -43,7 +43,10 @@ export type Props = {
   value: Value
 }
 
-const mapInternalOption = (option) => ({ ...option, isDisabled: option.disabled })
+const mapInternalOption = (option: OptionType<Value>): InternalOption => ({
+  ...option,
+  isDisabled: option.disabled,
+})
 
 export const Select = (props: Props) => {
   const { label } = props
@@ -203,6 +206,7 @@ export const Select = (props: Props) => {
               option: (provided, state) => {
                 const style = {
                   ...provided,
+                  cursor: state.isDisabled ? 'default' : 'pointer',
                   ...optionStyle,
                   backgroundColor:
                     (state.isDisabled && !state.isFocused && 'transparent') ||
@@ -228,13 +232,9 @@ export const Select = (props: Props) => {
               props.onChange(option.value === 'null' ? null : option.value)
             }}
             isDisabled={props.disabled || props.readOnly}
+            menuShouldBlockScroll
+            menuPlacement="auto"
             menuPortalTarget={props.menuPortalTarget || document.body}
-            onMenuOpen={() => {
-              document.getElementById(props.selectParentElement || 'root').style['pointer-events'] = 'none'
-            }}
-            onMenuClose={() => {
-              document.getElementById(props.selectParentElement || 'root').style['pointer-events'] = 'all'
-            }}
             openMenuOnFocus
             options={options.map(mapInternalOption)}
             placeholder={t('formFields.select.defaultLabel')}

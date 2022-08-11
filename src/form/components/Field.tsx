@@ -401,7 +401,9 @@ export const Field = <FormData extends {}>({
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
-        onChange={(value: any) => (value && !isNaN(value) ? onBlur(Number(value)) : onBlur(null))}
+        onChange={(value: any) =>
+          value !== undefined && value !== null && !isNaN(value) ? onBlur(Number(value)) : onBlur(null)
+        }
         value={lens.get(data)}
       />
     )
