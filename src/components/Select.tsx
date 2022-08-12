@@ -15,6 +15,8 @@ import { LocaleNamespace } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
+import CheckIcon from '@material-ui/icons/Check'
+import styled from 'styled-components'
 
 type Value = string | number | null
 
@@ -49,9 +51,15 @@ const mapInternalOption = (option: OptionType<Value>): InternalOption => ({
 })
 
 const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
+  const { children, value, ...other } = props
   return (
     <div data-test-id={`option-${props.value}`}>
-      <components.Option {...props} data-test-id={`option-${props.value}`} />
+      <components.Option {...other} data-test-id={`option-${props.value}`}>
+        <OptionValueWrapper>
+          {props.isSelected && <CheckIcon className="selected-icon" />}
+          {children}
+        </OptionValueWrapper>
+      </components.Option>
     </div>
   )
 }
@@ -147,7 +155,7 @@ export const Select = (props: Props) => {
   ).style as any
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
-  const optionStyle = getInlineStyle('option').style as any
+  const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
   const valueStyle = getInlineStyle('value').style as any
   const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
@@ -192,6 +200,22 @@ export const Select = (props: Props) => {
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
             <ReactSelect
+              blurInputOnSelect
+              components={{ Option: SelectOption }}
+              data-test-id={props.dataTestId}
+              getOptionLabel={getOptionLabel}
+              isDisabled={props.disabled || props.readOnly}
+              menuShouldBlockScroll
+              menuPlacement="auto"
+              menuPortalTarget={props.menuPortalTarget || document.body}
+              onChange={(option: InternalOption) => {
+                props.onChange(option.value === 'null' ? null : option.value)
+              }}
+              openMenuOnFocus
+              options={options.map(mapInternalOption)}
+              placeholder={t('formFields.select.defaultLabel')}
+              tabSelectsValue={false}
+              value={options.find((option) => option.value === props.value)}
               styles={{
                 control: () => {
                   return {
@@ -222,10 +246,17 @@ export const Select = (props: Props) => {
                     cursor: state.isDisabled ? 'default' : 'pointer',
                     ...optionStyle,
                     backgroundColor:
+                      (state.isFocused && optionStyle[':hover']?.backgroundColor) ||
                       (state.isDisabled && !state.isFocused && 'transparent') ||
+                      (state.isSelected && optionStyle[':active']?.backgroundColor) ||
                       optionStyle.backgroundColor ||
                       optionStyle.background ||
                       provided.backgroundColor,
+                    color:
+                      (state.isFocused && optionStyle[':hover']?.color) ||
+                      (state.isSelected && optionStyle[':active']?.color) ||
+                      optionStyle.color ||
+                      provided.color,
                   }
                   return style
                 },
@@ -240,22 +271,6 @@ export const Select = (props: Props) => {
                 },
                 indicatorSeparator: () => ({ display: 'none' }),
               }}
-              getOptionLabel={getOptionLabel}
-              onChange={(option: InternalOption) => {
-                props.onChange(option.value === 'null' ? null : option.value)
-              }}
-              isDisabled={props.disabled || props.readOnly}
-              menuShouldBlockScroll
-              menuPlacement="auto"
-              menuPortalTarget={props.menuPortalTarget || document.body}
-              openMenuOnFocus
-              options={options.map(mapInternalOption)}
-              components={{
-                Option: SelectOption,
-              }}
-              placeholder={t('formFields.select.defaultLabel')}
-              value={options.find((option) => option.value === props.value)}
-              data-test-id={props.dataTestId}
             />
           </div>
         )}
@@ -266,3 +281,15 @@ export const Select = (props: Props) => {
 
 const Wrapper = createStyled('div')
 const SelectWrapper = createStyled('select')
+const OptionValueWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  & svg.selected-icon {
+    position: absolute;
+    font-size: 18px;
+    margin-left: -22px;
+    margin-top: -3px;
+  }
+`
