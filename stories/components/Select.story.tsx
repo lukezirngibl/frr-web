@@ -11,12 +11,13 @@ export default meta<Props, typeof Select>({
   component: Select,
 })
 
-const story = createStory<FieldRowItemProps<{ letter: string | null }>, typeof FieldRowItem>(
+type FormData = { letter: string | null; numberOfChildren: number | null }
+const formLens = makeFormLens<FormData>()
+const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(
   FieldRowItem,
 )
 
-const formLens = makeFormLens<{ letter: string | null }>()
-const field = {
+const textSelectField = {
   type: FormFieldType.TextSelect,
   lens: formLens(['letter']),
   label: { label: 'Buchstabe' },
@@ -39,15 +40,40 @@ const field = {
   ],
 } as any
 
-export const Initial = () => (
-  <div style={{ maxWidth: 600 }}>
+const numberSelectField = {
+  type: FormFieldType.NumberSelect,
+  lens: formLens(['numberOfChildren']),
+  label: { label: 'Anzahl Kinder' },
+  options: [
+    {
+      value: 0,
+      label: 'Keine',
+      isLabelTranslated: true,
+    },
+    {
+      value: 1,
+      label: '1',
+      isLabelTranslated: true,
+    },
+    {
+      value: 2,
+      label: '2',
+      isLabelTranslated: true,
+    },
+  ],
+} as any
+
+
+export const TextSelect = () => (
+  <div style={{ maxWidth: 600, minHeight: 600 }}>
     {story({
-      field,
+      field: textSelectField,
       fieldIndex: 0,
       formReadOnly: false,
       style: {},
       data: {
         letter: null,
+        numberOfChildren: null,
       },
       onChange: (lens, value) => {
         alert(`ON CHANGE\nLetter value: ${value}`)
@@ -57,18 +83,57 @@ export const Initial = () => (
   </div>
 )
 
-export const Selected = () => (
-  <div style={{ maxWidth: 600 }}>
+export const TextSelectWithValue = () => (
+  <div style={{ maxWidth: 600, minHeight: 600 }}>
     {story({
-      field,
+      field: textSelectField,
       fieldIndex: 0,
       formReadOnly: false,
       style: {},
       data: {
         letter: 'b',
+        numberOfChildren: null,
       },
       onChange: (lens, value) => {
         alert(`ON CHANGE\nLetter value: ${value}`)
+      },
+      showValidation: false,
+    })}
+  </div>
+)
+
+export const TextSelectReadonly = () => (
+  <div style={{ maxWidth: 600, minHeight: 600 }}>
+    {story({
+      field: textSelectField,
+      fieldIndex: 0,
+      formReadOnly: true,
+      style: {},
+      data: {
+        letter: 'b',
+        numberOfChildren: null,
+      },
+      onChange: (lens, value) => {
+        alert(`ON CHANGE\nLetter value: ${value}`)
+      },
+      showValidation: false,
+    })}
+  </div>
+)
+
+export const NumberSelect = () => (
+  <div style={{ maxWidth: 600, minHeight: 600 }}>
+    {story({
+      field: numberSelectField,
+      fieldIndex: 0,
+      formReadOnly: false,
+      style: {},
+      data: {
+        letter: null,
+        numberOfChildren: null,
+      },
+      onChange: (lens, value) => {
+        alert(`ON CHANGE\nNumber of children value: ${value}`)
       },
       showValidation: false,
     })}
