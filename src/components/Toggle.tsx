@@ -52,8 +52,6 @@ export const Toggle = (props: Props) => {
           ...getInlineStyle('wrapper'),
           ...(props.value ? getInlineStyle('wrapperActive') : {}),
         }}
-        data-test-id={props.dataTestId}
-        data-checked={!!props.value}
       >
         <Circle
           {...{
@@ -68,6 +66,7 @@ export const Toggle = (props: Props) => {
               opacity: 0,
             }}
             data-test-id={props.dataTestId}
+            data-checked={!!props.value}
             value={`${props.value}`}
             onChange={() => {}}
             onClick={(e) => {
