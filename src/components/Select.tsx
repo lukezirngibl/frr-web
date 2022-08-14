@@ -156,6 +156,7 @@ export const Select = (props: Props) => {
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
+  const placeholderStyle = getInlineStyle('placeholder').style as any
   const valueStyle = getInlineStyle('value').style as any
   const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
@@ -260,6 +261,10 @@ export const Select = (props: Props) => {
                   }
                   return style
                 },
+                placeholder: (provided) => ({
+                  ...provided,
+                  ...placeholderStyle,
+                }),
                 valueContainer: (provided) => {
                   return {
                     ...provided,
