@@ -6,13 +6,14 @@ import { createStyled } from './theme/util'
 import { LocaleNamespace, Translate } from './translation'
 import { renderHtml } from './utils/renderHtml'
 
-export type Options<Value> = Array<{
+export type OptionType<Value> = {
   label?: string
   name?: string
   value: Value
   disabled?: boolean
   isLabelTranslated?: boolean
-}>
+}
+export type Options<Value> = Array<OptionType<Value>>
 
 export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
 

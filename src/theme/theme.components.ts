@@ -101,11 +101,16 @@ export type ComponentTheme = {
   }
   materialSlider: MaterialSliderStyles
   select: {
-    option: CSSProperties
-    wrapper: CSSProperties
     errorWrapper: CSSProperties
     icon: CSSProperties
+    iconMobile: CSSProperties
+    menu: CSSProperties
+    option: CSSProperties
+    placeholder: CSSProperties
     select: CSSProperties
+    value: CSSProperties
+    valueContainer: CSSProperties
+    wrapper: CSSProperties
   }
   colorPicker: {
     circle: CSSProperties
@@ -420,11 +425,16 @@ export const defaultComponentTheme: ComponentTheme = {
     track: {},
   },
   select: {
-    option: {},
-    wrapper: {},
     errorWrapper: {},
     icon: {},
+    iconMobile: {},
+    menu: {},
+    option: {},
+    placeholder: {},
     select: {},
+    value: {},
+    valueContainer: {},
+    wrapper: {},
   },
   colorPicker: {
     circle: {},

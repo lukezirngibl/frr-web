@@ -8,11 +8,12 @@ export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Arr
   )
 
 export const dynamicStyleKeys = [
-  ':hover',
+  ':active',
+  ':disabled',
   ':focus',
+  ':hover',
   ':invalid',
   ':readonly',
-  ':disabled',
   '@media-mobile',
 ]
 
@@ -65,6 +66,7 @@ export const getUseInlineStyle =
         elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
         internalOverride?: CSSProperties,
         className?: string,
+        withPseudoStyles?: boolean,
       ): { style: Theme[C][K]; dataThemeId: string } => {
         let keys = []
 
@@ -81,23 +83,38 @@ export const getUseInlineStyle =
           (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
           '',
         )}`
-        return {
+
+        const inlineStyles = {
           dataThemeId,
-          style: omitKeys(
-            {
-              ...(keys.reduce(
-                (obj, elementKey) => ({
-                  ...obj,
-                  ...theme[componentKey][elementKey],
-                  ...(override && override[elementKey] ? override[elementKey] : {}),
-                }),
-                {},
-              ) as any),
-              ...(internalOverride || {}),
-            },
-            dynamicStyleKeys as any,
-          ),
+          style: withPseudoStyles
+            ? {
+                ...(keys.reduce(
+                  (obj, elementKey) => ({
+                    ...obj,
+                    ...theme[componentKey][elementKey],
+                    ...(override && override[elementKey] ? override[elementKey] : {}),
+                  }),
+                  {},
+                ) as any),
+                ...(internalOverride || {}),
+              }
+            : omitKeys(
+                {
+                  ...(keys.reduce(
+                    (obj, elementKey) => ({
+                      ...obj,
+                      ...theme[componentKey][elementKey],
+                      ...(override && override[elementKey] ? override[elementKey] : {}),
+                    }),
+                    {},
+                  ) as any),
+                  ...(internalOverride || {}),
+                },
+                dynamicStyleKeys as any,
+              ),
         }
+
+        return inlineStyles
       }
   }
 
@@ -162,6 +179,10 @@ export const getUseCSSStyles =
 
     const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
+
+    &:active {
+      ${mapStylesToCSS(styles[':active'] || {})}
+    }
 
     &:hover {
       ${mapStylesToCSS(styles[':hover'] || {})}

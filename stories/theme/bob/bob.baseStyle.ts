@@ -79,11 +79,10 @@ input[type=number] {
   opacity: 0.5;
 }
 
-
 /* Font definition */
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Regular.woff2')
+  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Regular.woff2')
     format('woff2');
   font-weight: 400;
   font-style: normal;
@@ -91,7 +90,7 @@ input[type=number] {
 }
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Medium.woff2')
+  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Medium.woff2')
     format('woff2');
   font-weight: 500;
   font-style: normal;
@@ -99,7 +98,7 @@ input[type=number] {
 }
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Bold.woff2')
+  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Bold.woff2')
     format('woff2');
   font-weight: 700;
   font-style: normal;
@@ -124,7 +123,8 @@ input[type=number] {
   --color-hover: <colorHover>;
 
   --color-form-field-border: rgba(34,36,38,.15);
-
+  --color-form-field-background: rgba(240, 240, 240);
+  
   --color-uploadDropzoneIsDragAccept: #00e676;
   --color-uploadDropzoneIsDragReject: #ff1744;
   --color-uploadDropzoneIsDragActive: #2196f3;

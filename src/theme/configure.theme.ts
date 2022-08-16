@@ -2,6 +2,7 @@ import { CSSProperties as sc_CSSProperties } from 'styled-components'
 
 export type CSSProperties = sc_CSSProperties &
   Partial<{
+    ':active': CSSProperties
     ':hover': CSSProperties
     ':focus': CSSProperties
     ':disabled': CSSProperties

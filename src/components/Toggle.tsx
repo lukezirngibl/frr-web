@@ -47,6 +47,8 @@ export const Toggle = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
       <Wrapper
+        data-test-id={props.dataTestId}
+        data-checked={!!props.value}
         onClick={() => props.onChange(!props.value)}
         {...{
           ...getInlineStyle('wrapper'),
@@ -65,7 +67,6 @@ export const Toggle = (props: Props) => {
               height: 1,
               opacity: 0,
             }}
-            data-test-id={props.dataTestId}
             value={`${props.value}`}
             onChange={() => {}}
             onClick={(e) => {
