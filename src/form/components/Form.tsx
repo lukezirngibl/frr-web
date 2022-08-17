@@ -9,7 +9,7 @@ import { LocaleNamespace } from '../../translation'
 import { FormLens, setScrolled } from '../util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
-import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
+import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
@@ -213,9 +213,9 @@ export const Form = <FormData extends {}>({
           />
         )
 
-      case FormFieldType.MultiInputAutocomplete:
+      case FormFieldType.MultiInputAutosuggest:
         return (
-          <FieldMultiInputAutocomplete
+          <FieldMultiInputAutosuggest
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

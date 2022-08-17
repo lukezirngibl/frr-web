@@ -59,7 +59,7 @@ export enum FormFieldType {
   MaskedInput = 'MaskedInput',
   MultiSelect = 'MultiSelect',
   MultiInput = 'MultiInput',
-  MultiInputAutocomplete = 'MultiInputAutocomplete',
+  MultiInputAutosuggest = 'MultiInputAutosuggest',
   NumberInput = 'NumberInput',
   NumberSelect = 'NumberSelect',
   OptionGroup = 'OptionGroup',
@@ -346,7 +346,7 @@ export const fieldMap = {
   [FormFieldType.MaskedInput]: null as TextInputField<unknown>,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
-  [FormFieldType.MultiInputAutocomplete]: null as MultiInputAutocompleteField<unknown>,
+  [FormFieldType.MultiInputAutosuggest]: null as MultiInputAutosuggestField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
   [FormFieldType.NumberSelect]: null as NumberSelectField<unknown>,
   [FormFieldType.OptionGroup]: null as OptionGroupField<unknown>,
@@ -401,10 +401,10 @@ export type MultiInputField<FormData> = {
   isVisible?: (formData: FormData) => boolean
 }
 
-export type MultiInputAutocompleteField<FormData> = {
+export type MultiInputAutosuggestField<FormData> = {
   label?: LabelProps
-  type: FormFieldType.MultiInputAutocomplete
-  fields: Array<SingleFormField<FormData>>
+  type: FormFieldType.MultiInputAutosuggest
+  fields: Array<TextSelectField<FormData>>
   itemStyle?: CSSProperties
   isVisible?: (formData: FormData) => boolean
   cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
@@ -419,12 +419,12 @@ export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 export type SingleFieldOrRow<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | StaticField<FormData>
   | SingleFormField<FormData>
   | FormFieldRow<FormData>
@@ -449,7 +449,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
 
 export type InternalSectionField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -457,7 +457,7 @@ export type InternalSectionField<FormData> =
 
 export type SectionField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -499,7 +499,7 @@ export type InternalFormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
@@ -508,7 +508,7 @@ export type FormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>

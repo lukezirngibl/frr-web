@@ -15,7 +15,7 @@ import {
   CommonThreadProps,
   fieldMap,
   FormFieldType,
-  MultiInputAutocompleteField,
+  MultiInputAutosuggestField,
   MultiInputField,
   SingleFormField,
 } from './types'
@@ -160,7 +160,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
-  [FormFieldType.MultiInputAutocomplete]: () => '',
+  [FormFieldType.MultiInputAutosuggest]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
   [FormFieldType.NumberSelect]: defaultOptionMapper,
   [FormFieldType.OptionGroup]: defaultOptionMapper,
@@ -279,7 +279,7 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   CommonThreadProps<FormData>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
-  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutocompleteField<FormData>
+  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutosuggestField<FormData>
   width?: number
 }
 
@@ -307,7 +307,7 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
         )}
         <FieldItemValueWrapper {...getFieldStyle('item')}>
           {props.field.type === FormFieldType.MultiInput ||
-          props.field.type === FormFieldType.MultiInputAutocomplete ? (
+          props.field.type === FormFieldType.MultiInputAutosuggest ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
               return (
                 <FieldItemReadOnlyValue<FormData>

@@ -1,21 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Label } from '../../components/Label'
 import { createStyled } from '../../theme/util'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import { Select } from '../../components/Select'
 import { Options } from '../../html'
 
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
-import { CommonThreadProps, MultiInputAutocompleteField } from './types'
+import { CommonThreadProps, MultiInputAutosuggestField } from './types'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { useFormConfig } from './form.hooks'
 
 type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
-  field: MultiInputAutocompleteField<FormData>
+  field: MultiInputAutosuggestField<FormData>
 }
 
 type Value = string | number | null
@@ -29,7 +28,7 @@ type City = {
 const WrapperItem = createStyled('div')
 
 // ------------------------------------
-export const FieldMultiInputAutocomplete = <FormData extends {}>({
+export const FieldMultiInputAutosuggest = <FormData extends {}>({
   data,
   errorFieldId,
   field,
@@ -117,7 +116,7 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
       <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
         <FieldItemReadOnly
           {...commonFieldProps}
-          field={field as MultiInputAutocompleteField<FormData>}
+          field={field as MultiInputAutosuggestField<FormData>}
           fieldIndex={fieldIndex}
         />
       </FieldRowWrapper>
@@ -143,8 +142,24 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
           />
         )}
 
-        <WrapperItem {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${fieldIndex}`}>
-          <FieldRowItem
+        <WrapperItem
+          {...getFieldMultiInputStyle('item')}
+          key={`field-mulit-input-autosuggest-${fieldIndex}`}
+        >
+          {field.fields.map((fieldItem, fieldItemIndex) => (
+            <FieldRowItem
+              {...commonFieldProps}
+              key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
+              field={fieldItem}
+              fieldIndex={fieldItemIndex}
+              errorFieldId={errorFieldId}
+              onChange={onChange}
+              onError={onError}
+              isNotScrollable
+            />
+          ))}
+
+          {/* <FieldRowItem
             {...commonFieldProps}
             key={`zipField-item`}
             field={zipField}
@@ -152,7 +167,6 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
             errorFieldId={errorFieldId}
             onChange={onChange}
             onError={onError}
-            onKeyUp={onKeyUp}
             isNotScrollable
           />
 
@@ -179,7 +193,7 @@ export const FieldMultiInputAutocomplete = <FormData extends {}>({
               onError={onError}
               isNotScrollable
             />
-          )}
+          )*/}
         </WrapperItem>
       </FieldScrollableWrapper>
     </FieldRowWrapper>
