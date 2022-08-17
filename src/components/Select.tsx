@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, OptionProps } from 'react-select'
+import ReactSelect, { components, InputActionMeta, OptionProps, StylesConfig } from 'react-select'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, Options, OptionType } from '../html'
 import { Language } from '../theme/language'
@@ -11,7 +11,7 @@ import {
   useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
-import { LocaleNamespace } from '../translation'
+import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
@@ -28,6 +28,8 @@ type InternalOption = {
   isLabelTranslated?: boolean
 }
 
+type Priority = Array<string | number>
+
 export type Props = {
   alphabetize?: boolean
   dataTestId?: string
@@ -38,7 +40,8 @@ export type Props = {
   menuPortalTarget?: HTMLElement
   onChange: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
-  priority?: Array<string | number>
+  optionsAsync?: (value: Value, lan?: Language) => Promise<Options<Value>> // If async options function is provided, options are used as initial options only
+  priority?: Priority
   readOnly?: boolean
   selectParentElement?: string
   style?: Partial<ComponentTheme['select']>
@@ -65,72 +68,36 @@ const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => 
 }
 
 export const Select = (props: Props) => {
-  const { label } = props
-
   const theme = useComponentTheme()
+  const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
   const { isMobileTouch } = useMobileTouch()
   const { t, i18n } = useTranslation(props.localeNamespace)
 
-  const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
-  const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
+  /*
+   * Determine options (incl. auto-suggest)
+   */
 
   const transformedOptions =
     typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options
 
-  const parseOptions = (options: Options<Value>) =>
-    props.alphabetize
-      ? options
-          .map((option) => ({
-            ...option,
-            name: option.name || option.label,
-            isLabelTranslated: true,
-            label: option.isLabelTranslated ? option.label : t(option.label),
-          }))
-          .sort((a, b) =>
-            replaceUmlaute(a.label.toLowerCase()) > replaceUmlaute(b.label.toLowerCase()) ? 1 : -1,
-          )
-      : options
+  const [options, setOptions] = useState(getOptions(transformedOptions, t, props))
 
-  const options: Options<Value> = [
-    // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
-    // ...(props.value === null || props.value === undefined
-    //   ? [
-    //       {
-    //         value: isMobileTouch ? null : 'default',
-    //         disabled: true,
-    //         label: 'formFields.select.defaultLabel',
-    //       },
-    //       {
-    //         value: '---',
-    //         disabled: true,
-    //         label: '---',
-    //         isLabelTranslated: true,
-    //       },
-    //     ]
-    //   : []),
-    // ,
-    ...(props.priority
-      ? props.priority
-          .map((prio) => transformedOptions.find((option) => option.value === prio))
-          .filter(Boolean)
-      : []),
-    ,
-    ...(props.priority
-      ? [
-          {
-            value: '---',
-            disabled: true,
-            label: '---',
-            isLabelTranslated: true,
-          },
-        ]
-      : []),
-    ...parseOptions(
-      props.priority
-        ? transformedOptions.filter((option) => !props.priority.includes(option.value))
-        : transformedOptions,
-    ),
-  ].filter(Boolean)
+  const onInputChange = props.optionsAsync
+    ? (newValue: Value, actionMeta: InputActionMeta) => {
+        if (actionMeta.action === 'input-change') {
+          props.optionsAsync(newValue, i18n.language as Language).then((options) => {
+            setOptions(getOptions(options, t, props))
+          })
+        }
+      }
+    : undefined
+
+  console.log('OPTIONS', options)
+
+  /*
+   * Translate option label
+   */
 
   const getOptionLabel = (option: InternalOption) => {
     const label = option.label || option.name
@@ -145,26 +112,15 @@ export const Select = (props: Props) => {
     return optionLabel
   }
 
-  const selectStyle = getInlineStyle(
-    {
-      select: true,
-      errorWrapper: props.error,
-    },
-    {},
-    'select-wrapper',
-  ).style as any
-  const iconStyle = getInlineStyle('icon').style as any
-  const menuStyle = getInlineStyle('menu').style as any
-  const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
-  const placeholderStyle = getInlineStyle('placeholder').style as any
-  const valueStyle = getInlineStyle('value').style as any
-  const valueContainerStyle = getInlineStyle('valueContainer').style as any
+  /*
+   * Map value
+   */
 
   const value = props.value === null ? 'null' : props.value
 
   return (
     <>
-      {label && <Label {...label} />}
+      {props.label && <Label {...props.label} />}
       <Wrapper {...getCSSStyles('wrapper')}>
         {isMobileTouch ? (
           <>
@@ -212,70 +168,14 @@ export const Select = (props: Props) => {
               onChange={(option: InternalOption) => {
                 props.onChange(option.value === 'null' ? null : option.value)
               }}
-              openMenuOnFocus
+              onInputChange={onInputChange}
+              openMenuOnFocus={false}
+              openMenuOnClick={false}
               options={options.map(mapInternalOption)}
               placeholder={t('formFields.select.defaultLabel')}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
-              styles={{
-                control: () => {
-                  return {
-                    ...selectStyle,
-                  }
-                },
-                dropdownIndicator: (provided) => {
-                  return {
-                    ...provided,
-                    ...iconStyle,
-                    transition: 'color 1.5s, opacity 1.5s',
-                    ':hover': {
-                      color: 'var(--color-primary)',
-                      opacity: 1.0,
-                    },
-                  }
-                },
-                menu: (provided) => ({
-                  ...provided,
-                  backgroundColor: 'var(--color-form-field-background-secondary)',
-                  boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-                  ...menuStyle,
-                  zIndex: 999,
-                }),
-                option: (provided, state) => {
-                  const style = {
-                    ...provided,
-                    cursor: state.isDisabled ? 'default' : 'pointer',
-                    ...optionStyle,
-                    backgroundColor:
-                      (state.isFocused && optionStyle[':hover']?.backgroundColor) ||
-                      (state.isDisabled && !state.isFocused && 'transparent') ||
-                      (state.isSelected && optionStyle[':active']?.backgroundColor) ||
-                      optionStyle.backgroundColor ||
-                      optionStyle.background ||
-                      provided.backgroundColor,
-                    color:
-                      (state.isFocused && optionStyle[':hover']?.color) ||
-                      (state.isSelected && optionStyle[':active']?.color) ||
-                      optionStyle.color ||
-                      provided.color,
-                  }
-                  return style
-                },
-                placeholder: (provided) => ({
-                  ...provided,
-                  ...placeholderStyle,
-                }),
-                valueContainer: (provided) => {
-                  return {
-                    ...provided,
-                    ...valueContainerStyle,
-                  }
-                },
-                singleValue: (provided) => {
-                  return { ...provided, ...valueStyle }
-                },
-                indicatorSeparator: () => ({ display: 'none' }),
-              }}
+              styles={mapReactSelectStyles(getInlineStyle, props.error)}
             />
           </div>
         )}
@@ -283,6 +183,71 @@ export const Select = (props: Props) => {
     </>
   )
 }
+
+/*
+ * Option mapper functions
+ */
+
+const getOptions = (
+  options: Options<Value>,
+  t: Translate,
+  { alphabetize, priority }: { alphabetize?: boolean; priority?: Priority },
+) => {
+  const filteredOptions = priority
+    ? options.filter((option) => !priority.includes(option.value))
+    : options
+
+  const mappedOptions = [
+    // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
+    // ...(props.value === null || props.value === undefined
+    //   ? [
+    //       {
+    //         value: isMobileTouch ? null : 'default',
+    //         disabled: true,
+    //         label: 'formFields.select.defaultLabel',
+    //       },
+    //       {
+    //         value: '---',
+    //         disabled: true,
+    //         label: '---',
+    //         isLabelTranslated: true,
+    //       },
+    //     ]
+    //   : []),
+    // ,
+    ...(priority
+      ? priority.map((prio) => options.find((option) => option.value === prio)).filter(Boolean)
+      : []),
+    ,
+    ...(priority
+      ? [
+          {
+            value: '---',
+            disabled: true,
+            label: '---',
+            isLabelTranslated: true,
+          },
+        ]
+      : []),
+    ...(alphabetize
+      ? filteredOptions
+          .map((option) => ({
+            ...option,
+            name: option.name || option.label,
+            isLabelTranslated: true,
+            label: option.isLabelTranslated ? option.label : t(option.label),
+          }))
+          .sort((a, b) =>
+            replaceUmlaute(a.label.toLowerCase()) > replaceUmlaute(b.label.toLowerCase()) ? 1 : -1,
+          )
+      : filteredOptions),
+  ].filter(Boolean)
+
+  return mappedOptions
+}
+/*
+ * Styled components
+ */
 
 const Wrapper = createStyled('div')
 const SelectWrapper = createStyled('select')
@@ -298,3 +263,90 @@ const OptionValueWrapper = styled.span`
     margin-top: -3px;
   }
 `
+
+/*
+ * React select style mapper
+ */
+
+const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): StylesConfig => {
+  const iconStyle = getInlineStyle('icon').style as any
+  const menuStyle = getInlineStyle('menu').style as any
+  const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
+  const placeholderStyle = getInlineStyle('placeholder').style as any
+  const selectStyle = getInlineStyle(
+    {
+      select: true,
+      errorWrapper: error,
+    },
+    {},
+    'select-wrapper',
+  ).style as any
+  const valueStyle = getInlineStyle('value').style as any
+  const valueContainerStyle = getInlineStyle('valueContainer').style as any
+
+  return {
+    control: () => {
+      return {
+        ...selectStyle,
+      }
+    },
+    dropdownIndicator: (provided) => {
+      return {
+        ...provided,
+        ...iconStyle,
+        transition: 'color 1.5s, opacity 1.5s',
+        ':hover': {
+          color: 'var(--color-primary)',
+          opacity: 1.0,
+        },
+      }
+    },
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: 'var(--color-form-field-background-secondary)',
+      boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+      ...menuStyle,
+      zIndex: 999,
+    }),
+    option: (provided, state) => {
+      const style = {
+        ...provided,
+        cursor: state.isDisabled ? 'default' : 'pointer',
+        ...optionStyle,
+        backgroundColor:
+          (state.isFocused && optionStyle[':hover']?.backgroundColor) ||
+          (state.isDisabled && !state.isFocused && 'transparent') ||
+          (state.isSelected && optionStyle[':active']?.backgroundColor) ||
+          optionStyle.backgroundColor ||
+          optionStyle.background ||
+          provided.backgroundColor,
+        color:
+          (state.isFocused && optionStyle[':hover']?.color) ||
+          (state.isSelected && optionStyle[':active']?.color) ||
+          optionStyle.color ||
+          provided.color,
+      }
+      return style
+    },
+    placeholder: (provided) => ({
+      ...provided,
+      ...placeholderStyle,
+    }),
+    valueContainer: (provided) => {
+      return {
+        ...provided,
+        ...valueContainerStyle,
+      }
+    },
+    input: (provided) => {
+      return {
+        ...provided,
+        ...valueStyle,
+      }
+    },
+    singleValue: (provided) => {
+      return { ...provided, ...valueStyle }
+    },
+    indicatorSeparator: () => ({ display: 'none' }),
+  }
+}
