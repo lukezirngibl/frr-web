@@ -27,7 +27,6 @@ export type Props = {
   name?: string
   onBlur?: (value: string) => void
   onChange?: (value: string) => void
-  onKeyUp?: (value: string) => void
   onFocus?: () => void
   onlyOnBlur?: boolean
   parseValue?: (value: string | null) => string
@@ -129,10 +128,6 @@ export const TextInput = (props: Props) => {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur?.(newValue)
             }
-          }}
-          onKeyUp={(event: any) => {
-            const newValue = event.target.value as string
-            props.onKeyUp?.(newValue)
           }}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
