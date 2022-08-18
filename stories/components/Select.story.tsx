@@ -3,7 +3,8 @@ import { createStory, meta } from '../storybook.helpers'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import React from 'react'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType } from '../../src/form/components/types'
+import { FormFieldType, SingleFormField } from '../../src/form/components/types'
+import { Options } from '../../src/html'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta<Props, typeof Select>({
@@ -11,13 +12,16 @@ export default meta<Props, typeof Select>({
   component: Select,
 })
 
-type FormData = { letter: string | null; numberOfChildren: number | null }
+type FormData = {
+  letter: string | null
+  numberOfChildren: number | null
+  zip?: string | null
+  city?: string | null
+}
 const formLens = makeFormLens<FormData>()
-const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(
-  FieldRowItem,
-)
+const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
-const textSelectField = {
+const textSelectField: SingleFormField<FormData> = {
   type: FormFieldType.TextSelect,
   lens: formLens(['letter']),
   label: { label: 'Buchstabe' },
@@ -63,46 +67,53 @@ const numberSelectField = {
   ],
 } as any
 
+export const SelectText = () => {
+  const [value, setValue] = React.useState(null)
+  return (
+    <div style={{ maxWidth: 600, minHeight: 600 }}>
+      {story({
+        field: textSelectField,
+        fieldIndex: 0,
+        formReadOnly: false,
+        style: {},
+        data: {
+          letter: value,
+          numberOfChildren: null,
+        },
+        onChange: (lens, value) => {
+          alert(`ON CHANGE\nLetter value: ${value}`)
+          setValue(value)
+        },
+        showValidation: false,
+      })}
+    </div>
+  )
+}
 
-export const TextSelect = () => (
-  <div style={{ maxWidth: 600, minHeight: 600 }}>
-    {story({
-      field: textSelectField,
-      fieldIndex: 0,
-      formReadOnly: false,
-      style: {},
-      data: {
-        letter: null,
-        numberOfChildren: null,
-      },
-      onChange: (lens, value) => {
-        alert(`ON CHANGE\nLetter value: ${value}`)
-      },
-      showValidation: false,
-    })}
-  </div>
-)
+export const SelectTextWithValue = () => {
+  const [value, setValue] = React.useState('b')
+  return (
+    <div style={{ maxWidth: 600, minHeight: 600 }}>
+      {story({
+        field: textSelectField,
+        fieldIndex: 0,
+        formReadOnly: false,
+        style: {},
+        data: {
+          letter: value,
+          numberOfChildren: null,
+        },
+        onChange: (lens, value) => {
+          alert(`ON CHANGE\nLetter value: ${value}`)
+          setValue(value)
+        },
+        showValidation: false,
+      })}
+    </div>
+  )
+}
 
-export const TextSelectWithValue = () => (
-  <div style={{ maxWidth: 600, minHeight: 600 }}>
-    {story({
-      field: textSelectField,
-      fieldIndex: 0,
-      formReadOnly: false,
-      style: {},
-      data: {
-        letter: 'b',
-        numberOfChildren: null,
-      },
-      onChange: (lens, value) => {
-        alert(`ON CHANGE\nLetter value: ${value}`)
-      },
-      showValidation: false,
-    })}
-  </div>
-)
-
-export const TextSelectReadonly = () => (
+export const Readonly = () => (
   <div style={{ maxWidth: 600, minHeight: 600 }}>
     {story({
       field: textSelectField,
@@ -121,22 +132,25 @@ export const TextSelectReadonly = () => (
   </div>
 )
 
-export const NumberSelect = () => (
-  <div style={{ maxWidth: 600, minHeight: 600 }}>
-    {story({
-      field: numberSelectField,
-      fieldIndex: 0,
-      formReadOnly: false,
-      style: {},
-      data: {
-        letter: null,
-        numberOfChildren: null,
-      },
-      onChange: (lens, value) => {
-        alert(`ON CHANGE\nNumber of children value: ${value}`)
-      },
-      showValidation: false,
-    })}
-  </div>
-)
-
+export const SelectNumber = () => {
+  const [value, setValue] = React.useState(null)
+  return (
+    <div style={{ maxWidth: 600, minHeight: 600 }}>
+      {story({
+        field: numberSelectField,
+        fieldIndex: 0,
+        formReadOnly: false,
+        style: {},
+        data: {
+          letter: null,
+          numberOfChildren: value,
+        },
+        onChange: (lens, newValue) => {
+          alert(`ON CHANGE\nNumber of children value: ${newValue}`)
+          setValue(newValue)
+        },
+        showValidation: false,
+      })}
+    </div>
+  )
+}

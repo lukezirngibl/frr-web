@@ -16,6 +16,7 @@ import { Props as SwithProps } from '../../components/Switch'
 import { Props as TextProps } from '../../components/Text'
 import { TextAreaProps } from '../../components/TextArea'
 import { Props as TextInputProps } from '../../components/TextInput'
+import { Props as TextInputAutosuggestProps } from '../../components/TextInputAutosuggest'
 import { Props as MaskedDatePickerProps } from '../../components/MaskedDatePicker'
 import { Props as MaskedInputProps } from '../../components/MaskedInput'
 import { Props as StaticFieldProps } from './StaticField'
@@ -73,6 +74,7 @@ export enum FormFieldType {
   TextInputDescription = 'TextInputDescription',
   TextNumber = 'TextNumber',
   TextSelect = 'TextSelect',
+  TextInputAutosuggest = 'TextInputAutosuggest',
   Toggle = 'Toggle',
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
@@ -197,6 +199,12 @@ export type TextSelectField<FormData> = FormInput<
   SelectProps,
   NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
   FormFieldType.TextSelect
+>
+export type TextInputAutosuggestField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  TextInputAutosuggestProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.TextInputAutosuggest
 >
 
 export type NumberSelectField<FormData> = FormInput<
@@ -359,6 +367,7 @@ export const fieldMap = {
   [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
+  [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
   [FormFieldType.YesNoRadioGroup]: null as YesNoRadioGroupField<unknown>,
@@ -387,6 +396,7 @@ export type SingleFormField<FormData> = (
   | TextInputField<FormData>
   | TextNumberInputField<FormData>
   | TextSelectField<FormData>
+  | TextInputAutosuggestField<FormData>
   | ToggleField<FormData>
   | YesNoOptionGroupField<FormData>
   | YesNoRadioGroupField<FormData>

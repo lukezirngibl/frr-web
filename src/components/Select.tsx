@@ -1,6 +1,8 @@
+import CheckIcon from '@material-ui/icons/Check'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, InputActionMeta, OptionProps, StylesConfig } from 'react-select'
+import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
+import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, Options, OptionType } from '../html'
 import { Language } from '../theme/language'
@@ -15,8 +17,6 @@ import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
-import CheckIcon from '@material-ui/icons/Check'
-import styled from 'styled-components'
 
 type Value = string | number | null
 
@@ -40,31 +40,10 @@ export type Props = {
   menuPortalTarget?: HTMLElement
   onChange: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
-  optionsAsync?: (value: Value, lan?: Language) => Promise<Options<Value>> // If async options function is provided, options are used as initial options only
   priority?: Priority
   readOnly?: boolean
-  selectParentElement?: string
   style?: Partial<ComponentTheme['select']>
   value: Value
-}
-
-const mapInternalOption = (option: OptionType<Value>): InternalOption => ({
-  ...option,
-  isDisabled: option.disabled,
-})
-
-const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
-  const { children, value, ...other } = props
-  return (
-    <div data-test-id={`option-${props.value}`}>
-      <components.Option {...other} data-test-id={`option-${props.value}`}>
-        <OptionValueWrapper>
-          {props.isSelected && <CheckIcon className="selected-icon" />}
-          {children}
-        </OptionValueWrapper>
-      </components.Option>
-    </div>
-  )
 }
 
 export const Select = (props: Props) => {
@@ -75,25 +54,26 @@ export const Select = (props: Props) => {
   const { t, i18n } = useTranslation(props.localeNamespace)
 
   /*
+   * Map value
+   */
+
+  const value = props.value === null ? 'null' : props.value
+
+  /*
    * Determine options (incl. auto-suggest)
    */
 
-  const transformedOptions =
-    typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options
+  const [options] = useState(
+    getOptions(
+      typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options,
+      t,
+      props,
+    ),
+  )
 
-  const [options, setOptions] = useState(getOptions(transformedOptions, t, props))
-
-  const onInputChange = props.optionsAsync
-    ? (newValue: Value, actionMeta: InputActionMeta) => {
-        if (actionMeta.action === 'input-change') {
-          props.optionsAsync(newValue, i18n.language as Language).then((options) => {
-            setOptions(getOptions(options, t, props))
-          })
-        }
-      }
-    : undefined
-
-  console.log('OPTIONS', options)
+  const onChange = (option: InternalOption) => {
+    props.onChange(option.value === 'null' ? null : option.value)
+  }
 
   /*
    * Translate option label
@@ -111,12 +91,6 @@ export const Select = (props: Props) => {
 
     return optionLabel
   }
-
-  /*
-   * Map value
-   */
-
-  const value = props.value === null ? 'null' : props.value
 
   return (
     <>
@@ -143,12 +117,12 @@ export const Select = (props: Props) => {
             >
               {options.map((option, optionIndex) => (
                 <Option
-                  value={option.value === null ? 'null' : option.value}
-                  key={optionIndex}
                   disabled={option.disabled}
+                  isLabelTranslated={option.isLabelTranslated}
+                  key={optionIndex}
                   label={option.label || option.name}
                   localeNamespace={props.localeNamespace}
-                  isLabelTranslated={option.isLabelTranslated}
+                  value={option.value === null ? 'null' : option.value}
                 />
               ))}
             </SelectWrapper>
@@ -162,20 +136,16 @@ export const Select = (props: Props) => {
               data-test-id={props.dataTestId}
               getOptionLabel={getOptionLabel}
               isDisabled={props.disabled || props.readOnly}
-              menuShouldBlockScroll
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
-              onChange={(option: InternalOption) => {
-                props.onChange(option.value === 'null' ? null : option.value)
-              }}
-              onInputChange={onInputChange}
-              openMenuOnFocus={false}
-              openMenuOnClick={false}
+              menuShouldBlockScroll
+              onChange={onChange}
+              openMenuOnFocus
               options={options.map(mapInternalOption)}
               placeholder={t('formFields.select.defaultLabel')}
+              styles={mapReactSelectStyles(getInlineStyle, props.error)}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
-              styles={mapReactSelectStyles(getInlineStyle, props.error)}
             />
           </div>
         )}
@@ -188,7 +158,7 @@ export const Select = (props: Props) => {
  * Option mapper functions
  */
 
-const getOptions = (
+export const getOptions = (
   options: Options<Value>,
   t: Translate,
   { alphabetize, priority }: { alphabetize?: boolean; priority?: Priority },
@@ -245,6 +215,30 @@ const getOptions = (
 
   return mappedOptions
 }
+
+export const mapInternalOption = (option: OptionType<Value>): InternalOption => ({
+  ...option,
+  isDisabled: option.disabled,
+})
+
+/*
+ * Option Component
+ */
+
+export const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
+  const { children, value, ...other } = props
+  return (
+    <div data-test-id={`option-${props.value}`}>
+      <components.Option {...other} data-test-id={`option-${props.value}`}>
+        <OptionValueWrapper>
+          {props.isSelected && <CheckIcon className="selected-icon" />}
+          {children}
+        </OptionValueWrapper>
+      </components.Option>
+    </div>
+  )
+}
+
 /*
  * Styled components
  */
@@ -268,7 +262,7 @@ const OptionValueWrapper = styled.span`
  * React select style mapper
  */
 
-const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): StylesConfig => {
+export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): StylesConfig => {
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any

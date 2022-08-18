@@ -26,7 +26,6 @@ export const FieldMultiInput = <FormData extends {}>({
   localeNamespace,
   onChange,
   showValidation,
-
   style,
 }: FieldRowProps<FormData>) => {
   // Form styles

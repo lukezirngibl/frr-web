@@ -19,6 +19,7 @@ import { Slider } from '../../components/Slider'
 import { Switch } from '../../components/Switch'
 import { TextArea } from '../../components/TextArea'
 import { TextInput } from '../../components/TextInput'
+import { TextInputAutosuggest } from '../../components/TextInputAutosuggest'
 import { TextNumberInput } from '../../components/TextNumberInput'
 import { Toggle } from '../../components/Toggle'
 import { YesNoOptionGroup } from '../../components/YesNoOptionGroup'
@@ -102,6 +103,22 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         dataTestId={dataTestId}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.TextInputAutosuggest) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <TextInputAutosuggest
+        {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }

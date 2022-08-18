@@ -16,7 +16,6 @@ export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
   onError?: (error: { error: string; fieldId: string }) => void
   isNotScrollable?: boolean
-  onKeyUp?: (value: string) => void
 }
 // ------------------------------------
 
@@ -31,9 +30,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     localeNamespace,
     onChange,
     onError,
-    onKeyUp,
     showValidation,
-
     style,
   } = props
 
@@ -105,7 +102,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         localeNamespace={localeNamespace}
         onBlur={onBlur}
         onChange={setValue}
-        onKeyUp={onKeyUp}
       />
     )) || (
       <FieldContainer>
@@ -124,7 +120,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             localeNamespace={localeNamespace}
             onBlur={onBlur}
             onChange={setValue}
-            onKeyUp={onKeyUp}
           />
         </FieldScrollableWrapper>
         {field.renderChildren?.()}
