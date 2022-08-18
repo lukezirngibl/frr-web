@@ -29,13 +29,15 @@ export interface CommonPropsAndClassName extends CommonProps {
 // Component Props
 
 export interface MenuProps extends CommonPropsAndClassName {
-  /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: RefCallback<HTMLDivElement>
   innerProps: JSX.IntrinsicElements['div']
   isLoading: boolean
-  placement: CoercedMenuPlacement
   /** The children to be rendered. */
   children: ReactNode
+  /** Set the max height of the Menu component  */
+  maxHeight: number
+  minHeight: number
+  /** Do not scroll when menu is open */
+  menuShouldBlockScroll?: boolean
 }
 
 export interface MenuListProps extends CommonPropsAndClassName {
@@ -45,8 +47,6 @@ export interface MenuListProps extends CommonPropsAndClassName {
   children: ReactNode
   /** Inner ref to DOM ReactNode */
   innerRef: RefCallback<HTMLDivElement>
-  /** The currently focused option */
-  focusedOption: Option
   /** Props to be passed to the menu-list wrapper. */
   innerProps: JSX.IntrinsicElements['div']
 }

@@ -1,5 +1,3 @@
-const custom = require('./webpack.config.js')
-
 module.exports = {
   stories: [
     '../stories/**/*.stories.mdx',
@@ -7,12 +5,13 @@ module.exports = {
     '../stories/**/*.story.mdx',
     '../stories/**/*.story.@(js|jsx|ts|tsx)',
   ],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
-  // webpackFinal: async (config) => {
-    
-  //   console.log('CONFIG', JSON.stringify(config.module, null, 2))
-
-  //   return custom({ config })
-  // },
+  addons: [
+    '@storybook/addon-links',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        docs: false,
+      },
+    },
+  ],
 }
-

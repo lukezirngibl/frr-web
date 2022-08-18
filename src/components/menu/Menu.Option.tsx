@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
+import '@emotion/react'
+import React from 'react'
 import { CSSObjectWithLabel, MenuOptionProps } from './Menu.types'
 
 export const MenuOption = (props: MenuOptionProps) => {

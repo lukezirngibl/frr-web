@@ -1,21 +1,11 @@
-import React, { ReactNode, useRef, useState } from 'react'
-import { RefCallback } from 'react'
+import { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
 import { defaultTheme, Options } from 'react-select'
-import {
-  LoadingMessage,
-  Menu,
-  MenuList,
-  MenuPlacer,
-  MenuPortal,
-  NoOptionsMessage,
-  ScrollManager,
-} from './menu/Menu'
-import { CommonProps, Option, StylesConfig, StylesProps } from './menu/Menu.types'
+import { LoadingMessage, Menu, MenuPortal, NoOptionsMessage } from './menu/Menu'
 import { MenuOption } from './menu/Menu.Option'
-import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
-import { TextInput, Props as TextInputProps } from './TextInput'
 import { defaultStyles } from './menu/Menu.theme'
-import { useEffect } from 'react'
+import { CommonProps, Option, StylesConfig, StylesProps } from './menu/Menu.types'
+import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
+import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {} & TextInputProps
 
@@ -27,10 +17,15 @@ export const TextInputAutosuggest = (props: Props) => {
 
   useEffect(() => {
     if (value > '' && value.length > 2) {
-      setOptions([{ label: 'number 1', value }, { label: 'number 2', value: `${value} +` }])
+      setOptions([
+        { label: 'number 1', value },
+        { label: 'number 2', value: `${value} +` },
+      ])
     }
   }, [value])
-  
+
+  console.log('OPTIONS', options)
+
   return (
     <div ref={controlRef}>
       <TextInput {...inputProps} value={value} />
@@ -120,11 +115,11 @@ let instanceId = 1
 const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   const instancePrefix = 'react-select-' + (props.name || ++instanceId)
 
-  const getStyles = (key: keyof StylesProps) => {
-    const base = defaultStyles[key](props as any)
+  const getStyles = (key: keyof StylesProps, styleProps: any) => {
+    const base = defaultStyles[key](styleProps as any)
     base.boxSizing = 'border-box'
-    const custom = props.styles[key]
-    return custom ? custom(base, props as any) : base
+    const custom = props.styles?.[key]
+    return custom ? custom(base, styleProps as any) : base
   }
 
   const getElementId = (
@@ -139,10 +134,6 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   const getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
     focusedOptionRef.current = ref
   }
-  const menuListRef = useRef<HTMLDivElement>(null)
-  const getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
-    menuListRef.current = ref
-  }
 
   const [focusedOption, setFocusedOption] = useState<any>()
 
@@ -156,7 +147,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   }
 
   const renderOption = (categorizedOption: CategorizedOption, id: string) => {
-    const { type, data, isDisabled, isSelected, label, value } = categorizedOption
+    const { type, data, isDisabled, isSelected, label } = categorizedOption
     const isFocused = focusedOption === data
     const onSelect = isDisabled ? undefined : () => props.onOptionSelected?.(data)
     const optionId = `${getElementId('option')}-${id}`
@@ -216,35 +207,14 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   }
 
   const menuElement = (
-    <MenuPlacer {...commonProps} {...menuPlacementProps}>
-      {({ ref, placerProps: { placement, maxHeight } }) => (
-        <Menu
-          {...commonProps}
-          {...menuPlacementProps}
-          innerRef={ref}
-          innerProps={{ id: getElementId('listbox') }}
-          isLoading={props.isLoading}
-          placement={placement}
-        >
-          <ScrollManager lockEnabled={props.menuShouldBlockScroll} captureEnabled={false}>
-            {(scrollTargetRef) => (
-              <MenuList
-                {...commonProps}
-                {...menuPlacementProps}
-                innerRef={(instance) => {
-                  getMenuListRef(instance)
-                  scrollTargetRef(instance)
-                }}
-                innerProps={{}}
-                focusedOption={focusedOption}
-              >
-                {menuUI}
-              </MenuList>
-            )}
-          </ScrollManager>
-        </Menu>
-      )}
-    </MenuPlacer>
+    <Menu
+      {...commonProps}
+      {...menuPlacementProps}
+      innerProps={{ id: getElementId('listbox') }}
+      isLoading={props.isLoading}
+    >
+      {menuUI}
+    </Menu>
   )
 
   // positioning behaviour is almost identical for portalled and fixed,

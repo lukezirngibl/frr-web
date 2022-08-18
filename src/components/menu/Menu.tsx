@@ -1,6 +1,13 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
-import { createContext, Fragment, ReactElement, RefCallback, useContext, useState } from 'react'
+import '@emotion/react'
+import React, {
+  createContext,
+  Fragment,
+  ReactElement,
+  RefCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { CoercedMenuPlacement, MenuPlacement, MenuPosition, Theme } from 'react-select'
 import {
@@ -61,9 +68,10 @@ export const MenuPortal = (props: MenuPortalProps) => {
   const state = { offset, position: 'absolute' as MenuPosition, rect }
 
   // same wrapper element whether fixed or portalled
-  const menuWrapper = (
+  const menuPortalStyles = getStyles('menuPortal', state)
+  const MenuWrapper = (
     <div
-      css={getStyles('menuPortal', state)}
+      css={menuPortalStyles}
       className={cx(
         {
           'menu-portal': true,
@@ -78,7 +86,7 @@ export const MenuPortal = (props: MenuPortalProps) => {
 
   return (
     <PortalPlacementContext.Provider value={{ setPortalPlacement }}>
-      {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
+      {appendTo ? createPortal(MenuWrapper, appendTo) : MenuWrapper}
     </PortalPlacementContext.Provider>
   )
 }
@@ -90,12 +98,10 @@ export const MenuPortal = (props: MenuPortalProps) => {
 // Menu Component
 // ------------------------------
 
-function alignToControl(placement: CoercedMenuPlacement) {
+const alignToControl = (placement: CoercedMenuPlacement) => {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' }
   return placement ? placementToCSSProp[placement] : 'bottom'
 }
-const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p)
-
 export const menuCSS = ({
   placement,
   theme: { borderRadius, spacing, colors },
@@ -136,7 +142,7 @@ export const MenuPlacer = (props: MenuPlacerProps) => {
   return (
     <Fragment>
       {props.children({
-        ref: getPlacement,
+        getPlacement,
         placerProps: { ...props, ...menuPlacementState },
       })}
     </Fragment>
@@ -144,17 +150,37 @@ export const MenuPlacer = (props: MenuPlacerProps) => {
 }
 
 export const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerRef, innerProps } = props
+  const { children, className, cx, getStyles, innerProps, menuShouldBlockScroll, ...rest } = props
+  const menuListRef = useRef<HTMLDivElement>(null)
+  const getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
+    menuListRef.current = ref
+  }
+  const menuStyles = getStyles('menu', props)
 
+  console.log('MENU')
+
+  const commonProps = { className, cx, getStyles, innerProps, ...rest }
   return (
-    <div
-      css={getStyles('menu', props)}
-      className={cx({ menu: true }, className)}
-      ref={innerRef}
-      {...innerProps}
-    >
-      {children}
-    </div>
+    <MenuPlacer {...commonProps}>
+      {({ ref, placerProps: { placement, maxHeight } }) => (
+        <div css={menuStyles} className={cx({ menu: true }, className)} {...innerProps}>
+          <ScrollManager lockEnabled={menuShouldBlockScroll} captureEnabled={false}>
+            {(scrollTargetRef) => (
+              <MenuList
+                {...commonProps}
+                innerRef={(instance) => {
+                  getMenuListRef(instance)
+                  scrollTargetRef(instance)
+                }}
+                innerProps={{}}
+              >
+                {children}
+              </MenuList>
+            )}
+          </ScrollManager>
+        </div>
+      )}
+    </MenuPlacer>
   )
 }
 
@@ -178,9 +204,12 @@ export const menuListCSS = ({
 
 export const MenuList = (props: MenuListProps) => {
   const { children, className, cx, getStyles, innerProps, innerRef } = props
+
+  const menuListStyles = getStyles('menuList', props)
+
   return (
     <div
-      css={getStyles('menuList', props)}
+      css={menuListStyles}
       className={cx({ 'menu-list': true }, className)}
       ref={innerRef}
       {...innerProps}
@@ -209,9 +238,11 @@ export const loadingMessageCSS = noticeCSS
 
 export const NoOptionsMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props
+
+  const noOptionsMessageStyles = getStyles('noOptionsMessage', props)
   return (
     <div
-      css={getStyles('noOptionsMessage', props)}
+      css={noOptionsMessageStyles}
       className={cx(
         {
           'menu-notice': true,
@@ -231,9 +262,11 @@ NoOptionsMessage.defaultProps = {
 
 export const LoadingMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props
+
+  const loadingMessageStyles = getStyles('loadingMessage', props)
   return (
     <div
-      css={getStyles('loadingMessage', props)}
+      css={loadingMessageStyles}
       className={cx(
         {
           'menu-notice': true,
@@ -295,7 +328,7 @@ export const ScrollManager = ({
       {lockEnabled && (
         <div
           onClick={blurSelectInput}
-          css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
+          style={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
         />
       )}
       {children(targetRef)}
