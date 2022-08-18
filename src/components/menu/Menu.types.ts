@@ -1,7 +1,10 @@
 import { CSSObject } from '@emotion/react'
 import { ReactNode, RefCallback } from 'react'
 import { CoercedMenuPlacement, MenuPosition, Options, Theme } from 'react-select'
+import { CSSProperties } from 'styled-components'
 import { OptionType } from '../../html'
+import { MenuCSSProps } from './Menu'
+import { MenuPlacementState } from './Menu.utils'
 
 // Common Props
 
@@ -34,15 +37,15 @@ export interface MenuProps extends CommonPropsAndClassName {
   /** The children to be rendered. */
   children: ReactNode
   /** Set the max height of the Menu component  */
-  maxHeight: number
-  minHeight: number
+  maxMenuHeight: number
+  minMenuHeight: number
   /** Do not scroll when menu is open */
   menuShouldBlockScroll?: boolean
 }
 
 export interface MenuListProps extends CommonPropsAndClassName {
   /** Set the max height of the Menu component  */
-  maxHeight: number
+  maxMenuHeight: number
   /** The children to be rendered. */
   children: ReactNode
   /** Inner ref to DOM ReactNode */
@@ -93,19 +96,14 @@ export interface PortalStyleArgs {
   rect: RectType
 }
 
-interface PlacerProps {
-  placement: CoercedMenuPlacement
-  maxHeight: number
-}
-
 interface ChildrenProps {
   ref: RefCallback<HTMLDivElement>
-  placerProps: PlacerProps
+  placerProps: MenuPlacementState
 }
 
-export interface MenuPlacerProps extends CommonProps {
-  /** Set the max height of the Menu component  */
-  maxHeight: number
+export interface MenuPlacerProps {
+  /** Set the initial max height of the Menu component  */
+  maxMenuHeight: number
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactNode
 }
@@ -114,7 +112,7 @@ export interface MenuPlacerProps extends CommonProps {
 
 export interface StylesProps {
   loadingMessage: NoticeProps
-  menu: MenuProps
+  menu: MenuCSSProps
   menuList: MenuListProps
   menuPortal: PortalStyleArgs
   noOptionsMessage: NoticeProps
@@ -145,7 +143,7 @@ export interface RectType {
   width: number
 }
 
-export type CSSObjectWithLabel = CSSObject & { label?: string }
+export type CSSObjectWithLabel = CSSProperties & { label?: string }
 
 // Menu Option
 

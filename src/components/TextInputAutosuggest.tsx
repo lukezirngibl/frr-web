@@ -1,4 +1,4 @@
-import { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
+import React, { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
 import { defaultTheme, Options } from 'react-select'
 import { LoadingMessage, Menu, MenuPortal, NoOptionsMessage } from './menu/Menu'
 import { MenuOption } from './menu/Menu.Option'
@@ -7,38 +7,57 @@ import { CommonProps, Option, StylesConfig, StylesProps } from './menu/Menu.type
 import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
 import { Props as TextInputProps, TextInput } from './TextInput'
 
-export type Props = {} & TextInputProps
+export type Props = {
+  onLoadSuggestions?: (inputValue: string) => Promise<any>
+} & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
   const { value, ...inputProps } = props
   const controlRef = useRef<HTMLInputElement>(null)
 
-  const [options, setOptions] = useState([])
+  const [suggestions, setSuggestions] = useState([])
+  const [menuState, setMenuState] = useState({ isOpen: false, isLoading: false })
+
+  const onChange = (value: string) => {
+    props.onChange?.(value)
+    if (props.onLoadSuggestions) {
+      setMenuState({ isOpen: true, isLoading: true })
+
+      props.onLoadSuggestions(value).then((suggestions) => {
+        setSuggestions(suggestions)
+        setMenuState({ isOpen: true, isLoading: false })
+      })
+    }
+  }
+
+  const onBlur = (value: string) => {
+    setMenuState({ isOpen: false, isLoading: false })
+    props.onBlur?.(value)
+  }
 
   useEffect(() => {
-    if (value > '' && value.length > 2) {
-      setOptions([
-        { label: 'number 1', value },
-        { label: 'number 2', value: `${value} +` },
-      ])
-    }
-  }, [value])
-
-  console.log('OPTIONS', options)
+    console.log('SUGGESTIONS', suggestions)
+  }, [suggestions])
+  
 
   return (
     <div ref={controlRef}>
-      <TextInput {...inputProps} value={value} />
+      <TextInput {...inputProps} value={value} onChange={onChange} onBlur={onBlur} />
 
       <AutosuggestMenu
         controlRef={controlRef.current}
         inputValue={props.value}
-        isLoading={false}
-        menuIsOpen={value > '' && value.length > 2}
+        isLoading={menuState.isLoading}
+        menuIsOpen={menuState.isOpen}
         menuPortalTarget={document.body}
         menuShouldBlockScroll
         name={props.name}
-        options={options}
+        onOptionSelected={(option) => {
+          console.log('OPTION SELECTED', option)
+          setMenuState({ isOpen: false, isLoading: false })
+          props.onChange?.(option.value)
+        }}
+        options={suggestions}
       />
     </div>
   )
@@ -96,18 +115,6 @@ const buildCategorizedOptions = (
 
     return categorizedOption
   })
-}
-
-const buildFocusableOptionsFromCategorizedOptions = (categorizedOptions: Array<CategorizedOption>) => {
-  return categorizedOptions.reduce((optionsAccumulator, categorizedOption) => {
-    optionsAccumulator.push(categorizedOption.data)
-
-    return optionsAccumulator
-  }, [])
-}
-
-const buildFocusableOptions = (props: AutosuggestMenuProps, inputValue: string) => {
-  return buildFocusableOptionsFromCategorizedOptions(buildCategorizedOptions(props, inputValue))
 }
 
 let instanceId = 1
@@ -177,9 +184,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
 
   let menuUI: ReactNode
 
-  const focusableOptions = buildFocusableOptions(props, props.inputValue)
-
-  if (focusableOptions.length > 0) {
+  if (props.options.length > 0) {
     menuUI = buildCategorizedOptions(props, props.inputValue).map((option) => {
       return renderOption(option, `${option.index}`)
     })
@@ -201,15 +206,11 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
     )
   }
 
-  const menuPlacementProps = {
-    minHeight: MIN_HEIGHT,
-    maxHeight: MAX_HEIGHT,
-  }
-
   const menuElement = (
     <Menu
       {...commonProps}
-      {...menuPlacementProps}
+      minMenuHeight={MIN_HEIGHT}
+      maxMenuHeight={MAX_HEIGHT}
       innerProps={{ id: getElementId('listbox') }}
       isLoading={props.isLoading}
     >

@@ -57,12 +57,12 @@ const zips = [
   '9021',
   '9321',
 ]
-const textInputAutosuggestFiel: SingleFormField<FormData> = {
+const textInputAutosuggestField: SingleFormField<FormData> = {
   type: FormFieldType.TextInputAutosuggest,
   lens: formLens(['zip']),
   label: { label: 'Postal Code' },
   defaultOptions: [] as Options<string>,
-  loadOptions: (value: string) => {
+  onLoadSuggestions: (value: string) => {
     return new Promise((resolve) => {
       const zipOptions = zips
         .filter((zip) => zip.startsWith(value))
@@ -80,7 +80,7 @@ export const Autosugget = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
-        field: textInputAutosuggestFiel,
+        field: textInputAutosuggestField,
         fieldIndex: 0,
         formReadOnly: false,
         style: {},

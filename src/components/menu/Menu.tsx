@@ -1,4 +1,5 @@
 import '@emotion/react'
+import { state } from 'fp-ts/lib/State'
 import React, {
   createContext,
   Fragment,
@@ -71,7 +72,7 @@ export const MenuPortal = (props: MenuPortalProps) => {
   const menuPortalStyles = getStyles('menuPortal', state)
   const MenuWrapper = (
     <div
-      css={menuPortalStyles}
+      style={menuPortalStyles}
       className={cx(
         {
           'menu-portal': true,
@@ -102,10 +103,11 @@ const alignToControl = (placement: CoercedMenuPlacement) => {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' }
   return placement ? placementToCSSProp[placement] : 'bottom'
 }
+export type MenuCSSProps = { placement: CoercedMenuPlacement; theme: Theme }
 export const menuCSS = ({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuProps): CSSObjectWithLabel => ({
+}: MenuCSSProps): CSSObjectWithLabel => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -121,17 +123,17 @@ export const menuCSS = ({
 // NOTE: internal only
 export const MenuPlacer = (props: MenuPlacerProps) => {
   const [menuPlacementState, setMenuPlacementState] = useState<MenuPlacementState>({
-    placement: null,
-    maxHeight: props.maxHeight,
+    placement: 'bottom',
+    maxHeight: props.maxMenuHeight,
   })
   const setPortalPlacement = usePortalPlacementContext()
 
-  const getPlacement: RefCallback<HTMLDivElement> = (ref) => {
+  const setMenuPlacementRefCallback: RefCallback<HTMLDivElement> = (ref) => {
     if (!ref) return
 
     const state = getMenuPlacement({
       menuEl: ref,
-      maxHeight: props.maxHeight,
+      maxHeight: props.maxMenuHeight,
     })
 
     if (setPortalPlacement) setPortalPlacement(state.placement)
@@ -142,44 +144,59 @@ export const MenuPlacer = (props: MenuPlacerProps) => {
   return (
     <Fragment>
       {props.children({
-        getPlacement,
-        placerProps: { ...props, ...menuPlacementState },
+        ref: setMenuPlacementRefCallback,
+        placerProps: menuPlacementState,
       })}
     </Fragment>
   )
 }
 
 export const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerProps, menuShouldBlockScroll, ...rest } = props
+  const {
+    children,
+    className,
+    cx,
+    getStyles,
+    innerProps,
+    maxMenuHeight,
+    menuShouldBlockScroll,
+    options,
+    theme,
+  } = props
   const menuListRef = useRef<HTMLDivElement>(null)
   const getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
     menuListRef.current = ref
   }
-  const menuStyles = getStyles('menu', props)
 
-  console.log('MENU')
+  const commonProps = { className, cx, getStyles, innerProps }
 
-  const commonProps = { className, cx, getStyles, innerProps, ...rest }
   return (
-    <MenuPlacer {...commonProps}>
-      {({ ref, placerProps: { placement, maxHeight } }) => (
-        <div css={menuStyles} className={cx({ menu: true }, className)} {...innerProps}>
-          <ScrollManager lockEnabled={menuShouldBlockScroll} captureEnabled={false}>
-            {(scrollTargetRef) => (
-              <MenuList
-                {...commonProps}
-                innerRef={(instance) => {
-                  getMenuListRef(instance)
-                  scrollTargetRef(instance)
-                }}
-                innerProps={{}}
-              >
-                {children}
-              </MenuList>
-            )}
-          </ScrollManager>
-        </div>
-      )}
+    <MenuPlacer maxMenuHeight={maxMenuHeight}>
+      {({ ref, placerProps: { placement, maxHeight } }) => {
+        const menuStyles = getStyles('menu', { placement, theme })
+
+        return (
+          <div style={menuStyles} className={cx({ menu: true }, className)} {...innerProps}>
+            <ScrollManager lockEnabled={menuShouldBlockScroll} captureEnabled={false}>
+              {(scrollTargetRef) => (
+                <MenuList
+                  {...commonProps}
+                  innerRef={(instance) => {
+                    getMenuListRef(instance)
+                    scrollTargetRef(instance)
+                  }}
+                  innerProps={{}}
+                  maxMenuHeight={maxHeight}
+                  options={options}
+                  theme={theme}
+                >
+                  {children}
+                </MenuList>
+              )}
+            </ScrollManager>
+          </div>
+        )
+      }}
     </MenuPlacer>
   )
 }
@@ -189,12 +206,12 @@ export const Menu = (props: MenuProps) => {
 // ==============================
 
 export const menuListCSS = ({
-  maxHeight,
+  maxMenuHeight,
   theme: {
     spacing: { baseUnit },
   },
 }: MenuListProps): CSSObjectWithLabel => ({
-  maxHeight,
+  maxHeight: maxMenuHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
   paddingTop: baseUnit,
@@ -209,7 +226,7 @@ export const MenuList = (props: MenuListProps) => {
 
   return (
     <div
-      css={menuListStyles}
+      style={menuListStyles}
       className={cx({ 'menu-list': true }, className)}
       ref={innerRef}
       {...innerProps}
@@ -242,7 +259,7 @@ export const NoOptionsMessage = (props: NoticeProps) => {
   const noOptionsMessageStyles = getStyles('noOptionsMessage', props)
   return (
     <div
-      css={noOptionsMessageStyles}
+      style={noOptionsMessageStyles}
       className={cx(
         {
           'menu-notice': true,
@@ -266,7 +283,7 @@ export const LoadingMessage = (props: NoticeProps) => {
   const loadingMessageStyles = getStyles('loadingMessage', props)
   return (
     <div
-      css={loadingMessageStyles}
+      style={loadingMessageStyles}
       className={cx(
         {
           'menu-notice': true,

@@ -8,7 +8,7 @@ export const MenuOption = (props: MenuOptionProps) => {
 
   return (
     <div
-      css={getStyles('option', props)}
+      style={getStyles('option', props)}
       className={cx(
         {
           option: true,
