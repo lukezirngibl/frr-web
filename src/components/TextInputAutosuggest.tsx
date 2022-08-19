@@ -31,8 +31,8 @@ export const TextInputAutosuggest = (props: Props) => {
   }
 
   const onBlur = (value: string) => {
-    setMenuState({ isOpen: false, isLoading: false })
     props.onBlur?.(value)
+    setMenuState({ isOpen: false, isLoading: false })
   }
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const TextInputAutosuggest = (props: Props) => {
         controlRef={controlRef.current}
         inputValue={props.value}
         isLoading={menuState.isLoading}
-        menuIsOpen={true /* menuState.isOpen */}
+        menuIsOpen={menuState.isOpen}
         menuPortalTarget={document.body}
         menuShouldBlockScroll
         name={props.name}

@@ -1,4 +1,4 @@
-import { createStory, meta } from '../storybook.helpers'
+import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
 
 import React from 'react'
 import { makeFormLens } from '../../src/form/util'
@@ -13,6 +13,7 @@ import {
   SingleFormField,
 } from '../../src/form/types'
 import { Options } from '../../src/html'
+import { ZipCityList } from '../assets/ZipCityList'
 
 type FormData = {
   zip?: string | null
@@ -30,90 +31,16 @@ const story = createStory<FieldMultiInputAutosuggestProps<FormData>, typeof Fiel
   FieldMultiInputAutosuggest,
 )
 
-const zips = [
-  '1000',
-  '1001',
-  '1021',
-  '1321',
-  '2000',
-  '2001',
-  '2021',
-  '2321',
-  '3000',
-  '3001',
-  '3021',
-  '3321',
-  '4000',
-  '4001',
-  '4021',
-  '4321',
-  '5000',
-  '5001',
-  '5021',
-  '5321',
-  '6000',
-  '6001',
-  '6021',
-  '6321',
-  '7000',
-  '7001',
-  '7021',
-  '7321',
-  '8000',
-  '8001',
-  '8021',
-  '8321',
-  '9000',
-  '9001',
-  '9021',
-  '9321',
-]
-
-const cities = [
-  'Aarau',
-  'Basel',
-  'Bern',
-  'Dietikon',
-  'Hinwil',
-  'Locarno',
-  'Lugano',
-  'Luzern',
-  'Olten',
-  'Oltingen',
-  'Rapperswil',
-  'Winterthur',
-  'Zürich',
-]
-
-// At least one digit
-export const ZIP_REGEXP = /(?=.*\d)/
-export const SWISSZIP_REGEXP = /^(?:[1-9]\d{3})$/ /* /^\d{4}$/ */
-export const LICHTENSTEIN_ZIP_LIST = [
-  '9485',
-  '9486',
-  '9487',
-  '9488',
-  '9489',
-  '9490',
-  '9491',
-  '9492',
-  '9493',
-  '9494',
-  '9495',
-  '9496',
-  '9497',
-  '9498',
-]
-
-export const validateSwissZip = (value: any) => {
-  return !SWISSZIP_REGEXP.test(`${value}`) || LICHTENSTEIN_ZIP_LIST.includes(value)
-    ? 'formFields.error.invalidZip'
-    : null
-}
-
-export const CITY_REGEXP = /^[A-Za-zÀ-ž- '`.]+$/
-export const validateCity = (value: string) =>
-  !CITY_REGEXP.test(`${value}`) ? 'formFields.error.invalidText' : null
+const ZipList = ZipCityList.map((item) => ({
+  value: item.zip,
+  label: `${item.zip} ${item.city}`,
+  isTranslated: true,
+}))
+const CityList = ZipCityList.map((item) => ({
+  value: item.city,
+  label: `${item.city} (${item.zip})`,
+  isTranslated: true,
+}))
 
 const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
   type: FormFieldType.MultiInputAutosuggest,
@@ -139,15 +66,12 @@ const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
         marginRight: 0,
       },
       // defaultOptions: [] as Options<string>,
-      onLoadSuggestions: (value: string) => {
+      onLoadSuggestions: (searchString: string) => {
         return new Promise((resolve) => {
-          const zipOptions = zips
-            .filter((zip) => zip.startsWith(value))
-            .map((zip) => ({ value: zip, label: zip, isTranslated: true }))
-          console.log('ZIP OPTIONS', zipOptions)
           setTimeout(() => {
-            resolve(zipOptions)
-          }, 1000)
+            const zipCityOptions = ZipList.filter((item) => item.value.startsWith(searchString))
+            resolve(zipCityOptions)
+          }, 0)
         })
       },
     },
@@ -160,15 +84,14 @@ const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
       name: 'city',
       required: true,
       validate: validateCity,
-      onLoadSuggestions: (value: string) => {
+      onLoadSuggestions: (searchString: string) => {
         return new Promise((resolve) => {
-          const cityOptions = cities
-            .filter((city) => city.startsWith(value))
-            .map((city) => ({ value: city, label: city, isTranslated: true }))
-          console.log('CItY OPTIONS', cityOptions)
           setTimeout(() => {
-            resolve(cityOptions)
-          }, 1000)
+            const zipCityOptions = CityList.filter((item) =>
+              item.value.toLowerCase().startsWith(searchString.toLowerCase()),
+            )
+            resolve(zipCityOptions)
+          }, 0)
         })
       },
     },
