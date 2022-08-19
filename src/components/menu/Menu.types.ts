@@ -2,7 +2,7 @@ import { CSSObject } from '@emotion/react'
 import { ReactNode, RefCallback } from 'react'
 import { CoercedMenuPlacement, MenuPosition, Options, Theme } from 'react-select'
 import { CSSProperties } from 'styled-components'
-import { OptionType } from '../../html'
+import { OptionType } from '../html'
 import { MenuCSSProps } from './Menu'
 import { MenuPlacementState } from './Menu.utils'
 

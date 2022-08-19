@@ -1,9 +1,9 @@
 import { Select, Props } from '../../src/components/Select'
 import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/FieldRowItem'
 import React from 'react'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField } from '../../src/form/components/types'
+import { FormFieldType, SingleFormField } from '../../src/form/types'
 import { Options } from '../../src/html'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

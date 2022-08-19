@@ -1,4 +1,4 @@
-import { processRepeatSection } from '../../util'
+import { processRepeatSection } from '../util'
 import { FormField, FormFieldRepeatGroup, FormFieldRepeatSection, FormFieldType } from '../types'
 import { FilterParams } from './filter.form'
 

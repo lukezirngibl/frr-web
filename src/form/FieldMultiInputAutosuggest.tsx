@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { Label } from '../../components/Label'
-import { createStyled } from '../../theme/util'
-import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { Label } from '../components/Label'
+import { createStyled } from '../theme/util'
+import { useCSSStyles, useFormTheme, useInlineStyle } from '../theme/theme.form'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import { Options } from '../../html'
+import { Options } from '../html'
 
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { CommonThreadProps, MultiInputAutosuggestField } from './types'
@@ -13,7 +13,7 @@ import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { useFormConfig } from './form.hooks'
 
-type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
+export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
 }
 
@@ -38,7 +38,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
   onChange,
   showValidation,
   style,
-}: FieldRowProps<FormData>) => {
+}: FieldMultiInputAutosuggestProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
 

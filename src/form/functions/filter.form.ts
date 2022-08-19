@@ -1,5 +1,5 @@
-import { Translate } from '../../../translation'
-import { processRepeatGroup, processRepeatSection } from '../../util'
+import { Translate } from '../translation'
+import { processRepeatGroup, processRepeatSection } from '../util'
 import {
   FormField,
   FormFieldGroup,

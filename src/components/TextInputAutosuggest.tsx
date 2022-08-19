@@ -48,7 +48,7 @@ export const TextInputAutosuggest = (props: Props) => {
         controlRef={controlRef.current}
         inputValue={props.value}
         isLoading={menuState.isLoading}
-        menuIsOpen={menuState.isOpen}
+        menuIsOpen={true /* menuState.isOpen */}
         menuPortalTarget={document.body}
         menuShouldBlockScroll
         name={props.name}

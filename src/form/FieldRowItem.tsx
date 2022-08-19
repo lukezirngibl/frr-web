@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { useFormTheme, useInlineStyle } from '../theme/theme.form'
 import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'

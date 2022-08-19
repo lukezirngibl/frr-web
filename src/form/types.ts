@@ -1,42 +1,42 @@
-import { Props as CodeInputProps } from '../../components/CodeInput'
-import { Props as CountrySelectProps } from '../../components/CountrySelect'
-import { Props as CurrencyInputProps } from '../../components/CurrencyInput'
-import { Props as ColorPickerProps } from '../../components/ColorPicker'
-import { Props as DatePickerProps } from '../../components/DatePicker'
-import { Props as FormattedDatePickerProps } from '../../components/FormattedDatePicker'
-import { LabelProps } from '../../components/Label'
-import { Props as MultiSelectProps } from '../../components/MultiSelect'
-import { Props as NumberInputProps } from '../../components/NumberInput'
-import { Props as OptionGroupProps } from '../../components/OptionGroup'
-import { Props as RadioGroupProps } from '../../components/RadioGroup'
-import { Props as SelectProps } from '../../components/Select'
-import { Props as SingleCheckboxProps } from '../../components/SingleCheckbox'
-import { Props as SliderProps } from '../../components/Slider'
-import { Props as SwithProps } from '../../components/Switch'
-import { Props as TextProps } from '../../components/Text'
-import { TextAreaProps } from '../../components/TextArea'
-import { Props as TextInputProps } from '../../components/TextInput'
-import { Props as TextInputAutosuggestProps } from '../../components/TextInputAutosuggest'
-import { Props as MaskedDatePickerProps } from '../../components/MaskedDatePicker'
-import { Props as MaskedInputProps } from '../../components/MaskedInput'
+import { Props as CodeInputProps } from '../components/CodeInput'
+import { Props as CountrySelectProps } from '../components/CountrySelect'
+import { Props as CurrencyInputProps } from '../components/CurrencyInput'
+import { Props as ColorPickerProps } from '../components/ColorPicker'
+import { Props as DatePickerProps } from '../components/DatePicker'
+import { Props as FormattedDatePickerProps } from '../components/FormattedDatePicker'
+import { LabelProps } from '../components/Label'
+import { Props as MultiSelectProps } from '../components/MultiSelect'
+import { Props as NumberInputProps } from '../components/NumberInput'
+import { Props as OptionGroupProps } from '../components/OptionGroup'
+import { Props as RadioGroupProps } from '../components/RadioGroup'
+import { Props as SelectProps } from '../components/Select'
+import { Props as SingleCheckboxProps } from '../components/SingleCheckbox'
+import { Props as SliderProps } from '../components/Slider'
+import { Props as SwithProps } from '../components/Switch'
+import { Props as TextProps } from '../components/Text'
+import { TextAreaProps } from '../components/TextArea'
+import { Props as TextInputProps } from '../components/TextInput'
+import { Props as TextInputAutosuggestProps } from '../components/TextInputAutosuggest'
+import { Props as MaskedDatePickerProps } from '../components/MaskedDatePicker'
+import { Props as MaskedInputProps } from '../components/MaskedInput'
 import { Props as StaticFieldProps } from './StaticField'
-import { Props as TextNumberInputProps } from '../../components/TextNumberInput'
-import { Props as ToggleProps } from '../../components/Toggle'
-import { Props as YesNoOptionGroupProps } from '../../components/YesNoOptionGroup'
-import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
-import { Props as FileInputProps } from '../../components/FileInput'
-import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
-import { LocaleNamespace, Translate } from '../../translation'
+import { Props as TextNumberInputProps } from '../components/TextNumberInput'
+import { Props as ToggleProps } from '../components/Toggle'
+import { Props as YesNoOptionGroupProps } from '../components/YesNoOptionGroup'
+import { Props as YesNoRadioGroupProps } from '../components/YesNoRadioGroup'
+import { Props as FileInputProps } from '../components/FileInput'
+import { Props as MultiFileInputProps } from '../components/MultiFileInput'
+import { LocaleNamespace, Translate } from '../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
-import { FormTheme } from '../../theme/theme.form'
-import { FormLens } from '../util'
+import { FormTheme } from '../theme/theme.form'
+import { FormLens } from './util'
 
-// import { CheckboxGroupProps } from '../../components/CheckboxGroup'
-// import { Props as DropdownProps } from '../../components/Dropdown'
-// import { Props as DropdownNumberProps } from '../../components/DropdownNumber'
-// import { Props as InputWithDropdownProps } from '../../components/InputWithDropdown'
-// import { Props as CountryDropdownProps } from '../../components/CountryDropdown'
+// import { CheckboxGroupProps } from '../components/CheckboxGroup'
+// import { Props as DropdownProps } from '../components/Dropdown'
+// import { Props as DropdownNumberProps } from '../components/DropdownNumber'
+// import { Props as InputWithDropdownProps } from '../components/InputWithDropdown'
+// import { Props as CountryDropdownProps } from '../components/CountryDropdown'
 
 export enum FormFieldType {
   // CountryDropdown = 'CountryDropdown',
@@ -194,18 +194,7 @@ export type MultiSelectField<FormData> = FormInput<
   FormFieldType.MultiSelect
 >
 
-export type TextSelectField<FormData> = FormInput<
-  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
-  SelectProps,
-  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
-  FormFieldType.TextSelect
->
-export type TextInputAutosuggestField<FormData> = FormInput<
-  NullableAndUndefinabled<string>,
-  TextInputAutosuggestProps,
-  NullableAndUndefinabledLens<FormData, string>,
-  FormFieldType.TextInputAutosuggest
->
+
 
 export type NumberSelectField<FormData> = FormInput<
   NullableAndUndefinabled<number> | NullableAndUndefinabled<string>,
@@ -247,6 +236,20 @@ export type TextInputField<FormData> = FormInput<
   TextInputProps,
   NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextInput
+>
+
+export type TextInputAutosuggestField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  TextInputAutosuggestProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.TextInputAutosuggest
+>
+
+export type TextSelectField<FormData> = FormInput<
+  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
+  SelectProps,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
+  FormFieldType.TextSelect
 >
 
 export type MaskedInputField<FormData> = FormInput<
@@ -414,10 +417,10 @@ export type MultiInputField<FormData> = {
 export type MultiInputAutosuggestField<FormData> = {
   label?: LabelProps
   type: FormFieldType.MultiInputAutosuggest
-  fields: Array<TextSelectField<FormData>>
+  fields: Array<SingleFormField<FormData>>
   itemStyle?: CSSProperties
   isVisible?: (formData: FormData) => boolean
-  cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
+  // cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>

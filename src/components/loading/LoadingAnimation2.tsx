@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { P } from '../../html'
-import { useComponentTheme, useCSSStyles } from '../../theme/theme.components'
-import { createStyled } from '../../theme/util'
+import { P } from '../html'
+import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
 
 // source: https://tobiasahlin.com/spinkit/
 

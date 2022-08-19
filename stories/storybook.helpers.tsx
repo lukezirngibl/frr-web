@@ -5,7 +5,7 @@ import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
 import { brand } from './theme/bob/bob.brand'
-import { FormConfigContext } from '../src/form/components/form.hooks'
+import { FormConfigContext } from '../src/form/form.hooks'
 
 export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
   title: string
