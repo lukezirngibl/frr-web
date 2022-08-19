@@ -31,18 +31,16 @@ const ZipList = ZipCityList.map((item) => ({
   value: item.zip,
   label: `${item.zip} ${item.city}`,
   isTranslated: true,
-  data: item
+  data: item,
 }))
 const CityList = ZipCityList.map((item) => ({
   value: item.city,
   label: `${item.city} (${item.zip})`,
   isTranslated: true,
-  data: item
+  data: item,
 }))
 
-const getTextInputAutosuggestField = (
-  setSuggestion: (lens: FormLens<FormData, any>) => (suggestion: Option) => void,
-): MultiInputAutosuggestField<FormData> => ({
+const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
   type: FormFieldType.MultiInputAutosuggest,
   label: { label: 'Postal Code / City' },
   itemStyle: {
@@ -65,8 +63,6 @@ const getTextInputAutosuggestField = (
       itemStyle: {
         marginRight: 0,
       },
-      // defaultOptions: [] as Options<string>,
-      onSuggestionSelected: setSuggestion(formLens(['zip'])),
       onLoadSuggestions: (searchString) => {
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -88,7 +84,6 @@ const getTextInputAutosuggestField = (
       name: 'city',
       required: true,
       validate: validateCity,
-      onSuggestionSelected: setSuggestion(formLens(['city'])),
       onLoadSuggestions: (searchString) => {
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -101,36 +96,28 @@ const getTextInputAutosuggestField = (
       },
     },
   ],
-})
+}
 
 export const PostalCodeCity = () => {
   const [data, setData] = React.useState<FormData>({ city: null, zip: null })
 
-  const setSuggestion = (lens: FormLens<FormData, any>) => (suggestion: Option) => {
-    if (lens.id() === 'zip') {
-      setData({
-        zip: suggestion.value,
-        city: suggestion.data.city,
-      })
-    }
-    if (lens.id() === 'city') {
-      setData({
-        zip: suggestion.data.zip,
-        city: suggestion.value,
-      })
-    }
-  }
-
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
-        field: getTextInputAutosuggestField(setSuggestion),
+        field: textInputAutosuggestField,
         fieldIndex: 0,
         formReadOnly: false,
         style: {},
         data,
         onChange: (lens, value) => {
           setData({ ...data, [lens.id()]: value })
+        },
+        onChangeMany: (changes) => {
+          const newData = { ...data }
+          changes.forEach(({ lens, value }) => {
+            newData[lens.id()] = value
+          })
+          setData(newData)
         },
         showValidation: false,
       })}

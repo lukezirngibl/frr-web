@@ -9,7 +9,7 @@ import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
   onLoadSuggestions: (inputValue: string) => Promise<Options<Option>>
-  onSuggestionSelected: (suggestion: Option) => void
+  onSuggestionSelected?: (suggestion: Option) => void
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
@@ -51,7 +51,6 @@ export const TextInputAutosuggest = (props: Props) => {
         menuShouldBlockScroll
         name={props.name}
         onOptionSelected={(option) => {
-          console.log('OPTION SELECTED', option)
           setMenuState({ isOpen: false, isLoading: false })
           props.onSuggestionSelected(option)
         }}

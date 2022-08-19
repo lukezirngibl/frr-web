@@ -10,7 +10,9 @@ import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
-import { CommonThreadProps, MultiInputAutosuggestField } from './types'
+import { CommonThreadProps, MultiInputAutosuggestField, TextInputAutosuggestField } from './types'
+import { FormLens } from './util'
+import { Option } from '../components/menu/Menu.types'
 
 export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
@@ -35,6 +37,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
+  onChangeMany,
   showValidation,
   style,
 }: FieldMultiInputAutosuggestProps<FormData>) => {
@@ -80,6 +83,33 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
       </FieldRowWrapper>
     )
   }
+  const setSuggestion =
+    (currentField: TextInputAutosuggestField<FormData>) =>
+    (suggestion: Option): void => {
+      console.log('SUGGESTION SELECTED', currentField.lens.id(), suggestion)
+
+      // Provide to onSuggestionSelected of parent component (if present)
+      currentField.onSuggestionSelected?.(suggestion)
+
+      // Change all referenced fields accordingly
+      const changes: Array<{ lens: FormLens<FormData, any>; value: any }> = [
+        { lens: currentField.lens, value: suggestion.value },
+      ]
+
+      field.fields.forEach((fieldItem) => {
+        if (fieldItem.lens.id() !== currentField.lens.id()) {
+          const value = suggestion.data[fieldItem.lens.id()]
+          if (value !== undefined) {
+            changes.push({ lens: fieldItem.lens, value })
+          }
+        }
+      })
+
+      console.log('CHANGES', changes)
+
+      // Propagate changes to form
+      onChangeMany?.(changes)
+    }
 
   return (
     <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
@@ -108,7 +138,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
             <FieldRowItem
               {...commonFieldProps}
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-              field={fieldItem}
+              field={{ ...fieldItem, onSuggestionSelected: setSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}
               errorFieldId={errorFieldId}
               onChange={onChange}
