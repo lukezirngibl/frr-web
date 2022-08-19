@@ -45,7 +45,7 @@ export const optionCSS = ({
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 
   // provide some affordance on touch devices
-  ':active': {
-    backgroundColor: !isDisabled ? (isSelected ? colors.primary : colors.primary50) : undefined,
-  },
+  // ':active': {
+  //   backgroundColor: !isDisabled ? (isSelected ? colors.primary : colors.primary50) : undefined,
+  // },
 })

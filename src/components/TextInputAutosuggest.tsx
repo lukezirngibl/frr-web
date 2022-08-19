@@ -8,37 +8,35 @@ import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
 import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
-  onLoadSuggestions?: (inputValue: string) => Promise<any>
+  onLoadSuggestions: (inputValue: string) => Promise<Options<Option>>
+  onSuggestionSelected: (suggestion: Option) => void
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
   const { value, ...inputProps } = props
   const controlRef = useRef<HTMLInputElement>(null)
 
-  const [suggestions, setSuggestions] = useState([])
   const [menuState, setMenuState] = useState({ isOpen: false, isLoading: false })
+  const [suggestions, setSuggestions] = useState<Options<Option>>([])
 
   const onChange = (value: string) => {
     props.onChange?.(value)
-    if (props.onLoadSuggestions) {
-      setMenuState({ isOpen: true, isLoading: true })
+    setMenuState({ isOpen: true, isLoading: true })
 
-      props.onLoadSuggestions(value).then((suggestions) => {
-        setSuggestions(suggestions)
-        setMenuState({ isOpen: true, isLoading: false })
-      })
-    }
+    props.onLoadSuggestions(value).then((suggestions) => {
+      setSuggestions(suggestions)
+      setMenuState({ isOpen: true, isLoading: false })
+    })
   }
 
   const onBlur = (value: string) => {
-    props.onBlur?.(value)
     setMenuState({ isOpen: false, isLoading: false })
+    props.onBlur?.(value)
   }
 
   useEffect(() => {
     console.log('SUGGESTIONS', suggestions)
   }, [suggestions])
-  
 
   return (
     <div ref={controlRef}>
@@ -55,7 +53,7 @@ export const TextInputAutosuggest = (props: Props) => {
         onOptionSelected={(option) => {
           console.log('OPTION SELECTED', option)
           setMenuState({ isOpen: false, isLoading: false })
-          props.onChange?.(option.value)
+          props.onSuggestionSelected(option)
         }}
         options={suggestions}
       />

@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Label } from '../components/Label'
-import { createStyled } from '../theme/util'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../theme/theme.form'
+import { createStyled } from '../theme/util'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import { Options } from '../html'
 
-import { FieldScrollableWrapper } from './FieldScrollableWrapper'
-import { CommonThreadProps, MultiInputAutosuggestField } from './types'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
+import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
+import { CommonThreadProps, MultiInputAutosuggestField } from './types'
 
 export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
@@ -59,56 +58,16 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     style,
   }
 
-  // const zipField = field.fields[0]
-  // const cityField = field.fields[1]
-
-  // const [filteredCitiesById, setFilteredCitiesById] = useState<Array<City>>([])
-
-  // Select
-  // const [selectCityOptions, setSelectCityOptions] = useState<Options<Value>>([])
-  // const [selectedCity, setSelectedCity] = useState<City | null>(null)
-  // const [showSelect, setShowSelect] = useState<boolean>(false)
-
-  // // fields value
-  // const [isCityValueUpdated, setIsCityValueUpdated] = useState<boolean>(false)
-
-  // const changeCityValue = (value: string | null) => {
-  //   onChange(cityField.lens, value)
-  //   setIsCityValueUpdated(true)
-  // }
-
-  // const onKeyUp = (value: string) => {
-  //   if (value !== '') {
-  //     const target = field.cities.filter((city) => city.zip.toString().startsWith(value))
-  //     setFilteredCitiesById(target)
-  //     setSelectCityOptions(target.map((t: City) => ({ label: t.searchstring, value: t.id })))
-
-  //     if (!!selectedCity && selectedCity.id.toString() !== value) setSelectedCity(null)
-  //   } else {
-  //     setSelectCityOptions([])
-  //     setFilteredCitiesById([])
-  //   }
-  // }
-
   // useEffect(() => {
-  //   if (filteredCitiesById.length > 0) setShowSelect(true)
-  //   if (filteredCitiesById.length === 1) setSelectedCity(filteredCitiesById[0])
-  //   else if (filteredCitiesById.length === 0) setShowSelect(false)
-  // }, [filteredCitiesById])
+  //   fields.forEach((field) => {
+  //     const value = field.lens.get(data)
 
-  // useEffect(() => {
-  //   if (!!selectedCity) {
-  //     changeCityValue(selectedCity.city)
-  //     setShowSelect(false)
-  //   }
-  // }, [selectedCity])
-
-  // useEffect(() => {
-  //   if (!!selectedCity && isCityValueUpdated) {
-  //     onChange(zipField.lens, selectedCity.zip.toString())
-  //     setIsCityValueUpdated(false)
-  //   }
-  // }, [isCityValueUpdated])
+  //     // Set value based
+  //     if (value === undefined || value === null) {
+  //       onChange(field.lens, )
+  //     }
+  //   })
+  // }, [data])
 
   if (formReadOnly) {
     return (
@@ -199,7 +158,4 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
   )
 }
 
-
-const FieldRowWithSelect = ({ }) => {
-  
-}
+const FieldRowWithSelect = ({}) => {}

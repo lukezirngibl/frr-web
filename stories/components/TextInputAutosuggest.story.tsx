@@ -3,8 +3,15 @@ import { createStory, meta } from '../storybook.helpers'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/FieldRowItem'
 import React from 'react'
 import { makeFormLens } from '../../src/form/util'
-import { FormField, FormFieldType, SingleFormField } from '../../src/form/types'
-import { Options } from '../../src/html'
+import {
+  FormField,
+  FormFieldType,
+  MultiInputAutosuggestField,
+  SingleFormField,
+  TextInputAutosuggestField,
+} from '../../src/form/types'
+import { Option } from '../../src/components/menu/Menu.types'
+import { Options } from 'react-select'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta<Props, typeof TextInputAutosuggest>({
@@ -57,36 +64,39 @@ const zips = [
   '9021',
   '9321',
 ]
-const textInputAutosuggestField: SingleFormField<FormData> = {
+const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
   type: FormFieldType.TextInputAutosuggest,
   lens: formLens(['zip']),
   label: { label: 'Postal Code' },
-  defaultOptions: [] as Options<string>,
-  onLoadSuggestions: (value: string) => {
+  onSuggestionSelected: () => {},
+  onLoadSuggestions: (value: string): Promise<Options<Option>> => {
     return new Promise((resolve) => {
       const zipOptions = zips
         .filter((zip) => zip.startsWith(value))
-        .map((zip) => ({ value: zip, label: zip, isTranslated: true }))
+        .map((zip) => ({ value: zip, label: zip, isTranslated: true, data: { zip } }))
       console.log('ZIP OPTIONS', zipOptions)
       setTimeout(() => {
         resolve(zipOptions)
       }, 1000)
     })
   },
-} as any
+}
 
 export const Autosugget = () => {
   const [value, setValue] = React.useState('')
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
-        field: textInputAutosuggestField,
+        field: {
+          ...textInputAutosuggestField,
+          onSuggestionSelected: (suggestion) => {
+            setValue(suggestion.value)
+          }
+        },
         fieldIndex: 0,
         formReadOnly: false,
         style: {},
-        data: {
-          zip: value,
-        },
+        data: { zip: value },
         onChange: (lens, value) => {
           setValue(value)
         },

@@ -2,13 +2,13 @@ import { CSSObject } from '@emotion/react'
 import { ReactNode, RefCallback } from 'react'
 import { CoercedMenuPlacement, MenuPosition, Options, Theme } from 'react-select'
 import { CSSProperties } from 'styled-components'
-import { OptionType } from '../html'
+import { OptionType } from '../../html'
 import { MenuCSSProps } from './Menu'
 import { MenuPlacementState } from './Menu.utils'
 
 // Common Props
 
-export type Option = OptionType<string>
+export type Option = OptionType<string> & { data: any }
 
 export type ClassNamesState = { [key: string]: boolean }
 export type CX = (state: ClassNamesState, className?: string) => string

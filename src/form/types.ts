@@ -194,8 +194,6 @@ export type MultiSelectField<FormData> = FormInput<
   FormFieldType.MultiSelect
 >
 
-
-
 export type NumberSelectField<FormData> = FormInput<
   NullableAndUndefinabled<number> | NullableAndUndefinabled<string>,
   SelectProps,
@@ -417,9 +415,10 @@ export type MultiInputField<FormData> = {
 export type MultiInputAutosuggestField<FormData> = {
   label?: LabelProps
   type: FormFieldType.MultiInputAutosuggest
-  fields: Array<SingleFormField<FormData>>
+  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   itemStyle?: CSSProperties
   isVisible?: (formData: FormData) => boolean
+
   // cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
 }
 
