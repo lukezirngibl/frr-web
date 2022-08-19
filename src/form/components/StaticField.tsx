@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Props as ButtonProps } from '../components/Button'
-import { Label, LabelProps } from '../components/Label'
-import { Checklist, StaticChecklist } from '../components/StaticChecklist'
-import { P } from '../html'
-import { createStyled } from '../theme/util'
-import { LocaleNamespace } from '../translation'
-import { useFormTheme, useInlineStyle, useCSSStyles } from '../theme/theme.form'
+import { Button, Props as ButtonProps } from '../../components/Button'
+import { Label, LabelProps } from '../../components/Label'
+import { Checklist, StaticChecklist } from '../../components/StaticChecklist'
+import { P } from '../../html'
+import { createStyled } from '../../theme/util'
+import { LocaleNamespace } from '../../translation'
+import { useFormTheme, useInlineStyle, useCSSStyles } from '../../theme/theme.form'
 
 export const FieldRowWrapper = createStyled(styled.div`
   & > * {

@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react'
 import styled, { CSSProperties } from 'styled-components'
-import { useCSSStyles, useFormTheme } from '../theme/theme.form'
-import { createStyled } from '../theme/util'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
 
 /*
  * Styled components

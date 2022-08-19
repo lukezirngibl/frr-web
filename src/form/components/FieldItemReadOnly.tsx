@@ -4,12 +4,12 @@ import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
-import { P } from '../html'
-import { MediaQuery } from '../theme/configure.theme'
-import { Language, mapLanguageToLocale } from '../theme/language'
-import { useCSSStyles, useFormTheme } from '../theme/theme.form'
-import { createStyled } from '../theme/util'
-import { LocaleNamespace, Translate } from '../translation'
+import { P } from '../../html'
+import { MediaQuery } from '../../theme/configure.theme'
+import { Language, mapLanguageToLocale } from '../../theme/language'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
+import { LocaleNamespace, Translate } from '../../translation'
 
 import {
   CommonThreadProps,

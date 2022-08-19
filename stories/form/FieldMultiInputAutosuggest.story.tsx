@@ -112,13 +112,6 @@ export const PostalCodeCity = () => {
         onChange: (lens, value) => {
           setData({ ...data, [lens.id()]: value })
         },
-        onChangeMany: (changes) => {
-          const newData = { ...data }
-          changes.forEach(({ lens, value }) => {
-            newData[lens.id()] = value
-          })
-          setData(newData)
-        },
         showValidation: false,
       })}
     </div>

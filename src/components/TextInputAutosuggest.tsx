@@ -1,4 +1,4 @@
-import React, { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
+import { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
 import { defaultTheme, Options } from 'react-select'
 import { LoadingMessage, Menu, MenuPortal, NoOptionsMessage } from './menu/Menu'
 import { MenuOption } from './menu/Menu.Option'
@@ -6,6 +6,8 @@ import { defaultStyles } from './menu/Menu.theme'
 import { CommonProps, Option, StylesConfig, StylesProps } from './menu/Menu.types'
 import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
 import { Props as TextInputProps, TextInput } from './TextInput'
+
+export type Suggestions = Options<Option>
 
 export type Props = {
   onLoadSuggestions: (inputValue: string) => Promise<Options<Option>>
@@ -60,7 +62,7 @@ export const TextInputAutosuggest = (props: Props) => {
   )
 }
 
-interface AutosuggestMenuProps {
+export interface AutosuggestMenuProps {
   controlRef: HTMLDivElement | null
   getOptionLabel?: (option: Option) => string
   inputValue: string

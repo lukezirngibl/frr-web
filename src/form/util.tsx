@@ -10,7 +10,7 @@ import {
   FormFieldRepeatSection,
   FormSection,
 } from './types'
-import { Translate } from '../translation'
+import { Translate } from '../../translation'
 
 let scrolled = false
 

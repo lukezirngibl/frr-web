@@ -145,9 +145,3 @@ export interface RectType {
 
 export type CSSObjectWithLabel = CSSProperties & { label?: string }
 
-// Menu Option
-
-export interface MenuOption {
-  readonly label: string
-  readonly value: string
-}

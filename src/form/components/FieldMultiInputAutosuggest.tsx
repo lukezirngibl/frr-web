@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { Label } from '../components/Label'
-import { useCSSStyles, useFormTheme, useInlineStyle } from '../theme/theme.form'
-import { createStyled } from '../theme/util'
+import { Label } from '../../components/Label'
+import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
 
 import { FieldItemReadOnly } from './FieldItemReadOnly'
@@ -11,8 +11,8 @@ import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { CommonThreadProps, MultiInputAutosuggestField, TextInputAutosuggestField } from './types'
-import { FormLens } from './util'
-import { Option } from '../components/menu/Menu.types'
+import { FormLens } from '../util'
+import { Option } from '../../components/menu/Menu.types'
 
 export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
@@ -83,6 +83,10 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
       </FieldRowWrapper>
     )
   }
+
+  const [changedFields, setChangedFields] = React.useState<
+    Array<{ lens: FormLens<FormData, any>; value: any }>
+  >([])
   const setSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
@@ -91,11 +95,12 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
-      // Change all referenced fields accordingly
+      // Push field that reported change
       const changes: Array<{ lens: FormLens<FormData, any>; value: any }> = [
         { lens: currentField.lens, value: suggestion.value },
       ]
 
+      // Change all referenced fields accordingly
       field.fields.forEach((fieldItem) => {
         if (fieldItem.lens.id() !== currentField.lens.id()) {
           const value = suggestion.data[fieldItem.lens.id()]
@@ -105,11 +110,18 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
         }
       })
 
-      console.log('CHANGES', changes)
-
-      // Propagate changes to form
-      onChangeMany?.(changes)
+      // Save new changes in state
+      setChangedFields(changes)
     }
+
+  // Propagate changes to form
+  useEffect(() => {
+    changedFields.forEach((changedField) => {
+      onChange(changedField.lens, changedField.value)
+    })
+  }, [changedFields])
+
+  console.log('DATA', data)
 
   return (
     <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>

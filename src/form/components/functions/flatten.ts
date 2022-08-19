@@ -6,7 +6,7 @@ import {
   SectionFields,
   SingleFormField,
 } from '../types'
-import { processRepeatGroup, processRepeatSection } from '../util'
+import { processRepeatGroup, processRepeatSection } from '../../util'
 
 const processFormFieldGroup = <T>(g: FormFieldGroup<T>): Array<SingleFormField<T>> => {
   let acc: Array<SingleFormField<T>> = []

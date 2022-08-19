@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useCSSStyles, useFormTheme } from '../theme/theme.form'
-import { createStyled } from '../theme/util'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { createStyled } from '../../theme/util'
 import { FieldRowItem } from './FieldRowItem'
 import { CommonThreadProps, FormFieldRow } from './types'
 
