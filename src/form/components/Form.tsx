@@ -123,6 +123,16 @@ export const Form = <FormData extends {}>({
     }
   }
 
+  const internalOnChangeMulti = (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => {
+    if (onChange) {
+      let newData = data
+      fields.forEach(({ lens, value }) => {
+        newData = lens.set(value)(newData)
+      })
+      onChange(newData)
+    }
+  }
+
   useEffect(() => {
     hiddenFormFields.forEach((f) => {
       const v = f.lens.get(data)
@@ -180,6 +190,7 @@ export const Form = <FormData extends {}>({
     formReadOnly: readOnly,
     localeNamespace,
     onChange: internalOnChange,
+    onChangeMulti: internalOnChangeMulti,
     showValidation,
     style,
   }

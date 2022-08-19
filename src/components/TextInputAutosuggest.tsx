@@ -6,6 +6,7 @@ import { defaultStyles } from './menu/Menu.theme'
 import { CommonProps, Option, StylesConfig, StylesProps } from './menu/Menu.types'
 import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
 import { Props as TextInputProps, TextInput } from './TextInput'
+import styled from 'styled-components'
 
 export type Suggestions = Options<Option>
 
@@ -41,24 +42,24 @@ export const TextInputAutosuggest = (props: Props) => {
   }, [suggestions])
 
   return (
-    <div ref={controlRef}>
-      <TextInput {...inputProps} value={value} onChange={onChange} onBlur={onBlur} />
-
-      <AutosuggestMenu
-        controlRef={controlRef.current}
-        inputValue={props.value}
-        isLoading={menuState.isLoading}
-        menuIsOpen={menuState.isOpen}
-        menuPortalTarget={document.body}
-        menuShouldBlockScroll
-        name={props.name}
-        onOptionSelected={(option) => {
-          setMenuState({ isOpen: false, isLoading: false })
-          props.onSuggestionSelected(option)
-        }}
-        options={suggestions}
-      />
-    </div>
+    <TextInput {...inputProps} value={value} onChange={onChange} onBlur={onBlur} autocomplete="off">
+      <StlyedContainer ref={controlRef}>
+        <AutosuggestMenu
+          controlRef={controlRef.current}
+          inputValue={props.value}
+          isLoading={menuState.isLoading}
+          menuIsOpen={menuState.isOpen}
+          menuPortalTarget={document.body}
+          menuShouldBlockScroll
+          name={props.name}
+          onOptionSelected={(option) => {
+            setMenuState({ isOpen: false, isLoading: false })
+            props.onSuggestionSelected(option)
+          }}
+          options={suggestions}
+        />
+      </StlyedContainer>
+    </TextInput>
   )
 }
 
@@ -233,3 +234,15 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
     menuElement
   )
 }
+
+// ==============================
+// Styled components
+// ==============================
+
+const StlyedContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  min-width: 180px;
+  left: 0;
+  bottom: 0;
+`

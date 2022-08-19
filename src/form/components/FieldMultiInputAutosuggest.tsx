@@ -18,14 +18,6 @@ export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormDa
   field: MultiInputAutosuggestField<FormData>
 }
 
-type Value = string | number | null
-type City = {
-  id: number
-  city: string
-  zip: number
-  searchstring: string
-}
-
 const WrapperItem = createStyled('div')
 
 // ------------------------------------
@@ -37,7 +29,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
-  onChangeMany,
+  onChangeMulti,
   showValidation,
   style,
 }: FieldMultiInputAutosuggestProps<FormData>) => {
@@ -60,17 +52,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     disableDirtyValidation,
     style,
   }
-
-  // useEffect(() => {
-  //   fields.forEach((field) => {
-  //     const value = field.lens.get(data)
-
-  //     // Set value based
-  //     if (value === undefined || value === null) {
-  //       onChange(field.lens, )
-  //     }
-  //   })
-  // }, [data])
 
   if (formReadOnly) {
     return (
@@ -103,25 +84,25 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
       // Change all referenced fields accordingly
       field.fields.forEach((fieldItem) => {
         if (fieldItem.lens.id() !== currentField.lens.id()) {
-          const value = suggestion.data[fieldItem.lens.id()]
+          const fieldItemId = fieldItem.lens.id().split('.').pop()
+          const value = suggestion.data[fieldItemId]
           if (value !== undefined) {
             changes.push({ lens: fieldItem.lens, value })
           }
         }
       })
 
-      // Save new changes in state
-      setChangedFields(changes)
+      // Propagate changes to form
+      onChangeMulti?.(changes)
     }
 
   // Propagate changes to form
-  useEffect(() => {
-    changedFields.forEach((changedField) => {
-      onChange(changedField.lens, changedField.value)
-    })
-  }, [changedFields])
-
-  console.log('DATA', data)
+  // useEffect(() => {
+  //   changedFields.forEach((changedField) => {
+  //     console.log('CHANGED FIELD', changedField.lens.id(), changedField.value)
+  //     onChange(changedField.lens, changedField.value)
+  //   })
+  // }, [changedFields])
 
   return (
     <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
@@ -158,42 +139,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
               isNotScrollable
             />
           ))}
-
-          {/* <FieldRowItem
-            {...commonFieldProps}
-            key={`zipField-item`}
-            field={zipField}
-            fieldIndex={0}
-            errorFieldId={errorFieldId}
-            onChange={onChange}
-            onError={onError}
-            isNotScrollable
-          />
-
-          {showSelect ? (
-            <Select
-              dataTestId={`${cityField.lens.id()}-select-item`}
-              options={selectCityOptions}
-              onChange={(value) =>
-                setSelectedCity(
-                  filteredCitiesById.find((city) => city.id.toString() === value.toString()),
-                )
-              }
-              value={!!selectedCity ? selectedCity.id : null}
-              style={{ wrapper: { width: 328 }, select: { width: 328 } }}
-            />
-          ) : (
-            <FieldRowItem
-              {...commonFieldProps}
-              key={`cityField-item`}
-              field={cityField}
-              fieldIndex={1}
-              errorFieldId={errorFieldId}
-              onChange={onChange}
-              onError={onError}
-              isNotScrollable
-            />
-          )*/}
         </WrapperItem>
       </FieldScrollableWrapper>
     </FieldRowWrapper>

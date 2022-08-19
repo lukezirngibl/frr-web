@@ -14,6 +14,7 @@ const Prefix = createStyled('p')
 
 export type Props = {
   autocomplete?: string
+  children?: React.ReactNode
   dataTestId?: string
   debounce?: number
   disabled?: boolean
@@ -31,8 +32,8 @@ export type Props = {
   onlyOnBlur?: boolean
   parseValue?: (value: string | null) => string
   placeholder?: string
-  prefix?: string
   postfix?: string
+  prefix?: string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<ComponentTheme['textInput']>
@@ -147,6 +148,7 @@ export const TextInput = (props: Props) => {
           value={value}
         ></Input>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
+        {props.children}
       </InputWrapper>
     </>
   )

@@ -419,8 +419,6 @@ export type MultiInputAutosuggestField<FormData> = {
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   itemStyle?: CSSProperties
   isVisible?: (formData: FormData) => boolean
-
-  // cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
@@ -535,7 +533,7 @@ export type CommonThreadProps<FormData> = {
   formReadOnly: boolean
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
-  onChangeMany?: (data: Array<{ lens: FormLens<FormData, any>; value: any }>) => void
+  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>, value: any}>) => void
   showValidation: boolean
   style: Partial<FormTheme> | undefined
 }

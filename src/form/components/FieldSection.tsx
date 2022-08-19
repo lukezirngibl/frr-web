@@ -26,6 +26,7 @@ export const FieldSection = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
+  onChangeMulti,
   onFormEdit,
   showValidation,
 
@@ -44,6 +45,7 @@ export const FieldSection = <FormData extends {}>({
     formReadOnly,
     localeNamespace,
     onChange,
+    onChangeMulti,
     showValidation,
     style,
   }
