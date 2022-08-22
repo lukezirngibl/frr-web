@@ -20,7 +20,7 @@ export const TextInputAutosuggest = (props: Props) => {
   const { value, ...inputProps } = props
   const controlRef = useRef<HTMLInputElement>(null)
 
-  const [menuState, setMenuState] = useState({ isOpen: true, isLoading: false })
+  const [menuState, setMenuState] = useState({ isOpen: false, isLoading: false })
   const [suggestions, setSuggestions] = useState<Options<Option>>([])
 
   const onChange = (value: string) => {

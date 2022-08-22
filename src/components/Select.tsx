@@ -136,7 +136,6 @@ export const Select = (props: Props) => {
               data-test-id={props.dataTestId}
               getOptionLabel={getOptionLabel}
               isDisabled={props.disabled || props.readOnly}
-              menuIsOpen
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
               menuShouldBlockScroll
