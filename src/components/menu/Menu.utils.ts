@@ -1,24 +1,18 @@
-import { CoercedMenuPlacement, ThemeSpacing } from 'react-select'
-import { ClassNamesState, RectType } from './Menu.types'
-
-const spacing: ThemeSpacing = { controlHeight: 38, baseUnit: 8, menuGutter: 4 }
+import { ClassNamesState, MenuPlacement, MenuPlacementState, RectType } from './Menu.types'
 
 export const MAX_HEIGHT = 300
 export const MIN_HEIGHT = 140
-
-export interface MenuPlacementState {
-  placement: CoercedMenuPlacement | null
-  maxHeight: number
-}
 
 export function getMenuPlacement({
   menuEl,
   maxHeight = MAX_HEIGHT,
   minHeight = MIN_HEIGHT,
+  fieldHeight,
 }: {
   menuEl: HTMLElement | null
   maxHeight?: number
   minHeight?: number
+  fieldHeight: number
 }): MenuPlacementState {
   const scrollParent = getScrollParent(menuEl!)
   const defaultState: MenuPlacementState = { placement: 'bottom', maxHeight }
@@ -76,7 +70,7 @@ export function getMenuPlacement({
   const spaceAbove = scrollSpaceAbove
 
   if (spaceAbove >= minHeight) {
-    constrainedHeight = Math.min(spaceAbove - marginBottom - spacing.controlHeight, maxHeight)
+    constrainedHeight = Math.min(spaceAbove - marginBottom - fieldHeight, maxHeight)
   }
 
   return { placement: 'top', maxHeight: constrainedHeight }

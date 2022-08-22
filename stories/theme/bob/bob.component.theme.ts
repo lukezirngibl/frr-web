@@ -457,9 +457,14 @@ export const componentTheme: Partial<ComponentTheme> = {
     },
     menu: {
       backgroundColor: 'var(--color-form-field-background)',
+      borderRadius: 'var(--form-field-border-radius)',
       boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+      marginBottom: 4,
       marginLeft: -4,
       marginTop: -4,
+      position: 'absolute',
+      width: '100%',
+      zIndex: 1,
     },
     select: {
       alignItems: 'center',
@@ -487,17 +492,29 @@ export const componentTheme: Partial<ComponentTheme> = {
       zIndex: 10,
     },
     option: {
+      cursor: 'pointer',
+      display: 'block',
+      fontSize: 'inherit',
+      padding: '16px 16px',
+      width: '100%',
+      userSelect: 'none',
       paddingLeft: 28,
-      transition: 'background-color 0.1s, color: 0.1s',
+      transition: 'background-color 20ms, color 20ms',
       ':hover': {
         backgroundColor: 'var(--color-background-accent)',
         color: 'white',
       },
-      ':active': {
+      ':disabled': {
         backgroundColor: 'transparent',
-        color: 'var(--color-text-primary)',
+        color: 'var(--color-disabled)',
+        cursor: 'default',
       },
     },
+    optionActive: {
+      backgroundColor: 'transparent',
+      color: 'var(--color-text-primary)',
+    },
+    placeholder: {},
     valueContainer: { padding: 0 },
     value: {
       fontSize: 'var(--font-size-input)',

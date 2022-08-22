@@ -5,7 +5,7 @@ import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
 import { brand } from './theme/bob/bob.brand'
-import { FormConfigContext } from '../src/form/form.hooks'
+import { FormConfigContext } from '../src/form/components/form.hooks'
 
 // -----------------------------------
 // Create story with theme and styles

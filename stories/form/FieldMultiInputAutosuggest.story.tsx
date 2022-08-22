@@ -1,15 +1,13 @@
 import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
 
 import React from 'react'
-import { Option } from '../../src/components/menu/Menu.types'
 import {
   FieldMultiInputAutosuggest,
   FieldMultiInputAutosuggestProps,
-} from '../../src/form/FieldMultiInputAutosuggest'
-import { FormFieldType, MultiInputAutosuggestField } from '../../src/form/types'
-import { FormLens, makeFormLens } from '../../src/form/util'
+} from '../../src/form/components/FieldMultiInputAutosuggest'
+import { FormFieldType, MultiInputAutosuggestField } from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
 import { ZipCityList } from '../assets/ZipCityList'
-import { Options } from 'react-select'
 
 type FormData = {
   zip?: string | null

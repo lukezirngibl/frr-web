@@ -136,6 +136,7 @@ export const Select = (props: Props) => {
               data-test-id={props.dataTestId}
               getOptionLabel={getOptionLabel}
               isDisabled={props.disabled || props.readOnly}
+              menuIsOpen
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
               menuShouldBlockScroll
@@ -266,6 +267,7 @@ export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): Styl
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
+  const optionStyleActive = getInlineStyle('optionActive').style as any
   const placeholderStyle = getInlineStyle('placeholder').style as any
   const selectStyle = getInlineStyle(
     {
@@ -310,13 +312,13 @@ export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): Styl
         backgroundColor:
           (state.isFocused && optionStyle[':hover']?.backgroundColor) ||
           (state.isDisabled && !state.isFocused && 'transparent') ||
-          (state.isSelected && optionStyle[':active']?.backgroundColor) ||
+          (state.isSelected && optionStyleActive.backgroundColor) ||
           optionStyle.backgroundColor ||
           optionStyle.background ||
           provided.backgroundColor,
         color:
           (state.isFocused && optionStyle[':hover']?.color) ||
-          (state.isSelected && optionStyle[':active']?.color) ||
+          (state.isSelected && optionStyleActive.color) ||
           optionStyle.color ||
           provided.color,
       }

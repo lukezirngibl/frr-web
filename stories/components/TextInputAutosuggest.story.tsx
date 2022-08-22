@@ -1,17 +1,11 @@
-import { TextInputAutosuggest, Props } from '../../src/components/TextInputAutosuggest'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/FieldRowItem'
 import React from 'react'
-import { makeFormLens } from '../../src/form/util'
-import {
-  FormField,
-  FormFieldType,
-  MultiInputAutosuggestField,
-  SingleFormField,
-  TextInputAutosuggestField,
-} from '../../src/form/types'
-import { Option } from '../../src/components/menu/Menu.types'
 import { Options } from 'react-select'
+import { Option } from '../../src/components/menu/Menu.types'
+import { Props, TextInputAutosuggest } from '../../src/components/TextInputAutosuggest'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, TextInputAutosuggestField } from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
+import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta<Props, typeof TextInputAutosuggest>({
@@ -73,7 +67,7 @@ const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
     return new Promise((resolve) => {
       const zipOptions = zips
         .filter((zip) => zip.startsWith(value))
-        .map((zip) => ({ value: zip, label: zip, isTranslated: true, data: { zip } }))
+        .map((zip) => ({ value: zip, label: zip, isTranslated: true, data: { zip } }))
       console.log('ZIP OPTIONS', zipOptions)
       setTimeout(() => {
         resolve(zipOptions)
@@ -91,7 +85,7 @@ export const Autosugget = () => {
           ...textInputAutosuggestField,
           onSuggestionSelected: (suggestion) => {
             setValue(suggestion.value)
-          }
+          },
         },
         fieldIndex: 0,
         formReadOnly: false,

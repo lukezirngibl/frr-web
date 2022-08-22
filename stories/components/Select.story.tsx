@@ -1,10 +1,9 @@
-import { Select, Props } from '../../src/components/Select'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/FieldRowItem'
 import React from 'react'
+import { Props, Select } from '../../src/components/Select'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, SingleFormField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField } from '../../src/form/types'
-import { Options } from '../../src/html'
+import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta<Props, typeof Select>({

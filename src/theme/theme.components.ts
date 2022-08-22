@@ -106,6 +106,7 @@ export type ComponentTheme = {
     iconMobile: CSSProperties
     menu: CSSProperties
     option: CSSProperties
+    optionActive: CSSProperties
     placeholder: CSSProperties
     select: CSSProperties
     value: CSSProperties
@@ -430,6 +431,7 @@ export const defaultComponentTheme: ComponentTheme = {
     iconMobile: {},
     menu: {},
     option: {},
+    optionActive: {},
     placeholder: {},
     select: {},
     value: {},
