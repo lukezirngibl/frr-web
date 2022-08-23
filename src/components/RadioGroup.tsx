@@ -33,7 +33,6 @@ export const RadioGroup = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
-  const optionRef = React.useRef<HTMLDivElement>(null)
   const [isFocused, setIsFocused] = React.useState(false)
 
   const onFocus = () => {
@@ -44,13 +43,20 @@ export const RadioGroup = (props: Props) => {
     props.onChange(item.value)
     props.onBlur?.(item.value)
     setIsFocused(false)
-    optionRef.current?.blur()
+  }
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      const activeIndex = props.options.findIndex((item) => item.value === props.value)
+      props.onChange(props.options[(activeIndex + 1) % props.options.length].value)
+      event.preventDefault()
+    }
   }
 
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <Wrapper {...getCSSStyles('wrapper')}>
+      <Wrapper {...getCSSStyles('wrapper')} tabIndex={0} onFocus={onFocus} onKeyDown={onKeyDown}>
         {props.options.map((option, k) => {
           const active = option.value === props.value
           return (
@@ -59,15 +65,12 @@ export const RadioGroup = (props: Props) => {
               key={k}
               data-test-id={`${props.dataTestId}:${option.value}`}
               onClick={() => onChange(option)}
-              onFocus={onFocus}
-              ref={optionRef}
-              tabIndex={0}
+              tabIndex={-1}
             >
               <P
                 {...getCSSStyles('label')}
                 label={option.label}
                 localeNamespace={props.localeNamespace}
-                tabIndex={-1}
               />
               <OuterRadio
                 {...getInlineStyle({
@@ -75,7 +78,6 @@ export const RadioGroup = (props: Props) => {
                   radioOuterActive: active,
                   radioOuterError: props.error,
                 })}
-                tabIndex={-1}
               >
                 {active && (
                   <InnerRadio
@@ -83,7 +85,6 @@ export const RadioGroup = (props: Props) => {
                       radioInner: true,
                       radioInnerActive: active,
                     })}
-                    tabIndex={-1}
                   ></InnerRadio>
                 )}
               </OuterRadio>

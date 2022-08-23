@@ -37,7 +37,6 @@ export const OptionGroup = (props: Props) => {
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
-  const optionRef = React.useRef<HTMLDivElement>(null)
   const [isFocused, setIsFocused] = React.useState(false)
 
   const onFocus = () => {
@@ -48,7 +47,14 @@ export const OptionGroup = (props: Props) => {
     props.onChange(item.value)
     props.onBlur?.(item.value)
     setIsFocused(false)
-    optionRef.current?.blur()
+  }
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      const activeIndex = props.options.findIndex((item) => item.value === props.value)
+      props.onChange(props.options[(activeIndex + 1) % props.options.length].value)
+      event.preventDefault()
+    }
   }
 
   return (
@@ -59,6 +65,9 @@ export const OptionGroup = (props: Props) => {
           wrapper: true,
           errorWrapper: props.error,
         })}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
       >
         {props.options.map((item) => (
           <Item
@@ -70,9 +79,7 @@ export const OptionGroup = (props: Props) => {
             data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
             key={item.value}
             onClick={() => onChange(item)}
-            onFocus={onFocus}
-            ref={optionRef}
-            tabIndex={0}
+            tabIndex={-1}
           >
             <P
               {...getCSSStyles({
@@ -81,7 +88,6 @@ export const OptionGroup = (props: Props) => {
               })}
               label={item.label}
               localeNamespace={props.localeNamespace}
-              tabIndex={-1}
             />
           </Item>
         ))}

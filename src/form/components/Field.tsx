@@ -279,7 +279,6 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -297,7 +296,6 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -315,7 +313,6 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -333,7 +330,6 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
         value={lens.get(data)}
       />
     )

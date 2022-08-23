@@ -75,7 +75,9 @@ export const Select = (props: Props) => {
   )
 
   const onChange = (option: InternalOption) => {
-    props.onChange(option.value === 'null' ? null : option.value)
+    const newValue = option.value === 'null' ? null : option.value
+    props.onChange(newValue)
+    props.onBlur?.(newValue)
   }
 
   /*
@@ -102,7 +104,6 @@ export const Select = (props: Props) => {
   }
   const onBlur = () => {
     setIsFocused(false)
-    props.onBlur?.(props.value)
   }
   return (
     <>
