@@ -68,7 +68,7 @@ const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
       const zipOptions = zips
         .filter((zip) => zip.startsWith(value))
         .map((zip) => ({ value: zip, label: zip, isTranslated: true, data: { zip } }))
-      console.log('ZIP OPTIONS', zipOptions)
+      // console.log('ZIP OPTIONS', zipOptions)
       setTimeout(() => {
         resolve(zipOptions)
       }, 1000)

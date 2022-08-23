@@ -62,6 +62,7 @@ export enum MenuActionType {
   CLOSE = 'CLOSE',
   SET_SUGGESTIONS = 'SET_SUGGESTIONS',
   SET_FOCUSED_SUGGESTION = 'SET_FOCUSED_SUGGESTION',
+  RESET = 'RESET',
 }
 
 export interface MenuAction {
@@ -77,4 +78,5 @@ export interface MenuState {
   isLoading: boolean
   suggestions: Suggestions
   focusedSuggestion: Option | null
+  selectedSuggestion: Option | null
 }

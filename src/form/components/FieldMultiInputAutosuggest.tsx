@@ -100,7 +100,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     }
 
   return (
-    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly} ref={lastFieldRef}>
+    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
       <FieldScrollableWrapper
         key={`field-${fieldIndex}`}
         isScrollToError={

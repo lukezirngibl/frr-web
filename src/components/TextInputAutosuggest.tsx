@@ -21,17 +21,18 @@ const reducer = (state: MenuState, action: MenuAction) => {
     case MenuActionType.OPEN:
       return {
         ...state,
-        isOpen: true,
-        isLoading: true,
         focusedSuggestion: action.focusedSuggestion || null,
+        isLoading: true,
+        isOpen: true,
+        selectedSuggestion: null,
       }
 
     case MenuActionType.CLOSE:
       return {
         ...state,
-        isOpen: false,
-        isLoading: false,
         focusedSuggestion: null,
+        isLoading: false,
+        isOpen: false,
         selectedSuggestion: action.selectedSuggestion || null,
       }
 
@@ -46,6 +47,15 @@ const reducer = (state: MenuState, action: MenuAction) => {
       return {
         ...state,
         focusedSuggestion: action.focusedSuggestion,
+      }
+
+    case MenuActionType.RESET:
+      return {
+        focusedSuggestion: null,
+        isLoading: false,
+        isOpen: false,
+        selectedSuggestion: null,
+        suggestions: [],
       }
 
     default:
@@ -63,29 +73,42 @@ export type Props = {
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
-  const { value, ...inputProps } = props
+  const { value, onLoadSuggestions, onSuggestionSelected, ...inputProps } = props
   const controlRef = useRef<HTMLInputElement>(null)
-  const menuListRef = useRef<HTMLElement>(null)
-  const focusedOptionRef = useRef<HTMLElement>(null)
+  // const menuListRef = useRef<HTMLElement>(null)
+  // const focusedOptionRef = useRef<HTMLElement>(null)
 
   const [state, dispatch] = useReducer(reducer, {
     isOpen: false,
     isLoading: false,
     suggestions: [],
     focusedSuggestion: null,
+    selectedSuggestion: null,
   })
 
-  const onChange = (value: string) => {
-    props.onChange?.(value)
-    dispatch({ type: MenuActionType.OPEN })
+  const onChange = (newValue: string) => {
+    props.onChange?.(newValue)
 
-    props.onLoadSuggestions(value).then((suggestions) => {
-      dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
-    })
+    if (!state.isOpen) {
+      if (state.selectedSuggestion) {
+        dispatch({ type: MenuActionType.RESET })
+      } else {
+        dispatch({ type: MenuActionType.OPEN })
+      }
+    }
   }
 
+  useEffect(() => {
+    if (value === '') {
+    } else if (state.isOpen) {
+      onLoadSuggestions(value).then((suggestions) => {
+        dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
+      })
+    }
+  }, [value, state.isOpen])
+
   const onBlur = (value: string) => {
-    // props.onBlur?.(value)
+    props.onBlur?.(value)
     // // HACK: Wait for select menu to close and pass option to parent before closing menu
     // setTimeout(() => {
     //   dispatch({ type: MenuActionType.CLOSE, isLoading: false })
@@ -102,7 +125,6 @@ export const TextInputAutosuggest = (props: Props) => {
     }
   }
   const blurInput = (value: string) => {
-    console.log('CONTROL REF', controlRef?.current)
     if (controlRef) {
       controlRef.current.blur()
     }
@@ -114,18 +136,17 @@ export const TextInputAutosuggest = (props: Props) => {
   // ==============================
 
   const onSelectOption = (option: Option) => {
-    console.log('OPTION SELECTED', option)
-    props.onSuggestionSelected(option)
-    blurInput(option.value)
+    dispatch({ type: MenuActionType.CLOSE, selectedSuggestion: option })
   }
 
-  // ==============================
-  // Keyboard Handlers
-  // ==============================
+  useEffect(() => {
+    if (state.selectedSuggestion) {
+      onSuggestionSelected?.(state.selectedSuggestion)
+      blurInput(state.selectedSuggestion.value)
+    }
+  }, [state.selectedSuggestion])
 
   let blockOptionHover = false
-  let scrollToFocusedOptionOnUpdate = false
-  let isComposing = false
 
   const onSuggestionFocused = (focusedSuggestion: Option) => {
     if (!blockOptionHover && state.focusedSuggestion !== focusedSuggestion) {
@@ -133,54 +154,17 @@ export const TextInputAutosuggest = (props: Props) => {
     }
   }
 
-  // useEffect(() => {
-  //   // scroll the focused option into view if necessary
-  //   if (menuListRef.current && focusedOptionRef.current && scrollToFocusedOptionOnUpdate) {
-  //     scrollIntoView(menuListRef.current, focusedOptionRef.current)
-  //     scrollToFocusedOptionOnUpdate = false
-  //   }
-  // }, [scrollToFocusedOptionOnUpdate, menuListRef, focusedOptionRef])
-
-  // ==============================
-  // Composition Handlers
-  // ==============================
-  const onCompositionStart = () => {
-    isComposing = true
-  }
-  const onCompositionEnd = () => {
-    isComposing = false
-  }
-
-  const startListeningComposition = () => {
-    if (document && document.addEventListener) {
-      document.addEventListener('compositionstart', onCompositionStart, false)
-      document.addEventListener('compositionend', onCompositionEnd, false)
-    }
-  }
-  const stopListeningComposition = () => {
-    if (document && document.removeEventListener) {
-      document.removeEventListener('compositionstart', onCompositionStart)
-      document.removeEventListener('compositionend', onCompositionEnd)
-    }
-  }
-
-  useEffect(() => {
-    startListeningComposition()
-    return () => {
-      stopListeningComposition()
-    }
-  }, [])
-
   return (
     <TextInput
       {...inputProps}
       autocomplete="off"
+      inputRef={controlRef}
       onBlur={onBlur}
       onChange={onChange}
       onKeyDown={onKeyDown(props, state, dispatch)}
       value={value}
     >
-      <StlyedContainer ref={controlRef}>
+      <StlyedContainer>
         <AutosuggestMenu
           controlRef={controlRef.current}
           isLoading={state.isLoading}

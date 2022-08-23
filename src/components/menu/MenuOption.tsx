@@ -23,7 +23,6 @@ export const MenuOption = (props: MenuOptionProps) => {
   const theme = useComponentTheme()
   const cssStyles = useCSSStyles(theme, 'select')(props.style)
   
-  props.isFocused && console.log('IS FOCUSED')
   return (
     <StyledOption
       {...cssStyles({ option: true, optionActive: props.isSelected, optionHover: props.isFocused })}

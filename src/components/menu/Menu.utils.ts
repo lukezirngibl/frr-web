@@ -178,7 +178,6 @@ export function getScrollParent(element: HTMLElement) {
 // ==============================
 
 let blockOptionHover = false
-let scrollToFocusedOptionOnUpdate = false
 let isComposing = false
 
 export const onKeyDown =
