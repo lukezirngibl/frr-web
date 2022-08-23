@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Options, P } from '../html'
+import { Options, OptionType, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -25,6 +25,8 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
+  onFocus?: () => void
+  onBlur?: (v: string | number) => void
   options: Options<string | number>
   style?: Partial<ComponentTheme['optionGroup']>
   value: string | number | null
@@ -35,9 +37,23 @@ export const OptionGroup = (props: Props) => {
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
+  const optionRef = React.useRef<HTMLDivElement>(null)
+  const [isFocused, setIsFocused] = React.useState(false)
+
+  const onFocus = () => {
+    setIsFocused(true)
+    props.onFocus?.()
+  }
+  const onChange = (item: OptionType<string | number>) => {
+    props.onChange(item.value)
+    props.onBlur?.(item.value)
+    setIsFocused(false)
+    optionRef.current?.blur()
+  }
+
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper
         {...getCSSStyles({
           wrapper: true,
@@ -46,16 +62,17 @@ export const OptionGroup = (props: Props) => {
       >
         {props.options.map((item) => (
           <Item
-            className={item.value === props.value ? 'active' : 'inactive'}
-            key={item.value}
-            onClick={() => {
-              props.onChange(item.value)
-            }}
-            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
             {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,
             })}
+            className={item.value === props.value ? 'active' : 'inactive'}
+            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
+            key={item.value}
+            onClick={() => onChange(item)}
+            onFocus={onFocus}
+            ref={optionRef}
+            tabIndex={0}
           >
             <P
               {...getCSSStyles({
@@ -64,6 +81,7 @@ export const OptionGroup = (props: Props) => {
               })}
               label={item.label}
               localeNamespace={props.localeNamespace}
+              tabIndex={-1}
             />
           </Item>
         ))}

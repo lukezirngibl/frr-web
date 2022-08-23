@@ -21,15 +21,16 @@ type Props = {
   cssStyles?: string
   data?: { [k: string]: string }
   dataTestId?: string
-  dataValue?: string | number
   dataThemeId?: string
+  dataValue?: string | number
   disabled?: any
   Icon?: ReactNode
+  isLabelTranslated?: boolean
   label?: LabelText
   localeNamespace?: LocaleNamespace
   readOnly?: boolean
   style?: CSSProperties
-  isLabelTranslated?: boolean
+  tabIndex?: number
   value?: any
 }
 
@@ -98,16 +99,14 @@ export const Element = (
   return (
     <HtmlElement
       cssStyles={cssStyles}
-      disabled={disabled}
-      dataThemeId={dataThemeId || elementStyle.dataThemeId}
       data-test-id={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}
+      dataThemeId={dataThemeId || elementStyle.dataThemeId}
+      disabled={disabled}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
       readOnly={readOnly}
-      style={{
-        ...elementStyle.style,
-        ...style,
-      }}
+      style={{ ...elementStyle.style, ...style }}
+      tabIndex={props.tabIndex}
       value={value}
     >
       {renderHtml(htmlText)}

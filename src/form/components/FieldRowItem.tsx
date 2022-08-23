@@ -14,8 +14,11 @@ const FieldContainer = styled.div`
 `
 export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
-  onError?: (error: { error: string; fieldId: string }) => void
+  inputRef?: React.MutableRefObject<HTMLElement>
   isNotScrollable?: boolean
+  onBlur?: () => void
+  onError?: (error: { error: string; fieldId: string }) => void
+  onFocus?: () => void
 }
 // ------------------------------------
 
@@ -26,10 +29,12 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     field,
     fieldIndex,
     formReadOnly,
+    inputRef,
     isNotScrollable,
     localeNamespace,
     onChange,
     onError,
+    onFocus,
     showValidation,
     style,
   } = props
@@ -99,8 +104,10 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         fieldIndex={fieldIndex}
         hasError={hasError}
         hasFocus={field.lens.id() === errorFieldId}
+        inputRef={inputRef}
         localeNamespace={localeNamespace}
         onBlur={onBlur}
+        onFocus={onFocus}
         onChange={setValue}
       />
     )) || (
@@ -117,8 +124,10 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             fieldIndex={fieldIndex}
             hasError={hasError}
             hasFocus={field.lens.id() === errorFieldId}
+            inputRef={inputRef}
             localeNamespace={localeNamespace}
             onBlur={onBlur}
+            onFocus={onFocus}
             onChange={setValue}
           />
         </FieldScrollableWrapper>

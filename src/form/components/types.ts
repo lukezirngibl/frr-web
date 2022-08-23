@@ -533,7 +533,7 @@ export type CommonThreadProps<FormData> = {
   formReadOnly: boolean
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
-  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>, value: any}>) => void
+  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => void
   showValidation: boolean
   style: Partial<FormTheme> | undefined
 }

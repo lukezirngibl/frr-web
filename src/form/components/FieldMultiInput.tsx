@@ -48,6 +48,15 @@ export const FieldMultiInput = <FormData extends {}>({
     style,
   }
 
+  // Focus
+  const [isFocused, setIsFocused] = useState(false)
+  const onFocus = useCallback(() => {
+    setIsFocused(true)
+  }, [])
+  const onBlur = useCallback(() => {
+    setIsFocused(false)
+  }, [])
+
   if (formReadOnly) {
     return (
       <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
@@ -75,6 +84,7 @@ export const FieldMultiInput = <FormData extends {}>({
             error={errorLabel.length > 0}
             errorLabel={errorLabel}
             errorDataTestId={errorDataTestId}
+            isFocused={isFocused}
             {...field.label}
           />
         )}
@@ -83,13 +93,15 @@ export const FieldMultiInput = <FormData extends {}>({
           {field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
-              key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
+              errorFieldId={errorFieldId}
               field={fieldItem}
               fieldIndex={fieldItemIndex}
-              errorFieldId={errorFieldId}
+              isNotScrollable
+              key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
+              onBlur={onBlur}
               onChange={onChange}
               onError={onError}
-              isNotScrollable
+              onFocus={onFocus}
             />
           ))}
         </WrapperItem>

@@ -6,7 +6,6 @@ import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
-
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
 const Hook = createStyled('div')
@@ -21,11 +20,13 @@ export type Props = {
   error?: boolean
   hasFocus?: boolean
   inputType?: string
+  inputRef?: React.MutableRefObject<HTMLElement>
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   maxLength?: number
   minLength?: number
   name?: string
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void
   onBlur?: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
@@ -48,7 +49,7 @@ export const TextInput = (props: Props) => {
 
   const { t: translate } = useTranslation(props.localeNamespace)
 
-  const [isFocus, setIsFocus] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
 
   useEffect(() => {
@@ -80,9 +81,15 @@ export const TextInput = (props: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (props.inputRef) {
+      props.inputRef.current = inputRef.current
+    }
+  }, [inputRef.current])
+
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <InputWrapper
         {...getCSSStyle({
           wrapper: true,
@@ -95,6 +102,7 @@ export const TextInput = (props: Props) => {
             inputRef.current.focus()
           }
         }}
+        onKeyDown={props.onKeyDown}
       >
         <Hook
           {...getCSSStyle({
@@ -125,7 +133,7 @@ export const TextInput = (props: Props) => {
             setInternalValue(newValue)
             onChange?.(newValue)
 
-            if (!isFocus) {
+            if (!isFocused) {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur?.(newValue)
             }
@@ -135,12 +143,12 @@ export const TextInput = (props: Props) => {
             newValue = props.parseValue?.(newValue) || newValue
             setInternalValue(newValue)
             onChange?.(newValue)
-            setIsFocus(false)
+            setIsFocused(false)
 
             props.onBlur?.(newValue)
           }}
           onFocus={() => {
-            setIsFocus(true)
+            setIsFocused(true)
             props.onFocus?.()
           }}
           placeholder={placeholder}

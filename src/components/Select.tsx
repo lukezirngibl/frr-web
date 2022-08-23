@@ -35,10 +35,13 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
+  inputRef?: React.Ref<any>
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
   onChange: (value: Value) => void
+  onFocus?: () => void
+  onBlur?: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Priority
   readOnly?: boolean
@@ -92,9 +95,18 @@ export const Select = (props: Props) => {
     return optionLabel
   }
 
+  const [isFocused, setIsFocused] = useState(false)
+  const onFocus = () => {
+    setIsFocused(true)
+    props.onFocus?.()
+  }
+  const onBlur = () => {
+    setIsFocused(false)
+    props.onBlur?.(props.value)
+  }
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper {...getCSSStyles('wrapper')}>
         {isMobileTouch ? (
           <>
@@ -107,13 +119,16 @@ export const Select = (props: Props) => {
                 {},
                 'select-wrapper',
               )}
+              data-test-id={props.dataTestId}
+              data-value={value}
               disabled={props.disabled || props.readOnly}
-              value={value}
+              onBlur={onBlur}
+              onFocus={onFocus}
               onChange={(e) => {
                 props.onChange(e.target.value === 'null' ? null : e.target.value)
               }}
-              data-test-id={props.dataTestId}
-              data-value={value}
+              ref={props.inputRef}
+              value={value}
             >
               {options.map((option, optionIndex) => (
                 <Option
@@ -139,11 +154,14 @@ export const Select = (props: Props) => {
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
               menuShouldBlockScroll
+              onBlur={onBlur}
               onChange={onChange}
+              onFocus={onFocus}
               openMenuOnFocus
               options={options.map(mapInternalOption)}
               placeholder={t('formFields.select.defaultLabel')}
               styles={mapReactSelectStyles(getInlineStyle, props.error)}
+              ref={props.inputRef}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
             />

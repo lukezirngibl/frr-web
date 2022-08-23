@@ -29,6 +29,7 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (value: string) => void
+  onFocus?: () => void
   onBlur: (value: string) => void
   style?: Partial<ComponentTheme['datePicker']>
   value: string | null
@@ -102,11 +103,12 @@ export const MaskedDatePicker = (props: Props) => {
     registerLocale(mapLanguageToLocaleString[language], mapLanguageToLocale[language])
   }, [language])
 
+  const [isFocused, setIsFocused] = useState(false)
   const [open, setOpen] = React.useState(false)
 
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
 
       <ClickAwayListener
         onClickAway={() => {
@@ -116,6 +118,11 @@ export const MaskedDatePicker = (props: Props) => {
         <Wrapper {...getStyle('wrapper')}>
           {isMobileTouch ? (
             <TextInput
+              onFocus={() => {
+                setIsFocused(true)
+                props.onFocus?.()
+              }}
+              onBlur={() => setIsFocused(false)}
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
@@ -139,7 +146,12 @@ export const MaskedDatePicker = (props: Props) => {
             <>
               <MaskedInput
                 hasFocus={props.hasFocus}
+                onFocus={() => {
+                  setIsFocused(true)
+                  props.onFocus?.()
+                }}
                 onBlur={(v: string) => {
+                  setIsFocused(false)
                   try {
                     const dateValue = parseDate(v)
 
