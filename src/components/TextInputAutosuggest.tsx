@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useRef } from 'react'
 import { Options } from 'react-select'
 import styled from 'styled-components'
-import { TextInputAutosuggestField } from '../form/components/types'
 import { ComponentTheme } from '../theme/theme.components'
 import { Menu } from './menu/Menu'
 import { CommonProps, MenuAction, MenuActionType, MenuState, Option } from './menu/Menu.types'
@@ -25,6 +24,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
         isLoading: true,
         isOpen: true,
         selectedSuggestion: null,
+        searchValue: action.searchValue || '',
       }
 
     case MenuActionType.CLOSE:
@@ -56,6 +56,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
         isOpen: false,
         selectedSuggestion: null,
         suggestions: [],
+        searchValue: '',
       }
 
     default:
@@ -84,28 +85,28 @@ export const TextInputAutosuggest = (props: Props) => {
     suggestions: [],
     focusedSuggestion: null,
     selectedSuggestion: null,
+    searchValue: '',
   })
 
   const onChange = (newValue: string) => {
     props.onChange?.(newValue)
 
     if (!state.isOpen) {
-      if (state.selectedSuggestion) {
+      if (state.selectedSuggestion || newValue === '') {
         dispatch({ type: MenuActionType.RESET })
-      } else {
-        dispatch({ type: MenuActionType.OPEN })
+      } else if (newValue > '') {
+        dispatch({ type: MenuActionType.OPEN, searchValue: newValue })
       }
     }
   }
 
   useEffect(() => {
-    if (value === '') {
-    } else if (state.isOpen) {
-      onLoadSuggestions(value).then((suggestions) => {
+    if (state.isOpen && state.searchValue > '') {
+      onLoadSuggestions(state.searchValue).then((suggestions) => {
         dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
       })
     }
-  }, [value, state.isOpen])
+  }, [state.searchValue, state.isOpen])
 
   const onBlur = (value: string) => {
     props.onBlur?.(value)
@@ -124,11 +125,11 @@ export const TextInputAutosuggest = (props: Props) => {
       controlRef.current?.focus()
     }
   }
-  const blurInput = (value: string) => {
+  const blurInput = (newValue: string) => {
     if (controlRef) {
       controlRef.current.blur()
     }
-    props.onBlur?.(value)
+    onBlur(newValue)
   }
 
   // ==============================

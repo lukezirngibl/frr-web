@@ -64,10 +64,11 @@ const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
       onLoadSuggestions: (searchString) => {
         return new Promise((resolve) => {
           setTimeout(() => {
-            const zipCityOptions = ZipList.filter((item) => item.value.startsWith(searchString)).splice(
-              0,
-              7,
-            )
+            const zipCityOptions =
+              searchString > ''
+                ? ZipList.filter((item) => item.value.startsWith(searchString)).splice(0, 7)
+                : []
+            // console.log(`ZIP OPTIONS for "${searchString}"`, zipCityOptions, )
             resolve(zipCityOptions)
           }, 0)
         })
@@ -85,9 +86,13 @@ const textInputAutosuggestField: MultiInputAutosuggestField<FormData> = {
       onLoadSuggestions: (searchString) => {
         return new Promise((resolve) => {
           setTimeout(() => {
-            const zipCityOptions = CityList.filter((item) =>
-              item.value.toLowerCase().startsWith(searchString.toLowerCase()),
-            ).splice(0, 7)
+            const zipCityOptions =
+              searchString > ''
+                ? CityList.filter((item) =>
+                    item.value.toLowerCase().startsWith(searchString.toLowerCase()),
+                  ).splice(0, 7)
+                : []
+            // console.log(`CITY OPTIONS for "${searchString}"`, zipCityOptions)
             resolve(zipCityOptions)
           }, 0)
         })
@@ -108,7 +113,14 @@ export const PostalCodeCity = () => {
         style: {},
         data,
         onChange: (lens, value) => {
-          setData({ ...data, [lens.id()]: value })
+          // setData({ ...data, [lens.id()]: value })
+        },
+        onChangeMulti: (fields) => {
+          const newData = { ...data }
+          fields.forEach((field) => {
+            newData[field.lens.id()] = field.value
+          })
+          setData(newData)
         },
         showValidation: false,
       })}

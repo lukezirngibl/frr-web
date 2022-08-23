@@ -71,6 +71,7 @@ export interface MenuAction {
   suggestions?: Suggestions
   focusedSuggestion?: Option | null
   selectedSuggestion?: Option | null
+  searchValue?: string
 }
 
 export interface MenuState {
@@ -79,4 +80,5 @@ export interface MenuState {
   suggestions: Suggestions
   focusedSuggestion: Option | null
   selectedSuggestion: Option | null
+  searchValue: string
 }
