@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { Label } from '../../components/Label'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
@@ -65,9 +65,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     )
   }
 
-  const [changedFields, setChangedFields] = React.useState<
-    Array<{ lens: FormLens<FormData, any>; value: any }>
-  >([])
+  const lastFieldRef = useRef<HTMLElement>(null)
   const setSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
@@ -94,18 +92,15 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
 
       // Propagate changes to form
       onChangeMulti?.(changes)
+
+      // Blur last field to leave multi input component
+      // setTimeout(() => {
+      //   lastFieldRef.current?.blur()
+      // }, 100)
     }
 
-  // Propagate changes to form
-  // useEffect(() => {
-  //   changedFields.forEach((changedField) => {
-  //     console.log('CHANGED FIELD', changedField.lens.id(), changedField.value)
-  //     onChange(changedField.lens, changedField.value)
-  //   })
-  // }, [changedFields])
-
   return (
-    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
+    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly} ref={lastFieldRef}>
       <FieldScrollableWrapper
         key={`field-${fieldIndex}`}
         isScrollToError={
@@ -134,6 +129,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
               field={{ ...fieldItem, onSuggestionSelected: setSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}
               errorFieldId={errorFieldId}
+              inputRef={undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */}
               onChange={onChange}
               onError={onError}
               isNotScrollable
@@ -144,5 +140,3 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     </FieldRowWrapper>
   )
 }
-
-const FieldRowWithSelect = ({}) => {}
