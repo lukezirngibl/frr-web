@@ -48,6 +48,7 @@ export type ComponentTheme = {
     errorLabel: CSSProperties
     labelText: CSSProperties
     labelTextError: CSSProperties
+    labelTextFocus: CSSProperties
     labelTextWrapper: CSSProperties
     sublabelText: CSSProperties
     wrapper: CSSProperties
@@ -107,6 +108,7 @@ export type ComponentTheme = {
     menu: CSSProperties
     option: CSSProperties
     optionActive: CSSProperties
+    optionHover: CSSProperties
     placeholder: CSSProperties
     select: CSSProperties
     value: CSSProperties
@@ -369,6 +371,7 @@ export const defaultComponentTheme: ComponentTheme = {
     errorLabel: {},
     labelText: {},
     labelTextError: {},
+    labelTextFocus: {},
     labelTextWrapper: {},
     sublabelText: {},
     wrapper: {},
@@ -432,6 +435,7 @@ export const defaultComponentTheme: ComponentTheme = {
     menu: {},
     option: {},
     optionActive: {},
+    optionHover: {},
     placeholder: {},
     select: {},
     value: {},

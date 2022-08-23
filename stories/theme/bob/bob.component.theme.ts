@@ -287,6 +287,7 @@ export const componentTheme: Partial<ComponentTheme> = {
         marginBottom: 8,
       },
     },
+    labelTextFocus: {},
     errorIcon: {
       opacity: 0.7,
       marginRight: 8,
@@ -462,6 +463,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       marginBottom: 4,
       marginLeft: -4,
       marginTop: -4,
+      overflow: 'hidden',
       position: 'absolute',
       width: '100%',
       zIndex: 1,
@@ -500,15 +502,15 @@ export const componentTheme: Partial<ComponentTheme> = {
       userSelect: 'none',
       paddingLeft: 28,
       transition: 'background-color 20ms, color 20ms',
-      ':hover': {
-        backgroundColor: 'var(--color-background-accent)',
-        color: 'white',
-      },
       ':disabled': {
         backgroundColor: 'transparent',
         color: 'var(--color-disabled)',
         cursor: 'default',
       },
+    },
+    optionHover: {
+      backgroundColor: 'var(--color-background-accent)',
+      color: 'white',
     },
     optionActive: {
       backgroundColor: 'transparent',

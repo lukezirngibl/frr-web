@@ -1,15 +1,14 @@
-import React, { Fragment, ReactElement, ReactNode, RefCallback, useRef } from 'react'
+import React, { Fragment, ReactNode, RefCallback, useRef } from 'react'
 import { CoercedMenuPlacement } from 'react-select'
 import styled, { css } from 'styled-components'
 import {
   ComponentTheme,
   useComponentTheme,
-  useCSSStyles,
-  useInlineStyle,
+  useCSSStyles
 } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { CommonPropsAndClassName } from './Menu.types'
-import { MenuPlacer, usePortalPlacementContext } from './MenuPortal'
+import { MenuPlacer } from './MenuPortal'
 import useScrollCapture from './useScrollCapture'
 import useScrollLock from './useScrollLock'
 
@@ -127,7 +126,7 @@ const StyledMenuList = styled.div<{ maxMenuHeight: number }>`
 // ==============================
 
 interface ScrollManagerProps {
-  readonly children: (ref: RefCallback<HTMLElement>) => ReactElement
+  readonly children: (ref: RefCallback<HTMLElement>) => React.ReactElement
   readonly lockEnabled: boolean
   readonly captureEnabled: boolean
   readonly onBottomArrive?: (event: WheelEvent | TouchEvent) => void

@@ -1,73 +1,209 @@
-import React, { ReactNode, RefCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useReducer, useRef } from 'react'
 import { Options } from 'react-select'
 import styled from 'styled-components'
-import { Menu } from './menu/Menu'
-import { MenuOption } from './menu/MenuOption'
-import { CommonProps, Option } from './menu/Menu.types'
-import { classNames, MAX_HEIGHT, MIN_HEIGHT } from './menu/Menu.utils'
-import { Props as TextInputProps, TextInput } from './TextInput'
+import { TextInputAutosuggestField } from '../form/components/types'
 import { ComponentTheme } from '../theme/theme.components'
+import { Menu } from './menu/Menu'
+import { CommonProps, MenuAction, MenuActionType, MenuState, Option } from './menu/Menu.types'
+import { classNames, MAX_HEIGHT, MIN_HEIGHT, onKeyDown } from './menu/Menu.utils'
+import { MenuOption } from './menu/MenuOption'
 import { MenuPortal } from './menu/MenuPortal'
+import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Suggestions = Options<Option>
 
+// ==============================
+// State handler
+// ==============================
+
+const reducer = (state: MenuState, action: MenuAction) => {
+  switch (action.type) {
+    case MenuActionType.OPEN:
+      return {
+        ...state,
+        isOpen: true,
+        isLoading: true,
+        focusedSuggestion: action.focusedSuggestion || null,
+      }
+
+    case MenuActionType.CLOSE:
+      return {
+        ...state,
+        isOpen: false,
+        isLoading: false,
+        focusedSuggestion: null,
+        selectedSuggestion: action.selectedSuggestion || null,
+      }
+
+    case MenuActionType.SET_SUGGESTIONS:
+      return {
+        ...state,
+        isLoading: false,
+        suggestions: action.suggestions,
+      }
+
+    case MenuActionType.SET_FOCUSED_SUGGESTION:
+      return {
+        ...state,
+        focusedSuggestion: action.focusedSuggestion,
+      }
+
+    default:
+      return state
+  }
+}
+
+// ==============================
+// Text Input component
+// ==============================
+
 export type Props = {
-  onLoadSuggestions: (inputValue: string) => Promise<Options<Option>>
+  onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
   const { value, ...inputProps } = props
   const controlRef = useRef<HTMLInputElement>(null)
+  const menuListRef = useRef<HTMLElement>(null)
+  const focusedOptionRef = useRef<HTMLElement>(null)
 
-  const [menuState, setMenuState] = useState({ isOpen: false, isLoading: false })
-  const [suggestions, setSuggestions] = useState<Options<Option>>([])
+  const [state, dispatch] = useReducer(reducer, {
+    isOpen: false,
+    isLoading: false,
+    suggestions: [],
+    focusedSuggestion: null,
+  })
 
   const onChange = (value: string) => {
     props.onChange?.(value)
-    setMenuState({ isOpen: true, isLoading: true })
+    dispatch({ type: MenuActionType.OPEN })
 
     props.onLoadSuggestions(value).then((suggestions) => {
-      setSuggestions(suggestions)
-      setMenuState({ isOpen: true, isLoading: false })
+      dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
     })
   }
 
   const onBlur = (value: string) => {
-    setMenuState({ isOpen: false, isLoading: false })
+    // props.onBlur?.(value)
+    // // HACK: Wait for select menu to close and pass option to parent before closing menu
+    // setTimeout(() => {
+    //   dispatch({ type: MenuActionType.CLOSE, isLoading: false })
+    // }, 100)
+  }
+
+  // ==============================
+  // Methods
+  // ==============================
+
+  const focusInput = () => {
+    if (controlRef) {
+      controlRef.current?.focus()
+    }
+  }
+  const blurInput = (value: string) => {
+    console.log('CONTROL REF', controlRef?.current)
+    if (controlRef) {
+      controlRef.current.blur()
+    }
     props.onBlur?.(value)
   }
 
+  // ==============================
+  // Select Option Handler
+  // ==============================
+
+  const onSelectOption = (option: Option) => {
+    console.log('OPTION SELECTED', option)
+    props.onSuggestionSelected(option)
+    blurInput(option.value)
+  }
+
+  // ==============================
+  // Keyboard Handlers
+  // ==============================
+
+  let blockOptionHover = false
+  let scrollToFocusedOptionOnUpdate = false
+  let isComposing = false
+
+  const onSuggestionFocused = (focusedSuggestion: Option) => {
+    if (!blockOptionHover && state.focusedSuggestion !== focusedSuggestion) {
+      dispatch({ type: MenuActionType.SET_FOCUSED_SUGGESTION, focusedSuggestion })
+    }
+  }
+
+  // useEffect(() => {
+  //   // scroll the focused option into view if necessary
+  //   if (menuListRef.current && focusedOptionRef.current && scrollToFocusedOptionOnUpdate) {
+  //     scrollIntoView(menuListRef.current, focusedOptionRef.current)
+  //     scrollToFocusedOptionOnUpdate = false
+  //   }
+  // }, [scrollToFocusedOptionOnUpdate, menuListRef, focusedOptionRef])
+
+  // ==============================
+  // Composition Handlers
+  // ==============================
+  const onCompositionStart = () => {
+    isComposing = true
+  }
+  const onCompositionEnd = () => {
+    isComposing = false
+  }
+
+  const startListeningComposition = () => {
+    if (document && document.addEventListener) {
+      document.addEventListener('compositionstart', onCompositionStart, false)
+      document.addEventListener('compositionend', onCompositionEnd, false)
+    }
+  }
+  const stopListeningComposition = () => {
+    if (document && document.removeEventListener) {
+      document.removeEventListener('compositionstart', onCompositionStart)
+      document.removeEventListener('compositionend', onCompositionEnd)
+    }
+  }
+
   useEffect(() => {
-    console.log('SUGGESTIONS', suggestions)
-  }, [suggestions])
+    startListeningComposition()
+    return () => {
+      stopListeningComposition()
+    }
+  }, [])
 
   return (
-    <TextInput {...inputProps} value={value} onChange={onChange} onBlur={onBlur} autocomplete="off">
+    <TextInput
+      {...inputProps}
+      autocomplete="off"
+      onBlur={onBlur}
+      onChange={onChange}
+      onKeyDown={onKeyDown(props, state, dispatch)}
+      value={value}
+    >
       <StlyedContainer ref={controlRef}>
         <AutosuggestMenu
           controlRef={controlRef.current}
-          inputValue={props.value}
-          isLoading={menuState.isLoading}
-          menuIsOpen={menuState.isOpen}
+          isLoading={state.isLoading}
+          menuIsOpen={state.isOpen}
           menuPortalTarget={document.body}
           menuShouldBlockScroll
           name={props.name}
-          onOptionSelected={(option) => {
-            setMenuState({ isOpen: false, isLoading: false })
-            props.onSuggestionSelected(option)
-          }}
-          options={suggestions}
+          onOptionSelected={onSelectOption}
+          onOptionFocused={onSuggestionFocused}
+          options={buildCategorizedOptions(props, state)}
+          value={props.value}
         />
       </StlyedContainer>
     </TextInput>
   )
 }
 
+// ==============================
+// Autosuggest Menu component
+// ==============================
+
 export interface AutosuggestMenuProps {
   controlRef: HTMLDivElement | null
-  getOptionLabel?: (option: Option) => string
-  inputValue: string
   isLoading: boolean
   loadingMessage?: string
   menuIsOpen?: boolean
@@ -75,48 +211,33 @@ export interface AutosuggestMenuProps {
   menuShouldBlockScroll?: boolean
   name: string
   noOptionsMessage?: string
-  onOptionSelected?: (option: Option) => void
-  options: Options<Option>
+  onOptionFocused: (option: Option) => void
+  onOptionSelected: (option: Option) => void
+  options: Options<CategorizedOption>
   styles?: Partial<ComponentTheme['select']>
+  value: string
 }
 
 interface CategorizedOption {
-  type: 'option'
   data: Option
   isDisabled: boolean
+  isFocused: boolean
   isSelected: boolean
   label: string
   value: string
   index: number
 }
 
-const getOptionLabel = (props: AutosuggestMenuProps, option: Option): string => {
-  return props.getOptionLabel?.(option) || option.label
-}
-
-const buildCategorizedOptions = (
-  props: AutosuggestMenuProps,
-  inputValue: string,
-): Array<CategorizedOption> => {
-  return props.options.map((option, optionIndex) => {
-    const isDisabled = !!option.disabled
-    const isSelected = inputValue !== null && option.value === inputValue
-    const label = getOptionLabel(props, option)
-    const value = option.value
-
-    const categorizedOption = {
-      type: 'option',
-      data: option,
-      isDisabled,
-      isSelected,
-      label,
-      value,
-      index: optionIndex,
-    } as CategorizedOption
-
-    return categorizedOption
-  })
-}
+const buildCategorizedOptions = (props: Props, state: MenuState): Array<CategorizedOption> =>
+  state.suggestions.map((option, optionIndex) => ({
+    data: option,
+    isDisabled: !!option.disabled,
+    isFocused: state.focusedSuggestion === option,
+    isSelected: props.value !== null && option.value === props.value,
+    label: option.label,
+    value: option.value,
+    index: optionIndex,
+  }))
 
 let instanceId = 1
 
@@ -139,8 +260,10 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   }
 
   const renderOption = (categorizedOption: CategorizedOption, id: string) => {
-    const { data, isDisabled, isSelected } = categorizedOption
-    const onSelect = isDisabled ? undefined : () => props.onOptionSelected?.(data)
+    const { data, isDisabled, isFocused, isSelected } = categorizedOption
+    const onSelect = isDisabled ? undefined : () => props.onOptionSelected(data)
+    const onHover = isDisabled ? undefined : () => props.onOptionFocused(data)
+
     const optionId = `${getElementId('option')}-${id}`
 
     return (
@@ -148,19 +271,21 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
         {...commonProps}
         id={optionId}
         isDisabled={isDisabled}
+        isFocused={isFocused}
         isSelected={isSelected}
         key={optionId}
+        onHover={onHover}
         onSelect={onSelect}
       >
-        {props.getOptionLabel?.(categorizedOption) || categorizedOption.label}
+        {categorizedOption.label}
       </MenuOption>
     )
   }
 
-  let menuUI: ReactNode
+  let menuUI: React.ReactNode
 
   if (props.options.length > 0) {
-    menuUI = buildCategorizedOptions(props, props.inputValue).map((option) => {
+    menuUI = props.options.map((option) => {
       return renderOption(option, `${option.index}`)
     })
   } else if (props.isLoading) {
