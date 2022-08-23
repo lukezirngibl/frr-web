@@ -33,8 +33,15 @@ const reducer = (state: MenuState, action: MenuAction) => {
         focusedSuggestion: null,
         isLoading: false,
         isOpen: false,
-        selectedSuggestion: action.selectedSuggestion || null,
+        selectedSuggestion: action.selectedSuggestion || state.selectedSuggestion,
       }
+
+    case MenuActionType.SET_SEARCH: {
+      return {
+        ...state,
+        searchValue: action.searchValue,
+      }
+    }
 
     case MenuActionType.SET_SUGGESTIONS:
       return {
@@ -47,6 +54,13 @@ const reducer = (state: MenuState, action: MenuAction) => {
       return {
         ...state,
         focusedSuggestion: action.focusedSuggestion,
+      }
+
+    case MenuActionType.SET_SELECTED_SUGGESTION:
+      return {
+        ...state,
+        selectedSuggestion: action.selectedSuggestion,
+        suggestions: action.suggestions,
       }
 
     case MenuActionType.RESET:
@@ -75,7 +89,7 @@ export type Props = {
 
 export const TextInputAutosuggest = (props: Props) => {
   const { value, onLoadSuggestions, onSuggestionSelected, ...inputProps } = props
-  const controlRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   // const menuListRef = useRef<HTMLElement>(null)
   // const focusedOptionRef = useRef<HTMLElement>(null)
 
@@ -89,10 +103,11 @@ export const TextInputAutosuggest = (props: Props) => {
   })
 
   const onChange = (newValue: string) => {
-    props.onChange?.(newValue)
-
-    if (!state.isOpen) {
-      if (state.selectedSuggestion || newValue === '') {
+    if (state.isOpen) {
+      props.onChange?.(newValue)
+      dispatch({ type: MenuActionType.SET_SEARCH, searchValue: newValue })
+    } else {
+      if ((state.selectedSuggestion && state.searchValue > '') || newValue === '') {
         dispatch({ type: MenuActionType.RESET })
       } else if (newValue > '') {
         dispatch({ type: MenuActionType.OPEN, searchValue: newValue })
@@ -103,31 +118,30 @@ export const TextInputAutosuggest = (props: Props) => {
   useEffect(() => {
     if (state.isOpen && state.searchValue > '') {
       onLoadSuggestions(state.searchValue).then((suggestions) => {
-        dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
+        state.isOpen && dispatch({ type: MenuActionType.SET_SUGGESTIONS, suggestions, isLoading: false })
       })
     }
   }, [state.searchValue, state.isOpen])
 
-  const onBlur = (value: string) => {
-    props.onBlur?.(value)
-    // // HACK: Wait for select menu to close and pass option to parent before closing menu
-    // setTimeout(() => {
-    //   dispatch({ type: MenuActionType.CLOSE, isLoading: false })
-    // }, 100)
-  }
-
-  // ==============================
-  // Methods
-  // ==============================
-
-  const focusInput = () => {
-    if (controlRef) {
-      controlRef.current?.focus()
+  const onFocus = () => {
+    if (value > '') {
+      onLoadSuggestions(value).then((suggestions) => {
+        const selectedSuggestion = suggestions.find((suggestion) => suggestion.value === value)
+        if (selectedSuggestion) {
+          dispatch({ type: MenuActionType.SET_SELECTED_SUGGESTION, selectedSuggestion, suggestions })
+        }
+      })
     }
   }
+
+  const onBlur = (value: string) => {
+    props.onBlur?.(value)
+    state.isOpen && dispatch({ type: MenuActionType.CLOSE })
+  }
+
   const blurInput = (newValue: string) => {
-    if (controlRef) {
-      controlRef.current.blur()
+    if (inputRef) {
+      inputRef.current.blur()
     }
     onBlur(newValue)
   }
@@ -141,11 +155,11 @@ export const TextInputAutosuggest = (props: Props) => {
   }
 
   useEffect(() => {
-    if (state.selectedSuggestion) {
+    if (state.selectedSuggestion && state.searchValue > '') {
       onSuggestionSelected?.(state.selectedSuggestion)
       blurInput(state.selectedSuggestion.value)
     }
-  }, [state.selectedSuggestion])
+  }, [state.selectedSuggestion, state.searchValue])
 
   let blockOptionHover = false
 
@@ -159,26 +173,24 @@ export const TextInputAutosuggest = (props: Props) => {
     <TextInput
       {...inputProps}
       autocomplete="off"
-      inputRef={controlRef}
+      inputRef={inputRef}
       onBlur={onBlur}
+      onFocus={onFocus}
       onChange={onChange}
       onKeyDown={onKeyDown(props, state, dispatch)}
       value={value}
     >
-      <StlyedContainer>
-        <AutosuggestMenu
-          controlRef={controlRef.current}
-          isLoading={state.isLoading}
-          menuIsOpen={state.isOpen}
-          menuPortalTarget={document.body}
-          menuShouldBlockScroll
-          name={props.name}
-          onOptionSelected={onSelectOption}
-          onOptionFocused={onSuggestionFocused}
-          options={buildCategorizedOptions(props, state)}
-          value={props.value}
-        />
-      </StlyedContainer>
+      <AutosuggestMenu
+        isLoading={state.isLoading}
+        menuIsOpen={state.isOpen}
+        menuPortalTarget={document.body}
+        menuShouldBlockScroll
+        name={props.name}
+        onOptionSelected={onSelectOption}
+        onOptionFocused={onSuggestionFocused}
+        options={buildCategorizedOptions(props, state)}
+        value={props.value}
+      />
     </TextInput>
   )
 }
@@ -188,7 +200,6 @@ export const TextInputAutosuggest = (props: Props) => {
 // ==============================
 
 export interface AutosuggestMenuProps {
-  controlRef: HTMLDivElement | null
   isLoading: boolean
   loadingMessage?: string
   menuIsOpen?: boolean
@@ -227,6 +238,8 @@ const buildCategorizedOptions = (props: Props, state: MenuState): Array<Categori
 let instanceId = 1
 
 const AutosuggestMenu = (props: AutosuggestMenuProps) => {
+  const controlRef = useRef<HTMLInputElement>(null)
+
   const instancePrefix = 'react-select-' + (props.name || ++instanceId)
 
   const getElementId = (
@@ -306,12 +319,20 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   // positioning behaviour is almost identical for portalled and fixed,
   // so we use the same component. the actual portalling logic is forked
   // within the component based on `menuPosition`
-  return props.menuPortalTarget ? (
-    <MenuPortal {...commonProps} appendTo={props.menuPortalTarget} controlElement={props.controlRef}>
-      {menuElement}
-    </MenuPortal>
-  ) : (
-    menuElement
+  return (
+    <StlyedContainer ref={controlRef}>
+      {props.menuPortalTarget ? (
+        <MenuPortal
+          {...commonProps}
+          appendTo={props.menuPortalTarget}
+          controlElement={controlRef.current}
+        >
+          {menuElement}
+        </MenuPortal>
+      ) : (
+        menuElement
+      )}
+    </StlyedContainer>
   )
 }
 

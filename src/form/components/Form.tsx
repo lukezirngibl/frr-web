@@ -125,7 +125,7 @@ export const Form = <FormData extends {}>({
 
   const internalOnChangeMulti = (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => {
     if (onChange) {
-      let newData = data
+      let newData = { ...data }
       fields.forEach(({ lens, value }) => {
         newData = lens.set(value)(newData)
       })

@@ -28,7 +28,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
   fieldIndex,
   formReadOnly,
   localeNamespace,
-  onChange,
   onChangeMulti,
   showValidation,
   style,
@@ -65,12 +64,9 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
     )
   }
 
-  const lastFieldRef = useRef<HTMLElement>(null)
   const setSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
-      console.log('SUGGESTION SELECTED', currentField.lens.id(), suggestion)
-
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -92,11 +88,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
 
       // Propagate changes to form
       onChangeMulti?.(changes)
-
-      // Blur last field to leave multi input component
-      // setTimeout(() => {
-      //   lastFieldRef.current?.blur()
-      // }, 100)
     }
 
   return (
@@ -129,8 +120,10 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
               field={{ ...fieldItem, onSuggestionSelected: setSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}
               errorFieldId={errorFieldId}
-              inputRef={undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */}
-              onChange={onChange}
+              inputRef={
+                undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
+              }
+              onChange={() => {} /* Do nothing on change */}
               onError={onError}
               isNotScrollable
             />

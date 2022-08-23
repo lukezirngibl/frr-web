@@ -1,11 +1,7 @@
-import React, { Fragment, ReactNode, RefCallback, useRef } from 'react'
+import React, { Fragment, MouseEvent, MouseEventHandler, ReactNode, RefCallback, useRef } from 'react'
 import { CoercedMenuPlacement } from 'react-select'
 import styled, { css } from 'styled-components'
-import {
-  ComponentTheme,
-  useComponentTheme,
-  useCSSStyles
-} from '../../theme/theme.components'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { CommonPropsAndClassName } from './Menu.types'
 import { MenuPlacer } from './MenuPortal'
@@ -40,6 +36,15 @@ export const Menu = (props: MenuProps) => {
     menuListRef.current = ref
   }
 
+  // Mouse evnets
+  const onMenuMouseDown = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.button !== 0) {
+      return
+    }
+    event.stopPropagation()
+    event.preventDefault()
+  }
+
   return (
     <MenuPlacer maxMenuHeight={props.maxMenuHeight} fieldHeight={38}>
       {({ ref, placerProps: { placement, maxHeight } }) => {
@@ -49,6 +54,7 @@ export const Menu = (props: MenuProps) => {
             align={alignToControl(placement)}
             className={props.cx({ menu: true }, props.className)}
             label="menu"
+            onMouseDown={onMenuMouseDown}
             ref={ref}
           >
             <ScrollManager lockEnabled={props.menuShouldBlockScroll} captureEnabled={false}>
@@ -78,14 +84,6 @@ const StyledMenu = createStyled(styled.div<{ align: CoercedMenuPlacement }>`
     css`
       ${[props.align]}: 100%;
     `};
-  backgroundColor: colors.neutral0,
-  borderRadius: borderRadius,
-  boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
-  marginBottom: spacing.menuGutter,
-  marginTop: spacing.menuGutter,
-  position: 'absolute',
-  width: '100%',
-  zIndex: 1,
 `)
 
 // ==============================
@@ -115,8 +113,6 @@ export const MenuList = (props: MenuListProps) => {
 const StyledMenuList = styled.div<{ maxMenuHeight: number }>`
   max-height: ${(props) => props.maxMenuHeight}px;
   overflow-y: auto;
-  padding-bottom: baseUnit;
-  padding-oop: baseUnit;
   position: relative; /* required for offset[Height, Top] > keyboard scroll */
   webkit-overflow-scrolling: touch;
 `
