@@ -16,6 +16,7 @@ export type Suggestions = Options<Option>
 // ==============================
 
 const reducer = (state: MenuState, action: MenuAction) => {
+  console.log('ACTION', action)
   switch (action.type) {
     case MenuActionType.OPEN:
       return {
@@ -136,7 +137,7 @@ export const TextInputAutosuggest = (props: Props) => {
 
   const onBlur = (value: string) => {
     props.onBlur?.(value)
-    state.isOpen && dispatch({ type: MenuActionType.CLOSE })
+    dispatch({ type: MenuActionType.CLOSE })
   }
 
   const blurInput = (newValue: string) => {
