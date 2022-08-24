@@ -1,5 +1,5 @@
 import CheckIcon from '@material-ui/icons/Check'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
 import styled from 'styled-components'
@@ -66,13 +66,27 @@ export const Select = (props: Props) => {
    * Determine options (incl. auto-suggest)
    */
 
-  const [options] = useState(
-    getOptions(
-      typeof props.options === 'function' ? props.options(i18n.language as Language) : props.options,
+  const [options, setOptions] = useState(
+    getOptions({
+      alphabetize: props.alphabetize,
+      language: i18n.language,
+      options: props.options,
+      priority: props.priority,
       t,
-      props,
-    ),
+    }),
   )
+
+  useEffect(() => {
+    setOptions(
+      getOptions({
+        alphabetize: props.alphabetize,
+        language: i18n.language,
+        options: props.options,
+        priority: props.priority,
+        t,
+      }),
+    )
+  }, [props.alphabetize, props.options, props.priority])
 
   const onChange = (option: InternalOption) => {
     const newValue = option.value === 'null' ? null : option.value
@@ -177,14 +191,19 @@ export const Select = (props: Props) => {
  * Option mapper functions
  */
 
-export const getOptions = (
-  options: Options<Value>,
-  t: Translate,
-  { alphabetize, priority }: { alphabetize?: boolean; priority?: Priority },
-) => {
+export const getOptions = (params: {
+  alphabetize?: boolean
+  language: string
+  options: Options<Value> | ((lan: Language) => Options<Value>)
+  priority?: Priority
+  t: Translate
+}) => {
+  const { alphabetize, language, options, t, priority } = params
+  const translatedOptions = typeof options === 'function' ? options(language as Language) : options
+
   const filteredOptions = priority
-    ? options.filter((option) => !priority.includes(option.value))
-    : options
+    ? translatedOptions.filter((option) => !priority.includes(option.value))
+    : translatedOptions
 
   const mappedOptions = [
     // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
@@ -205,7 +224,7 @@ export const getOptions = (
     //   : []),
     // ,
     ...(priority
-      ? priority.map((prio) => options.find((option) => option.value === prio)).filter(Boolean)
+      ? priority.map((prio) => translatedOptions.find((option) => option.value === prio)).filter(Boolean)
       : []),
     ,
     ...(priority
