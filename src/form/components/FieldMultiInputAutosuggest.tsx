@@ -63,13 +63,9 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
     )
   }
 
-
   let isSelectSuggestion = false
-  console.log('DATA', props.data)
 
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
-    console.log('on Change', lens.id(), value)
-
     // Propagate changes to form
     !isSelectSuggestion && props.onChange(lens, value)
   }
@@ -77,7 +73,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
-      isSelectSuggestion = (true)
+      isSelectSuggestion = true
 
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
@@ -98,7 +94,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
         }
       })
 
-      console.log('on select suggestion', changes)
       // Propagate changes to form
       props.onChangeMulti?.(changes)
     }

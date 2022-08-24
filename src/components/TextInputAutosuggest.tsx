@@ -16,7 +16,6 @@ export type Suggestions = Options<Option>
 // ==============================
 
 const reducer = (state: MenuState, action: MenuAction) => {
-  console.log('ACTION', action)
   switch (action.type) {
     case MenuActionType.OPEN:
       return {
