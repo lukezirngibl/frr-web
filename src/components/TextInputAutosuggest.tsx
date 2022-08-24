@@ -103,13 +103,11 @@ export const TextInputAutosuggest = (props: Props) => {
   })
 
   const onChange = (newValue: string) => {
-    if (!state.selectedSuggestion) {
-      if (state.isOpen) {
-        props.onChange?.(newValue)
-        dispatch({ type: MenuActionType.SET_SEARCH, searchValue: newValue })
-      } else if (newValue > '') {
-        dispatch({ type: MenuActionType.OPEN, searchValue: newValue })
-      }
+    if (state.isOpen) {
+      props.onChange?.(newValue)
+      dispatch({ type: MenuActionType.SET_SEARCH, searchValue: newValue })
+    } else if (newValue > '' && !state.selectedSuggestion) {
+      dispatch({ type: MenuActionType.OPEN, searchValue: newValue })
     }
   }
 
@@ -121,20 +119,9 @@ export const TextInputAutosuggest = (props: Props) => {
     }
   }, [state.searchValue, state.isOpen])
 
-  const onFocus = () => {
-    if (value > '') {
-      onLoadSuggestions(value).then((suggestions) => {
-        const selectedSuggestion = suggestions.find((suggestion) => suggestion.value === value)
-        if (selectedSuggestion) {
-          dispatch({ type: MenuActionType.SET_SELECTED_SUGGESTION, selectedSuggestion, suggestions })
-        }
-      })
-    }
-  }
-
-  const onBlur = (value: string) => {
-    props.onBlur?.(value)
-    dispatch({ type: MenuActionType.CLOSE })
+  const onBlur = (newValue: string) => {
+    props.onBlur?.(newValue)
+    dispatch({ type: MenuActionType.CLOSE, searchValue: newValue })
   }
 
   const blurInput = (newValue: string) => {
@@ -173,7 +160,6 @@ export const TextInputAutosuggest = (props: Props) => {
       autocomplete="off"
       inputRef={inputRef}
       onBlur={onBlur}
-      onFocus={onFocus}
       onChange={onChange}
       onKeyDown={onKeyDown(props, state, dispatch)}
       value={value}

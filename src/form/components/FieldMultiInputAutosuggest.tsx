@@ -66,7 +66,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
   let isSelectSuggestion = false
 
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
-    // Propagate changes to form
+    // Propagate changes to form if not already done through onSelectSuggestion callback
     !isSelectSuggestion && props.onChange(lens, value)
   }
 
