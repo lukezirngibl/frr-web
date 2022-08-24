@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Label } from '../../components/Label'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
@@ -21,52 +21,64 @@ export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormDa
 const WrapperItem = createStyled('div')
 
 // ------------------------------------
-export const FieldMultiInputAutosuggest = <FormData extends {}>({
-  data,
-  errorFieldId,
-  field,
-  fieldIndex,
-  formReadOnly,
-  localeNamespace,
-  onChangeMulti,
-  showValidation,
-  style,
-}: FieldMultiInputAutosuggestProps<FormData>) => {
+export const FieldMultiInputAutosuggest = <FormData extends {}>(
+  props: FieldMultiInputAutosuggestProps<FormData>,
+) => {
   // Form styles
   const theme = useFormTheme()
 
-  const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
-  const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
-  const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
+  const getFieldMultiInputStyle = useInlineStyle(
+    theme,
+    'fieldMultiInput',
+  )({ item: props.field.itemStyle })
+  const getRowStyle = useInlineStyle(theme, 'row')(props.style?.row || {})
+  const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
   const { disableDirtyValidation } = useFormConfig()
   const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
-    data,
-    formReadOnly,
-    localeNamespace,
-    showValidation,
+    data: props.data,
+    formReadOnly: props.formReadOnly,
+    localeNamespace: props.localeNamespace,
+    showValidation: props.showValidation,
     disableDirtyValidation,
-    style,
+    style: props.style,
   }
 
-  if (formReadOnly) {
+  if (props.formReadOnly) {
     return (
-      <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
+      <FieldRowWrapper
+        key={`row-${props.fieldIndex}`}
+        {...getCssRowStyle('wrapper')}
+        readOnly={props.formReadOnly}
+      >
         <FieldItemReadOnly
           {...commonFieldProps}
-          field={field as MultiInputAutosuggestField<FormData>}
-          fieldIndex={fieldIndex}
+          field={props.field as MultiInputAutosuggestField<FormData>}
+          fieldIndex={props.fieldIndex}
         />
       </FieldRowWrapper>
     )
   }
 
-  const setSuggestion =
+
+  let isSelectSuggestion = false
+  console.log('DATA', props.data)
+
+  const onChange = (lens: FormLens<FormData, any>, value: string) => {
+    console.log('on Change', lens.id(), value)
+
+    // Propagate changes to form
+    !isSelectSuggestion && props.onChange(lens, value)
+  }
+
+  const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
+      isSelectSuggestion = (true)
+
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -76,7 +88,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
       ]
 
       // Change all referenced fields accordingly
-      field.fields.forEach((fieldItem) => {
+      props.field.fields.forEach((fieldItem) => {
         if (fieldItem.lens.id() !== currentField.lens.id()) {
           const fieldItemId = fieldItem.lens.id().split('.').pop()
           const value = suggestion.data[fieldItemId]
@@ -86,44 +98,49 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>({
         }
       })
 
+      console.log('on select suggestion', changes)
       // Propagate changes to form
-      onChangeMulti?.(changes)
+      props.onChangeMulti?.(changes)
     }
 
   return (
-    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
+    <FieldRowWrapper
+      key={`row-${props.fieldIndex}`}
+      {...getCssRowStyle('wrapper')}
+      readOnly={props.formReadOnly}
+    >
       <FieldScrollableWrapper
-        key={`field-${fieldIndex}`}
+        key={`field-${props.fieldIndex}`}
         isScrollToError={
-          field.fields.findIndex((fieldItem) => fieldItem.lens.id() === errorFieldId) !== -1
+          props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !== -1
         }
         {...getRowStyle('item')}
       >
-        {field.label && (
+        {props.field.label && (
           <Label
-            localeNamespace={localeNamespace}
+            localeNamespace={props.localeNamespace}
             error={errorLabel.length > 0}
             errorLabel={errorLabel}
             errorDataTestId={errorDataTestId}
-            {...field.label}
+            {...props.field.label}
           />
         )}
 
         <WrapperItem
           {...getFieldMultiInputStyle('item')}
-          key={`field-mulit-input-autosuggest-${fieldIndex}`}
+          key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
         >
-          {field.fields.map((fieldItem, fieldItemIndex) => (
+          {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-              field={{ ...fieldItem, onSuggestionSelected: setSuggestion(fieldItem) }}
+              field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}
-              errorFieldId={errorFieldId}
+              errorFieldId={props.errorFieldId}
               inputRef={
                 undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
               }
-              onChange={() => {} /* Do nothing on change */}
+              onChange={onChange}
               onError={onError}
               isNotScrollable
             />

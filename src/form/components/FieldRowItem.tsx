@@ -53,13 +53,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     setValue(formValue)
   }, [formValue])
 
-  useEffect(() => {
-    if (props.field.changeOnKeystroke && value !== formValue) {
-      setFieldChanged(true)
-      onChange(field.lens, value)
-    }
-  }, [value])
-
   const onBlur = (value: any) => {
     setFieldChanged(true)
     onChange(field.lens, value)

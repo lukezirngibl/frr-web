@@ -34,7 +34,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
         focusedSuggestion: null,
         isLoading: false,
         isOpen: false,
-        selectedSuggestion: action.selectedSuggestion || state.selectedSuggestion,
+        selectedSuggestion: action.selectedSuggestion || null,
       }
 
     case MenuActionType.SET_SEARCH: {
@@ -104,12 +104,10 @@ export const TextInputAutosuggest = (props: Props) => {
   })
 
   const onChange = (newValue: string) => {
-    if (state.isOpen) {
-      props.onChange?.(newValue)
-      dispatch({ type: MenuActionType.SET_SEARCH, searchValue: newValue })
-    } else {
-      if ((state.selectedSuggestion && state.searchValue > '') || newValue === '') {
-        dispatch({ type: MenuActionType.RESET })
+    if (!state.selectedSuggestion) {
+      if (state.isOpen) {
+        props.onChange?.(newValue)
+        dispatch({ type: MenuActionType.SET_SEARCH, searchValue: newValue })
       } else if (newValue > '') {
         dispatch({ type: MenuActionType.OPEN, searchValue: newValue })
       }
