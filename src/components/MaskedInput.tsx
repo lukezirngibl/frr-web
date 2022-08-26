@@ -77,6 +77,7 @@ export const MaskedInput = (props: Props) => {
       <InputWrapperContainer
         {...getCSSStyle({
           wrapper: true,
+          wrapperFocus: isFocused,
           errorWrapper: props.error,
           disabledInput:
             isFocused ||

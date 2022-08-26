@@ -93,6 +93,7 @@ export const TextInput = (props: Props) => {
       <InputWrapper
         {...getCSSStyle({
           wrapper: true,
+          wrapperFocus: isFocused,
           disabledWrapper: props.disabled,
           readOnlyWrapper: props.readOnly,
           errorWrapper: props.error,

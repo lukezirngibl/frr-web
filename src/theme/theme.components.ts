@@ -67,6 +67,7 @@ export type ComponentTheme = {
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
   }
   textArea: {
     disabled: CSSProperties
@@ -114,12 +115,14 @@ export type ComponentTheme = {
     value: CSSProperties
     valueContainer: CSSProperties
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
   }
   colorPicker: {
     circle: CSSProperties
     labelColor: CSSProperties
     labelModal: CSSProperties
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
   }
   datePicker: {
     disabledInput: CSSProperties
@@ -129,15 +132,18 @@ export type ComponentTheme = {
     hook1: CSSProperties
     hook2: CSSProperties
     iconWrapper: CSSProperties
+    iconWrapperFocus: CSSProperties
     inputWrapper: CSSProperties
     reactDatePicker?: string
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
   }
   dropdown: {
     wrapper: CSSProperties
   }
   optionGroup: {
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
     item: CSSProperties
     itemActive: CSSProperties
     label: CSSProperties
@@ -158,14 +164,16 @@ export type ComponentTheme = {
     item: CSSProperties
     radioOuter: CSSProperties
     radioOuterActive: CSSProperties
+    radioOuterError: CSSProperties
+    radioOuterFocus: CSSProperties
     radioInner: CSSProperties
     radioInnerActive: CSSProperties
-    radioOuterError: CSSProperties
     errorWrapper: CSSProperties
   }
   toggle: {
     wrapper: CSSProperties
     wrapperActive: CSSProperties
+    wrapperFocus: CSSProperties
     circle: CSSProperties
     circleActive: CSSProperties
   }
@@ -390,6 +398,7 @@ export const defaultComponentTheme: ComponentTheme = {
     readOnlyInput: {},
     readOnlyWrapper: {},
     wrapper: {},
+    wrapperFocus: {},
   },
   textArea: {
     disabled: {},
@@ -441,12 +450,14 @@ export const defaultComponentTheme: ComponentTheme = {
     value: {},
     valueContainer: {},
     wrapper: {},
+    wrapperFocus: {},
   },
   colorPicker: {
     circle: {},
     labelModal: {},
     labelColor: {},
     wrapper: {},
+    wrapperFocus: {},
   },
   datePicker: {
     disabledInput: {},
@@ -456,15 +467,18 @@ export const defaultComponentTheme: ComponentTheme = {
     hook1: {},
     hook2: {},
     iconWrapper: {},
+    iconWrapperFocus: {},
     inputWrapper: {},
     reactDatePicker: '',
     wrapper: {},
+    wrapperFocus: {},
   },
   dropdown: {
     wrapper: {},
   },
   optionGroup: {
     wrapper: {},
+    wrapperFocus: {},
     item: {},
     itemActive: {},
     label: {},
@@ -474,6 +488,7 @@ export const defaultComponentTheme: ComponentTheme = {
   toggle: {
     wrapper: {},
     wrapperActive: {},
+    wrapperFocus: {},
     circle: {},
     circleActive: {},
   },
@@ -483,9 +498,10 @@ export const defaultComponentTheme: ComponentTheme = {
     item: {},
     radioOuter: {},
     radioOuterActive: {},
+    radioOuterError: {},
+    radioOuterFocus: {},
     radioInner: {},
     radioInnerActive: {},
-    radioOuterError: {},
     errorWrapper: {},
   },
   singleCheckbox: {

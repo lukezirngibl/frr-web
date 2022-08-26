@@ -76,20 +76,7 @@ export const MaskedDatePicker = (props: Props) => {
     }) ||
     undefined
 
-  const styleIconWrapper = getStyle({
-    iconWrapper: true,
-    errorWrapper: !!props.error,
-  })
-
-  const styleIconHook1 = getStyle({
-    hook1: true,
-    errorHook: !!props.error,
-  })
-
-  const styleIconHook2 = getStyle({
-    hook2: true,
-    errorHook: !!props.error,
-  })
+  
 
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
@@ -105,6 +92,24 @@ export const MaskedDatePicker = (props: Props) => {
 
   const [isFocused, setIsFocused] = useState(false)
   const [open, setOpen] = React.useState(false)
+
+  /* Icon Styles */
+  
+  const styleIconWrapper = getStyle({
+    iconWrapper: true,
+    iconWrapperFocus: isFocused,
+    errorWrapper: !!props.error,
+  })
+
+  const styleIconHook1 = getStyle({
+    hook1: true,
+    errorHook: !!props.error,
+  })
+
+  const styleIconHook2 = getStyle({
+    hook2: true,
+    errorHook: !!props.error,
+  })
 
   return (
     <>

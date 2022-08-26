@@ -132,6 +132,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       display: 'flex',
       alignItems: 'center',
     },
+    wrapperFocus: {},
     inputWrapper: {
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
@@ -151,6 +152,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       height: 'var(--form-field-height)',
       justifyContent: 'center',
       position: 'relative',
+    },
+    iconWrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     hook1: {
       display: 'none',
@@ -287,7 +291,9 @@ export const componentTheme: Partial<ComponentTheme> = {
         marginBottom: 8,
       },
     },
-    labelTextFocus: {},
+    labelTextFocus: {
+      fontWeight: 500,
+    },
     errorIcon: {
       opacity: 0.7,
       marginRight: 8,
@@ -381,6 +387,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       backgroundColor: '#3d6f1a',
       flexDirection: 'row-reverse',
     },
+    wrapperFocus: {},
     circle: {
       height: 24,
       width: 24,
@@ -412,6 +419,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       backgroundColor: 'var(--color-form-field-background)',
     },
     radioOuterActive: {},
+    radioOuterFocus: {},
     radioInner: {
       backgroundColor: 'var(--color-input)',
     },
@@ -440,6 +448,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       width: 'var(--form-field-width)',
       zIndex: 0,
       backgroundColor: 'var(--color-background-primary)',
+    },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     icon: {
       position: 'absolute',
@@ -564,6 +575,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       maxWidth: 'var(--form-field-width)',
       position: 'relative',
     },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
+    },
     input: {
       width: '100%',
       height: '100%',
@@ -598,10 +612,13 @@ export const componentTheme: Partial<ComponentTheme> = {
       cursor: 'pointer',
       borderStyle: 'solid',
       borderWidth: 1,
-      borderColor: '#c3c3c3',
+      borderColor: 'var(--color-form-field-border)',
       padding: '0 4px',
       height: 'calc(var(--form-field-height) + 4px)',
       borderRadius: 'calc((var(--form-field-height) + 4px) / 2)',
+    },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     errorWrapper: {},
     itemActive: {

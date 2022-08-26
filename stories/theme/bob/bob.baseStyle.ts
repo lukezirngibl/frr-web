@@ -123,6 +123,7 @@ input[type=number] {
   --color-hover: <colorHover>;
 
   --color-form-field-border: rgba(34,36,38,.15);
+  --color-form-field-border-focus: var(--color-accent);
   --color-form-field-background: rgba(240, 240, 240);
   
   --color-uploadDropzoneIsDragAccept: #00e676;

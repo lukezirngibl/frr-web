@@ -63,6 +63,7 @@ export const OptionGroup = (props: Props) => {
       <Wrapper
         {...getCSSStyles({
           wrapper: true,
+          wrapperFocus: isFocused,
           errorWrapper: props.error,
         })}
         onFocus={onFocus}

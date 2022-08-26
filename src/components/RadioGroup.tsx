@@ -75,6 +75,7 @@ export const RadioGroup = (props: Props) => {
               <OuterRadio
                 {...getInlineStyle({
                   radioOuter: true,
+                  radioOuterFocus: isFocused,
                   radioOuterActive: active,
                   radioOuterError: props.error,
                 })}

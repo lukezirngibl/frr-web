@@ -176,7 +176,7 @@ export const Select = (props: Props) => {
               openMenuOnFocus
               options={options.map(mapInternalOption)}
               placeholder={t('formFields.select.defaultLabel')}
-              styles={mapReactSelectStyles(getInlineStyle, props.error)}
+              styles={mapReactSelectStyles(getInlineStyle, props.error, isFocused)}
               ref={props.inputRef}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
@@ -301,7 +301,7 @@ const OptionValueWrapper = styled.span`
  * React select style mapper
  */
 
-export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): StylesConfig => {
+export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean, isFocused?: boolean): StylesConfig => {
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
@@ -311,6 +311,7 @@ export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): Styl
   const selectStyle = getInlineStyle(
     {
       select: true,
+      wrapperFocus: !!isFocused,
       errorWrapper: error,
     },
     {},
