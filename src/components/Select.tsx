@@ -119,6 +119,7 @@ export const Select = (props: Props) => {
   const onBlur = () => {
     setIsFocused(false)
   }
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
@@ -303,7 +304,8 @@ const OptionValueWrapper = styled.span`
 export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): StylesConfig => {
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
-  const optionStyle = getInlineStyle('option', undefined, undefined, true).style as any
+  const optionStyle = getInlineStyle('option').style as any
+  const optionStyleHover = getInlineStyle('optionHover').style as any
   const optionStyleActive = getInlineStyle('optionActive').style as any
   const placeholderStyle = getInlineStyle('placeholder').style as any
   const selectStyle = getInlineStyle(
@@ -347,14 +349,14 @@ export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean): Styl
         cursor: state.isDisabled ? 'default' : 'pointer',
         ...optionStyle,
         backgroundColor:
-          (state.isFocused && optionStyle[':hover']?.backgroundColor) ||
+          (state.isFocused && optionStyleHover.backgroundColor) ||
           (state.isDisabled && !state.isFocused && 'transparent') ||
           (state.isSelected && optionStyleActive.backgroundColor) ||
           optionStyle.backgroundColor ||
           optionStyle.background ||
           provided.backgroundColor,
         color:
-          (state.isFocused && optionStyle[':hover']?.color) ||
+          (state.isFocused && optionStyleHover.color) ||
           (state.isSelected && optionStyleActive.color) ||
           optionStyle.color ||
           provided.color,
