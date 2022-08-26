@@ -291,10 +291,11 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   const menuElement = (
     <Menu
       {...commonProps}
-      minMenuHeight={MIN_HEIGHT}
-      maxMenuHeight={MAX_HEIGHT}
       fieldHeight={38}
       isLoading={props.isLoading}
+      maxMenuHeight={MAX_HEIGHT}
+      menuShouldBlockScroll
+      minMenuHeight={MIN_HEIGHT}
     >
       {menuUI}
     </Menu>

@@ -37,6 +37,14 @@ const zips = [
   '4001',
   '4021',
   '4321',
+  '4322',
+  '4322',
+  '4342',
+  '4352',
+  '4362',
+  '4402',
+  '4403',
+  '4510',
   '5000',
   '5001',
   '5021',
@@ -70,7 +78,7 @@ const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
         .map((zip) => ({ value: zip, label: zip, isTranslated: true, data: { zip } }))
       // console.log('ZIP OPTIONS', zipOptions)
       setTimeout(() => {
-        resolve(zipOptions)
+        resolve(zipOptions.slice(0, 7))
       }, 1000)
     })
   },
@@ -79,7 +87,7 @@ const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
 export const Autosugget = () => {
   const [value, setValue] = React.useState('')
   return (
-    <div style={{ maxWidth: 600, minHeight: 600 }}>
+    <div style={{ maxWidth: 600, minHeight: 900 }}>
       {story({
         field: {
           ...textInputAutosuggestField,

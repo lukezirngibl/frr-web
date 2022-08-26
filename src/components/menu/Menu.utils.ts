@@ -9,7 +9,7 @@ import {
   RectType,
 } from './Menu.types'
 
-export const MAX_HEIGHT = 300
+export const MAX_HEIGHT = 400
 export const MIN_HEIGHT = 140
 export const PAGE_SIZE = 7
 
