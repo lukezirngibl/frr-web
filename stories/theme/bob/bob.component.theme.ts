@@ -406,24 +406,36 @@ export const componentTheme: Partial<ComponentTheme> = {
       alignItems: 'center',
       justifyContent: 'flex-start',
       minWidth: 'var(--form-field-width)',
+      gap: 24,
     },
     radioOuterError: {
       borderColor: 'var(--color-error)',
     },
     radioOuter: {
+      position: 'relative',
       width: 20,
       height: 20,
       flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       padding: 4,
       borderColor: 'var(--color-input)',
       backgroundColor: 'var(--color-form-field-background)',
     },
-    radioOuterActive: {},
-    radioOuterFocus: {},
+    radioOuterFocus: { borderColor: 'var(--color-accent)', borderWidth: 2 },
     radioInner: {
-      backgroundColor: 'var(--color-input)',
+      backgroundColor: 'white',
+      width: 8,
+      height: 8,
     },
-    radioInnerActive: {},
+    radioOuterActive: {
+      backgroundColor: 'rgba(0,145,178,1)', // TODO replace with variable. which one?!?!
+      borderColor: 'rgba(0,145,178,1)', // TODO replace with variable. which one?!?!
+    },
+    radioInnerActive: {
+      backgroundColor: 'white',
+    },
     item: {
       flexDirection: 'row-reverse',
       width: 112,

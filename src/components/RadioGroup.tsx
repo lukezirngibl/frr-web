@@ -27,42 +27,73 @@ export type Props = {
   value: string
 }
 
+const findActiveIndex = (props: Props) => {
+  const activeIndex = props.options.findIndex(({ value: optionValue }) => optionValue === props.value)
+  return activeIndex === -1 ? 0 : activeIndex
+}
+
 export const RadioGroup = (props: Props) => {
   const theme = useComponentTheme()
 
   const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
-  const [isFocused, setIsFocused] = React.useState(false)
+  const [focusState, setFocusState] = React.useState({
+    isFocused: false,
+    focusedIndex: findActiveIndex(props),
+  })
 
   const onFocus = () => {
-    setIsFocused(true)
+    setFocusState({ isFocused: true, focusedIndex: findActiveIndex(props) })
     props.onFocus?.()
   }
   const onChange = (item: OptionType<string>) => {
     props.onChange(item.value)
     props.onBlur?.(item.value)
-    setIsFocused(false)
+  }
+  const onBlur = () => {
+    setFocusState({ isFocused: false, focusedIndex: 0 })
   }
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
-      const activeIndex = props.options.findIndex((item) => item.value === props.value)
-      props.onChange(props.options[(activeIndex + 1) % props.options.length].value)
+    if (['ArrowRight'].includes(event.key)) {
+      setFocusState({
+        isFocused: true,
+        focusedIndex: (focusState.focusedIndex + 1) % props.options.length,
+      })
+      event.preventDefault()
+    } else if (['ArrowLeft', 'Backspace'].includes(event.key)) {
+      setFocusState({
+        isFocused: true,
+        focusedIndex: focusState.focusedIndex === 0 ? props.options.length - 1 : focusState.focusedIndex - 1,
+      })
+      event.preventDefault()
+    } else if (['Enter'].includes(event.key)) {
+      props.onChange(props.options[focusState.focusedIndex].value)
       event.preventDefault()
     }
   }
 
   return (
     <>
-      {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <Wrapper {...getCSSStyles('wrapper')} tabIndex={0} onFocus={onFocus} onKeyDown={onKeyDown}>
-        {props.options.map((option, k) => {
-          const active = option.value === props.value
+      {props.label && <Label {...props.label} isFocused={focusState.isFocused} />}
+      <Wrapper
+        {...getCSSStyles('wrapper')}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
+      >
+        {props.options.map((option, optionIndex) => {
+          const isActive = option.value === props.value
+          const isFocused = focusState.isFocused && optionIndex === focusState.focusedIndex
+
           return (
             <Item
-              {...getCSSStyles('item')}
-              key={k}
+              {...getCSSStyles({
+                item: true,
+              })}
+              key={`option-${optionIndex}`}
               data-test-id={`${props.dataTestId}:${option.value}`}
               onClick={() => onChange(option)}
               tabIndex={-1}
@@ -75,16 +106,16 @@ export const RadioGroup = (props: Props) => {
               <OuterRadio
                 {...getInlineStyle({
                   radioOuter: true,
+                  radioOuterActive: isActive,
                   radioOuterFocus: isFocused,
-                  radioOuterActive: active,
                   radioOuterError: props.error,
                 })}
               >
-                {active && (
+                {isActive && (
                   <InnerRadio
                     {...getInlineStyle({
                       radioInner: true,
-                      radioInnerActive: active,
+                      radioInnerActive: isActive,
                     })}
                   ></InnerRadio>
                 )}
@@ -105,6 +136,7 @@ const Item = createStyled(styled.div`
 `)
 
 const OuterRadio = styled.div`
+  position: relative;
   width: 24px;
   height: 24px;
   padding: 4px;
