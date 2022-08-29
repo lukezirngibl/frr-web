@@ -93,21 +93,21 @@ export const Toggle = (props: Props) => {
   )
 }
 
-const Wrapper = createStyled('div')`
-  transition: all ease 0.7s;
-  display: flex;
+const Wrapper = createStyled(styled.div`
   align-items: center;
-  flex-direction: row;
-  height: 32px;
-  width: 52px;
-  min-width: 52px;
-  padding: 2px;
   border-radius: 16px;
   cursor: pointer;
-`
-const Circle = createStyled('div')`
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  min-width: 52px;
+  padding: 2px;
+  transition: all ease 0.7s;
+  width: 52px;
+`)
+const Circle = createStyled(styled.div`
   transition: all ease 0.4s;
   width: 28px;
   height: 28px;
   border-radius: 14px;
-`
+`)

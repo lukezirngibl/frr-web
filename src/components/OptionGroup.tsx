@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Options, OptionType, P } from '../html'
+import { useGroupFocus } from '../hooks/useGroupFocus'
+import { Options, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -37,25 +38,9 @@ export const OptionGroup = (props: Props) => {
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
-  const [isFocused, setIsFocused] = React.useState(false)
-
-  const onFocus = () => {
-    setIsFocused(true)
-    props.onFocus?.()
-  }
-  const onChange = (item: OptionType<string | number>) => {
-    props.onChange(item.value)
-    props.onBlur?.(item.value)
-    setIsFocused(false)
-  }
-
-  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
-      const activeIndex = props.options.findIndex((item) => item.value === props.value)
-      props.onChange(props.options[(activeIndex + 1) % props.options.length].value)
-      event.preventDefault()
-    }
-  }
+  const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<
+    string | number
+  >(props)
 
   return (
     <>
@@ -67,14 +52,16 @@ export const OptionGroup = (props: Props) => {
           errorWrapper: props.error,
         })}
         onFocus={onFocus}
+        onBlur={onBlur}
         onKeyDown={onKeyDown}
         tabIndex={0}
       >
-        {props.options.map((item) => (
+        {props.options.map((item, itemIndex) => (
           <Item
             {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,
+              itemFocus: isFocused && itemIndex === focusedIndex,
             })}
             className={item.value === props.value ? 'active' : 'inactive'}
             data-test-id={`${props.dataTestId || 'option'}:${item.value}`}

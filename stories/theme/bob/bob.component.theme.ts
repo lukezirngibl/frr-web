@@ -380,24 +380,26 @@ export const componentTheme: Partial<ComponentTheme> = {
     wrapper: {
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'var(--color-primary)',
+      borderColor: 'rgba(0,0,0,0.5)',
     },
     wrapperActive: {
-      borderColor: '#3d6f1a',
-      backgroundColor: '#3d6f1a',
+      borderColor: 'var(--color-active)',
+      backgroundColor: 'var(--color-active)',
       flexDirection: 'row-reverse',
     },
-    wrapperFocus: {},
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
+    },
     circle: {
       height: 24,
       width: 24,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'var(--color-primary)',
+      borderColor: 'rgba(0,0,0,0.5)',
     },
     circleActive: {
-      borderColor: 'var(--color-background-primary)',
-      backgroundColor: 'var(--color-background-primary)',
+      borderColor: 'white',
+      backgroundColor: 'white',
     },
   },
   radioGroup: {
@@ -420,18 +422,22 @@ export const componentTheme: Partial<ComponentTheme> = {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 4,
-      borderColor: 'var(--color-input)',
+      border: '2px solid var(--color-form-field-border)',
       backgroundColor: 'var(--color-form-field-background)',
+      transition: 'border 0.3s ease-out, background-color 0.1s ease-out',
     },
-    radioOuterFocus: { borderColor: 'var(--color-accent)', borderWidth: 2 },
+    radioOuterActive: {
+      backgroundColor: 'var(--color-active)',
+      borderColor: 'var(--color-active)',
+    },
+    radioOuterFocus: {
+      borderColor: 'var(--color-accent)',
+    },
     radioInner: {
       backgroundColor: 'white',
       width: 8,
       height: 8,
-    },
-    radioOuterActive: {
-      backgroundColor: 'rgba(0,145,178,1)', // TODO replace with variable. which one?!?!
-      borderColor: 'rgba(0,145,178,1)', // TODO replace with variable. which one?!?!
+      transition: 'background-color 0.1s ease-out',
     },
     radioInnerActive: {
       backgroundColor: 'white',
@@ -618,30 +624,20 @@ export const componentTheme: Partial<ComponentTheme> = {
     disabled: {},
   },
   optionGroup: {
+    errorWrapper: {},
     wrapper: {
       backgroundColor: 'white',
       width: 'var(--form-field-width)',
       cursor: 'pointer',
       borderStyle: 'solid',
       borderWidth: 1,
-      borderColor: 'var(--color-form-field-border)',
+      borderColor: '#c3c3c3',
       padding: '0 4px',
       height: 'calc(var(--form-field-height) + 4px)',
       borderRadius: 'calc((var(--form-field-height) + 4px) / 2)',
     },
     wrapperFocus: {
-      borderColor: 'var(--color-form-field-border-focus)',
-    },
-    errorWrapper: {},
-    itemActive: {
-      backgroundColor: 'var(--color-background-accent)',
-      color: 'white',
-      borderBottomColor: 'var(--color-background-accent)',
-      borderTopColor: 'var(--color-background-accent)',
-      borderLeftColor: 'var(--color-background-accent)',
-      borderRightColor: 'var(--color-background-accent)',
-      boxSizing: 'content-box',
-      zIndex: 1,
+      // borderColor: 'var(--color-form-field-border-focus)',
     },
     item: {
       display: 'flex',
@@ -651,27 +647,31 @@ export const componentTheme: Partial<ComponentTheme> = {
       height: 'calc(var(--form-field-height) - 8px)',
       margin: '0 1px',
       color: 'var(--color-input)',
-      borderWidth: 1,
-      borderStyle: 'solid',
+      border: '2px solid var(--color-background-primary)',
       borderRadius: 'calc((var(--form-field-height) - 8px) / 2)',
-      borderBottomColor: 'var(--color-background-primary)',
-      borderTopColor: 'var(--color-background-primary)',
-      borderLeftColor: 'var(--color-background-primary)',
-      borderRightColor: 'var(--color-background-primary)',
-      transition: 'border 0.3s ease-out',
+      transition: 'border 0.3s ease-out, background-color 0.1s ease-out, color 0.1s ease-out',
       ':hover': {
-        borderBottomColor: 'var(--color-background-accent)',
-        borderTopColor: 'var(--color-background-accent)',
-        borderLeftColor: 'var(--color-background-accent)',
-        borderRightColor: 'var(--color-background-accent)',
+        borderColor: 'var(--color-background-accent)',
       },
+    },
+    itemActive: {
+      backgroundColor: 'var(--color-background-accent)',
+      color: 'white',
+      borderColor: 'var(--color-background-accent)',
+      boxSizing: 'content-box',
+      zIndex: 1,
+    },
+    itemFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     label: {
       textAlign: 'center',
       fontSize: 'var(--font-size-input)',
       color: 'var(--color-input)',
     },
-    labelActive: {},
+    labelActive: {
+      color: 'white',
+    },
   },
 
   button: {
@@ -693,6 +693,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       },
       ':hover': {
         filter: 'brightness(80%)',
+      },
+      ':focus': {
+        boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
       },
     },
     label: {
@@ -721,6 +724,9 @@ export const componentTheme: Partial<ComponentTheme> = {
 
       ':hover': {
         // backgroundColor: 'rgb(230,170,59)',
+      },
+      ':focus': {
+        border: '2px solid var(--color-active)',
       },
 
       ':disabled': {

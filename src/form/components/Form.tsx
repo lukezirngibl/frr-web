@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { Button, ButtonType, Props as ButtonProps } from '../../components/Button'
+import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
@@ -35,14 +35,14 @@ export type FormAnalytics<FormData> = {
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
 }
 
+type ButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
+  onClick: (params: { submit: () => void; dispatch: any }) => void
+  isDisabled?: (d: FormData) => boolean
+}
+
 export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
-  buttons?: Array<
-    Omit<ButtonProps, 'onClick'> & {
-      onClick: (params: { submit: () => void; dispatch: any }) => void
-      isDisabled?: (d: FormData) => boolean
-    }
-  >
+  buttons?: Array<ButtonProps<FormData>>
   children?: ReactNode
   className?: string
   data: FormData
@@ -298,14 +298,11 @@ export const Form = <FormData extends {}>({
             {buttons.map((button, k) => (
               <Button
                 {...button}
-                key={k}
-                dataTestId={
-                  button.dataTestId ||
-                  (button.type === ButtonType.Primary && 'form:primary') ||
-                  `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
-                }
+                dataTestId={mapButtonDataTestId(button, k)}
                 disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
+                key={k}
                 onClick={() => button.onClick({ submit, dispatch })}
+                tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
               />
             ))}
           </ButtonContainer>
@@ -316,3 +313,8 @@ export const Form = <FormData extends {}>({
     <></>
   )
 }
+
+const mapButtonDataTestId = (button: ButtonProps<any>, k: number) =>
+  button.dataTestId ||
+  (button.type === ButtonType.Primary && 'form:primary') ||
+  `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`

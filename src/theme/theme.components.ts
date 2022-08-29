@@ -30,14 +30,14 @@ export type ComponentTheme = {
   }
   button: {
     chromeless: CSSProperties
-    primary: CSSProperties
-    label: CSSProperties
-    secondary: CSSProperties
-    common: CSSProperties
-    spinner: CSSProperties
-    primaryLabel: CSSProperties
-    secondaryLabel: CSSProperties
     chromelessLabel: CSSProperties
+    common: CSSProperties
+    label: CSSProperties
+    primary: CSSProperties
+    primaryLabel: CSSProperties
+    secondary: CSSProperties
+    secondaryLabel: CSSProperties
+    spinner: CSSProperties
   }
   label: {
     descriptionIcon: CSSProperties
@@ -146,6 +146,7 @@ export type ComponentTheme = {
     wrapperFocus: CSSProperties
     item: CSSProperties
     itemActive: CSSProperties
+    itemFocus: CSSProperties
     label: CSSProperties
     labelActive: CSSProperties
     errorWrapper: CSSProperties
@@ -361,13 +362,13 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   button: {
     chromeless: {},
-    primary: {},
-    label: {},
-    primaryLabel: {},
-    secondaryLabel: {},
     chromelessLabel: {},
-    secondary: {},
     common: {},
+    label: {},
+    primary: {},
+    primaryLabel: {},
+    secondary: {},
+    secondaryLabel: {},
     spinner: {},
   },
   label: {
@@ -481,6 +482,7 @@ export const defaultComponentTheme: ComponentTheme = {
     wrapperFocus: {},
     item: {},
     itemActive: {},
+    itemFocus: {},
     label: {},
     labelActive: {},
     errorWrapper: {},
