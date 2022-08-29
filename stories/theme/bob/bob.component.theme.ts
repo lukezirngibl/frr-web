@@ -410,9 +410,6 @@ export const componentTheme: Partial<ComponentTheme> = {
       minWidth: 'var(--form-field-width)',
       gap: 24,
     },
-    radioOuterError: {
-      borderColor: 'var(--color-error)',
-    },
     radioOuter: {
       position: 'relative',
       width: 20,
@@ -429,6 +426,9 @@ export const componentTheme: Partial<ComponentTheme> = {
     radioOuterActive: {
       backgroundColor: 'var(--color-active)',
       borderColor: 'var(--color-active)',
+    },
+    radioOuterError: {
+      borderColor: 'var(--color-error)',
     },
     radioOuterFocus: {
       borderColor: 'var(--color-accent)',
@@ -695,15 +695,10 @@ export const componentTheme: Partial<ComponentTheme> = {
         filter: 'brightness(80%)',
       },
       ':focus': {
-        boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+        boxShadow: '2px 2px 8px rgba(0, 0, 0, 0.35), 0 -2px 8px rgba(0, 0, 0, 0.05)',
       },
     },
-    label: {
-      fontSize: 'var(--button-font-size)',
-      textTransform: 'none',
-      fontWeight: 500,
-      marginBottom: '0.1rem',
-    },
+
     chromeless: {
       background: 'transparent',
       color: 'black',
@@ -711,7 +706,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       borderWidth: 1,
       borderStyle: 'solid',
     },
-    chromelessLabel: {},
+
     primary: {
       backgroundColor: 'var(--color-accent)',
       color: 'black',
@@ -734,6 +729,13 @@ export const componentTheme: Partial<ComponentTheme> = {
         pointerEvents: 'none',
       },
     },
+    label: {
+      fontSize: 'var(--button-font-size)',
+      textTransform: 'none',
+      fontWeight: 500,
+      marginBottom: '0.1rem',
+    },
+    chromelessLabel: {},
     primaryLabel: {},
     secondary: {
       backgroundColor: '#E8E8E8',
