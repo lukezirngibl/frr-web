@@ -1,4 +1,4 @@
-import { Toggle, Props } from '../../src/components/Toggle'
+import { YesNoOptionGroup, Props } from '../../src/components/YesNoOptionGroup'
 import { createStory, meta } from '../storybook.helpers'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import React, { useState } from 'react'
@@ -6,23 +6,23 @@ import { makeFormLens } from '../../src/form/util'
 import { FormFieldType, SingleFormField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Toggle>({
-  title: 'Components/Toggle',
-  component: Toggle,
+export default meta<Props, typeof YesNoOptionGroup>({
+  title: 'Components/YesNoOptionGroup',
+  component: YesNoOptionGroup,
 })
 
-type FormData = { isPrivacyPolicyAccepted: boolean | null }
+type FormData = { isMovedRecently: boolean | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
 const field: SingleFormField<FormData> = {
-  type: FormFieldType.Toggle,
-  lens: formLens(['isPrivacyPolicyAccepted']),
-  label: { label: 'Accept privacy policy' },
+  type: FormFieldType.YesNoOptionGroup,
+  lens: formLens(['isMovedRecently']),
+  label: { label: 'Did you move recently?' },
 } as any
 
 export const Initial = () => {
-  const [value, setValue] = useState(false)
+  const [value, setValue] = useState(null)
 
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
@@ -32,7 +32,7 @@ export const Initial = () => {
         formReadOnly: false,
         style: {},
         data: {
-          isPrivacyPolicyAccepted: value,
+          isMovedRecently: value,
         },
         onChange: (lens, value) => {
           setValue(value)
@@ -42,21 +42,3 @@ export const Initial = () => {
     </div>
   )
 }
-
-// export const Checked = () => (
-//   <div style={{ maxWidth: 600, minHeight: 600 }} id="select-container">
-//     {story({
-//       field,
-//       fieldIndex: 0,
-//       formReadOnly: false,
-//       style: {},
-//       data: {
-//         isPrivacyPolicyAccepted: true,
-//       },
-//       onChange: (lens, value) => {
-//         alert(`ON CHANGE\nValue: ${value}`)
-//       },
-//       showValidation: false,
-//     })}
-//   </div>
-// )

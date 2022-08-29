@@ -15,7 +15,7 @@ const processFormFieldGroup = <T>(g: FormFieldGroup<T>): Array<SingleFormField<T
       acc = [...acc, ...f]
     } else if (f.type === FormFieldType.MultiInput) {
       acc = [...acc, ...f.fields]
-    } else if (f.type === FormFieldType.MultiInputAutocomplete) {
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
       acc = [...acc, ...f.fields]
     } else if (f.type === FormFieldType.Static) {
       acc = acc
@@ -39,7 +39,7 @@ const processFormSectionFields = <T>(fields: SectionFields<T>, data: T): Array<S
       acc = [...acc, ...groups.reduce((acc, g) => [...acc, ...processFormFieldGroup(g)], [])]
     } else if (f.type === FormFieldType.MultiInput) {
       acc = [...acc, ...f.fields]
-    } else if (f.type === FormFieldType.MultiInputAutocomplete) {
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
       acc = [...acc, ...f.fields]
     } else if (f.type === FormFieldType.Static) {
       acc = acc
@@ -64,7 +64,7 @@ export const flatten = <T>(formFields: Array<FormField<T>>, data: T): Array<Sing
       array = [...array, ...processFormSection(f, data)]
     } else if (f.type === FormFieldType.MultiInput) {
       array = [...array, ...f.fields]
-    } else if (f.type === FormFieldType.MultiInputAutocomplete) {
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
       array = [...array, ...f.fields]
     } else if (f.type === FormFieldType.Static) {
       array = array

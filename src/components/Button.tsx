@@ -81,6 +81,9 @@ export const Button = (props: Props) => {
 
   const { isMobile } = useMobileTouch()
 
+  // Remove all button types expect primary from the form tab index
+  const tabIndex = props.tabIndex || (props.type !== ButtonType.Primary && -1) || 0
+
   return (
     <ButtonWrapper
       id={props.id}
@@ -88,7 +91,7 @@ export const Button = (props: Props) => {
       data-test-id={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
-      tabIndex={props.tabIndex}
+      tabIndex={tabIndex}
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}

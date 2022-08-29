@@ -34,7 +34,7 @@ export const TextArea = (props: TextAreaProps) => {
   const getTextAreaStyle = useCSSStyles(theme, 'textArea')(props.style)
   const getInputStyle = useInlineStyle(theme, 'textInput')({})
 
-  const [isFocus, setIsFocus] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
   useEffect(() => {
     setInternalValue(props.value)
@@ -52,7 +52,7 @@ export const TextArea = (props: TextAreaProps) => {
 
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <InputWrapper
         {...getTextAreaStyle(
           'wrapper',
@@ -78,7 +78,7 @@ export const TextArea = (props: TextAreaProps) => {
             let newValue = (internalValue || '').trim()
 
             setInternalValue(newValue)
-            setIsFocus(false)
+            setIsFocused(false)
             props.onBlur?.(newValue)
           }}
           onChange={(event: any) => {
@@ -87,13 +87,13 @@ export const TextArea = (props: TextAreaProps) => {
             setInternalValue(newValue)
             props.onChange?.(newValue)
 
-            if (!isFocus) {
+            if (!isFocused) {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur?.(newValue)
             }
           }}
           onFocus={() => {
-            setIsFocus(true)
+            setIsFocused(true)
             props.onFocus?.()
           }}
           ref={inputRef}

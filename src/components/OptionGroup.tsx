@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useGroupFocus } from '../hooks/useGroupFocus'
 import { Options, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
@@ -25,6 +26,8 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
+  onFocus?: () => void
+  onBlur?: (v: string | number) => void
   options: Options<string | number>
   style?: Partial<ComponentTheme['optionGroup']>
   value: string | number | null
@@ -35,27 +38,36 @@ export const OptionGroup = (props: Props) => {
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
+  const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<
+    string | number
+  >(props)
+
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper
         {...getCSSStyles({
           wrapper: true,
+          wrapperFocus: isFocused,
           errorWrapper: props.error,
         })}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
       >
-        {props.options.map((item) => (
+        {props.options.map((item, itemIndex) => (
           <Item
-            className={item.value === props.value ? 'active' : 'inactive'}
-            key={item.value}
-            onClick={() => {
-              props.onChange(item.value)
-            }}
-            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
             {...getCSSStyles({
               item: true,
               itemActive: item.value === props.value,
+              itemFocus: isFocused && itemIndex === focusedIndex,
             })}
+            className={item.value === props.value ? 'active' : 'inactive'}
+            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
+            key={item.value}
+            onClick={() => onChange(item)}
+            tabIndex={-1}
           >
             <P
               {...getCSSStyles({

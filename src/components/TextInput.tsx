@@ -6,7 +6,6 @@ import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
-
 const InputWrapper = createStyled('div')
 const Input = createStyled('input')
 const Hook = createStyled('div')
@@ -14,26 +13,28 @@ const Prefix = createStyled('p')
 
 export type Props = {
   autocomplete?: string
+  children?: React.ReactNode
   dataTestId?: string
   debounce?: number
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
   inputType?: string
+  inputRef?: React.MutableRefObject<HTMLElement>
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   maxLength?: number
   minLength?: number
   name?: string
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void
   onBlur?: (value: string) => void
   onChange?: (value: string) => void
-  onKeyUp?: (value: string) => void
   onFocus?: () => void
   onlyOnBlur?: boolean
   parseValue?: (value: string | null) => string
   placeholder?: string
-  prefix?: string
   postfix?: string
+  prefix?: string
   proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<ComponentTheme['textInput']>
@@ -48,7 +49,7 @@ export const TextInput = (props: Props) => {
 
   const { t: translate } = useTranslation(props.localeNamespace)
 
-  const [isFocus, setIsFocus] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
 
   useEffect(() => {
@@ -80,12 +81,19 @@ export const TextInput = (props: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (props.inputRef) {
+      props.inputRef.current = inputRef.current
+    }
+  }, [inputRef.current])
+
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <InputWrapper
         {...getCSSStyle({
           wrapper: true,
+          wrapperFocus: isFocused,
           disabledWrapper: props.disabled,
           readOnlyWrapper: props.readOnly,
           errorWrapper: props.error,
@@ -95,6 +103,7 @@ export const TextInput = (props: Props) => {
             inputRef.current.focus()
           }
         }}
+        onKeyDown={props.onKeyDown}
       >
         <Hook
           {...getCSSStyle({
@@ -125,26 +134,22 @@ export const TextInput = (props: Props) => {
             setInternalValue(newValue)
             onChange?.(newValue)
 
-            if (!isFocus) {
+            if (!isFocused) {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur?.(newValue)
             }
-          }}
-          onKeyUp={(event: any) => {
-            const newValue = event.target.value as string
-            props.onKeyUp?.(newValue)
           }}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
             newValue = props.parseValue?.(newValue) || newValue
             setInternalValue(newValue)
             onChange?.(newValue)
-            setIsFocus(false)
+            setIsFocused(false)
 
             props.onBlur?.(newValue)
           }}
           onFocus={() => {
-            setIsFocus(true)
+            setIsFocused(true)
             props.onFocus?.()
           }}
           placeholder={placeholder}
@@ -152,6 +157,7 @@ export const TextInput = (props: Props) => {
           value={value}
         ></Input>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
+        {props.children}
       </InputWrapper>
     </>
   )

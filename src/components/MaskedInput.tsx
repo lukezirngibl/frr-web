@@ -60,9 +60,6 @@ export const MaskedInput = (props: Props) => {
   }
 
   /* Focus field (e.g. on error) */
-
-  const [isFocus, setIsFocus] = useState(false)
-
   useEffect(() => {
     let timerId: any = null
     if (props.hasFocus && inputRef.current) {
@@ -72,15 +69,18 @@ export const MaskedInput = (props: Props) => {
     return () => clearTimeout(timerId)
   }, [props.hasFocus])
 
+    const [isFocused, setIsFocused] = useState(false)
+
   return (
     <>
-      {props.label && <Label {...props.label} />}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <InputWrapperContainer
         {...getCSSStyle({
           wrapper: true,
+          wrapperFocus: isFocused,
           errorWrapper: props.error,
           disabledInput:
-            isFocus ||
+            isFocused ||
             (!!internalValue && internalValue !== maskString) ||
             (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
               ? false
@@ -91,7 +91,7 @@ export const MaskedInput = (props: Props) => {
             input: true,
             errorInput: props.error,
             disabledInput:
-              isFocus ||
+              isFocused ||
               (!!internalValue && internalValue !== maskString) ||
               (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
                 ? false
@@ -124,7 +124,7 @@ export const MaskedInput = (props: Props) => {
             props.onChange?.(value)
             setLastValue(value)
 
-            if (!isFocus) {
+            if (!isFocused) {
               // Required for browser auto-fill fields to ensure the form gets the values
               props.onBlur(value)
             }
@@ -132,11 +132,12 @@ export const MaskedInput = (props: Props) => {
           onBlur={() => {
             let newValue = (internalValue || '').trim()
             setInternalValue(newValue)
-            setIsFocus(false)
+            setIsFocused(false)
             props.onBlur(newValue)
           }}
           onFocus={() => {
-            setIsFocus(true)
+            setIsFocused(true)
+            props.onFocus?.()
           }}
           maskString={maskString}
           mask={mask}
@@ -156,4 +157,3 @@ const InputWrapperContainer = styled(InputWrapper)<{ inputCSSStyles: string }>`
   }
 `
 const Hook = createStyled('div')
-

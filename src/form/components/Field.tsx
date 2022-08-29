@@ -19,6 +19,7 @@ import { Slider } from '../../components/Slider'
 import { Switch } from '../../components/Switch'
 import { TextArea } from '../../components/TextArea'
 import { TextInput } from '../../components/TextInput'
+import { TextInputAutosuggest } from '../../components/TextInputAutosuggest'
 import { TextNumberInput } from '../../components/TextNumberInput'
 import { Toggle } from '../../components/Toggle'
 import { YesNoOptionGroup } from '../../components/YesNoOptionGroup'
@@ -43,10 +44,11 @@ type FieldItemProps<FormData> = {
   fieldIndex: number
   hasError: boolean
   hasFocus?: boolean
+  inputRef?: React.MutableRefObject<HTMLElement>
   localeNamespace?: LocaleNamespace
   onChange: (value: any) => void
   onBlur: (value: any) => void
-  onKeyUp?: (value: any) => void
+  onFocus: () => void
 }
 
 export const Field = <FormData extends {}>({
@@ -56,10 +58,11 @@ export const Field = <FormData extends {}>({
   fieldIndex,
   hasError,
   hasFocus,
+  inputRef,
   localeNamespace,
   onChange,
   onBlur,
-  onKeyUp,
+  onFocus,
 }: FieldItemProps<FormData>) => {
   const dataTestId = field.lens.id()
 
@@ -83,6 +86,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data)}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
         error={hasError}
         label={label}
         dataTestId={dataTestId}
@@ -97,14 +101,34 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data) || ''}
+        inputRef={inputRef}
         onChange={onChange}
         onBlur={onBlur}
-        onKeyUp={onKeyUp}
+        onFocus={onFocus}
         hasFocus={hasFocus}
         error={hasError}
         label={label}
         localeNamespace={localeNamespace}
         dataTestId={dataTestId}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.TextInputAutosuggest) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <TextInputAutosuggest
+        {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        value={lens.get(data)}
       />
     )
   }
@@ -117,6 +141,7 @@ export const Field = <FormData extends {}>({
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data) || ''}
         onChange={onChange}
+        onFocus={onFocus}
         onBlur={onBlur}
         hasFocus={hasFocus}
         error={hasError}
@@ -169,6 +194,7 @@ export const Field = <FormData extends {}>({
         error={hasError}
         value={lens.get(data)}
         onChange={onChange}
+        onFocus={onFocus}
         onBlur={onBlur}
         label={label}
         localeNamespace={localeNamespace}
@@ -220,6 +246,7 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -251,6 +278,7 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -267,6 +295,7 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -283,6 +312,7 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -299,6 +329,7 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -352,9 +383,12 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -366,6 +400,7 @@ export const Field = <FormData extends {}>({
       <TextNumberInput
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
         value={lens.get(data)}
         onChange={onBlur}
         // error={hasError}
@@ -383,9 +418,12 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -399,11 +437,14 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
         onChange={(value: any) =>
           value !== undefined && value !== null && !isNaN(value) ? onBlur(Number(value)) : onBlur(null)
         }
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={lens.get(data)}
       />
     )
@@ -462,6 +503,8 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={lens.get(data)}
       />
     )

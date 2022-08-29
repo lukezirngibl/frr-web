@@ -1,39 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useGroupFocus } from '../hooks/useGroupFocus'
 import { Options, P } from '../html'
-import {
-  ComponentTheme,
-  useComponentTheme,
-  useCSSStyles,
-  useInlineStyle,
-} from '../theme/theme.components'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
 const Wrapper = createStyled('div')
-
-const Item = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 8px;
-`)
-
-const OuterRadio = styled.div`
-  width: 24px;
-  height: 24px;
-  padding: 4px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-`
-
-const InnerRadio = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`
 
 export type Props = {
   dataTestId?: string
@@ -42,6 +16,8 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   name?: string
   onChange: (value: string) => void
+  onFocus?: () => void
+  onBlur?: (value: string) => void
   options: Options<string>
   style?: Partial<ComponentTheme['radioGroup']>
   value: string
@@ -50,23 +26,32 @@ export type Props = {
 export const RadioGroup = (props: Props) => {
   const theme = useComponentTheme()
 
-  const getInlineStyle = useInlineStyle(theme, 'radioGroup')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
+
+  const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<string>(props)
 
   return (
     <>
-      {props.label && <Label {...props.label} />}
-      <Wrapper {...getCSSStyles('wrapper')}>
-        {props.options.map((option, k) => {
-          const active = option.value === props.value
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
+      <Wrapper
+        {...getCSSStyles('wrapper')}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
+      >
+        {props.options.map((option, optionIndex) => {
+          const isActive = option.value === props.value
+
           return (
             <Item
-              {...getCSSStyles('item')}
-              key={k}
-              onClick={() => {
-                props.onChange(option.value)
-              }}
+              {...getCSSStyles({
+                item: true,
+              })}
+              key={`option-${optionIndex}`}
               data-test-id={`${props.dataTestId}:${option.value}`}
+              onClick={() => onChange(option)}
+              tabIndex={-1}
             >
               <P
                 {...getCSSStyles('label')}
@@ -74,17 +59,18 @@ export const RadioGroup = (props: Props) => {
                 localeNamespace={props.localeNamespace}
               />
               <OuterRadio
-                {...getInlineStyle({
+                {...getCSSStyles({
                   radioOuter: true,
-                  radioOuterActive: active,
+                  radioOuterActive: isActive,
+                  radioOuterFocus: isFocused && optionIndex === focusedIndex,
                   radioOuterError: props.error,
                 })}
               >
-                {active && (
+                {isActive && (
                   <InnerRadio
-                    {...getInlineStyle({
+                    {...getCSSStyles({
                       radioInner: true,
-                      radioInnerActive: active,
+                      radioInnerActive: isActive,
                     })}
                   ></InnerRadio>
                 )}
@@ -96,3 +82,26 @@ export const RadioGroup = (props: Props) => {
     </>
   )
 }
+
+const Item = createStyled(styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+`)
+
+const OuterRadio = createStyled(styled.div`
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+`)
+
+const InnerRadio = createStyled(styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`)

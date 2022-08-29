@@ -5,5 +5,7 @@
     "select": {
       "defaultLabel": "Please choose ..."
     }
-  }
+  },
+  "yes": "Yes",
+  "no": "No"
 }

@@ -14,9 +14,11 @@ const FieldContainer = styled.div`
 `
 export type Props<FormData> = CommonThreadProps<FormData> & {
   field: SingleFormField<FormData>
-  onError?: (error: { error: string; fieldId: string }) => void
+  inputRef?: React.MutableRefObject<HTMLElement>
   isNotScrollable?: boolean
-  onKeyUp?: (value: string) => void
+  onBlur?: () => void
+  onError?: (error: { error: string; fieldId: string }) => void
+  onFocus?: () => void
 }
 // ------------------------------------
 
@@ -27,13 +29,13 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     field,
     fieldIndex,
     formReadOnly,
+    inputRef,
     isNotScrollable,
     localeNamespace,
     onChange,
     onError,
-    onKeyUp,
+    onFocus,
     showValidation,
-
     style,
   } = props
 
@@ -50,13 +52,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   useEffect(() => {
     setValue(formValue)
   }, [formValue])
-
-  useEffect(() => {
-    if (props.field.changeOnKeystroke && value !== formValue) {
-      setFieldChanged(true)
-      onChange(field.lens, value)
-    }
-  }, [value])
 
   const onBlur = (value: any) => {
     setFieldChanged(true)
@@ -102,10 +97,11 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         fieldIndex={fieldIndex}
         hasError={hasError}
         hasFocus={field.lens.id() === errorFieldId}
+        inputRef={inputRef}
         localeNamespace={localeNamespace}
         onBlur={onBlur}
+        onFocus={onFocus}
         onChange={setValue}
-        onKeyUp={onKeyUp}
       />
     )) || (
       <FieldContainer>
@@ -121,10 +117,11 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             fieldIndex={fieldIndex}
             hasError={hasError}
             hasFocus={field.lens.id() === errorFieldId}
+            inputRef={inputRef}
             localeNamespace={localeNamespace}
             onBlur={onBlur}
+            onFocus={onFocus}
             onChange={setValue}
-            onKeyUp={onKeyUp}
           />
         </FieldScrollableWrapper>
         {field.renderChildren?.()}

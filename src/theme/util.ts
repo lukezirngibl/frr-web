@@ -66,7 +66,6 @@ export const getUseInlineStyle =
         elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
         internalOverride?: CSSProperties,
         className?: string,
-        withPseudoStyles?: boolean,
       ): { style: Theme[C][K]; dataThemeId: string } => {
         let keys = []
 
@@ -86,32 +85,20 @@ export const getUseInlineStyle =
 
         const inlineStyles = {
           dataThemeId,
-          style: withPseudoStyles
-            ? {
-                ...(keys.reduce(
-                  (obj, elementKey) => ({
-                    ...obj,
-                    ...theme[componentKey][elementKey],
-                    ...(override && override[elementKey] ? override[elementKey] : {}),
-                  }),
-                  {},
-                ) as any),
-                ...(internalOverride || {}),
-              }
-            : omitKeys(
-                {
-                  ...(keys.reduce(
-                    (obj, elementKey) => ({
-                      ...obj,
-                      ...theme[componentKey][elementKey],
-                      ...(override && override[elementKey] ? override[elementKey] : {}),
-                    }),
-                    {},
-                  ) as any),
-                  ...(internalOverride || {}),
-                },
-                dynamicStyleKeys as any,
-              ),
+          style: omitKeys(
+            {
+              ...(keys.reduce(
+                (obj, elementKey) => ({
+                  ...obj,
+                  ...theme[componentKey][elementKey],
+                  ...(override && override[elementKey] ? override[elementKey] : {}),
+                }),
+                {},
+              ) as any),
+              ...(internalOverride || {}),
+            },
+            dynamicStyleKeys as any,
+          ),
         }
 
         return inlineStyles

@@ -33,6 +33,7 @@ export const FieldRow = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
+  onChangeMulti,
   showValidation,
   style,
 }: FieldRowProps<FormData>) => {
@@ -52,6 +53,7 @@ export const FieldRow = <FormData extends {}>({
           key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
           localeNamespace={localeNamespace}
           onChange={onChange}
+          onChangeMulti={onChangeMulti}
           showValidation={showValidation}
           style={style}
         />

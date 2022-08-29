@@ -8,7 +8,7 @@ import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
-import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
+import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
@@ -26,6 +26,7 @@ export const FieldSection = <FormData extends {}>({
   formReadOnly,
   localeNamespace,
   onChange,
+  onChangeMulti,
   onFormEdit,
   showValidation,
 
@@ -44,6 +45,7 @@ export const FieldSection = <FormData extends {}>({
     formReadOnly,
     localeNamespace,
     onChange,
+    onChangeMulti,
     showValidation,
     style,
   }
@@ -82,9 +84,9 @@ export const FieldSection = <FormData extends {}>({
           />
         )
 
-      case FormFieldType.MultiInputAutocomplete:
+      case FormFieldType.MultiInputAutosuggest:
         return (
-          <FieldMultiInputAutocomplete
+          <FieldMultiInputAutosuggest
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

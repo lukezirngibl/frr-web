@@ -3,7 +3,7 @@ import { P } from '../../html'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
-import { FieldMultiInputAutocomplete } from './FieldMultiInputAutocomplete'
+import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
@@ -62,9 +62,9 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
           />
         )
 
-      case FormFieldType.MultiInputAutocomplete:
+      case FormFieldType.MultiInputAutosuggest:
         return (
-          <FieldMultiInputAutocomplete
+          <FieldMultiInputAutosuggest
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

@@ -16,6 +16,7 @@ import { Props as SwithProps } from '../../components/Switch'
 import { Props as TextProps } from '../../components/Text'
 import { TextAreaProps } from '../../components/TextArea'
 import { Props as TextInputProps } from '../../components/TextInput'
+import { Props as TextInputAutosuggestProps, Suggestions } from '../../components/TextInputAutosuggest'
 import { Props as MaskedDatePickerProps } from '../../components/MaskedDatePicker'
 import { Props as MaskedInputProps } from '../../components/MaskedInput'
 import { Props as StaticFieldProps } from './StaticField'
@@ -59,7 +60,7 @@ export enum FormFieldType {
   MaskedInput = 'MaskedInput',
   MultiSelect = 'MultiSelect',
   MultiInput = 'MultiInput',
-  MultiInputAutocomplete = 'MultiInputAutocomplete',
+  MultiInputAutosuggest = 'MultiInputAutosuggest',
   NumberInput = 'NumberInput',
   NumberSelect = 'NumberSelect',
   OptionGroup = 'OptionGroup',
@@ -73,6 +74,7 @@ export enum FormFieldType {
   TextInputDescription = 'TextInputDescription',
   TextNumber = 'TextNumber',
   TextSelect = 'TextSelect',
+  TextInputAutosuggest = 'TextInputAutosuggest',
   Toggle = 'Toggle',
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
@@ -192,13 +194,6 @@ export type MultiSelectField<FormData> = FormInput<
   FormFieldType.MultiSelect
 >
 
-export type TextSelectField<FormData> = FormInput<
-  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
-  SelectProps,
-  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
-  FormFieldType.TextSelect
->
-
 export type NumberSelectField<FormData> = FormInput<
   NullableAndUndefinabled<number> | NullableAndUndefinabled<string>,
   SelectProps,
@@ -239,6 +234,21 @@ export type TextInputField<FormData> = FormInput<
   TextInputProps,
   NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextInput
+>
+
+export type TextInputAutosuggestField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  TextInputAutosuggestProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.TextInputAutosuggest
+>
+export type TextInputSuggestions = Suggestions
+
+export type TextSelectField<FormData> = FormInput<
+  NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
+  SelectProps,
+  NullableAndUndefinabledLens<FormData, string> | NullableAndUndefinabledLens<FormData, number>,
+  FormFieldType.TextSelect
 >
 
 export type MaskedInputField<FormData> = FormInput<
@@ -314,7 +324,6 @@ type CommonFieldProps<FormData> = {
   isVisible?: (formData: FormData) => boolean
   itemStyle?: CSSProperties
   maxwidth?: number
-  changeOnKeystroke?: boolean
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
   validate?: (value: any) => null | string
@@ -346,7 +355,7 @@ export const fieldMap = {
   [FormFieldType.MaskedInput]: null as TextInputField<unknown>,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
-  [FormFieldType.MultiInputAutocomplete]: null as MultiInputAutocompleteField<unknown>,
+  [FormFieldType.MultiInputAutosuggest]: null as MultiInputAutosuggestField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
   [FormFieldType.NumberSelect]: null as NumberSelectField<unknown>,
   [FormFieldType.OptionGroup]: null as OptionGroupField<unknown>,
@@ -359,6 +368,7 @@ export const fieldMap = {
   [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
+  [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
   [FormFieldType.YesNoRadioGroup]: null as YesNoRadioGroupField<unknown>,
@@ -387,6 +397,7 @@ export type SingleFormField<FormData> = (
   | TextInputField<FormData>
   | TextNumberInputField<FormData>
   | TextSelectField<FormData>
+  | TextInputAutosuggestField<FormData>
   | ToggleField<FormData>
   | YesNoOptionGroupField<FormData>
   | YesNoRadioGroupField<FormData>
@@ -401,13 +412,12 @@ export type MultiInputField<FormData> = {
   isVisible?: (formData: FormData) => boolean
 }
 
-export type MultiInputAutocompleteField<FormData> = {
+export type MultiInputAutosuggestField<FormData> = {
   label?: LabelProps
-  type: FormFieldType.MultiInputAutocomplete
-  fields: Array<SingleFormField<FormData>>
+  type: FormFieldType.MultiInputAutosuggest
+  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   itemStyle?: CSSProperties
   isVisible?: (formData: FormData) => boolean
-  cities: Array<{ id: number; city: string; zip: number; searchstring: string }>
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
@@ -419,12 +429,12 @@ export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 export type SingleFieldOrRow<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | StaticField<FormData>
   | SingleFormField<FormData>
   | FormFieldRow<FormData>
@@ -449,7 +459,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
 
 export type InternalSectionField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -457,7 +467,7 @@ export type InternalSectionField<FormData> =
 
 export type SectionField<FormData> =
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -499,7 +509,7 @@ export type InternalFormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
@@ -508,7 +518,7 @@ export type FormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
   | MultiInputField<FormData>
-  | MultiInputAutocompleteField<FormData>
+  | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
@@ -522,6 +532,7 @@ export type CommonThreadProps<FormData> = {
   formReadOnly: boolean
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
+  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => void
   showValidation: boolean
   style: Partial<FormTheme> | undefined
 }

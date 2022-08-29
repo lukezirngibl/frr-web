@@ -61,6 +61,7 @@ export type LabelProps = {
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
   errorDataTestId?: string
+  isFocused?: boolean
   label: LabelText
   labelData?: Record<string, string>
   localeNamespace?: LocaleNamespace
@@ -113,6 +114,7 @@ export const Label = (props: LabelProps) => {
           {...getCSSStyle({
             labelText: true,
             labelTextError: props.error,
+            labelTextFocus: props.isFocused,
           })}
           label={props.label}
           localeNamespace={props.localeNamespace}

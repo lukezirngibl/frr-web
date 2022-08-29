@@ -132,6 +132,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       display: 'flex',
       alignItems: 'center',
     },
+    wrapperFocus: {},
     inputWrapper: {
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
@@ -151,6 +152,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       height: 'var(--form-field-height)',
       justifyContent: 'center',
       position: 'relative',
+    },
+    iconWrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     hook1: {
       display: 'none',
@@ -287,6 +291,9 @@ export const componentTheme: Partial<ComponentTheme> = {
         marginBottom: 8,
       },
     },
+    labelTextFocus: {
+      fontWeight: 500,
+    },
     errorIcon: {
       opacity: 0.7,
       marginRight: 8,
@@ -373,23 +380,26 @@ export const componentTheme: Partial<ComponentTheme> = {
     wrapper: {
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'var(--color-primary)',
+      borderColor: 'rgba(0,0,0,0.5)',
     },
     wrapperActive: {
-      borderColor: '#3d6f1a',
-      backgroundColor: '#3d6f1a',
+      borderColor: 'var(--color-active)',
+      backgroundColor: 'var(--color-active)',
       flexDirection: 'row-reverse',
+    },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     circle: {
       height: 24,
       width: 24,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'var(--color-primary)',
+      borderColor: 'rgba(0,0,0,0.5)',
     },
     circleActive: {
-      borderColor: 'var(--color-background-primary)',
-      backgroundColor: 'var(--color-background-primary)',
+      borderColor: 'white',
+      backgroundColor: 'white',
     },
   },
   radioGroup: {
@@ -398,23 +408,40 @@ export const componentTheme: Partial<ComponentTheme> = {
       alignItems: 'center',
       justifyContent: 'flex-start',
       minWidth: 'var(--form-field-width)',
+      gap: 24,
+    },
+    radioOuter: {
+      position: 'relative',
+      width: 20,
+      height: 20,
+      flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 4,
+      border: '2px solid var(--color-form-field-border)',
+      backgroundColor: 'var(--color-form-field-background)',
+      transition: 'border 0.3s ease-out, background-color 0.1s ease-out',
+    },
+    radioOuterActive: {
+      backgroundColor: 'var(--color-active)',
+      borderColor: 'var(--color-active)',
     },
     radioOuterError: {
       borderColor: 'var(--color-error)',
     },
-    radioOuter: {
-      width: 20,
-      height: 20,
-      flexShrink: 0,
-      padding: 4,
-      borderColor: 'var(--color-input)',
-      backgroundColor: 'var(--color-form-field-background)',
+    radioOuterFocus: {
+      borderColor: 'var(--color-accent)',
     },
-    radioOuterActive: {},
     radioInner: {
-      backgroundColor: 'var(--color-input)',
+      backgroundColor: 'white',
+      width: 8,
+      height: 8,
+      transition: 'background-color 0.1s ease-out',
     },
-    radioInnerActive: {},
+    radioInnerActive: {
+      backgroundColor: 'white',
+    },
     item: {
       flexDirection: 'row-reverse',
       width: 112,
@@ -440,6 +467,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       zIndex: 0,
       backgroundColor: 'var(--color-background-primary)',
     },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
+    },
     icon: {
       position: 'absolute',
       right: 16,
@@ -457,9 +487,15 @@ export const componentTheme: Partial<ComponentTheme> = {
     },
     menu: {
       backgroundColor: 'var(--color-form-field-background)',
+      borderRadius: 'var(--form-field-border-radius)',
       boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+      marginBottom: 4,
       marginLeft: -4,
       marginTop: -4,
+      overflow: 'hidden',
+      position: 'absolute',
+      width: '100%',
+      zIndex: 1,
     },
     select: {
       alignItems: 'center',
@@ -487,17 +523,29 @@ export const componentTheme: Partial<ComponentTheme> = {
       zIndex: 10,
     },
     option: {
+      cursor: 'pointer',
+      display: 'block',
+      fontSize: 'inherit',
+      padding: '16px 16px',
+      width: '100%',
+      userSelect: 'none',
       paddingLeft: 28,
-      transition: 'background-color 0.1s, color: 0.1s',
-      ':hover': {
-        backgroundColor: 'var(--color-background-accent)',
-        color: 'white',
-      },
-      ':active': {
+      transition: 'background-color 20ms, color 20ms',
+      ':disabled': {
         backgroundColor: 'transparent',
-        color: 'var(--color-text-primary)',
+        color: 'var(--color-disabled)',
+        cursor: 'default',
       },
     },
+    optionHover: {
+      backgroundColor: 'var(--color-background-accent)',
+      color: 'white',
+    },
+    optionActive: {
+      backgroundColor: 'transparent',
+      color: 'var(--color-text-primary)',
+    },
+    placeholder: {},
     valueContainer: { padding: 0 },
     value: {
       fontSize: 'var(--font-size-input)',
@@ -545,6 +593,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       maxWidth: 'var(--form-field-width)',
       position: 'relative',
     },
+    wrapperFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
+    },
     input: {
       width: '100%',
       height: '100%',
@@ -573,6 +624,7 @@ export const componentTheme: Partial<ComponentTheme> = {
     disabled: {},
   },
   optionGroup: {
+    errorWrapper: {},
     wrapper: {
       backgroundColor: 'white',
       width: 'var(--form-field-width)',
@@ -584,16 +636,8 @@ export const componentTheme: Partial<ComponentTheme> = {
       height: 'calc(var(--form-field-height) + 4px)',
       borderRadius: 'calc((var(--form-field-height) + 4px) / 2)',
     },
-    errorWrapper: {},
-    itemActive: {
-      backgroundColor: 'var(--color-background-accent)',
-      color: 'white',
-      borderBottomColor: 'var(--color-background-accent)',
-      borderTopColor: 'var(--color-background-accent)',
-      borderLeftColor: 'var(--color-background-accent)',
-      borderRightColor: 'var(--color-background-accent)',
-      boxSizing: 'content-box',
-      zIndex: 1,
+    wrapperFocus: {
+      // borderColor: 'var(--color-form-field-border-focus)',
     },
     item: {
       display: 'flex',
@@ -603,27 +647,31 @@ export const componentTheme: Partial<ComponentTheme> = {
       height: 'calc(var(--form-field-height) - 8px)',
       margin: '0 1px',
       color: 'var(--color-input)',
-      borderWidth: 1,
-      borderStyle: 'solid',
+      border: '2px solid var(--color-background-primary)',
       borderRadius: 'calc((var(--form-field-height) - 8px) / 2)',
-      borderBottomColor: 'var(--color-background-primary)',
-      borderTopColor: 'var(--color-background-primary)',
-      borderLeftColor: 'var(--color-background-primary)',
-      borderRightColor: 'var(--color-background-primary)',
-      transition: 'border 0.3s ease-out',
+      transition: 'border 0.3s ease-out, background-color 0.1s ease-out, color 0.1s ease-out',
       ':hover': {
-        borderBottomColor: 'var(--color-background-accent)',
-        borderTopColor: 'var(--color-background-accent)',
-        borderLeftColor: 'var(--color-background-accent)',
-        borderRightColor: 'var(--color-background-accent)',
+        borderColor: 'var(--color-background-accent)',
       },
+    },
+    itemActive: {
+      backgroundColor: 'var(--color-background-accent)',
+      color: 'white',
+      borderColor: 'var(--color-background-accent)',
+      boxSizing: 'content-box',
+      zIndex: 1,
+    },
+    itemFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
     },
     label: {
       textAlign: 'center',
       fontSize: 'var(--font-size-input)',
       color: 'var(--color-input)',
     },
-    labelActive: {},
+    labelActive: {
+      color: 'white',
+    },
   },
 
   button: {
@@ -646,13 +694,11 @@ export const componentTheme: Partial<ComponentTheme> = {
       ':hover': {
         filter: 'brightness(80%)',
       },
+      ':focus': {
+        boxShadow: '2px 2px 8px rgba(0, 0, 0, 0.35), 0 -2px 8px rgba(0, 0, 0, 0.05)',
+      },
     },
-    label: {
-      fontSize: 'var(--button-font-size)',
-      textTransform: 'none',
-      fontWeight: 500,
-      marginBottom: '0.1rem',
-    },
+
     chromeless: {
       background: 'transparent',
       color: 'black',
@@ -660,7 +706,7 @@ export const componentTheme: Partial<ComponentTheme> = {
       borderWidth: 1,
       borderStyle: 'solid',
     },
-    chromelessLabel: {},
+
     primary: {
       backgroundColor: 'var(--color-accent)',
       color: 'black',
@@ -674,12 +720,22 @@ export const componentTheme: Partial<ComponentTheme> = {
       ':hover': {
         // backgroundColor: 'rgb(230,170,59)',
       },
+      ':focus': {
+        border: '2px solid var(--color-active)',
+      },
 
       ':disabled': {
         opacity: 0.6,
         pointerEvents: 'none',
       },
     },
+    label: {
+      fontSize: 'var(--button-font-size)',
+      textTransform: 'none',
+      fontWeight: 500,
+      marginBottom: '0.1rem',
+    },
+    chromelessLabel: {},
     primaryLabel: {},
     secondary: {
       backgroundColor: '#E8E8E8',
