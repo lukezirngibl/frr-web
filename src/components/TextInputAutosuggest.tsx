@@ -328,7 +328,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
 const StlyedContainer = styled.div`
   position: absolute;
   width: 100%;
-  min-width: 180px;
+  min-width: 240px;
   left: 0;
   bottom: 0;
 `
