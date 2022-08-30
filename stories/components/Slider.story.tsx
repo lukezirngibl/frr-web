@@ -1,24 +1,27 @@
-import { YesNoRadioGroup, Props } from '../../src/components/YesNoRadioGroup'
+import { Slider, Props } from '../../src/components/Slider'
 import { createStory, meta } from '../storybook.helpers'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import React, { useState } from 'react'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, YesNoRadioGroupField } from '../../src/form/components/types'
+import { FormFieldType, SingleFormField, SliderField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof YesNoRadioGroup>({
-  title: 'Components/YesNoRadioGroup',
-  component: YesNoRadioGroup,
+export default meta<Props, typeof Slider>({
+  title: 'Components/Slider',
+  component: Slider,
 })
 
-type FormData = { isMovedRecently: boolean | null }
+type FormData = { amount: number | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
-const field: YesNoRadioGroupField<FormData> = {
-  type: FormFieldType.YesNoRadioGroup,
-  lens: formLens(['isMovedRecently']),
-  label: { label: 'Did you move recently?' },
+const field: SliderField<FormData> = {
+  type: FormFieldType.Slider,
+  lens: formLens(['amount']),
+  label: { label: 'Credit amount' },
+  min: 6,
+  max: 48,
+  step: 1,
 }
 
 export const Initial = () => {
@@ -32,7 +35,7 @@ export const Initial = () => {
         formReadOnly: false,
         style: {},
         data: {
-          isMovedRecently: value,
+          amount: value,
         },
         onChange: (lens, value) => {
           setValue(value)

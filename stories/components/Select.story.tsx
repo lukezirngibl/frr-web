@@ -1,7 +1,7 @@
 import React from 'react'
 import { Props, Select } from '../../src/components/Select'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
-import { FormFieldType, SingleFormField } from '../../src/form/components/types'
+import { FormFieldType, SingleFormField, TextSelectField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory, meta } from '../storybook.helpers'
 
@@ -20,7 +20,7 @@ type FormData = {
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
-const textSelectField: SingleFormField<FormData> = {
+const textSelectField: TextSelectField<FormData> = {
   type: FormFieldType.TextSelect,
   lens: formLens(['letter']),
   label: { label: 'Buchstabe' },
@@ -41,7 +41,7 @@ const textSelectField: SingleFormField<FormData> = {
       isLabelTranslated: true,
     },
   ],
-} as any
+}
 
 const numberSelectField = {
   type: FormFieldType.NumberSelect,
