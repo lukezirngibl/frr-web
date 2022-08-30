@@ -1,6 +1,7 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
 import {
@@ -103,7 +104,7 @@ export type Props = {
   min: number
   onChange: (v: number) => void
   prefix?: string
-  reverse?: boolean
+  postfix?: string
   scale?: any
   step: number | null
   style?: Partial<ComponentTheme['slider']>
@@ -111,6 +112,7 @@ export type Props = {
 }
 
 export const Slider = (props: Props) => {
+  const { t } = useTranslation(props.localeNamespace)
   const theme = useComponentTheme()
 
   const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
@@ -134,7 +136,7 @@ export const Slider = (props: Props) => {
 
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
-  const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
+  const prefix = props.isCurrency ? t('currency.CHF') : props.prefix
 
   const labelStyle = getInlineStyles('label')
 
@@ -142,22 +144,18 @@ export const Slider = (props: Props) => {
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
-        <Wrapper
-          {...getCSSStyles(
-            { valueWrapper: true, valueWrapperEditable: props.isEditable },
-            {
-              flexDirection: props.reverse ? 'row-reverse' : 'row',
-            },
-          )}
-        >
+        <Wrapper {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
               onChange={onChange}
               value={internalValue}
-              prefix={props.isCurrency ? 'CHF' : undefined}
+              prefix={prefix}
+              postfix={props.postfix}
               style={{
                 input: getInlineStyles('value').style,
+                prefix: getInlineStyles('prefix').style,
+                postfix: getInlineStyles('postfix').style,
               }}
             />
           ) : (
@@ -172,6 +170,13 @@ export const Slider = (props: Props) => {
               >
                 {props.isCurrency ? Formatter.format(internalValue) : internalValue}
               </ValueText>
+              {props.postfix && (
+                <P
+                  label={props.postfix}
+                  localeNamespace={props.localeNamespace}
+                  {...getCSSStyles('postfix')}
+                />
+              )}
             </>
           )}
         </Wrapper>

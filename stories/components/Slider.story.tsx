@@ -11,17 +11,17 @@ export default meta<Props, typeof Slider>({
   component: Slider,
 })
 
-type FormData = { amount: number | null }
+type FormData = { amount: number | null, months: number | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
-const field: SliderField<FormData> = {
+const amountField: SliderField<FormData> = {
   type: FormFieldType.Slider,
   lens: formLens(['amount']),
-  label: { label: 'Credit amount' },
-  min: 6,
-  max: 48,
-  step: 1,
+  label: { label: 'Finanzierungsbetrag' },
+  min: 500,
+  max: 10000,
+  step: 500,
   isCurrency: true,
 }
 
@@ -33,12 +33,13 @@ export const AmoutSlider = () => {
       <ul style={{ listStyle: 'none' }}>
         <li>
           {story({
-            field,
+            field: amountField,
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
             data: {
               amount: value,
+              months: null,
             },
             onChange: (lens, value) => {
               setValue(value)
@@ -48,12 +49,13 @@ export const AmoutSlider = () => {
         </li>
         <li>
           {story({
-            field: { ...field, isEditable: true },
+            field: { ...amountField, isEditable: true },
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
             data: {
               amount: value,
+              months: null,
             },
             onChange: (lens, value) => {
               setValue(value)
@@ -66,24 +68,57 @@ export const AmoutSlider = () => {
   )
 }
 
-export const EditableAmoutSlider = () => {
+const monthField: SliderField<FormData> = {
+  type: FormFieldType.Slider,
+  lens: formLens(['months']),
+  label: { label: 'Laufzeit' },
+  min: 6,
+  max: 48,
+  step: 1,
+  postfix: 'months',
+  defaultValue: 12,
+}
+
+
+export const MonthsSlider = () => {
   const [value, setValue] = useState(null)
 
   return (
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 48 }}>
-      {story({
-        field: { ...field, isEditable: true },
-        fieldIndex: 0,
-        formReadOnly: false,
-        style: {},
-        data: {
-          amount: value,
-        },
-        onChange: (lens, value) => {
-          setValue(value)
-        },
-        showValidation: false,
-      })}
+      <ul style={{ listStyle: 'none' }}>
+        <li>
+          {story({
+            field: monthField,
+            fieldIndex: 0,
+            formReadOnly: false,
+            style: {},
+            data: {
+              amount: null,
+              months: value,
+            },
+            onChange: (lens, value) => {
+              setValue(value)
+            },
+            showValidation: false,
+          })}
+        </li>
+        <li>
+          {story({
+            field: { ...monthField, isEditable: true },
+            fieldIndex: 0,
+            formReadOnly: false,
+            style: {},
+            data: {
+              amount: null,
+              months: value,
+            },
+            onChange: (lens, value) => {
+              setValue(value)
+            },
+            showValidation: false,
+          })}
+        </li>
+      </ul>
     </div>
   )
 }

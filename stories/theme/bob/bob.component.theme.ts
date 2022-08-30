@@ -245,6 +245,11 @@ export const componentTheme: Partial<ComponentTheme> = {
       fontWeight: 400,
       color: 'var(--color-disabled)',
     },
+    postfix: {
+      fontSize: 18,
+      fontWeight: 400,
+      color: 'var(--color-disabled)',
+    },
     value: {
       fontSize: 24,
       fontWeight: 700,
@@ -252,7 +257,7 @@ export const componentTheme: Partial<ComponentTheme> = {
     },
     valueWrapper: {
       position: 'absolute',
-      right: 0,
+      right: 8,
       top: -4,
       paddingTop: 'var(--form-field-mobile-padding)',
       display: 'flex',
@@ -260,10 +265,9 @@ export const componentTheme: Partial<ComponentTheme> = {
       alignItems: 'center',
     },
     valueWrapperEditable: {
-      maxWidth: 200,
+      maxWidth: 160,
       top: -14,
     },
-    valueInput: {},
     wrapper: {
       margin: '16px 0 32px',
       width: '100%',
