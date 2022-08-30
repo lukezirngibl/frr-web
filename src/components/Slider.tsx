@@ -152,6 +152,8 @@ export const Slider = (props: Props) => {
               value={internalValue}
               prefix={prefix}
               postfix={props.postfix}
+              min={props.min}
+              max={props.max}
               style={{
                 input: getInlineStyles('value').style,
                 prefix: getInlineStyles('prefix').style,
