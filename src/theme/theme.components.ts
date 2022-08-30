@@ -95,11 +95,14 @@ export type ComponentTheme = {
   }
   slider: {
     label: CSSProperties
+    outerWrapper: CSSProperties
     prefix: CSSProperties
     value: CSSProperties
     valueWrapper: CSSProperties
+    valueWrapperEditable: CSSProperties
+    valueInput: CSSProperties
+    valueInput: CSSProperties
     wrapper: CSSProperties
-    outerWrapper: CSSProperties
   }
   materialSlider: MaterialSliderStyles
   select: {
@@ -421,11 +424,13 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   slider: {
     label: {},
+    outerWrapper: {},
     prefix: {},
     value: {},
     valueWrapper: {},
+    valueWrapperEditable: {},
+    valueInput: {},
     wrapper: {},
-    outerWrapper: {},
   },
   materialSlider: {
     active: {},

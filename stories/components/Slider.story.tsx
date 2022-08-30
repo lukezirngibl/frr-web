@@ -22,15 +22,57 @@ const field: SliderField<FormData> = {
   min: 6,
   max: 48,
   step: 1,
+  isCurrency: true,
 }
 
-export const Initial = () => {
+export const AmoutSlider = () => {
   const [value, setValue] = useState(null)
 
   return (
-    <div style={{ maxWidth: 600, minHeight: 600 }}>
+    <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 48 }}>
+      <ul style={{ listStyle: 'none' }}>
+        <li>
+          {story({
+            field,
+            fieldIndex: 0,
+            formReadOnly: false,
+            style: {},
+            data: {
+              amount: value,
+            },
+            onChange: (lens, value) => {
+              setValue(value)
+            },
+            showValidation: false,
+          })}
+        </li>
+        <li>
+          {story({
+            field: { ...field, isEditable: true },
+            fieldIndex: 0,
+            formReadOnly: false,
+            style: {},
+            data: {
+              amount: value,
+            },
+            onChange: (lens, value) => {
+              setValue(value)
+            },
+            showValidation: false,
+          })}
+        </li>
+      </ul>
+    </div>
+  )
+}
+
+export const EditableAmoutSlider = () => {
+  const [value, setValue] = useState(null)
+
+  return (
+    <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 48 }}>
       {story({
-        field,
+        field: { ...field, isEditable: true },
         fieldIndex: 0,
         formReadOnly: false,
         style: {},

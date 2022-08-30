@@ -12,6 +12,7 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
+import { CurrencyInput } from './CurrencyInput'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
@@ -89,23 +90,24 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
 }
 
 export type Props = {
-  value: number
-  onChange: (v: number) => void
-  min: number
-  max: number
-  step: number | null
+  ariaLabelledby?: any
+  dataTestId?: string
+  defaultValue?: number
   editable?: boolean
+  isCurrency?: boolean
+  isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
-  scale?: any
-  ariaLabelledby?: any
   marks?: any
-  dataTestId?: string
-  reverse?: boolean
+  max: number
+  min: number
+  onChange: (v: number) => void
   prefix?: string
-  isCurrency?: boolean
+  reverse?: boolean
+  scale?: any
+  step: number | null
   style?: Partial<ComponentTheme['slider']>
-  defaultValue?: number
+  value: number
 }
 
 export const Slider = (props: Props) => {
@@ -141,16 +143,37 @@ export const Slider = (props: Props) => {
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
         <Wrapper
-          {...getCSSStyles('valueWrapper', {
-            flexDirection: props.reverse ? 'row-reverse' : 'row',
-          })}
-        >
-          {prefix && (
-            <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
+          {...getCSSStyles(
+            { valueWrapper: true, valueWrapperEditable: props.isEditable },
+            {
+              flexDirection: props.reverse ? 'row-reverse' : 'row',
+            },
           )}
-          <ValueText {...getCSSStyles('value')} data-test-id="slider-value" data-value={internalValue}>
-            {props.isCurrency ? Formatter.format(internalValue) : internalValue}
-          </ValueText>
+        >
+          {props.isEditable ? (
+            <CurrencyInput
+              dataTestId="slider-value"
+              onChange={onChange}
+              value={internalValue}
+              prefix={props.isCurrency ? 'CHF' : undefined}
+              style={{
+                input: getInlineStyles('value').style,
+              }}
+            />
+          ) : (
+            <>
+              {prefix && (
+                <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
+              )}
+              <ValueText
+                {...getCSSStyles('value')}
+                data-test-id="slider-value"
+                data-value={internalValue}
+              >
+                {props.isCurrency ? Formatter.format(internalValue) : internalValue}
+              </ValueText>
+            </>
+          )}
         </Wrapper>
 
         <MaterialSlider
