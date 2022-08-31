@@ -101,7 +101,7 @@ export const MaskedInput = (props: Props) => {
         onClick={() => {
           if (inputRef.current) {
             const input = inputRef.current
-            input.setSelectionRange(0, 10)
+            // input.setSelectionRange(0, 10)
             input.focus()
           }
         }}

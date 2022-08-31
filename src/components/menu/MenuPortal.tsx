@@ -1,21 +1,25 @@
-import React, { createContext, Fragment, ReactNode, RefCallback, useContext, useState } from 'react'
+import React, { ReactNode, useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
-import { CommonPropsAndClassName, MenuPlacement, MenuPlacementState, RectType } from './Menu.types'
-import { getBoundingClientObj, getMenuPlacement } from './Menu.utils'
+import { CommonPropsAndClassName, MenuPlacementState, RectType } from './Menu.types'
+import { getBoundingClientObj, MAX_HEIGHT } from './Menu.utils'
 
 // ==============================
 // Portal Placement Context
 // ==============================
 
-type setPortalPlacementType = (placement: MenuPlacement) => void
-export const PortalPlacementContext = createContext<{ setPortalPlacement: setPortalPlacementType }>({
-  setPortalPlacement: () => {},
+type SetMenuPlacement = (menuPlacement: MenuPlacementState) => void
+export const MenuPlacementContext = React.createContext<{
+  menuPlacement: MenuPlacementState
+  setMenuPlacement: SetMenuPlacement
+}>({
+  setMenuPlacement: () => {},
+  menuPlacement: {
+    placement: 'bottom',
+    maxHeight: MAX_HEIGHT,
+  },
 })
-export const usePortalPlacementContext = () => {
-  const { setPortalPlacement } = useContext(PortalPlacementContext)
-  return setPortalPlacement
-}
+export const useMenuPlacement = () => useContext(MenuPlacementContext)
 
 // ==============================
 // Portal Component
@@ -24,19 +28,16 @@ export const usePortalPlacementContext = () => {
 interface MenuPortalProps extends CommonPropsAndClassName {
   appendTo: HTMLElement | undefined
   children: ReactNode
+  fieldHeight: number
   controlElement: HTMLDivElement | null
+  maxMenuHeight: number
 }
 
 export const MenuPortal = (props: MenuPortalProps) => {
-  const [placement, setPlacement] = useState<MenuPlacement>('bottom')
-
-  // callback for occasions where the menu must "flip"
-  const setPortalPlacement = (newPlacement: MenuPlacement) => {
-    // avoid re-renders if the placement has not changed
-    if (newPlacement !== placement) {
-      setPlacement(newPlacement)
-    }
-  }
+  const [menuPlacement, setMenuPlacement] = useState<MenuPlacementState>({
+    placement: 'bottom',
+    maxHeight: props.maxMenuHeight,
+  })
 
   const { appendTo, children, className, controlElement, cx } = props
 
@@ -47,7 +48,8 @@ export const MenuPortal = (props: MenuPortalProps) => {
 
   const rect = getBoundingClientObj(controlElement)
   const scrollDistance = window.pageYOffset
-  const offset = rect[placement] + scrollDistance
+  const fieldHeightCorrection = menuPlacement.placement === 'top' ? props.fieldHeight : 0
+  const offset = rect[menuPlacement.placement] + scrollDistance - fieldHeightCorrection
 
   // same wrapper element whether fixed or portalled
   const MenuWrapper = (
@@ -66,70 +68,16 @@ export const MenuPortal = (props: MenuPortalProps) => {
   )
 
   return (
-    <PortalPlacementContext.Provider value={{ setPortalPlacement }}>
+    <MenuPlacementContext.Provider value={{ menuPlacement, setMenuPlacement }}>
       {appendTo ? createPortal(MenuWrapper, appendTo) : MenuWrapper}
-    </PortalPlacementContext.Provider>
+    </MenuPlacementContext.Provider>
   )
 }
 
 const StyledMenuPortal = styled.div<{ rect: RectType; offset: number }>`
-  left: ${(props) => props.rect.left}px;
   position: absolute;
   top: ${(props) => props.offset}px;
+  left: ${(props) => props.rect.left}px;
   width: ${(props) => props.rect.width}px;
-  zindex: 1;
+  z-index: 1;
 `
-
-// ==============================
-// Menu Placer
-// ==============================
-
-interface ChildrenProps {
-  ref: RefCallback<HTMLDivElement>
-  placerProps: MenuPlacementState
-}
-
-interface MenuPlacerProps {
-  maxMenuHeight: number
-  fieldHeight: number
-  children: (childrenProps: ChildrenProps) => ReactNode
-}
-
-// NOTE: internal only
-export const MenuPlacer = (props: MenuPlacerProps) => {
-  const [menuPlacementState, setMenuPlacementState] = useState<MenuPlacementState>({
-    placement: 'bottom',
-    maxHeight: props.maxMenuHeight,
-  })
-  const setPortalPlacement = usePortalPlacementContext()
-
-  const setMenuPlacementRefCallback: RefCallback<HTMLDivElement> = (ref) => {
-    if (!ref) return
-
-    const state = getMenuPlacement({
-      menuEl: ref,
-      maxHeight: props.maxMenuHeight,
-      fieldHeight: props.fieldHeight,
-    })
-
-    if (state.placement !== menuPlacementState.placement) {
-      if (setPortalPlacement) setPortalPlacement(state.placement)
-    }
-
-    if (
-      state.maxHeight !== menuPlacementState.maxHeight ||
-      state.placement !== menuPlacementState.placement
-    ) {
-      setMenuPlacementState(state)
-    }
-  }
-
-  return (
-    <Fragment>
-      {props.children({
-        ref: setMenuPlacementRefCallback,
-        placerProps: menuPlacementState,
-      })}
-    </Fragment>
-  )
-}

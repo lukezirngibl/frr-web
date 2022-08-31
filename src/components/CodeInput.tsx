@@ -14,11 +14,12 @@ const Input = createStyled(styled.input`
 `)
 
 export type Props = {
+  isAutoFocus: boolean
   label?: LabelProps
-  value: string
-  onChange: (v: string) => void
   length: number
+  onChange: (v: string) => void
   style?: Partial<ComponentTheme['codeInput']>
+  value: string
 }
 
 const replaceChar = (str: string, char: string, index: number) => {
@@ -51,9 +52,9 @@ export const CodeInput = (props: Props) => {
       props.value === defaultStr
     ) {
       setIntervalValue(defaultStr)
-      refs[0].current?.focus()
+      props.isAutoFocus && refs[0].current?.focus()
     }
-  }, [props.value])
+  }, [props.value, props.isAutoFocus])
 
   return (
     <>
