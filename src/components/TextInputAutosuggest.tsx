@@ -154,6 +154,7 @@ export const TextInputAutosuggest = (props: Props) => {
     }
   }
 
+  const inputHeight = inputRef.current ? inputRef.current.getBoundingClientRect().height : 0
   return (
     <TextInput
       {...inputProps}
@@ -165,6 +166,7 @@ export const TextInputAutosuggest = (props: Props) => {
       value={value}
     >
       <AutosuggestMenu
+        inputHeight={inputHeight}
         isLoading={state.isLoading}
         menuIsOpen={state.isOpen}
         menuPortalTarget={document.body}
@@ -184,6 +186,7 @@ export const TextInputAutosuggest = (props: Props) => {
 // ==============================
 
 export interface AutosuggestMenuProps {
+  inputHeight: number
   isLoading: boolean
   loadingMessage?: string
   menuIsOpen?: boolean
@@ -310,7 +313,9 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
         <MenuPortal
           {...commonProps}
           appendTo={props.menuPortalTarget}
+          fieldHeight={props.inputHeight}
           controlElement={controlRef.current}
+          maxMenuHeight={MAX_HEIGHT}
         >
           {menuElement}
         </MenuPortal>

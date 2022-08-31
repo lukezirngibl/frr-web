@@ -87,7 +87,7 @@ const textInputAutosuggestField: TextInputAutosuggestField<FormData> = {
 export const Autosugget = () => {
   const [value, setValue] = React.useState('')
   return (
-    <div style={{ maxWidth: 600, minHeight: 900 }}>
+    <div style={{ maxWidth: 600, minHeight: 1200 }}>
       {story({
         field: {
           ...textInputAutosuggestField,

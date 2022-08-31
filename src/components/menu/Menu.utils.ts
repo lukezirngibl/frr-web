@@ -17,7 +17,7 @@ export const PAGE_SIZE = 7
 // Menu Placement in Portal
 // ==============================
 
-export function getMenuPlacement({
+export const getMenuPlacement = ({
   menuEl,
   maxHeight = MAX_HEIGHT,
   minHeight = MIN_HEIGHT,
@@ -27,7 +27,7 @@ export function getMenuPlacement({
   maxHeight?: number
   minHeight?: number
   fieldHeight: number
-}): MenuPlacementState {
+}): MenuPlacementState => {
   const scrollParent = getScrollParent(menuEl!)
   const defaultState: MenuPlacementState = { placement: 'bottom', maxHeight }
 
@@ -38,7 +38,6 @@ export function getMenuPlacement({
   // the menu is rendered
   const { height: scrollHeight } = scrollParent.getBoundingClientRect()
   const { height: menuHeight, top: menuTop } = menuEl.getBoundingClientRect()
-
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect()
   const viewHeight = normalizedHeight(scrollParent)
   const scrollTop = getScrollTop(scrollParent)

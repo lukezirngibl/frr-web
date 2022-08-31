@@ -105,7 +105,7 @@ export const PostalCodeCity = () => {
   const [data, setData] = React.useState<FormData>({ city: null, zip: null })
 
   return (
-    <div style={{ maxWidth: 600, minHeight: 600 }}>
+    <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
       {story({
         field: textInputAutosuggestField,
         fieldIndex: 0,
