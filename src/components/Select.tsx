@@ -69,10 +69,12 @@ export const Select = (props: Props) => {
   const [options, setOptions] = useState(
     getOptions({
       alphabetize: props.alphabetize,
+      isMobileTouch,
       language: i18n.language,
       options: props.options,
       priority: props.priority,
       t,
+      value: props.value,
     }),
   )
 
@@ -80,10 +82,12 @@ export const Select = (props: Props) => {
     setOptions(
       getOptions({
         alphabetize: props.alphabetize,
+        isMobileTouch,
         language: i18n.language,
         options: props.options,
         priority: props.priority,
         t,
+        value: props.value,
       }),
     )
   }, [props.alphabetize, props.options, props.priority])
@@ -130,6 +134,8 @@ export const Select = (props: Props) => {
               {...getCSSStyles(
                 {
                   select: true,
+                  placeholder:
+                    options.findIndex((option) => option.value === value && option.disabled) !== -1,
                   errorWrapper: props.error,
                 },
                 {},
@@ -194,10 +200,12 @@ export const Select = (props: Props) => {
 
 export const getOptions = (params: {
   alphabetize?: boolean
+  isMobileTouch: boolean
   language: string
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Priority
   t: Translate
+  value?: Value | null
 }) => {
   const { alphabetize, language, options, t, priority } = params
   const translatedOptions = typeof options === 'function' ? options(language as Language) : options
@@ -208,22 +216,22 @@ export const getOptions = (params: {
 
   const mappedOptions = [
     // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
-    // ...(props.value === null || props.value === undefined
-    //   ? [
-    //       {
-    //         value: isMobileTouch ? null : 'default',
-    //         disabled: true,
-    //         label: 'formFields.select.defaultLabel',
-    //       },
-    //       {
-    //         value: '---',
-    //         disabled: true,
-    //         label: '---',
-    //         isLabelTranslated: true,
-    //       },
-    //     ]
-    //   : []),
-    // ,
+    ...(params.isMobileTouch && (params.value === null || params.value === undefined)
+      ? [
+          {
+            value: 'null',
+            disabled: true,
+            label: 'formFields.select.defaultLabel',
+          },
+          {
+            value: '---',
+            disabled: true,
+            label: '---',
+            isLabelTranslated: true,
+          },
+        ]
+      : []),
+    ,
     ...(priority
       ? priority.map((prio) => translatedOptions.find((option) => option.value === prio)).filter(Boolean)
       : []),
@@ -301,7 +309,11 @@ const OptionValueWrapper = styled.span`
  * React select style mapper
  */
 
-export const mapReactSelectStyles = (getInlineStyle: any, error?: boolean, isFocused?: boolean): StylesConfig => {
+export const mapReactSelectStyles = (
+  getInlineStyle: any,
+  error?: boolean,
+  isFocused?: boolean,
+): StylesConfig => {
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
