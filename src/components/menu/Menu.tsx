@@ -1,10 +1,11 @@
-import React, { Fragment, MouseEvent, MouseEventHandler, ReactNode, RefCallback, useRef } from 'react'
+import React, { Fragment, MouseEvent, ReactNode, RefCallback, useEffect, useRef } from 'react'
 import { CoercedMenuPlacement } from 'react-select'
 import styled, { css } from 'styled-components'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { CommonPropsAndClassName } from './Menu.types'
-import { MenuPlacer } from './MenuPortal'
+import { getMenuPlacement } from './Menu.utils'
+import { useMenuPlacement } from './MenuPortal'
 import useScrollCapture from './useScrollCapture'
 import useScrollLock from './useScrollLock'
 
@@ -45,43 +46,58 @@ export const Menu = (props: MenuProps) => {
     event.preventDefault()
   }
 
+  // Menu Placement
+  const menuRef = useRef(null)
+  const { menuPlacement, setMenuPlacement } = useMenuPlacement()
+
+  useEffect(() => {
+    if (!menuRef.current) return
+
+    const state = getMenuPlacement({
+      menuEl: menuRef.current,
+      maxHeight: props.maxMenuHeight,
+      fieldHeight: props.fieldHeight,
+    })
+
+    if (state.maxHeight !== menuPlacement.maxHeight || state.placement !== menuPlacement.placement) {
+      setMenuPlacement(state)
+    }
+  }, [])
+
   return (
-    <MenuPlacer maxMenuHeight={props.maxMenuHeight} fieldHeight={38}>
-      {({ ref, placerProps: { placement, maxHeight } }) => {
-        return (
-          <StyledMenu
-            {...cssStyles('menu')}
-            align={alignToControl(placement)}
-            className={props.cx({ menu: true }, props.className)}
-            label="menu"
-            onMouseDown={onMenuMouseDown}
-            ref={ref}
+    <StyledMenu
+      {...cssStyles('menu')}
+      align={alignToControl(menuPlacement.placement)}
+      className={props.cx({ menu: true }, props.className)}
+      label="menu"
+      onMouseDown={onMenuMouseDown}
+      ref={menuRef}
+    >
+      <ScrollManager lockEnabled={props.menuShouldBlockScroll} captureEnabled={false}>
+        {(scrollTargetRef) => (
+          <MenuList
+            {...commonProps}
+            innerRef={(instance) => {
+              getMenuListRef(instance)
+              scrollTargetRef(instance)
+            }}
+            maxMenuHeight={menuPlacement.maxHeight}
+            options={props.options}
           >
-            <ScrollManager lockEnabled={props.menuShouldBlockScroll} captureEnabled={false}>
-              {(scrollTargetRef) => (
-                <MenuList
-                  {...commonProps}
-                  innerRef={(instance) => {
-                    getMenuListRef(instance)
-                    scrollTargetRef(instance)
-                  }}
-                  maxMenuHeight={maxHeight}
-                  options={props.options}
-                >
-                  {props.children}
-                </MenuList>
-              )}
-            </ScrollManager>
-          </StyledMenu>
-        )
-      }}
-    </MenuPlacer>
+            {props.children}
+          </MenuList>
+        )}
+      </ScrollManager>
+    </StyledMenu>
   )
 }
 
 const StyledMenu = createStyled(styled.div<{ align: CoercedMenuPlacement }>`
+  position: absolute;
+
   ${(props) =>
     css`
+      margin-bottom: ${props.align === 'top' ? 38 : 0}px;
       ${[props.align]}: 100%;
     `};
 `)
