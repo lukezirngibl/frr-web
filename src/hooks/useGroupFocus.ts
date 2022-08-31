@@ -29,6 +29,11 @@ export const useGroupFocus = <ValueType extends string | number>(props: {
   const onBlur = () => {
     setFocusState({ isFocused: false, focusedIndex: 0 })
   }
+  const onClick = (item: OptionType<ValueType>) => {
+    onChange(item)
+    const focusedIndex = findActiveIndex<ValueType>({ options: props.options, value: item.value })
+    setFocusState({ isFocused: false, focusedIndex })
+  }
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (['ArrowRight'].includes(event.key)) {
@@ -54,7 +59,7 @@ export const useGroupFocus = <ValueType extends string | number>(props: {
     onKeyDown,
     onBlur,
     onFocus,
-    onChange,
+    onChange: onClick,
     isFocused: focusState.isFocused,
     focusedIndex: focusState.focusedIndex,
   }
