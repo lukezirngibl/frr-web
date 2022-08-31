@@ -10,7 +10,7 @@ import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle,
+  useInlineStyle
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace, Translate } from '../translation'
