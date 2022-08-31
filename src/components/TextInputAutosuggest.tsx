@@ -90,8 +90,6 @@ export type Props = {
 export const TextInputAutosuggest = (props: Props) => {
   const { value, onLoadSuggestions, onSuggestionSelected, ...inputProps } = props
   const inputRef = useRef<HTMLInputElement>(null)
-  // const menuListRef = useRef<HTMLElement>(null)
-  // const focusedOptionRef = useRef<HTMLElement>(null)
 
   const [state, dispatch] = useReducer(reducer, {
     isOpen: false,
@@ -155,6 +153,7 @@ export const TextInputAutosuggest = (props: Props) => {
   }
 
   const inputHeight = inputRef.current ? inputRef.current.getBoundingClientRect().height : 0
+
   return (
     <TextInput
       {...inputProps}

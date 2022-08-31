@@ -58,22 +58,22 @@ export const getMenuPlacement = ({
     return { placement: 'bottom', maxHeight }
   }
 
-  // 2: the menu will fit, if scrolled
-  if (scrollSpaceBelow >= menuHeight) {
-    return { placement: 'bottom', maxHeight }
-  }
+  // // 2: the menu will fit, if scrolled
+  // if (scrollSpaceBelow >= menuHeight) {
+  //   return { placement: 'bottom', maxHeight }
+  // }
 
-  // 3: the menu will fit, if constrained
-  if (scrollSpaceBelow >= minHeight) {
-    // we want to provide as much of the menu as possible to the user,
-    // so give them whatever is available below rather than the minHeight.
-    const constrainedHeight = scrollSpaceBelow - marginBottom
+  // // 3: the menu will fit, if constrained
+  // if (scrollSpaceBelow >= minHeight) {
+  //   // we want to provide as much of the menu as possible to the user,
+  //   // so give them whatever is available below rather than the minHeight.
+  //   const constrainedHeight = scrollSpaceBelow - marginBottom
 
-    return {
-      placement: 'bottom',
-      maxHeight: constrainedHeight,
-    }
-  }
+  //   return {
+  //     placement: 'bottom',
+  //     maxHeight: constrainedHeight,
+  //   }
+  // }
 
   // 4. Forked beviour when there isn't enough space below
 
