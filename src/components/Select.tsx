@@ -10,13 +10,14 @@ import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle
+  useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
+import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
 
 type Value = string | number | null
 
@@ -181,6 +182,9 @@ export const Select = (props: Props) => {
               onFocus={onFocus}
               openMenuOnFocus
               options={options.map(mapInternalOption)}
+              pageSize={MENU_PAGE_SIZE}
+              minMenuHeight={MENU_MIN_HEIGHT}
+              maxMenuHeight={MENU_MAX_HEIGHT}
               placeholder={t('formFields.select.defaultLabel')}
               styles={mapReactSelectStyles(getInlineStyle, props.error, isFocused)}
               ref={props.inputRef}

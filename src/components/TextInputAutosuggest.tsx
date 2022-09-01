@@ -3,8 +3,9 @@ import { Options } from 'react-select'
 import styled from 'styled-components'
 import { ComponentTheme } from '../theme/theme.components'
 import { Menu } from './menu/Menu'
+import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT } from './menu/Menu.constants'
 import { CommonProps, MenuAction, MenuActionType, MenuState, Option } from './menu/Menu.types'
-import { classNames, MAX_HEIGHT, MIN_HEIGHT, onKeyDown } from './menu/Menu.utils'
+import { classNames, onKeyDown } from './menu/Menu.utils'
 import { MenuOption } from './menu/MenuOption'
 import { MenuPortal } from './menu/MenuPortal'
 import { Props as TextInputProps, TextInput } from './TextInput'
@@ -293,11 +294,11 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   const menuElement = (
     <Menu
       {...commonProps}
-      fieldHeight={38}
+      fieldHeight={props.inputHeight}
       isLoading={props.isLoading}
-      maxMenuHeight={MAX_HEIGHT}
+      maxMenuHeight={MENU_MAX_HEIGHT}
       menuShouldBlockScroll
-      minMenuHeight={MIN_HEIGHT}
+      minMenuHeight={MENU_MIN_HEIGHT}
     >
       {menuUI}
     </Menu>
@@ -314,7 +315,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
           appendTo={props.menuPortalTarget}
           fieldHeight={props.inputHeight}
           controlElement={controlRef.current}
-          maxMenuHeight={MAX_HEIGHT}
+          maxMenuHeight={MENU_MAX_HEIGHT}
         >
           {menuElement}
         </MenuPortal>
