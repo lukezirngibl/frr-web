@@ -7,10 +7,12 @@ import {
   FormSection,
   GroupField,
   InternalFormField,
+  MultiInputAutosuggestField,
   MultiInputField,
   SectionField,
   SectionFields,
   SingleFormField,
+  TextInputAutosuggestField,
 } from '../types'
 
 export type FilterParams<T> = {
@@ -55,6 +57,29 @@ const processMultiInput = <T>(
       ]
     : []
 
+const processMultiInputAutosuggest = <T>(
+  s: MultiInputAutosuggestField<T>,
+  fn: Fn<T>,
+  isVisible: (d: T) => boolean = () => true,
+): Array<MultiInputAutosuggestField<T>> =>
+  fn(s)
+    ? [
+        {
+          ...s,
+          fields: s.fields.reduce(
+            (acc: Array<TextInputAutosuggestField<T>>, field: TextInputAutosuggestField<T>) =>
+              fn({
+                ...field,
+                isVisible: (data: T) => isVisible(data),
+              })
+                ? [...acc, field]
+                : acc,
+            [],
+          ),
+        },
+      ]
+    : []
+
 const processGroupFields = <T>(
   fields: Array<GroupField<T>>,
   fn: Fn<T>,
@@ -66,6 +91,8 @@ const processGroupFields = <T>(
       return [...acc, ...(row.length > 0 ? row : [])]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
+      return [...acc, ...processMultiInputAutosuggest(f, fn, isVisible)]
     } else {
       return [...acc, ...(fn(f) ? [f] : [])]
     }
@@ -97,6 +124,8 @@ const processFormSectionFields = <T>(
       return [...acc, ...(row.length > 0 ? row : [])]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...acc, ...processMultiInput(f, fn, isVisible)]
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
+      return [...acc, ...processMultiInputAutosuggest(f, fn, isVisible)]
     } else if (f.type === FormFieldType.FormFieldGroup) {
       return [...acc, ...processGroup(f, fn, isVisible)]
     } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
@@ -137,6 +166,8 @@ const filterByFunc = <T>(
       return [...groups, ...processFormSection(f, fn, data)]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...groups, ...processMultiInput(f, fn)]
+    } else if (f.type === FormFieldType.MultiInputAutosuggest) {
+      return [...groups, ...processMultiInputAutosuggest(f, fn)]
     } else if (f.type === FormFieldType.FormFieldRepeatGroup) {
       const groups = processRepeatGroup(f, data)
       return [...groups, ...filterByFunc({ data, formFields: groups, translate }, fn)]
@@ -160,6 +191,7 @@ const formGroupTypes = [
   FormFieldType.FormFieldRepeatSection,
   FormFieldType.FormFieldGroup,
   FormFieldType.MultiInput,
+  FormFieldType.MultiInputAutosuggest,
 ]
 
 export const filterByHidden = <T>(params: FilterParams<T>) =>
