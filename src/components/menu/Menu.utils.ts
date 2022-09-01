@@ -194,13 +194,10 @@ export const onKeyDown =
 
     switch (event.key) {
       case 'ArrowLeft':
-        return
       case 'ArrowRight':
-        return
       case 'Delete':
       case 'Backspace':
-        if (props.value) return
-        break
+        return
       case 'Tab':
         if (isComposing) return
 
