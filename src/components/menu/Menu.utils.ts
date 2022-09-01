@@ -1,4 +1,5 @@
 import { KeyboardEvent } from 'react'
+import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './Menu.constants'
 import {
   ClassNamesState,
   FocusDirection,
@@ -9,9 +10,7 @@ import {
   RectType,
 } from './Menu.types'
 
-export const MAX_HEIGHT = 400
-export const MIN_HEIGHT = 140
-export const PAGE_SIZE = 7
+
 
 // ==============================
 // Menu Placement in Portal
@@ -19,8 +18,8 @@ export const PAGE_SIZE = 7
 
 export const getMenuPlacement = ({
   menuEl,
-  maxHeight = MAX_HEIGHT,
-  minHeight = MIN_HEIGHT,
+  maxHeight = MENU_MAX_HEIGHT,
+  minHeight = MENU_MIN_HEIGHT,
   fieldHeight,
 }: {
   menuEl: HTMLElement | null
@@ -195,13 +194,10 @@ export const onKeyDown =
 
     switch (event.key) {
       case 'ArrowLeft':
-        return
       case 'ArrowRight':
-        return
       case 'Delete':
       case 'Backspace':
-        if (props.value) return
-        break
+        return
       case 'Tab':
         if (isComposing) return
 
@@ -288,10 +284,10 @@ const focusOption = (
   } else if (direction === 'down') {
     nextFocus = (focusedIndex + 1) % options.length
   } else if (direction === 'pageup') {
-    nextFocus = focusedIndex - PAGE_SIZE
+    nextFocus = focusedIndex - MENU_PAGE_SIZE
     if (nextFocus < 0) nextFocus = 0
   } else if (direction === 'pagedown') {
-    nextFocus = focusedIndex + PAGE_SIZE
+    nextFocus = focusedIndex + MENU_PAGE_SIZE
     if (nextFocus > options.length - 1) nextFocus = options.length - 1
   } else if (direction === 'last') {
     nextFocus = options.length - 1
