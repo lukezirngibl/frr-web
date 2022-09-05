@@ -254,7 +254,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
     return (
       <MenuOption
         {...commonProps}
-        id={optionId}
+        dataTestId={`option-${categorizedOption.value.toLowerCase()}`}
         isDisabled={isDisabled}
         isFocused={isFocused}
         isSelected={isSelected}
@@ -277,7 +277,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
     const message = props.loadingMessage || 'Loading...'
     if (message === null) return null
     menuUI = (
-      <MenuOption {...commonProps} id="loading-option" isDisabled>
+      <MenuOption {...commonProps} dataTestId="loading-option" isDisabled>
         {message}
       </MenuOption>
     )
@@ -285,7 +285,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
     const message = props.noOptionsMessage || 'No options'
     if (message === null) return null
     menuUI = (
-      <MenuOption {...commonProps} id="no-option" isDisabled>
+      <MenuOption {...commonProps} dataTestId="no-option" isDisabled>
         {message}
       </MenuOption>
     )
