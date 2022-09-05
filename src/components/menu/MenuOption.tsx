@@ -9,7 +9,7 @@ import { CommonPropsAndClassName } from './Menu.types'
 
 export interface MenuOptionProps extends CommonPropsAndClassName {
   children: ReactNode
-  id: string
+  dataTestId: string
   innerRef?: RefCallback<HTMLDivElement>
   isDisabled?: boolean
   isFocused?: boolean
@@ -36,8 +36,8 @@ export const MenuOption = (props: MenuOptionProps) => {
         props.className,
       )}
       aria-disabled={props.isDisabled}
+      data-test-id={props.dataTestId}
       disabled={props.isDisabled}
-      id={props.id}
       label="option"
       onClick={props.onSelect}
       onMouseMove={props.onHover}

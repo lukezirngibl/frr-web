@@ -1,8 +1,9 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 import styled from 'styled-components'
+import { MENU_MAX_HEIGHT } from './Menu.constants'
 import { CommonPropsAndClassName, MenuPlacementState, RectType } from './Menu.types'
-import { getBoundingClientObj, MAX_HEIGHT } from './Menu.utils'
+import { getBoundingClientObj } from './Menu.utils'
 
 // ==============================
 // Portal Placement Context
@@ -16,7 +17,7 @@ export const MenuPlacementContext = React.createContext<{
   setMenuPlacement: () => {},
   menuPlacement: {
     placement: 'bottom',
-    maxHeight: MAX_HEIGHT,
+    maxHeight: MENU_MAX_HEIGHT,
   },
 })
 export const useMenuPlacement = () => useContext(MenuPlacementContext)
