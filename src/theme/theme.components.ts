@@ -67,6 +67,7 @@ export type ComponentTheme = {
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
     wrapper: CSSProperties
+    wrapperCurrency: CSSProperties
     wrapperFocus: CSSProperties
   }
   textArea: {
@@ -401,6 +402,7 @@ export const defaultComponentTheme: ComponentTheme = {
     readOnlyInput: {},
     readOnlyWrapper: {},
     wrapper: {},
+    wrapperCurrency: {},
     wrapperFocus: {},
   },
   textArea: {
