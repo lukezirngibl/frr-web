@@ -21,6 +21,7 @@ export type Props = {
   hasFocus?: boolean
   inputType?: string
   inputRef?: React.MutableRefObject<HTMLElement>
+  isCurrencyInput?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   maxLength?: number
@@ -93,6 +94,7 @@ export const TextInput = (props: Props) => {
       <InputWrapper
         {...getCSSStyle({
           wrapper: true,
+          wrapperCurrency: props.isCurrencyInput,
           wrapperFocus: isFocused,
           disabledWrapper: props.disabled,
           readOnlyWrapper: props.readOnly,

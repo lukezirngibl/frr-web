@@ -239,31 +239,39 @@ export const componentTheme: Partial<ComponentTheme> = {
   },
   slider: {
     label: {},
-    wrapper: {
-      margin: '16px 0 32px',
-      width: '100%',
-      paddingLeft: 8,
-    },
     outerWrapper: {},
     prefix: {
-      marginLeft: 4,
-      marginRight: 4,
-      fontSize: 24,
-      fontWeight: 700,
-      color: 'var(--color-input)',
+      fontSize: 18,
+      fontWeight: 400,
+      color: 'var(--color-disabled)',
+    },
+    postfix: {
+      fontSize: 18,
+      fontWeight: 400,
+      color: 'var(--color-disabled)',
     },
     value: {
-      fontSize: 32,
+      fontSize: 24,
       fontWeight: 700,
       color: 'var(--color-input)',
     },
     valueWrapper: {
       position: 'absolute',
-      right: 0,
-      top: -8,
+      right: 8,
+      top: -4,
       paddingTop: 'var(--form-field-mobile-padding)',
       display: 'flex',
+      gap: 8,
       alignItems: 'center',
+    },
+    valueWrapperEditable: {
+      maxWidth: 160,
+      top: -14,
+    },
+    wrapper: {
+      margin: '16px 0 32px',
+      width: '100%',
+      paddingLeft: 8,
     },
   },
   materialSlider: {
@@ -572,7 +580,7 @@ export const componentTheme: Partial<ComponentTheme> = {
     },
     prefix: {
       paddingLeft: 'var(--form-field-padding-horizontal)',
-      color: 'var(--color-input)',
+      color: 'var(--color-disabled)',
       fontSize: 'var(--font-size-input)',
     },
     postfix: {

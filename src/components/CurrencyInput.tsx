@@ -11,10 +11,18 @@ export type Props = {
   min?: number
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
-const getValue = (v: string): number | null => {
+const getValue = (v: string, options: { min?: number, max?: number }): number | null => {
   const value = v.replace(',', '.')
-  const num = Number(value)
-  return v === '' || isNaN(num) ? null : num
+  let num = Number(value)
+  num = v === '' || isNaN(num) ? null : num
+  
+  if (options.min !== undefined && num < options.min) {
+    num = options.min
+  } else if (options.max !== undefined && num > options.max) {
+    num = options.max
+  }
+
+  return num
 }
 
 const parseAmount = (v: string): string => {
@@ -25,11 +33,16 @@ const parseAmount = (v: string): string => {
 export const CurrencyInput = (props: Props) => {
   const { value } = props
 
+  
   return (
     <TextInput
       {...props}
+      isCurrencyInput
       onChange={(v) => {
-        props.onChange(getValue(v))
+        props.onChange(getValue(v, {}))
+      }}
+      onBlur={(v) => {
+        props.onChange(getValue(v, { min: props.min, max: props.max }))
       }}
       value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
       parseValue={parseAmount}

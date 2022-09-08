@@ -3,7 +3,7 @@ import { createStory, meta } from '../storybook.helpers'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import React, { useState } from 'react'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField } from '../../src/form/components/types'
+import { FormFieldType, SingleFormField, YesNoRadioGroupField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default meta<Props, typeof YesNoRadioGroup>({
@@ -15,11 +15,11 @@ type FormData = { isMovedRecently: boolean | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
-const field: SingleFormField<FormData> = {
+const field: YesNoRadioGroupField<FormData> = {
   type: FormFieldType.YesNoRadioGroup,
   lens: formLens(['isMovedRecently']),
   label: { label: 'Did you move recently?' },
-} as any
+}
 
 export const Initial = () => {
   const [value, setValue] = useState(null)

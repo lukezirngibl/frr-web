@@ -67,6 +67,7 @@ export type ComponentTheme = {
     readOnlyInput: CSSProperties
     readOnlyWrapper: CSSProperties
     wrapper: CSSProperties
+    wrapperCurrency: CSSProperties
     wrapperFocus: CSSProperties
   }
   textArea: {
@@ -95,11 +96,13 @@ export type ComponentTheme = {
   }
   slider: {
     label: CSSProperties
+    outerWrapper: CSSProperties
     prefix: CSSProperties
+    postfix: CSSProperties
     value: CSSProperties
     valueWrapper: CSSProperties
+    valueWrapperEditable: CSSProperties
     wrapper: CSSProperties
-    outerWrapper: CSSProperties
   }
   materialSlider: MaterialSliderStyles
   select: {
@@ -399,6 +402,7 @@ export const defaultComponentTheme: ComponentTheme = {
     readOnlyInput: {},
     readOnlyWrapper: {},
     wrapper: {},
+    wrapperCurrency: {},
     wrapperFocus: {},
   },
   textArea: {
@@ -421,11 +425,13 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   slider: {
     label: {},
+    outerWrapper: {},
     prefix: {},
+    postfix: {},
     value: {},
     valueWrapper: {},
+    valueWrapperEditable: {},
     wrapper: {},
-    outerWrapper: {},
   },
   materialSlider: {
     active: {},

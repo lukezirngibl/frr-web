@@ -1,6 +1,7 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
 import {
@@ -12,6 +13,7 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
+import { CurrencyInput } from './CurrencyInput'
 import { Label, LabelProps } from './Label'
 
 var Formatter = new Intl.NumberFormat('de-CH', {
@@ -89,26 +91,28 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
 }
 
 export type Props = {
-  value: number
-  onChange: (v: number) => void
-  min: number
-  max: number
-  step: number | null
+  ariaLabelledby?: any
+  dataTestId?: string
+  defaultValue?: number
   editable?: boolean
+  isCurrency?: boolean
+  isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
-  scale?: any
-  ariaLabelledby?: any
   marks?: any
-  dataTestId?: string
-  reverse?: boolean
+  max: number
+  min: number
+  onChange: (v: number) => void
   prefix?: string
-  isCurrency?: boolean
+  postfix?: string
+  scale?: any
+  step: number | null
   style?: Partial<ComponentTheme['slider']>
-  defaultValue?: number
+  value: number
 }
 
 export const Slider = (props: Props) => {
+  const { t } = useTranslation(props.localeNamespace)
   const theme = useComponentTheme()
 
   const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
@@ -132,7 +136,7 @@ export const Slider = (props: Props) => {
 
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
-  const prefix = props.isCurrency ? 'currency.CHF' : props.prefix
+  const prefix = props.isCurrency ? t('currency.CHF') : props.prefix
 
   const labelStyle = getInlineStyles('label')
 
@@ -140,17 +144,43 @@ export const Slider = (props: Props) => {
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
       <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
-        <Wrapper
-          {...getCSSStyles('valueWrapper', {
-            flexDirection: props.reverse ? 'row-reverse' : 'row',
-          })}
-        >
-          {prefix && (
-            <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
+        <Wrapper {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
+          {props.isEditable ? (
+            <CurrencyInput
+              dataTestId="slider-value"
+              onChange={onChange}
+              value={internalValue}
+              prefix={prefix}
+              postfix={props.postfix}
+              min={props.min}
+              max={props.max}
+              style={{
+                input: getInlineStyles('value').style,
+                prefix: getInlineStyles('prefix').style,
+                postfix: getInlineStyles('postfix').style,
+              }}
+            />
+          ) : (
+            <>
+              {prefix && (
+                <P label={prefix} localeNamespace={props.localeNamespace} {...getCSSStyles('prefix')} />
+              )}
+              <ValueText
+                {...getCSSStyles('value')}
+                data-test-id="slider-value"
+                data-value={internalValue}
+              >
+                {props.isCurrency ? Formatter.format(internalValue) : internalValue}
+              </ValueText>
+              {props.postfix && (
+                <P
+                  label={props.postfix}
+                  localeNamespace={props.localeNamespace}
+                  {...getCSSStyles('postfix')}
+                />
+              )}
+            </>
           )}
-          <ValueText {...getCSSStyles('value')} data-test-id="slider-value" data-value={internalValue}>
-            {props.isCurrency ? Formatter.format(internalValue) : internalValue}
-          </ValueText>
         </Wrapper>
 
         <MaterialSlider
