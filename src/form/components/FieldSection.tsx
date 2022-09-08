@@ -29,14 +29,13 @@ export const FieldSection = <FormData extends {}>({
   onChangeMulti,
   onFormEdit,
   showValidation,
-
   style,
 }: FieldSection<FormData>) => {
   const dispatch = useDispatch()
 
   // Form styles
   const theme = useFormTheme()
-  const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || {})
+  const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const commonFieldProps = {

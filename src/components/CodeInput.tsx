@@ -29,7 +29,7 @@ const replaceChar = (str: string, char: string, index: number) => {
 export const CodeInput = (props: Props) => {
   const { isMobile } = useMobileTouch()
   const theme = useComponentTheme()
-  const getStyle = useCSSStyles(theme, 'codeInput')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'codeInput')(props.style)
 
   const refs: Array<React.RefObject<typeof Input>> = range(0, props.length - 1).map((i) =>
     React.createRef(),
@@ -59,7 +59,7 @@ export const CodeInput = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <CodeInputWrapper {...getStyle('wrapper')}>
+      <CodeInputWrapper {...getCSSStyles('wrapper')}>
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
@@ -108,7 +108,7 @@ export const CodeInput = (props: Props) => {
             }
             inputtype="number"
             autoComplete="off"
-            {...getStyle('input')}
+            {...getCSSStyles('input')}
           />
         ))}
       </CodeInputWrapper>
