@@ -7,15 +7,16 @@ export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Arr
     {} as unknown as T,
   )
 
-export const dynamicStyleKeys = [
+const pseudoStyleKeys = [
   ':active',
   ':disabled',
   ':focus',
   ':hover',
   ':invalid',
-  ':readonly',
-  '@media-mobile',
+  ':first-child',
+  ':last-child',
 ]
+export const dynamicStyleKeys = pseudoStyleKeys.concat([':readonly', '@media-mobile'])
 
 const animationKeys = ['@animation']
 
@@ -208,6 +209,15 @@ export const getUseCSSStyles =
     &[readonly] {
       ${mapStylesToCSS(styles[':readonly'] || {}, overwrite?.[':readonly'])}
     }
+
+    &:first-child {
+      ${mapStylesToCSS(styles[':first-child'] || {}, overwrite?.[':first-child'])}
+    }
+
+    &:last-child {
+      ${mapStylesToCSS(styles[':last-child'] || {}, overwrite?.[':last-child'])}
+    }
+
 
     @media ${MediaQuery.Mobile} {
       ${mapStylesToCSS(styles['@media-mobile'] || {}, overwrite?.['@media-mobile'])}
