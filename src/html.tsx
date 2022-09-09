@@ -18,6 +18,7 @@ export type Options<Value> = Array<OptionType<Value>>
 export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
 
 type Props = {
+  children?: ReactNode
   cssStyles?: string
   data?: { [k: string]: string }
   dataTestId?: string
@@ -61,6 +62,7 @@ export const Element = (
   },
 ) => {
   const {
+    children,
     cssStyles,
     data,
     dataTestId,
@@ -111,6 +113,7 @@ export const Element = (
     >
       {renderHtml(htmlText)}
       {Icon}
+      {children}
     </HtmlElement>
   )
 }

@@ -57,19 +57,6 @@ export const Label = (props: LabelProps) => {
 
   return (
     <Div {...getCSSStyles('wrapper')}>
-      {props.error && (
-        <Div {...getCSSStyles('errorIcon')}>
-          <Icon
-            icon="error_outline"
-            color="currentColor"
-            size={20}
-            onClick={() => {
-              setOpen(!open)
-            }}
-          />
-        </Div>
-      )}
-
       <Div {...getCSSStyles('labelTextWrapper')}>
         <P
           {...getCSSStyles({
@@ -89,6 +76,20 @@ export const Label = (props: LabelProps) => {
                 {...getCSSStyles('descriptionIconWrapper')}
               />
             ) : null
+          }
+          children={
+            props.error ? (
+              <Span {...getCSSStyles('errorIcon')}>
+                <Icon
+                  icon="error_outline"
+                  color="currentColor"
+                  size={20}
+                  onClick={() => {
+                    setOpen(!open)
+                  }}
+                />
+              </Span>
+            ) : undefined
           }
         />
 
@@ -153,6 +154,7 @@ const DescriptionPopupAnimation = keyframes`
 `
 
 export const Div = createStyled('div')
+export const Span = createStyled('span')
 
 const DescriptionPopup = createStyled(styled.div`
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;
