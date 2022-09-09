@@ -441,6 +441,7 @@ export type GroupField<FormData> =
 
 export type FormFieldGroup<FormData> = {
   description?: string
+  descriptionList?: Array<string>
   fields: Array<GroupField<FormData>>
   isVisible?: (formData: FormData) => boolean
   style?: Partial<FormTheme['group']>

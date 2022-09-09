@@ -10,7 +10,9 @@ export type FormTheme = {
   group: {
     title: CSSProperties
     wrapper: CSSProperties
-    description: CSSProperties
+    descriptionList: CSSProperties
+    descriptionItem: CSSProperties
+    descriptionText: CSSProperties
   }
   staticField: {
     wrapper: CSSProperties
@@ -83,7 +85,9 @@ export const defaultFormTheme: FormTheme = {
   group: {
     title: {},
     wrapper: {},
-    description: {},
+    descriptionList: {},
+    descriptionItem: {},
+    descriptionText: {},
   },
   form: {
     wrapper: {},
