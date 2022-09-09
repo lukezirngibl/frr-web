@@ -52,7 +52,7 @@ const parseDate = (value: string): Date | 'Invalid Date' => {
 const DefaultMaskInput = {
   alwaysShowMask: true,
   mask: '00.00.0000',
-  maskString: 'DD.MM.YYYY',
+  maskString: 'dateFormatPlaceholder',
 }
 
 export const MaskedDatePicker = (props: Props) => {
@@ -76,8 +76,6 @@ export const MaskedDatePicker = (props: Props) => {
     }) ||
     undefined
 
-  
-
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
 
   /* Language and locales */
@@ -94,7 +92,7 @@ export const MaskedDatePicker = (props: Props) => {
   const [open, setOpen] = React.useState(false)
 
   /* Icon Styles */
-  
+
   const styleIconWrapper = getStyle({
     iconWrapper: true,
     iconWrapperFocus: isFocused,
@@ -111,6 +109,9 @@ export const MaskedDatePicker = (props: Props) => {
     errorHook: !!props.error,
   })
 
+  const dateFormat = isMobileTouch ? props.dateFormat : 'dd.MM.yyyy'
+  const value = !!props.value && isValid(new Date(props.value)) ? format(new Date(props.value), dateFormat) : null
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
@@ -120,7 +121,7 @@ export const MaskedDatePicker = (props: Props) => {
           open && setOpen(false)
         }}
       >
-        <Wrapper {...getStyle('wrapper')}>
+        <Wrapper {...getStyle('wrapper')} onClick={() => {}}>
           {isMobileTouch ? (
             <TextInput
               onFocus={() => {
@@ -139,11 +140,7 @@ export const MaskedDatePicker = (props: Props) => {
               hasFocus={props.hasFocus}
               error={props.error}
               inputType={'date'}
-              value={
-                props.value && isValid(props.value)
-                  ? format(new Date(props.value), props.dateFormat)
-                  : null
-              }
+              value={value}
               dataTestId={props.dataTestId}
               style={textInputStyle}
             />
@@ -181,16 +178,13 @@ export const MaskedDatePicker = (props: Props) => {
                     }
                   }
                 }}
+                dataTestId={props.dataTestId}
                 error={props.error}
                 localeNamespace={props.localeNamespace}
-                value={
-                  !!props.value && isValid(new Date(props.value))
-                    ? format(new Date(props.value), 'dd.MM.yyyy')
-                    : null
-                }
-                dataTestId={props.dataTestId}
-                style={textInputStyle}
                 maskInput={maskInput}
+                shouldMoveCursorToStartOnClick={value === null}
+                style={textInputStyle}
+                value={value}
               />
 
               <DatePickerIconWrapper
