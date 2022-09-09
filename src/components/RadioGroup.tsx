@@ -21,6 +21,7 @@ export type Props = {
   options: Options<string>
   style?: Partial<ComponentTheme['radioGroup']>
   value: string
+  defaultValue?: string
 }
 
 export const RadioGroup = (props: Props) => {
@@ -29,6 +30,12 @@ export const RadioGroup = (props: Props) => {
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
   const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<string>(props)
+
+  React.useEffect(() => {
+    if (props.value === null && props.defaultValue !== undefined) {
+      props.onChange(props.defaultValue)
+    }
+  }, [])
 
   return (
     <>

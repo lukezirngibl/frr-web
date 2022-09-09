@@ -155,6 +155,9 @@ export const Slider = (props: Props) => {
               min={props.min}
               max={props.max}
               style={{
+                wrapperCurrency: {
+                  marginRight: 'auto'
+                },
                 input: getInlineStyles('value').style,
                 prefix: getInlineStyles('prefix').style,
                 postfix: getInlineStyles('postfix').style,
