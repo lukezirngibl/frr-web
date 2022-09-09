@@ -41,7 +41,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
 
   const { disableDirtyValidation } = useFormConfig()
   const theme = useFormTheme()
-  const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
 
   const formValue = field.lens.get(data)
 
@@ -108,7 +107,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         <FieldScrollableWrapper
           key={`field-${fieldIndex}`}
           isScrollToError={field.lens.id() === errorFieldId}
-          style={getRowStyle('item', field.itemStyle).style}
+          style={props.style}
         >
           <Field
             data={data}

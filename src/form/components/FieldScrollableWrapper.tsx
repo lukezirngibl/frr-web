@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react'
 import styled, { CSSProperties } from 'styled-components'
-import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 
 /*
@@ -28,13 +28,13 @@ const FormScrollToWrapper = createStyled(styled.div<{
 type FieldScrollableWrapperProps = {
   children: ReactNode
   isScrollToError: boolean
-  style?: CSSProperties
+  style?: Partial<FormTheme>
 }
 
 export const FieldScrollableWrapper = (props: FieldScrollableWrapperProps) => {
   /* Styles */
   const theme = useFormTheme()
-  const getRowStyle = useCSSStyles(theme, 'row')()
+  const getCSSStyles = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   const fieldRef = React.createRef<HTMLDivElement>()
 
@@ -52,7 +52,7 @@ export const FieldScrollableWrapper = (props: FieldScrollableWrapperProps) => {
     <FormScrollToWrapper
       className="form-field"
       ref={fieldRef}
-      {...getRowStyle('item', props.style || {})}
+      {...getCSSStyles('item')}
     >
       {props.children}
     </FormScrollToWrapper>

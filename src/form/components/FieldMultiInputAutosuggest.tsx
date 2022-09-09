@@ -109,7 +109,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
         isScrollToError={
           props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !== -1
         }
-        {...getRowStyle('item')}
+        style={props.style}
       >
         {props.field.label && (
           <Label
