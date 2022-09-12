@@ -1,5 +1,5 @@
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -15,11 +15,11 @@ type DragProps = {
 }
 
 export type UploadDropzoneProps = {
-  onChange: (files: Array<File>) => void
   acceptedFileTypes?: string
-  maxFilesToUpload?: number
-  maxFileSize?: number
   localeNamespace?: LocaleNamespace
+  maxFileSize?: number
+  maxFilesToUpload?: number
+  onChange: (files: Array<File>) => void
   style?: Partial<ComponentTheme['uploadDropzone']>
 }
 
@@ -27,11 +27,11 @@ export type UploadDropzoneProps = {
 const IMAGE = 'image/*'
 
 export const UploadDropzone = ({
-  onChange,
   acceptedFileTypes = 'image/*, application/pdf',
-  maxFilesToUpload,
   localeNamespace,
   maxFileSize,
+  maxFilesToUpload,
+  onChange,
   style,
 }: UploadDropzoneProps) => {
   const theme = useComponentTheme()
@@ -157,10 +157,14 @@ export const UploadDropzone = ({
                   {...getCSSStyle('acceptedFilesLabel')}
                   label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
                 />
+
                 {acceptedFileItems.map((file: File) => (
                   <ListItem
                     key={file.name}
-                    {...getCSSStyle(maxFilesToUpload === 1 ? 'listSingleItem' : 'listItem')}
+                    {...getCSSStyle({
+                      listItem: true,
+                      listSingleItem: maxFilesToUpload === 1,
+                    })}
                   >
                     {file.name.endsWith('.png' || '.jpeg' || '.svg') && (
                       <ItemIcon
@@ -176,6 +180,7 @@ export const UploadDropzone = ({
                     />
                     <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
                       <HighlightOffIcon
+                        className="remove-icon"
                         onClick={() => {
                           setAcceptedFileItems(acceptedFileItems.filter((e) => file.name !== e.name))
                           setErrorMessage(undefined)
@@ -249,4 +254,9 @@ const ListItem = createStyled('div')
 
 const ItemIcon = createStyled('img')
 
-const RemoveItemIcon = createStyled('div')
+const RemoveItemIcon = createStyled(styled.div`
+  svg.remove-icon {
+    width: 100%;
+    height: 100%;
+  }
+`)

@@ -129,6 +129,7 @@ const IframeOuterWrapper = styled.div`
 
   @media ${MediaQuery.Small} {
     border-radius: 0px;
+    padding: 0;
   }
 `
 
