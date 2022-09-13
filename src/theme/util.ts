@@ -219,7 +219,7 @@ export const getUseCSSStyles =
     }
 
 
-    @media ${MediaQuery.Mobile} {
+    @media ${MediaQuery.Small} {
       ${mapStylesToCSS(styles['@media-mobile'] || {}, overwrite?.['@media-mobile'])}
     }
 

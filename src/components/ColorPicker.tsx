@@ -34,7 +34,7 @@ const ColorPickerOverlay = styled.div`
   right: -96px;
   z-index: 9999;
 
-  @media ${MediaQuery.Mobile} {
+  @media ${MediaQuery.Small} {
     position: fixed;
     top: 65px;
     left: 50%;
