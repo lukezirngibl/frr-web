@@ -13,6 +13,7 @@ const pseudoStyleKeys = [
   ':focus',
   ':hover',
   ':invalid',
+  ':placeholder',
   ':first-child',
   ':last-child',
 ]
@@ -179,29 +180,19 @@ export const getUseCSSStyles =
       animation = theme[componentKey][animationKey]['@animation']
     }
 
+    const pseudoStyles = pseudoStyleKeys.map(
+      (pseudoStyle) => `
+    &${pseudoStyle} {
+      ${mapStylesToCSS(styles[pseudoStyle] || {}, overwrite?.[pseudoStyle])}
+    }
+    `,
+    )
+
     const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
 
-    &:active {
-      ${mapStylesToCSS(styles[':active'] || {}, overwrite?.[':active'])}
-    }
-
-    &:hover {
-      ${mapStylesToCSS(styles[':hover'] || {}, overwrite?.[':hover'])}
-    }
-
-    &:focus {
-      ${mapStylesToCSS(styles[':focus'] || {}, overwrite?.[':focus'])}
-    }
-
-    &:invalid {
-      ${mapStylesToCSS(styles[':invalid'] || {}, overwrite?.[':invalid'])}
-    }
-
-    &:disabled {
-      ${mapStylesToCSS(styles[':disabled'] || {}, overwrite?.[':disabled'])}
-    }
-
+    ${pseudoStyles.join('')}
+    
     &[disabled] {
       ${mapStylesToCSS(styles[':disabled'] || {}, overwrite?.[':disabled'])}
     }
@@ -209,15 +200,6 @@ export const getUseCSSStyles =
     &[readonly] {
       ${mapStylesToCSS(styles[':readonly'] || {}, overwrite?.[':readonly'])}
     }
-
-    &:first-child {
-      ${mapStylesToCSS(styles[':first-child'] || {}, overwrite?.[':first-child'])}
-    }
-
-    &:last-child {
-      ${mapStylesToCSS(styles[':last-child'] || {}, overwrite?.[':last-child'])}
-    }
-
 
     @media ${MediaQuery.Small} {
       ${mapStylesToCSS(styles['@media-mobile'] || {}, overwrite?.['@media-mobile'])}

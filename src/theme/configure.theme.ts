@@ -9,6 +9,7 @@ export type CSSProperties = sc_CSSProperties &
     ':hover': CSSProperties
     ':last-child': CSSProperties
     ':readonly': CSSProperties
+    ':placeholder': CSSProperties
     '@media-mobile': CSSProperties
     '@animation': string
   }>
