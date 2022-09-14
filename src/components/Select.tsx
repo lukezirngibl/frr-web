@@ -61,7 +61,7 @@ export const Select = (props: Props) => {
    * Map value
    */
 
-  const value = props.value === null ? 'null' : props.value
+  const value = props.value === undefined || props.value === null ? 'null' : props.value
 
   /*
    * Determine options (incl. auto-suggest)
@@ -135,8 +135,8 @@ export const Select = (props: Props) => {
               {...getCSSStyles(
                 {
                   select: true,
-                  placeholder:
-                    options.findIndex((option) => option.value === value && option.disabled) !== -1,
+                  value: value !== 'null',
+                  placeholder: value === 'null',
                   errorWrapper: props.error,
                 },
                 {},
