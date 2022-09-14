@@ -92,6 +92,7 @@ export const Button = (props: Props) => {
       onClick={handleClicked}
       disabled={props.disabled}
       tabIndex={tabIndex}
+      type="button"
       {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}
