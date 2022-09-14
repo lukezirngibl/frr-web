@@ -3,6 +3,7 @@ import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { LabelText, P } from '../html'
+import { MediaQuery } from '../theme/configure.theme'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -162,8 +163,6 @@ const DescriptionPopup = createStyled(styled.div`
 
 const DescriptionIconWrapper = createStyled(styled.span`
   & svg {
-    vertical-align: text-top;
-
     ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
       css`
         ${svgCSSStyles}
