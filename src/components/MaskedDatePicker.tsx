@@ -139,7 +139,8 @@ export const MaskedDatePicker = (props: Props) => {
               }}
               hasFocus={props.hasFocus}
               error={props.error}
-              inputType={'date'}
+              inputType={isFocused || value !== null ? 'date' : 'text'}
+              placeholder='dateFormatPlaceholder'
               value={value}
               dataTestId={props.dataTestId}
               style={textInputStyle}
