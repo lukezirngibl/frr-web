@@ -89,9 +89,10 @@ export const MaskedInput = (props: Props) => {
               ? false
               : true,
         })}
-        inputCSSStyles={{
-          ...getCSSStyle({
+        inputCSSStyles={
+          getCSSStyle({
             input: true,
+            inputPlaceholder: !internalValue || internalValue === '',
             errorInput: props.error,
             disabledInput:
               isFocused ||
@@ -99,8 +100,8 @@ export const MaskedInput = (props: Props) => {
               (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
                 ? false
                 : true,
-          }),
-        }}
+          }).cssStyles
+        }
         onClick={() => {
           if (inputRef.current) {
             const input = inputRef.current
