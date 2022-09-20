@@ -7,22 +7,24 @@ export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Arr
     {} as unknown as T,
   )
 
-export const dynamicStyleKeys = [
+const pseudoStyleKeys = [
   ':active',
   ':disabled',
   ':focus',
   ':hover',
   ':invalid',
-  ':readonly',
-  '@media-mobile',
+  ':placeholder',
+  ':first-child',
+  ':last-child',
 ]
+export const dynamicStyleKeys = pseudoStyleKeys.concat([':readonly', '@media-mobile'])
 
 const animationKeys = ['@animation']
 
 const nonPixelKeys = ['flexGrow', 'flexShrink', 'fontWeight', 'lineHeight', 'opacity', 'zIndex']
 
-export const mapStylesToCSS = (style) =>
-  Object.entries(style)
+export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) => {
+  let cssStyles = Object.entries(style)
     .map(
       ([cssKey, cssValue]) =>
         `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
@@ -30,6 +32,20 @@ export const mapStylesToCSS = (style) =>
         };`,
     )
     .join(' ')
+
+  if (overwrite) {
+    cssStyles = Object.entries(overwrite)
+      .map(
+        ([cssKey, cssValue]) =>
+          `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
+            isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
+          };`,
+      )
+      .join(' ')
+  }
+
+  return cssStyles
+}
 
 /*
  * Creates a styled component with support for pseudo elements and media query styles provided from a style object
@@ -61,7 +77,7 @@ export const createStyled = (type: any) =>
 export const getUseInlineStyle =
   <Theme>() =>
   <C extends keyof Theme>(theme: Theme, componentKey: C) => {
-    return (override?: Partial<Theme[C]>) =>
+    return (overwrite?: Partial<Theme[C]>) =>
       <K extends keyof Theme[C]>(
         elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
         internalOverride?: CSSProperties,
@@ -91,7 +107,7 @@ export const getUseInlineStyle =
                 (obj, elementKey) => ({
                   ...obj,
                   ...theme[componentKey][elementKey],
-                  ...(override && override[elementKey] ? override[elementKey] : {}),
+                  ...(overwrite && overwrite[elementKey] ? overwrite[elementKey] : {}),
                 }),
                 {},
               ) as any),
@@ -112,7 +128,7 @@ export const getUseInlineStyle =
 export const getUseCSSStyles =
   <Theme>() =>
   <C extends keyof Theme>(theme: Theme, componentKey: C) =>
-  (override?: Partial<Theme[C]>) =>
+  (overwrite?: Partial<Theme[C]>) =>
   <K extends keyof Theme[C]>(
     elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
     internalOverride?: CSSProperties,
@@ -134,7 +150,7 @@ export const getUseCSSStyles =
             (obj, elementKey) => ({
               ...obj,
               ...theme[componentKey][elementKey],
-              ...(override && override[elementKey] ? override[elementKey] : {}),
+              ...(overwrite && overwrite[elementKey] ? overwrite[elementKey] : {}),
             }),
             {},
           ) as any),
@@ -149,7 +165,7 @@ export const getUseCSSStyles =
             (obj, elementKey) => ({
               ...obj,
               ...(theme[componentKey][elementKey][k] || {}),
-              ...(override && override[elementKey] ? override[elementKey][k] : {}),
+              ...(overwrite && overwrite[elementKey] ? overwrite[elementKey][k] : {}),
             }),
             {},
           ),
@@ -164,39 +180,29 @@ export const getUseCSSStyles =
       animation = theme[componentKey][animationKey]['@animation']
     }
 
+    const pseudoStyles = pseudoStyleKeys.map(
+      (pseudoStyle) => `
+    &${pseudoStyle} {
+      ${mapStylesToCSS(styles[pseudoStyle] || {}, overwrite?.[pseudoStyle])}
+    }
+    `,
+    )
+
     const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
 
-    &:active {
-      ${mapStylesToCSS(styles[':active'] || {})}
-    }
-
-    &:hover {
-      ${mapStylesToCSS(styles[':hover'] || {})}
-    }
-
-    &:focus {
-      ${mapStylesToCSS(styles[':focus'] || {})}
-    }
-
-    &:invalid {
-      ${mapStylesToCSS(styles[':invalid'] || {})}
-    }
-
-    &:disabled {
-      ${mapStylesToCSS(styles[':disabled'] || {})}
-    }
-
+    ${pseudoStyles.join('')}
+    
     &[disabled] {
-      ${mapStylesToCSS(styles[':disabled'] || {})}
+      ${mapStylesToCSS(styles[':disabled'] || {}, overwrite?.[':disabled'])}
     }
 
     &[readonly] {
-      ${mapStylesToCSS(styles[':readonly'] || {})}
+      ${mapStylesToCSS(styles[':readonly'] || {}, overwrite?.[':readonly'])}
     }
 
-    @media ${MediaQuery.Mobile} {
-      ${mapStylesToCSS(styles['@media-mobile'] || {})}
+    @media ${MediaQuery.Small} {
+      ${mapStylesToCSS(styles['@media-mobile'] || {}, overwrite?.['@media-mobile'])}
     }
 
     ${animation ? `&.animate { animation: ${animation}; }` : ''}

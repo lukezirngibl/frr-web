@@ -118,6 +118,7 @@ export const TextInput = (props: Props) => {
         <Input
           {...getCSSStyle({
             input: true,
+            inputPlaceholder: value === '',
             disabledInput: props.disabled,
             readOnlyInput: props.readOnly,
             errorInput: props.error,

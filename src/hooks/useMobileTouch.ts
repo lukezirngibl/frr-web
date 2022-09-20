@@ -23,7 +23,7 @@ export const useTouchDetector = (): void => {
 }
 
 export const useMobileTouch = (): { isMobile: boolean; isTouch: boolean; isMobileTouch: boolean } => {
-  const isMobile = useMediaQuery({ query: MediaQuery.Mobile })
+  const isMobile = useMediaQuery({ query: MediaQuery.Small })
 
   const _window = window as any
 

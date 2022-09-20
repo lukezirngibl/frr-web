@@ -3,6 +3,7 @@ import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { LabelText, P } from '../html'
+import { MediaQuery } from '../theme/configure.theme'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -12,47 +13,6 @@ import {
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Icon } from './Icon'
-
-const DescriptionPopupAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-
-export const LabelWrapper = createStyled('div')
-
-const LabelTextWrapper = styled.div`
-  position: relative;
-  diplay: flex;
-  align-items: center;
-`
-
-const DescriptionPopup = createStyled(styled.div`
-  position: absolute;
-  top: 48px;
-  left: 48px;
-  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
-`)
-
-const DescriptionIconWrapper = createStyled(styled.span`
-  & svg {
-    vertical-align: top;
-
-    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
-      css`
-        ${svgCSSStyles}
-      `}
-
-    color: currentColor;
-  }
-`)
 
 export type LabelProps = {
   description?: LabelText
@@ -72,12 +32,11 @@ export type LabelProps = {
 }
 
 export const Label = (props: LabelProps) => {
-  const { t, i18n } = useTranslation(props.localeNamespace)
+  const { t } = useTranslation(props.localeNamespace)
 
   // Styles
   const theme = useComponentTheme()
-  const getCSSStyle = useCSSStyles(theme, 'label')(props.style)
-  const getInlineStyle = useInlineStyle(theme, 'label')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'label')(props.style)
 
   const getIcon = useInlineStyle(theme, 'icon')({})
   const infoIcon = getIcon('info')
@@ -98,20 +57,10 @@ export const Label = (props: LabelProps) => {
     null
 
   return (
-    <LabelWrapper {...getCSSStyle('wrapper')}>
-      <LabelTextWrapper {...getInlineStyle('labelTextWrapper')}>
-        {props.error && (
-          <Icon
-            {...getInlineStyle('errorIcon')}
-            icon="error_outline"
-            size={18}
-            onClick={() => {
-              setOpen(!open)
-            }}
-          />
-        )}
+    <Div {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('labelTextWrapper')}>
         <P
-          {...getCSSStyle({
+          {...getCSSStyles({
             labelText: true,
             labelTextError: props.error,
             labelTextFocus: props.isFocused,
@@ -124,18 +73,32 @@ export const Label = (props: LabelProps) => {
               <DescriptionIconWrapper
                 onClick={() => setOpen(true)}
                 dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
-                svgCSSStyles={getCSSStyle('descriptionIcon').cssStyles}
-                {...getCSSStyle('descriptionIconWrapper')}
+                svgCSSStyles={getCSSStyles('descriptionIcon').cssStyles}
+                {...getCSSStyles('descriptionIconWrapper')}
               />
             ) : null
+          }
+          children={
+            props.error ? (
+              <Span {...getCSSStyles('errorIcon')}>
+                <Icon
+                  icon="error_outline"
+                  color="currentColor"
+                  size={20}
+                  onClick={() => {
+                    setOpen(!open)
+                  }}
+                />
+              </Span>
+            ) : undefined
           }
         />
 
         {open && description && (
           <ClickAwayListener onClickAway={() => setOpen(false)}>
-            <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyle('descriptionPopup')}>
+            <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyles('descriptionPopup')}>
               <P
-                {...getCSSStyle('descriptionText')}
+                {...getCSSStyles('descriptionText')}
                 label={description}
                 localeNamespace={props.localeNamespace}
                 data={props.descriptionData}
@@ -143,11 +106,14 @@ export const Label = (props: LabelProps) => {
             </DescriptionPopup>
           </ClickAwayListener>
         )}
-      </LabelTextWrapper>
+      </Div>
 
       {props.sublabel && (
         <P
-          {...getCSSStyle('sublabelText')}
+          {...getCSSStyles({
+            sublabelText: true,
+            errorLabel: props.error,
+          })}
           label={props.sublabel}
           localeNamespace={props.localeNamespace}
           data={props.sublabelData}
@@ -162,7 +128,7 @@ export const Label = (props: LabelProps) => {
             data={props.errorLabelData}
             dataTestId={props.errorDataTestId}
             dataValue={errorLabel}
-            {...getCSSStyle('errorLabel')}
+            {...getCSSStyles('errorLabel')}
           />
         ))}
       {props.renderChildren &&
@@ -171,6 +137,37 @@ export const Label = (props: LabelProps) => {
         ) : (
           <>{props.renderChildren}</>
         ))}
-    </LabelWrapper>
+    </Div>
   )
 }
+
+const DescriptionPopupAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform-origin: top center;
+    transform: scale(0, 0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: top center;
+    transform: scale(1, 1);
+  }
+`
+
+export const Div = createStyled('div')
+export const Span = createStyled('span')
+
+const DescriptionPopup = createStyled(styled.div`
+  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
+`)
+
+const DescriptionIconWrapper = createStyled(styled.span`
+  & svg {
+    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
+      css`
+        ${svgCSSStyles}
+      `}
+
+    color: currentColor;
+  }
+`)

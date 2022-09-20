@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
-import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
@@ -18,6 +18,26 @@ type FieldSection<FormData> = CommonThreadProps<FormData> & {
   onFormEdit?: (params: { dispatch: any }) => void
 }
 
+export const FieldSectionWrapper = (props: {
+  dataTestId?: string
+  style?: Partial<FormTheme['section']>
+  readOnly?: boolean
+  children: ReactNode
+}) => {
+  const theme = useFormTheme()
+  const getSectionStyle = useCSSStyles(theme, 'section')(props.style || {})
+
+  return (
+    <Div
+      readOnly={props.readOnly}
+      data-test-id={props.dataTestId}
+      {...getSectionStyle('wrapper', props.style?.wrapper || {})}
+    >
+      {props.children}
+    </Div>
+  )
+}
+
 export const FieldSection = <FormData extends {}>({
   data,
   errorFieldId,
@@ -29,14 +49,13 @@ export const FieldSection = <FormData extends {}>({
   onChangeMulti,
   onFormEdit,
   showValidation,
-
   style,
 }: FieldSection<FormData>) => {
   const dispatch = useDispatch()
 
   // Form styles
   const theme = useFormTheme()
-  const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || {})
+  const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const commonFieldProps = {
@@ -120,11 +139,11 @@ export const FieldSection = <FormData extends {}>({
 
   // Render
   return (
-    <Container
+    <FieldSectionWrapper
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
       readOnly={formReadOnly}
-      data-test-id={fieldSection.dataTestId}
-      {...getSectionStyle('wrapper', fieldSection.style?.wrapper || {})}
+      dataTestId={fieldSection.dataTestId}
+      style={style?.section || fieldSection.style || {}}
     >
       {!formReadOnly && fieldSection.introduction && (
         <P
@@ -144,11 +163,11 @@ export const FieldSection = <FormData extends {}>({
         />
       )}
 
-      <Container {...getSectionStyle('contentWrapper')}>
-        <Container {...getSectionStyle('content')}>
+      <Div {...getSectionStyle('contentWrapper')}>
+        <Div {...getSectionStyle('content')}>
           {fieldSection.title
             ? (fieldSection.TitleCenterComponent && (
-                <Container {...getSectionStyle('titleWrapper')}>
+                <Div {...getSectionStyle('titleWrapper')}>
                   <P
                     {...getSectionStyle('title', fieldSection.style?.title || {})}
                     readOnly={formReadOnly}
@@ -158,7 +177,7 @@ export const FieldSection = <FormData extends {}>({
                   />
 
                   {fieldSection.TitleCenterComponent}
-                </Container>
+                </Div>
               )) || (
                 <P
                   {...getSectionStyle('title', fieldSection.style?.title || {})}
@@ -181,10 +200,10 @@ export const FieldSection = <FormData extends {}>({
           )}
 
           {fieldSection.fields.map(renderSectionField)}
-        </Container>
+        </Div>
 
         {onEditSection && (
-          <Container
+          <Div
             {...getSectionRightStyle('wrapper')}
             readOnly={formReadOnly}
             data-test-id={
@@ -198,14 +217,14 @@ export const FieldSection = <FormData extends {}>({
               onClick={() => onEditSection({ dispatch })}
               style={getSectionRightStyle('editLink')}
             />
-          </Container>
+          </Div>
         )}
-      </Container>
-    </Container>
+      </Div>
+    </FieldSectionWrapper>
   )
 }
 
-const Container = createStyled('div')
+const Div = createStyled('div')
 const TitleSpaceMobile = styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import MaskInput from 'react-maskinput'
 import styled, { css } from 'styled-components'
 
@@ -18,6 +19,7 @@ export type Props = {
   onBlur: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
+  shouldMoveCursorToStartOnClick?: boolean
   style?: Partial<ComponentTheme['textInput']>
   value: string | null
   maskInput: {
@@ -30,6 +32,7 @@ export type Props = {
 export const MaskedInput = (props: Props) => {
   const inputRef = useRef(null)
 
+  const { t } = useTranslation(props.localeNamespace)
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'textInput')(props.style)
 
@@ -69,7 +72,7 @@ export const MaskedInput = (props: Props) => {
     return () => clearTimeout(timerId)
   }, [props.hasFocus])
 
-    const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
   return (
     <>
@@ -86,9 +89,10 @@ export const MaskedInput = (props: Props) => {
               ? false
               : true,
         })}
-        inputCSSStyles={{
-          ...getCSSStyle({
+        inputCSSStyles={
+          getCSSStyle({
             input: true,
+            inputPlaceholder: !internalValue || internalValue === '',
             errorInput: props.error,
             disabledInput:
               isFocused ||
@@ -96,12 +100,12 @@ export const MaskedInput = (props: Props) => {
               (internalValue !== maskString && lastValue !== '' && internalValue !== lastValue)
                 ? false
                 : true,
-          }),
-        }}
+          }).cssStyles
+        }
         onClick={() => {
           if (inputRef.current) {
             const input = inputRef.current
-            // input.setSelectionRange(0, 10)
+            props.shouldMoveCursorToStartOnClick && input.setSelectionRange(0, 0)
             input.focus()
           }
         }}
@@ -139,7 +143,7 @@ export const MaskedInput = (props: Props) => {
             setIsFocused(true)
             props.onFocus?.()
           }}
-          maskString={maskString}
+          maskString={t(maskString)}
           mask={mask}
           value={internalValue || lastValue}
         />

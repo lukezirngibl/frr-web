@@ -61,7 +61,7 @@ export const Select = (props: Props) => {
    * Map value
    */
 
-  const value = props.value === null ? 'null' : props.value
+  const value = props.value === undefined || props.value === null ? 'null' : props.value
 
   /*
    * Determine options (incl. auto-suggest)
@@ -135,8 +135,8 @@ export const Select = (props: Props) => {
               {...getCSSStyles(
                 {
                   select: true,
-                  placeholder:
-                    options.findIndex((option) => option.value === value && option.disabled) !== -1,
+                  value: value !== 'null',
+                  placeholder: value === 'null',
                   errorWrapper: props.error,
                 },
                 {},
@@ -218,6 +218,14 @@ export const getOptions = (params: {
     ? translatedOptions.filter((option) => !priority.includes(option.value))
     : translatedOptions
 
+  const mapOption = (option: OptionType<Value>) => ({
+    disabled: option.disabled,
+    isLabelTranslated: true,
+    label: option.isLabelTranslated ? option.label : t(option.label),
+    name: option.name || option.label,
+    value: option.value,
+  })
+
   const mappedOptions = [
     // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
     ...(params.isMobileTouch && (params.value === null || params.value === undefined)
@@ -237,7 +245,10 @@ export const getOptions = (params: {
       : []),
     ,
     ...(priority
-      ? priority.map((prio) => translatedOptions.find((option) => option.value === prio)).filter(Boolean)
+      ? priority
+          .map((prio) => translatedOptions.find((option) => option.value === prio))
+          .map(mapOption)
+          .filter(Boolean)
       : []),
     ,
     ...(priority
@@ -252,12 +263,7 @@ export const getOptions = (params: {
       : []),
     ...(alphabetize
       ? filteredOptions
-          .map((option) => ({
-            ...option,
-            name: option.name || option.label,
-            isLabelTranslated: true,
-            label: option.isLabelTranslated ? option.label : t(option.label),
-          }))
+          .map(mapOption)
           .sort((a, b) =>
             replaceUmlaute(a.label.toLowerCase()) > replaceUmlaute(b.label.toLowerCase()) ? 1 : -1,
           )
@@ -278,9 +284,11 @@ export const mapInternalOption = (option: OptionType<Value>): InternalOption => 
 
 export const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
   const { children, value, ...other } = props
+  const dataTestId = `${props.selectProps['data-test-id']}:option-${props.value}`
+
   return (
-    <div data-test-id={`option-${props.value}`}>
-      <components.Option {...other} data-test-id={`option-${props.value}`}>
+    <div data-test-id={dataTestId}>
+      <components.Option {...other} data-test-id={dataTestId}>
         <OptionValueWrapper>
           {props.isSelected && <CheckIcon className="selected-icon" />}
           {children}

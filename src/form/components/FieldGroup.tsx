@@ -1,5 +1,5 @@
 import React from 'react'
-import { P } from '../../html'
+import { Li, P } from '../../html'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
@@ -9,6 +9,8 @@ import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 
 const GroupWrapper = createStyled('div')
+const DescriptionList = createStyled('ul')
+const DescriptionItem = createStyled('li')
 
 type FieldGroup<FormData> = CommonThreadProps<FormData> & {
   field: FormFieldGroup<FormData>
@@ -110,10 +112,31 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
       )}
       {fieldGroup.description && (
         <P
-          {...getCSSStyle('description', fieldGroup.style ? fieldGroup.style.description || {} : {})}
+          {...getCSSStyle(
+            'descriptionText',
+            fieldGroup.style ? fieldGroup.style.descriptionText || {} : {},
+          )}
           label={fieldGroup.description}
           localeNamespace={localeNamespace}
         />
+      )}
+      {fieldGroup.descriptionList && (
+        <DescriptionList {...getCSSStyle('descriptionList')}>
+          {fieldGroup.descriptionList.map((descriptionItem, descriptionItemIndex) => (
+            <DescriptionItem key={descriptionItem} {...getCSSStyle('descriptionItem')}>
+              <P
+                {...getCSSStyle('descriptionText')}
+                label={`${descriptionItemIndex + 1})`}
+                isLabelTranslated
+              />
+              <P
+                {...getCSSStyle('descriptionText')}
+                label={descriptionItem}
+                localeNamespace={localeNamespace}
+              />
+            </DescriptionItem>
+          ))}
+        </DescriptionList>
       )}
       {fieldGroup.fields.map(renderGroupField)}
     </GroupWrapper>

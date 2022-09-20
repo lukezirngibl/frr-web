@@ -61,6 +61,7 @@ export type ComponentTheme = {
     errorWrapper: CSSProperties
     hook: CSSProperties
     input: CSSProperties
+    inputPlaceholder: CSSProperties
     prefix: CSSProperties
     postfix: CSSProperties
     readOnlyHook: CSSProperties
@@ -396,6 +397,7 @@ export const defaultComponentTheme: ComponentTheme = {
     errorWrapper: {},
     hook: {},
     input: {},
+    inputPlaceholder: {},
     prefix: {},
     postfix: {},
     readOnlyHook: {},

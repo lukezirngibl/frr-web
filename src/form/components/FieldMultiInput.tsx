@@ -32,7 +32,6 @@ export const FieldMultiInput = <FormData extends {}>({
   const theme = useFormTheme()
 
   const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
-  const getRowStyle = useInlineStyle(theme, 'row')(style?.row || {})
   const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
 
   // Error
@@ -76,7 +75,7 @@ export const FieldMultiInput = <FormData extends {}>({
         isScrollToError={
           field.fields.findIndex((fieldItem) => fieldItem.lens.id() === errorFieldId) !== -1
         }
-        {...getRowStyle('item')}
+        style={style}
       >
         {field.label && (
           <Label
