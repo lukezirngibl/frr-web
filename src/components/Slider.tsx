@@ -1,9 +1,10 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
+import { CSSProperties } from '../theme/configure.theme'
 import {
   ComponentTheme,
   MaterialSliderStyles,
@@ -26,9 +27,22 @@ var Formatter = new Intl.NumberFormat('de-CH', {
 const Wrapper = createStyled('div')
 const ValueText = createStyled('p')
 
+const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles) => {
+  const thumbStyles = styles.thumb || {}
+  const thumbFocusStyles = styles.thumbFocus || {}
+
+  const pseudoStyles = {
+    ...thumbStyles[pseudStyle],
+    backgroundColor:
+      thumbStyles[pseudStyle]?.backgroundColor || thumbStyles[pseudStyle]?.background || '#FFC53D',
+
+    '& .thumb-focus': thumbFocusStyles,
+  }
+}
+
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
   const materialStyles = styles || {}
-
+  
   return withStyles({
     root: {
       color: '#FFC53D',
@@ -43,9 +57,9 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       borderRadius: 12,
       marginTop: -9,
       marginLeft: -8,
-      '&:focus, &:hover, &:active': {
-        backgroundColor: 'rgb(230,170,59)',
-      },
+      '&:active': getPseudoElementStyle(':active', materialStyles),
+      '&:focus': getPseudoElementStyle(':focus', materialStyles),
+      '&:hover': getPseudoElementStyle(':hover', materialStyles),
       ...(materialStyles.thumb || {}),
     },
     active: materialStyles.active || {},
@@ -88,6 +102,14 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       ...(materialStyles.markActive || {}),
     },
   } as any)(MaterialSlider)
+}
+
+const ThumbComponent = (props: any) => {
+  return (
+    <span {...props}>
+      <span className="thumb-focus"></span>
+    </span>
+  )
 }
 
 export type Props = {
@@ -148,21 +170,21 @@ export const Slider = (props: Props) => {
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
-              onChange={onChange}
-              value={internalValue}
-              prefix={prefix}
-              postfix={props.postfix}
-              min={props.min}
               max={props.max}
+              min={props.min}
+              onChange={onChange}
+              postfix={props.postfix}
+              prefix={prefix}
               step={props.step}
               style={{
                 wrapperCurrency: {
-                  marginRight: 'auto'
+                  marginRight: 'auto',
                 },
                 input: getInlineStyles('value').style,
                 prefix: getInlineStyles('prefix').style,
                 postfix: getInlineStyles('postfix').style,
               }}
+              value={internalValue}
             />
           ) : (
             <>
@@ -188,18 +210,19 @@ export const Slider = (props: Props) => {
         </Wrapper>
 
         <MaterialSlider
-          value={internalValue}
-          onChange={(e, v) => {
-            setInternalValue(v as number)
-            // @ts-ignore
-            onChange(v as number)
-          }}
-          min={props.min}
-          max={props.max}
-          step={props.step}
-          scale={props.scale}
           aria-labelledby={props.ariaLabelledby}
           marks={props.marks}
+          max={props.max}
+          min={props.min}
+          onChange={(_: Event, value: number) => {
+            setInternalValue(value)
+            onChange(value)
+          }}
+          style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
+          scale={props.scale}
+          step={props.step}
+          ThumbComponent={ThumbComponent}
+          value={internalValue}
         />
       </Wrapper>
     </Wrapper>

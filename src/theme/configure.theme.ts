@@ -3,6 +3,8 @@ import { CSSProperties as sc_CSSProperties } from 'styled-components'
 export type CSSProperties = sc_CSSProperties &
   Partial<{
     ':active': CSSProperties
+    ':after': CSSProperties
+    ':before': CSSProperties
     ':disabled': CSSProperties
     ':first-child': CSSProperties
     ':focus': CSSProperties

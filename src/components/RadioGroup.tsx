@@ -41,7 +41,7 @@ export const RadioGroup = (props: Props) => {
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper
-        {...getCSSStyles('wrapper')}
+        {...getCSSStyles({ wrapper: true, wrapperFocus: isFocused })}
         onBlur={onBlur}
         onFocus={onFocus}
         onKeyDown={onKeyDown}

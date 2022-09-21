@@ -11,6 +11,7 @@ export type MaterialSliderStyles = {
   markLabel?: CSSProperties
   valueLabel?: CSSProperties
   thumb?: CSSProperties
+  thumbFocus?: CSSProperties
   track?: CSSProperties
 }
 
@@ -165,6 +166,7 @@ export type ComponentTheme = {
   }
   radioGroup: {
     wrapper: CSSProperties
+    wrapperFocus: CSSProperties
     label: CSSProperties
     item: CSSProperties
     radioOuter: CSSProperties
@@ -444,6 +446,7 @@ export const defaultComponentTheme: ComponentTheme = {
     markLabel: {},
     valueLabel: {},
     thumb: {},
+    thumbFocus: {},
     track: {},
   },
   select: {
@@ -504,6 +507,7 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   radioGroup: {
     wrapper: {},
+    wrapperFocus: {},
     label: {},
     item: {},
     radioOuter: {},

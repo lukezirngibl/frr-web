@@ -1,10 +1,11 @@
 import CheckIcon from '@material-ui/icons/Check'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
+import ReactSelect, { components, ControlProps, OptionProps, StylesConfig } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, Options, OptionType } from '../html'
+import { CSSProperties } from '../theme/configure.theme'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
@@ -186,7 +187,7 @@ export const Select = (props: Props) => {
               minMenuHeight={MENU_MIN_HEIGHT}
               maxMenuHeight={MENU_MAX_HEIGHT}
               placeholder={t('formFields.select.defaultLabel')}
-              styles={mapReactSelectStyles(getInlineStyle, props.error, isFocused)}
+              styles={mapReactSelectStyles(props.style, props.error, isFocused)}
               ref={props.inputRef}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
@@ -279,7 +280,7 @@ export const mapInternalOption = (option: OptionType<Value>): InternalOption => 
 })
 
 /*
- * Option Component
+ * Control & Option Component
  */
 
 export const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
@@ -322,10 +323,13 @@ const OptionValueWrapper = styled.span`
  */
 
 export const mapReactSelectStyles = (
-  getInlineStyle: any,
+  style: Partial<ComponentTheme['select']>,
   error?: boolean,
   isFocused?: boolean,
 ): StylesConfig => {
+  const theme = useComponentTheme()
+  const getInlineStyle = useInlineStyle(theme, 'select')(style)
+
   const iconStyle = getInlineStyle('icon').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
@@ -335,20 +339,19 @@ export const mapReactSelectStyles = (
   const selectStyle = getInlineStyle(
     {
       select: true,
-      wrapperFocus: !!isFocused,
+      wrapperFocus: isFocused,
       errorWrapper: error,
     },
     {},
     'select-wrapper',
+    true,
   ).style as any
   const valueStyle = getInlineStyle('value').style as any
   const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
   return {
     control: () => {
-      return {
-        ...selectStyle,
-      }
+      return selectStyle
     },
     dropdownIndicator: (provided) => {
       return {

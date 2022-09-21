@@ -9,15 +9,18 @@ export const omitKeys = <T extends { [k: string]: unknown }>(obj: T, keysIn: Arr
 
 const pseudoStyleKeys = [
   ':active',
+  ':after',
+  ':before',
   ':disabled',
+  ':first-child',
   ':focus',
   ':hover',
   ':invalid',
-  ':placeholder',
-  ':first-child',
   ':last-child',
+  ':placeholder',
 ]
-export const dynamicStyleKeys = pseudoStyleKeys.concat([':readonly', '@media-mobile'])
+const customDynamicStyleKeys = [':readonly', '@media-mobile']
+export const dynamicStyleKeys = pseudoStyleKeys.concat(customDynamicStyleKeys)
 
 const animationKeys = ['@animation']
 
@@ -82,6 +85,7 @@ export const getUseInlineStyle =
         elementKeys: Array<K> | K | Partial<{ [k in keyof Theme[C]]: boolean }>,
         internalOverride?: CSSProperties,
         className?: string,
+        keepPseudoStyles?: boolean,
       ): { style: Theme[C][K]; dataThemeId: string } => {
         let keys = []
 
@@ -113,7 +117,7 @@ export const getUseInlineStyle =
               ) as any),
               ...(internalOverride || {}),
             },
-            dynamicStyleKeys as any,
+            keepPseudoStyles ? customDynamicStyleKeys : dynamicStyleKeys as any,
           ),
         }
 
