@@ -1,4 +1,4 @@
-import { ComponentThemeConfig } from "../../../src/theme/theme.components";
+import { ComponentThemeConfig } from '../../../src/theme/theme.components'
 
 export const appTheme: Partial<ComponentThemeConfig> = {
   datePicker: {
@@ -418,8 +418,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       position: 'absolute',
       width: '100%',
       backgroundColor: 'var(--color-background-secondary)',
-      boxShadow:
-        '2px 2px 8px rgba(0, 0, 0, 0.35), 0 -1px 4px rgba(0, 0, 0, 0.05)',
+      boxShadow: '2px 2px 8px rgba(0, 0, 0, 0.35), 0 -1px 4px rgba(0, 0, 0, 0.05)',
       marginLeft: -2,
       marginTop: -1,
       marginBottom: 4,
@@ -639,6 +638,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
   },
   button: {
     common: {
+      position: 'relative',
       borderWidth: 1,
       borderStyle: 'solid',
       paddingLeft: 28,
@@ -654,18 +654,19 @@ export const appTheme: Partial<ComponentThemeConfig> = {
         minWidth: 0,
       },
       ':focus': {
-        ':before': {
-          content: '""',
-          position: 'absolute',
-          top: 'var(--form-field-focus-padding)',
-          left: 'var(--form-field-focus-padding)',
-          right: 'var(--form-field-focus-padding)',
-          bottom: 'var(--form-field-focus-padding)',
-          border: 'var(--form-field-focus-border)',
-          borderRadius: 'var(--form-field-focus-border-radius)',
-          boxShadow: 'var(--form-field-focus-box-shadow)',
-          background: 'var(--form-field-focus-background)',
-        },
+        border: '1px solid var(--color-primary)',
+      },
+      ':focus:before': {
+        content: '""',
+        position: 'absolute',
+        top: 'var(--form-field-focus-padding)',
+        left: 'var(--form-field-focus-padding)',
+        right: 'var(--form-field-focus-padding)',
+        bottom: 'var(--form-field-focus-padding)',
+        border: 'var(--form-field-focus-border)',
+        borderRadius: 'var(--form-field-focus-border-radius)',
+        boxShadow: 'var(--form-field-focus-box-shadow)',
+        background: 'var(--form-field-focus-background)',
       },
     },
     chromeless: {

@@ -51,6 +51,11 @@ export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) 
   return cssStyles
 }
 
+const mapPseudoStyles = (pseudoStyle: string, style: CSSProperties, overwrite?: CSSProperties) => {
+  const cssStyles = mapStylesToCSS(style, overwrite)
+  return cssStyles > '' ? `${pseudoStyle} { ${cssStyles} }` : ''
+}
+
 /*
  * Creates a styled component with support for pseudo elements and media query styles provided from a style object
  */
@@ -166,21 +171,14 @@ export const getUseCSSStyles =
       ...dynamicStyleKeys.reduce(
         (obj, k) => ({
           ...obj,
-          [k]: keys.reduce((obj, elementKey) => {
-            if (
-              theme[componentKey][elementKey][k] === undefined ||
-              !overwrite ||
-              !overwrite[elementKey]
-            ) {
-              return obj
-            } else {
-              return {
-                ...obj,
-                ...(theme[componentKey][elementKey][k] || {}),
-                ...(overwrite && overwrite[elementKey] ? overwrite[elementKey][k] : {}),
-              }
-            }
-          }, {}),
+          [k]: keys.reduce(
+            (obj, elementKey) => ({
+              ...obj,
+              ...(theme[componentKey][elementKey][k] || {}),
+              ...(overwrite && overwrite[elementKey] ? overwrite[elementKey][k] : {}),
+            }),
+            {},
+          ),
         }),
         {} as any,
       ),
@@ -192,31 +190,20 @@ export const getUseCSSStyles =
       animation = theme[componentKey][animationKey]['@animation']
     }
 
-    const pseudoStyles = pseudoStyleKeys.map(
-      (pseudoStyle) => `
-    &${pseudoStyle} {
-      ${mapStylesToCSS(styles[pseudoStyle] || {}, overwrite?.[pseudoStyle])}
-    }
-    `,
+    const pseudoStyles = pseudoStyleKeys.map((pseudoStyle) =>
+      mapPseudoStyles(`&${pseudoStyle}`, styles[pseudoStyle] || {}, overwrite?.[pseudoStyle]),
     )
 
     const cssStyles = `
     ${mapStylesToCSS(styles.css || {})}
-
     ${pseudoStyles.join('')}
-    
-    &[disabled] {
-      ${mapStylesToCSS(styles[':disabled'] || {}, overwrite?.[':disabled'])}
-    }
-
-    &[readonly] {
-      ${mapStylesToCSS(styles[':readonly'] || {}, overwrite?.[':readonly'])}
-    }
-
-    @media ${MediaQuery.Small} {
-      ${mapStylesToCSS(styles['@media-mobile'] || {}, overwrite?.['@media-mobile'])}
-    }
-
+    ${mapPseudoStyles(`&[disabled]`, styles[':disabled'] || {}, overwrite?.[':disabled'])}
+    ${mapPseudoStyles(`&[readonly]`, styles[':readonly'] || {}, overwrite?.[':readonly'])}
+    ${mapPseudoStyles(
+      `@media ${MediaQuery.Small}`,
+      styles['@media-mobile'] || {},
+      overwrite?.['@media-mobile'],
+    )}
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
@@ -225,6 +212,10 @@ export const getUseCSSStyles =
       (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
       '',
     )}`
+
+    // if (keys.findIndex(key => key === 'common') !== -1) {
+    //   console.log(cssStyles)
+    // }
 
     return {
       cssStyles,
