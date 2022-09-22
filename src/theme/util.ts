@@ -14,6 +14,7 @@ const pseudoStyleKeys = [
   ':disabled',
   ':first-child',
   ':focus',
+  ':focus:before',
   ':hover',
   ':invalid',
   ':last-child',
@@ -117,7 +118,7 @@ export const getUseInlineStyle =
               ) as any),
               ...(internalOverride || {}),
             },
-            keepPseudoStyles ? customDynamicStyleKeys : dynamicStyleKeys as any,
+            keepPseudoStyles ? customDynamicStyleKeys : (dynamicStyleKeys as any),
           ),
         }
 
@@ -165,14 +166,21 @@ export const getUseCSSStyles =
       ...dynamicStyleKeys.reduce(
         (obj, k) => ({
           ...obj,
-          [k]: keys.reduce(
-            (obj, elementKey) => ({
-              ...obj,
-              ...(theme[componentKey][elementKey][k] || {}),
-              ...(overwrite && overwrite[elementKey] ? overwrite[elementKey][k] : {}),
-            }),
-            {},
-          ),
+          [k]: keys.reduce((obj, elementKey) => {
+            if (
+              theme[componentKey][elementKey][k] === undefined ||
+              !overwrite ||
+              !overwrite[elementKey]
+            ) {
+              return obj
+            } else {
+              return {
+                ...obj,
+                ...(theme[componentKey][elementKey][k] || {}),
+                ...(overwrite && overwrite[elementKey] ? overwrite[elementKey][k] : {}),
+              }
+            }
+          }, {}),
         }),
         {} as any,
       ),

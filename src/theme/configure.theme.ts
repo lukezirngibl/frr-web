@@ -8,6 +8,7 @@ export type CSSProperties = sc_CSSProperties &
     ':disabled': CSSProperties
     ':first-child': CSSProperties
     ':focus': CSSProperties
+    ':focus:before': CSSProperties
     ':hover': CSSProperties
     ':last-child': CSSProperties
     ':readonly': CSSProperties
