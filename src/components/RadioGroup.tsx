@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
 import { Options, P } from '../html'
@@ -12,6 +12,7 @@ const Wrapper = createStyled('div')
 export type Props = {
   dataTestId?: string
   error?: boolean
+  hasFocus?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   name?: string
@@ -26,16 +27,26 @@ export type Props = {
 
 export const RadioGroup = (props: Props) => {
   const theme = useComponentTheme()
+  const radioGroupRef = useRef(null)
 
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
   const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<string>(props)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.value === null && props.defaultValue !== undefined) {
       props.onChange(props.defaultValue)
     }
   }, [])
+
+  useEffect(() => {
+    if (props.hasFocus) {
+      if (radioGroupRef.current) {
+        radioGroupRef.current.focus()
+      }
+      onFocus()
+    }
+  }, [props.hasFocus])
 
   return (
     <>
@@ -45,6 +56,7 @@ export const RadioGroup = (props: Props) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
+        ref={radioGroupRef}
         tabIndex={0}
       >
         {props.options.map((option, optionIndex) => {

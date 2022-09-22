@@ -39,6 +39,7 @@ export const FieldSectionWrapper = (props: {
 }
 
 export const FieldSection = <FormData extends {}>({
+  autoFocus,
   data,
   errorFieldId,
   field: fieldSection,
@@ -59,6 +60,7 @@ export const FieldSection = <FormData extends {}>({
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const commonFieldProps = {
+    autoFocus: false,
     data,
     errorFieldId,
     formReadOnly,
@@ -70,6 +72,8 @@ export const FieldSection = <FormData extends {}>({
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {
+    commonFieldProps.autoFocus = autoFocus && fieldIndex === 0
+
     if (Array.isArray(field)) {
       return (
         <FieldRow

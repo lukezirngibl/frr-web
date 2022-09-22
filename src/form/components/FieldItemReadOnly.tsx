@@ -277,7 +277,7 @@ const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyVal
  */
 
 type FieldItemReadOnlyProps<FormData> = Omit<
-  CommonThreadProps<FormData>,
+  Omit<CommonThreadProps<FormData>, 'autoFocus'>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
   field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutosuggestField<FormData>

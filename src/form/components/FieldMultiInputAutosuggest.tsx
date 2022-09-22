@@ -31,7 +31,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
     theme,
     'fieldMultiInput',
   )({ item: props.field.itemStyle })
-  const getRowStyle = useInlineStyle(theme, 'row')(props.style?.row || {})
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -39,6 +38,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
   const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
+    autoFocus: false,
     data: props.data,
     formReadOnly: props.formReadOnly,
     localeNamespace: props.localeNamespace,
@@ -128,6 +128,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
+              autoFocus={props.autoFocus && fieldItemIndex === 0}
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
               field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}

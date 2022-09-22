@@ -17,34 +17,28 @@ type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
 const WrapperItem = createStyled('div')
 
 // ------------------------------------
-export const FieldMultiInput = <FormData extends {}>({
-  data,
-  errorFieldId,
-  field,
-  fieldIndex,
-  formReadOnly,
-  localeNamespace,
-  onChange,
-  showValidation,
-  style,
-}: FieldRowProps<FormData>) => {
+export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
 
-  const getFieldMultiInputStyle = useInlineStyle(theme, 'fieldMultiInput')({ item: field.itemStyle })
-  const getCssRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
+  const getFieldMultiInputStyle = useInlineStyle(
+    theme,
+    'fieldMultiInput',
+  )({ item: props.field.itemStyle })
+  const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
   const { disableDirtyValidation } = useFormConfig()
   const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
-    data,
-    formReadOnly,
-    localeNamespace,
-    showValidation,
+    autoFocus: false,
+    data: props.data,
+    formReadOnly: props.formReadOnly,
+    localeNamespace: props.localeNamespace,
+    showValidation: props.showValidation,
     disableDirtyValidation,
-    style,
+    style: props.style,
   }
 
   // Focus
@@ -56,49 +50,58 @@ export const FieldMultiInput = <FormData extends {}>({
     setIsFocused(false)
   }, [])
 
-  if (formReadOnly) {
+  if (props.formReadOnly) {
     return (
-      <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
+      <FieldRowWrapper
+        key={`row-${props.fieldIndex}`}
+        {...getCssRowStyle('wrapper')}
+        readOnly={props.formReadOnly}
+      >
         <FieldItemReadOnly
           {...commonFieldProps}
-          field={field as MultiInputField<FormData>}
-          fieldIndex={fieldIndex}
+          field={props.field as MultiInputField<FormData>}
+          fieldIndex={props.fieldIndex}
         />
       </FieldRowWrapper>
     )
   }
 
   return (
-    <FieldRowWrapper key={`row-${fieldIndex}`} {...getCssRowStyle('wrapper')} readOnly={formReadOnly}>
+    <FieldRowWrapper
+      key={`row-${props.fieldIndex}`}
+      {...getCssRowStyle('wrapper')}
+      readOnly={props.formReadOnly}
+    >
       <FieldScrollableWrapper
-        key={`field-${fieldIndex}`}
+        key={`field-${props.fieldIndex}`}
         isScrollToError={
-          field.fields.findIndex((fieldItem) => fieldItem.lens.id() === errorFieldId) !== -1
+          props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !== -1
         }
-        style={style}
+        style={props.style}
       >
-        {field.label && (
+        {props.field.label && (
           <Label
-            localeNamespace={localeNamespace}
+            localeNamespace={props.localeNamespace}
             error={errorLabel.length > 0}
             errorLabel={errorLabel}
             errorDataTestId={errorDataTestId}
             isFocused={isFocused}
-            {...field.label}
+            {...props.field.label}
           />
         )}
 
-        <WrapperItem {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${fieldIndex}`}>
-          {field.fields.map((fieldItem, fieldItemIndex) => (
+        <WrapperItem {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
+          {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
-              errorFieldId={errorFieldId}
+              autoFocus={props.autoFocus && fieldItemIndex === 0}
+              errorFieldId={props.errorFieldId}
               field={fieldItem}
               fieldIndex={fieldItemIndex}
               isNotScrollable
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
               onBlur={onBlur}
-              onChange={onChange}
+              onChange={props.onChange}
               onError={onError}
               onFocus={onFocus}
             />

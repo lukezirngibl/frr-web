@@ -527,6 +527,7 @@ export type FormField<FormData> =
   | FormFieldRepeatSection<FormData>
 
 export type CommonThreadProps<FormData> = {
+  autoFocus: boolean
   data: FormData
   errorFieldId?: string
   fieldIndex: number

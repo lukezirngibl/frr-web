@@ -26,6 +26,7 @@ export const FieldRowWrapper = createStyled(styled.div`
 
 // ------------------------------------
 export const FieldRow = <FormData extends {}>({
+  autoFocus,
   data,
   errorFieldId,
   field,
@@ -45,6 +46,7 @@ export const FieldRow = <FormData extends {}>({
     <FieldRowWrapper key={`row-${fieldIndex}`} {...getRowStyle('wrapper')} readOnly={formReadOnly}>
       {field.map((fieldItem, fieldItemIndex) => (
         <FieldRowItem
+          autoFocus={autoFocus}
           data={data}
           errorFieldId={errorFieldId}
           field={fieldItem}

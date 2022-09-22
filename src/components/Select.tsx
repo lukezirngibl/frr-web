@@ -1,11 +1,10 @@
 import CheckIcon from '@material-ui/icons/Check'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, ControlProps, OptionProps, StylesConfig } from 'react-select'
+import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, Options, OptionType } from '../html'
-import { CSSProperties } from '../theme/configure.theme'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
@@ -37,6 +36,7 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
+  hasFocus?: boolean
   inputRef?: React.Ref<any>
   label?: LabelProps
   localeNamespace?: LocaleNamespace
@@ -117,6 +117,10 @@ export const Select = (props: Props) => {
     return optionLabel
   }
 
+  /*
+   * Focus handling
+   */
+
   const [isFocused, setIsFocused] = useState(false)
   const onFocus = () => {
     setIsFocused(true)
@@ -125,6 +129,15 @@ export const Select = (props: Props) => {
   const onBlur = () => {
     setIsFocused(false)
   }
+
+  useEffect(() => {
+    if (props.hasFocus) {
+      if (props.inputRef && 'current' in props.inputRef) {
+        props.inputRef.current.focus()
+      }
+      onFocus()
+    }
+  }, [props.hasFocus])
 
   return (
     <>
@@ -170,6 +183,7 @@ export const Select = (props: Props) => {
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
             <ReactSelect
+              autoFocus={props.hasFocus}
               blurInputOnSelect
               components={{ Option: SelectOption }}
               data-test-id={props.dataTestId}

@@ -185,6 +185,7 @@ export const Form = <FormData extends {}>({
   }
 
   const commonFieldProps = {
+    autoFocus: false,
     data,
     errorFieldId,
     formReadOnly: readOnly,
@@ -196,6 +197,8 @@ export const Form = <FormData extends {}>({
   }
 
   const renderField = (field: InternalFormField<FormData>, fieldIndex: number) => {
+    commonFieldProps.autoFocus = fieldIndex === 0
+
     if (Array.isArray(field)) {
       return (
         <FieldRow key={`field-form-${fieldIndex}`} fieldIndex={0} field={field} {...commonFieldProps} />

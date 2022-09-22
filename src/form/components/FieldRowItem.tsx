@@ -24,6 +24,7 @@ export type Props<FormData> = CommonThreadProps<FormData> & {
 
 export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   const {
+    autoFocus,
     data,
     errorFieldId,
     field,
@@ -95,7 +96,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         field={field as SingleFormField<FormData>}
         fieldIndex={fieldIndex}
         hasError={hasError}
-        hasFocus={field.lens.id() === errorFieldId}
+        hasFocus={field.lens.id() === errorFieldId || autoFocus}
         inputRef={inputRef}
         localeNamespace={localeNamespace}
         onBlur={onBlur}
@@ -115,7 +116,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             field={field as SingleFormField<FormData>}
             fieldIndex={fieldIndex}
             hasError={hasError}
-            hasFocus={field.lens.id() === errorFieldId}
+            hasFocus={field.lens.id() === errorFieldId || autoFocus}
             inputRef={inputRef}
             localeNamespace={localeNamespace}
             onBlur={onBlur}
