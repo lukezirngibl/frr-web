@@ -4,53 +4,62 @@ export const formTheme: Partial<FormThemeConfig> = {
   form: {
     wrapper: {
       flexShrink: 0,
-      padding: 0,
+      padding: '0',
       width: '100%',
     },
-    content: {
-      width: '100%',
-    },
+    content: {},
     buttonContainer: {
-      display: 'flex',
       alignItems: 'center',
-      justifyContent: 'var(--flex-end-mobile-center)',
+      backgroundColor: 'var(--color-background-primary)',
+      display: 'flex',
       gap: 8,
-      height: 80,
+      height: 84,
+      justifyContent: 'var(--flex-end-mobile-center)',
+      padding: '20px var(--form-padding-horizontal)',
       width: '100%',
-      marginTop: 32,
-      padding: '0 var(--form-padding-horizontal)',
       '@media-mobile': {
-        flexWrap: 'wrap',
-        marginTop: 16,
+        flexDirection: 'column-reverse',
+        height: 'auto',
+        padding: '32px var(--form-padding-horizontal)',
       },
+    },
+  },
+  staticField: {
+    wrapper: {
+      maxWidth: 'var(--form-field-width)',
+    },
+    title: {
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-14)',
+    },
+    text: {
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-14)',
     },
   },
   row: {
     wrapper: {
       display: 'flex',
-      minHeight: 'var(--form-row-height)',
-      padding: '4px 0',
+      minHeight: 64,
+      marginBottom: 'var(--form-row-padding-vertical)',
       ':readonly': {
-        minHeight: 0, // 'var(--form-field-height)',
-        paddingBottom: 0,
+        minHeight: 28,
       },
     },
     item: {
       display: 'var(--display-flex-mobile-block)',
       justifyContent: 'space-between',
       alignItems: 'center',
-      minHeight: 'var(--form-row-height)',
+      minHeight: 64,
       ':readonly': {
         width: '100%',
-        minHeight: 0, // 'var(--form-field-height)',
-        paddingBottom: 'var(--form-padding-vertical)',
+        minHeight: 28,
       },
       '@media-mobile': {
         width: '100%',
         marginTop: 12,
         marginLeft: 0,
         marginRight: 0,
-        paddingBottom: 16,
       },
     },
   },
@@ -59,8 +68,8 @@ export const formTheme: Partial<FormThemeConfig> = {
       marginBottom: 8,
     },
     descriptionText: {
-      color: 'var(--color-primary)',
-      fontSize: 'var(--font-size-p)',
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-16)',
       fontWeight: 400,
     },
     descriptionList: {
@@ -73,25 +82,26 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       gap: 24,
       marginBottom: 16,
-      '@media-mobile': {
-        gap: 8,
-      },
     },
     title: {
-      color: 'var(--color-primary)',
-      fontSize: 'var(--font-size-title)',
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-24)',
       fontWeight: 400,
     },
   },
   section: {
     wrapper: {
       position: 'relative',
+      borderRightWidth: 0,
+      borderLeftWidth: 0,
+      borderTopWidth: 0,
+      borderBottomWidth: 4,
+      borderStyle: 'solid',
+      borderColor: 'var(--color-background-secondary)',
       background: 'var(--color-background-primary)',
-      borderRadius: 4,
-      boxShadow: '0 0 8px 8px rgb(0 0 0 / 2%)',
+      padding:
+        'var(--form-padding-vertical) var(--form-padding-horizontal) calc(var(--form-padding-vertical) - var(--form-row-padding-vertical))',
       margin: '0',
-      marginBottom: 8,
-      padding: 'var(--form-section-padding)',
     },
     contentWrapper: {
       position: 'relative',
@@ -101,43 +111,46 @@ export const formTheme: Partial<FormThemeConfig> = {
       flexGrow: 1,
     },
     title: {
-      color: 'var(--color-primary)',
-      fontSize: 'var(--font-size-title)',
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-24)',
       fontWeight: 400,
-      marginBottom: 8,
+      marginTop: 8,
+      marginBottom: 16,
       ':readonly': {
+        marginTop: 0,
         marginBottom: 20,
       },
       '@media-mobile': {
         marginRight: 32,
-        marginBottom: 24,
       },
     },
+
     description: {
-      color: 'var(--color-primary)',
-      fontSize: 'var(--font-size-p)',
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-14)',
       fontWeight: 400,
-      marginTop: 16,
-      marginBottom: 8,
-    },
-    introduction: {
-      fontSize: 'var(--font-size-p)',
       marginBottom: 24,
+    },
+
+    introduction: {
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-16)',
+      fontWeight: 400,
+      padding: '0 0 48px',
     },
   },
   sectionRight: {
     wrapper: {
       marginTop: 3,
+      fontSize: 'var(--font-size-16)',
       ':readonly': {
-        width: 240,
-        minWidth: 240,
+        minWidth: 140,
       },
       '@media-mobile': {
         position: 'absolute',
         right: 0,
         top: 0,
-        width: 'auto',
-        minWidth: 'unset',
+        minWidth: 0,
         marginTop: 0,
       },
     },
@@ -145,14 +158,14 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
-      fontSize: 'var(--font-size-p)',
-      color: 'var(--color-disabled)',
+      fontSize: 'var(--font-size-16)',
     },
     editIcon: {
       marginRight: 8,
       width: 20,
       height: 20,
       '@media-mobile': {
+        marginRight: 0,
         width: 24,
         height: 24,
       },
@@ -163,52 +176,33 @@ export const formTheme: Partial<FormThemeConfig> = {
     item: {
       display: 'flex',
       width: 'var(--form-field-width)',
-      alignItems: 'center',
-      gap: 8,
     },
   },
   fieldReadOnly: {
     label: {
       color: 'var(--color-secondary)',
-      width: 400,
-      fontSize: 'var(--font-size-p)',
-      fontWeight: 100,
+      flexGrow: 1,
       marginRight: 30,
-      lineHeight: 1.2,
-      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 4 },
+      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 8 },
     },
     item: {
-      minWidth: 192,
-      flexGrow: 1,
       display: 'flex',
-      justifyContent: 'flex-end',
-      '@media-mobile': {
-        justifyContent: 'flex-start',
-        paddingBottom: 8,
-      },
+      width: 'var(--form-field-readonly-width)',
+      minWidth: 'var(--form-field-readonly-width)',
     },
     value: {
-      fontSize: 'var(--font-size-p)',
-      fontWeight: 600,
-      textAlign: 'right',
+      fontSize: 'var(--font-size-16)',
       marginRight: 8,
-      '@media-mobile': {
-        textAlign: 'left',
-      },
-      ':last-child': {
-        marginRight: 0,
-      },
+      '@media-mobile': { fontSize: 'var(--font-size-18)', paddingBottom: 8 },
     },
     valueHighlighted: {
-      fontSize: 'calc(var(--font-size-p) * 1.6)',
+      fontSize: 28,
       fontWeight: 600,
     },
-    image: {
-      maxWidth: 112,
-    },
+    image: {},
     wrapper: {
       display: 'var(--display-flex-mobile-block)',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       justifyContent: 'space-between',
       width: '100%',
     },

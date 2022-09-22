@@ -1,12 +1,11 @@
-import { componentTheme } from './bob.component.theme'
+import { appTheme } from './bob.app.theme'
 import { formTheme } from './bob.form.theme'
 import { baseStyle } from './bob.baseStyle'
-import { styleConfig } from './bob.styleConfig'
+import { BrandTheme } from '../brand'
 
-export const brand = {
-  brandName: 'bob Brand',
-  componentTheme,
+export const brand: BrandTheme = {
+  brandName: 'bob',
+  appTheme,
   formTheme,
   baseStyle,
-  styleConfig,
 }
