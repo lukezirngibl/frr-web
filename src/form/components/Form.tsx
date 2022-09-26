@@ -47,11 +47,11 @@ export type FormProps<FormData> = {
   className?: string
   data: FormData
   dataTestId?: string
+  disableDirtyValidation?: boolean
   disableValidation?: boolean
   display?: DisplayType
   formFields: Array<FormField<FormData>>
   isEdit?: boolean
-  disableDirtyValidation?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
   onChange?: (formState: FormData) => void
@@ -62,6 +62,7 @@ export type FormProps<FormData> = {
   readOnly?: boolean
   renderBottomChildren?: (f: FormData) => ReactNode
   renderTopChildren?: (f: FormData) => ReactNode
+  skipAutoFocus?: boolean
   style?: Partial<FormTheme>
 }
 
@@ -82,54 +83,36 @@ const FormContent = createStyled(styled.div`
   flex-direction: column;
 `)
 
-export const Form = <FormData extends {}>({
-  analytics,
-  buttons,
-  className,
-  data,
-  dataTestId,
-  disableValidation,
-  formFields,
-  isEdit,
-  isVisible,
-  localeNamespace,
-  onChange,
-  onChangeWithLens,
-  onEdit,
-  onInvalidSubmit,
-  onSubmit,
-  readOnly,
-  disableDirtyValidation,
-  renderBottomChildren,
-  renderTopChildren,
-  style,
-}: FormProps<FormData>) => {
+export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   const dispatch = useDispatch()
-  const { t: translate } = useTranslation(localeNamespace)
+  const { t: translate } = useTranslation(props.localeNamespace)
   const theme = useFormTheme()
-  const getFormStyle = useCSSStyles(theme, 'form')(style?.form || {})
+  const getFormStyle = useCSSStyles(theme, 'form')(props.style?.form || {})
 
   const [showValidation, setShowValidation] = React.useState(false)
+
+  const data = props.data
+  const formFields = props.formFields
 
   const hiddenFormFields = flatten(filterByHidden({ data, formFields, translate }), data)
   const visibleFormFields = filterByVisible({ data, formFields, translate })
   const changedRepeatFields = filterChangedRepeatFormFields({ data, formFields, translate })
 
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
-    if (onChangeWithLens) {
-      onChangeWithLens(lens, value)
-    } else if (onChange) {
-      onChange(lens.set(value)(data))
+    if (props.onChangeWithLens) {
+      props.onChangeWithLens(lens, value)
+    } else if (props.onChange) {
+      props.onChange(lens.set(value)(data))
     }
   }
 
   const internalOnChangeMulti = (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => {
-    if (onChange) {
+    if (props.onChange) {
       let newData = { ...data }
       fields.forEach(({ lens, value }) => {
         newData = lens.set(value)(newData)
       })
-      onChange(newData)
+      props.onChange(newData)
     }
   }
 
@@ -164,8 +147,8 @@ export const Form = <FormData extends {}>({
 
   const submit = () => {
     setErrorFieldId(null)
-    if (disableValidation) {
-      onSubmit({ formState: data })
+    if (props.disableValidation) {
+      props.onSubmit({ formState: props.data })
     } else {
       const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
@@ -175,11 +158,11 @@ export const Form = <FormData extends {}>({
         setErrorFieldId(errors[0].fieldId)
 
         setShowValidation(true)
-        onInvalidSubmit?.({ errors, formState: data })
-        analytics?.onInvalidSubmit?.({ errors, formState: data })
+        props.onInvalidSubmit?.({ errors, formState: props.data })
+        props.analytics?.onInvalidSubmit?.({ errors, formState: props.data })
       } else {
-        onSubmit?.({ formState: data })
-        analytics?.onSubmit?.()
+        props.onSubmit?.({ formState: props.data })
+        props.analytics?.onSubmit?.()
       }
     }
   }
@@ -188,16 +171,16 @@ export const Form = <FormData extends {}>({
     autoFocus: false,
     data,
     errorFieldId,
-    formReadOnly: readOnly,
-    localeNamespace,
+    formReadOnly: props.readOnly,
+    localeNamespace: props.localeNamespace,
     onChange: internalOnChange,
     onChangeMulti: internalOnChangeMulti,
     showValidation,
-    style,
+    style: props.style,
   }
 
   const renderField = (field: InternalFormField<FormData>, fieldIndex: number) => {
-    commonFieldProps.autoFocus = fieldIndex === 0
+    commonFieldProps.autoFocus = !props.skipAutoFocus && fieldIndex === 0
 
     if (Array.isArray(field)) {
       return (
@@ -242,7 +225,7 @@ export const Form = <FormData extends {}>({
           <StaticField
             {...field}
             fieldIndex={fieldIndex}
-            formReadOnly={readOnly}
+            formReadOnly={props.readOnly}
             key={`field-${fieldIndex}`}
           />
         )
@@ -254,7 +237,7 @@ export const Form = <FormData extends {}>({
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}
-            onFormEdit={onEdit}
+            onFormEdit={props.onEdit}
             {...commonFieldProps}
           />
         )
@@ -271,34 +254,34 @@ export const Form = <FormData extends {}>({
     }
   }
 
-  let formClassName = `${className} ` || ''
-  formClassName = `${formClassName}${readOnly ? 'readonly' : ''}`
+  let formClassName = `${props.className} ` || ''
+  formClassName = `${formClassName}${props.readOnly ? 'readonly' : ''}`
 
-  return !isVisible || isVisible(data) ? (
+  return !props.isVisible || props.isVisible(data) ? (
     <FormConfigContext.Provider
       value={{
-        disableDirtyValidation: !!disableDirtyValidation,
+        disableDirtyValidation: !!props.disableDirtyValidation,
       }}
     >
       <FormWrapper
         {...getFormStyle('wrapper')}
         className={formClassName}
-        data-test-id={dataTestId}
-        readOnly={readOnly}
+        data-test-id={props.dataTestId}
+        readOnly={props.readOnly}
       >
-        {renderTopChildren && renderTopChildren(data)}
+        {props.renderTopChildren && props.renderTopChildren(data)}
 
         <FormContent {...getFormStyle('content')}>{visibleFormFields.map(renderField)}</FormContent>
 
-        {renderBottomChildren && renderBottomChildren(data)}
+        {props.renderBottomChildren && props.renderBottomChildren(data)}
 
-        {buttons && (
+        {props.buttons && (
           <ButtonContainer
             {...getFormStyle('buttonContainer')}
-            disabled={isEdit !== undefined && !isEdit}
+            disabled={props.isEdit !== undefined && !props.isEdit}
             data-test-id="form-actions"
           >
-            {buttons.map((button, k) => (
+            {props.buttons.map((button, k) => (
               <Button
                 {...button}
                 dataTestId={mapButtonDataTestId(button, k)}
