@@ -21,6 +21,7 @@ let birthDate: string | null = null
 export const Initial = () => (
   <div style={{ maxWidth: 600 }}>
     {story({
+      autoFocus: true,
       field: {
         type: FormFieldType.MaskedDatePicker,
         lens: formLens(['birthDate']),
@@ -45,6 +46,7 @@ export const Initial = () => (
 export const Preset = () => (
   <div style={{ maxWidth: 600 }}>
     {story({
+      autoFocus: true,
       field: {
         type: FormFieldType.MaskedDatePicker,
         lens: formLens(['birthDate']),
@@ -69,6 +71,7 @@ export const Preset = () => (
 export const Readonly = () => (
   <div style={{ maxWidth: 360 }}>
     {story({
+      autoFocus: true,
       field: {
         type: FormFieldType.MaskedDatePicker,
         lens: formLens(['birthDate']),

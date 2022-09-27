@@ -1,4 +1,4 @@
-import { appTheme } from './bob.app.theme'
+import { appTheme } from './bob.component.theme'
 import { formTheme } from './bob.form.theme'
 import { baseStyle } from './bob.baseStyle'
 import { BrandTheme } from '../brand'

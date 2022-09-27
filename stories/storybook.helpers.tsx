@@ -76,6 +76,7 @@ ${brandTheme.baseStyle}
               border: '1px solid #e2e2e2',
               borderRadius: 4,
             }}
+            value={brand}
           >
             <option value={BRAND.bob} label="Bob"></option>
             <option value={BRAND.postFinance} label="PostFinance"></option>
