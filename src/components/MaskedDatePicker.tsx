@@ -62,7 +62,7 @@ export const MaskedDatePicker = (props: Props) => {
 
   /* Styles */
   const theme = useComponentTheme()
-  const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'datePicker')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'datePicker')(props.style)
 
   const textInputStyle =
@@ -93,24 +93,25 @@ export const MaskedDatePicker = (props: Props) => {
 
   /* Icon Styles */
 
-  const styleIconWrapper = getStyle({
+  const styleIconWrapper = getCSSStyles({
     iconWrapper: true,
     iconWrapperFocus: isFocused,
     errorWrapper: !!props.error,
   })
 
-  const styleIconHook1 = getStyle({
+  const styleIconHook1 = getCSSStyles({
     hook1: true,
     errorHook: !!props.error,
   })
 
-  const styleIconHook2 = getStyle({
+  const styleIconHook2 = getCSSStyles({
     hook2: true,
     errorHook: !!props.error,
   })
 
   const dateFormat = isMobileTouch ? props.dateFormat : 'dd.MM.yyyy'
-  const value = !!props.value && isValid(new Date(props.value)) ? format(new Date(props.value), dateFormat) : null
+  const value =
+    !!props.value && isValid(new Date(props.value)) ? format(new Date(props.value), dateFormat) : null
 
   return (
     <>
@@ -121,7 +122,7 @@ export const MaskedDatePicker = (props: Props) => {
           open && setOpen(false)
         }}
       >
-        <Wrapper {...getStyle('wrapper')} onClick={() => {}}>
+        <Div {...getCSSStyles('wrapper')} onClick={() => {}}>
           {isMobileTouch ? (
             <TextInput
               onFocus={() => {
@@ -137,13 +138,13 @@ export const MaskedDatePicker = (props: Props) => {
                   props.onBlur(null)
                 }
               }}
-              hasFocus={props.hasFocus}
-              error={props.error}
-              inputType={isFocused || value !== null ? 'date' : 'text'}
-              placeholder='dateFormatPlaceholder'
-              value={value}
               dataTestId={props.dataTestId}
+              error={props.error}
+              hasFocus={props.hasFocus}
+              inputType="date"
+              placeholder="dateFormatPlaceholder"
               style={textInputStyle}
+              value={value}
             />
           ) : (
             <>
@@ -188,16 +189,16 @@ export const MaskedDatePicker = (props: Props) => {
                 value={value}
               />
 
-              <DatePickerIconWrapper
+              <Div
                 onClick={() => {
                   setOpen(!open)
                 }}
                 {...styleIconWrapper}
               >
-                <Hook1 {...styleIconHook1} />
-                <Hook2 {...styleIconHook2} />
+                <Div {...styleIconHook1} />
+                <Div {...styleIconHook2} />
                 <Icon icon="calendar_today" size={16} />
-              </DatePickerIconWrapper>
+              </Div>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
@@ -221,7 +222,7 @@ export const MaskedDatePicker = (props: Props) => {
               </DatePickerCalendarWrapper>
             </>
           )}
-        </Wrapper>
+        </Div>
       </ClickAwayListener>
     </>
   )
@@ -271,7 +272,7 @@ const DatePickerCalendarWrapper = styled.div`
       : ''}
 `
 
-const Wrapper = createStyled('div')
-const DatePickerIconWrapper = createStyled('div')
-const Hook1 = createStyled('div')
-const Hook2 = createStyled('div')
+const Div = createStyled('div')
+const PlaceholderMobile = createStyled(styled.div`
+  display: none;
+`)
