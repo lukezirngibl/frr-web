@@ -14,13 +14,13 @@ export enum ModalLinkType {
   IFrame = 'Iframe',
 }
 
-type ModalLinkConfig = {
-  url: string
+export type ModalLinkConfig = {
   bearerToken?: string
-  type: ModalLinkType
   downloadButton?: { filename: string }
   onClose?: () => void
-}
+  type: ModalLinkType
+  url: string
+} | null
 
 export type Props = {
   modalOpen: boolean
