@@ -1,6 +1,5 @@
 import { format, isValid } from 'date-fns'
-import { findFirst } from 'fp-ts/lib/Array'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
@@ -17,7 +16,7 @@ import {
   FormFieldType,
   MultiInputAutosuggestField,
   MultiInputField,
-  SingleFormField,
+  SingleFormField
 } from './types'
 
 /*

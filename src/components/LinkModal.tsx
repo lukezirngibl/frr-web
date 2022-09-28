@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Modal } from '@material-ui/core'
-import { Option, none } from 'fp-ts/lib/Option'
 
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
@@ -15,13 +14,13 @@ export enum ModalLinkType {
   IFrame = 'Iframe',
 }
 
-type ModalLinkConfig = Option<{
+type ModalLinkConfig = {
   url: string
   bearerToken?: string
   type: ModalLinkType
   downloadButton?: { filename: string }
   onClose?: () => void
-}>
+}
 
 export type Props = {
   modalOpen: boolean
@@ -54,67 +53,64 @@ export const LinkModal = (props: Props) => {
 
   const onClose = () => {
     setIframeLoading(true)
-    props.setConfig(none)
+    props.setConfig(null)
   }
 
   return (
     // @ts-ignore
     <Modal open={props.modalOpen} onClose={onClose} style={{ display: 'flex' }}>
-      {
-        // @ts-ignore
-        props.config.fold(<div />, (modalConfig) => (
-          <IframeOuterWrapper
-            onClick={() => {
-              setIframeLoading(true)
-              props.setConfig(none)
+      {props.config && (
+        <IframeOuterWrapper
+          onClick={() => {
+            setIframeLoading(true)
+            props.setConfig(null)
+          }}
+        >
+          <IframeWrapper
+            onClick={(e) => {
+              e.stopPropagation()
             }}
+            isPdf={props.config.type === ModalLinkType.PDF}
+            style={
+              props.config.type === ModalLinkType.PDF
+                ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
+                : { overflow: 'hidden' }
+            }
           >
-            <IframeWrapper
-              onClick={(e) => {
-                e.stopPropagation()
-              }}
-              isPdf={modalConfig.type === ModalLinkType.PDF}
-              style={
-                modalConfig.type === ModalLinkType.PDF
-                  ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
-                  : { overflow: 'hidden' }
-              }
-            >
-              {iframeLoading && (
-                <IframeLoader>
-                  <Loading style={{ transform: 'scale(0.6)' }} />
-                </IframeLoader>
-              )}
-              {modalConfig.type === ModalLinkType.PDF ? (
-                <PdfViewer
-                  {...modalConfig}
-                  onLoadSuccess={() => {
+            {iframeLoading && (
+              <IframeLoader>
+                <Loading style={{ transform: 'scale(0.6)' }} />
+              </IframeLoader>
+            )}
+            {props.config.type === ModalLinkType.PDF ? (
+              <PdfViewer
+                {...props.config}
+                onLoadSuccess={() => {
+                  setIframeLoading(false)
+                }}
+                onClose={onClose}
+                width={viewerWidth}
+              />
+            ) : (
+              <>
+                <iframe
+                  src={props.config.url}
+                  onLoad={() => {
                     setIframeLoading(false)
                   }}
-                  onClose={onClose}
-                  width={viewerWidth}
-                />
-              ) : (
-                <>
-                  <iframe
-                    src={modalConfig.url}
-                    onLoad={() => {
-                      setIframeLoading(false)
-                    }}
-                  ></iframe>
+                ></iframe>
 
-                  <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
-                  {modalConfig.onClose && (
-                    <CloseButton {...getCSSStyle('closeButton')} onClick={modalConfig.onClose}>
-                      <Icon icon={'close'} size={24} />
-                    </CloseButton>
-                  )}
-                </>
-              )}
-            </IframeWrapper>
-          </IframeOuterWrapper>
-        ))
-      }
+                <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
+                {props.config.onClose && (
+                  <CloseButton {...getCSSStyle('closeButton')} onClick={props.config.onClose}>
+                    <Icon icon={'close'} size={24} />
+                  </CloseButton>
+                )}
+              </>
+            )}
+          </IframeWrapper>
+        </IframeOuterWrapper>
+      )}
     </Modal>
   )
 }
