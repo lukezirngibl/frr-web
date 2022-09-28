@@ -48,7 +48,6 @@
     "@material-ui/styles": "^4.9.10",
     "date-fns": "^2.19.0",
     "fp-ts": "1.19.5",
-    "frr-util": "1.0.5",
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "^2.14.305",
     "react-click-away-listener": "^2.0.0",
