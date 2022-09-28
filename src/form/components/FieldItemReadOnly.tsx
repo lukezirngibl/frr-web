@@ -104,12 +104,7 @@ const defaultOptionArrayMapper = (
   Array.isArray(params.value)
     ? params.value
         .map((val) =>
-          params.translate(
-            findFirst(params.options, (option) => option.value === val).fold(
-              'null',
-              (option) => option.label,
-            ),
-          ),
+          params.translate(params.options.find((option) => option.value === val)?.label || 'null'),
         )
         .join(', ')
     : ''
@@ -122,9 +117,8 @@ const defaultOptionMapper = (
     options: Array<{ label?: string; value: string }>
   },
 ): string => {
-  return findFirst(params.options, (option) => option.value === params.value).fold('', (option) =>
-    params.translate(option.label),
-  )
+  const option = params.options.find((option) => option.value === params.value)
+  return option ? params.translate(option.label) : ''
 }
 
 const defaultReadOnlyMappers: {

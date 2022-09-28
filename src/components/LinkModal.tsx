@@ -60,58 +60,61 @@ export const LinkModal = (props: Props) => {
   return (
     // @ts-ignore
     <Modal open={props.modalOpen} onClose={onClose} style={{ display: 'flex' }}>
-      {props.config.fold(<div />, (modalConfig) => (
-        <IframeOuterWrapper
-          onClick={() => {
-            setIframeLoading(true)
-            props.setConfig(none)
-          }}
-        >
-          <IframeWrapper
-            onClick={(e) => {
-              e.stopPropagation()
+      {
+        // @ts-ignore
+        props.config.fold(<div />, (modalConfig) => (
+          <IframeOuterWrapper
+            onClick={() => {
+              setIframeLoading(true)
+              props.setConfig(none)
             }}
-            isPdf={modalConfig.type === ModalLinkType.PDF}
-            style={
-              modalConfig.type === ModalLinkType.PDF
-                ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
-                : { overflow: 'hidden' }
-            }
           >
-            {iframeLoading && (
-              <IframeLoader>
-                <Loading style={{ transform: 'scale(0.6)' }} />
-              </IframeLoader>
-            )}
-            {modalConfig.type === ModalLinkType.PDF ? (
-              <PdfViewer
-                {...modalConfig}
-                onLoadSuccess={() => {
-                  setIframeLoading(false)
-                }}
-                onClose={onClose}
-                width={viewerWidth}
-              />
-            ) : (
-              <>
-                <iframe
-                  src={modalConfig.url}
-                  onLoad={() => {
+            <IframeWrapper
+              onClick={(e) => {
+                e.stopPropagation()
+              }}
+              isPdf={modalConfig.type === ModalLinkType.PDF}
+              style={
+                modalConfig.type === ModalLinkType.PDF
+                  ? { overflowY: 'auto', overflowX: 'hidden', width: viewerWidth }
+                  : { overflow: 'hidden' }
+              }
+            >
+              {iframeLoading && (
+                <IframeLoader>
+                  <Loading style={{ transform: 'scale(0.6)' }} />
+                </IframeLoader>
+              )}
+              {modalConfig.type === ModalLinkType.PDF ? (
+                <PdfViewer
+                  {...modalConfig}
+                  onLoadSuccess={() => {
                     setIframeLoading(false)
                   }}
-                ></iframe>
+                  onClose={onClose}
+                  width={viewerWidth}
+                />
+              ) : (
+                <>
+                  <iframe
+                    src={modalConfig.url}
+                    onLoad={() => {
+                      setIframeLoading(false)
+                    }}
+                  ></iframe>
 
-                <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
-                {modalConfig.onClose && (
-                  <CloseButton {...getCSSStyle('closeButton')} onClick={modalConfig.onClose}>
-                    <Icon icon={'close'} size={24} />
-                  </CloseButton>
-                )}
-              </>
-            )}
-          </IframeWrapper>
-        </IframeOuterWrapper>
-      ))}
+                  <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
+                  {modalConfig.onClose && (
+                    <CloseButton {...getCSSStyle('closeButton')} onClick={modalConfig.onClose}>
+                      <Icon icon={'close'} size={24} />
+                    </CloseButton>
+                  )}
+                </>
+              )}
+            </IframeWrapper>
+          </IframeOuterWrapper>
+        ))
+      }
     </Modal>
   )
 }
