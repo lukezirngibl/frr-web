@@ -71,6 +71,7 @@ export const baseStyle = `
   --form-field-readonly-width: 240px;
   --form-field-mobile-padding: 0;
   --form-field-padding: 16px;
+  --form-field-description-min-width: 400px;
 
   /* Form field focus */
   --form-field-focus-border: 2px solid var(--color-form-field-border-focus);
@@ -125,12 +126,14 @@ export const baseStyle = `
    /* Form field */
     --form-field-mobile-padding: 16px;
     --form-row-padding-vertical: 16px;
+    --form-field-description-min-width: 600px;
 
     /* Layout */
     --display-flex-mobile-block: block;
 
     /* Calculator */ 
     --calculator-insurance-radio-width: 112px;
+    --calculator-radio-group-min-width: 100%;
     --calculator-field-gap: 0;
 
     /* Header & Footer */
@@ -157,6 +160,7 @@ export const baseStyle = `
     --form-field-width: 100%;
     --form-padding-horizontal: 16px;
     --form-padding-vertical: 32px;
+    --form-field-description-min-width: calc(100vw - 32px);
 
     /* Layout */
     --display-block-mobile-none: none;
@@ -165,7 +169,6 @@ export const baseStyle = `
 
     /* Calculator */
     --calculator-padding-top: 40px;
-    --calculator-radio-group-min-width: 100%;
     --calculator-toggle-width: 0;
   }
 }

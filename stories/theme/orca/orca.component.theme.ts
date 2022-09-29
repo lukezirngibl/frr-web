@@ -198,7 +198,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       zIndex: -1,
     },
     rail: {
-      backgroundColor: 'var(--color-form-background)',
+      backgroundColor: 'var(--color-form-field-background)',
       opacity: 1,
     },
   },
