@@ -497,6 +497,7 @@ export type FormSection<FormData> = {
   introduction?: string
   introductionReadOnly?: string
   isVisible?: (formData: FormData) => boolean
+  isOnEditDisabled?: boolean
   editLabel?: string
   onEdit?: (params: { dispatch: any }) => void
   style?: Partial<FormTheme['section']>

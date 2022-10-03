@@ -139,9 +139,8 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = fieldSection.onEdit || onFormEdit
+  const onEditSection = !fieldSection.isOnEditDisabled && (fieldSection.onEdit || onFormEdit)
 
-  // Render
   return (
     <FieldSectionWrapper
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
@@ -193,7 +192,9 @@ export const FieldSection = <FormData extends {}>({
               )
             : null}
 
-          {formReadOnly && !fieldSection.title && <TitleSpaceMobile />}
+          {formReadOnly && !fieldSection.title && (
+            <EmptyTitleWrapperMobile {...getSectionStyle('emptyTitleWrapperMobile')} />
+          )}
 
           {!formReadOnly && fieldSection.description && (
             <P
@@ -229,10 +230,10 @@ export const FieldSection = <FormData extends {}>({
 }
 
 const Div = createStyled('div')
-const TitleSpaceMobile = styled.div`
+const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {
     display: block;
     margin-bottom: 32px;
   }
-`
+`)

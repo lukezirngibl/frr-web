@@ -17,7 +17,7 @@ export const bobStyleConfig = {
   colorHover: '249,193,0,0.6',
   colorInput: '0,0,0,1',
   colorPrimary: '0,0,0,1',
-  colorSecondary: '84,84,84,1',
+  colorSecondary: '0,0,0,0.6',
 
   fontFamilyNormalUrl:
     'https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Regular.woff2',
