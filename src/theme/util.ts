@@ -29,21 +29,23 @@ const nonPixelKeys = ['flexGrow', 'flexShrink', 'fontWeight', 'lineHeight', 'opa
 
 export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) => {
   let cssStyles = Object.entries(style)
-    .map(
-      ([cssKey, cssValue]) =>
-        `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
-          isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
-        };`,
+    .map(([cssKey, cssValue]) =>
+      pseudoStyleKeys.includes(cssKey)
+        ? mapPseudoStyles(cssKey, cssValue as CSSProperties)
+        : `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
+            isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
+          };`,
     )
     .join(' ')
 
   if (overwrite) {
     cssStyles = Object.entries(overwrite)
-      .map(
-        ([cssKey, cssValue]) =>
-          `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
-            isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
-          };`,
+      .map(([cssKey, cssValue]) =>
+        pseudoStyleKeys.includes(cssKey)
+          ? mapPseudoStyles(cssKey, cssValue as CSSProperties)
+          : `${cssKey.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}: ${
+              isNaN(cssValue as any) || nonPixelKeys.includes(cssKey) ? cssValue : `${cssValue}px`
+            };`,
       )
       .join(' ')
   }
