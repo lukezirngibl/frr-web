@@ -139,7 +139,7 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = !fieldSection.isOnEditDisabled && (fieldSection.onEdit || onFormEdit)
+  const onEditSection = fieldSection.onEdit || onFormEdit
 
   return (
     <FieldSectionWrapper
@@ -210,6 +210,7 @@ export const FieldSection = <FormData extends {}>({
         {onEditSection && (
           <Div
             {...getSectionRightStyle('wrapper')}
+            disabled={fieldSection.isOnEditDisabled}
             readOnly={formReadOnly}
             data-test-id={
               fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'

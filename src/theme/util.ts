@@ -50,7 +50,7 @@ export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) 
       .join(' ')
   }
 
-  return cssStyles
+  return cssStyles.replace(':disabled', '&[disabled]')
 }
 
 const mapPseudoStyles = (pseudoStyle: string, style: CSSProperties, overwrite?: CSSProperties) => {
