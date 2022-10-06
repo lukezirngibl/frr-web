@@ -4,7 +4,7 @@ import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
   label?: LabelProps
-  onChange: (n: number | null) => void
+  onChange: (params: { num: number | null; value: string }) => void
   value: number | null | undefined
   max?: number
   min?: number
@@ -41,11 +41,14 @@ export const CurrencyInput = (props: Props) => {
     <TextInput
       {...props}
       isCurrencyInput
-      onChange={(v) => {
-        props.onChange(getValue(v))
+      onChange={(value) => {
+        props.onChange({ num: getValue(value), value })
       }}
-      onBlur={(v) => {
-        props.onChange(getValue(v, { min: props.min, max: props.max, step: props.step }))
+      onBlur={(value) => {
+        props.onChange({
+          num: getValue(value, { min: props.min, max: props.max, step: props.step }),
+          value,
+        })
       }}
       value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
       parseValue={parseAmount}

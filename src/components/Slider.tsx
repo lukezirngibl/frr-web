@@ -1,23 +1,22 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { P } from '../html'
-import { CSSProperties } from '../theme/configure.theme'
 import {
   ComponentTheme,
   MaterialSliderStyles,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle,
+  useInlineStyle
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { CurrencyInput } from './CurrencyInput'
 import { Label, LabelProps } from './Label'
 
-var Formatter = new Intl.NumberFormat('de-CH', {
+const Formatter = new Intl.NumberFormat('de-CH', {
   // style: 'currency',
   currency: 'CHF', // TODO: Use currency from finObj
   maximumFractionDigits: 0,
@@ -142,8 +141,8 @@ export const Slider = (props: Props) => {
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
-  const onChange = useDebouncedCallback((v: number) => {
-    props.onChange(v)
+  const onChange = useDebouncedCallback(({ num }: { num: number }) => {
+    props.onChange(num)
   }, 200)
 
   React.useEffect(() => {
@@ -216,7 +215,7 @@ export const Slider = (props: Props) => {
           min={props.min}
           onChange={(_: Event, value: number) => {
             setInternalValue(value)
-            onChange(value)
+            onChange({ num: value })
           }}
           style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
           scale={props.scale}

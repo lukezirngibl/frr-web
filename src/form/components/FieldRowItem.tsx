@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
@@ -41,8 +40,6 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   } = props
 
   const { disableDirtyValidation } = useFormConfig()
-  const theme = useFormTheme()
-
   const formValue = field.lens.get(data)
 
   // Value handling
@@ -55,7 +52,13 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
 
   const onBlur = (value: any) => {
     setFieldChanged(true)
-    onChange(field.lens, value)
+    if (typeof value === 'object' && 'num' in value) {
+      setValue(value.value)
+      onChange(field.lens, value.num)
+    } else {
+      onChange(field.lens, value)
+    }
+    
   }
 
   const isDirty = value !== null && !disableDirtyValidation

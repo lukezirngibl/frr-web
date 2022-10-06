@@ -37,7 +37,7 @@ export const computeFieldError = <FormData>({
   if (isValidate && !error && !!field.validate) {
     error = field.validate(value)
   }
-
+  
   if (isValidate && !error && field.type === FormFieldType.CurrencyInput && !!value) {
     const cleanedValue = Number(`${value}`.replace(',', '.'))
     if (isNaN(cleanedValue)) {
