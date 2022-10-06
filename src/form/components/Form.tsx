@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -35,14 +34,14 @@ export type FormAnalytics<FormData> = {
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
 }
 
-type ButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
-  onClick: (params: { submit: () => void; dispatch: any }) => void
+export type FormButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
+  onClick: (params: { submit: () => void; }) => void
   isDisabled?: (d: FormData) => boolean
 }
 
 export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
-  buttons?: Array<ButtonProps<FormData>>
+  buttons?: Array<FormButtonProps<FormData>>
   children?: ReactNode
   className?: string
   data: FormData
@@ -84,7 +83,6 @@ const FormContent = createStyled(styled.div`
 `)
 
 export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
-  const dispatch = useDispatch()
   const { t: translate } = useTranslation(props.localeNamespace)
   const theme = useFormTheme()
   const getFormStyle = useCSSStyles(theme, 'form')(props.style?.form || {})
@@ -287,7 +285,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
                 dataTestId={mapButtonDataTestId(button, k)}
                 disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
                 key={k}
-                onClick={() => button.onClick({ submit, dispatch })}
+                onClick={() => button.onClick({ submit })}
                 tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
               />
             ))}
@@ -300,7 +298,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   )
 }
 
-const mapButtonDataTestId = (button: ButtonProps<any>, k: number) =>
+const mapButtonDataTestId = (button: FormButtonProps<any>, k: number) =>
   button.dataTestId ||
   (button.type === ButtonType.Primary && 'form:primary') ||
   `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
