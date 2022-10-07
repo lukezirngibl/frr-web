@@ -84,15 +84,18 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
       ]
 
       // Change all referenced fields accordingly
-      props.field.fields.forEach((fieldItem) => {
-        if (fieldItem.lens.id() !== currentField.lens.id()) {
+      props.field.fields
+        .filter((fieldItem) => fieldItem.lens.id() !== currentField.lens.id())
+        .forEach((fieldItem) => {
           const fieldItemId = fieldItem.lens.id().split('.').pop()
           const value = suggestion.data[fieldItemId]
           if (value !== undefined) {
             changes.push({ lens: fieldItem.lens, value })
+
+            // Clear error for other fields
+            onError({ error: null, fieldId: fieldItem.lens.id() })
           }
-        }
-      })
+        })
 
       // Propagate changes to form
       props.onChangeMulti?.(changes)
