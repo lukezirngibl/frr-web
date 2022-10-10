@@ -241,7 +241,7 @@ const getColor = (props: DragProps) => {
   if (props.isDragActive) {
     return 'var(--color-uploadDropzoneIsDragActive)'
   }
-  return 'var(--color-uploadDropzoneDefault)'
+  return 'var(--color-background-button-default)'
 }
 
 const Container = createStyled(styled.div<DragProps>`

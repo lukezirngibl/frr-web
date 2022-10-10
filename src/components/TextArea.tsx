@@ -13,6 +13,7 @@ const InputWrapper = createStyled('div')
 const Input = createStyled('textarea')
 
 export type TextAreaProps = {
+  autoFocus?: boolean
   dataTestId?: string
   disabled?: boolean
   error: boolean
@@ -70,7 +71,7 @@ export const TextArea = (props: TextAreaProps) => {
               readOnlyInput: props.readOnly,
             }).style,
           )}
-          rows={props.htmlRows || 10}
+          autoFocus={props.autoFocus}
           className="frr-textarea"
           data-test-id={props.dataTestId}
           disabled={props.disabled || props.readOnly}
@@ -97,6 +98,7 @@ export const TextArea = (props: TextAreaProps) => {
             props.onFocus?.()
           }}
           ref={inputRef}
+          rows={props.htmlRows || 10}
           value={internalValue}
         />
       </InputWrapper>

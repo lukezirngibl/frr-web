@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { P } from '../../html'
@@ -15,7 +14,7 @@ import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } f
 
 type FieldSection<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
-  onFormEdit?: (params: { dispatch: any }) => void
+  onFormEdit?: () => void
 }
 
 export const FieldSectionWrapper = (props: {
@@ -39,6 +38,7 @@ export const FieldSectionWrapper = (props: {
 }
 
 export const FieldSection = <FormData extends {}>({
+  autoFocus,
   data,
   errorFieldId,
   field: fieldSection,
@@ -51,14 +51,13 @@ export const FieldSection = <FormData extends {}>({
   showValidation,
   style,
 }: FieldSection<FormData>) => {
-  const dispatch = useDispatch()
-
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const commonFieldProps = {
+    autoFocus: false,
     data,
     errorFieldId,
     formReadOnly,
@@ -70,6 +69,8 @@ export const FieldSection = <FormData extends {}>({
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {
+    commonFieldProps.autoFocus = autoFocus && fieldIndex === 0
+
     if (Array.isArray(field)) {
       return (
         <FieldRow
@@ -137,7 +138,6 @@ export const FieldSection = <FormData extends {}>({
 
   const onEditSection = fieldSection.onEdit || onFormEdit
 
-  // Render
   return (
     <FieldSectionWrapper
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
@@ -189,7 +189,9 @@ export const FieldSection = <FormData extends {}>({
               )
             : null}
 
-          {formReadOnly && !fieldSection.title && <TitleSpaceMobile />}
+          {formReadOnly && !fieldSection.title && (
+            <EmptyTitleWrapperMobile {...getSectionStyle('emptyTitleWrapperMobile')} />
+          )}
 
           {!formReadOnly && fieldSection.description && (
             <P
@@ -205,6 +207,7 @@ export const FieldSection = <FormData extends {}>({
         {onEditSection && (
           <Div
             {...getSectionRightStyle('wrapper')}
+            disabled={fieldSection.isOnEditDisabled}
             readOnly={formReadOnly}
             data-test-id={
               fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'
@@ -214,7 +217,7 @@ export const FieldSection = <FormData extends {}>({
               icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
               label={fieldSection.editLabel}
               localeNamespace={localeNamespace}
-              onClick={() => onEditSection({ dispatch })}
+              onClick={onEditSection}
               style={getSectionRightStyle('editLink')}
             />
           </Div>
@@ -225,10 +228,10 @@ export const FieldSection = <FormData extends {}>({
 }
 
 const Div = createStyled('div')
-const TitleSpaceMobile = styled.div`
+const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {
     display: block;
     margin-bottom: 32px;
   }
-`
+`)

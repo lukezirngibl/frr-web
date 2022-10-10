@@ -1,7 +1,6 @@
 import React from 'react'
-import { Lens as MonocleLens } from 'monocle-ts'
-import { Optional } from 'monocle-ts'
-import { none, some } from 'fp-ts/lib/Option'
+import { Lens as MonocleLens, Optional } from 'monocle-ts'
+import { getOrElse, fold, none, some } from 'fp-ts/lib/Option'
 import { range } from 'fp-ts/lib/Array'
 import {
   FormFieldRepeatGroup,
@@ -68,7 +67,7 @@ export const createItemLens = (arrayLens: any, index: number) =>
     .compose(
       new Optional<any, any>(
         (s) => (s === undefined ? none : some(s)),
-        (s) => (a) => s,
+        (s) => (_) => s,
       ),
     )
 
@@ -81,21 +80,21 @@ export const updateArrayAtIndex = <T extends {}>(array: Array<T>, index: number,
 }
 
 export const createFakeFormLens = (
-  arrayLens: FormLens<any, any>,
+  arrayLens: FormLens<unknown, unknown>,
   index: number,
-  lens: FormLens<any, any>,
-): any => {
+  lens: FormLens<unknown, unknown>,
+): unknown => {
   const itemLens = createItemLens(arrayLens, index)
   return {
     id: () => `${arrayLens.id()}.${index}.${lens.id()}`,
     get: (data: any) => {
-      const o: any = itemLens.getOption(data)
-      const val = o.fold(null, (v) => lens.get(v))
+      const o = itemLens.getOption(data)
+      const val = fold(() => null, (v) => lens.get(v))(o)
       return val
     },
     set: (v: any) => (data: any) => {
       const o: any = arrayLens.get(data)
-      const i: any = (itemLens.getOption(data) as any).getOrElse({})
+      const i: any = getOrElse(() => {})(itemLens.getOption(data))
       const newArray = updateArrayAtIndex(o, index, lens.set(v)({ ...(i || {}) }))
       return arrayLens.set(newArray)(data)
     },

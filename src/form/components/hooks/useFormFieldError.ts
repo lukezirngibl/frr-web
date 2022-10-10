@@ -37,7 +37,7 @@ export const computeFieldError = <FormData>({
   if (isValidate && !error && !!field.validate) {
     error = field.validate(value)
   }
-
+  
   if (isValidate && !error && field.type === FormFieldType.CurrencyInput && !!value) {
     const cleanedValue = Number(`${value}`.replace(',', '.'))
     if (isNaN(cleanedValue)) {
@@ -107,7 +107,7 @@ export const useFormFieldErrors = (): {
   const [errorLabel, setErrorLabel] = useState([])
 
   // Define onError action handler
-  const onError = (error: { error: string; fieldId: string }) => setErrors(defineOnError(error))
+  const onError = (error: { error: string | null; fieldId: string }) => setErrors(defineOnError(error))
 
   // Determine error label
   useEffect(() => {

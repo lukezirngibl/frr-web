@@ -21,6 +21,7 @@ export type Props = {
   hasFocus?: boolean
   inputType?: string
   inputRef?: React.MutableRefObject<HTMLElement>
+  isAutoFocused?: boolean
   isCurrencyInput?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
@@ -60,12 +61,12 @@ export const TextInput = (props: Props) => {
   // Focus field (e.g. on error)
   useEffect(() => {
     let timerId: any = null
-    if (props.hasFocus && inputRef.current) {
+    if ((props.hasFocus || props.isAutoFocused) && inputRef.current) {
       // Timeout is required to keep scrollIntoView smooth
       timerId = setTimeout(() => inputRef.current.focus(), 500)
     }
     return () => clearTimeout(timerId)
-  }, [props.hasFocus])
+  }, [props.hasFocus, props.isAutoFocused, inputRef.current])
 
   const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
   const placeholder = props.placeholder ? translate(props.placeholder) : undefined

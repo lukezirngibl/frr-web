@@ -60,7 +60,7 @@ export const Button = (props: Props) => {
   const theme = useComponentTheme()
 
   const getStyle = useInlineStyle(theme, 'button')(props.style)
-  const getCSSStyle = useCSSStyles(theme, 'button')(props.style)
+  const getCSSStyles = useCSSStyles(theme, 'button')(props.style)
 
   /* Click handler */
   const [isClicked, setIsClicked] = useState(false)
@@ -93,14 +93,14 @@ export const Button = (props: Props) => {
       disabled={props.disabled}
       tabIndex={tabIndex}
       type="button"
-      {...getCSSStyle(['common', mapTypeToStyleKey[type]], props.override)}
+      {...getCSSStyles(['common', mapTypeToStyleKey[type]], props.override)}
     >
       {props.icon && <Icon {...props.icon} />}
       <P
         style={{
           marginLeft: props.icon === undefined ? 0 : 8,
         }}
-        {...getCSSStyle(['label', mapTypeToStyleLabelKey[type]])}
+        {...getCSSStyles(['label', mapTypeToStyleLabelKey[type]])}
         label={(isMobile && props.labelMobile) || props.label}
         localeNamespace={props.localeNamespace}
       />

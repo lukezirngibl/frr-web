@@ -84,9 +84,10 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data)}
-        onChange={onChange}
         onBlur={onBlur}
+        onChange={onChange}
         onFocus={onFocus}
+        hasFocus={hasFocus}
         error={hasError}
         label={label}
         dataTestId={dataTestId}
@@ -102,8 +103,8 @@ export const Field = <FormData extends {}>({
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data) || ''}
         inputRef={inputRef}
-        onChange={onChange}
         onBlur={onBlur}
+        onChange={onChange}
         onFocus={onFocus}
         hasFocus={hasFocus}
         error={hasError}
@@ -125,9 +126,9 @@ export const Field = <FormData extends {}>({
         inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
-        onChange={onBlur}
-        onFocus={onFocus}
         onBlur={onBlur}
+        onChange={onChange}
+        onFocus={onFocus}
         value={lens.get(data)}
       />
     )
@@ -140,9 +141,9 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data) || ''}
+        onBlur={onBlur}
         onChange={onChange}
         onFocus={onFocus}
-        onBlur={onBlur}
         hasFocus={hasFocus}
         error={hasError}
         label={label}
@@ -190,12 +191,12 @@ export const Field = <FormData extends {}>({
       <MaskedDatePicker
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        hasFocus={hasFocus}
         error={hasError}
         value={lens.get(data)}
+        onBlur={onBlur}
         onChange={onChange}
         onFocus={onFocus}
-        onBlur={onBlur}
+        hasFocus={hasFocus}
         label={label}
         localeNamespace={localeNamespace}
         dataTestId={dataTestId}
@@ -279,6 +280,7 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -296,6 +298,7 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -313,6 +316,7 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -330,6 +334,7 @@ export const Field = <FormData extends {}>({
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -350,13 +355,14 @@ export const Field = <FormData extends {}>({
   }
 
   if (field.type === FormFieldType.CodeInput) {
-    const { lens, validate, ...fieldProps } = field
+    const { isAutoFocus, lens, validate, ...fieldProps } = field
     return (
       <CodeInput
         {...fieldProps}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data)}
         onChange={onBlur}
+        isAutoFocus={isAutoFocus || hasFocus}
         label={label}
       />
     )
@@ -389,6 +395,7 @@ export const Field = <FormData extends {}>({
         onChange={onBlur}
         onFocus={onFocus}
         onBlur={onBlur}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -403,6 +410,7 @@ export const Field = <FormData extends {}>({
         inputRef={inputRef}
         value={lens.get(data)}
         onChange={onBlur}
+        hasFocus={hasFocus}
         // error={hasError}
         label={label}
         localeNamespace={localeNamespace}
@@ -421,9 +429,10 @@ export const Field = <FormData extends {}>({
         inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
+        onBlur={onBlur}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -440,11 +449,12 @@ export const Field = <FormData extends {}>({
         inputRef={inputRef}
         label={label}
         localeNamespace={localeNamespace}
+        onBlur={onBlur}
         onChange={(value: any) =>
           value !== undefined && value !== null && !isNaN(value) ? onBlur(Number(value)) : onBlur(null)
         }
         onFocus={onFocus}
-        onBlur={onBlur}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )
@@ -502,9 +512,10 @@ export const Field = <FormData extends {}>({
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
+        onBlur={onBlur}
         onChange={onBlur}
         onFocus={onFocus}
-        onBlur={onBlur}
+        hasFocus={hasFocus}
         value={lens.get(data)}
       />
     )

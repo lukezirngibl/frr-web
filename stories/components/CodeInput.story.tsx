@@ -10,6 +10,7 @@ export default meta<Props, typeof CodeInput>({
 const story = createStory<Props, typeof CodeInput>(CodeInput)
 
 export const Primary = story({
+  isAutoFocus: false,
   value: 'Test',
   onChange: (value) => console.log(value),
   length: 4,

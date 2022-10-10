@@ -1,84 +1,4 @@
 export const baseStyle = `
-/* Base styles */
-
-html {
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-h1, h2, h3, h4, h5, h6, li, p, a, span {
-    margin: 0;
-  }
-
-button,
-button:focus {
-  outline: none;
-}
-
-input, select, textarea, option {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-input,
-input:focus {
-  outline: none;
-}
-
-select:focus {
-  outline: none;
-}
-
-
-/* Remove the brower's default on touch styles */
-
-button, li, a, div, span, select, input {
-  -webkit-tap-highlight-color: transparent;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-:focus {
-  outline: none;
-}
-
-
-/* Date picker styles */
-
-.react-datepicker__header select {
-  padding: 4px !important;
-}
-
-
-/* React confetti styles */
-
-#react-confetti {
-  z-index: -1 !important;
-  opacity: 0.5;
-}
-
 /* Font definition */
 @font-face {
   font-family: 'partner font'; 
@@ -109,10 +29,11 @@ input[type=number] {
 :root {
   /* Colors */
   --color-background-primary: <colorBackgroundPrimary>;
-  --color-partner-primary-dark: #d4a011;
+  --color-background-primary-dark: #d4a011;
   --color-background-secondary: <colorBackgroundSecondary>;
   --color-background-hover: <colorBackgroundPrimary>;
   --color-background-accent: <colorBackgroundAccent>;
+  --color-background-button-default: rgb(232, 232, 232);
 
   --color-error: <colorError>;
   --color-primary: <colorPrimary>;
@@ -120,21 +41,24 @@ input[type=number] {
   --color-secondary: <colorSecondary>;
   --color-disabled: <colorDisabled>;
   --color-accent: <colorAccent>;
+  --color-active: <colorActive>;
   --color-hover: <colorHover>;
-  --color-active: rgb(0,145,178);
 
   --color-form-field-border: rgba(34,36,38,.2);
-  --color-form-field-border-focus: var(--color-accent);
-  --color-form-field-background: rgba(240, 240, 240);
+  --color-form-field-border-focus: rgba(34,36,38,.5) /* var(--color-accent) */;
+  --color-form-field-background: rgba(234, 234, 234);
   
+  /* Drop zone color */
   --color-uploadDropzoneIsDragAccept: #00e676;
   --color-uploadDropzoneIsDragReject: #ff1744;
   --color-uploadDropzoneIsDragActive: #2196f3;
-  --color-uploadDropzoneDefault: #eeeeee;
+
+  --shadow-overlay: 2px 2px 8px rgba(0,145,178, 0.25), 0 -1px 4px rgba(0,145,178, 0.05);
 
   /* Font family & size */
   --font-family: 'partner font', helvetica, arial narrow, arial, sans-serif;
   --font-size-p: <fontSizeP>;
+  --font-size-p-small: <fontSizePSmall>;
   --font-size-label: <fontSizeLabel>;
   --font-size-sublabel: <fontSizeSublabel>;
   --font-size-input: <fontSizeInput>;
@@ -158,58 +82,59 @@ input[type=number] {
   --form-padding-vertical: <formPaddingVertical>;
   --form-row-height: <formRowHeight>;
   --form-row-bottom-border: <formRowBottomBorder>;
+  --form-section-padding: 48px var(--form-padding-horizontal);
 
   /* Form field */
   --form-field-height: <formFieldHeight>;
   --form-field-border-radius: <formFieldBorderRadius>;
   --form-field-padding-horizontal: <formFieldPaddingHorizontal>;
-  --form-field-width: 380px;
+  --form-field-width: 440px;
   --form-field-mobile-padding: 0;
-  --form-field-yes-no-option-width: 166px;
+  --form-field-yes-no-option-width: 212px;
 
   /* Multi form field */ 
   --multi-form-field-country-code-width: 150px;
   --multi-form-field-street-nr-width: 96px;
   --multi-form-field-zip-width: 112px;
+  --multi-form-field-gap: 0px;
   
   /* Layout */
   --display-flex-mobile-block: flex;
   --display-block-mobile-none: block;
   --flex-mobile-wrap: nowrap;
   --flex-end-mobile-center: center;
+  --layout-app-max-width: 1000px;
   --layout-content-content-padding: 0;
 
   /* Calculator */
-  --calculator-padding-top: 80px;
   --calculator-radio-group-min-width: 416px;
   --calculator-toggle-width: 96px;
+  --calculator-field-gap: 14px;
 }
 @media (max-width: 1000px) {
   :root {
-    --form-padding-horizontal: 64px;
+    --form-padding-horizontal: <formPaddingHorizontalMobile>;
   }
 }
 
 @media (max-width: 840px) {
   :root {
    /* Form field */
-    --form-field-mobile-padding: 16px;
+    --form-field-width: 100%;
+    --form-field-mobile-padding: 4px;
+    --form-section-padding: 24px var(--form-padding-horizontal);
 
     /* Layout */
     --display-flex-mobile-block: block;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 840px) {
   :root {
-    /* Font size */
-    
     /* Header */
     --header-height: <headerHeightMobile>;
 
      /* Form */
-    --form-field-width: 100%;
-    --form-padding-horizontal: <formPaddingHorizontalMobile>;
     --form-padding-vertical: <formPaddingVerticalMobile>;
 
     /* Layout */
@@ -217,7 +142,6 @@ input[type=number] {
     --flex-end-mobile-center: center;
 
     /* Calculator */
-    --calculator-padding-top: 40px;
     --calculator-radio-group-min-width: 100%;
     --calculator-toggle-width: 0;
   }
@@ -231,16 +155,48 @@ body {
   font-size: <fontBaseSize>;
 }
 
+@media (max-width: 840px) {
+  html, body {
+    font-size: calc(<fontBaseSize> - 1px);
+  }
+}
+
 p, a, h1, h2, h3, h4, h5, h6, div, input, select, button {
   font-family: var(--font-family);
 }
 
+h1 {
+  color: var(--color-primary);
+  font-size: var(--font-size-title);
+  font-weight: 500;
+}
+
+h2 {
+  color: var(--color-primary);
+  font-size: var(--font-size-title);
+  font-weight: 400;
+  margin-bottom: 20px;
+  
+  @media (max-width: 840px) { 
+    margin-bottom: 24px;
+  }
+}
+
+p {
+  font-size: var(--font-size-p);
+  line-height: 1.35;
+}
+
+small {
+  font-size: var(--font-size-p-small);
+}
+
 a {
-  color: rgb(0, 84, 94);
+  color: black;
   text-decoration: underline;
 }
 a:hover {
-  color: var(--color-hover);
+  color:  rgb(0,145,178);
 }
 b {
   font-weight: 700;
@@ -249,7 +205,7 @@ b {
 div {
   color: var(--color-primary);
   font-family: var(--font-family);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
 }
 
@@ -291,4 +247,45 @@ div {
   }
 }
 
+/* Modal animations */
+
+@keyframes modal-open-animation {
+  0% {
+    opacity: 0;
+    scale: 0.1;
+  }
+  25% {
+    opacity: 0.2;
+    scale: 0.2;
+  }
+  50% {
+    opacity: 0.7;
+    scale: 0.7;
+  }
+  75% {
+    opacity: 0.9;
+    scale: 0.9;
+  }
+  100% {
+    opacity: 1.0;
+    scale: 1.0;
+  }
+}
+@keyframes modal-open-background-animation {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 1.0;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
 `

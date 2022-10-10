@@ -9,14 +9,14 @@ import {
   MaterialSliderStyles,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle,
+  useInlineStyle
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { CurrencyInput } from './CurrencyInput'
 import { Label, LabelProps } from './Label'
 
-var Formatter = new Intl.NumberFormat('de-CH', {
+const Formatter = new Intl.NumberFormat('de-CH', {
   // style: 'currency',
   currency: 'CHF', // TODO: Use currency from finObj
   maximumFractionDigits: 0,
@@ -26,9 +26,22 @@ var Formatter = new Intl.NumberFormat('de-CH', {
 const Wrapper = createStyled('div')
 const ValueText = createStyled('p')
 
+const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles) => {
+  const thumbStyles = styles.thumb || {}
+  const thumbFocusStyles = styles.thumbFocus || {}
+
+  const pseudoStyles = {
+    ...thumbStyles[pseudStyle],
+    backgroundColor:
+      thumbStyles[pseudStyle]?.backgroundColor || thumbStyles[pseudStyle]?.background || '#FFC53D',
+
+    '& .thumb-focus': thumbFocusStyles,
+  }
+}
+
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
   const materialStyles = styles || {}
-
+  
   return withStyles({
     root: {
       color: '#FFC53D',
@@ -43,9 +56,9 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       borderRadius: 12,
       marginTop: -9,
       marginLeft: -8,
-      '&:focus, &:hover, &:active': {
-        backgroundColor: 'rgb(230,170,59)',
-      },
+      '&:active': getPseudoElementStyle(':active', materialStyles),
+      '&:focus': getPseudoElementStyle(':focus', materialStyles),
+      '&:hover': getPseudoElementStyle(':hover', materialStyles),
       ...(materialStyles.thumb || {}),
     },
     active: materialStyles.active || {},
@@ -90,6 +103,14 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
   } as any)(MaterialSlider)
 }
 
+const ThumbComponent = (props: any) => {
+  return (
+    <span {...props}>
+      <span className="thumb-focus"></span>
+    </span>
+  )
+}
+
 export type Props = {
   ariaLabelledby?: any
   dataTestId?: string
@@ -120,8 +141,8 @@ export const Slider = (props: Props) => {
 
   const [internalValue, setInternalValue] = React.useState(props.value)
 
-  const onChange = useDebouncedCallback((v: number) => {
-    props.onChange(v)
+  const onChange = useDebouncedCallback(({ num }: { num: number }) => {
+    props.onChange(num)
   }, 200)
 
   React.useEffect(() => {
@@ -148,21 +169,21 @@ export const Slider = (props: Props) => {
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
-              onChange={onChange}
-              value={internalValue}
-              prefix={prefix}
-              postfix={props.postfix}
-              min={props.min}
               max={props.max}
+              min={props.min}
+              onChange={onChange}
+              postfix={props.postfix}
+              prefix={prefix}
               step={props.step}
               style={{
                 wrapperCurrency: {
-                  marginRight: 'auto'
+                  marginRight: 'auto',
                 },
                 input: getInlineStyles('value').style,
                 prefix: getInlineStyles('prefix').style,
                 postfix: getInlineStyles('postfix').style,
               }}
+              value={internalValue}
             />
           ) : (
             <>
@@ -188,18 +209,19 @@ export const Slider = (props: Props) => {
         </Wrapper>
 
         <MaterialSlider
-          value={internalValue}
-          onChange={(e, v) => {
-            setInternalValue(v as number)
-            // @ts-ignore
-            onChange(v as number)
-          }}
-          min={props.min}
-          max={props.max}
-          step={props.step}
-          scale={props.scale}
           aria-labelledby={props.ariaLabelledby}
           marks={props.marks}
+          max={props.max}
+          min={props.min}
+          onChange={(_: Event, value: number) => {
+            setInternalValue(value)
+            onChange({ num: value })
+          }}
+          style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
+          scale={props.scale}
+          step={props.step}
+          ThumbComponent={ThumbComponent}
+          value={internalValue}
         />
       </Wrapper>
     </Wrapper>

@@ -4,7 +4,7 @@ export const formTheme: Partial<FormThemeConfig> = {
   form: {
     wrapper: {
       flexShrink: 0,
-      padding: '0',
+      padding: 0,
       width: '100%',
     },
     content: {
@@ -14,21 +14,26 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'var(--flex-end-mobile-center)',
-      backgroundColor: 'var(--color-background-primary)',
-      marginTop: 32,
-      height: 84,
+      gap: 8,
+      height: 80,
       width: '100%',
+      marginTop: 32,
+      padding: '0 var(--form-padding-horizontal)',
       '@media-mobile': {
         flexWrap: 'wrap',
+        marginTop: 16,
       },
     },
   },
   row: {
     wrapper: {
-      borderBottom: 'var(--form-row-bottom-border)',
       display: 'flex',
       minHeight: 'var(--form-row-height)',
       padding: '4px 0',
+      ':readonly': {
+        minHeight: 0, // 'var(--form-field-height)',
+        paddingBottom: 0,
+      },
     },
     item: {
       display: 'var(--display-flex-mobile-block)',
@@ -37,13 +42,15 @@ export const formTheme: Partial<FormThemeConfig> = {
       minHeight: 'var(--form-row-height)',
       ':readonly': {
         width: '100%',
+        minHeight: 0, // 'var(--form-field-height)',
+        paddingBottom: 'var(--form-padding-vertical)',
       },
       '@media-mobile': {
         width: '100%',
         marginTop: 12,
         marginLeft: 0,
         marginRight: 0,
-        paddingBottom: 24,
+        paddingBottom: 16,
       },
     },
   },
@@ -51,10 +58,24 @@ export const formTheme: Partial<FormThemeConfig> = {
     wrapper: {
       marginBottom: 8,
     },
-    description: {
+    descriptionText: {
       color: 'var(--color-primary)',
       fontSize: 'var(--font-size-p)',
       fontWeight: 400,
+    },
+    descriptionList: {
+      marginLeft: 0,
+      paddingLeft: 0,
+      listStyle: 'none',
+      listStylePosition: 'inside',
+    },
+    descriptionItem: {
+      display: 'flex',
+      gap: 24,
+      marginBottom: 16,
+      '@media-mobile': {
+        gap: 8,
+      },
     },
     title: {
       color: 'var(--color-primary)',
@@ -65,48 +86,63 @@ export const formTheme: Partial<FormThemeConfig> = {
   section: {
     wrapper: {
       position: 'relative',
-      display: 'flex',
-      margin: '0',
-      padding: 'var(--form-padding-vertical) 0',
+      background: 'var(--color-background-primary)',
+      borderRadius: 4,
+      boxShadow: '0 0 8px 8px rgb(0 0 0 / 2%)',
+      marginBottom: 8,
+      padding: 'var(--form-section-padding)',
+      '@media-mobile': {
+        borderRadius: 0,
+        boxShadow: 'none',
+        marginBottom: 0,
+        background: 'red'
+      }
     },
     contentWrapper: {
-      width: '100%',
+      position: 'relative',
+      display: 'flex',
     },
     content: {
-      width: '100%',
+      flexGrow: 1,
     },
     title: {
       color: 'var(--color-primary)',
       fontSize: 'var(--font-size-title)',
       fontWeight: 400,
-      marginTop: 16,
       marginBottom: 8,
       ':readonly': {
         marginBottom: 20,
       },
       '@media-mobile': {
         marginRight: 32,
+        marginBottom: 24,
       },
     },
     description: {
       color: 'var(--color-primary)',
       fontSize: 'var(--font-size-p)',
       fontWeight: 400,
+      marginTop: 16,
       marginBottom: 8,
     },
-    introduction: {},
+    introduction: {
+      fontSize: 'var(--font-size-p)',
+      marginBottom: 24,
+    },
   },
   sectionRight: {
     wrapper: {
       marginTop: 3,
       ':readonly': {
-        width: 140,
+        width: 240,
+        minWidth: 240,
       },
       '@media-mobile': {
         position: 'absolute',
-        right: 8,
-        top: 16,
+        right: 0,
+        top: 0,
         width: 'auto',
+        minWidth: 'unset',
         marginTop: 0,
       },
     },
@@ -115,6 +151,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       alignItems: 'center',
       justifyContent: 'flex-end',
       fontSize: 'var(--font-size-p)',
+      color: 'var(--color-disabled)',
     },
     editIcon: {
       marginRight: 8,
@@ -132,6 +169,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       width: 'var(--form-field-width)',
       alignItems: 'center',
+      gap: 8,
     },
   },
   fieldReadOnly: {
@@ -141,7 +179,8 @@ export const formTheme: Partial<FormThemeConfig> = {
       fontSize: 'var(--font-size-p)',
       fontWeight: 100,
       marginRight: 30,
-      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 8 },
+      lineHeight: 1.2,
+      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 4 },
     },
     item: {
       minWidth: 192,
@@ -157,8 +196,12 @@ export const formTheme: Partial<FormThemeConfig> = {
       fontSize: 'var(--font-size-p)',
       fontWeight: 600,
       textAlign: 'right',
+      marginRight: 8,
       '@media-mobile': {
         textAlign: 'left',
+      },
+      ':last-child': {
+        marginRight: 0,
       },
     },
     valueHighlighted: {
@@ -170,8 +213,7 @@ export const formTheme: Partial<FormThemeConfig> = {
     },
     wrapper: {
       display: 'var(--display-flex-mobile-block)',
-      alignItems: 'center',
-      minHeight: 'var(--form-row-height)',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
       width: '100%',
     },

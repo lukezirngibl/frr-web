@@ -31,7 +31,6 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
     theme,
     'fieldMultiInput',
   )({ item: props.field.itemStyle })
-  const getRowStyle = useInlineStyle(theme, 'row')(props.style?.row || {})
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -39,6 +38,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
   const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
 
   const commonFieldProps = {
+    autoFocus: false,
     data: props.data,
     formReadOnly: props.formReadOnly,
     localeNamespace: props.localeNamespace,
@@ -84,15 +84,18 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
       ]
 
       // Change all referenced fields accordingly
-      props.field.fields.forEach((fieldItem) => {
-        if (fieldItem.lens.id() !== currentField.lens.id()) {
+      props.field.fields
+        .filter((fieldItem) => fieldItem.lens.id() !== currentField.lens.id())
+        .forEach((fieldItem) => {
           const fieldItemId = fieldItem.lens.id().split('.').pop()
           const value = suggestion.data[fieldItemId]
           if (value !== undefined) {
             changes.push({ lens: fieldItem.lens, value })
+
+            // Clear error for other fields
+            onError({ error: null, fieldId: fieldItem.lens.id() })
           }
-        }
-      })
+        })
 
       // Propagate changes to form
       props.onChangeMulti?.(changes)
@@ -128,6 +131,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
+              autoFocus={props.autoFocus && fieldItemIndex === 0}
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
               field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
               fieldIndex={fieldItemIndex}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
 import { Options, P } from '../html'
@@ -23,6 +23,7 @@ export type Props = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
+  hasFocus?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
@@ -35,12 +36,22 @@ export type Props = {
 
 export const OptionGroup = (props: Props) => {
   const theme = useComponentTheme()
+  const optionGroupRef = useRef(null)
 
   const getCSSStyles = useCSSStyles(theme, 'optionGroup')(props.style)
 
   const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<
     string | number
   >(props)
+
+  useEffect(() => {
+    if (props.hasFocus) {
+      if (optionGroupRef.current) {
+        optionGroupRef.current.focus()
+      }
+      onFocus()
+    }
+  }, [props.hasFocus])
 
   return (
     <>
@@ -54,6 +65,7 @@ export const OptionGroup = (props: Props) => {
         onFocus={onFocus}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
+        ref={optionGroupRef}
         tabIndex={0}
       >
         {props.options.map((item, itemIndex) => (
