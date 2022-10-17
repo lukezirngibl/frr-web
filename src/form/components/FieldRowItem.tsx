@@ -52,13 +52,12 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
 
   const onBlur = (value: any) => {
     setFieldChanged(true)
-    if (typeof value === 'object' && 'num' in value) {
+    if (value && typeof value === 'object' && 'num' in value) {
       setValue(value.value)
       onChange(field.lens, value.num)
     } else {
       onChange(field.lens, value)
     }
-    
   }
 
   const isDirty = value !== null && !disableDirtyValidation
