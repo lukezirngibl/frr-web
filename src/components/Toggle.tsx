@@ -1,11 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-  ComponentTheme,
-  useComponentTheme,
-  useCSSStyles,
-  useInlineStyle,
-} from '../theme/theme.components'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
 
