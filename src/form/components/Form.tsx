@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { FormEvent, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
@@ -35,7 +35,7 @@ export type FormAnalytics<FormData> = {
 }
 
 export type FormButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
-  onClick: (params: { submit: () => void; }) => void
+  onClick: (params: { submit: () => void }) => void
   isDisabled?: (d: FormData) => boolean
 }
 
@@ -266,6 +266,9 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
         className={formClassName}
         data-test-id={props.dataTestId}
         readOnly={props.readOnly}
+        onSubmit={(e: FormEvent) => {
+          e.preventDefault()
+        }}
       >
         {props.renderTopChildren && props.renderTopChildren(data)}
 
