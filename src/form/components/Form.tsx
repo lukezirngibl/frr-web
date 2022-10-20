@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { FormEvent, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
@@ -11,6 +11,7 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
+import { FormConfigContext } from './form.hooks'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
 import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
 import { flatten } from './functions/flatten'
@@ -25,7 +26,6 @@ import {
   InternalFormField,
   SingleFormField,
 } from './types'
-import { FormConfigContext } from './form.hooks'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -35,7 +35,7 @@ export type FormAnalytics<FormData> = {
 }
 
 export type FormButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
-  onClick: (params: { submit: () => void; }) => void
+  onClick: (params: { submit: () => void }) => void
   isDisabled?: (d: FormData) => boolean
 }
 
@@ -266,6 +266,9 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
         className={formClassName}
         data-test-id={props.dataTestId}
         readOnly={props.readOnly}
+        onSubmit={(e: FormEvent) => {
+          e.preventDefault()
+        }}
       >
         {props.renderTopChildren && props.renderTopChildren(data)}
 
@@ -279,16 +282,25 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             disabled={props.isEdit !== undefined && !props.isEdit}
             data-test-id="form-actions"
           >
-            {props.buttons.map((button, k) => (
-              <Button
-                {...button}
-                dataTestId={mapButtonDataTestId(button, k)}
-                disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-                key={k}
-                onClick={() => button.onClick({ submit })}
-                tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
-              />
-            ))}
+            {props.buttons.map((button, k) => {
+              // By default the browsers do not focus disabled elements
+              // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
+              const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
+
+              return (
+                <>
+                  {shouldAddTabIndexDiv && <div tabIndex={0}></div>}
+                  <Button
+                    {...button}
+                    dataTestId={mapButtonDataTestId(button, k)}
+                    disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
+                    key={k}
+                    onClick={() => button.onClick({ submit })}
+                    tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
+                  />
+                </>
+              )
+            })}
           </ButtonContainer>
         )}
       </FormWrapper>
