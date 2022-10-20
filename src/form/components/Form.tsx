@@ -286,8 +286,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             {props.buttons.map((button, k) => {
               // By default the browsers do not focus disabled elements
               // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
-              const shouldAddTabIndexDiv =
-                typeof button.disabled === 'function' && button.type === ButtonType.Primary
+              const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
 
               return (
                 <>
