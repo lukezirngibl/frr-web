@@ -26,6 +26,7 @@ import {
   SingleFormField,
 } from './types'
 import { FormConfigContext } from './form.hooks'
+import { useDebounce } from 'use-debounce/lib'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -282,16 +283,26 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             disabled={props.isEdit !== undefined && !props.isEdit}
             data-test-id="form-actions"
           >
-            {props.buttons.map((button, k) => (
-              <Button
-                {...button}
-                dataTestId={mapButtonDataTestId(button, k)}
-                disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-                key={k}
-                onClick={() => button.onClick({ submit })}
-                tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
-              />
-            ))}
+            {props.buttons.map((button, k) => {
+              // By default the browsers do not focus disabled elements
+              // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
+              const shouldAddTabIndexDiv =
+                typeof button.disabled === 'function' && button.type === ButtonType.Primary
+
+              return (
+                <>
+                  {shouldAddTabIndexDiv && <div tabIndex={0}></div>}
+                  <Button
+                    {...button}
+                    dataTestId={mapButtonDataTestId(button, k)}
+                    disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
+                    key={k}
+                    onClick={() => button.onClick({ submit })}
+                    tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
+                  />
+                </>
+              )
+            })}
           </ButtonContainer>
         )}
       </FormWrapper>
