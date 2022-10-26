@@ -30,7 +30,6 @@ const getValue = (
         return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
       })
       num = closest
-      console.log('CLOSEST NUM', num, closest, options.marks)
     } else if (options.step > 1) {
       num = Math.round(num / options.step) * options.step
     }
