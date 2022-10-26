@@ -158,7 +158,8 @@ export const Slider = (props: Props) => {
 
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
-  const prefix = (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
+  const prefix =
+    (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
 
   const labelStyle = getInlineStyles('label')
 
