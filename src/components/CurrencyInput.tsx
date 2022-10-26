@@ -6,12 +6,16 @@ export type Props = {
   label?: LabelProps
   onChange: (params: { num: number | null; value: string }) => void
   value: number | null | undefined
+  marks?: Array<number>
   max?: number
   min?: number
   step?: number
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
-const getValue = (v: string, options?: { min: number; max: number; step: number }): number | null => {
+const getValue = (
+  v: string,
+  options?: { min: number; max: number; marks: Array<number>; step: number },
+): number | null => {
   const value = v.replace(',', '.')
   let num = Number(value)
   num = v === '' || isNaN(num) ? null : num
@@ -21,6 +25,11 @@ const getValue = (v: string, options?: { min: number; max: number; step: number 
       num = options.min
     } else if (num > options.max) {
       num = options.max
+    } else if (options.marks) {
+      const closest = options.marks.reduce((prev, curr) => {
+        return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
+      })
+      num = closest
     } else if (options.step > 1) {
       num = Math.round(num / options.step) * options.step
     }
@@ -46,7 +55,7 @@ export const CurrencyInput = (props: Props) => {
       }}
       onBlur={(value) => {
         props.onChange({
-          num: getValue(value, { min: props.min, max: props.max, step: props.step }),
+          num: getValue(value, { min: props.min, max: props.max, marks: props.marks, step: props.step }),
           value,
         })
       }}

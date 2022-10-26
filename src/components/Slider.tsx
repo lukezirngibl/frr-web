@@ -9,7 +9,7 @@ import {
   MaterialSliderStyles,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle
+  useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -37,11 +37,13 @@ const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles
 
     '& .thumb-focus': thumbFocusStyles,
   }
+
+  return pseudoStyles
 }
 
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
   const materialStyles = styles || {}
-  
+
   return withStyles({
     root: {
       color: '#FFC53D',
@@ -120,7 +122,8 @@ export type Props = {
   isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
-  marks?: any
+  inputStep?: number | null
+  marks?: Array<{ label: string; value: number }>
   max: number
   min: number
   onChange: (v: number) => void
@@ -157,7 +160,8 @@ export const Slider = (props: Props) => {
 
   const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
 
-  const prefix = props.isCurrency ? t('currency.CHF') : props.prefix
+  const prefix =
+    (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
 
   const labelStyle = getInlineStyles('label')
 
@@ -171,15 +175,17 @@ export const Slider = (props: Props) => {
               dataTestId="slider-value"
               max={props.max}
               min={props.min}
+              marks={props.marks ? props.marks.map((m) => m.value) : undefined}
               onChange={onChange}
               postfix={props.postfix}
               prefix={prefix}
-              step={props.step}
+              step={props.inputStep || props.step}
               style={{
                 wrapperCurrency: {
                   marginRight: 'auto',
+                  ...getInlineStyles('inputWrapper').style,
                 },
-                input: getInlineStyles('value').style,
+                input: getInlineStyles('input').style,
                 prefix: getInlineStyles('prefix').style,
                 postfix: getInlineStyles('postfix').style,
               }}
