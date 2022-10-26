@@ -9,7 +9,7 @@ import {
   MaterialSliderStyles,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle
+  useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -41,7 +41,7 @@ const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles
 
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
   const materialStyles = styles || {}
-  
+
   return withStyles({
     root: {
       color: '#FFC53D',
@@ -175,7 +175,7 @@ export const Slider = (props: Props) => {
               onChange={onChange}
               postfix={props.postfix}
               prefix={prefix}
-              step={props.inputStep || props.step}
+              step={props.inputStep || props.step}
               style={{
                 wrapperCurrency: {
                   marginRight: 'auto',
