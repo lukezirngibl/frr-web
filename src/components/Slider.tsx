@@ -120,6 +120,7 @@ export type Props = {
   isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
+  inputStep?: number | null
   marks?: any
   max: number
   min: number
@@ -174,7 +175,7 @@ export const Slider = (props: Props) => {
               onChange={onChange}
               postfix={props.postfix}
               prefix={prefix}
-              step={props.step}
+              step={props.inputStep || props.step}
               style={{
                 wrapperCurrency: {
                   marginRight: 'auto',
