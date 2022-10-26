@@ -25,12 +25,12 @@ const getValue = (
       num = options.min
     } else if (num > options.max) {
       num = options.max
-    } else if (options.marks) {
+    } else if (Array.isArray(options.marks) && options.marks.length > 0) {
       const closest = options.marks.reduce((prev, curr) => {
         return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      })
+      }, num)
       num = closest
-    } else if (options.step > 1) {
+    } else if (!isNaN(options.step) && options.step > 0) {
       num = Math.round(num / options.step) * options.step
     }
   }
