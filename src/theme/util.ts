@@ -25,7 +25,7 @@ export const dynamicStyleKeys = pseudoStyleKeys.concat(customDynamicStyleKeys)
 
 const animationKeys = ['@animation']
 
-const nonPixelKeys = ['flexGrow', 'flexShrink', 'fontWeight', 'lineHeight', 'opacity', 'zIndex']
+const nonPixelKeys = ['flex', 'flexGrow', 'flexShrink', 'fontWeight', 'lineHeight', 'opacity', 'zIndex']
 
 export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) => {
   let cssStyles = Object.entries(style)
