@@ -37,6 +37,8 @@ const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles
 
     '& .thumb-focus': thumbFocusStyles,
   }
+
+  return pseudoStyles
 }
 
 const createSlider = (styles?: MaterialSliderStyles): unknown => {
@@ -121,7 +123,7 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   inputStep?: number | null
-  marks?: any
+  marks?: Array<{ label: string; value: number }>
   max: number
   min: number
   onChange: (v: number) => void
@@ -173,6 +175,7 @@ export const Slider = (props: Props) => {
               dataTestId="slider-value"
               max={props.max}
               min={props.min}
+              marks={props.marks ? props.marks.map((m) => m.value) : undefined}
               onChange={onChange}
               postfix={props.postfix}
               prefix={prefix}
@@ -180,8 +183,9 @@ export const Slider = (props: Props) => {
               style={{
                 wrapperCurrency: {
                   marginRight: 'auto',
+                  ...getInlineStyles('inputWrapper').style,
                 },
-                input: getInlineStyles('value').style,
+                input: getInlineStyles('input').style,
                 prefix: getInlineStyles('prefix').style,
                 postfix: getInlineStyles('postfix').style,
               }}

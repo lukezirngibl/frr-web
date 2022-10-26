@@ -97,10 +97,12 @@ export type ComponentTheme = {
     wrapper: CSSProperties
   }
   slider: {
+    input: CSSProperties
+    inputWrapper: CSSProperties
     label: CSSProperties
     outerWrapper: CSSProperties
-    prefix: CSSProperties
     postfix: CSSProperties
+    prefix: CSSProperties
     value: CSSProperties
     valueWrapper: CSSProperties
     valueWrapperEditable: CSSProperties
@@ -428,10 +430,12 @@ export const defaultComponentTheme: ComponentTheme = {
     wrapper: {},
   },
   slider: {
+    input: {},
+    inputWrapper: {},
     label: {},
     outerWrapper: {},
-    prefix: {},
     postfix: {},
+    prefix: {},
     value: {},
     valueWrapper: {},
     valueWrapperEditable: {},
