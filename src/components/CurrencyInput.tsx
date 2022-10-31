@@ -28,10 +28,13 @@ const getValue = (
     } else if (Array.isArray(options.marks) && options.marks.length > 0) {
       const closest = options.marks.reduce((prev, curr) => {
         return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      }, num)
+      }, 0)
       num = closest
     } else if (!isNaN(options.step) && options.step !== 1) {
       num = Math.round(num / options.step) * options.step
+      if (options.step % 1 !== 0) {
+        num = Number(num.toFixed(2))
+      }
     }
   }
 
