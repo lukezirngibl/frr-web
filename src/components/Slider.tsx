@@ -163,7 +163,7 @@ export const Slider = (props: Props) => {
   const prefix =
     (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
 
-  const labelStyle = getInlineStyles('label')
+  const labelStyle = getInlineStyles('label', {}, undefined, false, true)
 
   return (
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
