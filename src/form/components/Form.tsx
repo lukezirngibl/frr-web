@@ -282,23 +282,22 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             disabled={props.isEdit !== undefined && !props.isEdit}
             data-test-id="form-actions"
           >
-            {props.buttons.map((button, k) => {
+            {props.buttons.map((button, buttonKey) => {
               // By default the browsers do not focus disabled elements
               // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
               const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
 
               return (
-                <>
-                  {shouldAddTabIndexDiv && <div tabIndex={0}></div>}
+                <div key={`button-${buttonKey}`}>
+                  {shouldAddTabIndexDiv && <div tabIndex={0} />}
                   <Button
                     {...button}
-                    dataTestId={mapButtonDataTestId(button, k)}
+                    dataTestId={mapButtonDataTestId(button, buttonKey)}
                     disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-                    key={k}
                     onClick={() => button.onClick({ submit })}
                     tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
                   />
-                </>
+                </div>
               )
             })}
           </ButtonContainer>
