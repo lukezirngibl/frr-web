@@ -3,7 +3,6 @@ import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { LabelText, P } from '../html'
-import { MediaQuery } from '../theme/configure.theme'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -119,24 +118,26 @@ export const Label = (props: LabelProps) => {
           data={props.sublabelData}
         />
       )}
-      {props.error &&
-        errorLabels.map((errorLabel) => (
-          <P
-            key={errorLabel}
-            label={errorLabel || 'fieldError'}
-            localeNamespace={props.localeNamespace}
-            data={props.errorLabelData}
-            dataTestId={props.errorDataTestId}
-            dataValue={errorLabel}
-            {...getCSSStyles('errorLabel')}
-          />
-        ))}
-      {props.renderChildren &&
-        (typeof props.renderChildren === 'function' ? (
-          props.renderChildren()
-        ) : (
-          <>{props.renderChildren}</>
-        ))}
+      <ErrorText error={props.error}>
+        {props.error &&
+          errorLabels.map((errorLabel) => (
+            <P
+              key={errorLabel}
+              label={errorLabel || 'fieldError'}
+              localeNamespace={props.localeNamespace}
+              data={props.errorLabelData}
+              dataTestId={props.errorDataTestId}
+              dataValue={errorLabel}
+              {...getCSSStyles('errorLabel')}
+            />
+          ))}
+        {props.renderChildren &&
+          (typeof props.renderChildren === 'function' ? (
+            props.renderChildren()
+          ) : (
+            <>{props.renderChildren}</>
+          ))}
+      </ErrorText>
     </Div>
   )
 }
@@ -171,3 +172,9 @@ const DescriptionIconWrapper = createStyled(styled.span`
     color: currentColor;
   }
 `)
+
+const ErrorText = styled.div<{ error: boolean }>`
+  height: auto;
+  max-height: ${(props) => (props.error ? '72px' : '0')};
+  transition: max-height 0.15s;
+`
