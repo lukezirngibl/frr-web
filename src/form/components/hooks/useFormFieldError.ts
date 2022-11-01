@@ -37,8 +37,14 @@ export const computeFieldError = <FormData>({
   if (isValidate && !error && !!field.validate) {
     error = field.validate(value)
   }
-  
-  if (isValidate && !error && field.type === FormFieldType.CurrencyInput && !!value) {
+
+  if (
+    isValidate &&
+    !error &&
+    !!value &&
+    (field.type === FormFieldType.CurrencyInput ||
+      (field.type === FormFieldType.Slider && field.isCurrency))
+  ) {
     const cleanedValue = Number(`${value}`.replace(',', '.'))
     if (isNaN(cleanedValue)) {
       error = 'formFields.error.invalidAmount'
@@ -53,7 +59,11 @@ export const computeFieldError = <FormData>({
     }
   }
 
-  if (!error && field.type === FormFieldType.NumberInput) {
+  if (
+    !error &&
+    (field.type === FormFieldType.NumberInput ||
+      (field.type === FormFieldType.Slider && !field.isCurrency))
+  ) {
     if ('min' in field && value < field.min) {
       error = 'formFields.error.minError'
     } else if ('max' in field && value > field.max) {
