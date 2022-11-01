@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactNode, useEffect, useState } from 'react'
+import React, { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
@@ -64,23 +64,6 @@ export type FormProps<FormData> = {
   skipAutoFocus?: boolean
   style?: Partial<FormTheme>
 }
-
-const ButtonContainer = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`)
-
-const FormWrapper = createStyled(styled.form`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-`)
-
-const FormContent = createStyled(styled.div`
-  display: flex;
-  flex-direction: column;
-`)
 
 export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   const { t: translate } = useTranslation(props.localeNamespace)
@@ -288,7 +271,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
               const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
 
               return (
-                <div key={`button-${buttonKey}`}>
+                <Fragment key={`button-${buttonKey}`}>
                   {shouldAddTabIndexDiv && <div tabIndex={0} />}
                   <Button
                     {...button}
@@ -297,7 +280,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
                     onClick={() => button.onClick({ submit })}
                     tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
                   />
-                </div>
+                </Fragment>
               )
             })}
           </ButtonContainer>
@@ -313,3 +296,20 @@ const mapButtonDataTestId = (button: FormButtonProps<any>, k: number) =>
   button.dataTestId ||
   (button.type === ButtonType.Primary && 'form:primary') ||
   `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
+
+const FormWrapper = createStyled(styled.form`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`)
+
+const FormContent = createStyled(styled.div`
+  display: flex;
+  flex-direction: column;
+`)
+
+const ButtonContainer = createStyled(styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`)
