@@ -41,7 +41,8 @@ export const computeFieldError = <FormData>({
   if (
     isValidate &&
     !error &&
-    !!value &&
+    value !== undefined &&
+    value !== null &&
     (field.type === FormFieldType.CurrencyInput ||
       (field.type === FormFieldType.Slider && field.isCurrency))
   ) {
