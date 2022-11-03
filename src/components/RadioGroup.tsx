@@ -47,7 +47,7 @@ export const RadioGroup = (props: Props) => {
       onFocus()
     }
   }, [props.hasFocus])
-
+  
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
@@ -67,8 +67,9 @@ export const RadioGroup = (props: Props) => {
               {...getCSSStyles({
                 item: true,
               })}
-              key={`option-${optionIndex}`}
+              className={isActive ? 'active' : ''}
               data-test-id={`${props.dataTestId}:${option.value}`}
+              key={`option-${optionIndex}`}
               onClick={() => onChange(option)}
               tabIndex={-1}
             >
