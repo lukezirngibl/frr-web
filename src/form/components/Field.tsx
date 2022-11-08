@@ -259,6 +259,7 @@ export const Field = <FormData extends {}>({
       <Slider
         {...fieldProps}
         dataTestId={dataTestId}
+        hasFocus={hasFocus}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}

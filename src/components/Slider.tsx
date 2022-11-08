@@ -107,7 +107,7 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
 
 const ThumbComponent = (props: any) => {
   return (
-    <span {...props}>
+    <span {...props} tabIndex={-1}>
       <span className="thumb-focus"></span>
     </span>
   )
@@ -118,6 +118,7 @@ export type Props = {
   dataTestId?: string
   defaultValue?: number
   editable?: boolean
+  hasFocus: boolean
   isCurrency?: boolean
   isEditable?: boolean
   label?: LabelProps
@@ -187,6 +188,7 @@ export const Slider = (props: Props) => {
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
+              hasFocus={props.hasFocus}
               marks={props.marks ? props.marks.map((m) => m.value) : undefined}
               max={props.inputMax !== undefined ? props.inputMax : props.max}
               min={props.inputMin !== undefined ? props.inputMin : props.min}
@@ -241,6 +243,7 @@ export const Slider = (props: Props) => {
           style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
           scale={props.scale}
           step={props.step}
+          tabIndex={-1}
           ThumbComponent={ThumbComponent}
           value={internalValue}
         />

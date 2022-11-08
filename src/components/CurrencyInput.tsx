@@ -52,6 +52,7 @@ export const CurrencyInput = (props: Props) => {
   return (
     <TextInput
       {...props}
+      autocomplete={props.autocomplete || 'off'}
       isCurrencyInput
       onChange={(value) => {
         props.onChange({ num: getValue(value), value })
@@ -62,8 +63,8 @@ export const CurrencyInput = (props: Props) => {
           value,
         })
       }}
-      value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
       parseValue={parseAmount}
+      value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
     />
   )
 }
