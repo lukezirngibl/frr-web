@@ -21,14 +21,14 @@ const getValue = (
   num = v === '' || isNaN(num) ? null : num
 
   if (options) {
-    if (num < options.min) {
+    if (options.min !== null && num < options.min) {
       num = options.min
-    } else if (num > options.max) {
+    } else if (options.max !== null && num > options.max) {
       num = options.max
-    } else if (Array.isArray(options.marks) && options.marks.length > 0) {
+    } else if (num && Array.isArray(options.marks) && options.marks.length > 0) {
       const closest = options.marks.reduce((prev, curr) => {
         return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      }, 0)
+      }, options.marks[0])
       num = closest
     } else if (!isNaN(options.step) && options.step !== 1) {
       num = Math.round(num / options.step) * options.step
@@ -69,7 +69,7 @@ export const CurrencyInput = (props: Props) => {
 }
 
 CurrencyInput.defaultProps = {
-  max: 100000,
+  max: 1000000,
   min: 0,
   step: 1,
 }

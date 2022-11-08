@@ -123,6 +123,8 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   inputStep?: number | null
+  inputMin?: number | null
+  inputMax?: number | null
   marks?: Array<{ label: string; value: number }>
   max: number
   min: number
@@ -173,9 +175,9 @@ export const Slider = (props: Props) => {
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
-              max={props.max}
-              min={props.min}
               marks={props.marks ? props.marks.map((m) => m.value) : undefined}
+              max={props.inputMax !== undefined ? props.inputMax : props.max}
+              min={props.inputMin !== undefined ? props.inputMin : props.min}
               onChange={onChange}
               postfix={props.postfix}
               prefix={prefix}
