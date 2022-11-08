@@ -118,7 +118,7 @@ export type Props = {
   dataTestId?: string
   defaultValue?: number
   editable?: boolean
-  hasFocus: boolean
+  hasFocus?: boolean
   isCurrency?: boolean
   isEditable?: boolean
   label?: LabelProps
