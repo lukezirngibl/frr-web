@@ -122,6 +122,7 @@ export type Props = {
   isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
+  initialValue?: number | null
   inputStep?: number | null
   inputMin?: number | null
   inputMax?: number | null
@@ -129,12 +130,13 @@ export type Props = {
   max: number
   min: number
   onChange: (v: number) => void
+  placeholder?: string
   prefix?: string
   postfix?: string
   scale?: any
   step: number | null
   style?: Partial<ComponentTheme['slider']>
-  value: number
+  value: number | null
 }
 
 export const Slider = (props: Props) => {
@@ -144,18 +146,28 @@ export const Slider = (props: Props) => {
   const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'slider')(props.style)
 
-  const [internalValue, setInternalValue] = React.useState(props.value)
+  const [initialValue, setInitialValue] = React.useState(props.value)
+  const [internalValue, setInternalValue] = React.useState(
+    props.initialValue !== undefined ? props.initialValue : props.value,
+  )
 
   const onChange = useDebouncedCallback(({ num }: { num: number }) => {
     props.onChange(num)
   }, 200)
 
   React.useEffect(() => {
-    setInternalValue(props.value)
-  }, [props.value])
+    if (initialValue !== props.value) {
+      setInternalValue(props.value)
+      setInitialValue(props.value)
+    }
+  }, [props.value, initialValue])
 
   React.useEffect(() => {
-    if ((props.value === null || props.value === undefined) && props.defaultValue !== undefined) {
+    if (
+      props.initialValue !== undefined &&
+      props.defaultValue !== undefined &&
+      (props.value === null || props.value === undefined)
+    ) {
       props.onChange(props.defaultValue)
     }
   }, [])
@@ -179,6 +191,7 @@ export const Slider = (props: Props) => {
               max={props.inputMax !== undefined ? props.inputMax : props.max}
               min={props.inputMin !== undefined ? props.inputMin : props.min}
               onChange={onChange}
+              placeholder={props.placeholder}
               postfix={props.postfix}
               prefix={prefix}
               step={props.inputStep || props.step}
