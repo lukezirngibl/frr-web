@@ -21,17 +21,20 @@ const getValue = (
   num = v === '' || isNaN(num) ? null : num
 
   if (options) {
-    if (num < options.min) {
+    if (options.min !== null && num < options.min) {
       num = options.min
-    } else if (num > options.max) {
+    } else if (options.max !== null && num > options.max) {
       num = options.max
-    } else if (options.marks) {
+    } else if (num && Array.isArray(options.marks) && options.marks.length > 0) {
       const closest = options.marks.reduce((prev, curr) => {
         return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      })
+      }, options.marks[0])
       num = closest
-    } else if (options.step > 1) {
+    } else if (!isNaN(options.step) && options.step !== 1) {
       num = Math.round(num / options.step) * options.step
+      if (options.step % 1 !== 0) {
+        num = Number(num.toFixed(2))
+      }
     }
   }
 
@@ -49,6 +52,7 @@ export const CurrencyInput = (props: Props) => {
   return (
     <TextInput
       {...props}
+      autocomplete={props.autocomplete || 'off'}
       isCurrencyInput
       onChange={(value) => {
         props.onChange({ num: getValue(value), value })
@@ -59,14 +63,14 @@ export const CurrencyInput = (props: Props) => {
           value,
         })
       }}
-      value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
       parseValue={parseAmount}
+      value={value === null || isNaN(value) || value === undefined ? undefined : `${value}`}
     />
   )
 }
 
 CurrencyInput.defaultProps = {
-  max: 100000,
+  max: 1000000,
   min: 0,
   step: 1,
 }

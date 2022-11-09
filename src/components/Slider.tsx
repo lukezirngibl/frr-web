@@ -107,7 +107,7 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
 
 const ThumbComponent = (props: any) => {
   return (
-    <span {...props}>
+    <span {...props} tabIndex={-1}>
       <span className="thumb-focus"></span>
     </span>
   )
@@ -118,21 +118,26 @@ export type Props = {
   dataTestId?: string
   defaultValue?: number
   editable?: boolean
+  hasFocus?: boolean
   isCurrency?: boolean
   isEditable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
+  initialValue?: number | null
   inputStep?: number | null
+  inputMin?: number | null
+  inputMax?: number | null
   marks?: Array<{ label: string; value: number }>
   max: number
   min: number
   onChange: (v: number) => void
+  placeholder?: string
   prefix?: string
   postfix?: string
   scale?: any
   step: number | null
   style?: Partial<ComponentTheme['slider']>
-  value: number
+  value: number | null
 }
 
 export const Slider = (props: Props) => {
@@ -142,18 +147,28 @@ export const Slider = (props: Props) => {
   const getInlineStyles = useInlineStyle(theme, 'slider')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'slider')(props.style)
 
-  const [internalValue, setInternalValue] = React.useState(props.value)
+  const [initialValue, setInitialValue] = React.useState(props.value)
+  const [internalValue, setInternalValue] = React.useState(
+    props.initialValue !== undefined ? props.initialValue : props.value,
+  )
 
   const onChange = useDebouncedCallback(({ num }: { num: number }) => {
     props.onChange(num)
   }, 200)
 
   React.useEffect(() => {
-    setInternalValue(props.value)
-  }, [props.value])
+    if (initialValue !== props.value) {
+      setInternalValue(props.value)
+      setInitialValue(props.value)
+    }
+  }, [props.value, initialValue])
 
   React.useEffect(() => {
-    if ((props.value === null || props.value === undefined) && props.defaultValue !== undefined) {
+    if (
+      props.initialValue !== undefined &&
+      props.defaultValue !== undefined &&
+      (props.value === null || props.value === undefined)
+    ) {
       props.onChange(props.defaultValue)
     }
   }, [])
@@ -163,7 +178,7 @@ export const Slider = (props: Props) => {
   const prefix =
     (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
 
-  const labelStyle = getInlineStyles('label')
+  const labelStyle = getInlineStyles('label', {}, undefined, false, true)
 
   return (
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
@@ -173,10 +188,12 @@ export const Slider = (props: Props) => {
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
-              max={props.max}
-              min={props.min}
+              hasFocus={props.hasFocus}
               marks={props.marks ? props.marks.map((m) => m.value) : undefined}
+              max={props.inputMax !== undefined ? props.inputMax : props.max}
+              min={props.inputMin !== undefined ? props.inputMin : props.min}
               onChange={onChange}
+              placeholder={props.placeholder}
               postfix={props.postfix}
               prefix={prefix}
               step={props.inputStep || props.step}
@@ -226,6 +243,7 @@ export const Slider = (props: Props) => {
           style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
           scale={props.scale}
           step={props.step}
+          tabIndex={-1}
           ThumbComponent={ThumbComponent}
           value={internalValue}
         />

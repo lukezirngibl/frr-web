@@ -94,6 +94,7 @@ export const getUseInlineStyle =
         internalOverride?: CSSProperties,
         className?: string,
         keepPseudoStyles?: boolean,
+        keepMediaMobileStyles?: boolean,
       ): { style: Theme[C][K]; dataThemeId: string } => {
         let keys = []
 
@@ -125,7 +126,9 @@ export const getUseInlineStyle =
               ) as any),
               ...(internalOverride || {}),
             },
-            keepPseudoStyles ? customDynamicStyleKeys : (dynamicStyleKeys as any),
+            (keepPseudoStyles ? customDynamicStyleKeys : (dynamicStyleKeys as Array<string>)).filter(
+              (key) => !keepMediaMobileStyles || key !== '@media-mobile',
+            ),
           ),
         }
 

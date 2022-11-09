@@ -89,7 +89,10 @@ export const createFakeFormLens = (
     id: () => `${arrayLens.id()}.${index}.${lens.id()}`,
     get: (data: any) => {
       const o = itemLens.getOption(data)
-      const val = fold(() => null, (v) => lens.get(v))(o)
+      const val = fold(
+        () => null,
+        (v) => lens.get(v),
+      )(o)
       return val
     },
     set: (v: any) => (data: any) => {
@@ -111,15 +114,20 @@ export const processRepeatGroup = <FormData extends {}>(
   }).map((_, index) => ({
     type: FormFieldType.FormFieldGroup,
     fields: fieldRepeatGroup.fields.map((repeatGroup) => {
-      if (Array.isArray(repeatGroup)) {
-        return <></>
-      } else if (repeatGroup.type === FormFieldType.MultiInput) {
-        return repeatGroup
+      if (Array.isArray(repeatGroup)) return <></>
+
+      const label = repeatGroup.label
+        ? { ...repeatGroup.label, labelData: { index: `${index}` } }
+        : undefined
+        
+      if (repeatGroup.type === FormFieldType.MultiInput) {
+        return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
-        return repeatGroup
+        return { ...repeatGroup, label }
       } else {
         return {
           ...repeatGroup,
+          label,
           lens: createFakeFormLens(fieldRepeatGroup.lens, index, repeatGroup.lens),
         }
       }

@@ -63,19 +63,19 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   const isDirty = value !== null && !disableDirtyValidation
 
   // Error handling
-  const isError = showValidation || (fieldChanged && !disableDirtyValidation)
+  const isShowError = showValidation || (fieldChanged && !disableDirtyValidation)
   const errorLabel = useFormFieldError({
     value,
     data,
     field,
     isDirty,
-    showValidation: isError,
+    showValidation: isShowError,
   })
   const hasError = errorLabel !== null
 
   useEffect(() => {
-    isError && onError?.({ error: errorLabel, fieldId: field.lens.id() })
-  }, [isError, errorLabel])
+    isShowError && onError?.({ error: errorLabel, fieldId: field.lens.id() })
+  }, [isShowError, errorLabel])
 
   // Render components
   if (formReadOnly || field.readOnly) {

@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactNode, useEffect, useState } from 'react'
+import React, { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
@@ -64,23 +64,6 @@ export type FormProps<FormData> = {
   skipAutoFocus?: boolean
   style?: Partial<FormTheme>
 }
-
-const ButtonContainer = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`)
-
-const FormWrapper = createStyled(styled.form`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-`)
-
-const FormContent = createStyled(styled.div`
-  display: flex;
-  flex-direction: column;
-`)
 
 export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   const { t: translate } = useTranslation(props.localeNamespace)
@@ -282,23 +265,22 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             disabled={props.isEdit !== undefined && !props.isEdit}
             data-test-id="form-actions"
           >
-            {props.buttons.map((button, k) => {
+            {props.buttons.map((button, buttonKey) => {
               // By default the browsers do not focus disabled elements
               // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
               const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
 
               return (
-                <>
-                  {shouldAddTabIndexDiv && <div tabIndex={0}></div>}
+                <Fragment key={`button-${buttonKey}`}>
+                  {shouldAddTabIndexDiv && <div tabIndex={0} />}
                   <Button
                     {...button}
-                    dataTestId={mapButtonDataTestId(button, k)}
+                    dataTestId={mapButtonDataTestId(button, buttonKey)}
                     disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-                    key={k}
                     onClick={() => button.onClick({ submit })}
                     tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
                   />
-                </>
+                </Fragment>
               )
             })}
           </ButtonContainer>
@@ -314,3 +296,20 @@ const mapButtonDataTestId = (button: FormButtonProps<any>, k: number) =>
   button.dataTestId ||
   (button.type === ButtonType.Primary && 'form:primary') ||
   `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
+
+const FormWrapper = createStyled(styled.form`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`)
+
+const FormContent = createStyled(styled.div`
+  display: flex;
+  flex-direction: column;
+`)
+
+const ButtonContainer = createStyled(styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`)
