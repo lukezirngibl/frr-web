@@ -7,12 +7,11 @@ import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
-const Wrapper = createStyled('div')
-
 export type Props = {
   dataTestId?: string
   error?: boolean
   hasFocus?: boolean
+  isAlignVertical?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   name?: string
@@ -47,12 +46,16 @@ export const RadioGroup = (props: Props) => {
       onFocus()
     }
   }, [props.hasFocus])
-  
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper
-        {...getCSSStyles({ wrapper: true, wrapperFocus: isFocused })}
+        {...getCSSStyles({
+          wrapper: !props.isAlignVertical,
+          wrapperVertical: !!props.isAlignVertical,
+          wrapperFocus: isFocused,
+        })}
         onBlur={onBlur}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
@@ -66,6 +69,7 @@ export const RadioGroup = (props: Props) => {
             <Item
               {...getCSSStyles({
                 item: true,
+                itemVertical: !!props.isAlignVertical,
               })}
               className={isActive ? 'active' : ''}
               data-test-id={`${props.dataTestId}:${option.value}`}
@@ -78,6 +82,7 @@ export const RadioGroup = (props: Props) => {
                 label={option.label}
                 localeNamespace={props.localeNamespace}
               />
+              {option.icon && <Icon src={option.icon} {...getCSSStyles('icon')} />}
               <OuterRadio
                 {...getCSSStyles({
                   radioOuter: true,
@@ -103,12 +108,16 @@ export const RadioGroup = (props: Props) => {
   )
 }
 
+const Wrapper = createStyled('div')
+
 const Item = createStyled(styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-left: 8px;
 `)
+
+const Icon = createStyled('img')
 
 const OuterRadio = createStyled(styled.div`
   position: relative;

@@ -168,9 +168,12 @@ export type ComponentTheme = {
   }
   radioGroup: {
     wrapper: CSSProperties
+    wrapperVertical: CSSProperties
     wrapperFocus: CSSProperties
     label: CSSProperties
     item: CSSProperties
+    itemVertical: CSSProperties
+    icon: CSSProperties
     radioOuter: CSSProperties
     radioOuterActive: CSSProperties
     radioOuterError: CSSProperties
@@ -511,9 +514,12 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   radioGroup: {
     wrapper: {},
+    wrapperVertical: {},
     wrapperFocus: {},
     label: {},
     item: {},
+    itemVertical: {},
+    icon: {},
     radioOuter: {},
     radioOuterActive: {},
     radioOuterError: {},
