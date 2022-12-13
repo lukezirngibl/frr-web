@@ -243,7 +243,7 @@ const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyVal
         <P
           {...props.getFieldStyle(readOnlyStyle)}
           label={value}
-          isLabelTranslateddataTestId={props.field.lens.id()}
+          isLabelTranslated
           dataTestId={props.field.lens.id()}
           dataValue={props.field.lens.get(props.data)}
         />
