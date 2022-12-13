@@ -55,6 +55,7 @@ export enum FormFieldType {
   FormFieldRepeatGroup = 'FormFieldRepeatGroup',
   FormFieldRepeatSection = 'FormFieldRepeatSection',
   FormSection = 'FormSection',
+  FormSectionCard = 'FormSectionCard',
   FormText = 'FormText',
   MaskedDatePicker = 'MaskedDatePicker',
   MaskedInput = 'MaskedInput',
@@ -348,6 +349,7 @@ export const fieldMap = {
   [FormFieldType.FormFieldRepeatGroup]: null,
   [FormFieldType.FormFieldRepeatSection]: null,
   [FormFieldType.FormSection]: null,
+  [FormFieldType.FormSectionCard]: null,
   [FormFieldType.FormText]: null,
   [FormFieldType.Static]: null,
   [FormFieldType.Button]: null,
@@ -475,7 +477,7 @@ export type SectionField<FormData> =
   | FormFieldGroup<FormData>
   | FormFieldRepeatGroup<FormData>
 
-export type SectionFields<FormData> = Array<SectionField<FormData>>
+export type SectionFields<FormData> = Array<SectionField<FormData>> 
 export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
@@ -507,6 +509,17 @@ export type FormSection<FormData> = {
   TitleCenterComponent?: ReactNode
 }
 
+export type FormSectionCard<FormData> = {
+  dataTestId?: string
+  description?: string
+  fields: SectionFields<FormData>
+  introduction?: string
+  style?: Partial<FormTheme['section']>
+  title?: string
+  titleData?: any
+  type: FormFieldType.FormSectionCard
+}
+
 export type InternalFormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
@@ -515,6 +528,7 @@ export type InternalFormField<FormData> =
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
+  | FormSectionCard<FormData>
 
 export type FormField<FormData> =
   | SingleFormField<FormData>
@@ -524,6 +538,7 @@ export type FormField<FormData> =
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
+  | FormSectionCard<FormData>
   | FormFieldRepeatGroup<FormData>
   | FormFieldRepeatSection<FormData>
 

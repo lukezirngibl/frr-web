@@ -23,6 +23,7 @@ export type FormTheme = {
   section: {
     content: CSSProperties
     contentWrapper: CSSProperties
+    contentCardWrapper: CSSProperties
     description: CSSProperties
     emptyTitleWrapperMobile: CSSProperties
     introduction: CSSProperties
@@ -62,6 +63,7 @@ export const defaultFormTheme: FormTheme = {
   section: {
     content: {},
     contentWrapper: {},
+    contentCardWrapper: {},
     description: {},
     emptyTitleWrapperMobile: {},
     introduction: {},

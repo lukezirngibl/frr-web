@@ -11,6 +11,7 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
+import { FieldSectionCard } from './FieldSectionCard'
 import { FormConfigContext } from './form.hooks'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
 import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
@@ -219,6 +220,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             field={field}
             fieldIndex={fieldIndex}
             onFormEdit={props.onEdit}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.FormSectionCard:
+        return (
+          <FieldSectionCard
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
             {...commonFieldProps}
           />
         )

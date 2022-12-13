@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { Link } from '../../components/Link'
 import { P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -9,23 +8,19 @@ import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
-import { StaticField } from './StaticField'
-import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
-
-
+import { CommonThreadProps, FormFieldType, FormSectionCard, InternalSectionField } from './types'
 
 export const FieldSectionWrapper = (props: {
+  children: ReactNode
   dataTestId?: string
   style?: Partial<FormTheme['section']>
-  readOnly?: boolean
-  children: ReactNode
 }) => {
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(props.style || {})
 
   return (
     <Div
-      readOnly={props.readOnly}
+      readOnly
       data-test-id={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
@@ -34,45 +29,65 @@ export const FieldSectionWrapper = (props: {
   )
 }
 
-type FieldSection<FormData> = CommonThreadProps<FormData> & {
-  field: FormSection<FormData>
-  onFormEdit?: () => void
+export type FieldSectionCardProps<FormData> = Omit<
+  CommonThreadProps<FormData>,
+  'autoFocus' | 'errorFieldId' | 'formReadOnly' | 'onChange' | 'onChangeMulti' | 'showValidation'
+> & {
+  field: FormSectionCard<FormData>
 }
 
-export const FieldSection = <FormData extends {}>({
-  autoFocus,
+export const FieldSectionCard = <FormData extends {}>({
   data,
-  errorFieldId,
   field: fieldSection,
   fieldIndex: fieldSectionIndex,
-  formReadOnly,
   localeNamespace,
-  onChange,
-  onChangeMulti,
-  onFormEdit,
-  showValidation,
   style,
-}: FieldSection<FormData>) => {
+}: FieldSectionCardProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
-  const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
-  const commonFieldProps = {
+  const fieldReadOnlyStyle = style?.fieldReadOnly || ({} as Partial<FormTheme['fieldReadOnly']>)
+  const commonFieldProps: Omit<CommonThreadProps<FormData>, 'fieldIndex'> = {
     autoFocus: false,
     data,
-    errorFieldId,
-    formReadOnly,
     localeNamespace,
-    onChange,
-    onChangeMulti,
-    showValidation,
-    style,
+    style: {
+      ...style,
+      row: {
+        ...style?.row,
+        item: {
+          ...style?.row?.item,
+          display: 'flex',
+        },
+      },
+      fieldReadOnly: {
+        ...style?.fieldReadOnly,
+        wrapper: {
+          ...fieldReadOnlyStyle,
+          display: 'flex',
+        },
+        label: {
+          ...fieldReadOnlyStyle.label,
+          maxWidth: 160,
+          marginRight: 16,
+        },
+        item: {
+          ...fieldReadOnlyStyle.item,
+          justifyContent: 'flex-end',
+        },
+        value: {
+          ...fieldReadOnlyStyle.value,
+          marginRight: 0,
+        },
+      },
+    },
+    showValidation: false,
+    formReadOnly: true,
+    onChange: () => {},
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {
-    commonFieldProps.autoFocus = autoFocus && fieldIndex === 0
-
     if (Array.isArray(field)) {
       return (
         <FieldRow
@@ -117,14 +132,7 @@ export const FieldSection = <FormData extends {}>({
         )
 
       case FormFieldType.Static:
-        return (
-          <StaticField
-            {...field}
-            fieldIndex={fieldIndex}
-            formReadOnly={formReadOnly}
-            key={`field-${fieldIndex}`}
-          />
-        )
+        return null
 
       default:
         return (
@@ -138,64 +146,38 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = fieldSection.onEdit || onFormEdit
-
   return (
     <FieldSectionWrapper
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
-      readOnly={formReadOnly}
       dataTestId={fieldSection.dataTestId}
       style={style?.section || fieldSection.style || {}}
     >
-      {!formReadOnly && fieldSection.introduction && (
+      {fieldSection.introduction && (
         <P
           {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
-          readOnly={formReadOnly}
+          readOnly
           label={fieldSection.introduction}
-          localeNamespace={localeNamespace}
-        />
-      )}
-
-      {formReadOnly && fieldSection.introductionReadOnly && (
-        <P
-          {...getSectionStyle('introduction', fieldSection.style?.introduction || {})}
-          readOnly={formReadOnly}
-          label={fieldSection.introductionReadOnly}
           localeNamespace={localeNamespace}
         />
       )}
 
       <Div {...getSectionStyle('contentWrapper')}>
         <Div {...getSectionStyle('content')}>
-          {fieldSection.title
-            ? (fieldSection.TitleCenterComponent && (
-                <Div {...getSectionStyle('titleWrapper')}>
-                  <P
-                    {...getSectionStyle('title', fieldSection.style?.title || {})}
-                    readOnly={formReadOnly}
-                    label={fieldSection.title}
-                    data={fieldSection.titleData}
-                    localeNamespace={localeNamespace}
-                  />
+          {fieldSection.title ? (
+            <P
+              {...getSectionStyle('title', fieldSection.style?.title || {})}
+              readOnly
+              label={fieldSection.title}
+              data={fieldSection.titleData}
+              localeNamespace={localeNamespace}
+            />
+          ) : null}
 
-                  {fieldSection.TitleCenterComponent}
-                </Div>
-              )) || (
-                <P
-                  {...getSectionStyle('title', fieldSection.style?.title || {})}
-                  readOnly={formReadOnly}
-                  label={fieldSection.title}
-                  data={fieldSection.titleData}
-                  localeNamespace={localeNamespace}
-                />
-              )
-            : null}
-
-          {formReadOnly && !fieldSection.title && (
+          {!fieldSection.title && (
             <EmptyTitleWrapperMobile {...getSectionStyle('emptyTitleWrapperMobile')} />
           )}
 
-          {!formReadOnly && fieldSection.description && (
+          {fieldSection.description && (
             <P
               {...getSectionStyle('description')}
               label={fieldSection.description}
@@ -203,27 +185,10 @@ export const FieldSection = <FormData extends {}>({
             />
           )}
 
-          {fieldSection.fields.map(renderSectionField)}
-        </Div>
-
-        {onEditSection && (
-          <Div
-            {...getSectionRightStyle('wrapper')}
-            disabled={fieldSection.isOnEditDisabled}
-            readOnly={formReadOnly}
-            data-test-id={
-              fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'
-            }
-          >
-            <Link
-              icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
-              label={fieldSection.editLabel}
-              localeNamespace={localeNamespace}
-              onClick={onEditSection}
-              style={getSectionRightStyle('editLink')}
-            />
+          <Div {...getSectionStyle('contentCardWrapper')}>
+            {fieldSection.fields.map(renderSectionField)}
           </Div>
-        )}
+        </Div>
       </Div>
     </FieldSectionWrapper>
   )

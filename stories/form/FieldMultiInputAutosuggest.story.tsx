@@ -107,6 +107,7 @@ export const PostalCodeCity = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
       {story({
+        autoFocus: false,
         field: textInputAutosuggestField,
         fieldIndex: 0,
         formReadOnly: false,
