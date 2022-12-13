@@ -89,14 +89,14 @@ export const formTheme: Partial<FormThemeConfig> = {
       background: 'var(--color-background-primary)',
       borderRadius: 4,
       boxShadow: '0 0 8px 8px rgb(0 0 0 / 2%)',
+      margin: '0',
       marginBottom: 8,
       padding: 'var(--form-section-padding)',
       '@media-mobile': {
         borderRadius: 0,
         boxShadow: 'none',
         marginBottom: 0,
-        background: 'red'
-      }
+      },
     },
     contentWrapper: {
       position: 'relative',
@@ -118,8 +118,13 @@ export const formTheme: Partial<FormThemeConfig> = {
         marginBottom: 24,
       },
     },
+    emptyTitleWrapperMobile: {
+      '@media-mobile': {
+        marginBottom: 0,
+      },
+    },
     description: {
-      color: 'var(--color-primary)',
+      color: 'var(--color-secondary)',
       fontSize: 'var(--font-size-p)',
       fontWeight: 400,
       marginTop: 16,
