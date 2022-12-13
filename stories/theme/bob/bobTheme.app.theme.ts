@@ -414,6 +414,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
   toggle: {
     wrapper: {
       border: '1px solid var(--color-form-field-border)',
+      height: 26,
       transition: 'border 0.1s',
       ':hover': {
         borderColor: 'var(--color-form-field-border-focus)',

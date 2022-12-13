@@ -5,6 +5,7 @@ import {
   FormFieldGroup,
   FormFieldType,
   FormSection,
+  FormSectionCard,
   GroupField,
   InternalFormField,
   MultiInputAutosuggestField,
@@ -152,6 +153,21 @@ const processFormSection = <T>(
       ]
     : []
 
+const processFormSectionCard = <T>(
+  section: FormSectionCard<T>,
+  fn: Fn<T>,
+  data: T,
+  isVisible: (d: T) => boolean = () => true,
+): Array<FormSectionCard<T>> =>
+  fn(section)
+    ? [
+        {
+          ...section,
+          fields: processFormSectionFields(section.fields, fn, data, isVisible),
+        },
+      ]
+    : []
+
 const filterByFunc = <T>(
   { data, formFields, translate }: FilterParams<T>,
   fn: Fn<T>,
@@ -164,6 +180,8 @@ const filterByFunc = <T>(
       return [...groups, ...processGroup(f, fn)]
     } else if (f.type === FormFieldType.FormSection) {
       return [...groups, ...processFormSection(f, fn, data)]
+    } else if (f.type === FormFieldType.FormSectionCard) {
+      return [...groups, ...processFormSectionCard(f, fn, data)]
     } else if (f.type === FormFieldType.MultiInput) {
       return [...groups, ...processMultiInput(f, fn)]
     } else if (f.type === FormFieldType.MultiInputAutosuggest) {

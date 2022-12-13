@@ -12,6 +12,7 @@ type FormData = {
   monthlyRate: number
   duration: number
   shippingAddress: string
+  acceptDataPrivacyAndAGB: boolean | null
 }
 
 const mkFormStateLens = makeFormLens<FormData>()
@@ -53,7 +54,8 @@ const summaryFields: Array<FormField<FormData>> = [
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['monthlyRate']),
         readOnly: true,
-        readOnlyMapper: (params) => (params.value ? <b>{Formatter.format(params.value)}</b> : ''),
+        readOnlyMapper: (params) => (params.value ? Formatter.format(params.value) : ''),
+        readOnlyOptions: { isHighlighted: true },
       },
       {
         label: { label: 'customerPlanSummary.formFields.duration.label' },
@@ -76,7 +78,23 @@ const summaryFields: Array<FormField<FormData>> = [
         },
         type: FormFieldType.TextArea,
         lens: mkFormStateLens(['shippingAddress']),
+        readOnlyOptions: { isFullWidth: true },
         readOnly: true,
+      },
+    ],
+  },
+  {
+    type: FormFieldType.FormSection,
+    fields: [
+      {
+        label: {
+          label: 'customerPlanSummary.formFields.acceptDataPrivacyAndGTC.label',
+          labelData: {
+            linkToAGB: 'https://bob.ch/en/corporate-clients/service/dataprotection/bob-zero/',
+          },
+        },
+        type: FormFieldType.Toggle,
+        lens: mkFormStateLens(['acceptDataPrivacyAndAGB']),
       },
     ],
   },
@@ -98,6 +116,7 @@ export const LoanSummary = () => {
     monthlyRate: 133.35,
     duration: 18,
     shippingAddress: 'Max Mustermann<br/>Fischerweg 36<br/>8005 Zürich',
+    acceptDataPrivacyAndAGB: null
   })
 
   return (

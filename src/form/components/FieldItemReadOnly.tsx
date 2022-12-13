@@ -16,7 +16,7 @@ import {
   FormFieldType,
   MultiInputAutosuggestField,
   MultiInputField,
-  SingleFormField
+  SingleFormField,
 } from './types'
 
 /*
@@ -175,7 +175,6 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.Button]: () => '',
 }
 
-
 /*
  * Field value component
  */
@@ -187,7 +186,9 @@ type FieldItemReadOnlyValueProps<FormData> = {
   localeNamespace?: LocaleNamespace
 }
 
-export const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyValueProps<FormData>) => {
+export const FieldItemReadOnlyValue = <FormData extends {}>(
+  props: FieldItemReadOnlyValueProps<FormData>,
+) => {
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
   const readOnlyStyle: Array<'value' | 'valueHighlighted' | 'textAreaValue'> = ['value']
@@ -260,6 +261,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
   const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
+  const isFullWidth = props.field.readOnlyOptions?.isFullWidth
+  
   return (
     <FormFieldWrapper
       key={`field-item-${props.fieldIndex}`}
@@ -268,16 +271,19 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
       readOnly={true}
       width={`${isNaN(props.width) ? 100 : props.width}%`}
     >
-      <Div {...getFieldStyle('wrapper')}>
+      <Div {...getFieldStyle({ wrapper: true, wrapperFullwidth: isFullWidth })}>
         {props.field.label && (
           <P
-            {...getFieldStyle('label')}
+            {...getFieldStyle({
+              label: true,
+              labelFullwidth: isFullWidth,
+            })}
             data={props.field.label.labelData}
             label={props.field.label.label}
             localeNamespace={props.localeNamespace}
           />
         )}
-        <Div {...getFieldStyle('item')}>
+        <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
           {props.field.type === FormFieldType.MultiInput ||
           props.field.type === FormFieldType.MultiInputAutosuggest ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {

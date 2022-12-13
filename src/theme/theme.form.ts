@@ -5,6 +5,7 @@ import { getUseCSSStyles, getUseInlineStyle } from './util'
 export type FormTheme = {
   row: {
     wrapper: CSSProperties
+    wrapperReadOnly: CSSProperties
     item: CSSProperties
   }
   group: {
@@ -48,12 +49,15 @@ export type FormTheme = {
   fieldReadOnly: {
     image: CSSProperties
     item: CSSProperties
+    itemFullwidth: CSSProperties
     label: CSSProperties
+    labelFullwidth: CSSProperties
     textAreaItem: CSSProperties
     textAreaValue: CSSProperties
     value: CSSProperties
     valueHighlighted: CSSProperties
     wrapper: CSSProperties
+    wrapperFullwidth: CSSProperties
   }
 }
 
@@ -84,6 +88,7 @@ export const defaultFormTheme: FormTheme = {
   },
   row: {
     wrapper: {},
+    wrapperReadOnly: {},
     item: {},
   },
   group: {
@@ -105,12 +110,15 @@ export const defaultFormTheme: FormTheme = {
   fieldReadOnly: {
     image: {},
     item: {},
+    itemFullwidth: {},
     label: {},
+    labelFullwidth: {},
     textAreaItem: {},
     textAreaValue: {},
     value: {},
     valueHighlighted: {},
     wrapper: {},
+    wrapperFullwidth: {},
   },
 }
 
@@ -132,24 +140,27 @@ export const useFormTheme = (): FormTheme => {
   return theme
 }
 
-export const useInlineStyle: <C extends keyof FormTheme>(
-  theme: FormTheme,
-  componentKey: C,
-) => (override?: Partial<FormTheme[C]>) => <K extends keyof FormTheme[C]>(
-  elementKeys: Array<K> | K,
-  internalOverride?: CSSProperties,
-  className?: string,
-) => {
-  style: FormTheme[C][K]
-  dataThemeId: string
-} = getUseInlineStyle<FormTheme>()
+export const useInlineStyle = getUseInlineStyle<FormTheme>()
+export const useCSSStyles = getUseCSSStyles<FormTheme>()
 
-export const useCSSStyles: <C extends keyof FormTheme>(
-  theme: FormTheme,
-  componentKey: C,
-) => (
-  override?: Partial<FormTheme[C]>,
-) => <K extends keyof FormTheme[C]>(
-  elementKeys: Array<K> | K,
-  internalOverride?: CSSProperties,
-) => { cssStyles: string; dataThemeId: string } = getUseCSSStyles<FormTheme>()
+// export const useInlineStyle: <C extends keyof FormTheme>(
+//   theme: FormTheme,
+//   componentKey: C,
+// ) => (override?: Partial<FormTheme[C]>) => <K extends keyof FormTheme[C]>(
+//   elementKeys: Array<K> | K,
+//   internalOverride?: CSSProperties,
+//   className?: string,
+// ) => {
+//   style: FormTheme[C][K]
+//   dataThemeId: string
+// } = getUseInlineStyle<FormTheme>()
+
+// export const useCSSStyles: <C extends keyof FormTheme>(
+//   theme: FormTheme,
+//   componentKey: C,
+// ) => (
+//   override?: Partial<FormTheme[C]>,
+// ) => <K extends keyof FormTheme[C]>(
+//   elementKeys: Array<K> | K,
+//   internalOverride?: CSSProperties,
+// ) => { cssStyles: string; dataThemeId: string } = getUseCSSStyles<FormTheme>()

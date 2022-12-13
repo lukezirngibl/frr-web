@@ -47,44 +47,14 @@ export const FieldSectionCard = <FormData extends {}>({
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
 
-  const fieldReadOnlyStyle = style?.fieldReadOnly || ({} as Partial<FormTheme['fieldReadOnly']>)
   const commonFieldProps: Omit<CommonThreadProps<FormData>, 'fieldIndex'> = {
     autoFocus: false,
     data,
     localeNamespace,
-    style: {
-      ...style,
-      row: {
-        ...style?.row,
-        item: {
-          ...style?.row?.item,
-          display: 'flex',
-        },
-      },
-      fieldReadOnly: {
-        ...style?.fieldReadOnly,
-        wrapper: {
-          ...fieldReadOnlyStyle,
-          display: 'flex',
-        },
-        label: {
-          ...fieldReadOnlyStyle.label,
-          maxWidth: 160,
-          marginRight: 16,
-        },
-        item: {
-          ...fieldReadOnlyStyle.item,
-          justifyContent: 'flex-end',
-        },
-        value: {
-          ...fieldReadOnlyStyle.value,
-          marginRight: 0,
-        },
-      },
-    },
     showValidation: false,
     formReadOnly: true,
     onChange: () => {},
+    style,
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {

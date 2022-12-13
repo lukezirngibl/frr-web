@@ -113,6 +113,7 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
   ) => string | ReactNode
   readOnlyOptions?: {
     isHighlighted?: boolean
+    isFullWidth?: boolean
     image?: string
   }
   _value?: P['value']
@@ -407,19 +408,25 @@ export type SingleFormField<FormData> = (
   CommonFieldProps<FormData>
 
 export type MultiInputField<FormData> = {
+  fields: Array<SingleFormField<FormData>>
+  isVisible?: (formData: FormData) => boolean
+  itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInput
-  fields: Array<SingleFormField<FormData>>
-  itemStyle?: CSSProperties
-  isVisible?: (formData: FormData) => boolean
+  readOnlyOptions?: {
+    isFullWidth?: boolean
+  }
 }
 
 export type MultiInputAutosuggestField<FormData> = {
+  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
+  isVisible?: (formData: FormData) => boolean
+  itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInputAutosuggest
-  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
-  itemStyle?: CSSProperties
-  isVisible?: (formData: FormData) => boolean
+  readOnlyOptions?: {
+    isFullWidth?: boolean
+  }
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>

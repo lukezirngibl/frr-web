@@ -40,10 +40,14 @@ export const FieldRow = <FormData extends {}>({
 }: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
-  const getRowStyle = useCSSStyles(theme, 'row')(style?.row || {})
+  const getRowStyle = useCSSStyles(theme, 'row')(style?.row)
 
   return (
-    <FieldRowWrapper key={`row-${fieldIndex}`} {...getRowStyle('wrapper')} readOnly={formReadOnly}>
+    <FieldRowWrapper
+      {...getRowStyle({ wrapper: true, wrapperReadOnly: formReadOnly })}
+      key={`row-${fieldIndex}`}
+      readOnly={formReadOnly}
+    >
       {field.map((fieldItem, fieldItemIndex) => (
         <FieldRowItem
           autoFocus={autoFocus}
