@@ -67,6 +67,8 @@ const ColorKeys = [
   'colorAccent',
   'colorHover',
 
+  'colorButtonPrimary',
+
   'headerTitleColor',
 ]
 
