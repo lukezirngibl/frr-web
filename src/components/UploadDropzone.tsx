@@ -123,7 +123,7 @@ export const UploadDropzone = ({
   }
 
   return (
-    <div>
+    <>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
         <Container
           {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}
@@ -227,7 +227,7 @@ export const UploadDropzone = ({
           </aside>
         </section>
       )}
-    </div>
+    </>
   )
 }
 
