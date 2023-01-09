@@ -898,7 +898,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       height: 56,
       zIndex: 10,
       '@media-mobile': {
-        width: 'calc(100% - 144px)',
+        width: 'calc(100% - 136px)',
       },
     },
     pageNumber: {
