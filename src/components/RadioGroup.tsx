@@ -69,7 +69,9 @@ export const RadioGroup = (props: Props) => {
             <Item
               {...getCSSStyles({
                 item: true,
+                itemActive: isActive,
                 itemVertical: !!props.isAlignVertical,
+                itemVerticalActive: !!props.isAlignVertical && isActive,
               })}
               className={isActive ? 'active' : ''}
               data-test-id={`${props.dataTestId}:${option.value}`}

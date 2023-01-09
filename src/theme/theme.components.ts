@@ -172,7 +172,9 @@ export type ComponentTheme = {
     wrapperFocus: CSSProperties
     label: CSSProperties
     item: CSSProperties
+    itemActive: CSSProperties
     itemVertical: CSSProperties
+    itemVerticalActive: CSSProperties
     icon: CSSProperties
     radioOuter: CSSProperties
     radioOuterActive: CSSProperties
@@ -518,7 +520,9 @@ export const defaultComponentTheme: ComponentTheme = {
     wrapperFocus: {},
     label: {},
     item: {},
+    itemActive: {},
     itemVertical: {},
+    itemVerticalActive: {},
     icon: {},
     radioOuter: {},
     radioOuterActive: {},
