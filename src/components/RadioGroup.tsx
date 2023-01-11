@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
-import { Options, OptionType, P } from '../html'
+import { OptionType, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -50,7 +50,7 @@ export const RadioGroup = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <Wrapper
+      <Div
         {...getCSSStyles({
           wrapper: !props.isAlignVertical,
           wrapperVertical: !!props.isAlignVertical,
@@ -79,7 +79,7 @@ export const RadioGroup = (props: Props) => {
               onClick={() => onChange(option)}
               tabIndex={-1}
             >
-              <div {...getCSSStyles('labelWrapper')}>
+              <Div {...getCSSStyles('labelWrapper')}>
                 <P
                   {...getCSSStyles('label')}
                   label={option.label}
@@ -92,7 +92,7 @@ export const RadioGroup = (props: Props) => {
                     localeNamespace={props.localeNamespace}
                   />
                 )}
-              </div>
+              </Div>
               {option.icon && <Icon src={option.icon} {...getCSSStyles('icon')} />}
               <OuterRadio
                 {...getCSSStyles({
@@ -114,12 +114,12 @@ export const RadioGroup = (props: Props) => {
             </Item>
           )
         })}
-      </Wrapper>
+      </Div>
     </>
   )
 }
 
-const Wrapper = createStyled('div')
+const Div = createStyled('div')
 
 const Item = createStyled(styled.div`
   display: flex;
