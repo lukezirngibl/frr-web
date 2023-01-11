@@ -79,7 +79,7 @@ export const RadioGroup = (props: Props) => {
               onClick={() => onChange(option)}
               tabIndex={-1}
             >
-              <div>
+              <div {...getCSSStyles('labelWrapper')}>
                 <P
                   {...getCSSStyles('label')}
                   label={option.label}
