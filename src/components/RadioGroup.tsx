@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
-import { Options, P } from '../html'
+import { Options, OptionType, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -18,7 +18,7 @@ export type Props = {
   onChange: (value: string) => void
   onFocus?: () => void
   onBlur?: (value: string) => void
-  options: Options<string>
+  options: Array<OptionType<string> & { sublabel?: string }>
   style?: Partial<ComponentTheme['radioGroup']>
   value: string
   defaultValue?: string
@@ -79,11 +79,20 @@ export const RadioGroup = (props: Props) => {
               onClick={() => onChange(option)}
               tabIndex={-1}
             >
-              <P
-                {...getCSSStyles('label')}
-                label={option.label}
-                localeNamespace={props.localeNamespace}
-              />
+              <div>
+                <P
+                  {...getCSSStyles('label')}
+                  label={option.label}
+                  localeNamespace={props.localeNamespace}
+                />
+                {option.sublabel && (
+                  <P
+                    {...getCSSStyles('sublabel')}
+                    label={option.label}
+                    localeNamespace={props.localeNamespace}
+                  />
+                )}
+              </div>
               {option.icon && <Icon src={option.icon} {...getCSSStyles('icon')} />}
               <OuterRadio
                 {...getCSSStyles({
