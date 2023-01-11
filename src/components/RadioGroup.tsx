@@ -88,7 +88,7 @@ export const RadioGroup = (props: Props) => {
                 {option.sublabel && (
                   <P
                     {...getCSSStyles('sublabel')}
-                    label={option.label}
+                    label={option.sublabel}
                     localeNamespace={props.localeNamespace}
                   />
                 )}
