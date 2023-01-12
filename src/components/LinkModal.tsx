@@ -85,9 +85,7 @@ export const LinkModal = (props: Props) => {
             {props.config.type === ModalLinkType.PDF ? (
               <PdfViewer
                 {...props.config}
-                onLoadSuccess={() => {
-                  setIframeLoading(false)
-                }}
+                onLoadSuccess={() => setIframeLoading(false)}
                 onClose={onClose}
                 width={viewerWidth}
               />
