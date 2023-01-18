@@ -169,7 +169,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       backgroundColor: 'var(--color-partner-primary)',
       width: 14,
       height: 34,
-      marginTop: -13,
+      marginTop: -3,
       marginLeft: -8,
       borderRadius: 0,
       ':focus': {

@@ -1,4 +1,4 @@
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import React, { useEffect, useReducer, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'

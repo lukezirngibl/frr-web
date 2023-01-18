@@ -1,4 +1,4 @@
-import CheckIcon from '@material-ui/icons/Check'
+import CheckIcon from '@mui/icons-material/Check'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'

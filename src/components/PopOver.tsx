@@ -1,15 +1,6 @@
 import React from 'react'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import Popover from '@material-ui/core/Popover'
+import Popover from '@mui/material/Popover'
 import { CSSProperties } from 'styled-components'
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    typography: {
-      padding: theme.spacing(2),
-    },
-  }),
-)
 
 type Props = {
   trigger: (props: { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => React.ReactNode
@@ -20,7 +11,6 @@ type Props = {
 }
 
 export const SimplePopover = (props: Props) => {
-  const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

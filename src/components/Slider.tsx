@@ -1,5 +1,5 @@
-import { Slider as MaterialSlider } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
+import MaterialSlider from '@mui/material/Slider'
+import { withStyles } from '@mui/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
@@ -244,7 +244,7 @@ export const Slider = (props: Props) => {
           scale={props.scale}
           step={props.step}
           tabIndex={-1}
-          ThumbComponent={ThumbComponent}
+          slots={{ thumb: ThumbComponent }}
           value={internalValue}
         />
       </Wrapper>

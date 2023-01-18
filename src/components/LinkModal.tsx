@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Modal } from '@material-ui/core'
+import Modal from '@mui/material/Modal'
 
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
