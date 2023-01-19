@@ -118,13 +118,6 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     setScrolled(false)
   }, [formFields])
 
-  const getFieldError = (
-    field: SingleFormField<FormData>,
-  ): { error: string | null; fieldId: string } => {
-    const value = field.lens.get(data)
-    return computeFieldError({ value, data, field, isValidate: true })
-  }
-
   const [errorFieldId, setErrorFieldId] = useState(null)
 
   const submit = () => {
@@ -132,6 +125,22 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     if (props.disableValidation) {
       props.onSubmit({ formState: props.data })
     } else {
+      const getFieldError = (
+        field: SingleFormField<FormData>,
+      ): { error: string | null; fieldId: string } => {
+        const value = field.lens.get(data)
+        return computeFieldError({
+          value,
+          data,
+          field,
+          isValidate: true,
+          marks:
+            'marks' in field
+              ? (field.marks as Array<{ value: number; label: string }>).map((mark) => mark.value)
+              : [],
+        })
+      }
+
       const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
       )
