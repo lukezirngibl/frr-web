@@ -25,11 +25,11 @@ const getValue = (
       num = options.min
     } else if (options.max !== null && num > options.max) {
       num = options.max
-    } else if (num && Array.isArray(options.marks) && options.marks.length > 0) {
-      const closest = options.marks.reduce((prev, curr) => {
-        return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      }, options.marks[0])
-      num = closest
+    // } else if (num && Array.isArray(options.marks) && options.marks.length > 0) {
+    //   const closest = options.marks.reduce((prev, curr) => {
+    //     return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
+    //   }, options.marks[0])
+    //   num = closest
     } else if (!isNaN(options.step) && options.step !== 1) {
       num = Math.round(num / options.step) * options.step
       if (options.step % 1 !== 0) {
