@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FieldError, FormFieldType, SingleFormField } from '../types'
+import { FieldError, FieldMarks, FormFieldType, SingleFormField } from '../types'
 
 export const computeFieldError = <FormData>({
   data,
@@ -93,12 +93,7 @@ export const useFormFieldError = <FormData>({
   value: string | string[] | number | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
-
-  const [marks] = useState(
-    'marks' in field
-      ? (field.marks as Array<{ label: string; value: number }>).map((mark) => mark.value)
-      : [],
-  )
+  const [marks] = useState('marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : [])
 
   useEffect(() => {
     showValidation || isDirty

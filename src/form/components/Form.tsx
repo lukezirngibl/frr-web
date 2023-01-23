@@ -22,6 +22,7 @@ import { StaticField } from './StaticField'
 import {
   DisplayType,
   FieldError,
+  FieldMarks,
   FormField,
   FormFieldType,
   InternalFormField,
@@ -120,27 +121,20 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
 
   const [errorFieldId, setErrorFieldId] = useState(null)
 
+  const getFieldError = (
+    field: SingleFormField<FormData>,
+  ): { error: string | null; fieldId: string } => {
+    const value = field.lens.get(data)
+    const marks = 'marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : []
+
+    return computeFieldError({ value, data, field, isValidate: true, marks })
+  }
+
   const submit = () => {
     setErrorFieldId(null)
     if (props.disableValidation) {
       props.onSubmit({ formState: props.data })
     } else {
-      const getFieldError = (
-        field: SingleFormField<FormData>,
-      ): { error: string | null; fieldId: string } => {
-        const value = field.lens.get(data)
-        return computeFieldError({
-          value,
-          data,
-          field,
-          isValidate: true,
-          marks:
-            'marks' in field
-              ? (field.marks as Array<{ value: number; label: string }>).map((mark) => mark.value)
-              : [],
-        })
-      }
-
       const errors = mapFormFields(visibleFormFields, getFieldError).filter(
         (fieldError) => !!fieldError.error,
       )
