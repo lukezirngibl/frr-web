@@ -65,6 +65,7 @@ const ColorKeys = [
   'colorInput',
   'colorDisabled',
   'colorAccent',
+  'colorActive',
   'colorHover',
 
   'colorButtonPrimary',
