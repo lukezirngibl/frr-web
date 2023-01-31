@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { Modal } from '@material-ui/core'
-
-import { Loading } from './Loading'
-import { PdfViewer } from './PdfViewer'
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
 import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Icon } from './Icon'
-
-export enum ModalLinkType {
-  PDF = 'PDF',
-  IFrame = 'Iframe',
-}
-
-export type ModalLinkConfig = {
-  bearerToken?: string
-  downloadButton?: { filename: string }
-  onClose?: () => void
-  type: ModalLinkType
-  url: string
-} | null
+import { Loading } from './Loading'
+import { PdfViewer } from './PdfViewer'
+import { ModalLinkConfig, ModalLinkType } from './types'
 
 export type Props = {
   modalOpen: boolean
