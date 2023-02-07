@@ -46,7 +46,7 @@ export const LinkModal = (props: Props) => {
   return (
     // @ts-ignore
     <Modal open={props.modalOpen} onClose={onClose} style={{ display: 'flex' }}>
-      {props.config && (
+      {props.config ? (
         <IframeOuterWrapper
           onClick={() => {
             setIframeLoading(true)
@@ -95,7 +95,7 @@ export const LinkModal = (props: Props) => {
             )}
           </IframeWrapper>
         </IframeOuterWrapper>
-      )}
+      ) : null}
     </Modal>
   )
 }
