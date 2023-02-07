@@ -1,9 +1,9 @@
-import { range } from 'fp-ts/lib/Array'
 import React from 'react'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
+import { range } from '../util'
 import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = createStyled('div')
@@ -35,7 +35,7 @@ export const CodeInput = (props: Props) => {
     React.createRef(),
   )
 
-  const defaultStr = range(0, props.length - 1).reduce((str) => `${str}-`, '')
+  const defaultStr = range(0, props.length - 1).reduce((str: number) => `${str}-`, '')
 
   const [intervalValue, setIntervalValue] = React.useState(props.value || defaultStr)
 
