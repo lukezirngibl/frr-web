@@ -35,7 +35,7 @@ export const CodeInput = (props: Props) => {
     React.createRef(),
   )
 
-  const defaultStr = range(0, props.length - 1).reduce((str: number) => `${str}-`, '')
+  const defaultStr = range(0, props.length - 1).reduce((str) => `${str}-`, '')
 
   const [intervalValue, setIntervalValue] = React.useState(props.value || defaultStr)
 
