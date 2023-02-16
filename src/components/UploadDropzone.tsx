@@ -221,14 +221,3 @@ const Container = createStyled(styled.div<DragProps>`
 `)
 
 const Section = createStyled('div')
-
-const ListItem = createStyled('div')
-
-const ItemIcon = createStyled('img')
-
-const RemoveItemIcon = createStyled(styled.div`
-  svg.remove-icon {
-    width: 100%;
-    height: 100%;
-  }
-`)
