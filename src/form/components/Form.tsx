@@ -11,6 +11,7 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
+import { FieldSectionCard } from './FieldSectionCard'
 import { FormConfigContext } from './form.hooks'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
 import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
@@ -21,6 +22,7 @@ import { StaticField } from './StaticField'
 import {
   DisplayType,
   FieldError,
+  FieldMarks,
   FormField,
   FormFieldType,
   InternalFormField,
@@ -117,14 +119,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     setScrolled(false)
   }, [formFields])
 
+  const [errorFieldId, setErrorFieldId] = useState(null)
+
   const getFieldError = (
     field: SingleFormField<FormData>,
   ): { error: string | null; fieldId: string } => {
     const value = field.lens.get(data)
-    return computeFieldError({ value, data, field, isValidate: true })
-  }
+    const marks = 'marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : []
 
-  const [errorFieldId, setErrorFieldId] = useState(null)
+    return computeFieldError({ value, data, field, isValidate: true, marks })
+  }
 
   const submit = () => {
     setErrorFieldId(null)
@@ -219,6 +223,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
             field={field}
             fieldIndex={fieldIndex}
             onFormEdit={props.onEdit}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.FormSectionCard:
+        return (
+          <FieldSectionCard
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
             {...commonFieldProps}
           />
         )

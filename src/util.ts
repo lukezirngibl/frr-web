@@ -1,3 +1,4 @@
+import lodashRange from 'lodash.range'
 import { Options } from './html'
 import { Translate } from './translation'
 
@@ -18,3 +19,8 @@ export const processOptions = (
         : option.name || 'Unknown',
     value: option.value,
   }))
+
+
+export const range = (start: number, end: number) => {
+  return lodashRange(start, end + 1)
+}

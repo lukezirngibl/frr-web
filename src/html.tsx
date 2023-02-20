@@ -7,11 +7,12 @@ import { LocaleNamespace, Translate } from './translation'
 import { renderHtml } from './utils/renderHtml'
 
 export type OptionType<Value> = {
+  disabled?: boolean
+  icon?: string
+  isLabelTranslated?: boolean
   label?: string
   name?: string
   value: Value
-  disabled?: boolean
-  isLabelTranslated?: boolean
 }
 export type Options<Value> = Array<OptionType<Value>>
 

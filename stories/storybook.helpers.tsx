@@ -32,7 +32,7 @@ export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: 
 export const createStory =
   <P extends {}, T extends (props: P) => JSX.Element>(C: T) =>
   (props: P) => {
-    const [brand, setBrand] = useState(BRAND.postFinance)
+    const [brand, setBrand] = useState(BRAND.bob)
     const Component = C as any
 
     const brandTheme = Brands[brand]

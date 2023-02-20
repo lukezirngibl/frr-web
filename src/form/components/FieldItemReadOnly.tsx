@@ -1,5 +1,5 @@
 import { format, isValid } from 'date-fns'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
@@ -16,7 +16,7 @@ import {
   FormFieldType,
   MultiInputAutosuggestField,
   MultiInputField,
-  SingleFormField
+  SingleFormField,
 } from './types'
 
 /*
@@ -120,7 +120,7 @@ const defaultOptionMapper = (
   return option ? params.translate(option.label) : ''
 }
 
-const defaultReadOnlyMappers: {
+export const defaultReadOnlyMappers: {
   [K in FormFieldType]: (
     params: Omit<typeof fieldMap[K], 'lens' | '_value' | 'type'> & {
       value: typeof fieldMap[K]['_value']
@@ -146,6 +146,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.FormFieldRepeatGroup]: () => '',
   [FormFieldType.FormFieldRepeatSection]: () => '',
   [FormFieldType.FormSection]: () => '',
+  [FormFieldType.FormSectionCard]: () => '',
   [FormFieldType.FormText]: () => '',
   [FormFieldType.FileInput]: () => '',
   [FormFieldType.MaskedDatePicker]: defaultDateStringMapper,
@@ -175,30 +176,6 @@ const defaultReadOnlyMappers: {
 }
 
 /*
- * Styled components
- */
-
-const FormFieldWrapper = createStyled(styled.div`
-  position: relative;
-  width: ${({ width }: { width?: string }) => width || '100%'};
-
-  @media ${MediaQuery.Mobile} {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-
-    &:first-of-type {
-      margin-top: 0;
-    }
-  }
-`)
-
-const FieldItemWrapper = createStyled('div')
-const FieldItemValueWrapper = createStyled('div')
-
-const Image = createStyled('img')
-
-/*
  * Field value component
  */
 
@@ -209,7 +186,9 @@ type FieldItemReadOnlyValueProps<FormData> = {
   localeNamespace?: LocaleNamespace
 }
 
-const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyValueProps<FormData>) => {
+export const FieldItemReadOnlyValue = <FormData extends {}>(
+  props: FieldItemReadOnlyValueProps<FormData>,
+) => {
   const { t: translate, i18n } = useTranslation(props.localeNamespace)
 
   const readOnlyStyle: Array<'value' | 'valueHighlighted' | 'textAreaValue'> = ['value']
@@ -238,19 +217,19 @@ const FieldItemReadOnlyValue = <FormData extends {}>(props: FieldItemReadOnlyVal
   } as any)
 
   return (props.field.type === FormFieldType.TextArea && (
-    <FieldItemValueWrapper {...props.getFieldStyle('textAreaItem')}>
+    <Div {...props.getFieldStyle('textAreaItem')}>
       {typeof value === 'string' ? (
         <P
           {...props.getFieldStyle(readOnlyStyle)}
           label={value}
-          isLabelTranslateddataTestId={props.field.lens.id()}
+          isLabelTranslated
           dataTestId={props.field.lens.id()}
           dataValue={props.field.lens.get(props.data)}
         />
       ) : (
         value
       )}
-    </FieldItemValueWrapper>
+    </Div>
   )) ||
     typeof value === 'string' ? (
     <P
@@ -282,6 +261,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
   const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
+  const isFullWidth = props.field.readOnlyOptions?.isFullWidth
+  
   return (
     <FormFieldWrapper
       key={`field-item-${props.fieldIndex}`}
@@ -290,16 +271,19 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
       readOnly={true}
       width={`${isNaN(props.width) ? 100 : props.width}%`}
     >
-      <FieldItemWrapper {...getFieldStyle('wrapper')}>
+      <Div {...getFieldStyle({ wrapper: true, wrapperFullwidth: isFullWidth })}>
         {props.field.label && (
           <P
-            {...getFieldStyle('label')}
+            {...getFieldStyle({
+              label: true,
+              labelFullwidth: isFullWidth,
+            })}
             data={props.field.label.labelData}
             label={props.field.label.label}
             localeNamespace={props.localeNamespace}
           />
         )}
-        <FieldItemValueWrapper {...getFieldStyle('item')}>
+        <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
           {props.field.type === FormFieldType.MultiInput ||
           props.field.type === FormFieldType.MultiInputAutosuggest ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
@@ -322,8 +306,30 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
               localeNamespace={props.localeNamespace}
             />
           )}
-        </FieldItemValueWrapper>
-      </FieldItemWrapper>
+        </Div>
+      </Div>
     </FormFieldWrapper>
   )
 }
+
+/*
+ * Styled components
+ */
+
+const FormFieldWrapper = createStyled(styled.div`
+  position: relative;
+  width: ${({ width }: { width?: string }) => width || '100%'};
+
+  @media ${MediaQuery.Mobile} {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+`)
+
+const Div = createStyled('div')
+const Image = createStyled('img')

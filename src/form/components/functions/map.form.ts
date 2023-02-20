@@ -58,6 +58,8 @@ export const mapFormFields = <T, V>(formFields: Array<InternalFormField<T>>, fun
       newValues = processFormFieldGroup(field, func)
     } else if (field.type === FormFieldType.FormSection) {
       newValues = processFormSectionFields(field.fields as any, func)
+    } else if (field.type === FormFieldType.FormSectionCard) {
+      newValues = processFormSectionFields(field.fields as any, func)
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.MultiInputAutosuggest) {

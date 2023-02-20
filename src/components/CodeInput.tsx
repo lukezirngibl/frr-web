@@ -1,9 +1,9 @@
-import { range } from 'fp-ts/lib/Array'
 import React from 'react'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
+import { range } from '../util'
 import { Label, LabelProps } from './Label'
 
 const CodeInputWrapper = createStyled('div')

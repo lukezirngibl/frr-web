@@ -55,6 +55,7 @@ export enum FormFieldType {
   FormFieldRepeatGroup = 'FormFieldRepeatGroup',
   FormFieldRepeatSection = 'FormFieldRepeatSection',
   FormSection = 'FormSection',
+  FormSectionCard = 'FormSectionCard',
   FormText = 'FormText',
   MaskedDatePicker = 'MaskedDatePicker',
   MaskedInput = 'MaskedInput',
@@ -112,6 +113,7 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
   ) => string | ReactNode
   readOnlyOptions?: {
     isHighlighted?: boolean
+    isFullWidth?: boolean
     image?: string
   }
   _value?: P['value']
@@ -348,6 +350,7 @@ export const fieldMap = {
   [FormFieldType.FormFieldRepeatGroup]: null,
   [FormFieldType.FormFieldRepeatSection]: null,
   [FormFieldType.FormSection]: null,
+  [FormFieldType.FormSectionCard]: null,
   [FormFieldType.FormText]: null,
   [FormFieldType.Static]: null,
   [FormFieldType.Button]: null,
@@ -405,19 +408,25 @@ export type SingleFormField<FormData> = (
   CommonFieldProps<FormData>
 
 export type MultiInputField<FormData> = {
+  fields: Array<SingleFormField<FormData>>
+  isVisible?: (formData: FormData) => boolean
+  itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInput
-  fields: Array<SingleFormField<FormData>>
-  itemStyle?: CSSProperties
-  isVisible?: (formData: FormData) => boolean
+  readOnlyOptions?: {
+    isFullWidth?: boolean
+  }
 }
 
 export type MultiInputAutosuggestField<FormData> = {
+  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
+  isVisible?: (formData: FormData) => boolean
+  itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInputAutosuggest
-  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
-  itemStyle?: CSSProperties
-  isVisible?: (formData: FormData) => boolean
+  readOnlyOptions?: {
+    isFullWidth?: boolean
+  }
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
@@ -507,6 +516,17 @@ export type FormSection<FormData> = {
   TitleCenterComponent?: ReactNode
 }
 
+export type FormSectionCard<FormData> = {
+  dataTestId?: string
+  description?: string
+  fields: SectionFields<FormData>
+  introduction?: string
+  style?: Partial<FormTheme['section']>
+  title?: string
+  titleData?: any
+  type: FormFieldType.FormSectionCard
+}
+
 export type InternalFormField<FormData> =
   | SingleFormField<FormData>
   | StaticField<FormData>
@@ -515,6 +535,7 @@ export type InternalFormField<FormData> =
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
+  | FormSectionCard<FormData>
 
 export type FormField<FormData> =
   | SingleFormField<FormData>
@@ -524,6 +545,7 @@ export type FormField<FormData> =
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
+  | FormSectionCard<FormData>
   | FormFieldRepeatGroup<FormData>
   | FormFieldRepeatSection<FormData>
 
@@ -544,3 +566,5 @@ export type FieldError = {
   error: string | null
   fieldId: string
 }
+
+export type FieldMarks = Array<{ value: number; label: string }>

@@ -14,7 +14,7 @@ export type Props = {
 
 const getValue = (
   v: string,
-  options?: { min: number; max: number; marks: Array<number>; step: number },
+  options?: { min: number | null; max: number | null; marks: Array<number>; step: number },
 ): number | null => {
   const value = v.replace(',', '.')
   let num = Number(value)
@@ -25,12 +25,12 @@ const getValue = (
       num = options.min
     } else if (options.max !== null && num > options.max) {
       num = options.max
-    } else if (num && Array.isArray(options.marks) && options.marks.length > 0) {
-      const closest = options.marks.reduce((prev, curr) => {
-        return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
-      }, options.marks[0])
-      num = closest
-    } else if (!isNaN(options.step) && options.step !== 1) {
+      // } else if (num && options.marks.length > 0) {
+      //   const closest = options.marks.reduce((prev, curr) => {
+      //     return Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev
+      //   }, options.marks[0])
+      //   num = closest
+    } else if (options.step !== null && options.step !== 1) {
       num = Math.round(num / options.step) * options.step
       if (options.step % 1 !== 0) {
         num = Number(num.toFixed(2))
@@ -59,7 +59,12 @@ export const CurrencyInput = (props: Props) => {
       }}
       onBlur={(value) => {
         props.onChange({
-          num: getValue(value, { min: props.min, max: props.max, marks: props.marks, step: props.step }),
+          num: getValue(value, {
+            min: props.min || null,
+            max: props.max || null,
+            marks: props.marks || [],
+            step: props.step || 1,
+          }),
           value,
         })
       }}

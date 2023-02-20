@@ -11,5 +11,31 @@
   "currency": {
     "CHF": "CHF"
   },
-  "months": "Monate"
+  "months": "Monate",
+
+  "customerPlanSummary": {
+    "description": "Please review and confirm your data.",
+    "formFields": {
+      "acceptDataPrivacyAndGTC": {
+        "label": "I understand that by selecting Confirm I enter into the finance agreement with bob Finance. The agreement is concluded online and is legally binding. \n<br /><br/>\nClick here for the full <a href=\"https://bob.ch/en/corporate-clients/service/dataprotection/bob-zero/\" target=\"_blank\" tab-index=\"-1\">data privacy policy</a> and <a href={{linkToAGB}} target=\"_blank\" tab-index=\"-1\">terms & conditions</a>."
+      },
+      "address": {
+        "label": "Shipping / billing address"
+      },
+      "duration": {
+        "label": "Duration",
+        "months": "{{months}} months"
+      },
+      "interestRateAmount": {
+        "label": "Interest rate 0%"
+      },
+      "loanAmount": {
+        "label": "Amount"
+      },
+      "monthlyRate": {
+        "label": "Monthly rate"
+      }
+    },
+    "title": "Payment plan "
+  }
 }
