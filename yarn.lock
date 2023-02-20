@@ -8602,13 +8602,6 @@ react-datepicker@^4.2.1:
     react-onclickoutside "^6.12.2"
     react-popper "^2.3.0"
 
-react-day-picker@^7.4.8:
-  version "7.4.10"
-  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.4.10.tgz#d3928fa65c04379ad28c76de22aa85374a8361e1"
-  integrity sha512-/QkK75qLKdyLmv0kcVzhL7HoJPazoZXS8a6HixbVoK6vWey1Od1WRLcxfyEiUsRfccAlIlf6oKHShqY2SM82rA==
-  dependencies:
-    prop-types "^15.6.2"
-
 react-docgen-typescript@^2.1.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
