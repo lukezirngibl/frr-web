@@ -1,6 +1,7 @@
 import { RemoteData, RemoteSuccess } from '@devexperts/remote-data-ts'
+import { Namespace } from 'i18next'
 import React, { ReactElement, ReactNode } from 'react'
-import { Namespace, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { AutoSizer, List, ListRowProps } from 'react-virtualized'
 import styled, { CSSProperties } from 'styled-components'
 import { P } from '../html'
