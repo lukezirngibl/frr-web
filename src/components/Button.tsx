@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { IconType } from 'react-icons'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
 import { useMobileTouch } from '../hooks/useMobileTouch'
@@ -41,7 +42,7 @@ const mapTypeToStyleLabelKey: {
 export type Props = {
   dataTestId?: string
   disabled?: boolean
-  icon?: IconProps
+  Icon?: IconType
   id?: string
   label: string
   labelMobile?: string
@@ -95,10 +96,10 @@ export const Button = (props: Props) => {
       type="button"
       {...getCSSStyles(['common', mapTypeToStyleKey[type]], props.override)}
     >
-      {props.icon && <Icon {...props.icon} />}
+      {props.Icon && <props.Icon size={24} />}
       <P
         style={{
-          marginLeft: props.icon === undefined ? 0 : 8,
+          marginLeft: props.Icon ? 8 : 0,
         }}
         {...getCSSStyles(['label', mapTypeToStyleLabelKey[type]])}
         label={(isMobile && props.labelMobile) || props.label}

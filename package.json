@@ -44,7 +44,6 @@
     "@devexperts/remote-data-ts": "0.6.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.11.0",
     "date-fns": "^2.19.0",
     "fp-ts": "^2.12.3",
     "lodash.range": "^3.2.0",

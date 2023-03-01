@@ -1,8 +1,14 @@
 import React from 'react'
+import {
+  MdClose,
+  MdDownload,
+  MdFullscreen,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+} from 'react-icons/md'
 import { Document, Outline, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
-import { Icon } from './Icon'
 import { Loading } from './Loading'
 
 const PageSelectorWrapper = createStyled('div')
@@ -92,14 +98,12 @@ export const PdfViewer = (props: Props) => {
             window.URL.revokeObjectURL(url)
           }}
         >
-          <Icon icon="download" size={24} onClick={(e) => {}} />
+          <MdDownload size={24} />
         </DownloadButton>
       )}
       <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}>
         <PageSelector {...getCSSStyle('pageSelector')}>
-          <Icon
-            icon="keyboard_arrow_left"
-            size={24}
+          <MdKeyboardArrowLeft
             onClick={(e) => {
               e.stopPropagation()
               if (pageNumber !== 1) {
@@ -107,6 +111,7 @@ export const PdfViewer = (props: Props) => {
                 // setIframeLoading(true)
               }
             }}
+            size={24}
             style={{
               opacity: pageNumber === 1 ? 0.2 : 1,
             }}
@@ -115,9 +120,7 @@ export const PdfViewer = (props: Props) => {
           <PageNumber {...getCSSStyle('pageNumber')}>
             {pageNumber} / {numPages}
           </PageNumber>
-          <Icon
-            icon="keyboard_arrow_right"
-            size={24}
+          <MdKeyboardArrowRight
             onClick={(e) => {
               e.stopPropagation()
               if (pageNumber !== numPages) {
@@ -125,6 +128,7 @@ export const PdfViewer = (props: Props) => {
                 // setIframeLoading(true)
               }
             }}
+            size={24}
             style={{
               opacity: pageNumber === numPages ? 0.2 : 1,
             }}
@@ -137,7 +141,7 @@ export const PdfViewer = (props: Props) => {
           {...getCSSStyle('closeButton')}
           onClick={props.onFullscreenChanged || props.onClose}
         >
-          <Icon icon={props.isFullscreen ? 'fullscreen' : 'close'} size={24} />
+          {props.isFullscreen ? <MdFullscreen size={24} /> : <MdClose size={24} />}
         </CloseButton>
       )}
 
