@@ -6,10 +6,10 @@ import { makeFormLens } from '../../src/form/util'
 import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Select>({
+export default {
   title: 'Components/Select',
   component: Select,
-})
+}
 
 type FormData = {
   letter: string | null
@@ -83,6 +83,7 @@ export const SelectText = () => {
           alert(`ON CHANGE\nLetter value: ${value}`)
           setValue(value)
         },
+        autoFocus: true,
         showValidation: false,
       })}
     </div>
@@ -106,6 +107,7 @@ export const SelectTextWithValue = () => {
           alert(`ON CHANGE\nLetter value: ${value}`)
           setValue(value)
         },
+        autoFocus: false,
         showValidation: false,
       })}
     </div>
@@ -126,6 +128,7 @@ export const Readonly = () => (
       onChange: (lens, value) => {
         alert(`ON CHANGE\nLetter value: ${value}`)
       },
+      autoFocus: false,
       showValidation: false,
     })}
   </div>
@@ -148,6 +151,7 @@ export const SelectNumber = () => {
           alert(`ON CHANGE\nNumber of children value: ${newValue}`)
           setValue(newValue)
         },
+        autoFocus: false,
         showValidation: false,
       })}
     </div>

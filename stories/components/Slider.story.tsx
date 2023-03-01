@@ -6,10 +6,10 @@ import { makeFormLens } from '../../src/form/util'
 import { FormFieldType, SingleFormField, SliderField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Slider>({
+export default {
   title: 'Components/Slider',
   component: Slider,
-})
+}
 
 type FormData = { amount: number | null, months: number | null }
 const formLens = makeFormLens<FormData>()
@@ -44,6 +44,7 @@ export const AmoutSlider = () => {
             onChange: (lens, value) => {
               setValue(value)
             },
+            autoFocus: false,
             showValidation: false,
           })}
         </li>
@@ -60,6 +61,7 @@ export const AmoutSlider = () => {
             onChange: (lens, value) => {
               setValue(value)
             },
+            autoFocus: false,
             showValidation: false,
           })}
         </li>
@@ -99,6 +101,7 @@ export const MonthsSlider = () => {
             onChange: (lens, value) => {
               setValue(value)
             },
+            autoFocus: false,
             showValidation: false,
           })}
         </li>
@@ -115,6 +118,7 @@ export const MonthsSlider = () => {
             onChange: (lens, value) => {
               setValue(value)
             },
+            autoFocus: false,
             showValidation: false,
           })}
         </li>

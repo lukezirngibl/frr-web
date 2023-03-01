@@ -15,10 +15,10 @@ type FormData = {
 }
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldMultiInputAutosuggestProps<FormData>, typeof FieldMultiInputAutosuggest>({
+export default {
   title: 'Form/Multi input field with auto suggest',
   component: FieldMultiInputAutosuggest,
-})
+}
 
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldMultiInputAutosuggestProps<FormData>, typeof FieldMultiInputAutosuggest>(

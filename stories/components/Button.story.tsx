@@ -4,10 +4,10 @@ import { Button, ButtonType, Props } from '../../src/components/Button'
 import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Button>({
+export default {
   title: 'Buttons',
   component: Button,
-})
+}
 
 const ButtonOverview = () => (
   <List>

@@ -6,10 +6,10 @@ import { makeFormLens } from '../../src/form/util'
 import { FormFieldType } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof MaskedDatePicker>({
+export default {
   title: 'Components/MaskedDatePicker',
   component: MaskedDatePicker,
-})
+}
 
 const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeof FieldRowItem>(
   FieldRowItem,

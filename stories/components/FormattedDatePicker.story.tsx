@@ -6,10 +6,10 @@ import { makeFormLens } from '../../src/form/util'
 import { FormFieldType } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof FormattedDatePicker>({
+export default {
   title: 'Components/FormattedDatePicker',
   component: FormattedDatePicker,
-})
+}
 
 const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeof FieldRowItem>(
   FieldRowItem,
@@ -36,6 +36,7 @@ export const Initial = () => (
       onChange: (lens, value) => {
         alert(`ON CHANGE\nDate value: ${value}`)
       },
+      autoFocus: false,
       showValidation: false,
     })}
   </div>
@@ -59,6 +60,7 @@ export const Readonly = () => (
       onChange: (lens, value) => {
         alert(`ON CHANGE\nDate value: ${value}`)
       },
+      autoFocus: false,
       showValidation: false,
     })}
   </div>

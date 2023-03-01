@@ -8,10 +8,10 @@ import { makeFormLens } from '../../src/form/util'
 import { createStory, meta } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof TextInputAutosuggest>({
+export default {
   title: 'Components/TextInput with auto suggest',
   component: TextInputAutosuggest,
-})
+}
 
 type FormData = {
   zip?: string | null
@@ -102,6 +102,7 @@ export const Autosugget = () => {
         onChange: (lens, value) => {
           setValue(value)
         },
+        autoFocus: true,
         showValidation: false,
       })}
     </div>

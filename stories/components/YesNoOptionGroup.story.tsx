@@ -6,10 +6,10 @@ import { makeFormLens } from '../../src/form/util'
 import { FormFieldType, SingleFormField, YesNoOptionGroupField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof YesNoOptionGroup>({
+export default {
   title: 'Components/YesNoOptionGroup',
   component: YesNoOptionGroup,
-})
+}
 
 type FormData = { isMovedRecently: boolean | null }
 const formLens = makeFormLens<FormData>()
@@ -37,6 +37,7 @@ export const Initial = () => {
         onChange: (lens, value) => {
           setValue(value)
         },
+        autoFocus: false,
         showValidation: false,
       })}
     </div>

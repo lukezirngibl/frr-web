@@ -101,10 +101,10 @@ const summaryFields: Array<FormField<FormData>> = [
 ]
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldSectionCardProps<FormData>, typeof FieldSectionCard>({
+export default {
   title: 'Form/Section Card',
   component: FieldSectionCard,
-})
+}
 
 const formLens = makeFormLens<FormData>()
 const story = createStory<FormProps<FormData>, typeof Form>(Form)
