@@ -7,6 +7,7 @@ import { P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
+import { formatFileSize, UploadDocumentItem } from './UploadDocumentItem'
 
 type DragProps = {
   isDragActive: boolean
@@ -115,13 +116,6 @@ export const UploadDropzone = ({
     }
   }, [loadFiles, acceptedFileItems, onChange])
 
-  function formatFileSize(size: number) {
-    const formattedSize: number = size / 1000
-    if (formattedSize > 1000) return `${(formattedSize / 1000).toFixed(2)} MB`
-
-    return `${formattedSize.toFixed(2)} KB`
-  }
-
   return (
     <>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
@@ -159,35 +153,17 @@ export const UploadDropzone = ({
                 />
 
                 {acceptedFileItems.map((file: File) => (
-                  <ListItem
+                  <UploadDocumentItem
+                    file={file}
                     key={file.name}
-                    {...getCSSStyle({
-                      listItem: true,
-                      listSingleItem: maxFilesToUpload === 1,
-                    })}
-                  >
-                    {file.name.endsWith('.png' || '.jpeg' || '.svg') && (
-                      <ItemIcon
-                        src={URL.createObjectURL(file)}
-                        alt={file.name}
-                        {...getCSSStyle('imageItem')}
-                      />
-                    )}
-                    <P
-                      isLabelTranslated
-                      label={`${file.name} - ${formatFileSize(file.size)}`}
-                      {...getCSSStyle('acceptedFileItem')}
-                    />
-                    <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
-                      <HighlightOffIcon
-                        className="remove-icon"
-                        onClick={() => {
-                          setAcceptedFileItems(acceptedFileItems.filter((e) => file.name !== e.name))
-                          setErrorMessage(undefined)
-                        }}
-                      />
-                    </RemoveItemIcon>
-                  </ListItem>
+                    maxFilesToUpload={maxFilesToUpload}
+                    maxFileSize={maxFileSize}
+                    onRemove={() => {
+                      setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
+                      setErrorMessage(undefined)
+                    }}
+                    style={style}
+                  />
                 ))}
               </Section>
             )}
@@ -195,34 +171,30 @@ export const UploadDropzone = ({
               <Section {...getCSSStyle('section')}>
                 <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
                 {rejectedFileItems.map(({ file, errors }: FileRejection) => (
-                  <ListItem key={file.name} {...getCSSStyle('listItem')}>
-                    <P
-                      label={
-                        maxFileSize && file.size > maxFileSize
-                          ? 'dropzone.rejectedFile.fileSizeMessage'
-                          : `${file.name}`
-                      }
-                      data={{
-                        fileName: file.name,
-                        maxFileSize: formatFileSize(maxFileSize),
-                        fileSize: formatFileSize(file.size),
-                      }}
-                      {...getCSSStyle('rejectedFileItem')}
-                    />
-                  </ListItem>
+                  <UploadDocumentItem
+                    file={file}
+                    key={file.name}
+                    maxFilesToUpload={maxFilesToUpload}
+                    maxFileSize={maxFileSize}
+                    onRemove={() => {
+                      setRejectedFileItems(
+                        rejectedFileItems.filter((item) => file.name !== item.file.name),
+                      )
+                      setErrorMessage(undefined)
+                    }}
+                    style={style}
+                  />
                 ))}
               </Section>
             )}
             {errorMessage && (
-              <Section {...getCSSStyle('section')}>
-                <P
-                  {...getCSSStyle('errorMessage')}
-                  label={'dropzone.errorLabel'}
-                  data={{
-                    errorMessage: errorMessage,
-                  }}
-                />
-              </Section>
+              <P
+                {...getCSSStyle('errorMessage')}
+                label={'dropzone.errorLabel'}
+                data={{
+                  errorMessage: errorMessage,
+                }}
+              />
             )}
           </aside>
         </section>
@@ -249,14 +221,3 @@ const Container = createStyled(styled.div<DragProps>`
 `)
 
 const Section = createStyled('div')
-
-const ListItem = createStyled('div')
-
-const ItemIcon = createStyled('img')
-
-const RemoveItemIcon = createStyled(styled.div`
-  svg.remove-icon {
-    width: 100%;
-    height: 100%;
-  }
-`)

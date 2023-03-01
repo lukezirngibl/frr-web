@@ -1,7 +1,6 @@
 import React from 'react'
 import { Lens as MonocleLens, Optional } from 'monocle-ts'
 import { getOrElse, fold, none, some } from 'fp-ts/lib/Option'
-import { range } from 'fp-ts/lib/Array'
 import {
   FormFieldRepeatGroup,
   FormFieldType,
@@ -10,6 +9,7 @@ import {
   FormSection,
 } from './components/types'
 import { Translate } from '../translation'
+import { range } from '../util'
 
 let scrolled = false
 

@@ -22,6 +22,7 @@ import { StaticField } from './StaticField'
 import {
   DisplayType,
   FieldError,
+  FieldMarks,
   FormField,
   FormFieldType,
   InternalFormField,
@@ -118,14 +119,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     setScrolled(false)
   }, [formFields])
 
+  const [errorFieldId, setErrorFieldId] = useState(null)
+
   const getFieldError = (
     field: SingleFormField<FormData>,
   ): { error: string | null; fieldId: string } => {
     const value = field.lens.get(data)
-    return computeFieldError({ value, data, field, isValidate: true })
-  }
+    const marks = 'marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : []
 
-  const [errorFieldId, setErrorFieldId] = useState(null)
+    return computeFieldError({ value, data, field, isValidate: true, marks })
+  }
 
   const submit = () => {
     setErrorFieldId(null)

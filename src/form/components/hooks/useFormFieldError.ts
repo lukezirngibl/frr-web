@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
-import { FieldError, FormFieldType, SingleFormField } from '../types'
+import { FieldError, FieldMarks, FormFieldType, SingleFormField } from '../types'
 
 export const computeFieldError = <FormData>({
   data,
   field,
   isValidate,
+  marks,
   value,
 }: {
   data: FormData
   field: SingleFormField<FormData>
   isValidate: boolean
+  marks: Array<number>
   value: string | string[] | boolean | number | Date | null | File | Array<File>
 }): FieldError => {
   let error = null
@@ -69,6 +71,8 @@ export const computeFieldError = <FormData>({
       error = 'formFields.error.minError'
     } else if ('max' in field && value > field.max) {
       error = 'formFields.error.maxError'
+    } else if (marks.length > 0 && !marks.includes(value as number)) {
+      error = 'formFields.error.invalidValue'
     }
   }
 
@@ -89,9 +93,11 @@ export const useFormFieldError = <FormData>({
   value: string | string[] | number | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
+  const [marks] = useState('marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : [])
+
   useEffect(() => {
     showValidation || isDirty
-      ? setFieldError(computeFieldError({ value, field, data, isValidate: showValidation }))
+      ? setFieldError(computeFieldError({ value, field, data, isValidate: showValidation, marks }))
       : setFieldError({ error: null, fieldId: null })
   }, [value, showValidation, isDirty])
 
