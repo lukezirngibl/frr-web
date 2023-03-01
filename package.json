@@ -7,12 +7,12 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.5.13",
+  "version": "3.5.15",
   "keywords": [],
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "link:react": "yarn link @devexperts/remote-data-ts @material-ui/core @material-ui/styles i18next react react-dom react-i18next semantic-ui-react styled-components",
+    "link:react": "yarn link @material-ui/core @material-ui/styles i18next react react-dom react-i18next semantic-ui-react styled-components",
     "prepare": "install-peers && husky install",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
@@ -33,11 +33,11 @@
     "@devexperts/remote-data-ts": "0.6.0",
     "@material-ui/core": "^4.9.10",
     "@material-ui/styles": "^4.9.10",
-    "i18next": "^20.1.0",
+    "i18next": "^22.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-i18next": "^11.8.12",
-    "semantic-ui-react": "^2.0.3",
+    "react-i18next": "12.0.0",
+    "semantic-ui-react": "^2.0.0",
     "styled-components": "^5.0.0"
   },
   "dependencies": {
@@ -46,7 +46,6 @@
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.9.10",
-    "@types/lodash.range": "^3.2.7",
     "date-fns": "^2.19.0",
     "fp-ts": "^2.12.3",
     "lodash.range": "^3.2.0",
@@ -55,7 +54,6 @@
     "react-click-away-listener": "^2.0.0",
     "react-color": "^2.19.3",
     "react-datepicker": "^4.2.1",
-    "react-day-picker": "^7.4.8",
     "react-dropzone": "12.0.4",
     "react-html-parser": "^2.0.2",
     "react-maskinput": "^3.2.0",
@@ -64,9 +62,9 @@
     "react-select": "^5.4.0",
     "react-virtualized": "^9.22.3",
     "rgb-hex": "^4.0.0",
-    "semantic-ui-react": "^2.0.3",
+    "semantic-ui-react": "^2.0.0",
     "typelevel-ts": "^0.4.0",
-    "use-debounce": "7.0.0"
+    "use-debounce": "^9.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
@@ -81,16 +79,16 @@
     "@storybook/addon-essentials": "^6.5.10",
     "@storybook/addon-links": "^6.5.10",
     "@storybook/react": "^6.5.10",
+    "@types/lodash.range": "^3.2.7",
     "@types/react": "^17.0.3",
     "@types/react-datepicker": "^4.1.7",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.0.0",
-    "babel-loader": "^8.2.5",
     "husky": ">=6",
     "install-peers-cli": "^2.2.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^13.1.2",
     "prettier": "^2.3.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.1.2",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4"
   },

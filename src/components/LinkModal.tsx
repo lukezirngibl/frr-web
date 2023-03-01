@@ -95,7 +95,9 @@ export const LinkModal = (props: Props) => {
             )}
           </IframeWrapper>
         </IframeOuterWrapper>
-      ) : null}
+      ) : (
+        <div></div>
+      )}
     </Modal>
   )
 }

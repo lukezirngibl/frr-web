@@ -78,7 +78,7 @@ export const Element = (
     readOnly,
     style = {},
     value,
-  } = props
+  } = props  
   const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
 
