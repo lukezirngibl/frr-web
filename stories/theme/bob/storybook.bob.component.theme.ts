@@ -74,6 +74,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     itemIcon: {
       marginRight: 4,
+      marginBottom: 2,
       width: 18,
     },
     iconAllowed: {
@@ -110,7 +111,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
   popoverDropdown: {
     icon: {
       marginLeft: 8,
-      marginBottom: -2,
+      marginBottom: 2,
     },
     button: {
       display: 'flex',
