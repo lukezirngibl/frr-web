@@ -1,6 +1,6 @@
 import { ComponentThemeConfig } from '../../../src/theme/theme.components'
 
-export const appTheme: Partial<ComponentThemeConfig> = {
+export const componentTheme: Partial<ComponentThemeConfig> = {
   datePicker: {
     wrapper: {
       position: 'relative',
@@ -117,8 +117,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
 `,
   },
   slider: {
+    input: {
+      textAlign: 'right',
+      paddingRight: 12,
+    },
     label: {
-      maxWidth: 'calc(var(--form-field-width) - 132px)',
+      maxWidth: 'calc(100% - var(--calculator-field-width) - 4px)',
     },
     outerWrapper: {},
     prefix: {
@@ -147,8 +151,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       alignItems: 'center',
     },
     valueWrapperEditable: {
-      maxWidth: 132,
-      top: -12,
+      maxWidth: 'var(--calculator-field-width)',
+      top: -14,
       '@media-mobile': {
         top: 2,
       },
@@ -169,7 +173,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       backgroundColor: 'var(--color-partner-primary)',
       width: 14,
       height: 34,
-      marginTop: -3,
+      marginTop: -13,
       marginLeft: -8,
       borderRadius: 0,
       ':focus': {
@@ -208,15 +212,15 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
     },
-    labelTextError: {
-      color: 'var(--color-error)',
-    },
     labelText: {
       color: 'var(--color-secondary)',
     },
+    labelTextError: {
+      color: 'var(--color-error)',
+    },
     errorIcon: {
       position: 'absolute',
-      left: -32,
+      left: -22,
       top: 0,
       color: 'var(--color-error)',
     },
@@ -235,18 +239,19 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       border: '1px solid var(--color-partner-primary)',
       boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.25)',
       backgroundColor: 'var(--color-background-primary)',
-      minWidth: 400,
       padding: 16,
+      minWidth: 'var(--form-field-description-min-width)',
       zIndex: 9999,
       '@media-mobile': {
-        minWidth: '100%',
-        left: 0,
+        left: -8,
       },
     },
     descriptionText: {
       fontSize: 'var(--font-size-16)',
     },
     descriptionIconWrapper: {
+      position: 'relative',
+      display: 'inline-block',
       color: 'var(--color-secondary)',
       opacity: 0.7,
       cursor: 'pointer',
@@ -260,7 +265,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     descriptionIcon: {
       position: 'absolute',
-      bottom: 4,
+      bottom: -5,
       width: 20,
       height: 20,
     },
@@ -289,6 +294,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -319,14 +325,20 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       justifyContent: 'flex-start',
       height: 'var(--form-field-height)',
       minWidth: 'var(--form-field-width)',
+      paddingLeft: 'var(--form-field-mobile-padding)',
+      gap: 20,
       '@media-mobile': {
-        flexWrap: 'wrap',
+        paddingBottom: 6,
+        paddingLeft: 0,
+        paddingRight: 0,
+        gap: 8,
       },
     },
     wrapperFocus: {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -344,13 +356,14 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       position: 'relative',
       width: 19,
       height: 19,
+      marginTop: -2,
       padding: 0,
-      flexShrink: 0,
       display: 'flex',
+      flexShrink: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      border: '1px solid var(--color-primary)',
       backgroundColor: 'var(--color-form-field-background)',
+      border: '1px solid var(--color-primary)',
       transition: 'border 0.1s',
       ':hover': {
         borderWidth: 2,
@@ -368,13 +381,16 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     radioInnerActive: {},
     item: {
       flexDirection: 'row-reverse',
-      width: 112,
-      padding: '0 20px var(--form-field-mobile-padding) 20px',
+      minWidth: 112,
+      padding: '0 20px 0 20px',
       justifyContent: 'flex-end',
+      '@media-mobile': {
+        width: '50%',
+      },
     },
     label: {
       paddingLeft: 12,
-      lineHeight: '18px',
+      lineHeight: 1,
     },
     errorWrapper: {},
   },
@@ -392,6 +408,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -441,7 +458,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       },
     },
     optionHover: {
-      backgroundColor: '#0400f5', // Default color of react-select library
+      backgroundColor: '#2484FF', // Color in production
       color: 'white',
     },
     optionActive: {
@@ -521,6 +538,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -579,6 +597,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -653,9 +672,6 @@ export const appTheme: Partial<ComponentThemeConfig> = {
         paddingRight: 16,
         minWidth: 0,
       },
-      ':focus': {
-        border: '1px solid var(--color-primary)',
-      },
       ':focus:before': {
         content: '""',
         position: 'absolute',
@@ -678,7 +694,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     primary: {
       backgroundColor: 'var(--color-partner-primary)',
-      borderColor: 'transparent',
+      borderColor: 'var(--color-partner-primary)',
       color: 'var(--color-primary)',
       minWidth: 180,
       ':hover': {
@@ -825,7 +841,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       animation: 'modal-open-animation 0.2s',
       '@media-mobile': {
         width: '100%',
-        height: '100vh',
+        height: 'var(--view-height)',
         borderRadius: 0,
       },
     },

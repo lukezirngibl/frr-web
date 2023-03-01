@@ -1,6 +1,6 @@
 import { ComponentThemeConfig } from '../../../src/theme/theme.components'
 
-export const appTheme: Partial<ComponentThemeConfig> = {
+export const componentTheme: Partial<ComponentThemeConfig> = {
   modal: {
     outerWrapper: {
       alignItems: 'center',
@@ -29,7 +29,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       animation: 'modal-open-animation 0.2s',
       '@media-mobile': {
         width: '100%',
-        height: '100vh',
+        height: 'var(--view-height)',
         borderRadius: 0,
       },
     },
@@ -87,15 +87,24 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
   },
   popoverWithItems: {
-    wrapper: {},
+    wrapper: {
+      boxShadow: 'var(--shadow-overlay)',
+      backgroundColor: 'var(--color-background-hover)',
+      border: '1px solid var(--color-form-field-border)',
+      borderRadius: 'var(--form-field-border-radius)',
+    },
     item: {
       minWidth: 168,
       display: 'flex',
       alignItems: 'center',
       width: '100%',
       lineHeight: '42px',
-      padding: '0 16px',
+      padding: '8px 16px',
       cursor: 'pointer',
+      transition: 'background-color 0.2s',
+      ':hover': {
+        backgroundColor: 'var(--color-form-field-background)',
+      },
     },
   },
   popoverDropdown: {
@@ -243,45 +252,54 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     `,
   },
   slider: {
-    label: {
-      maxWidth: 'calc(var(--form-field-width) - 152px)',
-    },
-    prefix: {
+    input: {
       fontSize: 18,
-      fontWeight: 400,
-      color: 'var(--color-disabled)',
-    },
-    postfix: {
-      fontSize: 18,
-      fontWeight: 400,
-      color: 'var(--color-disabled)',
-    },
-    value: {
-      fontSize: 24,
       fontWeight: 700,
       color: 'var(--color-input)',
+      textAlign: 'right',
+    },
+    inputWrapper: {
+      width: '100%',
+      maxWidth: 'unset',
+    },
+    label: {
+      maxWidth: 'calc(100% - var(--calculator-field-width) - 4px)',
+    },
+    prefix: {
+      fontSize: 'var(--font-size-label)',
+      fontWeight: 400,
+      color: 'var(--color-secondary)',
+    },
+    postfix: {
+      fontSize: 'var(--font-size-label)',
+      fontWeight: 400,
+      color: 'var(--color-secondary)',
+    },
+    value: {
+      fontSize: 'var(--font-size-title)',
+      fontWeight: 700,
+      color: 'var(--color-input)',
+      textOverflow: 'unset',
+      textAlign: 'right',
     },
     valueWrapper: {
-      position: 'absolute',
-      top: -4,
-      right: 0,
-      paddingTop: 'var(--form-field-mobile-padding)',
+      alignItems: 'baseline',
       display: 'flex',
       gap: 8,
-      alignItems: 'center',
+      paddingTop: 'var(--form-field-mobile-padding)',
+      position: 'absolute',
+      right: 0,
+      top: -4,
     },
     valueWrapperEditable: {
-      maxWidth: 152,
+      maxWidth: 'var(--calculator-field-width)',
       top: -16,
-      '@media-mobile': {
-        top: -8,
-      },
     },
     wrapper: {
-      margin: '16px 0 0',
+      margin: '16px 0 32px',
       width: '100%',
       '@media-mobile': {
-        margin: '16px 0 16px',
+        margin: '8px 0 24px',
       },
     },
   },
@@ -290,13 +308,26 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       color: 'var(--color-accent)',
     },
     thumb: {
+      marginLeft: -12,
       backgroundColor: 'var(--color-accent)',
+      ':active': {
+        backgroundColor: 'var(--color-accent)',
+      },
+      ':focus': {
+        backgroundColor: 'var(--color-background-accent)',
+      },
+      ':hover': {
+        background: 'var(--color-background-accent)',
+      },
     },
     track: {
       borderRadius: 3,
     },
     rail: {
       borderRadius: 3,
+    },
+    markLabel: {
+      color: 'var(--color-secondary)',
     },
   },
   label: {
@@ -305,13 +336,13 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
     },
-    labelTextError: {
-      color: 'var(--color-error)',
-    },
     labelText: {
       color: 'var(--color-secondary)',
       fontWeight: 100,
       fontSize: 'var(--font-size-label)',
+    },
+    labelTextError: {
+      color: 'var(--color-error)',
     },
     errorIcon: {
       position: 'absolute',
@@ -352,16 +383,25 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       color: 'var(--color-secondary)',
     },
     descriptionIconWrapper: {
+      position: 'relative',
+      display: 'inline-block',
       opacity: 0.7,
       cursor: 'pointer',
-      minWidth: 18,
-      marginLeft: 8,
+      minWidth: 22,
+      marginLeft: 6,
+      '@media-mobile': {
+        minWidth: 20,
+      },
     },
     descriptionIcon: {
       position: 'absolute',
-      bottom: 0,
+      bottom: -5,
       width: 22,
       height: 22,
+      '@media-mobile': {
+        width: 20,
+        height: 20,
+      },
     },
     wrapper: {
       paddingTop: 'var(--form-field-mobile-padding)',
@@ -413,15 +453,21 @@ export const appTheme: Partial<ComponentThemeConfig> = {
   },
   toggle: {
     wrapper: {
-      border: '1px solid var(--color-form-field-border)',
-      height: 26,
-      transition: 'border 0.1s',
+      border: '1px solid transparent',
+      background: 'var(--color-form-field-border)',
+      height: 32,
+      margin: '0 24px',
+      transition: 'border 0.1s, background 0.2s',
       ':hover': {
         borderColor: 'var(--color-form-field-border-focus)',
       },
       '@media-mobile': {
-        marginTop: 16,
+        marginTop: 8,
         marginLeft: 'auto',
+        marginRight: 0,
+        ':hover': {
+          borderColor: 'transparent',
+        },
       },
     },
     wrapperActive: {
@@ -431,17 +477,17 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     wrapperFocus: {
       borderColor: 'var(--color-form-field-border-focus)',
+      '@media-mobile': {
+        borderColor: 'transparent',
+      },
     },
     circle: {
-      height: 24,
-      width: 24,
+      backgroundColor: 'white',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'var(--color-disabled)',
-    },
-    circleActive: {
       borderColor: 'white',
-      backgroundColor: 'white',
+      height: 25,
+      width: 25,
     },
   },
   radioGroup: {
@@ -458,6 +504,11 @@ export const appTheme: Partial<ComponentThemeConfig> = {
         marginTop: 16,
         gap: 4,
       },
+    },
+    wrapperVertical: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16,
     },
     radioOuterError: {
       borderColor: 'var(--color-error)',
@@ -482,35 +533,76 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       backgroundColor: 'var(--color-active)',
       borderColor: 'var(--color-active)',
     },
-    radioOuterFocus: { borderColor: 'var(--color-form-field-border-focus)' },
+    radioOuterFocus: {
+      borderColor: 'var(--color-form-field-border-focus)',
+      '@media-mobile': {
+        borderColor: 'var(--color-active)',
+      },
+    },
     radioInner: {
       backgroundColor: 'white',
       width: 8,
       height: 8,
+      border: 'none',
     },
     radioInnerActive: {
       backgroundColor: 'white',
     },
     item: {
       flexDirection: 'row-reverse',
-      width: 180,
-      paddingBottom: 'var(--form-field-mobile-padding)',
-      paddingRight: 24,
-      paddingLeft: 24,
-      justifyContent: 'flex-end',
       fontSize: 'var(--font-size-input)',
+      justifyContent: 'flex-end',
+      minWidth: 180,
+      paddingBottom: 'var(--form-field-mobile-padding)',
+      paddingLeft: 12,
+      width: 'fit-content',
       ':last-child': {
         paddingLeft: 0,
       },
       '@media-mobile': {
+        minWidth: 120,
         paddingLeft: 8,
         width: '50%',
       },
     },
+    itemVerticalActive: {
+      border: '2px solid var(--color-active)',
+      background: 'rgba(238, 248, 250, 1)',
+    },
+    itemVertical: {
+      border: '1px solid var(--color-form-field-border)',
+      borderRadius: 4,
+      fontWeight: 700,
+      minHeight: 72,
+      padding: '24px 24px',
+      width: '480px',
+      transition: 'border 0.1s',
+      ':last-child': {
+        paddingLeft: 24,
+      },
+      '@media-mobile': {
+        padding: '16px 24px',
+        width: '100%',
+      },
+    },
+    icon: {
+      marginLeft: 24,
+      width: 24,
+      height: 24,
+    },
+    labelWrapper: {
+      paddingLeft: 24,
+      fontWeight: 'inherit',
+    },
     label: {
-      paddingLeft: 12,
-      lineHeight: '18px',
       color: 'var(--color-input)',
+      lineHeight: '18px',
+    },
+    sublabel: {
+      color: 'var(--color-secondary)',
+      fontSize: 'var(--font-size-sublabel)',
+      fontWeight: 400,
+      marginTop: 8,
     },
     errorWrapper: {},
   },
@@ -603,9 +695,13 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       outline: '0 !important',
       padding: '0 var(--form-field-padding-horizontal)',
       position: 'relative',
+      textOverflow: 'ellipsis',
       transition: 'all 100ms',
       width: 'var(--form-field-width)',
       zIndex: 10,
+      '@media-mobile': {
+        paddingRight: 48,
+      },
       ':hover': {
         borderColor: 'var(--color-form-field-border-focus)',
       },
@@ -641,14 +737,13 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     postfix: {
       paddingRight: 'var(--form-field-padding-horizontal)',
-      paddingLeft: 16,
       color: 'var(--color-secondary)',
       fontSize: 'var(--font-size-input)',
       lineHeight: 1,
     },
     wrapper: {
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'baseline',
       height: 'var(--form-field-height)',
       borderStyle: 'solid',
       borderWidth: 1,
@@ -683,6 +778,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       paddingRight: 'var(--form-field-padding-horizontal)',
       fontSize: 'var(--font-size-input)',
       fontWeight: 700,
+      textOverflow: 'ellipsis',
     },
     inputPlaceholder: {
       color: 'var(--color-disabled)',
@@ -717,12 +813,13 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       justifyContent: 'center',
       flexGrow: 1,
       height: 'var(--form-field-height)',
-      color: 'var(--color-input)',
+      color: 'var(--color-secondary)',
       border: '1px solid var(--color-form-field-border)',
       borderRadius: 'var(--form-field-border-radius)',
       transition: 'border 0.1s',
       ':hover': {
         borderColor: 'var(--color-form-field-border-focus)',
+        color: 'var(--color-input)',
       },
       ':disabled': {
         borderColor: 'var(--color-form-field-border)',
@@ -738,18 +835,22 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       boxShadow: 'inset 0 0 0 3px var(--color-active)',
       borderColor: 'transparent',
       boxSizing: 'content-box',
+      color: 'var(--color-input)',
       zIndex: 1,
     },
     itemFocus: {
       borderColor: 'var(--color-form-field-border-focus)',
+      color: 'var(--color-input)',
     },
     label: {
       textAlign: 'center',
       fontSize: 'var(--font-size-input)',
-      color: 'var(--color-input)',
+      color: 'inherit',
+      transition: 'color 0.2s',
     },
     labelActive: {
       fontWeight: 700,
+      color: 'var(--color-input)',
     },
   },
 
@@ -761,8 +862,6 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       height: 'var(--button-height)',
       outline: 'none',
       transition: 'all 0.7s ease',
-      // marginLeft: 8,
-      // marginRight: 8,
       '@media-mobile': {
         width: '100%',
         marginTop: 8,
@@ -802,11 +901,15 @@ export const appTheme: Partial<ComponentThemeConfig> = {
         filter: 'brightness(80%)',
       },
     },
+    primaryLabel: {
+      color: 'var(--color-button-primary)',
+    },
     label: {
       fontSize: 'var(--button-font-size)',
-      textTransform: 'none',
       fontWeight: 500,
+      lineHeight: 1,
       marginBottom: '0.1rem',
+      textTransform: 'none',
     },
     secondary: {
       backgroundColor: 'var(--color-background-button-default)',
@@ -819,18 +922,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     spinner: {},
   },
-  fileInput: {
-    wrapper: {
-      display: 'flex',
-      alignItems: 'center',
-      margin: '8px 0',
-    },
-  },
   pdfViewer: {
     pdfWrapper: {
       height: '100%',
       overflowY: 'auto',
       overflowX: 'hidden',
+      paddingBottom: 68,
     },
     downloadButton: {
       width: 56,
@@ -898,11 +995,19 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       height: 56,
       zIndex: 10,
       '@media-mobile': {
-        width: 'calc(100% - 136px)',
+        width: 'calc(100% - 144px)',
       },
     },
     pageNumber: {
       fontSize: 18,
+    },
+  },
+  fileInput: {
+    wrapper: {
+      minHeight: 100,
+      maxWidth: 'var(--form-field-width)',
+      margin: '8px 0',
+      width: '100%',
     },
   },
   uploadDropzone: {
@@ -918,8 +1023,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       flexDirection: 'column',
       justifyContent: 'center',
       maxWidth: 'var(--form-field-width)',
-      height: 100,
-      margin: '16px 0',
+      height: 84,
+      margin: '8px 0',
       outline: 'none',
       padding: '20px',
       width: '100%',
@@ -935,39 +1040,41 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       fontSize: 'var(--font-size-sublabel)',
       width: '100%',
       marginTop: 8,
+      textAlign: 'center',
+    },
+    acceptedFileItem: {
+      flexGrow: 1,
+      display: 'inline-block',
+      fontSize: 'var(--font-size-input)',
+      lineHeight: 1.1,
+      marginTop: 2,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
     },
     acceptedFilesLabel: {
       fontSize: 'var(--font-size-sublabel)',
-      color: 'green',
+      color: 'var(--toastify-color-success)',
+      marginBottom: 8,
     },
     rejectedFilesLabel: {
-      fontSize: 'var(--font-size-input)',
-      color: 'var(--color-error)',
-    },
-    acceptedFileItem: {
-      display: 'flex',
-      alignItems: 'center',
-      fontSize: 'var(--font-size-input)',
-      lineHeight: 1.0,
-      height: 30,
-    },
-    rejectedFileItem: {
-      fontSize: 'var(--font-size-input)',
-    },
-    errorMessage: {
       fontSize: 'var(--font-size-sublabel)',
       color: 'var(--color-error)',
+      marginBottom: 8,
+    },
+    errorMessage: {
+      color: 'var(--color-error)',
+      fontSize: 'var(--font-size-sublabel)',
+      marginTop: 8,
+      width: '100%',
     },
     section: {
-      paddingTop: '20px',
+      paddingTop: 20,
+      width: '100%',
     },
     sectionSingleItem: {
-      alignItems: 'center',
-      display: 'flex',
-      height: 80,
       paddingTop: 0,
-      whiteSpace: 'nowrap',
-      width: '100%',
+      marginBottom: 24,
     },
     imageItem: {
       marginRight: '10px',
@@ -978,11 +1085,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
       width: '100%',
-      padding: '8px 16px 8px 24px',
+      maxWidth: 'var(--form-field-width)',
+      height: 48,
+      padding: '8px var(--form-field-padding-horizontal) 8px',
       border: '1px solid var(--color-form-field-border)',
       borderRadius: 'var(--form-field-border-radius)',
       marginBottom: 8,
-      marginLeft: 16,
     },
     listSingleItem: {
       marginBottom: 0,
@@ -993,7 +1101,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'inline-block',
       height: 24,
       width: 24,
-      marginLeft: 24,
+      minWidth: 24,
+      marginLeft: 12,
     },
   },
   icon: {

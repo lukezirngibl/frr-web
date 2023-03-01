@@ -1,5 +1,6 @@
-import { createStory, meta } from '../storybook.helpers'
+import React from 'react'
 import { CodeInput, Props } from '../../src/components/CodeInput'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -7,11 +8,7 @@ export default {
   component: CodeInput,
 }
 
-const story = createStory<Props, typeof CodeInput>(CodeInput)
-
-export const Primary = story({
-  isAutoFocus: false,
-  value: 'Test',
-  onChange: (value) => console.log(value),
-  length: 4,
-})
+export const Primary = () => (
+  <CodeInput isAutoFocus={false} value={'Test'} onChange={(value) => console.log(value)} length={4} />
+)
+ 

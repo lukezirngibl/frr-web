@@ -588,7 +588,6 @@ export const defaultComponentTheme: ComponentTheme = {
 // React Context
 
 export const ComponentThemeContext = React.createContext<ComponentTheme>(undefined as ComponentTheme)
-
 ComponentThemeContext.displayName = 'ComponentThemeContext'
 
 export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig, ComponentTheme>(
@@ -599,6 +598,7 @@ export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig
 
 export const useComponentTheme = (): ComponentTheme => {
   const theme = React.useContext(ComponentThemeContext)
+  console.log('THEME', theme)
   if (!theme) {
     throw new Error(`ComponentTheme not found`)
   }

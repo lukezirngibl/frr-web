@@ -120,7 +120,7 @@ export const LoanSummary = () => {
   })
 
   return (
-    <div style={{ maxWidth: 600, minHeight: 1200 }}>
+    <div style={{ maxWidth: 840, minHeight: 1200 }}>
       {story({
         formFields: summaryFields,
         style: {},
