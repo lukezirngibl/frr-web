@@ -1,4 +1,6 @@
 import React from 'react'
+import { AiOutlineCheck } from 'react-icons/ai'
+import { MdClose } from 'react-icons/md'
 import { P } from '../html'
 import {
   ComponentTheme,
@@ -8,16 +10,10 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { Icon } from './Icon'
 
 export enum ChecklistType {
   Allowed = 'Allowed',
   Disallowed = 'Disallowed',
-}
-
-const mapTypeToIcon: { [k in ChecklistType]: string } = {
-  [ChecklistType.Allowed]: 'checkmark',
-  [ChecklistType.Disallowed]: 'close',
 }
 
 const Container = createStyled('div')
@@ -64,15 +60,23 @@ export const StaticChecklist = (props: Props) => {
               <Container {...getCSSStyles('itemsList')}>
                 {l.items.map((i, k2) => (
                   <Container key={k2} {...getCSSStyles('item')}>
-                    <Icon
-                      icon={mapTypeToIcon[l.type]}
-                      size={18}
-                      {...getInlineStyle({
-                        itemIcon: true,
-                        iconAllowed: l.type === ChecklistType.Allowed,
-                        iconDisallowed: l.type !== ChecklistType.Allowed,
-                      })}
-                    />
+                    {l.type === ChecklistType.Allowed ? (
+                      <AiOutlineCheck
+                        size={18}
+                        {...getInlineStyle({
+                          itemIcon: true,
+                          iconAllowed: true,
+                        })}
+                      />
+                    ) : (
+                      <MdClose
+                        size={18}
+                        {...getInlineStyle({
+                          itemIcon: true,
+                          iconDisallowed: true,
+                        })}
+                      />
+                    )}
                     <P
                       label={i.label}
                       localeNamespace={props.localeNamespace}

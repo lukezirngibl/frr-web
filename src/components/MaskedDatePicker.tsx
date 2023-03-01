@@ -9,7 +9,6 @@ import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { MaskedInput } from './MaskedInput'
 import { TextInput } from './TextInput'
@@ -19,6 +18,7 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
+import { MdOutlineCalendarToday } from 'react-icons/md'
 
 export type Props = {
   dataTestId?: string
@@ -197,7 +197,7 @@ export const MaskedDatePicker = (props: Props) => {
               >
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
-                <Icon icon="calendar_today" size={16} />
+                <MdOutlineCalendarToday size={16} />
               </Div>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>

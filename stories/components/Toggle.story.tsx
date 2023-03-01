@@ -1,9 +1,8 @@
-import { Toggle, Props } from '../../src/components/Toggle'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import React, { useState } from 'react'
+import { Toggle } from '../../src/components/Toggle'
+import { FieldRowItem } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, ToggleField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, ToggleField } from '../../src/form/components/types'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -13,7 +12,6 @@ export default {
 
 type FormData = { isPrivacyPolicyAccepted: boolean | null }
 const formLens = makeFormLens<FormData>()
-const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
 const field: ToggleField<FormData> = {
   type: FormFieldType.Toggle,
@@ -24,22 +22,24 @@ const field: ToggleField<FormData> = {
 export const Initial = () => {
   const [value, setValue] = useState(false)
 
+  const fieldItemProps = {
+    field,
+    fieldIndex: 0,
+    formReadOnly: false,
+    style: {},
+    data: {
+      isPrivacyPolicyAccepted: value,
+    },
+    onChange: (lens, value) => {
+      setValue(value)
+    },
+    autoFocus: false,
+    showValidation: false,
+  }
+
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
-      {story({
-        field,
-        fieldIndex: 0,
-        formReadOnly: false,
-        style: {},
-        data: {
-          isPrivacyPolicyAccepted: value,
-        },
-        onChange: (lens, value) => {
-          setValue(value)
-        },
-        autoFocus: false,
-        showValidation: false,
-      })}
+      <FieldRowItem {...fieldItemProps} />
     </div>
   )
 }
