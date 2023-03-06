@@ -1,5 +1,4 @@
 import MaterialSlider from '@mui/material/Slider'
-import { withStyles } from '@mui/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
@@ -15,6 +14,8 @@ import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { CurrencyInput } from './CurrencyInput'
 import { Label, LabelProps } from './Label'
+import { withStyles } from 'tss-react/mui'
+import { CSSObject } from 'tss-react'
 
 const Formatter = new Intl.NumberFormat('de-CH', {
   // style: 'currency',
@@ -41,17 +42,18 @@ const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles
   return pseudoStyles
 }
 
-const createSlider = (styles?: MaterialSliderStyles): unknown => {
+const createSlider = (styles?: MaterialSliderStyles) => {
   const materialStyles = styles || {}
 
-  return withStyles({
+  return withStyles(MaterialSlider, {
     root: {
       color: '#FFC53D',
       height: 8,
       padding: '15px 0',
-      ...(materialStyles.root || {}),
+      ...((materialStyles.root || {}) as CSSObject),
     },
     thumb: {
+      display: 'block',
       height: 24,
       width: 24,
       backgroundColor: '#FFC53D',
@@ -61,9 +63,9 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       '&:active': getPseudoElementStyle(':active', materialStyles),
       '&:focus': getPseudoElementStyle(':focus', materialStyles),
       '&:hover': getPseudoElementStyle(':hover', materialStyles),
-      ...(materialStyles.thumb || {}),
+      ...((materialStyles.thumb || {}) as CSSObject),
     },
-    active: materialStyles.active || {},
+    active: (materialStyles.active || {}) as CSSObject,
     valueLabel: {
       left: 'calc(-50% + 12px)',
       top: -22,
@@ -72,37 +74,37 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
         background: 'transparent',
         color: '#533603',
       },
-      ...(materialStyles.valueLabel || {}),
+      ...((materialStyles.valueLabel || {}) as CSSObject),
     },
     track: {
       height: 8,
-      ...(materialStyles.track || {}),
+      ...((materialStyles.track || {}) as CSSObject),
     },
     rail: {
       height: 8,
       opacity: 0.5,
       backgroundColor: 'rgba(0,0,0, 0.1)',
-      ...(materialStyles.rail || {}),
+      ...((materialStyles.rail || {}) as CSSObject),
     },
     mark: {
       backgroundColor: 'rgba(0,0,0, 0.2)',
       height: 8,
       width: 2,
-      ...(materialStyles.mark || {}),
+      ...((materialStyles.mark || {}) as CSSObject),
     },
     markLabel: {
       color: 'black',
       fontSize: 14,
       marginTop: 4,
       opacity: 1,
-      ...(materialStyles.markLabel || {}),
+      ...((materialStyles.markLabel || {}) as CSSObject),
     },
     markActive: {
       opacity: 1,
       backgroundColor: 'currentColor',
-      ...(materialStyles.markActive || {}),
+      ...((materialStyles.markActive || {}) as CSSObject),
     },
-  } as any)(MaterialSlider)
+  })
 }
 
 const ThumbComponent = (props: any) => {
@@ -173,7 +175,7 @@ export const Slider = (props: Props) => {
     }
   }, [])
 
-  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
+  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme])
 
   const prefix =
     (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
@@ -240,7 +242,6 @@ export const Slider = (props: Props) => {
             setInternalValue(value)
             onChange({ num: value })
           }}
-          style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
           scale={props.scale}
           step={props.step}
           tabIndex={-1}
