@@ -48,6 +48,7 @@ const summaryFields: Array<FormField<FormData>> = [
   },
   {
     type: FormFieldType.FormSection,
+    style: { rowItem: { background: 'rgba(0,0,0,0.12)' } },
     fields: [
       {
         label: { label: 'customerPlanSummary.formFields.monthlyRate.label' },
@@ -85,6 +86,7 @@ const summaryFields: Array<FormField<FormData>> = [
   },
   {
     type: FormFieldType.FormSection,
+    style: { rowItem: { display: 'block' } },
     fields: [
       {
         label: {
@@ -120,7 +122,7 @@ export const LoanSummary = () => {
   })
 
   return (
-    <div style={{ maxWidth: 600, minHeight: 1200 }}>
+    <div style={{ maxWidth: 1000, minHeight: 1200 }}>
       {story({
         formFields: summaryFields,
         style: {},

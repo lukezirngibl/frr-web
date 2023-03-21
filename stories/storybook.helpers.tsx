@@ -48,7 +48,7 @@ ${brandTheme.baseStyle}
     })
 
     return (
-      <div>
+      <div style={{ width: '100%' }}>
         <div
           style={{
             display: 'flex',
