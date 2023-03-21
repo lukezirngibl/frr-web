@@ -12,8 +12,6 @@ import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
 
-
-
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
   style?: Partial<FormTheme['section']>
@@ -58,6 +56,19 @@ export const FieldSection = <FormData extends {}>({
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
+  const commonFieldStyle: Partial<FormTheme> = style?.section?.rowItem
+    ? {
+        ...style,
+        row: {
+          ...style.row,
+          item: {
+            ...style.row?.item,
+            ...style.section.rowItem,
+          },
+        },
+      }
+    : style
+
   const commonFieldProps = {
     autoFocus: false,
     data,
@@ -67,7 +78,7 @@ export const FieldSection = <FormData extends {}>({
     onChange,
     onChangeMulti,
     showValidation,
-    style,
+    style: commonFieldStyle,
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {
