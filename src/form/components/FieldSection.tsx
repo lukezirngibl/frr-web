@@ -32,7 +32,7 @@ export const FieldSectionWrapper = (props: {
   )
 }
 
-type FieldSection<FormData> = CommonThreadProps<FormData> & {
+export type FieldSectionProps<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
   onFormEdit?: () => void
 }
@@ -50,7 +50,7 @@ export const FieldSection = <FormData extends {}>({
   onFormEdit,
   showValidation,
   style,
-}: FieldSection<FormData>) => {
+}: FieldSectionProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})

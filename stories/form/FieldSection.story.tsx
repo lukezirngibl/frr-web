@@ -1,7 +1,7 @@
 import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
 
 import React from 'react'
-import { FieldSectionCard, FieldSectionCardProps } from '../../src/form/components/FieldSectionCard'
+import { FieldSection, FieldSectionProps } from '../../src/form/components/FieldSection'
 import { Form, FormProps } from '../../src/form/components/Form'
 import { FormFieldType, FormField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
@@ -101,9 +101,9 @@ const summaryFields: Array<FormField<FormData>> = [
 ]
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldSectionCardProps<FormData>, typeof FieldSectionCard>({
-  title: 'Form/Section Card',
-  component: FieldSectionCard,
+export default meta<FieldSectionProps<FormData>, typeof FieldSection>({
+  title: 'Form/Section',
+  component: FieldSection,
 })
 
 const formLens = makeFormLens<FormData>()
