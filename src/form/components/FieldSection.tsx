@@ -56,19 +56,23 @@ export const FieldSection = <FormData extends {}>({
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
-  const row = style?.row || ({} as FormTheme['row'])
+  console.log('STYLE', style, fieldSection.style)
+  const row = style?.row || ({ wrapper: {}, wrapperReadOnly: {}, item: {} } as FormTheme['row'])
+  console.log('ROW', row)
   const commonFieldStyle: Partial<FormTheme> = fieldSection.style?.rowItem
     ? {
         ...style,
         row: {
           ...row,
           item: {
-            ...(row.item || {}),
+            ...row.item,
             ...fieldSection.style.rowItem,
           },
         },
       }
     : style
+
+  console.log('COMMON STYLE', commonFieldStyle)
 
   const commonFieldProps = {
     autoFocus: false,
