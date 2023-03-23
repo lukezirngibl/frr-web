@@ -62,7 +62,7 @@ export const FieldSection = <FormData extends {}>({
         row: {
           ...style?.row,
           item: {
-            ...style.row?.item,
+            ...style?.row?.item,
             ...fieldSection.style.rowItem,
           },
         },
