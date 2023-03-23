@@ -56,13 +56,14 @@ export const FieldSection = <FormData extends {}>({
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
+  const row = style?.row || ({} as FormTheme['row'])
   const commonFieldStyle: Partial<FormTheme> = fieldSection.style?.rowItem
     ? {
         ...style,
         row: {
-          ...style?.row,
+          ...row,
           item: {
-            ...style?.row?.item,
+            ...(row.item || {}),
             ...fieldSection.style.rowItem,
           },
         },
