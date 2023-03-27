@@ -1,8 +1,9 @@
 import { Slider as MaterialSlider } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
+import { FormFieldType } from '../form/components/types'
 import { P } from '../html'
 import {
   ComponentTheme,
@@ -130,7 +131,8 @@ export type Props = {
   marks?: Array<{ label: string; value: number }>
   max: number
   min: number
-  onChange: (v: number) => void
+  onChangeInputType?: (inputType: FormFieldType) => void
+  onChange: (params: { num: number }) => void
   placeholder?: string
   prefix?: string
   postfix?: string
@@ -152,8 +154,8 @@ export const Slider = (props: Props) => {
     props.initialValue !== undefined ? props.initialValue : props.value,
   )
 
-  const onChange = useDebouncedCallback(({ num }: { num: number }) => {
-    props.onChange(num)
+  const onChange = useDebouncedCallback((values: { num: number }) => {
+    props.onChange(values)
   }, 200)
 
   React.useEffect(() => {
@@ -169,7 +171,7 @@ export const Slider = (props: Props) => {
       props.defaultValue !== undefined &&
       (props.value === null || props.value === undefined)
     ) {
-      props.onChange(props.defaultValue)
+      props.onChange({ num: props.defaultValue })
     }
   }, [])
 
@@ -179,6 +181,14 @@ export const Slider = (props: Props) => {
     (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
 
   const labelStyle = getInlineStyles('label', {}, undefined, false, true)
+
+  // Input field type changes
+  const [inputFieldType, setInputFieldType] = useState<FormFieldType | null>(null)
+  useEffect(() => {
+    if (inputFieldType !== null) {
+      props.onChangeInputType?.(inputFieldType)
+    }
+  }, [inputFieldType])
 
   return (
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
@@ -192,7 +202,10 @@ export const Slider = (props: Props) => {
               marks={props.marks ? props.marks.map((m) => m.value) : undefined}
               max={props.inputMax !== undefined ? props.inputMax : props.max}
               min={props.inputMin !== undefined ? props.inputMin : props.min}
-              onChange={onChange}
+              onChange={({ num }) => {
+                onChange({ num })
+                setInputFieldType(FormFieldType.CurrencyInput)
+              }}
               placeholder={props.placeholder}
               postfix={props.postfix}
               prefix={prefix}
@@ -239,6 +252,7 @@ export const Slider = (props: Props) => {
           onChange={(_: Event, value: number) => {
             setInternalValue(value)
             onChange({ num: value })
+            setInputFieldType(FormFieldType.Slider)
           }}
           style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
           scale={props.scale}

@@ -1,6 +1,6 @@
 // @ts-ignore
 import { ComponentMeta } from '@storybook/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
@@ -34,20 +34,24 @@ export const createStory =
   (props: P) => {
     const [brand, setBrand] = useState(BRAND.bob)
     const Component = C as any
-
     const brandTheme = Brands[brand]
 
-    const BaseStyle = configureBaseStyle({
-      baseStyle: `
+    const [BaseStyle, setBaseStyle] = useState<any>(null)
+    useEffect(() => {
+      setBaseStyle(
+        configureBaseStyle({
+          baseStyle: `
 ${resetStyleConfig}
 ${brandTheme.baseStyle}
 `,
-      brandBaseStyle: brandTheme.baseStyle,
-      isStyleConfigActive: true,
-      styleConfig: bobStyleConfig,
-    })
+          brandBaseStyle: brandTheme.baseStyle,
+          isStyleConfigActive: true,
+          styleConfig: bobStyleConfig,
+        }),
+      )
+    }, [brand])
 
-    return (
+    return BaseStyle === null ? null : (
       <div style={{ width: '100%' }}>
         <div
           style={{

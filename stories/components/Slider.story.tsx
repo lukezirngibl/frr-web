@@ -11,7 +11,7 @@ export default meta<Props, typeof Slider>({
   component: Slider,
 })
 
-type FormData = { amount: number | null, months: number | null }
+type FormData = { amount: number | null; months: number | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
@@ -41,15 +41,20 @@ export const AmoutSlider = () => {
               amount: value,
               months: null,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             showValidation: false,
+            autoFocus: false,
           })}
         </li>
         <li>
           {story({
-            field: { ...amountField, isEditable: true },
+            field: {
+              ...amountField,
+              isEditable: true,
+              onChangeInputType: (inputType) => console.log(`NEW INPUT TPYE DETECTED "${inputType}"`),
+            },
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
@@ -57,10 +62,11 @@ export const AmoutSlider = () => {
               amount: value,
               months: null,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             showValidation: false,
+            autoFocus: false,
           })}
         </li>
       </ul>
@@ -79,7 +85,6 @@ const monthField: SliderField<FormData> = {
   defaultValue: 12,
 }
 
-
 export const MonthsSlider = () => {
   const [value, setValue] = useState(null)
 
@@ -96,15 +101,20 @@ export const MonthsSlider = () => {
               amount: null,
               months: value,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             showValidation: false,
+            autoFocus: false,
           })}
         </li>
         <li>
           {story({
-            field: { ...monthField, isEditable: true },
+            field: {
+              ...monthField,
+              isEditable: true,
+              onChangeInputType: (inputType) => console.log(`NEW INPUT TPYE DETECTED "${inputType}"`),
+            },
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
@@ -112,10 +122,11 @@ export const MonthsSlider = () => {
               amount: null,
               months: value,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             showValidation: false,
+            autoFocus: false,
           })}
         </li>
       </ul>
