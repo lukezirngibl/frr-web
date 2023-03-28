@@ -132,7 +132,7 @@ export type Props = {
   max: number
   min: number
   onChangeInputType?: (inputType: FormFieldType) => void
-  onChange: (params: { num: number }) => void
+  onChange: (num: number) => void
   placeholder?: string
   prefix?: string
   postfix?: string
@@ -154,8 +154,8 @@ export const Slider = (props: Props) => {
     props.initialValue !== undefined ? props.initialValue : props.value,
   )
 
-  const onChange = useDebouncedCallback((values: { num: number }) => {
-    props.onChange(values)
+  const onChange = useDebouncedCallback(({ num }: { num: number }) => {
+    props.onChange(num)
   }, 200)
 
   React.useEffect(() => {
@@ -171,7 +171,7 @@ export const Slider = (props: Props) => {
       props.defaultValue !== undefined &&
       (props.value === null || props.value === undefined)
     ) {
-      props.onChange({ num: props.defaultValue })
+      props.onChange(props.defaultValue)
     }
   }, [])
 
