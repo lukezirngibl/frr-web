@@ -76,11 +76,12 @@ export const Select = (props: Props) => {
       options: props.options,
       priority: props.priority,
       t,
-      value: props.value,
+      value,
     }),
   )
 
   useEffect(() => {
+    console.log('SET NEW OPTIONS', value, isMobileTouch)
     setOptions(
       getOptions({
         alphabetize: props.alphabetize,
@@ -89,10 +90,10 @@ export const Select = (props: Props) => {
         options: props.options,
         priority: props.priority,
         t,
-        value: props.value,
+        value,
       }),
     )
-  }, [props.alphabetize, props.options, props.priority])
+  }, [props.alphabetize, props.options, props.priority, isMobileTouch])
 
   const onChange = (option: InternalOption) => {
     const newValue = option.value === 'null' ? null : option.value
