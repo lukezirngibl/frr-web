@@ -81,7 +81,6 @@ export const Select = (props: Props) => {
   )
 
   useEffect(() => {
-    console.log('SET NEW OPTIONS', value, isMobileTouch)
     setOptions(
       getOptions({
         alphabetize: props.alphabetize,
