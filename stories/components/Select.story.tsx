@@ -47,6 +47,7 @@ const numberSelectField = {
   type: FormFieldType.NumberSelect,
   lens: formLens(['numberOfChildren']),
   label: { label: 'Anzahl Kinder' },
+  isRequired: true,
   options: [
     {
       value: 0,
@@ -84,6 +85,7 @@ export const SelectText = () => {
           setValue(value)
         },
         showValidation: false,
+        autoFocus: false,
       })}
     </div>
   )
@@ -107,6 +109,7 @@ export const SelectTextWithValue = () => {
           setValue(value)
         },
         showValidation: false,
+        autoFocus: false,
       })}
     </div>
   )
@@ -127,6 +130,7 @@ export const Readonly = () => (
         alert(`ON CHANGE\nLetter value: ${value}`)
       },
       showValidation: false,
+      autoFocus: false,
     })}
   </div>
 )
@@ -149,6 +153,7 @@ export const SelectNumber = () => {
           setValue(newValue)
         },
         showValidation: false,
+        autoFocus: false,
       })}
     </div>
   )

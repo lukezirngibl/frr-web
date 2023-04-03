@@ -1,5 +1,5 @@
 import CheckIcon from '@material-ui/icons/Check'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
 import styled from 'styled-components'
@@ -161,8 +161,9 @@ export const Select = (props: Props) => {
               disabled={props.disabled || props.readOnly}
               onBlur={onBlur}
               onFocus={onFocus}
-              onChange={(e) => {
-                props.onChange(e.target.value === 'null' ? null : e.target.value)
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                const newValue = e.target.value === 'null' ? null : e.target.value
+                props.onChange(newValue)
               }}
               ref={props.inputRef}
               value={value}
@@ -243,7 +244,8 @@ export const getOptions = (params: {
 
   const mappedOptions = [
     // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
-    ...(params.isMobileTouch && (params.value === null || params.value === undefined)
+    ...(params.isMobileTouch &&
+    (params.value === 'null' || params.value === null || params.value === undefined)
       ? [
           {
             value: 'null',
