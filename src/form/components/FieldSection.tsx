@@ -12,8 +12,6 @@ import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
 
-
-
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
   style?: Partial<FormTheme['section']>
@@ -34,7 +32,7 @@ export const FieldSectionWrapper = (props: {
   )
 }
 
-type FieldSection<FormData> = CommonThreadProps<FormData> & {
+export type FieldSectionProps<FormData> = CommonThreadProps<FormData> & {
   field: FormSection<FormData>
   onFormEdit?: () => void
 }
@@ -52,11 +50,25 @@ export const FieldSection = <FormData extends {}>({
   onFormEdit,
   showValidation,
   style,
-}: FieldSection<FormData>) => {
+}: FieldSectionProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
   const getSectionStyle = useCSSStyles(theme, 'section')(style?.section || fieldSection.style || {})
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
+
+  const row = style?.row || ({ wrapper: {}, wrapperReadOnly: {}, item: {} } as FormTheme['row'])
+  const commonFieldStyle: Partial<FormTheme> = fieldSection.style?.rowItem
+    ? {
+        ...style,
+        row: {
+          ...row,
+          item: {
+            ...row.item,
+            ...fieldSection.style.rowItem,
+          },
+        },
+      }
+    : style
 
   const commonFieldProps = {
     autoFocus: false,
@@ -67,7 +79,7 @@ export const FieldSection = <FormData extends {}>({
     onChange,
     onChangeMulti,
     showValidation,
-    style,
+    style: commonFieldStyle,
   }
 
   const renderSectionField = (field: InternalSectionField<FormData>, fieldIndex: number) => {

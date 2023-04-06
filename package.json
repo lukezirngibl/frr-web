@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.5.15",
+  "version": "3.5.27",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -44,7 +44,7 @@
     "@devexperts/remote-data-ts": "0.6.0",
     "@icons/material": "^0.4.1",
     "@material-ui/core": "^4.9.10",
-    "@material-ui/icons": "^4.11.2",
+    "@material-ui/icons": "^4.11.3",
     "@material-ui/styles": "^4.9.10",
     "date-fns": "^2.19.0",
     "fp-ts": "^2.12.3",
