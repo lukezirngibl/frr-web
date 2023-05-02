@@ -22,12 +22,12 @@ export type LabelProps = {
   errorDataTestId?: string
   isFocused?: boolean
   label: LabelText
-  labelData?: Record<string, string>
+  labelData?: Record<string, string | number>
   localeNamespace?: LocaleNamespace
   renderChildren?: ReactNode | (() => ReactNode)
   style?: Partial<ComponentTheme['label']>
   sublabel?: LabelText
-  sublabelData?: Record<string, string>
+  sublabelData?: Record<string, string | number>
 }
 
 export const Label = (props: LabelProps) => {
