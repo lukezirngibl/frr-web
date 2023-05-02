@@ -37,5 +37,15 @@
       }
     },
     "title": "Payment plan "
+  },
+
+  "paymentTerms": {
+    "formFields": {
+      "duration": {
+        "options": {
+          "monthlyInstallmentLabel": "<span class=\"duration-option\"><span class=\"duration-option__duration-label\">{{duration}}<br/></span><span class=\"duration-option__months-label\">months</span><br/><span class=\"duration-option__monthly-installment-label\">{{monthlyInstallment}} /mo.</span></span>"
+        }
+      }
+    }
   }
 }

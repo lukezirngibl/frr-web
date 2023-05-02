@@ -27,6 +27,7 @@ export const Initial = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
+        autoFocus: false,
         field,
         fieldIndex: 0,
         formReadOnly: false,
