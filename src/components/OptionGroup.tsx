@@ -87,6 +87,7 @@ export const OptionGroup = (props: Props) => {
                 labelActive: item.value === props.value,
               })}
               label={item.label}
+              data={item.labelData}
               localeNamespace={props.localeNamespace}
             />
           </Item>
