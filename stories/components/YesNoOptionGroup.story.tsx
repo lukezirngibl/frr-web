@@ -1,15 +1,17 @@
-import { YesNoOptionGroup, Props } from '../../src/components/YesNoOptionGroup'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
+import { YesNoOptionGroup } from '../../src/components/YesNoOptionGroup'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, YesNoOptionGroupField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, YesNoOptionGroupField } from '../../src/form/components/types'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof YesNoOptionGroup>({
-  title: 'Components/YesNoOptionGroup',
+const meta: Meta<typeof YesNoOptionGroup> = {
+  title: 'Components/Yes-No option group',
   component: YesNoOptionGroup,
-})
+}
+export default meta
 
 type FormData = { isMovedRecently: boolean | null }
 const formLens = makeFormLens<FormData>()

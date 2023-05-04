@@ -1,15 +1,17 @@
-import { MaskedDatePicker, Props } from '../../src/components/MaskedDatePicker'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React from 'react'
-import { makeFormLens } from '../../src/form/util'
+import { MaskedDatePicker } from '../../src/components/MaskedDatePicker'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import { FormFieldType } from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof MaskedDatePicker>({
-  title: 'Components/MaskedDatePicker',
+const meta: Meta<typeof MaskedDatePicker> = {
+  title: 'Components/Masked date picker',
   component: MaskedDatePicker,
-})
+}
+export default meta
 
 const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeof FieldRowItem>(
   FieldRowItem,

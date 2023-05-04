@@ -1,5 +1,5 @@
 // @ts-ignore
-import { ComponentMeta } from '@storybook/react'
+import { Meta } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
@@ -27,7 +27,11 @@ const Brands = {
 export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
   title: string
   component: T
-}) => config as ComponentMeta<T>
+}) => {
+  const meta = config as unknown as Meta<T>
+
+  return meta
+}
 
 export const createStory =
   <P extends {}, T extends (props: P) => JSX.Element>(C: T) =>

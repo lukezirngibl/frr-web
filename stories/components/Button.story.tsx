@@ -1,13 +1,15 @@
+import { Meta } from '@storybook/react'
 import React from 'react'
 import styled from 'styled-components'
 import { Button, ButtonType, Props } from '../../src/components/Button'
-import { createStory, meta } from '../storybook.helpers'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Button>({
+const meta: Meta<Props> = {
   title: 'Buttons',
   component: Button,
-})
+} 
+export default meta
 
 const ButtonOverview = () => (
   <List>

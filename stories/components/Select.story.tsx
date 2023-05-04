@@ -1,15 +1,17 @@
+import { Meta } from '@storybook/react'
 import React from 'react'
-import { Props, Select } from '../../src/components/Select'
+import { Select } from '../../src/components/Select'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
-import { FormFieldType, SingleFormField, TextSelectField } from '../../src/form/components/types'
+import { FormFieldType, TextSelectField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory, meta } from '../storybook.helpers'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Select>({
+const meta: Meta<typeof Select> = {
   title: 'Components/Select',
   component: Select,
-})
+}
+export default meta
 
 type FormData = {
   letter: string | null

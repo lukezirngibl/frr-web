@@ -1,15 +1,17 @@
-import { OptionGroup, Props } from '../../src/components/OptionGroup'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
-import { makeFormLens } from '../../src/form/util'
+import { OptionGroup } from '../../src/components/OptionGroup'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import { FormFieldType, OptionGroupField } from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof OptionGroup>({
-  title: 'Components/OptionGroup',
+const meta: Meta<typeof OptionGroup> = {
+  title: 'Components/Option group',
   component: OptionGroup,
-})
+}
+export default meta
 
 type FormData = { duration: string | null }
 const formLens = makeFormLens<FormData>()

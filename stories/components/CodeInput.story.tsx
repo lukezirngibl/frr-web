@@ -1,11 +1,13 @@
-import { createStory, meta } from '../storybook.helpers'
+import { Meta } from '@storybook/react'
 import { CodeInput, Props } from '../../src/components/CodeInput'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof CodeInput>({
-  title: 'Components/CodeInput',
+const meta: Meta<typeof CodeInput> = {
+  title: 'Components/Code input',
   component: CodeInput,
-})
+}
+export default meta
 
 const story = createStory<Props, typeof CodeInput>(CodeInput)
 
