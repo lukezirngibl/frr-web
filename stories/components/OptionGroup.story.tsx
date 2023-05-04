@@ -20,7 +20,7 @@ const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(Fiel
 const field: OptionGroupField<FormData> = {
   type: FormFieldType.OptionGroup,
   lens: formLens(['duration']),
-  label: { label: 'Monthly installments', sublabel: '' },
+  label: { label: 'Select monthly installments for the amount {{amount}}', labelData: { amount: 'CHF 1500.00' }, sublabel: '' },
   style: {
     wrapper: {
       flexWrap: 'wrap',
