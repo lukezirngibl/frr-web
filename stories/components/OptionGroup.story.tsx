@@ -81,7 +81,7 @@ const field: OptionGroupField<FormData> = {
   ],
 }
 
-export const Duration = () => {
+export const DurationOption = () => {
   const [value, setValue] = useState(null)
 
   return (

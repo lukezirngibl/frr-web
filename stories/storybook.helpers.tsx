@@ -1,5 +1,3 @@
-// @ts-ignore
-import { Meta } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
@@ -24,18 +22,8 @@ const Brands = {
 // Create story with theme and styles
 // -----------------------------------
 
-export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
-  title: string
-  component: T
-}) => {
-  const meta = config as unknown as Meta<T>
-
-  return meta
-}
-
-export const createStory =
-  <P extends {}, T extends (props: P) => JSX.Element>(C: T) =>
-  (props: P) => {
+export const createStory = <P, T extends (props: P) => JSX.Element>(C: T) => {
+  const Story = (props: P): JSX.Element | null => {
     const [brand, setBrand] = useState(BRAND.bob)
     const Component = C as any
     const brandTheme = Brands[brand]
@@ -101,6 +89,8 @@ ${brandTheme.baseStyle}
       </div>
     )
   }
+  return Story
+}
 
 // -----------------------------------
 // Validation helpers
