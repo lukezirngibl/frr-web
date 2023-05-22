@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { FC, ReactElement, useState } from 'react'
 import { IconType } from 'react-icons'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
@@ -41,7 +41,7 @@ const mapTypeToStyleLabelKey: {
 export type Props = {
   dataTestId?: string
   disabled?: boolean
-  Icon?: IconType
+  Icon?: ReactElement<IconType>
   id?: string
   label: string
   labelMobile?: string
@@ -95,7 +95,7 @@ export const Button = (props: Props) => {
       type="button"
       {...getCSSStyles(['common', mapTypeToStyleKey[type]], props.override)}
     >
-      {props.Icon && <props.Icon />}
+      {props.Icon}
       <P
         style={{ marginLeft: props.Icon ? 8 : 0 }}
         {...getCSSStyles(['label', mapTypeToStyleLabelKey[type]])}

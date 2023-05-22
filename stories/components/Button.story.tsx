@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, ButtonType, Props } from '../../src/components/Button'
 import { StorybookTemplateProvider } from '../storybook.TemplateProvider'
 import { createStory } from '../storybook.helpers'
+import { MdDone, MdOutlineExpandMore } from 'react-icons/md'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<Props> = {
@@ -17,11 +18,27 @@ const ButtonOverview = () => (
     <li className="mb-small">
       <Button label="Primary Button" type={ButtonType.Primary} />
     </li>
+    <li className="mb-small">
+      <Button
+        label="Primary Button with icon"
+        Icon={<MdDone size={32} />}
+        type={ButtonType.Primary}
+        disabled
+      />
+    </li>
     <li>
       <Button label="Disabled Primary Button" type={ButtonType.Primary} disabled />
     </li>
     <li className="mb-small">
       <Button label="Secondary Button" type={ButtonType.Secondary} />
+    </li>
+    <li className="mb-small">
+      <Button
+        label="Secondary Button with icon"
+        Icon={<MdDone size={18} />}
+        type={ButtonType.Secondary}
+        disabled
+      />
     </li>
     <li>
       <Button label="Disabled Secondary Button" type={ButtonType.Secondary} disabled />
