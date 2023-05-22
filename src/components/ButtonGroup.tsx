@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { P } from '../html'
 import {
   ComponentTheme,
@@ -7,7 +7,6 @@ import {
   useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
-import { Icon } from './Icon'
 
 const Wrapper = createStyled('div')
 const Item = createStyled('div')
@@ -23,7 +22,7 @@ type Props = {
       | {
           label: string
         }
-      | { icon: string }
+      | { Icon: FC<any> }
     )
   >
 
@@ -48,31 +47,32 @@ export const ButtonGroup = (props: Props) => {
 
   return (
     <Wrapper {...getCSSStyle('wrapper')}>
-      {props.items.map((b) => {
+      {props.items.map((buttonItem) => {
         const isItemActive =
-          props.type === ButtonGroupType.Multi ? props.value.includes(b.value) : b.value === props.value
+          props.type === ButtonGroupType.Multi
+            ? props.value.includes(buttonItem.value)
+            : buttonItem.value === props.value
         return (
           <Item
             {...getCSSStyle({
               item: true,
               itemActive: isItemActive,
             })}
-            value={b.value}
+            value={buttonItem.value}
             onClick={() => {
               if (props.type === ButtonGroupType.Multi) {
                 if (isItemActive) {
-                  props.onChange(props.value.filter((v) => v !== b.value))
+                  props.onChange(props.value.filter((v) => v !== buttonItem.value))
                 } else {
-                  props.onChange([...props.value, b.value])
+                  props.onChange([...props.value, buttonItem.value])
                 }
               } else {
-                props.onChange(b.value)
+                props.onChange(buttonItem.value)
               }
             }}
           >
-            {'icon' in b ? (
-              <Icon
-                icon={b.icon}
+            {'Icon' in buttonItem ? (
+              <buttonItem.Icon
                 {...getInlineStyle({
                   icon: true,
                   iconActive: isItemActive,
@@ -80,7 +80,7 @@ export const ButtonGroup = (props: Props) => {
               />
             ) : (
               <P
-                label={b.label}
+                label={buttonItem.label}
                 {...getCSSStyle({
                   label: true,
                   labelActive: isItemActive,

@@ -15,7 +15,7 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { Icon } from './Icon'
+import { MdOutlineCalendarToday } from 'react-icons/md'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 
@@ -163,7 +163,7 @@ export const DatePicker = (props: Props) => {
               >
                 <Hook1 {...styleIconHook1} />
                 <Hook2 {...styleIconHook2} />
-                <Icon icon="calendar_today" size={16} />
+                <MdOutlineCalendarToday size={16} />
               </DatePickerIconWrapper>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>

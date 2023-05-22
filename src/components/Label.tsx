@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
+import { MdErrorOutline } from 'react-icons/md'
 import { LabelText, P } from '../html'
 import {
   ComponentTheme,
@@ -11,7 +12,6 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { Icon } from './Icon'
 
 export type LabelProps = {
   description?: LabelText
@@ -80,8 +80,7 @@ export const Label = (props: LabelProps) => {
           children={
             props.error ? (
               <Span {...getCSSStyles('errorIcon')}>
-                <Icon
-                  icon="error_outline"
+                <MdErrorOutline
                   color="currentColor"
                   size={20}
                   onClick={() => {
