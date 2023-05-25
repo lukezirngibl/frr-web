@@ -328,7 +328,7 @@ type CommonFieldProps<FormData> = {
   maxwidth?: number
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
-  validate?: (value: any) => null | string
+  validate?: (value: any, data: FormData) => null | string
 }
 
 // @ts-ignore
