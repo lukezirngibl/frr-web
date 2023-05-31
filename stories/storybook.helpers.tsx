@@ -1,5 +1,3 @@
-// @ts-ignore
-import { ComponentMeta } from '@storybook/react'
 import React, { useEffect, useState } from 'react'
 import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
@@ -9,6 +7,7 @@ import { brand as postFinanceBrand } from './theme/orca/orca.brand'
 import { FormConfigContext } from '../src/form/components/form.hooks'
 import { bobStyleConfig } from './theme/bobStyleConfig'
 import { resetStyleConfig } from './theme/resetStyleConfig'
+import { StorybookTemplateProvider } from './storybook.TemplateProvider'
 
 enum BRAND {
   bob = 'bob',
@@ -24,79 +23,17 @@ const Brands = {
 // Create story with theme and styles
 // -----------------------------------
 
-export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
-  title: string
-  component: T
-}) => config as ComponentMeta<T>
-
-export const createStory =
-  <P extends {}, T extends (props: P) => JSX.Element>(C: T) =>
-  (props: P) => {
-    const [brand, setBrand] = useState(BRAND.bob)
+export const createStory = <P, T extends (props: P) => JSX.Element>(C: T) => {
+  const Story = (props: P) => {
     const Component = C as any
-    const brandTheme = Brands[brand]
-
-    const [BaseStyle, setBaseStyle] = useState<any>(null)
-    useEffect(() => {
-      setBaseStyle(
-        configureBaseStyle({
-          baseStyle: `
-${resetStyleConfig}
-${brandTheme.baseStyle}
-`,
-          brandBaseStyle: brandTheme.baseStyle,
-          isStyleConfigActive: true,
-          styleConfig: bobStyleConfig,
-        }),
-      )
-    }, [brand])
-
-    return BaseStyle === null ? null : (
-      <div style={{ width: '100%' }}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            width: '100%',
-            padding: '8px 16px',
-            marginBottom: 64,
-            background: '#f2f2f2',
-          }}
-        >
-          <label htmlFor="brand" style={{ color: '#b2b2b2' }}>
-            Choose brand style:
-          </label>
-          <select
-            name="brand"
-            id="brand"
-            onChange={(event) => setBrand(event.target.value as BRAND)}
-            style={{
-              fontWeight: 700,
-              width: 200,
-              marginLeft: 16,
-              padding: '4px 16px',
-              border: '1px solid #e2e2e2',
-              borderRadius: 4,
-            }}
-            value={brand}
-          >
-            <option value={BRAND.bob} label="Bob"></option>
-            <option value={BRAND.postFinance} label="PostFinance"></option>
-          </select>
-        </div>
-        <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.appTheme)}>
-          <BaseStyle />
-          <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>
-            <FormConfigContext.Provider value={{ disableDirtyValidation: false }}>
-              <Component {...props} />
-            </FormConfigContext.Provider>
-          </FormThemeContext.Provider>
-        </ComponentThemeContext.Provider>
-      </div>
+    return (
+      <StorybookTemplateProvider>
+        <Component {...props} />
+      </StorybookTemplateProvider>
     )
   }
+  return Story
+}
 
 // -----------------------------------
 // Validation helpers

@@ -1,15 +1,18 @@
-import { FormattedDatePicker, Props } from '../../src/components/FormattedDatePicker'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React from 'react'
-import { makeFormLens } from '../../src/form/util'
+import { FormattedDatePicker } from '../../src/components/FormattedDatePicker'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import { FormFieldType } from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof FormattedDatePicker>({
-  title: 'Components/FormattedDatePicker',
+const meta: Meta<typeof FormattedDatePicker> = {
+  title: 'Components/Formatted date picker',
   component: FormattedDatePicker,
-})
+}
+export default meta
+
 
 const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeof FieldRowItem>(
   FieldRowItem,
@@ -21,6 +24,7 @@ let birthDate: string | null = null
 export const Initial = () => (
   <div style={{ maxWidth: 600 }}>
     {story({
+      autoFocus: false,
       field: {
         type: FormFieldType.FormattedDatePicker,
         lens: formLens(['birthDate']),
@@ -44,6 +48,7 @@ export const Initial = () => (
 export const Readonly = () => (
   <div style={{ maxWidth: 360 }}>
     {story({
+      autoFocus: false,
       field: {
         type: FormFieldType.FormattedDatePicker,
         lens: formLens(['birthDate']),

@@ -761,6 +761,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       height: 'var(--button-height)',
       outline: 'none',
       transition: 'all 0.7s ease',
+      display: 'flex',
+      alignItems: 'center',
       // marginLeft: 8,
       // marginRight: 8,
       '@media-mobile': {

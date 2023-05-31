@@ -1,5 +1,4 @@
-import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
-
+import { Meta } from '@storybook/react'
 import React from 'react'
 import {
   FieldMultiInputAutosuggest,
@@ -8,17 +7,19 @@ import {
 import { FormFieldType, MultiInputAutosuggestField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { ZipCityList } from '../assets/ZipCityList'
+import { createStory, validateCity, validateSwissZip } from '../storybook.helpers'
+
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const meta: Meta<typeof FieldMultiInputAutosuggest> = {
+  title: 'Form/FieldMultiInputAutosuggest',
+  component: FieldMultiInputAutosuggest,
+}
+export default meta
 
 type FormData = {
   zip?: string | null
   city?: string | null
 }
-
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldMultiInputAutosuggestProps<FormData>, typeof FieldMultiInputAutosuggest>({
-  title: 'Form/Multi input field with auto suggest',
-  component: FieldMultiInputAutosuggest,
-})
 
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldMultiInputAutosuggestProps<FormData>, typeof FieldMultiInputAutosuggest>(

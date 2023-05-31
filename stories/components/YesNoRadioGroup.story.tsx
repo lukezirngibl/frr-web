@@ -1,15 +1,17 @@
-import { YesNoRadioGroup, Props } from '../../src/components/YesNoRadioGroup'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
+import { YesNoRadioGroup } from '../../src/components/YesNoRadioGroup'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, YesNoRadioGroupField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, YesNoRadioGroupField } from '../../src/form/components/types'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof YesNoRadioGroup>({
-  title: 'Components/YesNoRadioGroup',
+const meta: Meta<typeof YesNoRadioGroup> = {
+  title: 'Components/Yes-No radio group',
   component: YesNoRadioGroup,
-})
+}
+export default meta
 
 type FormData = { isMovedRecently: boolean | null }
 const formLens = makeFormLens<FormData>()
@@ -27,6 +29,7 @@ export const Initial = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
+        autoFocus: false,
         field,
         fieldIndex: 0,
         formReadOnly: false,

@@ -288,4 +288,20 @@ div {
     opacity: 1.0;
   }
 }
+
+/* Custom styling for Option Group */
+
+.duration-option__duration-label {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.duration-option__months-label {
+  color: var(--color-secondary);
+}
+
+.duration-option__monthly-installment-label {
+  color: var(--color-secondary);
+  font-size: 11px;
+}
 `

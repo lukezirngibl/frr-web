@@ -1,15 +1,17 @@
-import { Toggle, Props } from '../../src/components/Toggle'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
+import { Toggle } from '../../src/components/Toggle'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, ToggleField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, ToggleField } from '../../src/form/components/types'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<Props, typeof Toggle>({
+const meta: Meta<typeof Toggle> = {
   title: 'Components/Toggle',
   component: Toggle,
-})
+}
+export default meta
 
 type FormData = { isPrivacyPolicyAccepted: boolean | null }
 const formLens = makeFormLens<FormData>()
@@ -27,6 +29,7 @@ export const Initial = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 600 }}>
       {story({
+        autoFocus: false,
         field,
         fieldIndex: 0,
         formReadOnly: false,

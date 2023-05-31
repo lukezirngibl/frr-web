@@ -1,4 +1,4 @@
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import { MdOutlineCancel } from 'react-icons/md'
 import React, { useEffect, useReducer, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
@@ -53,7 +53,7 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
         {...getCSSStyle({ acceptedFileItem: true })}
       />
       <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
-        <HighlightOffIcon className="remove-icon" onClick={props.onRemove} />
+        <MdOutlineCancel className="remove-icon" onClick={props.onRemove} />
       </RemoveItemIcon>
     </ListItem>
   )

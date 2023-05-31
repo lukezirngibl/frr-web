@@ -1,13 +1,12 @@
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import React, { useEffect, useReducer, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { P } from '../html'
-import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
+import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { formatFileSize, UploadDocumentItem } from './UploadDocumentItem'
+import { UploadDocumentItem, formatFileSize } from './UploadDocumentItem'
 
 type DragProps = {
   isDragActive: boolean

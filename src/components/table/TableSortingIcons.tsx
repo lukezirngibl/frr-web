@@ -1,14 +1,13 @@
 import React from 'react'
-
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
   useInlineStyle,
-} from '../theme/theme.components'
+} from '../../theme/theme.components'
 
-import { Icon } from './Icon'
-import { createStyled } from '../theme/util'
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md'
+import { createStyled } from '../../theme/util'
 
 export enum SortValue {
   ASC = 'asc',
@@ -44,8 +43,7 @@ export const TableSortingIcons = (props: Props) => {
         {...getCSSStyle('sortingIconWrapper')}
         onClick={() => props.onClick({ columnKey: props.column.columnKey, value: SortValue.ASC })}
       >
-        <Icon
-          icon="arrow_drop_up"
+        <MdArrowDropUp
           style={{
             ...getInlineStyle('sortingIcon').style,
             ...(columnActive && props.column.sortValue === SortValue.ASC
@@ -58,8 +56,7 @@ export const TableSortingIcons = (props: Props) => {
         {...getCSSStyle('sortingIconWrapper')}
         onClick={() => props.onClick({ columnKey: props.column.columnKey, value: SortValue.DESC })}
       >
-        <Icon
-          icon="arrow_drop_down"
+        <MdArrowDropDown
           style={{
             ...getInlineStyle('sortingIcon').style,
             ...(columnActive && props.column.sortValue === SortValue.DESC

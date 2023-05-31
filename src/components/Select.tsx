@@ -1,21 +1,20 @@
-import CheckIcon from '@material-ui/icons/Check'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
+import { MdDone, MdOutlineExpandMore } from 'react-icons/md'
+import ReactSelect, { OptionProps, StylesConfig, components } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
-import { Option, Options, OptionType } from '../html'
+import { Option, OptionType, Options } from '../html'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
+  useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
-import { Icon } from './Icon'
 import { Label, LabelProps } from './Label'
 import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
 
@@ -179,7 +178,7 @@ export const Select = (props: Props) => {
                 />
               ))}
             </SelectWrapper>
-            <Icon icon="expand_more" size={16} {...getInlineStyle({ icon: true, iconMobile: true })} />
+            <MdOutlineExpandMore size={16} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
@@ -307,7 +306,7 @@ export const SelectOption = (props: OptionProps<InternalOption> & { value: Value
     <div data-test-id={dataTestId}>
       <components.Option {...other} data-test-id={dataTestId}>
         <OptionValueWrapper>
-          {props.isSelected && <CheckIcon className="selected-icon" />}
+          {props.isSelected && <MdDone className="selected-icon" size={18} />}
           {children}
         </OptionValueWrapper>
       </components.Option>
@@ -328,7 +327,6 @@ const OptionValueWrapper = styled.span`
 
   & svg.selected-icon {
     position: absolute;
-    font-size: 18px;
     margin-left: -22px;
     margin-top: -3px;
   }

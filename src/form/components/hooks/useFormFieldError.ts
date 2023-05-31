@@ -37,7 +37,7 @@ export const computeFieldError = <FormData>({
   }
 
   if (isValidate && !error && !!field.validate) {
-    error = field.validate(value)
+    error = field.validate(value, data)
   }
 
   if (
@@ -54,9 +54,9 @@ export const computeFieldError = <FormData>({
     } else {
       const min = 'min' in field ? field.min : 0
       const max = 'max' in field ? field.max : 10000000
-      if (value < min) {
+      if (value as number < min) {
         error = 'formFields.error.invalidMinAmount'
-      } else if (value > max) {
+      } else if (value as number > max) {
         error = 'formFields.error.invalidMaxAmount'
       }
     }
@@ -67,9 +67,9 @@ export const computeFieldError = <FormData>({
     (field.type === FormFieldType.NumberInput ||
       (field.type === FormFieldType.Slider && !field.isCurrency))
   ) {
-    if ('min' in field && value < field.min) {
+    if ('min' in field && value as number < field.min) {
       error = 'formFields.error.minError'
-    } else if ('max' in field && value > field.max) {
+    } else if ('max' in field && value as number > field.max) {
       error = 'formFields.error.maxError'
     } else if (marks.length > 0 && !marks.includes(value as number)) {
       error = 'formFields.error.invalidValue'

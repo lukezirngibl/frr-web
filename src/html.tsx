@@ -11,6 +11,7 @@ export type OptionType<Value> = {
   icon?: string
   isLabelTranslated?: boolean
   label?: string
+  labelData?: Record<string, string | number>
   name?: string
   value: Value
 }
@@ -21,7 +22,7 @@ export type LabelText = string | ((params: { translate: Translate }) => string |
 type Props = {
   children?: ReactNode
   cssStyles?: string
-  data?: { [k: string]: string }
+  data?: { [k: string]: string | number }
   dataTestId?: string
   dataThemeId?: string
   dataValue?: string | number
@@ -78,7 +79,7 @@ export const Element = (
     readOnly,
     style = {},
     value,
-  } = props  
+  } = props
   const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
 

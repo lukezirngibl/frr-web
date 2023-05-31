@@ -1,10 +1,17 @@
-import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
-
+import { Meta } from '@storybook/react'
 import React from 'react'
-import { FieldSectionCard, FieldSectionCardProps } from '../../src/form/components/FieldSectionCard'
+import { FieldSectionCard } from '../../src/form/components/FieldSectionCard'
 import { Form, FormProps } from '../../src/form/components/Form'
-import { FormFieldType, FormField } from '../../src/form/components/types'
+import { FormField, FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
+import { createStory } from '../storybook.helpers'
+
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const meta: Meta<typeof FieldSectionCard> = {
+  title: 'Form/Section card',
+  component: FieldSectionCard,
+}
+export default meta
 
 type FormData = {
   loanAmount: number
@@ -100,12 +107,6 @@ const summaryFields: Array<FormField<FormData>> = [
   },
 ]
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldSectionCardProps<FormData>, typeof FieldSectionCard>({
-  title: 'Form/Section Card',
-  component: FieldSectionCard,
-})
-
 const formLens = makeFormLens<FormData>()
 const story = createStory<FormProps<FormData>, typeof Form>(Form)
 
@@ -120,7 +121,7 @@ export const LoanSummary = () => {
   })
 
   return (
-    <div style={{ maxWidth: 600, minHeight: 1200 }}>
+    <div style={{ maxWidth: 800, minHeight: 1200 }}>
       {story({
         formFields: summaryFields,
         style: {},

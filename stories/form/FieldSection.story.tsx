@@ -1,10 +1,17 @@
-import { createStory, meta, validateCity, validateSwissZip } from '../storybook.helpers'
-
+import { Meta } from '@storybook/react'
 import React from 'react'
-import { FieldSection, FieldSectionProps } from '../../src/form/components/FieldSection'
+import { FieldSection } from '../../src/form/components/FieldSection'
 import { Form, FormProps } from '../../src/form/components/Form'
-import { FormFieldType, FormField } from '../../src/form/components/types'
+import { FormField, FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
+import { createStory } from '../storybook.helpers'
+
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const meta: Meta<typeof FieldSection> = {
+  title: 'Form/Section',
+  component: FieldSection,
+}
+export default meta
 
 type FormData = {
   loanAmount: number
@@ -102,12 +109,6 @@ const summaryFields: Array<FormField<FormData>> = [
   },
 ]
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default meta<FieldSectionProps<FormData>, typeof FieldSection>({
-  title: 'Form/Section',
-  component: FieldSection,
-})
-
 const formLens = makeFormLens<FormData>()
 const story = createStory<FormProps<FormData>, typeof Form>(Form)
 
@@ -118,7 +119,7 @@ export const LoanSummary = () => {
     monthlyRate: 133.35,
     duration: 18,
     shippingAddress: 'Max Mustermann<br/>Fischerweg 36<br/>8005 Zürich',
-    acceptDataPrivacyAndAGB: null
+    acceptDataPrivacyAndAGB: null,
   })
 
   return (
