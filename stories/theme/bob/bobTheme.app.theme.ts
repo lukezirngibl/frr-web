@@ -535,12 +535,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       bottom: 0,
       display: 'flex',
       alignItems: 'center',
-      fontSize: 'var(--font-size-title)',
       color: 'var(--color-input)',
       opacity: 0.6,
     },
     iconMobile: {
       right: 20,
+      top: 'calc((var(--form-field-height)  - 24px) / 2)',
       zIndex: -1,
     },
     menu: {
