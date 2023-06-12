@@ -44,6 +44,7 @@ export type Props = {
   onFocus?: () => void
   onBlur?: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
+  overwriteIsMobileTouch?: boolean // For testing purposes only
   priority?: Priority
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
@@ -54,7 +55,7 @@ export const Select = (props: Props) => {
   const theme = useComponentTheme()
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
-  const { isMobileTouch } = useMobileTouch()
+  const { isMobileTouch } = useMobileTouch({ overwriteIsMobileTouch: props.overwriteIsMobileTouch })
   const { t, i18n } = useTranslation(props.localeNamespace)
 
   /*
@@ -178,7 +179,7 @@ export const Select = (props: Props) => {
                 />
               ))}
             </SelectWrapper>
-            <MdOutlineExpandMore size={16} {...getInlineStyle({ icon: true, iconMobile: true })} />
+            <MdOutlineExpandMore size={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
