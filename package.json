@@ -50,6 +50,7 @@
     "lodash.range": "^3.2.0",
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "^2.14.305",
+    "platform-detect": "^3.0.1",
     "react-click-away-listener": "^2.0.0",
     "react-color": "^2.19.3",
     "react-datepicker": "^4.2.1",
