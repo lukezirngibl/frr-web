@@ -385,8 +385,8 @@ export const mapReactSelectStyles = (
       ...provided,
       backgroundColor: 'var(--color-form-field-background-secondary)',
       boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-      ...menuStyle,
       zIndex: 999,
+      ...menuStyle,
     }),
     option: (provided, state) => {
       const style = {
