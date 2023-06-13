@@ -250,12 +250,19 @@ export type ComponentTheme = {
     itemActive: CSSProperties
     itemCircle: CSSProperties
     itemCircleActive: CSSProperties
+    itemTitle: CSSProperties
+    itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
     itemLabelActive: CSSProperties
     itemNumber: CSSProperties
     itemWrapper: CSSProperties
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
+    progressBar: CSSProperties
+    progressBarActive: CSSProperties
+    progressBarCompleted: CSSProperties
+    progressBarError: CSSProperties
+    itemLabelCompleted: CSSProperties
   }
   loading: {
     wrapper: CSSProperties
@@ -557,12 +564,19 @@ export const defaultComponentTheme: ComponentTheme = {
     itemActive: {},
     itemCircle: {},
     itemCircleActive: {},
+    itemTitle: {},
+    itemTitleWrapper: {},
     itemLabel: {},
     itemLabelActive: {},
     itemNumber: {},
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},
+    progressBar: {},
+    progressBarActive: {},
+    progressBarCompleted: {},
+    progressBarError: {},
+    itemLabelCompleted: {},
   },
   loading: {
     wrapper: {},
