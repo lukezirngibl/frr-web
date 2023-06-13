@@ -37,6 +37,7 @@ export type Props = {
   error?: boolean
   hasFocus?: boolean
   inputRef?: React.Ref<any>
+  isMenuAlwaysOpen?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
@@ -197,6 +198,7 @@ export const Select = (props: Props) => {
               onChange={onChange}
               onFocus={onFocus}
               openMenuOnFocus
+              menuIsOpen={props.isMenuAlwaysOpen}
               options={options.map(mapInternalOption)}
               pageSize={MENU_PAGE_SIZE}
               minMenuHeight={MENU_MIN_HEIGHT}
