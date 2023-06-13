@@ -348,6 +348,7 @@ export const mapReactSelectStyles = (
   const getInlineStyle = useInlineStyle(theme, 'select')(style)
 
   const iconStyle = getInlineStyle('icon').style as any
+  const menuPortalStyle = getInlineStyle('menuPortal').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
   const optionStyleHover = getInlineStyle('optionHover').style as any
@@ -381,6 +382,10 @@ export const mapReactSelectStyles = (
         },
       }
     },
+    menuPortal: (provided) => ({
+      ...provided,
+      ...menuPortalStyle,
+    }),
     menu: (provided) => ({
       ...provided,
       backgroundColor: 'var(--color-form-field-background-secondary)',

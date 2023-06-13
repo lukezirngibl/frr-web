@@ -113,6 +113,7 @@ export type ComponentTheme = {
     errorWrapper: CSSProperties
     icon: CSSProperties
     iconMobile: CSSProperties
+    menuPortal: CSSProperties
     menu: CSSProperties
     option: CSSProperties
     optionActive: CSSProperties
@@ -464,6 +465,7 @@ export const defaultComponentTheme: ComponentTheme = {
     errorWrapper: {},
     icon: {},
     iconMobile: {},
+    menuPortal: {},
     menu: {},
     option: {},
     optionActive: {},
