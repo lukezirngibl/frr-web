@@ -2,11 +2,13 @@ import { createGlobalStyle } from 'styled-components'
 
 export type StyleConfig = {
   colorBackgroundAccent: string
+  colorBackgroundActive: string
   colorBackgroundHover: string
   colorBackgroundPrimary: string
   colorBackgroundSecondary: string
 
   colorAccent: string
+  colorActive: string
   colorDisabled: string
   colorError: string
   colorHover: string
@@ -54,19 +56,19 @@ export type StyleConfig = {
 }
 
 const ColorKeys = [
+  'colorBackgroundAccent',
+  'colorBackgroundHover',
   'colorBackgroundPrimary',
   'colorBackgroundSecondary',
-  'colorBackgroundHover',
-  'colorBackgroundAccent',
 
-  'colorError',
-  'colorPrimary',
-  'colorSecondary',
-  'colorInput',
-  'colorDisabled',
   'colorAccent',
   'colorActive',
+  'colorDisabled',
+  'colorError',
   'colorHover',
+  'colorInput',
+  'colorPrimary',
+  'colorSecondary',
 
   'colorButtonPrimary',
 
@@ -81,15 +83,27 @@ const setStyleConfigInBaseStyle = (params: {
   let mappedBaseStyle = params.brandBaseStyle
 
   if (params.isStyleConfigActive) {
+    // Special color mappings
     mappedBaseStyle = mappedBaseStyle.replace(
       '<headerBackgroundColor>',
       `rgba(${params.styleConfig.colorBackgroundAccent})`,
     )
+    mappedBaseStyle = mappedBaseStyle.replace(
+      '<colorActiveFaded>',
+      `rgba(${params.styleConfig.colorActive}, 0.35)`,
+    )
+    mappedBaseStyle = mappedBaseStyle.replace(
+      '<colorActiveShadowLight>',
+      `rgba(${params.styleConfig.colorActive}, 0.05)`,
+    )
+
+    // Get styleConfiig
     const styleConfig = { ...params.styleConfig }
     if (params.styleConfig.colorBackgroundAccent === params.styleConfig.colorBackgroundPrimary) {
       styleConfig.colorBackgroundAccent = params.styleConfig.headerTitleColor
     }
 
+    // Replace style definitions with styleConfig values
     mappedBaseStyle = Object.keys(styleConfig).reduce<string>((baseStyle, styleKey) => {
       const searchKey = `<${styleKey}>`
       const styleValue = styleConfig[styleKey as keyof StyleConfig]
