@@ -3,7 +3,6 @@ import { LabelProps } from './Label'
 import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
-  isAutoCorrectValueOff?: boolean
   label?: LabelProps
   marks?: Array<number>
   max?: number
@@ -16,7 +15,6 @@ export type Props = {
 const getValue = (
   v: string,
   options?: {
-    isAutoCorrectValueOff: boolean
     marks: Array<number>
     max: number | null
     min: number | null
@@ -27,7 +25,7 @@ const getValue = (
   let num = Number(value)
   num = v === '' || isNaN(num) ? null : num
 
-  if (options && !options.isAutoCorrectValueOff) {
+  if (options) {
     if (options.min !== null && num < options.min) {
       num = options.min
     } else if (options.max !== null && num > options.max) {
@@ -67,7 +65,6 @@ export const CurrencyInput = (props: Props) => {
       onBlur={(value) => {
         props.onChange({
           num: getValue(value, {
-            isAutoCorrectValueOff: !!props.isAutoCorrectValueOff,
             min: props.min || null,
             max: props.max || null,
             marks: props.marks || [],
