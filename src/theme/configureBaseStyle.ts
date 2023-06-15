@@ -72,6 +72,7 @@ const ColorKeys = [
 
   'colorButtonPrimary',
 
+  'headerBackgroundColor',
   'headerTitleColor',
 ]
 
