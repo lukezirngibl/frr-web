@@ -102,7 +102,7 @@ const setStyleConfigInBaseStyle = (params: {
 
     // Replace style definitions with styleConfig values
     mappedBaseStyle = Object.keys(styleConfig).reduce<string>((baseStyle, styleKey) => {
-      const searchKey = `<${styleKey}>`
+      const searchKey = new RegExp(`<${styleKey}>`, 'g') as RegExp
       const styleValue = styleConfig[styleKey as keyof StyleConfig]
       if (!styleValue) {
         return baseStyle
