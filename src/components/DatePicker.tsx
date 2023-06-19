@@ -11,7 +11,7 @@ import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle
+  useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -84,9 +84,11 @@ export const DatePicker = (props: Props) => {
 
   const textInputStyle =
     (props.style && {
-      wrapper: props.style.inputWrapper,
       disabledInput: props.style.disabledInput,
       errorInput: props.style.errorInput,
+      input: props.style.input,
+      inputPlaceholder: props.style.inputPlaceholder,
+      wrapper: props.style.inputWrapper ,
     }) ||
     (!isMobileTouch && {
       wrapper: getInlineStyle('inputWrapper').style,
@@ -105,6 +107,10 @@ export const DatePicker = (props: Props) => {
         <Wrapper {...getStyle('wrapper')}>
           {isMobileTouch ? (
             <TextInput
+              dataTestId={props.dataTestId}
+              error={props.error}
+              hasFocus={props.hasFocus}
+              inputType={'date'}
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
@@ -113,17 +119,17 @@ export const DatePicker = (props: Props) => {
                   props.onBlur(null)
                 }
               }}
-              hasFocus={props.hasFocus}
-              error={props.error}
-              inputType={'date'}
-              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
-              dataTestId={props.dataTestId}
               style={textInputStyle}
+              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
             />
           ) : (
             <>
               <TextInput
+                dataTestId={props.dataTestId}
+                error={props.error}
                 hasFocus={props.hasFocus}
+                inputType={'text'}
+                localeNamespace={props.localeNamespace}
                 onChange={() => {}}
                 onBlur={(v: any) => {
                   try {
@@ -146,13 +152,9 @@ export const DatePicker = (props: Props) => {
                     }
                   }
                 }}
-                error={props.error}
-                inputType={'text'}
-                localeNamespace={props.localeNamespace}
                 placeholder={'dateFormatPlaceholder'}
-                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
-                dataTestId={props.dataTestId}
                 style={textInputStyle}
+                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
               />
 
               <DatePickerIconWrapper

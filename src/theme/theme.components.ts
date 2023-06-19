@@ -141,6 +141,8 @@ export type ComponentTheme = {
     hook2: CSSProperties
     iconWrapper: CSSProperties
     iconWrapperFocus: CSSProperties
+    input: CSSProperties
+    inputPlaceholder: CSSProperties
     inputWrapper: CSSProperties
     reactDatePicker?: string
     wrapper: CSSProperties
@@ -501,6 +503,8 @@ export const defaultComponentTheme: ComponentTheme = {
     iconWrapper: {},
     iconWrapperFocus: {},
     inputWrapper: {},
+    input: {},
+    inputPlaceholder: {},
     reactDatePicker: '',
     wrapper: {},
     wrapperFocus: {},
