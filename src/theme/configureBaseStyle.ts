@@ -57,6 +57,7 @@ export type StyleConfig = {
 
 const ColorKeys = [
   'colorBackgroundAccent',
+  'colorBackgroundActive',
   'colorBackgroundHover',
   'colorBackgroundPrimary',
   'colorBackgroundSecondary',
