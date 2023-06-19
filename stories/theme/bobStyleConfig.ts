@@ -40,7 +40,7 @@ export const bobStyleConfig = {
   headerHeight: 84,
   headerHeightMobile: 72,
   headerLogoWidth: 256,
-  headerBackgroundColor: '#41afc8',
+  headerBackgroundColor: '65, 175, 200, 1',
   headerTitleColor: '255,255,255,1',
   headerTitleFontSize: '2.4rem',
 

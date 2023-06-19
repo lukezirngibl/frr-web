@@ -86,10 +86,6 @@ const setStyleConfigInBaseStyle = (params: {
   if (params.isStyleConfigActive) {
     // Special color mappings
     mappedBaseStyle = mappedBaseStyle.replace(
-      '<headerBackgroundColor>',
-      `rgba(${params.styleConfig.colorBackgroundAccent})`,
-    )
-    mappedBaseStyle = mappedBaseStyle.replace(
       '<colorActiveFaded>',
       `rgba(${params.styleConfig.colorActive}, 0.35)`,
     )
