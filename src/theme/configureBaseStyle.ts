@@ -85,15 +85,17 @@ const setStyleConfigInBaseStyle = (params: {
   let mappedBaseStyle = params.brandBaseStyle
 
   if (params.isStyleConfigActive) {
-    // Special color mappings
-    mappedBaseStyle = mappedBaseStyle.replace(
-      '<colorActiveFaded>',
-      `rgba(${params.styleConfig.colorActive}, 0.35)`,
-    )
-    mappedBaseStyle = mappedBaseStyle.replace(
-      '<colorActiveShadowLight>',
-      `rgba(${params.styleConfig.colorActive}, 0.05)`,
-    )
+    if (params.styleConfig.colorActive?.split(',').length >= 3) {
+      // Special color mappings
+      mappedBaseStyle = mappedBaseStyle.replace(
+        '<colorActiveFaded>',
+        `rgba(${params.styleConfig.colorActive.split(',').slice(0, 3).join(',')}, 0.35)`,
+      )
+      mappedBaseStyle = mappedBaseStyle.replace(
+        '<colorActiveShadowLight>',
+        `rgba(${params.styleConfig.colorActive.split(',').slice(0, 3).join(',')}, 0.05)`,
+      )
+    }
 
     // Get styleConfiig
     const styleConfig = { ...params.styleConfig }
