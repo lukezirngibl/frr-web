@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.6.20",
+  "version": "3.6.21",
   "keywords": [],
   "scripts": {
     "build": "tsc",
