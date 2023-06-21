@@ -21,6 +21,7 @@ export const bobStyleConfig: StyleConfig = {
   colorInput: '0,0,0,1',
   colorPrimary: '0,0,0,1',
   colorSecondary: '0,0,0,0.6',
+  colorWarning: '255,197,61,1',
 
   fontFamilyNormalUrl:
     'https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Regular.woff2',

@@ -15,6 +15,7 @@ export type StyleConfig = {
   colorInput: string
   colorPrimary: string
   colorSecondary: string
+  colorWarning: string
 
   fontFamilyNormalUrl: string | null
   fontFamilyNormalFormat: string | null
@@ -71,6 +72,7 @@ const ColorKeys = [
   'colorInput',
   'colorPrimary',
   'colorSecondary',
+  'colorWarning',
 
   'colorButtonPrimary',
 
