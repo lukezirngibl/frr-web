@@ -4,11 +4,9 @@ import { ColorPicker } from '../../components/ColorPicker'
 import { CountrySelect } from '../../components/CountrySelect'
 import { CurrencyInput } from '../../components/CurrencyInput'
 import { DatePicker } from '../../components/DatePicker'
-import { FileInput } from '../../components/FileInput'
 import { FormattedDatePicker } from '../../components/FormattedDatePicker'
 import { MaskedDatePicker } from '../../components/MaskedDatePicker'
 import { MaskedInput } from '../../components/MaskedInput'
-import { MultiFileInput } from '../../components/MultiFileInput'
 import { MultiSelect } from '../../components/MultiSelect'
 import { NumberInput } from '../../components/NumberInput'
 import { OptionGroup } from '../../components/OptionGroup'
@@ -24,6 +22,8 @@ import { TextNumberInput } from '../../components/TextNumberInput'
 import { Toggle } from '../../components/Toggle'
 import { YesNoOptionGroup } from '../../components/YesNoOptionGroup'
 import { YesNoRadioGroup } from '../../components/YesNoRadioGroup'
+import { SingleFileInput } from '../../components/fileUpload/SingleFileInput'
+import { MultiFileInput } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace } from '../../translation'
 import { FormFieldType, SingleFormField } from './types'
 
@@ -479,7 +479,7 @@ export const Field = <FormData extends {}>({
   if (field.type === FormFieldType.FileInput) {
     const { lens, validate, required, ...fieldProps } = field
     return (
-      <FileInput
+      <SingleFileInput
         {...fieldProps}
         dataTestId={dataTestId}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}

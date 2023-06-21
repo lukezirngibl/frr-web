@@ -33,6 +33,7 @@ export type StyleConfig = {
   headerHeight: number
   headerHeightMobile: number
   headerLogoWidth: number
+  headerBackgroundColor: string
   headerTitleColor: string
   headerTitleFontSize: string
 
