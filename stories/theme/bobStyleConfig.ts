@@ -1,4 +1,4 @@
-import { StyleConfig } from "../../src/theme/configureBaseStyle";
+import { StyleConfigDTO } from "../../src/theme/configureBaseStyle";
 
 export enum FieldStyle {
   SharpEdge = 'SHARP EDGE',
@@ -6,9 +6,9 @@ export enum FieldStyle {
   Round = 'ROUND',
 }
 
-export const bobStyleConfig: StyleConfig = {
+export const bobStyleConfig: StyleConfigDTO = {
   colorBackgroundAccent: '0,145,178,1',
-  colorBackgroundActive: '0,145,178,1',
+  colorBackgroundActive: '232, 246, 250',
   colorBackgroundHover: '242,242,242,0.6',
   colorBackgroundPrimary: '255,255,255,1',
   colorBackgroundSecondary: '242,242,242,1',
@@ -23,6 +23,8 @@ export const bobStyleConfig: StyleConfig = {
   colorSecondary: '0,0,0,0.6',
   colorWarning: '255,197,61,1',
 
+  colorButtonPrimary: '0,0,0,1',
+
   fontFamilyNormalUrl:
     'https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Regular.woff2',
   fontFamilyNormalFormat: 'woff2',
@@ -35,15 +37,20 @@ export const bobStyleConfig: StyleConfig = {
 
   fontBaseSize: '10px',
   fontSizeP: '1.6rem',
+  fontSizePSmall: '1.4rem',
   fontSizeLabel: '1.6rem',
   fontSizeSublabel: '1.2rem',
   fontSizeInput: '1.6rem',
   fontSizeTitle: '2.4rem',
+  fontSizeTitleMobile: '2.2rem',
 
+  headerBoxShadow: '0 0 8px 8px rgba(0, 0, 0, 0.04)',
   headerHeight: 84,
   headerHeightMobile: 72,
   headerLogoWidth: 256,
+  headerLogoWidthMobile: 256,
   headerBackgroundColor: '65, 175, 200, 1',
+  headerBackgroundColorDark: 'rgba(52, 58, 60, 1)',
   headerTitleColor: '255,255,255,1',
   headerTitleFontSize: '2.4rem',
 
@@ -64,4 +71,6 @@ export const bobStyleConfig: StyleConfig = {
   formFieldBorderRadius: '5px',
   formFieldPaddingHorizontal: 12,
   formFieldStyle: FieldStyle.SoftEdge,
+
+  formIconFilter: 'none',
 }

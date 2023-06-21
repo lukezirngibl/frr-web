@@ -1,6 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
 
-export type StyleConfig = {
+export enum FieldStyle {
+  SharpEdge = 'SHARP EDGE',
+  SoftEdge = 'SOFT EDGE',
+  Round = 'ROUND',
+}
+
+export type StyleConfigDTO = {
   colorBackgroundAccent: string
   colorBackgroundActive: string
   colorBackgroundHover: string
@@ -17,6 +23,8 @@ export type StyleConfig = {
   colorSecondary: string
   colorWarning: string
 
+  colorButtonPrimary: string
+
   fontFamilyNormalUrl: string | null
   fontFamilyNormalFormat: string | null
   fontFamilyMediumUrl: string | null
@@ -26,15 +34,20 @@ export type StyleConfig = {
 
   fontBaseSize: string
   fontSizeP: string
+  fontSizePSmall: string
   fontSizeInput: string
   fontSizeLabel: string
   fontSizeSublabel: string
   fontSizeTitle: string
+  fontSizeTitleMobile: string
 
+  headerBoxShadow: string
   headerHeight: number
   headerHeightMobile: number
   headerLogoWidth: number
+  headerLogoWidthMobile: number
   headerBackgroundColor: string
+  headerBackgroundColorDark: string
   headerTitleColor: string
   headerTitleFontSize: string
 
@@ -54,7 +67,9 @@ export type StyleConfig = {
   formFieldHeight: number
   formFieldBorderRadius: string
   formFieldPaddingHorizontal: number
-  formFieldStyle: string
+  formFieldStyle: FieldStyle
+
+  formIconFilter: string
 }
 
 const ColorKeys = [
@@ -83,7 +98,7 @@ const ColorKeys = [
 const setStyleConfigInBaseStyle = (params: {
   brandBaseStyle: string
   isStyleConfigActive: boolean
-  styleConfig: StyleConfig
+  styleConfig: StyleConfigDTO
 }) => {
   let mappedBaseStyle = params.brandBaseStyle
 
@@ -109,7 +124,7 @@ const setStyleConfigInBaseStyle = (params: {
     // Replace style definitions with styleConfig values
     mappedBaseStyle = Object.keys(styleConfig).reduce<string>((baseStyle, styleKey) => {
       const searchKey = new RegExp(`<${styleKey}>`, 'g') as RegExp
-      const styleValue = styleConfig[styleKey as keyof StyleConfig]
+      const styleValue = styleConfig[styleKey as keyof StyleConfigDTO]
       if (!styleValue) {
         return baseStyle
       } else if (ColorKeys.includes(styleKey)) {
@@ -130,7 +145,7 @@ export const configureBaseStyle = (params: {
   baseStyle: string
   brandBaseStyle: string
   isStyleConfigActive: boolean
-  styleConfig: StyleConfig
+  styleConfig: StyleConfigDTO
 }) => createGlobalStyle`
   ${params.baseStyle}
   ${setStyleConfigInBaseStyle(params)}
