@@ -1,11 +1,14 @@
+import { StyleConfig } from "../../src/theme/configureBaseStyle";
+
 export enum FieldStyle {
   SharpEdge = 'SHARP EDGE',
   SoftEdge = 'SOFT EDGE',
   Round = 'ROUND',
 }
 
-export const bobStyleConfig = {
+export const bobStyleConfig: StyleConfig = {
   colorBackgroundAccent: '0,145,178,1',
+  colorBackgroundActive: '0,145,178,1',
   colorBackgroundHover: '242,242,242,0.6',
   colorBackgroundPrimary: '255,255,255,1',
   colorBackgroundSecondary: '242,242,242,1',
@@ -31,7 +34,6 @@ export const bobStyleConfig = {
 
   fontBaseSize: '10px',
   fontSizeP: '1.6rem',
-  fontSizePSmall: '1.4rem',
   fontSizeLabel: '1.6rem',
   fontSizeSublabel: '1.2rem',
   fontSizeInput: '1.6rem',
