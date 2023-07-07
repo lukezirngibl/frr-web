@@ -28,22 +28,28 @@ const field = (props: FieldRowItemProps<FormData>) => <FieldRowItem {...props} /
 const textSelectField = (props: SelectStoryProps): TextSelectField<FormData> => ({
   type: FormFieldType.TextSelect,
   lens: formLens(['letter']),
-  label: { label: 'Buchstabe' },
+  label: { label: 'Animals' },
+  isMatchAny: props.isMatchAny,
   overwriteIsMobileTouch: !!props.isMobile,
   options: [
     {
-      value: 'a',
-      label: 'A',
+      value: 'cat',
+      label: 'Cat',
       isLabelTranslated: true,
     },
     {
-      value: 'b',
-      label: 'B',
+      value: 'elephant',
+      label: 'Elephant',
       isLabelTranslated: true,
     },
     {
-      value: 'c',
-      label: 'C',
+      value: 'tiger',
+      label: 'Tiger',
+      isLabelTranslated: true,
+    },
+    {
+      value: 'teddybear',
+      label: 'Teddy Bear',
       isLabelTranslated: true,
     },
   ],
@@ -75,6 +81,7 @@ const numberSelectField = (props: SelectStoryProps): NumberSelectField<FormData>
 
 type SelectStoryProps = {
   isMobile?: boolean
+  isMatchAny?: boolean
 }
 
 const SelectText = (props: SelectStoryProps) => {
@@ -98,7 +105,7 @@ const SelectText = (props: SelectStoryProps) => {
 }
 
 const SelectTextWithValue = (props: SelectStoryProps) => {
-  const [value, setValue] = React.useState('b')
+  const [value, setValue] = React.useState('tiger')
   return field({
     field: textSelectField(props),
     fieldIndex: 0,
@@ -124,7 +131,7 @@ const SelectReadonly = (props: SelectStoryProps) =>
     formReadOnly: true,
     style: {},
     data: {
-      letter: 'b',
+      letter: 'elephant',
       numberOfChildren: null,
     },
     onChange: (lens, value) => {
@@ -161,6 +168,10 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
         <li className="mb-small">
           <SelectText {...props} />
         </li>
+        <li className="mb-small">
+          <SelectText {...props}  isMatchAny />
+        </li>
+
         <li>
           <SelectTextWithValue {...props} />
         </li>
