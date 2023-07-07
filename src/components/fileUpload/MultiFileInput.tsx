@@ -1,13 +1,13 @@
 import React from 'react'
-import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-import { Props as ButtonProps } from './Button'
-import { Label, LabelProps } from './Label'
+import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
+import { createStyled } from '../../theme/util'
+import { Props as ButtonProps } from '../Button'
+import { Label, LabelProps } from '../Label'
 import { UploadDropzone } from './UploadDropzone'
 
 const Wrapper = createStyled('div')
 
-export type Props = {
+export type MultiFileInputProps = {
   label?: LabelProps
   buttonProps?: Partial<ButtonProps>
   style?: Partial<ComponentTheme['multiFileInput']>
@@ -15,7 +15,7 @@ export type Props = {
   value: Array<File> | []
 }
 
-export const MultiFileInput = (props: Props) => {
+export const MultiFileInput = (props: MultiFileInputProps) => {
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'multiFileInput')(props.style)
 

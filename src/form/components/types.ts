@@ -24,8 +24,8 @@ import { Props as TextNumberInputProps } from '../../components/TextNumberInput'
 import { Props as ToggleProps } from '../../components/Toggle'
 import { Props as YesNoOptionGroupProps } from '../../components/YesNoOptionGroup'
 import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
-import { Props as FileInputProps } from '../../components/FileInput'
-import { Props as MultiFileInputProps } from '../../components/MultiFileInput'
+import { SingleFileInputProps } from '../../components/fileUpload/SingleFileInput'
+import { MultiFileInputProps } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
 import { ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
@@ -128,7 +128,7 @@ type NullableAndUndefinabledLens<FormData, T> =
 
 export type FileInputField<FormData> = FormInput<
   NullableAndUndefinabled<File>,
-  FileInputProps,
+  SingleFileInputProps,
   NullableAndUndefinabledLens<FormData, File>,
   FormFieldType.FileInput
 >

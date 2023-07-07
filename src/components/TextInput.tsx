@@ -18,9 +18,10 @@ export type Props = {
   debounce?: number
   disabled?: boolean
   error?: boolean
+  formatValue?: (value: string | null) => string // This function is applied initially or once the user loses focus but not during typing
   hasFocus?: boolean
-  inputType?: string
   inputRef?: React.MutableRefObject<HTMLElement>
+  inputType?: string
   isAutoFocused?: boolean
   isCurrencyInput?: boolean
   label?: LabelProps
@@ -28,16 +29,15 @@ export type Props = {
   maxLength?: number
   minLength?: number
   name?: string
-  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void
   onBlur?: (value: string) => void
   onChange?: (value: string) => void
   onFocus?: () => void
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void
   onlyOnBlur?: boolean
   parseValue?: (value: string | null) => string
   placeholder?: string
   postfix?: string
   prefix?: string
-  proccessValue?: (value: string | null) => string
   readOnly?: boolean
   style?: Partial<ComponentTheme['textInput']>
   value: string | null
@@ -54,8 +54,10 @@ export const TextInput = (props: Props) => {
   const [isFocused, setIsFocused] = useState(false)
   const [internalValue, setInternalValue] = useState(props.value)
 
+  const formatValue = props.formatValue || ((v: string) => v)
+  
   useEffect(() => {
-    setInternalValue(props.value)
+    setInternalValue(formatValue(props.value))
   }, [props.value])
 
   // Focus field (e.g. on error)
@@ -68,7 +70,7 @@ export const TextInput = (props: Props) => {
     return () => clearTimeout(timerId)
   }, [props.hasFocus, props.isAutoFocused, inputRef.current])
 
-  const value = (props.proccessValue ? props.proccessValue(internalValue) : internalValue) || ''
+  const value = internalValue || ''
   const placeholder = props.placeholder ? translate(props.placeholder) : undefined
 
   const debounceOnChange = useDebouncedCallback((v: string) => {
@@ -146,7 +148,7 @@ export const TextInput = (props: Props) => {
           onBlur={() => {
             let newValue = (internalValue || '').trim()
             newValue = props.parseValue?.(newValue) || newValue
-            setInternalValue(newValue)
+            setInternalValue(formatValue(newValue))
             onChange?.(newValue)
             setIsFocused(false)
 

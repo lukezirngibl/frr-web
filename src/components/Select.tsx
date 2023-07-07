@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdDone, MdOutlineExpandMore } from 'react-icons/md'
-import ReactSelect, { OptionProps, StylesConfig, components } from 'react-select'
+import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, OptionType, Options } from '../html'
@@ -31,12 +31,14 @@ type InternalOption = {
 type Priority = Array<string | number>
 
 export type Props = {
-  alphabetize?: boolean
+  alphabetize?: boolean // Order alphabetically
   dataTestId?: string
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
   inputRef?: React.Ref<any>
+  isMenuAlwaysOpen?: boolean // If true menu is always open and will not close
+  isMatchAny?: boolean // If false search starts from the beginning otherwise it matches any part of the string
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
@@ -45,7 +47,7 @@ export type Props = {
   onBlur?: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
   overwriteIsMobileTouch?: boolean // For testing purposes only
-  priority?: Priority
+  priority?: Priority // Show on top of select options
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
   value: Value
@@ -189,6 +191,10 @@ export const Select = (props: Props) => {
               components={{ Option: SelectOption }}
               data-test-id={props.dataTestId}
               getOptionLabel={getOptionLabel}
+              filterOption={createFilter({
+                ignoreCase: true,
+                matchFrom: props.isMatchAny ? 'any' : 'start',
+              })}
               isDisabled={props.disabled || props.readOnly}
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
@@ -197,6 +203,7 @@ export const Select = (props: Props) => {
               onChange={onChange}
               onFocus={onFocus}
               openMenuOnFocus
+              menuIsOpen={props.isMenuAlwaysOpen}
               options={options.map(mapInternalOption)}
               pageSize={MENU_PAGE_SIZE}
               minMenuHeight={MENU_MIN_HEIGHT}
@@ -346,6 +353,7 @@ export const mapReactSelectStyles = (
   const getInlineStyle = useInlineStyle(theme, 'select')(style)
 
   const iconStyle = getInlineStyle('icon').style as any
+  const menuPortalStyle = getInlineStyle('menuPortal').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
   const optionStyleHover = getInlineStyle('optionHover').style as any
@@ -379,12 +387,16 @@ export const mapReactSelectStyles = (
         },
       }
     },
+    menuPortal: (provided) => ({
+      ...provided,
+      ...menuPortalStyle,
+    }),
     menu: (provided) => ({
       ...provided,
       backgroundColor: 'var(--color-form-field-background-secondary)',
       boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-      ...menuStyle,
       zIndex: 999,
+      ...menuStyle,
     }),
     option: (provided, state) => {
       const style = {

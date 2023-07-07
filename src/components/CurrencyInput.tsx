@@ -4,17 +4,22 @@ import { Props as TextInputProps, TextInput } from './TextInput'
 
 export type Props = {
   label?: LabelProps
-  onChange: (params: { num: number | null; value: string }) => void
-  value: number | null | undefined
   marks?: Array<number>
   max?: number
   min?: number
+  onChange: (params: { num: number | null; value: string }) => void
   step?: number
+  value: number | null | undefined
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
 const getValue = (
   v: string,
-  options?: { min: number | null; max: number | null; marks: Array<number>; step: number },
+  options?: {
+    marks: Array<number>
+    max: number | null
+    min: number | null
+    step: number
+  },
 ): number | null => {
   const value = v.replace(',', '.')
   let num = Number(value)

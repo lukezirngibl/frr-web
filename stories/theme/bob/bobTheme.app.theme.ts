@@ -821,13 +821,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     spinner: {},
   },
-  fileInput: {
-    wrapper: {
-      display: 'flex',
-      alignItems: 'center',
-      margin: '8px 0',
-    },
-  },
+
   pdfViewer: {
     pdfWrapper: {
       height: '100%',
@@ -907,6 +901,17 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       fontSize: 18,
     },
   },
+
+  // File Upload
+
+  fileInput: {
+    wrapper: {
+      minHeight: 100,
+      maxWidth: 'var(--form-field-width)',
+      margin: '8px 0',
+      width: '100%',
+    },
+  },
   uploadDropzone: {
     container: {
       alignItems: 'center',
@@ -920,8 +925,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       flexDirection: 'column',
       justifyContent: 'center',
       maxWidth: 'var(--form-field-width)',
-      height: 100,
-      margin: '16px 0',
+      height: 84,
+      margin: '8px 0',
       outline: 'none',
       padding: '20px',
       width: '100%',
@@ -937,39 +942,41 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       fontSize: 'var(--font-size-sublabel)',
       width: '100%',
       marginTop: 8,
+      textAlign: 'center',
+    },
+    acceptedFileItem: {
+      flexGrow: 1,
+      display: 'inline-block',
+      fontSize: 'var(--font-size-input)',
+      lineHeight: 1.1,
+      marginTop: 2,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
     },
     acceptedFilesLabel: {
       fontSize: 'var(--font-size-sublabel)',
-      color: 'green',
+      color: 'var(--toastify-color-success)',
+      marginBottom: 8,
     },
     rejectedFilesLabel: {
-      fontSize: 'var(--font-size-input)',
-      color: 'var(--color-error)',
-    },
-    acceptedFileItem: {
-      display: 'flex',
-      alignItems: 'center',
-      fontSize: 'var(--font-size-input)',
-      lineHeight: 1.0,
-      height: 30,
-    },
-    rejectedFileItem: {
-      fontSize: 'var(--font-size-input)',
-    },
-    errorMessage: {
       fontSize: 'var(--font-size-sublabel)',
       color: 'var(--color-error)',
+      marginBottom: 8,
+    },
+    errorMessage: {
+      color: 'var(--color-error)',
+      fontSize: 'var(--font-size-sublabel)',
+      marginTop: 8,
+      width: '100%',
     },
     section: {
-      paddingTop: '20px',
+      paddingTop: 20,
+      width: '100%',
     },
     sectionSingleItem: {
-      alignItems: 'center',
-      display: 'flex',
-      height: 80,
       paddingTop: 0,
-      whiteSpace: 'nowrap',
-      width: '100%',
+      marginBottom: 24,
     },
     imageItem: {
       marginRight: '10px',
@@ -980,11 +987,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
       width: '100%',
-      padding: '8px 16px 8px 24px',
+      maxWidth: 'var(--form-field-width)',
+      height: 48,
+      padding: '8px var(--form-field-padding-horizontal) 8px',
       border: '1px solid var(--color-form-field-border)',
       borderRadius: 'var(--form-field-border-radius)',
       marginBottom: 8,
-      marginLeft: 16,
     },
     listSingleItem: {
       marginBottom: 0,
@@ -995,9 +1003,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'inline-block',
       height: 24,
       width: 24,
-      marginLeft: 24,
+      minWidth: 24,
+      marginLeft: 12,
     },
   },
+
+  // Icons
   icon: {
     edit: {
       svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g><path fill="currentColor" stroke="none" d="M26 1.067l-23.067 23.067-1.6 6.533 6.533-1.6 23.067-23.067-4.933-4.933zM29.067 6l-1.733 1.733-3.067-3.067 1.733-1.733 3.067 3.067zM26.4 8.667l-18.267 18.267-3.067-3.067 18.267-18.267 3.067 3.067zM3.067 28.933l1.067-4 3.067 3.067-4.133 0.933z"></path></g></svg>',

@@ -2,7 +2,7 @@ export const baseStyle = `
 /* Font definition */
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Regular.woff2')
+  src: url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400')
     format('woff2');
   font-weight: 400;
   font-style: normal;
@@ -10,7 +10,7 @@ export const baseStyle = `
 }
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Medium.woff2')
+  src: url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500')
     format('woff2');
   font-weight: 500;
   font-style: normal;
@@ -18,7 +18,7 @@ export const baseStyle = `
 }
 @font-face {
   font-family: 'partner font'; 
-  src: url('https://stbobfspfrontendassets.blob.core.windows.net/fonts/FoundryContext-Bold.woff2')
+  src: url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700')
     format('woff2');
   font-weight: 700;
   font-style: normal;
