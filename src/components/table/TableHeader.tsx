@@ -3,7 +3,6 @@ import { createStyled } from '../../theme/util'
 import styled, { CSSProperties } from 'styled-components'
 import { SortValue, TableSortingIcons } from './TableSortingIcons'
 import { SimplePopover } from '../PopOver'
-import { MdInfoOutline } from 'react-icons/md'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -14,6 +13,7 @@ import { TableColumns } from '../types'
 import { useTranslation } from 'react-i18next'
 import { P } from '../../html'
 import { Namespace } from 'i18next'
+import { MdInfoOutline } from '../../icons/new/MdInfoOutline'
 
 export type Sorting = {
   onClick: (params: { columnKey: string; value: string }) => void

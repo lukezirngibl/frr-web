@@ -1,6 +1,6 @@
-import { AiOutlineCheck } from 'react-icons/ai'
-import { MdClose } from 'react-icons/md'
 import { P } from '../html'
+import { AiOutlineCheck } from '../icons/new/AiOutlineCheck'
+import { MdClose } from '../icons/new/MdClose'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -61,7 +61,7 @@ export const StaticChecklist = (props: Props) => {
                   <Container key={k2} {...getCSSStyles('item')}>
                     {l.type === ChecklistType.Allowed ? (
                       <AiOutlineCheck
-                        size={18}
+                        width={18}
                         {...getInlineStyle({
                           itemIcon: true,
                           iconAllowed: true,
@@ -69,7 +69,7 @@ export const StaticChecklist = (props: Props) => {
                       />
                     ) : (
                       <MdClose
-                        size={18}
+                        width={18}
                         {...getInlineStyle({
                           itemIcon: true,
                           iconDisallowed: true,

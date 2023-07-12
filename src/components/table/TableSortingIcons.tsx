@@ -6,8 +6,9 @@ import {
   useInlineStyle,
 } from '../../theme/theme.components'
 
-import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md'
 import { createStyled } from '../../theme/util'
+import { MdArrowDropUp } from '../../icons/new/MdArrowDropUp'
+import { MdArrowDropDown } from '../../icons/new/MdArrowDropDown'
 
 export enum SortValue {
   ASC = 'asc',

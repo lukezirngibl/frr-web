@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
 import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
-import { MdClose } from 'react-icons/md'
+
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
 import { ModalLinkConfig, ModalLinkType } from './types'
+import { MdClose } from '../icons/new/MdClose'
 
 export type Props = {
   modalOpen: boolean
@@ -88,7 +89,7 @@ export const LinkModal = (props: Props) => {
                 <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
                 {props.config.onClose && (
                   <CloseButton {...getCSSStyle('closeButton')} onClick={props.config.onClose}>
-                    <MdClose size={24} />
+                    <MdClose width={24} />
                   </CloseButton>
                 )}
               </>

@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdDone, MdOutlineExpandMore } from 'react-icons/md'
 import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
@@ -17,6 +16,8 @@ import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Label, LabelProps } from './Label'
 import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
+import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
+import { MdDone } from '../icons/new/MdDone'
 
 type Value = string | number | null
 
@@ -181,7 +182,7 @@ export const Select = (props: Props) => {
                 />
               ))}
             </SelectWrapper>
-            <MdOutlineExpandMore size={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
+            <MdOutlineExpandMore width={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
@@ -314,7 +315,7 @@ export const SelectOption = (props: OptionProps<InternalOption> & { value: Value
     <div data-test-id={dataTestId}>
       <components.Option {...other} data-test-id={dataTestId}>
         <OptionValueWrapper>
-          {props.isSelected && <MdDone className="selected-icon" size={18} />}
+          {props.isSelected && <MdDone className="selected-icon" width={18} />}
           {children}
         </OptionValueWrapper>
       </components.Option>

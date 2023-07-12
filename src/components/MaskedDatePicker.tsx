@@ -4,7 +4,6 @@ import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
-import { MdOutlineCalendarToday } from 'react-icons/md'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
@@ -20,6 +19,7 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
+import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 
 export type Props = {
   dataTestId?: string
@@ -198,7 +198,7 @@ export const MaskedDatePicker = (props: Props) => {
               >
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
-                <MdOutlineCalendarToday size={16} />
+                <MdOutlineCalendarToday width={16} />
               </Div>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
