@@ -1,15 +1,13 @@
 import React from 'react'
-import {
-  MdClose,
-  MdDownload,
-  MdFullscreen,
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-} from 'react-icons/md'
 import { Document, Outline, Page } from 'react-pdf/dist/esm/entry.webpack5'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Loading } from './Loading'
+import { MdClose } from '../icons/new/MdClose'
+import { MdDownload } from '../icons/new/MdDownload'
+import { MdFullscreen } from '../icons/new/MdFullscreen'
+import { MdKeyboardArrowLeft } from '../icons/new/MdKeyboardArrowLeft'
+import { MdKeyboardArrowRight } from '../icons/new/MdKeyboardArrowRight'
 
 const PageSelectorWrapper = createStyled('div')
 const PageNumber = createStyled('p')
@@ -98,7 +96,7 @@ export const PdfViewer = (props: Props) => {
             window.URL.revokeObjectURL(url)
           }}
         >
-          <MdDownload size={24} />
+          <MdDownload width={24} />
         </DownloadButton>
       )}
       <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}>
@@ -111,7 +109,7 @@ export const PdfViewer = (props: Props) => {
                 // setIframeLoading(true)
               }
             }}
-            size={24}
+            width={24}
             style={{
               opacity: pageNumber === 1 ? 0.2 : 1,
             }}
@@ -128,7 +126,7 @@ export const PdfViewer = (props: Props) => {
                 // setIframeLoading(true)
               }
             }}
-            size={24}
+            width={24}
             style={{
               opacity: pageNumber === numPages ? 0.2 : 1,
             }}
@@ -141,7 +139,7 @@ export const PdfViewer = (props: Props) => {
           {...getCSSStyle('closeButton')}
           onClick={props.onFullscreenChanged || props.onClose}
         >
-          {props.isFullscreen ? <MdFullscreen size={24} /> : <MdClose size={24} />}
+          {props.isFullscreen ? <MdFullscreen width={24} /> : <MdClose width={24} />}
         </CloseButton>
       )}
 

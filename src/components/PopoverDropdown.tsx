@@ -1,6 +1,7 @@
-import { MdMenu, MdOutlineExpandMore } from 'react-icons/md'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
+import { MdMenu } from '../icons/new/MdMenu'
+import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -41,7 +42,7 @@ export const PopoverDropdown = (props: Props) => {
           })}
         >
           {isMobile && props.hasMobileBurgerMenu ? (
-            <MdMenu size={20} />
+            <MdMenu width={20} />
           ) : (
             <>
               <P
@@ -49,7 +50,7 @@ export const PopoverDropdown = (props: Props) => {
                 localeNamespace={props.localeNamespace}
                 {...getCSSStyles(['label'])}
               />
-              {props.hasIcon && <MdOutlineExpandMore size={18} {...getInlineStyle(['icon'])} />}{' '}
+              {props.hasIcon && <MdOutlineExpandMore width={18} {...getInlineStyle(['icon'])} />}{' '}
             </>
           )}
         </DrodownSelector>

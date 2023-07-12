@@ -15,9 +15,9 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { MdOutlineCalendarToday } from 'react-icons/md'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
+import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 
 const Wrapper = createStyled('div')
 const DatePickerIconWrapper = createStyled('div')
@@ -88,7 +88,7 @@ export const DatePicker = (props: Props) => {
       errorInput: props.style.errorInput,
       input: props.style.input,
       inputPlaceholder: props.style.inputPlaceholder,
-      wrapper: props.style.inputWrapper ,
+      wrapper: props.style.inputWrapper,
     }) ||
     (!isMobileTouch && {
       wrapper: getInlineStyle('inputWrapper').style,
@@ -165,7 +165,7 @@ export const DatePicker = (props: Props) => {
               >
                 <Hook1 {...styleIconHook1} />
                 <Hook2 {...styleIconHook2} />
-                <MdOutlineCalendarToday size={16} />
+                <MdOutlineCalendarToday width={16} />
               </DatePickerIconWrapper>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
