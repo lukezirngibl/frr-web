@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "3.6.26",
+  "version": "3.6.27",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -56,6 +56,7 @@
     "react-datepicker": "^4.2.1",
     "react-dropzone": "12.0.4",
     "react-html-parser": "^2.0.2",
+    "react-icons": "^4.10.1",
     "react-maskinput": "^3.2.0",
     "react-pdf": "^5.7.2",
     "react-responsive": "^9.0.0-beta.4",
