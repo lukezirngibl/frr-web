@@ -136,8 +136,6 @@ export const MultiSelect = (props: Props) => {
     }
   }, [props.hasFocus])
 
-  console.log('multiselect value', props.value)
-
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}

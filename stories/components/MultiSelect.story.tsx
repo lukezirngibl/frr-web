@@ -65,7 +65,6 @@ type SelectStoryProps = {
 
 const SelectText = (props: SelectStoryProps) => {
   const [value, setValue] = React.useState([])
-  console.log('value', value)
   return field({
     field: textSelectField(props),
     fieldIndex: 0,
