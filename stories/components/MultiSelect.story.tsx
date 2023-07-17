@@ -22,7 +22,7 @@ const meta: Meta<typeof MultiSelect> = {
 export default meta
 
 type FormData = {
-  animals: string[]
+  animals: { value: string; label: string }[]
 }
 const formLens = makeFormLens<FormData>()
 // const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
@@ -30,7 +30,7 @@ const field = (props: FieldRowItemProps<FormData>) => <FieldRowItem {...props} /
 
 const textSelectField = (props: SelectStoryProps): MultiSelectField<FormData> => ({
   type: FormFieldType.MultiSelect,
-  lens: formLens(['animals']),
+  lens: formLens(['animals']) as any,
   label: { label: 'Animals' },
   isMatchAny: props.isMatchAny,
   overwriteIsMobileTouch: !!props.isMobile,
@@ -64,13 +64,14 @@ type SelectStoryProps = {
 }
 
 const SelectText = (props: SelectStoryProps) => {
-  const [value, setValue] = React.useState({ animals: [] })
+  const [value, setValue] = React.useState([])
+  console.log('value', value)
   return field({
     field: textSelectField(props),
     fieldIndex: 0,
     formReadOnly: false,
     style: {},
-    data: value,
+    data: { animals: value },
     onChange: (lens, value) => {
       setValue(value)
     },
@@ -85,9 +86,6 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
       <List>
         <li className="mb-small">
           <SelectText {...props} />
-        </li>
-        <li className="mb-small">
-          <SelectText {...props} isMatchAny />
         </li>
       </List>
     </FieldSectionWrapper>

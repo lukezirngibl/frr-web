@@ -471,7 +471,13 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
-        value={lens.get(data)}
+        value={(lens.get(data) as any).map((v) => {
+          if (typeof v === 'object' && 'label' in v) return v
+          else if (typeof v === 'string') return { value: v, label: v }
+          else {
+            return { value: (v as any).value, label: (v as any).value.toString() }
+          }
+        })}
       />
     )
   }

@@ -20,7 +20,7 @@ import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import { MdDone } from '../icons/new/MdDone'
 import { mapReactSelectStyles } from './Select'
 
-type Value = string[] | number[]
+type Value = { value: number | string; label: string }[]
 
 type InternalOption = {
   label?: string
@@ -135,6 +135,8 @@ export const MultiSelect = (props: Props) => {
       onFocus()
     }
   }, [props.hasFocus])
+
+  console.log('multiselect value', props.value)
 
   return (
     <>

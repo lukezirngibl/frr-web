@@ -190,7 +190,7 @@ export type CurrencyInputField<FormData> = FormInput<
 >
 
 export type MultiSelectField<FormData> = FormInput<
-  Array<string>,
+  Array<{ value: string | number; label: string }>,
   MultiSelectProps,
   FormLens<FormData, Array<string>>,
   FormFieldType.MultiSelect

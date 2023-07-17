@@ -439,5 +439,6 @@ export const mapReactSelectStyles = (
       return { ...provided, ...valueStyle }
     },
     indicatorSeparator: () => ({ display: 'none' }),
+    clearIndicator: () => ({ display: 'none' }),
   }
 }
