@@ -100,9 +100,15 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         hasFocus={field.lens.id() === errorFieldId || autoFocus}
         inputRef={inputRef}
         localeNamespace={localeNamespace}
-        onBlur={onBlur}
         onFocus={onFocus}
-        onChange={setValue}
+        onBlur={field.forceOnChange ? () => {} : onBlur}
+        onChange={(v) => {
+          if (field.forceOnChange) {
+            onBlur(v)
+          } else {
+            setValue(v)
+          }
+        }}
       />
     )) || (
       <FieldContainer>
@@ -120,9 +126,15 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             hasFocus={field.lens.id() === errorFieldId || autoFocus}
             inputRef={inputRef}
             localeNamespace={localeNamespace}
-            onBlur={onBlur}
             onFocus={onFocus}
-            onChange={setValue}
+            onBlur={field.forceOnChange ? () => {} : onBlur}
+            onChange={(v) => {
+              if (field.forceOnChange) {
+                onBlur(v)
+              } else {
+                setValue(v)
+              }
+            }}
           />
         </FieldScrollableWrapper>
         {field.renderChildren?.()}

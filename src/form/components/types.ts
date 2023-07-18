@@ -326,6 +326,7 @@ type CommonFieldProps<FormData> = {
   isVisible?: (formData: FormData) => boolean
   itemStyle?: CSSProperties
   maxwidth?: number
+  forceOnChange?: boolean
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
   validate?: (value: any, data: FormData) => null | string
