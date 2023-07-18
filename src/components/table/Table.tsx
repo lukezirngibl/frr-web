@@ -18,6 +18,7 @@ type Props<T extends {}> = {
   onRowClick?: (row: T) => void
   sorting?: Sorting
   style?: Partial<ComponentTheme['table']>
+  loadingStyle?: React.CSSProperties
 }
 
 export const Table = <T extends {}>(props: Props<T>) => {
@@ -39,7 +40,9 @@ export const Table = <T extends {}>(props: Props<T>) => {
         {props.data.fold(
           <></>,
           <LoaderWrapper {...getCSSStyle('loadingWrapper')}>
-            <Loading style={getCSSStyle('loading').cssStyles} />
+            {/* Todo Joel: the loading component styling is broken, let's fix it when you're back */}
+            {/* <Loading style={getCSSStyle('loading').cssStyles} /> */}
+            <Loading style={props.loadingStyle} />
           </LoaderWrapper>,
           () => (
             <></>
