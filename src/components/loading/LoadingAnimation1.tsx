@@ -87,28 +87,36 @@ const Animation2Wrapper = createStyled(styled.div`
   width: 70px;
   height: 60px;
   text-align: center;
-  
+
   > div {
     display: inline-block;
     -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
     animation: sk-stretchdelay 1.2s infinite ease-in-out;
   }
-  
+
   @-webkit-keyframes sk-stretchdelay {
-    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
-    20% { -webkit-transform: scaleY(1.0) }
-  }
-  
-  @keyframes sk-stretchdelay {
-    0%, 40%, 100% { 
-      transform: scaleY(0.4);
+    0%,
+    40%,
+    100% {
       -webkit-transform: scaleY(0.4);
-    }  20% { 
-      transform: scaleY(1.0);
-      -webkit-transform: scaleY(1.0);
+    }
+    20% {
+      -webkit-transform: scaleY(1);
     }
   }
-}
+
+  @keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+      transform: scaleY(0.4);
+      -webkit-transform: scaleY(0.4);
+    }
+    20% {
+      transform: scaleY(1);
+      -webkit-transform: scaleY(1);
+    }
+  }
 `)
 const Animation2Item = createStyled(styled.div`
   background-color: #000;
