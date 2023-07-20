@@ -35,6 +35,7 @@ type Props = {
   style?: CSSProperties
   tabIndex?: number
   value?: any
+  onClick?: (e: React.MouseEvent) => void
 }
 
 const HtmlElements = {
@@ -79,6 +80,7 @@ export const Element = (
     readOnly,
     style = {},
     value,
+    onClick,
   } = props
   const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
@@ -102,6 +104,7 @@ export const Element = (
 
   return (
     <HtmlElement
+      onClick={onClick}
       cssStyles={cssStyles}
       data-test-id={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}

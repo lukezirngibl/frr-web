@@ -115,6 +115,7 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
     isHighlighted?: boolean
     isFullWidth?: boolean
     image?: string
+    link?: string
   }
   _value?: P['value']
 }

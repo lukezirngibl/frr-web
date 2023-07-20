@@ -172,7 +172,7 @@ export const DatePicker = (props: Props) => {
                 <ReactDatePicker
                   locale={locale}
                   open={open}
-                  selected={props.value || new Date()}
+                  selected={props.value === null ? undefined : new Date()}
                   onChange={(v: Date) => {
                     props.onBlur(v)
                     setOpen(false)

@@ -122,8 +122,8 @@ const defaultOptionMapper = (
 
 export const defaultReadOnlyMappers: {
   [K in FormFieldType]: (
-    params: Omit<typeof fieldMap[K], 'lens' | '_value' | 'type'> & {
-      value: typeof fieldMap[K]['_value']
+    params: Omit<(typeof fieldMap)[K], 'lens' | '_value' | 'type'> & {
+      value: (typeof fieldMap)[K]['_value']
       translate: Translate
       language?: Language
     },
@@ -140,7 +140,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.CurrencyInput]: defaultCurrencyMapper,
   [FormFieldType.ColorPicker]: defaultColorMapper,
   [FormFieldType.DatePicker]: (v) =>
-    !!v ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
+    !!v && v.value ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,
   [FormFieldType.FormFieldGroup]: () => '',
   [FormFieldType.FormFieldRepeatGroup]: () => '',
@@ -217,7 +217,16 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
   } as any)
 
   return (props.field.type === FormFieldType.TextArea && (
-    <Div {...props.getFieldStyle('textAreaItem')}>
+    <Div
+      {...props.getFieldStyle('textAreaItem')}
+      onClick={
+        props.field.readOnlyOptions?.link
+          ? () => {
+              window.open(props.field.readOnlyOptions?.link, '_blank')
+            }
+          : undefined
+      }
+    >
       {typeof value === 'string' ? (
         <P
           {...props.getFieldStyle(readOnlyStyle)}
@@ -233,11 +242,29 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
   )) ||
     typeof value === 'string' ? (
     <P
-      {...props.getFieldStyle(readOnlyStyle)}
+      {...props.getFieldStyle(
+        readOnlyStyle,
+        props.field.readOnlyOptions?.link
+          ? {
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              color: 'rgb(24,14,164)',
+            }
+          : {},
+      )}
       label={value}
       isLabelTranslated
       dataTestId={props.field.lens.id()}
       dataValue={props.field.lens.get(props.data)}
+      onMouseEnter={() => console.log('mouse enter')}
+      onMouseDown={() => console.log('mouse down')}
+      onClick={
+        props.field.readOnlyOptions?.link
+          ? () => {
+              window.open(props.field.readOnlyOptions?.link, '_blank')
+            }
+          : undefined
+      }
     />
   ) : (
     <>{value}</>
@@ -262,7 +289,7 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
-  
+
   return (
     <FormFieldWrapper
       key={`field-item-${props.fieldIndex}`}
