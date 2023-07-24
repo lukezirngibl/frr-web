@@ -43,11 +43,7 @@ export type Props<T extends number | string> = {
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
   onFocus?: () => void
-  options:
-    | Options<number>
-    | Options<string>
-    | ((lan: Language) => Options<string>)
-    | ((lan: Language) => Options<number>)
+  options: Options<T> | ((lan: Language) => Options<T>)
   overwriteIsMobileTouch?: boolean // For testing purposes only
   priority?: Priority // Show on top of select options
   readOnly?: boolean
@@ -57,7 +53,7 @@ export type Props<T extends number | string> = {
   value: T[]
 }
 
-export const MultiSelect = (props: Props<string> | Props<number>) => {
+export const MultiSelect = <T extends string | number>(props: Props<T>) => {
   const theme = useComponentTheme()
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
@@ -69,7 +65,7 @@ export const MultiSelect = (props: Props<string> | Props<number>) => {
    */
 
   const [options, setOptions] = useState(
-    getOptions({
+    getOptions<T>({
       alphabetize: props.alphabetize,
       isMobileTouch,
       language: i18n.language,
@@ -170,7 +166,6 @@ export const MultiSelect = (props: Props<string> | Props<number>) => {
             styles={mapReactSelectStyles(props.style, props.error, isFocused)}
             ref={props.inputRef}
             tabSelectsValue={false}
-            //@ts-ignore
             value={options.filter((option) => props.value.includes(option.value))}
             isMulti
           />
@@ -184,21 +179,21 @@ export const MultiSelect = (props: Props<string> | Props<number>) => {
  * Option mapper functions
  */
 
-export const getOptions = (params: {
+export const getOptions = <T extends string | number>(params: {
   alphabetize?: boolean
   isMobileTouch: boolean
   language: string
-  options: Options<number | string> | ((lan: Language) => Options<number | string>)
+  options: Options<T> | ((lan: Language) => Options<T>)
   priority?: Priority
   t: Translate
-  value?: string[] | number[]
+  value?: T[]
 }) => {
   const { alphabetize, language, options, t, priority } = params
   const translatedOptions = typeof options === 'function' ? options(language as Language) : options
 
   const filteredOptions = translatedOptions
 
-  const mapOption = (option: OptionType<number | string>) => ({
+  const mapOption = (option: OptionType<T>) => ({
     disabled: option.disabled,
     isLabelTranslated: true,
     label: option.isLabelTranslated ? option.label : t(option.label),
@@ -214,16 +209,6 @@ export const getOptions = (params: {
           .filter(Boolean)
       : []),
     ,
-    ...(priority
-      ? [
-          {
-            value: '---',
-            disabled: true,
-            label: '---',
-            isLabelTranslated: true,
-          },
-        ]
-      : []),
     ...(alphabetize
       ? filteredOptions
           .map(mapOption)
@@ -236,7 +221,7 @@ export const getOptions = (params: {
   return mappedOptions
 }
 
-export const mapInternalOption = (option: OptionType<number | string>): InternalOption => ({
+export const mapInternalOption = <T extends string | number>(option: OptionType<T>): InternalOption => ({
   ...option,
   isDisabled: option.disabled,
 })
@@ -245,7 +230,9 @@ export const mapInternalOption = (option: OptionType<number | string>): Internal
  * Control & Option Component
  */
 
-export const SelectOption = (props: OptionProps<InternalOption> & { value: string[] | number[] }) => {
+export const SelectOption = <T extends string | number>(
+  props: OptionProps<InternalOption> & { value: T[] },
+) => {
   const { children, value, ...other } = props
   const dataTestId = `${props.selectProps['data-test-id']}:option-${props.value}`
 
