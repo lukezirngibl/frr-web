@@ -20,8 +20,6 @@ import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import { MdDone } from '../icons/new/MdDone'
 import { mapReactSelectStyles } from './Select'
 
-type Value = { value: number | string; label: string }[]
-
 type InternalOption = {
   label?: string
   name?: string
@@ -32,7 +30,7 @@ type InternalOption = {
 
 type Priority = Array<string | number>
 
-export type Props = {
+export type Props<T extends number | string> = {
   alphabetize?: boolean // Order alphabetically
   dataTestId?: string
   disabled?: boolean
@@ -45,17 +43,21 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
   onFocus?: () => void
-  options: Options<number | string> | ((lan: Language) => Options<number | string>)
+  options:
+    | Options<number>
+    | Options<string>
+    | ((lan: Language) => Options<string>)
+    | ((lan: Language) => Options<number>)
   overwriteIsMobileTouch?: boolean // For testing purposes only
   priority?: Priority // Show on top of select options
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
-  value: Value
   onChange: (value: InternalOption[]) => void
   onBlur?: (value: InternalOption[]) => void
+  value: T[]
 }
 
-export const MultiSelect = (props: Props) => {
+export const MultiSelect = (props: Props<string> | Props<number>) => {
   const theme = useComponentTheme()
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
@@ -168,7 +170,8 @@ export const MultiSelect = (props: Props) => {
             styles={mapReactSelectStyles(props.style, props.error, isFocused)}
             ref={props.inputRef}
             tabSelectsValue={false}
-            value={props.value}
+            //@ts-ignore
+            value={options.filter((option) => props.value.includes(option.value))}
             isMulti
           />
         </div>
@@ -188,7 +191,7 @@ export const getOptions = (params: {
   options: Options<number | string> | ((lan: Language) => Options<number | string>)
   priority?: Priority
   t: Translate
-  value?: Value
+  value?: string[] | number[]
 }) => {
   const { alphabetize, language, options, t, priority } = params
   const translatedOptions = typeof options === 'function' ? options(language as Language) : options
@@ -242,7 +245,7 @@ export const mapInternalOption = (option: OptionType<number | string>): Internal
  * Control & Option Component
  */
 
-export const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
+export const SelectOption = (props: OptionProps<InternalOption> & { value: string[] | number[] }) => {
   const { children, value, ...other } = props
   const dataTestId = `${props.selectProps['data-test-id']}:option-${props.value}`
 
