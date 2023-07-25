@@ -22,7 +22,7 @@ const meta: Meta<typeof MultiSelect> = {
 export default meta
 
 type FormData = {
-  animals: { value: string; label: string }[]
+  animals: string[]
 }
 const formLens = makeFormLens<FormData>()
 // const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
@@ -30,7 +30,7 @@ const field = (props: FieldRowItemProps<FormData>) => <FieldRowItem {...props} /
 
 const textSelectField = (props: SelectStoryProps): MultiSelectField<FormData> => ({
   type: FormFieldType.MultiSelect,
-  lens: formLens(['animals']) as any,
+  lens: formLens(['animals']),
   label: { label: 'Animals' },
   isMatchAny: props.isMatchAny,
   overwriteIsMobileTouch: !!props.isMobile,
@@ -72,7 +72,7 @@ const SelectText = (props: SelectStoryProps) => {
     style: {},
     data: { animals: value },
     onChange: (lens, value) => {
-      setValue(value)
+      setValue(value.reduce((acc, v) => [...acc, v.value], []))
     },
     showValidation: false,
     autoFocus: false,

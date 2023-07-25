@@ -471,13 +471,22 @@ export const Field = <FormData extends {}>({
         label={label}
         localeNamespace={localeNamespace}
         onChange={onBlur}
-        value={(lens.get(data) as any).map((v) => {
-          if (typeof v === 'object' && 'label' in v) return v
-          else if (typeof v === 'string') return { value: v, label: v }
-          else {
-            return { value: (v as any).value, label: (v as any).value.toString() }
-          }
-        })}
+        value={lens.get(data)}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.NumberMultiSelect) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <MultiSelect
+        {...fieldProps}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        label={label}
+        localeNamespace={localeNamespace}
+        onChange={onBlur}
+        value={lens.get(data)}
       />
     )
   }

@@ -60,6 +60,7 @@ export enum FormFieldType {
   MaskedDatePicker = 'MaskedDatePicker',
   MaskedInput = 'MaskedInput',
   MultiSelect = 'MultiSelect',
+  NumberMultiSelect = 'NumberMultiSelect',
   MultiInput = 'MultiInput',
   MultiInputAutosuggest = 'MultiInputAutosuggest',
   NumberInput = 'NumberInput',
@@ -101,7 +102,7 @@ export type DropdownOption = {
 
 type FormInput<V, P extends { value: V }, L, T> = Omit<
   P,
-  'onChange' | 'onBlur' | 'value' | 'error' | 'required'
+  'onChange' | 'onBlur' | 'value' | 'error' | 'required' | 'readOnly' | 'type'
 > & {
   lens: L
   type: T
@@ -191,10 +192,17 @@ export type CurrencyInputField<FormData> = FormInput<
 >
 
 export type MultiSelectField<FormData> = FormInput<
-  Array<{ value: string | number; label: string }>,
-  MultiSelectProps,
+  Array<string>,
+  MultiSelectProps<string>,
   FormLens<FormData, Array<string>>,
   FormFieldType.MultiSelect
+>
+
+export type NumberMultiSelectField<FormData> = FormInput<
+  Array<number>,
+  MultiSelectProps<number>,
+  FormLens<FormData, Array<number>>,
+  FormFieldType.NumberMultiSelect
 >
 
 export type NumberSelectField<FormData> = FormInput<
@@ -391,6 +399,7 @@ export type SingleFormField<FormData> = (
   | MaskedDatePickerField<FormData>
   | MaskedInputField<FormData>
   | MultiSelectField<FormData>
+  | NumberMultiSelectField<FormData>
   | NumberInputField<FormData>
   | NumberSelectField<FormData>
   | OptionGroupField<FormData>
