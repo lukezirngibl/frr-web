@@ -153,6 +153,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.MaskedInput]: defaultStringNumberMapper,
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
+  [FormFieldType.NumberMultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.MultiInputAutosuggest]: () => '',
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
