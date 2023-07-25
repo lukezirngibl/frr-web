@@ -12,11 +12,11 @@ import { LocaleNamespace, Translate } from '../../translation'
 
 import {
   CommonThreadProps,
-  fieldMap,
   FormFieldType,
   MultiInputAutosuggestField,
   MultiInputField,
   SingleFormField,
+  fieldMap,
 } from './types'
 
 /*
@@ -102,9 +102,11 @@ const defaultOptionArrayMapper = (
 ): string =>
   Array.isArray(params.value)
     ? params.value
-        .map((val) =>
-          params.translate(params.options.find((option) => option.value === val)?.label || 'null'),
-        )
+        .reduce((acc, val) => {
+          const findOption = params.options.find((option) => option.value === val)
+          if (!findOption) return acc
+          return [...acc, findOption.label ? findOption.label : val]
+        }, [] as Array<string>)
         .join(', ')
     : ''
 
