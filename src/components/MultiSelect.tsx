@@ -20,10 +20,10 @@ import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import { MdDone } from '../icons/new/MdDone'
 import { mapReactSelectStyles } from './Select'
 
-type InternalOption = {
+type InternalOption<T extends number | string> = {
   label?: string
   name?: string
-  value: number | string
+  value: T
   isDisabled?: boolean
   isLabelTranslated?: boolean
 }
@@ -48,8 +48,8 @@ export type Props<T extends number | string> = {
   priority?: Priority // Show on top of select options
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
-  onChange: (value: InternalOption[]) => void
-  onBlur?: (value: InternalOption[]) => void
+  onChange: (value: T[]) => void
+  onBlur?: (value: T[]) => void
   value: T[]
 }
 
@@ -90,16 +90,16 @@ export const MultiSelect = <T extends string | number>(props: Props<T>) => {
     )
   }, [props.alphabetize, props.options, props.priority, isMobileTouch])
 
-  const onChange = (options: InternalOption[]) => {
-    props.onChange(options)
-    props.onBlur?.(options)
+  const onChange = (options: InternalOption<T>[]) => {
+    props.onChange(options.map((o) => o.value))
+    props.onBlur?.(options.map((o) => o.value))
   }
 
   /*
    * Translate option label
    */
 
-  const getOptionLabel = (option: InternalOption) => {
+  const getOptionLabel = (option: InternalOption<T>) => {
     const label = option.label || option.name
     let optionLabel: string
 
@@ -221,7 +221,9 @@ export const getOptions = <T extends string | number>(params: {
   return mappedOptions
 }
 
-export const mapInternalOption = <T extends string | number>(option: OptionType<T>): InternalOption => ({
+export const mapInternalOption = <T extends string | number>(
+  option: OptionType<T>,
+): InternalOption<T> => ({
   ...option,
   isDisabled: option.disabled,
 })
@@ -231,7 +233,7 @@ export const mapInternalOption = <T extends string | number>(option: OptionType<
  */
 
 export const SelectOption = <T extends string | number>(
-  props: OptionProps<InternalOption> & { value: T[] },
+  props: OptionProps<InternalOption<T>> & { value: T[] },
 ) => {
   const { children, value, ...other } = props
   const dataTestId = `${props.selectProps['data-test-id']}:option-${props.value}`
