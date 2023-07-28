@@ -157,11 +157,17 @@ export const processRepeatSection = <FormData extends {}>(
       data,
       index,
       onRemoveItem: (index) => {
+        console.log('REMOVE ITEM', index, fieldRepeatSection.lens.get(data), data)
         const list = fieldRepeatSection.lens.get(data)
-        const newList = [...list.slice(0, index), ...list.slice(index + 1)]
+        const newList =
+          index < list.length - 1
+            ? [...list.slice(0, index), ...list.slice(index + 1)]
+            : list.slice(0, index)
+
+        console.log('NEW LIST', newList)
         fieldRepeatSection.lens.set(newList)(data)
         fieldRepeatSection.length.set(newList.length)(data)
-      } 
+      },
     })
 
     return {
