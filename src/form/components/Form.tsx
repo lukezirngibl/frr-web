@@ -26,6 +26,7 @@ import {
   FormField,
   FormFieldType,
   InternalFormField,
+  OnChangeMulti,
   SingleFormField,
 } from './types'
 
@@ -89,7 +90,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     }
   }
 
-  const internalOnChangeMulti = (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => {
+  const internalOnChangeMulti: OnChangeMulti<FormData> = (fields) => {
     if (props.onChange) {
       let newData = { ...data }
       fields.forEach(({ lens, value }) => {

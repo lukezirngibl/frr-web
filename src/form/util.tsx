@@ -156,7 +156,7 @@ export const processRepeatSection = <FormData extends {}>(
     const TitleCenterComponent = fieldRepeatSection.titleCenterComponent?.({
       data,
       index,
-      onRemoveItem: (index) => {
+      onRemoveItem: (index, onChangeMulti) => {
         console.log('REMOVE ITEM', index, fieldRepeatSection.lens.get(data), data)
         const list = fieldRepeatSection.lens.get(data)
         const newList =
@@ -165,8 +165,16 @@ export const processRepeatSection = <FormData extends {}>(
             : list.slice(0, index)
 
         console.log('NEW LIST', newList)
-        fieldRepeatSection.lens.set(newList)(data)
-        fieldRepeatSection.length.set(newList.length)(data)
+        let formState = fieldRepeatSection.lens.set(newList)(data)
+        formState = fieldRepeatSection.length.set(newList.length)(data)
+
+        onChangeMulti([
+          { lens: fieldRepeatSection.lens, value: newList },
+          {
+            lens: fieldRepeatSection.length,
+            value: newList.length,
+          },
+        ])
       },
     })
 

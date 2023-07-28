@@ -137,6 +137,10 @@ export type FileInputField<FormData> = FormInput<
   FormFieldType.FileInput
 >
 
+export type OnChangeMulti<FormData> = (
+  fields: Array<{ lens: FormLens<FormData, any>; value: any }>,
+) => void
+
 export type MultiFileInputField<FormData> = FormInput<
   NullableAndUndefinabled<Array<File>>,
   MultiFileInputProps,
@@ -530,8 +534,8 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   titleCenterComponent?: (params: {
     data: FormData
     index: number
-    onRemoveItem: (index: number) => void
-  }) => ReactNode
+    onRemoveItem: (index: number, onChangeMulti: OnChangeMulti<FormData>) => void
+  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
   type: FormFieldType.FormFieldRepeatSection
 }
 
@@ -550,7 +554,7 @@ export type FormSection<FormData> = {
   title?: string
   titleData?: any
   type: FormFieldType.FormSection
-  TitleCenterComponent?: ReactNode
+  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
 }
 
 export type FormSectionCard<FormData> = {
@@ -594,7 +598,7 @@ export type CommonThreadProps<FormData> = {
   formReadOnly: boolean
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
-  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => void
+  onChangeMulti?: OnChangeMulti<FormData>
   showValidation: boolean
   style: Partial<FormTheme> | undefined
 }
