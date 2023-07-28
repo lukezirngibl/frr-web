@@ -147,15 +147,21 @@ export const processRepeatSection = <FormData extends {}>(
   }).map((_, index) => {
     const title = fieldRepeatSection.title
       ? fieldRepeatSection.title({
-          formData: data,
+          data,
           index,
           translate,
         })
       : `${index + 1}`
 
+    const TitleCenterComponent = fieldRepeatSection.titleCenterComponent?.({
+      data,
+      index,
+    })
+
     return {
       type: FormFieldType.FormSection,
       title,
+      TitleCenterComponent,
       isVisible: fieldRepeatSection.isVisible,
       editLabel: fieldRepeatSection.editLabel,
       onEdit: fieldRepeatSection.onEdit,
