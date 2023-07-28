@@ -147,6 +147,7 @@ export const processRepeatSection = <FormData extends {}>(
   }).map((_, index) => {
     const title = fieldRepeatSection.title
       ? fieldRepeatSection.title({
+          formData: data,
           index,
           translate,
         })

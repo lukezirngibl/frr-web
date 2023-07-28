@@ -337,7 +337,7 @@ export type CustomField<FormData> = FormInput<
   {
     CustomComponent: FC<{
       localeNamespace?: Namespace
-      onChange?: (value: any) => void
+      onChange: (value: any) => void
       value: any
     }>
     disabled?: boolean
@@ -526,7 +526,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
   onEdit?: () => void
-  title?: (params: { index: number; translate: Translate }) => string
+  title?: (params: { formData: FormData; index: number; translate: Translate }) => string | ReactNode
   type: FormFieldType.FormFieldRepeatSection
 }
 
