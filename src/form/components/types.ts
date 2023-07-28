@@ -338,7 +338,7 @@ type CommonFieldProps<FormData> = {
   forceOnChange?: boolean
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
-  validate?: (value: any, data: FormData) => null | string
+  validate?: (value: any, data: FormData, index?: number) => null | string
 }
 
 // @ts-ignore

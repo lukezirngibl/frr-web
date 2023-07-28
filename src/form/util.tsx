@@ -119,7 +119,7 @@ export const processRepeatGroup = <FormData extends {}>(
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
-        
+
       if (repeatGroup.type === FormFieldType.MultiInput) {
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
@@ -151,6 +151,7 @@ export const processRepeatSection = <FormData extends {}>(
           translate,
         })
       : `${index + 1}`
+
     return {
       type: FormFieldType.FormSection,
       title,
@@ -161,9 +162,29 @@ export const processRepeatSection = <FormData extends {}>(
         if (Array.isArray(repeatSectionField)) {
           return <></>
         } else if (repeatSectionField.type === FormFieldType.MultiInput) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
         } else if (repeatSectionField.type === FormFieldType.MultiInputAutosuggest) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
         } else {
           return {
             ...repeatSectionField,
