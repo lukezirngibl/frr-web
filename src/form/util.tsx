@@ -156,6 +156,12 @@ export const processRepeatSection = <FormData extends {}>(
     const TitleCenterComponent = fieldRepeatSection.titleCenterComponent?.({
       data,
       index,
+      onRemoveItem: (index) => {
+        const list = fieldRepeatSection.lens.get(data)
+        const newList = [...list.slice(0, index), ...list.slice(index + 1)]
+        fieldRepeatSection.lens.set(newList)(data)
+        fieldRepeatSection.length.set(newList.length)(data)
+      } 
     })
 
     return {

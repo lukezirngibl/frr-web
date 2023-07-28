@@ -527,7 +527,11 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   editLabel?: string
   onEdit?: () => void
   title?: (params: { data: FormData; index: number; translate: Translate }) => string | ReactNode
-  titleCenterComponent?: (params: { data: FormData; index: number }) => ReactNode
+  titleCenterComponent?: (params: {
+    data: FormData
+    index: number
+    onRemoveItem: (index: number) => void
+  }) => ReactNode
   type: FormFieldType.FormFieldRepeatSection
 }
 
