@@ -471,11 +471,12 @@ export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 //   SingleFormField<FormData> | FormFieldRow<FormData>
 // >
 
-export type SingleFieldOrRow<FormData> =
+export type RepeatFormField<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
+  | FormFieldGroup<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
@@ -498,7 +499,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   lens: FormLens<FormData, Array<T>>
   title?: (params: { index: number; translate: any }) => string
   type: FormFieldType.FormFieldRepeatGroup
-  fields: Array<SingleFieldOrRow<FormData>>
+  fields: Array<RepeatFormField<FormData>>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   isVisible?: (formData: FormData) => boolean
 }
@@ -524,7 +525,7 @@ export type SectionFields<FormData> = Array<SectionField<FormData>>
 export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
-  fields: Array<SingleFieldOrRow<FormData>>
+  fields: Array<RepeatFormField<FormData>>
   isVisible?: (formData: FormData) => boolean
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   lens: FormLens<FormData, Array<T>>

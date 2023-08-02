@@ -116,6 +116,16 @@ export const processRepeatGroup = <FormData extends {}>(
     fields: fieldRepeatGroup.fields.map((repeatGroup) => {
       if (Array.isArray(repeatGroup)) return <></>
 
+      if (repeatGroup.type === FormFieldType.FormFieldGroup) {
+        return {
+          ...repeatGroup,
+          fields: repeatGroup.fields.map((field) => {
+            if (Array.isArray(field)) return <></>
+            return field
+          }),
+        }
+      }
+
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
@@ -157,14 +167,12 @@ export const processRepeatSection = <FormData extends {}>(
       data,
       index,
       onRemoveItem: (index, onChangeMulti) => {
-        console.log('REMOVE ITEM', index, fieldRepeatSection.lens.get(data), data)
         const list = fieldRepeatSection.lens.get(data)
         const newList =
           index < list.length - 1
             ? [...list.slice(0, index), ...list.slice(index + 1)]
             : list.slice(0, index)
 
-        console.log('NEW LIST', newList)
         let formState = fieldRepeatSection.lens.set(newList)(data)
         formState = fieldRepeatSection.length.set(newList.length)(data)
 
@@ -211,6 +219,21 @@ export const processRepeatSection = <FormData extends {}>(
                     field.validate(params.value, params.data, index)
                 : undefined,
             })),
+          }
+        } else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => {
+              if (Array.isArray(field)) return <></>
+              if ('lens' in field) {
+                return {
+                  ...field,
+                  lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+                }
+              } else {
+                return field
+              }
+            }),
           }
         } else {
           return {
