@@ -259,8 +259,6 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
       isLabelTranslated
       dataTestId={props.field.lens.id()}
       dataValue={props.field.lens.get(props.data)}
-      onMouseEnter={() => console.log('mouse enter')}
-      onMouseDown={() => console.log('mouse down')}
       onClick={
         props.field.readOnlyOptions?.link
           ? () => {

@@ -358,6 +358,7 @@ export type CustomField<FormData> = FormInput<
 type CommonFieldProps<FormData> = {
   isDisabled?: boolean
   isVisible?: IsVisibleFn<FormData>
+  isInitialeEmptyString?: boolean
   itemStyle?: CSSProperties
   maxwidth?: number
   forceOnChange?: boolean
