@@ -77,9 +77,10 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
 
   const data = props.data
   const formFields = props.formFields
+  const formReadOnly = props.readOnly
 
-  const hiddenFormFields = flatten(filterByHidden({ data, formFields, translate }), data)
-  const visibleFormFields = filterByVisible({ data, formFields, translate })
+  const hiddenFormFields = flatten(filterByHidden({ data, formFields, formReadOnly, translate }), data)
+  const visibleFormFields = filterByVisible({ data, formFields, formReadOnly, translate })
   const changedRepeatFields = filterChangedRepeatFormFields({ data, formFields, translate })
 
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
@@ -157,7 +158,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     autoFocus: false,
     data,
     errorFieldId,
-    formReadOnly: props.readOnly,
+    formReadOnly,
     localeNamespace: props.localeNamespace,
     onChange: internalOnChange,
     onChangeMulti: internalOnChangeMulti,

@@ -8,6 +8,7 @@ import {
   FormSectionCard,
   GroupField,
   InternalFormField,
+  IsVisibleFn,
   MultiInputAutosuggestField,
   MultiInputField,
   SectionField,
@@ -19,6 +20,7 @@ import {
 export type FilterParams<T> = {
   data: T
   formFields: Array<FormField<T>>
+  formReadOnly?: boolean
   translate: Translate
 }
 type Fn<T> = (i: FormField<T>) => boolean
@@ -26,17 +28,17 @@ type Fn<T> = (i: FormField<T>) => boolean
 const processFormFieldRow = <T>(
   fieldRow: Array<SingleFormField<T>>,
   fn: Fn<T>,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<SingleFormField<T>> =>
   fieldRow.reduce(
     (acc: Array<SingleFormField<T>>, field: SingleFormField<T>) =>
       fn({
         ...field,
-        isVisible: (data: T) => {
+        isVisible: (data, options) => {
           if (field.isVisible) {
-            return field.isVisible(data) && isVisible(data)
+            return field.isVisible(data, options) && isVisible(data, options)
           }
-          return isVisible(data)
+          return isVisible(data, options)
         },
       })
         ? [...acc, field]
@@ -47,7 +49,7 @@ const processFormFieldRow = <T>(
 const processMultiInput = <T>(
   s: MultiInputField<T>,
   fn: Fn<T>,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<MultiInputField<T>> =>
   fn(s)
     ? [
@@ -61,7 +63,7 @@ const processMultiInput = <T>(
 const processMultiInputAutosuggest = <T>(
   s: MultiInputAutosuggestField<T>,
   fn: Fn<T>,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<MultiInputAutosuggestField<T>> =>
   fn(s)
     ? [
@@ -71,7 +73,7 @@ const processMultiInputAutosuggest = <T>(
             (acc: Array<TextInputAutosuggestField<T>>, field: TextInputAutosuggestField<T>) =>
               fn({
                 ...field,
-                isVisible: (data: T) => isVisible(data),
+                isVisible: (data, options) => isVisible(data, options),
               })
                 ? [...acc, field]
                 : acc,
@@ -84,7 +86,7 @@ const processMultiInputAutosuggest = <T>(
 const processGroupFields = <T>(
   fields: Array<GroupField<T>>,
   fn: Fn<T>,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<GroupField<T>> =>
   fields.reduce((acc: Array<GroupField<T>>, f) => {
     if (Array.isArray(f)) {
@@ -102,7 +104,7 @@ const processGroupFields = <T>(
 const processGroup = <T>(
   group: FormFieldGroup<T>,
   fn: Fn<T>,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<FormFieldGroup<T>> =>
   fn(group)
     ? [
@@ -117,7 +119,7 @@ const processFormSectionFields = <T>(
   fields: SectionFields<T>,
   fn: Fn<T>,
   data: T,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): SectionFields<T> => {
   return fields.reduce((acc: Array<SectionField<T>>, f) => {
     if (Array.isArray(f)) {
@@ -142,7 +144,7 @@ const processFormSection = <T>(
   section: FormSection<T>,
   fn: Fn<T>,
   data: T,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<FormSection<T>> =>
   fn(section)
     ? [
@@ -157,7 +159,7 @@ const processFormSectionCard = <T>(
   section: FormSectionCard<T>,
   fn: Fn<T>,
   data: T,
-  isVisible: (d: T) => boolean = () => true,
+  isVisible: IsVisibleFn<T> = () => true,
 ): Array<FormSectionCard<T>> =>
   fn(section)
     ? [
@@ -201,10 +203,12 @@ const filterByFunc = <T>(
 
 export const filterByVisible = <T>(params: FilterParams<T>) =>
   filterByFunc<T>(params, (field) => {
-    return 'isVisible' in field && field.isVisible ? field.isVisible(params.data) : true
+    return 'isVisible' in field && field.isVisible
+      ? field.isVisible(params.data, { formReadOnly: params.formReadOnly })
+      : true
   })
 
-const formGroupTypes = [
+const FormGroupTypes = [
   FormFieldType.FormFieldRepeatGroup,
   FormFieldType.FormFieldRepeatSection,
   FormFieldType.FormFieldGroup,
@@ -214,11 +218,13 @@ const formGroupTypes = [
 
 export const filterByHidden = <T>(params: FilterParams<T>) =>
   filterByFunc<T>(params, (field) => {
-    if ('type' in field && formGroupTypes.includes(field.type)) {
-      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data) : true
+    if ('type' in field && FormGroupTypes.includes(field.type)) {
+      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly }) : true
     } else if ('type' in field && field.type === FormFieldType.FormSection) {
       return true
     } else {
-      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data) : false
+      return 'isVisible' in field && field.isVisible
+        ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly })
+        : false
     }
   })
