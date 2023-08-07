@@ -48,10 +48,13 @@ const defaultDateStringMapper = ({
   value,
   language,
   dateFormat,
-}: MapperParams<string | null> & { dateFormat?: string }): string => {
+  displayDateFormat,
+}: MapperParams<string | null> & { dateFormat: string; displayDateFormat?: string }): string => {
   const locale = mapLanguageToLocale[language]
   const parsedDate = parse(value, dateFormat ?? 'dd.MM.yyyy', new Date(), { locale })
-  return value && isValid(parsedDate) ? format(parsedDate, dateFormat ?? 'dd.MM.yyyy', { locale }) : ''
+  return value && isValid(parsedDate)
+    ? format(parsedDate, displayDateFormat ?? dateFormat ?? 'dd.MM.yyyy', { locale })
+    : ''
 }
 
 const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): string =>
