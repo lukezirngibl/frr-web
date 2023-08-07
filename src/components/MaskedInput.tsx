@@ -92,7 +92,7 @@ export const MaskedInput = (props: Props) => {
         inputCSSStyles={
           getCSSStyle({
             input: true,
-            inputPlaceholder: !internalValue || internalValue === '',
+            inputPlaceholder: !internalValue || internalValue === '',
             errorInput: props.error,
             disabledInput:
               isFocused ||

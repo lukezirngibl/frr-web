@@ -112,7 +112,10 @@ export const MaskedDatePicker = (props: Props) => {
 
   const dateFormat = isMobileTouch ? props.dateFormat : 'dd.MM.yyyy'
   const value =
-    !!props.value && isValid(new Date(props.value)) ? format(new Date(props.value), dateFormat) : null
+    !!props.value && parseDate(props.value) !== 'Invalid Date' && isValid(parseDate(props.value))
+      ? props.value
+      : null
+  const parsedDate = parseDate(props.value)
 
   return (
     <>
@@ -134,7 +137,7 @@ export const MaskedDatePicker = (props: Props) => {
               onChange={(v: any) => {
                 try {
                   const dateValue = new Date(v)
-                  props.onBlur(format(dateValue, props.dateFormat))
+                  props.onBlur(format(dateValue, dateFormat))
                 } catch (err) {
                   props.onBlur(null)
                 }
@@ -205,10 +208,10 @@ export const MaskedDatePicker = (props: Props) => {
                 <ReactDatePicker
                   locale={locale}
                   open={open}
-                  selected={!!props.value ? new Date(props.value) : new Date()}
+                  selected={parsedDate !== 'Invalid Date' ? parsedDate : new Date()}
                   onChange={(value: Date) => {
                     if (value !== null && isValid(value)) {
-                      props.onBlur(format(value, props.dateFormat))
+                      props.onBlur(format(value, dateFormat))
                     } else {
                       props.onBlur(null)
                     }
