@@ -22,8 +22,19 @@ import {
 import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 
 export type Props = {
+  /**
+   * The date value: Has to be in a format that new Date(value) can parse correctly
+   */
+  value: string | null
   dataTestId?: string
-  dateFormat?: string
+  /**
+   * The date format that the input string is in
+   */
+  dateFormat: string
+  /**
+   * Sometimes the date format that the server expects is different from the one that the user sees.
+   */
+  displayDateFormat?: string
   datePickerProps?: Partial<Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>>
   error?: boolean
   hasFocus?: boolean
@@ -33,7 +44,6 @@ export type Props = {
   onFocus?: () => void
   onBlur: (value: string) => void
   style?: Partial<ComponentTheme['datePicker']>
-  value: string | null
   maskInput?: {
     alwaysShowMask?: boolean
     mask?: string
@@ -119,7 +129,7 @@ export const MaskedDatePicker = (props: Props) => {
     !!props.value &&
     parseDate(props.value, dateFormat) !== 'Invalid Date' &&
     isValid(parseDate(props.value, dateFormat))
-      ? props.value
+      ? format(parseDate(props.value, dateFormat) as Date, props.displayDateFormat || dateFormat)
       : null
   const parsedDate = parseDate(props.value, dateFormat)
 
