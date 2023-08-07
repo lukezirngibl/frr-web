@@ -1,4 +1,4 @@
-import { format, isValid } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
@@ -44,9 +44,14 @@ const defaultStringNumberMapper = ({ value, prefix }: MapperParams<string | numb
 const defaultCountryMapper = ({ value, translate }: MapperParams<string | null>): string =>
   value > '' ? translate(`country.${value.toLowerCase()}`) : ''
 
-const defaultDateStringMapper = ({ value, language }: MapperParams<string | null>): string => {
+const defaultDateStringMapper = ({
+  value,
+  language,
+  dateFormat,
+}: MapperParams<string | null> & { dateFormat?: string }): string => {
   const locale = mapLanguageToLocale[language]
-  return value && isValid(new Date(value)) ? format(new Date(value), 'dd.MM.yyyy', { locale }) : ''
+  const parsedDate = parse(value, dateFormat ?? 'dd.MM.yyyy', new Date(), { locale })
+  return value && isValid(parsedDate) ? format(parsedDate, dateFormat ?? 'dd.MM.yyyy', { locale }) : ''
 }
 
 const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): string =>
@@ -143,7 +148,8 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.CountrySelect]: defaultCountryMapper,
   [FormFieldType.CurrencyInput]: defaultCurrencyMapper,
   [FormFieldType.Custom]: () => '',
-  [FormFieldType.DatePicker]: (v) => !!v && v.value ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
+  [FormFieldType.DatePicker]: (v) =>
+    !!v && v.value ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
   [FormFieldType.FileInput]: () => '',
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,
   [FormFieldType.FormFieldGroup]: () => '',
