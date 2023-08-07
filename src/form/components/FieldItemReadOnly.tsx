@@ -158,10 +158,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.FormSection]: () => '',
   [FormFieldType.FormSectionCard]: () => '',
   [FormFieldType.FormText]: () => '',
-  [FormFieldType.MaskedDatePicker]: (params) => {
-    console.log('masked params', params)
-    return defaultDateStringMapper(params)
-  },
+  [FormFieldType.MaskedDatePicker]: defaultDateStringMapper,
   [FormFieldType.MaskedInput]: defaultStringNumberMapper,
   [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
   [FormFieldType.MultiInput]: () => '',
