@@ -35,8 +35,11 @@ export const PopoverWithItems = (props: Props) => {
           {props.items.map((item, index) => (
             <Item
               key={index}
-              onClick={() => {
+              onClick={(e: any) => {
                 // c.onClose()
+                // Important otherwise parent components will receive the click event as well
+                // e.g. Table row has an onClick handler and will be triggered as well
+                e.stopPropagation()
                 item.onClick()
                 close()
               }}
