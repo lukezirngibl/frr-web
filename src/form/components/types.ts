@@ -27,10 +27,11 @@ import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
 import { SingleFileInputProps } from '../../components/fileUpload/SingleFileInput'
 import { MultiFileInputProps } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
-import { ReactNode } from 'react'
+import { FC, ReactElement, ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
+import { Namespace } from 'i18next'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'
@@ -45,11 +46,14 @@ export enum FormFieldType {
   // DropdownNumber = 'DropdownNumber',
   // InputWithDropdown = 'InputWithDropdown',
 
+  Button = '',
   CodeInput = 'CodeInput',
+  ColorPicker = 'ColorPicker',
   CountrySelect = 'CountrySelect',
   CurrencyInput = 'CurrencyInput',
-  ColorPicker = 'ColorPicker',
+  Custom = 'Custom',
   DatePicker = 'DatePicker',
+  FileInput = 'FileInput',
   FormattedDatePicker = 'FormattedDatePicker',
   FormFieldGroup = 'FormFieldGroup',
   FormFieldRepeatGroup = 'FormFieldRepeatGroup',
@@ -59,30 +63,28 @@ export enum FormFieldType {
   FormText = 'FormText',
   MaskedDatePicker = 'MaskedDatePicker',
   MaskedInput = 'MaskedInput',
-  MultiSelect = 'MultiSelect',
-  NumberMultiSelect = 'NumberMultiSelect',
+  MultiFileInput = 'MultiFileInput',
   MultiInput = 'MultiInput',
   MultiInputAutosuggest = 'MultiInputAutosuggest',
+  MultiSelect = 'MultiSelect',
   NumberInput = 'NumberInput',
+  NumberMultiSelect = 'NumberMultiSelect',
   NumberSelect = 'NumberSelect',
   OptionGroup = 'OptionGroup',
   RadioGroup = 'RadioGroup',
   SingleCheckbox = 'SingleCheckbox',
-  Button = '',
   Slider = 'Slider',
+  Static = 'Static',
   Switch = 'Switch',
   TextArea = 'TextArea',
   TextInput = 'TextInput',
+  TextInputAutosuggest = 'TextInputAutosuggest',
   TextInputDescription = 'TextInputDescription',
   TextNumber = 'TextNumber',
   TextSelect = 'TextSelect',
-  TextInputAutosuggest = 'TextInputAutosuggest',
   Toggle = 'Toggle',
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
-  Static = 'Static',
-  FileInput = 'FileInput',
-  MultiFileInput = 'MultiFileInput',
 }
 
 export enum Orientation {
@@ -121,6 +123,8 @@ type FormInput<V, P extends { value: V }, L, T> = Omit<
   _value?: P['value']
 }
 
+export type IsVisibleFn<T> = (formData: T, options: { formReadOnly: boolean }) => boolean
+
 type NullableAndUndefinabled<T> = T | null | undefined
 type NullableAndUndefinabledLens<FormData, T> =
   | FormLens<FormData, T>
@@ -134,6 +138,10 @@ export type FileInputField<FormData> = FormInput<
   NullableAndUndefinabledLens<FormData, File>,
   FormFieldType.FileInput
 >
+
+export type OnChangeMulti<FormData> = (
+  fields: Array<{ lens: FormLens<FormData, any>; value: any }>,
+) => void
 
 export type MultiFileInputField<FormData> = FormInput<
   NullableAndUndefinabled<Array<File>>,
@@ -271,7 +279,7 @@ export type MaskedInputField<FormData> = FormInput<
 
 export type StaticField<FormData> = StaticFieldProps & {
   type: FormFieldType.Static
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
 }
 
 export type YesNoOptionGroupField<FormData> = FormInput<
@@ -330,15 +338,33 @@ export type SingleCheckboxField<FormData> = FormInput<
   FormFieldType.SingleCheckbox
 >
 
+export type CustomField<FormData> = FormInput<
+  any,
+  {
+    CustomComponent: FC<{
+      localeNamespace?: Namespace
+      onChange: (value: any) => void
+      value: any
+    }>
+    disabled?: boolean
+    label?: LabelProps
+    onChange: (value: any) => void
+    value: any
+  },
+  FormLens<FormData, any>,
+  FormFieldType.Custom
+>
+
 type CommonFieldProps<FormData> = {
   isDisabled?: boolean
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
+  isInitialeEmptyString?: boolean
   itemStyle?: CSSProperties
   maxwidth?: number
   forceOnChange?: boolean
   renderChildren?: () => ReactNode
   required?: boolean | ((formData: FormData) => boolean)
-  validate?: (value: any, data: FormData) => null | string
+  validate?: (value: any, data: FormData, index?: number) => null | string
 }
 
 // @ts-ignore
@@ -349,12 +375,14 @@ export const fieldMap = {
   // [FormFieldType.Dropdown]: null as DropdownField<unknown>,
   // [FormFieldType.DropdownNumber]: null as DropdownField<unknown>,
 
-  [FormFieldType.FileInput]: null as FileInputField<unknown>,
+  [FormFieldType.Button]: null,
   [FormFieldType.CodeInput]: null as CodeInputField<unknown>,
+  [FormFieldType.ColorPicker]: null as ColorPickerField<unknown>,
   [FormFieldType.CountrySelect]: null as CountrySelectField<unknown>,
   [FormFieldType.CurrencyInput]: null as CurrencyInputField<unknown>,
-  [FormFieldType.ColorPicker]: null as ColorPickerField<unknown>,
+  [FormFieldType.Custom]: null as CustomField<unknown>,
   [FormFieldType.DatePicker]: null as DatePickerField<unknown>,
+  [FormFieldType.FileInput]: null as FileInputField<unknown>,
   [FormFieldType.FormattedDatePicker]: null as FormattedDatePickerField<unknown>,
   [FormFieldType.FormFieldGroup]: null,
   [FormFieldType.FormFieldRepeatGroup]: null,
@@ -362,45 +390,45 @@ export const fieldMap = {
   [FormFieldType.FormSection]: null,
   [FormFieldType.FormSectionCard]: null,
   [FormFieldType.FormText]: null,
-  [FormFieldType.Static]: null,
-  [FormFieldType.Button]: null,
   [FormFieldType.MaskedDatePicker]: null as MaskedDatePickerField<unknown>,
   [FormFieldType.MaskedInput]: null as TextInputField<unknown>,
-  [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
   [FormFieldType.MultiInputAutosuggest]: null as MultiInputAutosuggestField<unknown>,
+  [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
   [FormFieldType.NumberSelect]: null as NumberSelectField<unknown>,
   [FormFieldType.OptionGroup]: null as OptionGroupField<unknown>,
   [FormFieldType.RadioGroup]: null as RadioGroupField<unknown>,
   [FormFieldType.SingleCheckbox]: null as SingleCheckboxField<unknown>,
   [FormFieldType.Slider]: null as SliderField<unknown>,
+  [FormFieldType.Static]: null,
   [FormFieldType.Switch]: null as SwitchField<unknown>,
   [FormFieldType.TextArea]: null as TextAreaField<unknown>,
   [FormFieldType.TextInput]: null as TextInputField<unknown>,
+  [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
-  [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
   [FormFieldType.YesNoRadioGroup]: null as YesNoRadioGroupField<unknown>,
 } as any
 
 export type SingleFormField<FormData> = (
-  | FileInputField<FormData>
-  | MultiFileInputField<FormData>
   | CodeInputField<FormData>
+  | ColorPickerField<FormData>
   | CountrySelectField<FormData>
   | CurrencyInputField<FormData>
-  | ColorPickerField<FormData>
+  | CustomField<FormData>
   | DatePickerField<FormData>
+  | FileInputField<FormData>
   | FormattedDatePickerField<FormData>
   | MaskedDatePickerField<FormData>
   | MaskedInputField<FormData>
+  | MultiFileInputField<FormData>
   | MultiSelectField<FormData>
-  | NumberMultiSelectField<FormData>
   | NumberInputField<FormData>
+  | NumberMultiSelectField<FormData>
   | NumberSelectField<FormData>
   | OptionGroupField<FormData>
   | RadioGroupField<FormData>
@@ -408,10 +436,10 @@ export type SingleFormField<FormData> = (
   | SliderField<FormData>
   | SwitchField<FormData>
   | TextAreaField<FormData>
+  | TextInputAutosuggestField<FormData>
   | TextInputField<FormData>
   | TextNumberInputField<FormData>
   | TextSelectField<FormData>
-  | TextInputAutosuggestField<FormData>
   | ToggleField<FormData>
   | YesNoOptionGroupField<FormData>
   | YesNoRadioGroupField<FormData>
@@ -420,7 +448,7 @@ export type SingleFormField<FormData> = (
 
 export type MultiInputField<FormData> = {
   fields: Array<SingleFormField<FormData>>
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
   itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInput
@@ -431,7 +459,7 @@ export type MultiInputField<FormData> = {
 
 export type MultiInputAutosuggestField<FormData> = {
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
   itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInputAutosuggest
@@ -446,11 +474,12 @@ export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 //   SingleFormField<FormData> | FormFieldRow<FormData>
 // >
 
-export type SingleFieldOrRow<FormData> =
+export type RepeatFormField<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
   | FormFieldRow<FormData>
+  | FormFieldGroup<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
@@ -463,7 +492,7 @@ export type FormFieldGroup<FormData> = {
   description?: string
   descriptionList?: Array<string>
   fields: Array<GroupField<FormData>>
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
   style?: Partial<FormTheme['group']>
   title?: string
   type: FormFieldType.FormFieldGroup
@@ -473,9 +502,9 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   lens: FormLens<FormData, Array<T>>
   title?: (params: { index: number; translate: any }) => string
   type: FormFieldType.FormFieldRepeatGroup
-  fields: Array<SingleFieldOrRow<FormData>>
+  fields: Array<RepeatFormField<FormData>>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
 }
 
 export type InternalSectionField<FormData> =
@@ -499,13 +528,18 @@ export type SectionFields<FormData> = Array<SectionField<FormData>>
 export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
-  fields: Array<SingleFieldOrRow<FormData>>
-  isVisible?: (formData: FormData) => boolean
+  fields: Array<RepeatFormField<FormData>>
+  isVisible?: IsVisibleFn<FormData>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
   onEdit?: () => void
-  title?: (params: { index: number; translate: Translate }) => string
+  title?: (params: { data: FormData; index: number; translate: Translate }) => string | ReactNode
+  titleCenterComponent?: (params: {
+    data: FormData
+    index: number
+    onRemoveItem: (index: number, onChangeMulti: OnChangeMulti<FormData>) => void
+  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
   type: FormFieldType.FormFieldRepeatSection
 }
 
@@ -516,7 +550,7 @@ export type FormSection<FormData> = {
   fields: SectionFields<FormData>
   introduction?: string
   introductionReadOnly?: string
-  isVisible?: (formData: FormData) => boolean
+  isVisible?: IsVisibleFn<FormData>
   isOnEditDisabled?: boolean
   editLabel?: string
   onEdit?: () => void
@@ -524,7 +558,7 @@ export type FormSection<FormData> = {
   title?: string
   titleData?: any
   type: FormFieldType.FormSection
-  TitleCenterComponent?: ReactNode
+  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
 }
 
 export type FormSectionCard<FormData> = {
@@ -568,7 +602,7 @@ export type CommonThreadProps<FormData> = {
   formReadOnly: boolean
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
-  onChangeMulti?: (fields: Array<{ lens: FormLens<FormData, any>; value: any }>) => void
+  onChangeMulti?: OnChangeMulti<FormData>
   showValidation: boolean
   style: Partial<FormTheme> | undefined
 }

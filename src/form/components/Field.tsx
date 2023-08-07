@@ -537,5 +537,11 @@ export const Field = <FormData extends {}>({
     )
   }
 
+  if (field.type === FormFieldType.Custom) {
+    const { lens, CustomComponent } = field
+    
+    return <CustomComponent onChange={onBlur} localeNamespace={localeNamespace} value={lens.get(data)} />
+  }
+
   return <div />
 }

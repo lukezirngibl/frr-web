@@ -50,6 +50,7 @@ export const DatePicker = (props: Props) => {
   const theme = useComponentTheme()
   const getStyle = useCSSStyles(theme, 'datePicker')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'datePicker')(props.style)
+  const { isMobileTouch } = useMobileTouch()
 
   const styleIconWrapper = getStyle({
     iconWrapper: true,
@@ -66,22 +67,6 @@ export const DatePicker = (props: Props) => {
     errorHook: !!props.error,
   })
 
-  const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
-
-  /* Language and locales */
-
-  const { i18n } = useTranslation()
-  const language = i18n.language
-  const locale = mapLanguageToLocale[language]
-
-  const { isMobileTouch } = useMobileTouch()
-
-  React.useEffect(() => {
-    registerLocale(mapLanguageToLocaleString[language], mapLanguageToLocale[language])
-  }, [language])
-
-  const [open, setOpen] = React.useState(false)
-
   const textInputStyle =
     (props.style && {
       disabledInput: props.style.disabledInput,
@@ -94,6 +79,24 @@ export const DatePicker = (props: Props) => {
       wrapper: getInlineStyle('inputWrapper').style,
     }) ||
     undefined
+
+  const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
+
+  /* Date format */
+
+  const dateFormat = props.dateFormat || 'yyyy-MM-dd'
+
+  /* Language and locales */
+
+  const { i18n } = useTranslation()
+  const language = i18n.language
+  const locale = mapLanguageToLocale[language]
+
+  React.useEffect(() => {
+    registerLocale(mapLanguageToLocaleString[language], mapLanguageToLocale[language])
+  }, [language])
+
+  const [open, setOpen] = React.useState(false)
 
   return (
     <>
@@ -120,7 +123,7 @@ export const DatePicker = (props: Props) => {
                 }
               }}
               style={textInputStyle}
-              value={props.value && isValid(props.value) ? format(props.value, props.dateFormat) : null}
+              value={props.value && isValid(props.value) ? format(props.value, dateFormat) : null}
             />
           ) : (
             <>
@@ -141,9 +144,7 @@ export const DatePicker = (props: Props) => {
 
                     props.onBlur(dateValue as Date)
                   } catch (err) {
-                    const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
-                      | Date
-                      | 'Invalid Date'
+                    const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
 
                     if (testValue !== 'Invalid Date') {
                       props.onBlur(testValue as Date)

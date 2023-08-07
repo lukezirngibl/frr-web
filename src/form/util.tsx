@@ -116,10 +116,20 @@ export const processRepeatGroup = <FormData extends {}>(
     fields: fieldRepeatGroup.fields.map((repeatGroup) => {
       if (Array.isArray(repeatGroup)) return <></>
 
+      if (repeatGroup.type === FormFieldType.FormFieldGroup) {
+        return {
+          ...repeatGroup,
+          fields: repeatGroup.fields.map((field) => {
+            if (Array.isArray(field)) return <></>
+            return field
+          }),
+        }
+      }
+
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
-        
+
       if (repeatGroup.type === FormFieldType.MultiInput) {
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
@@ -147,13 +157,39 @@ export const processRepeatSection = <FormData extends {}>(
   }).map((_, index) => {
     const title = fieldRepeatSection.title
       ? fieldRepeatSection.title({
+          data,
           index,
           translate,
         })
       : `${index + 1}`
+
+    const TitleCenterComponent = fieldRepeatSection.titleCenterComponent?.({
+      data,
+      index,
+      onRemoveItem: (index, onChangeMulti) => {
+        const list = fieldRepeatSection.lens.get(data)
+        const newList =
+          index < list.length - 1
+            ? [...list.slice(0, index), ...list.slice(index + 1)]
+            : list.slice(0, index)
+
+        let formState = fieldRepeatSection.lens.set(newList)(data)
+        formState = fieldRepeatSection.length.set(newList.length)(data)
+
+        onChangeMulti([
+          { lens: fieldRepeatSection.lens, value: newList },
+          {
+            lens: fieldRepeatSection.length,
+            value: newList.length,
+          },
+        ])
+      },
+    })
+
     return {
       type: FormFieldType.FormSection,
       title,
+      TitleCenterComponent,
       isVisible: fieldRepeatSection.isVisible,
       editLabel: fieldRepeatSection.editLabel,
       onEdit: fieldRepeatSection.onEdit,
@@ -161,9 +197,44 @@ export const processRepeatSection = <FormData extends {}>(
         if (Array.isArray(repeatSectionField)) {
           return <></>
         } else if (repeatSectionField.type === FormFieldType.MultiInput) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
         } else if (repeatSectionField.type === FormFieldType.MultiInputAutosuggest) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
+        } else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => {
+              if (Array.isArray(field)) return <></>
+              if ('lens' in field) {
+                return {
+                  ...field,
+                  lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+                }
+              } else {
+                return field
+              }
+            }),
+          }
         } else {
           return {
             ...repeatSectionField,
