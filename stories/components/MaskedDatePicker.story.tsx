@@ -19,7 +19,6 @@ const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeo
 
 const formLens = makeFormLens<{ birthDate: string | null }>()
 
-let birthDate: string | null = null
 export const Initial = () => {
   const [data, setData] = React.useState<{ birthDate: string | null }>({ birthDate: null })
   return (
@@ -41,7 +40,7 @@ export const Initial = () => {
         onChange: (lens, value) => {
           // alert(`ON CHANGE\nDate value: ${value}`)
           setData(lens.set(value)(data))
-          console.log('story value', value)
+          console.log('new value', value)
         },
         showValidation: false,
       })}
@@ -49,31 +48,36 @@ export const Initial = () => {
   )
 }
 
-export const Preset = () => (
-  <div style={{ maxWidth: 600 }}>
-    {story({
-      autoFocus: true,
-      field: {
-        type: FormFieldType.MaskedDatePicker,
-        lens: formLens(['birthDate']),
-        label: { label: 'Geburtsdatum' },
-        dateFormat: 'yyyy-MM-dd',
-        maskInput: { alwaysShowMask: true, maskString: 'DD/MM/YYYY', mask: '00/00/0000' },
-      },
-      fieldIndex: 0,
-      formReadOnly: false,
-      style: {},
-      data: {
-        birthDate: '1990-03-23',
-      },
-      onChange: (lens, value) => {
-        console.log('story value', value)
-        // alert(`ON CHANGE\nDate value: ${value}`)
-      },
-      showValidation: false,
-    })}
-  </div>
-)
+export const Preset = () => {
+  const [data, setData] = React.useState<{ birthDate: string | null }>({
+    birthDate: '1990-03-23',
+  })
+  return (
+    <div style={{ maxWidth: 600 }}>
+      {story({
+        autoFocus: true,
+        field: {
+          type: FormFieldType.MaskedDatePicker,
+          lens: formLens(['birthDate']),
+          label: { label: 'Geburtsdatum' },
+          dateFormat: 'yyyy-MM-dd',
+          displayDateFormat: 'dd/MM/yyyy',
+          maskInput: { alwaysShowMask: true, maskString: 'DD/MM/YYYY', mask: '00/00/0000' },
+        },
+        fieldIndex: 0,
+        formReadOnly: false,
+        style: {},
+        data,
+        onChange: (lens, value) => {
+          setData(lens.set(value)(data))
+          console.log('new value', value)
+          // alert(`ON CHANGE\nDate value: ${value}`)
+        },
+        showValidation: false,
+      })}
+    </div>
+  )
+}
 
 export const Readonly = () => (
   <div style={{ maxWidth: 360 }}>
@@ -84,7 +88,7 @@ export const Readonly = () => (
         lens: formLens(['birthDate']),
         label: { label: 'Geburtsdatum' },
         dateFormat: 'yyyy-MM-dd',
-        maskInput: { alwaysShowMask: true, maskString: 'DD.MM.YYYY', mask: '00.00.0000' },
+        displayDateFormat: 'dd.MM.yyyy',
       },
       fieldIndex: 0,
       formReadOnly: true,
@@ -92,10 +96,7 @@ export const Readonly = () => (
       data: {
         birthDate: '2000-01-01',
       },
-      onChange: (lens, value) => {
-        console.log('story value', value)
-        // alert(`ON CHANGE\nDate value: ${value}`)
-      },
+      onChange: () => {},
       showValidation: false,
     })}
   </div>

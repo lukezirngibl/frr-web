@@ -125,6 +125,8 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
     isValid(parseDate(props.value, dateFormat))
       ? format(parseDate(props.value, dateFormat) as Date, props.displayDateFormat || dateFormat)
       : null
+
+  console.log('value', value)
   const parsedDate = parseDate(props.value, dateFormat)
 
   return (
