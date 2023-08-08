@@ -20,30 +20,34 @@ const story = createStory<FieldRowItemProps<{ birthDate: string | null }>, typeo
 const formLens = makeFormLens<{ birthDate: string | null }>()
 
 let birthDate: string | null = null
-export const Initial = () => (
-  <div style={{ maxWidth: 600 }}>
-    {story({
-      autoFocus: true,
-      field: {
-        type: FormFieldType.MaskedDatePicker,
-        lens: formLens(['birthDate']),
-        label: { label: 'Geburtsdatum' },
-        dateFormat: 'yyyy-MM-dd',
-        maskInput: { alwaysShowMask: true, maskString: 'DD.MM.YYYY', mask: '00.00.0000' },
-      },
-      fieldIndex: 0,
-      formReadOnly: false,
-      style: {},
-      data: {
-        birthDate,
-      },
-      onChange: (lens, value) => {
-        alert(`ON CHANGE\nDate value: ${value}`)
-      },
-      showValidation: false,
-    })}
-  </div>
-)
+export const Initial = () => {
+  const [data, setData] = React.useState<{ birthDate: string | null }>({ birthDate: null })
+  return (
+    <div style={{ maxWidth: 600 }}>
+      {story({
+        autoFocus: true,
+        field: {
+          type: FormFieldType.MaskedDatePicker,
+          lens: formLens(['birthDate']),
+          label: { label: 'Geburtsdatum' },
+          dateFormat: 'yyyy-MM-dd',
+          // maskInput: { alwaysShowMask: true, maskString: 'DD.MM.YYYY', mask: '00.00.0000' },
+          displayDateFormat: 'dd.MM.yyyy',
+        },
+        fieldIndex: 0,
+        formReadOnly: false,
+        style: {},
+        data,
+        onChange: (lens, value) => {
+          // alert(`ON CHANGE\nDate value: ${value}`)
+          setData(lens.set(value)(data))
+          console.log('story value', value)
+        },
+        showValidation: false,
+      })}
+    </div>
+  )
+}
 
 export const Preset = () => (
   <div style={{ maxWidth: 600 }}>
@@ -63,7 +67,8 @@ export const Preset = () => (
         birthDate: '1990-03-23',
       },
       onChange: (lens, value) => {
-        alert(`ON CHANGE\nDate value: ${value}`)
+        console.log('story value', value)
+        // alert(`ON CHANGE\nDate value: ${value}`)
       },
       showValidation: false,
     })}
@@ -88,7 +93,8 @@ export const Readonly = () => (
         birthDate: '2000-01-01',
       },
       onChange: (lens, value) => {
-        alert(`ON CHANGE\nDate value: ${value}`)
+        console.log('story value', value)
+        // alert(`ON CHANGE\nDate value: ${value}`)
       },
       showValidation: false,
     })}

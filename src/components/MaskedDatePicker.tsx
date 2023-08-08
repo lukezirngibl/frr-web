@@ -13,13 +13,13 @@ import { Label, LabelProps } from './Label'
 import { MaskedInput } from './MaskedInput'
 import { TextInput } from './TextInput'
 
+import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 
 export type Props = {
   /**
@@ -52,11 +52,6 @@ export type Props = {
 }
 
 const parseDate = (value: string, dateFormat: string): Date | 'Invalid Date' => {
-  // const cleanedValue = value ? value.replace(/\D/g, '') : ''
-  // if (cleanedValue.length < 8) {
-  //   return 'Invalid Date'
-  // }
-  // const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
   const date = parse(value, dateFormat, new Date())
   if (isValid(date)) {
     return date
@@ -64,16 +59,16 @@ const parseDate = (value: string, dateFormat: string): Date | 'Invalid Date' => 
   return 'Invalid Date'
 }
 
-const DefaultMaskInput = {
+const DEFAULT_MASK_INPUT = {
   alwaysShowMask: true,
   mask: '00.00.0000',
   maskString: 'dateFormatPlaceholder',
 }
 
-export const MaskedDatePicker = (props: Props) => {
+export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
   const { isMobileTouch } = useMobileTouch()
 
-  const maskInput = props.maskInput || DefaultMaskInput
+  const maskInput = props.maskInput ?? DEFAULT_MASK_INPUT
 
   /* Styles */
   const theme = useComponentTheme()
@@ -124,7 +119,6 @@ export const MaskedDatePicker = (props: Props) => {
     errorHook: !!props.error,
   })
 
-  const dateFormat = props.dateFormat ?? 'dd.MM.yyyy'
   const value =
     !!props.value &&
     parseDate(props.value, dateFormat) !== 'Invalid Date' &&
@@ -150,10 +144,10 @@ export const MaskedDatePicker = (props: Props) => {
                 props.onFocus?.()
               }}
               onBlur={() => setIsFocused(false)}
-              onChange={(v: any) => {
+              onChange={(v) => {
                 try {
                   const dateValue = new Date(v)
-                  props.onBlur(format(dateValue, dateFormat))
+                  props.onBlur(format(dateValue, props.displayDateFormat ?? dateFormat))
                 } catch (err) {
                   props.onBlur(null)
                 }
@@ -174,29 +168,24 @@ export const MaskedDatePicker = (props: Props) => {
                   setIsFocused(true)
                   props.onFocus?.()
                 }}
-                onBlur={(v: string) => {
+                onBlur={(v: string, resetValue) => {
                   setIsFocused(false)
                   try {
-                    const dateValue = parseDate(v, dateFormat)
+                    const dateValue = parseDate(v, props.displayDateFormat ?? dateFormat)
 
                     if (dateValue.toString() === 'Invalid Date') {
-                      throw 'Invalid Date'
+                      props.onBlur(null)
+                      resetValue()
                     } else {
-                      props.onBlur(format(dateValue as Date, props.dateFormat))
+                      props.onBlur(format(dateValue as Date, dateFormat))
                     }
                   } catch (err) {
-                    if (err === 'Invalid Date') {
-                      props.onBlur(null)
-                    } else {
-                      const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
-                        | Date
-                        | 'Invalid Date'
+                    const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
 
-                      if (testValue !== 'Invalid Date') {
-                        props.onBlur(String(testValue))
-                      } else {
-                        props.onBlur(null)
-                      }
+                    if (testValue !== 'Invalid Date') {
+                      props.onBlur(String(testValue))
+                    } else {
+                      props.onBlur(null)
                     }
                   }
                 }}
