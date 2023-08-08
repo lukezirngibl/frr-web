@@ -16,7 +16,7 @@ export type Props = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   name?: string
-  onBlur: (value: string) => void
+  onBlur: (value: string, resetValue: () => void) => void
   onChange?: (value: string) => void
   onFocus?: () => void
   shouldMoveCursorToStartOnClick?: boolean
@@ -47,19 +47,11 @@ export const MaskedInput = (props: Props) => {
 
   /* Masked input */
 
-  const [mask, setMask] = React.useState(props.maskInput.mask)
-  const [maskString, setMaskString] = React.useState(props.maskInput.maskString)
+  const { mask, maskString } = props.maskInput
 
-  const onChangeMasked = (e: any): string => {
-    const value = e.target.value
-
-    try {
-      setMaskString(props.maskInput.maskString)
-    } catch (e) {
-      setMaskString(props.maskInput.maskString)
-      setMask(props.maskInput.mask)
-    }
-    return value
+  const resetValue = () => {
+    setInternalValue(props.value)
+    setLastValue('')
   }
 
   /* Focus field (e.g. on error) */
@@ -122,22 +114,21 @@ export const MaskedInput = (props: Props) => {
           }}
           data-test-id={props.dataTestId}
           alwaysShowMask={props.maskInput.alwaysShowMask}
-          onChange={(e) => {
-            const value = onChangeMasked(e)
-            setInternalValue(value)
-            props.onChange?.(value)
-            setLastValue(value)
+          onValueChange={(e) => {
+            setInternalValue(e.maskedValue)
+            props.onChange?.(e.maskedValue)
+            setLastValue(e.maskedValue)
 
             if (!isFocused) {
               // Required for browser auto-fill fields to ensure the form gets the values
-              props.onBlur(value)
+              props.onBlur(e.maskedValue, resetValue)
             }
           }}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
             setInternalValue(newValue)
             setIsFocused(false)
-            props.onBlur(newValue)
+            props.onBlur(newValue, resetValue)
           }}
           onFocus={() => {
             setIsFocused(true)
