@@ -558,7 +558,7 @@ export type FormSection<FormData> = {
   title?: string
   titleData?: any
   type: FormFieldType.FormSection
-  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
+  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData>; readOnly: boolean }>
 }
 
 export type FormSectionCard<FormData> = {
