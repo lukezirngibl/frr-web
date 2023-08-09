@@ -539,7 +539,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
     data: FormData
     index: number
     onRemoveItem: (index: number, onChangeMulti: OnChangeMulti<FormData>) => void
-  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
+  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData>, readOnly: boolean }>
   type: FormFieldType.FormFieldRepeatSection
 }
 
