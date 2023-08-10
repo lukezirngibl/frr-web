@@ -539,7 +539,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
     data: FormData
     index: number
     onRemoveItem: (index: number, onChangeMulti: OnChangeMulti<FormData>) => void
-  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
+  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData>, readOnly: boolean }>
   type: FormFieldType.FormFieldRepeatSection
 }
 
@@ -558,7 +558,7 @@ export type FormSection<FormData> = {
   title?: string
   titleData?: any
   type: FormFieldType.FormSection
-  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData> }>
+  TitleCenterComponent?: FC<{ onChangeMulti?: OnChangeMulti<FormData>; readOnly: boolean }>
 }
 
 export type FormSectionCard<FormData> = {
