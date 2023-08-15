@@ -72,11 +72,8 @@ const DEFAULT_MASK_INPUT = {
 }
 
 export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
-  console.log('props.value', props.value)
   const { isMobileTouch } = useMobileTouch()
   const maskInput = props.maskInput ?? DEFAULT_MASK_INPUT
-
-  console.log('error', props.error)
 
   /* Styles */
   const theme = useComponentTheme()
@@ -155,17 +152,11 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
               onBlur={() => setIsFocused(false)}
               onChange={(v) => {
                 try {
-                  console.log('new value', v)
-                  // if (v === '') {
-                  //   return
-                  // }
                   const dateValue = parseDate(v, 'yyyy-MM-dd')
-                  console.log('dateValue', dateValue)
                   if (dateValue.toString() === 'Invalid Date') {
                     props.onBlur(null)
                     // resetValue()
                   } else {
-                    console.log('formattedData', formatDate(dateValue as Date, dateFormat))
                     props.onBlur(formatDate(dateValue as Date, dateFormat))
                   }
                 } catch (err) {
