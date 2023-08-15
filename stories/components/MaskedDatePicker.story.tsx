@@ -5,6 +5,7 @@ import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/compone
 import { FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory } from '../storybook.helpers'
+import { formatRFC3339 } from 'date-fns'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof MaskedDatePicker> = {
@@ -51,6 +52,7 @@ export const Initial = () => {
 export const Preset = () => {
   const [data, setData] = React.useState<{ birthDate: string | null }>({
     birthDate: '1990-03-23',
+    // birthDate: formatRFC3339(new Date(2019, 8, 18, 19, 0, 52), { fractionDigits: 3 }),
   })
   return (
     <div style={{ maxWidth: 600 }}>
@@ -60,6 +62,8 @@ export const Preset = () => {
           type: FormFieldType.MaskedDatePicker,
           lens: formLens(['birthDate']),
           label: { label: 'Geburtsdatum' },
+          // iso format
+          // dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSXXX",
           dateFormat: 'yyyy-MM-dd',
           displayDateFormat: 'dd/MM/yyyy',
           maskInput: { alwaysShowMask: true, maskString: 'DD/MM/YYYY', mask: '00/00/0000' },
