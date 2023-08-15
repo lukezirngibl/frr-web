@@ -190,7 +190,7 @@ export const FieldSection = <FormData extends {}>({
                     localeNamespace={localeNamespace}
                   />
 
-                  <fieldSection.TitleCenterComponent onChangeMulti={onChangeMulti} />
+                  <fieldSection.TitleCenterComponent onChangeMulti={onChangeMulti} readOnly={formReadOnly} />
                 </Div>
               )) || (
                 <P
