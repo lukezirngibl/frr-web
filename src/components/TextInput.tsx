@@ -55,7 +55,7 @@ export const TextInput = (props: Props) => {
   const [internalValue, setInternalValue] = useState(props.value)
 
   const formatValue = props.formatValue || ((v: string) => v)
-  
+
   useEffect(() => {
     setInternalValue(formatValue(props.value))
   }, [props.value])
