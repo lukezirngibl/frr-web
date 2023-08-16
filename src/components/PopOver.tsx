@@ -24,6 +24,7 @@ export const SimplePopover = (props: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault() // Avoid redirects on click
     event.stopPropagation()
     setAnchorEl(event.currentTarget)
   }
