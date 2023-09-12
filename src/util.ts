@@ -1,5 +1,5 @@
 import lodashRange from 'lodash.range'
-import { OptionType, Options } from './html'
+import { Options } from './html'
 import { Translate } from './translation'
 
 export const keys = <A extends Record<string, unknown>, K extends keyof A>(x: A): Array<K> =>
@@ -9,9 +9,8 @@ export const keys = <A extends Record<string, unknown>, K extends keyof A>(x: A)
 export const processOptions = (
   raw: Options<string | number>,
   translate: Translate,
-): Array<OptionType<string | number> & { text: string; value: string | number }> =>
+): Array<{ text: string; value: string | number }> =>
   raw.map((option) => ({
-    ...option,
     text:
       option.label !== undefined
         ? typeof option.label === 'string' && !option.isLabelTranslated
