@@ -30,7 +30,6 @@
     "lib/**/*"
   ],
   "peerDependencies": {
-    "@devexperts/remote-data-ts": "0.6.0",
     "@material-ui/core": "^4.9.10",
     "@material-ui/styles": "^4.9.10",
     "i18next": "^22.0.0",
@@ -41,12 +40,10 @@
     "styled-components": "^5.0.0"
   },
   "dependencies": {
-    "@devexperts/remote-data-ts": "0.6.0",
     "@icons/material": "^0.4.1",
     "@material-ui/core": "^4.9.10",
     "@material-ui/styles": "^4.9.10",
     "date-fns": "^2.19.0",
-    "fp-ts": "^2.12.3",
     "lodash.range": "^3.2.0",
     "monocle-ts": "2.0.0",
     "pdfjs-dist": "^2.14.305",

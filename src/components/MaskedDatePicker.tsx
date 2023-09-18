@@ -20,7 +20,6 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { date } from 'fp-ts'
 
 export type Props = {
   /**
