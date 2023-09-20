@@ -75,6 +75,7 @@ ${brandTheme.baseStyle}
           <option value={BRAND.postFinance} label="PostFinance"></option>
         </select>
       </div>
+      
       <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.componentTheme)}>
         <BaseStyle />
         <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>
