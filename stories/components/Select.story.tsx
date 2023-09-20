@@ -87,7 +87,7 @@ type SelectStoryProps = {
 const SelectText = (props: SelectStoryProps) => {
   const [value, setValue] = React.useState(null)
   return field({
-    field: textSelectField(props),
+    field: { ...textSelectField(props), placeholder: 'What are you looking for?' },
     fieldIndex: 0,
     formReadOnly: false,
     style: {},

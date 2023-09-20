@@ -40,7 +40,6 @@ export type Props = {
   inputRef?: React.Ref<any>
   isMenuAlwaysOpen?: boolean // If true menu is always open and will not close
   isMatchAny?: boolean // If false search starts from the beginning otherwise it matches any part of the string
-  isSearchable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
@@ -49,6 +48,7 @@ export type Props = {
   onBlur?: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
   overwriteIsMobileTouch?: boolean // For testing purposes only
+  placeholder?: string
   priority?: Priority // Show on top of select options
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
@@ -198,7 +198,6 @@ export const Select = (props: Props) => {
                 matchFrom: props.isMatchAny ? 'any' : 'start',
               })}
               isDisabled={props.disabled || props.readOnly}
-              isSearchable={props.isSearchable}
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
               menuShouldBlockScroll
@@ -211,7 +210,7 @@ export const Select = (props: Props) => {
               pageSize={MENU_PAGE_SIZE}
               minMenuHeight={MENU_MIN_HEIGHT}
               maxMenuHeight={MENU_MAX_HEIGHT}
-              placeholder={t('formFields.select.defaultLabel')}
+              placeholder={props.placeholder || t('formFields.select.defaultLabel')}
               styles={mapReactSelectStyles(props.style, props.error, isFocused)}
               ref={props.inputRef}
               tabSelectsValue={false}

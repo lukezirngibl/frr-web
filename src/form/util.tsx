@@ -17,9 +17,8 @@ export const setScrolled = (v: boolean) => {
   scrolled = v
 }
 
-export declare class FormLens<S, A> {
-  readonly get: (s: S) => A
-  readonly set: (a: A) => (s: S) => S
+// TODO: Get rid of monocle-ts and use own implementation
+export declare class FormLens<S, A> extends MonocleLens<S, A> {
   readonly id: () => string
 }
 
