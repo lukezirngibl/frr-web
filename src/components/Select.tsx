@@ -40,6 +40,7 @@ export type Props = {
   inputRef?: React.Ref<any>
   isMenuAlwaysOpen?: boolean // If true menu is always open and will not close
   isMatchAny?: boolean // If false search starts from the beginning otherwise it matches any part of the string
+  isSearchable?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
@@ -197,6 +198,7 @@ export const Select = (props: Props) => {
                 matchFrom: props.isMatchAny ? 'any' : 'start',
               })}
               isDisabled={props.disabled || props.readOnly}
+              isSearchable={props.isSearchable}
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
               menuShouldBlockScroll
