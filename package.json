@@ -36,7 +36,6 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-i18next": "12.0.0",
-    "semantic-ui-react": "^2.0.0",
     "styled-components": "^5.0.0"
   },
   "dependencies": {
@@ -58,7 +57,6 @@
     "react-select": "^5.4.0",
     "react-virtualized": "^9.22.3",
     "rgb-hex": "^4.0.0",
-    "semantic-ui-react": "^2.0.0",
     "tss-react": "^4.7.0",
     "typelevel-ts": "^0.4.0",
     "use-debounce": "^9.0.3"
