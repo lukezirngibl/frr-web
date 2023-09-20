@@ -1,11 +1,14 @@
+import { StyleConfigDTO } from "../../src/theme/configureBaseStyle"
+
 export enum FieldStyle {
   SharpEdge = 'SHARP EDGE',
   SoftEdge = 'SOFT EDGE',
   Round = 'ROUND',
 }
 
-export const defaultStyleConfig = {
+export const defaultStyleConfig: StyleConfigDTO = {
   colorBackgroundAccent: '0,145,178,1',
+  colorBackgroundActive: '232, 246, 250',
   colorBackgroundHover: '242,242,242,0.6',
   colorBackgroundPrimary: '255,255,255,1',
   colorBackgroundSecondary: '242,242,242,1',
@@ -18,6 +21,9 @@ export const defaultStyleConfig = {
   colorInput: '0,0,0,1',
   colorPrimary: '0,0,0,1',
   colorSecondary: '0,0,0,0.6',
+  colorWarning: '255,197,61,1',
+
+  colorButtonPrimary: '0,0,0,1',
 
   fontFamilyNormalUrl:
     'https://stbobfspfrontendassets.blob.core.windows.net/bobzeroassets/FoundryContext-Regular.woff2',
@@ -36,11 +42,15 @@ export const defaultStyleConfig = {
   fontSizeSublabel: '1.2rem',
   fontSizeInput: '1.6rem',
   fontSizeTitle: '2.4rem',
+  fontSizeTitleMobile: '2.2rem',
 
+  headerBoxShadow: '0 0 8px 8px rgba(0, 0, 0, 0.04)',
   headerHeight: 84,
   headerHeightMobile: 72,
   headerLogoWidth: 256,
-  headerBackgroundColor: '#41afc8',
+  headerLogoWidthMobile: 256,
+  headerBackgroundColor: '65, 175, 200, 1',
+  headerBackgroundColorDark: 'rgba(52, 58, 60, 1)',
   headerTitleColor: '255,255,255,1',
   headerTitleFontSize: '2.4rem',
 
@@ -61,6 +71,8 @@ export const defaultStyleConfig = {
   formFieldBorderRadius: '5px',
   formFieldPaddingHorizontal: 12,
   formFieldStyle: FieldStyle.SoftEdge,
+
+  formIconFilter: 'none',
 }
 
 export const bobBplStyleConfig = {

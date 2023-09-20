@@ -1,18 +1,14 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
-import { Select } from '../../src/components/Select'
-import { FieldSectionWrapper } from '../../src/form/components/FieldSection'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
-import {
-  FormFieldType,
-  MultiSelectField,
-  NumberSelectField,
-  TextSelectField,
-} from '../../src/form/components/types'
-import { makeFormLens } from '../../src/form/util'
-import { StorybookTemplateProvider } from '../storybook.TemplateProvider'
 import styled from 'styled-components'
 import { MultiSelect } from '../../src/components/MultiSelect'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FieldSectionWrapper } from '../../src/form/components/FieldSection'
+import {
+  FormFieldType,
+  MultiSelectField
+} from '../../src/form/components/types'
+import { makeFormLens } from '../../src/form/util'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof MultiSelect> = {
@@ -92,16 +88,12 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
 )
 
 export const SelectOverviewDesktop = () => (
-  <StorybookTemplateProvider>
     <SelectOverview />
-  </StorybookTemplateProvider>
 )
 SelectOverviewDesktop.storyName = 'Overview (Desktop)'
 
 export const SelectOverviewMobile = () => (
-  <StorybookTemplateProvider>
     <SelectOverview isMobile />
-  </StorybookTemplateProvider>
 )
 SelectOverviewMobile.storyName = 'Overview (Mobile)'
 
