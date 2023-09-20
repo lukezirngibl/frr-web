@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { IconType } from 'react-icons'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
@@ -6,13 +6,12 @@ import { useMobileTouch } from '../hooks/useMobileTouch'
 import { P } from '../html'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
+  useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { Icon, IconProps } from './Icon'
 import { Loading } from './Loading'
 
 const ButtonWrapper = createStyled('button')
@@ -42,7 +41,7 @@ const mapTypeToStyleLabelKey: {
 export type Props = {
   dataTestId?: string
   disabled?: boolean
-  Icon?: IconType
+  Icon?: ReactElement<IconType>
   id?: string
   label: string
   labelMobile?: string
@@ -96,11 +95,9 @@ export const Button = (props: Props) => {
       type="button"
       {...getCSSStyles(['common', mapTypeToStyleKey[type]], props.override)}
     >
-      {props.Icon && <props.Icon size={24} />}
+      {props.Icon}
       <P
-        style={{
-          marginLeft: props.Icon ? 8 : 0,
-        }}
+        style={{ marginLeft: props.Icon ? 8 : 0 }}
         {...getCSSStyles(['label', mapTypeToStyleLabelKey[type]])}
         label={(isMobile && props.labelMobile) || props.label}
         localeNamespace={props.localeNamespace}

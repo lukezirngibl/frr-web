@@ -36,7 +36,11 @@ i18n
             style: 'currency',
             currency: 'CHF',
             minimumIntegerDigits: 1,
-          }).format(value.amount)
+          }).format(value)
+        } else if (format === 'ListIndex') {
+          formattedValue = parseInt(value) + 1
+        } else if (format === 'RelativeTime') {
+          formattedValue = relativeTimeFromNow(value)
         }
 
         return formattedValue

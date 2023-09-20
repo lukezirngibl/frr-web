@@ -12,7 +12,7 @@ export const computeFieldError = <FormData>({
   field: SingleFormField<FormData>
   isValidate: boolean
   marks: Array<number>
-  value: string | string[] | boolean | number | Date | null | File | Array<File>
+  value: string | string[] | boolean | number | number[] | Date | null | File | Array<File>
 }): FieldError => {
   let error = null
   const isRequired =
@@ -37,7 +37,7 @@ export const computeFieldError = <FormData>({
   }
 
   if (isValidate && !error && !!field.validate) {
-    error = field.validate(value)
+    error = field.validate(value, data)
   }
 
   if (
@@ -54,9 +54,9 @@ export const computeFieldError = <FormData>({
     } else {
       const min = 'min' in field ? field.min : 0
       const max = 'max' in field ? field.max : 10000000
-      if (value < min) {
+      if ((value as number) < min) {
         error = 'formFields.error.invalidMinAmount'
-      } else if (value > max) {
+      } else if ((value as number) > max) {
         error = 'formFields.error.invalidMaxAmount'
       }
     }
@@ -67,9 +67,9 @@ export const computeFieldError = <FormData>({
     (field.type === FormFieldType.NumberInput ||
       (field.type === FormFieldType.Slider && !field.isCurrency))
   ) {
-    if ('min' in field && value < field.min) {
+    if ('min' in field && (value as number) < field.min) {
       error = 'formFields.error.minError'
-    } else if ('max' in field && value > field.max) {
+    } else if ('max' in field && (value as number) > field.max) {
       error = 'formFields.error.maxError'
     } else if (marks.length > 0 && !marks.includes(value as number)) {
       error = 'formFields.error.invalidValue'
@@ -90,7 +90,7 @@ export const useFormFieldError = <FormData>({
   field: SingleFormField<FormData>
   isDirty: boolean
   showValidation: boolean
-  value: string | string[] | number | Date | boolean | null | File | Array<File>
+  value: string | string[] | number | number[] | Date | boolean | null | File | Array<File>
 }): string | null => {
   const [fieldError, setFieldError] = useState({ error: null, fieldId: null })
   const [marks] = useState('marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : [])

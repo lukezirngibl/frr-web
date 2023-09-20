@@ -89,7 +89,7 @@ type Props = {
 }
 
 export const Loading = (props: Props) => (
-  <LoadingWrapper css={props.style}>
+  <LoadingWrapper style={props.style}>
     <div className="lds-spinner">
       <div></div>
       <div></div>

@@ -3,45 +3,6 @@ import { CSSProperties, createThemeConfigure } from './configure.theme'
 import { getUseCSSStyles, getUseInlineStyle } from './util'
 
 export type FormTheme = {
-  row: {
-    wrapper: CSSProperties
-    wrapperReadOnly: CSSProperties
-    item: CSSProperties
-  }
-  group: {
-    title: CSSProperties
-    wrapper: CSSProperties
-    descriptionList: CSSProperties
-    descriptionItem: CSSProperties
-    descriptionText: CSSProperties
-  }
-  staticField: {
-    wrapper: CSSProperties
-    title: CSSProperties
-    text: CSSProperties
-    button: CSSProperties
-  }
-  section: {
-    content: CSSProperties
-    contentWrapper: CSSProperties
-    contentCardWrapper: CSSProperties
-    description: CSSProperties
-    emptyTitleWrapperMobile: CSSProperties
-    introduction: CSSProperties
-    title: CSSProperties
-    titleWrapper: CSSProperties
-    wrapper: CSSProperties
-  }
-  sectionRight: {
-    wrapper: CSSProperties
-    editLink: CSSProperties
-    editIcon: CSSProperties
-  }
-  form: {
-    wrapper: CSSProperties
-    content: CSSProperties
-    buttonContainer: CSSProperties
-  }
   fieldMultiInput: {
     wrapper: CSSProperties
     item: CSSProperties
@@ -59,50 +20,51 @@ export type FormTheme = {
     wrapper: CSSProperties
     wrapperFullwidth: CSSProperties
   }
+  form: {
+    wrapper: CSSProperties
+    content: CSSProperties
+    buttonContainer: CSSProperties
+  }
+  group: {
+    title: CSSProperties
+    wrapper: CSSProperties
+    descriptionList: CSSProperties
+    descriptionItem: CSSProperties
+    descriptionText: CSSProperties
+  }
+  row: {
+    wrapper: CSSProperties
+    wrapperReadOnly: CSSProperties
+    item: CSSProperties
+  }
+  section: {
+    content: CSSProperties
+    contentCardWrapper: CSSProperties
+    contentWrapper: CSSProperties
+    description: CSSProperties
+    emptyTitleWrapperMobile: CSSProperties
+    introduction: CSSProperties
+    rowItem: CSSProperties
+    title: CSSProperties
+    titleWrapper: CSSProperties
+    wrapper: CSSProperties
+  }
+  sectionRight: {
+    wrapper: CSSProperties
+    editLink: CSSProperties
+    editIcon: CSSProperties
+  }
+  staticField: {
+    wrapper: CSSProperties
+    title: CSSProperties
+    text: CSSProperties
+    button: CSSProperties
+  }
 }
 
 export type FormThemeConfig = { [k in keyof FormTheme]?: Partial<FormTheme[k]> }
 
 export const defaultFormTheme: FormTheme = {
-  section: {
-    content: {},
-    contentWrapper: {},
-    contentCardWrapper: {},
-    description: {},
-    emptyTitleWrapperMobile: {},
-    introduction: {},
-    title: {},
-    titleWrapper: {},
-    wrapper: {},
-  },
-  staticField: {
-    wrapper: {},
-    title: {},
-    text: {},
-    button: {},
-  },
-  sectionRight: {
-    wrapper: {},
-    editIcon: {},
-    editLink: {},
-  },
-  row: {
-    wrapper: {},
-    wrapperReadOnly: {},
-    item: {},
-  },
-  group: {
-    title: {},
-    wrapper: {},
-    descriptionList: {},
-    descriptionItem: {},
-    descriptionText: {},
-  },
-  form: {
-    wrapper: {},
-    content: {},
-    buttonContainer: {},
-  },
   fieldMultiInput: {
     wrapper: {},
     item: {},
@@ -119,6 +81,46 @@ export const defaultFormTheme: FormTheme = {
     valueHighlighted: {},
     wrapper: {},
     wrapperFullwidth: {},
+  },
+  form: {
+    wrapper: {},
+    content: {},
+    buttonContainer: {},
+  },
+  row: {
+    wrapper: {},
+    wrapperReadOnly: {},
+    item: {},
+  },
+  group: {
+    title: {},
+    wrapper: {},
+    descriptionList: {},
+    descriptionItem: {},
+    descriptionText: {},
+  },
+  section: {
+    content: {},
+    contentCardWrapper: {},
+    contentWrapper: {},
+    description: {},
+    emptyTitleWrapperMobile: {},
+    introduction: {},
+    rowItem: {},
+    title: {},
+    titleWrapper: {},
+    wrapper: {},
+  },
+  sectionRight: {
+    wrapper: {},
+    editIcon: {},
+    editLink: {},
+  },
+  staticField: {
+    wrapper: {},
+    title: {},
+    text: {},
+    button: {},
   },
 }
 

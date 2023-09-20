@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { P } from '../html'
-import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-import { LocaleNamespace } from '../translation'
-import { formatFileSize, UploadDocumentItem } from './UploadDocumentItem'
+import { P } from '../../html'
+import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
+import { createStyled } from '../../theme/util'
+import { LocaleNamespace } from '../../translation'
+import { UploadDocumentItem, formatFileSize } from './UploadDocumentItem'
 
 type DragProps = {
   isDragActive: boolean
@@ -34,17 +34,20 @@ export const UploadDropzone = ({
   onChange,
   style,
 }: UploadDropzoneProps) => {
+  const { t: translate } = useTranslation(localeNamespace)
+
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
 
+  // Internal file list states
   const [acceptedFileItems, setAcceptedFileItems] = useState<File[]>([])
   const [rejectedFileItems, setRejectedFileItems] = useState<FileRejection[]>([])
-  const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
   const [errorMessage, setErrorMessage] = useState<string>()
-  const [loadFiles, setLoadFiles] = useState(false)
+  const [hasFileListChanged, setFileListChanged] = useState(false)
 
-  const { t: translate } = useTranslation(localeNamespace)
+  const isOnlyImagesAllowed = acceptedFileTypes === IMAGE
 
+  // React dropzone
   const {
     acceptedFiles,
     fileRejections,
@@ -54,7 +57,7 @@ export const UploadDropzone = ({
     isDragAccept,
     isDragReject,
   } = useDropzone({
-    accept: acceptedFileTypes,
+    accept: acceptedFileTypes.split(', ').reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     maxFiles: maxFilesToUpload,
     maxSize: maxFileSize,
     disabled: maxFilesToUpload
@@ -62,6 +65,7 @@ export const UploadDropzone = ({
       : acceptedFileItems.length > 0,
   })
 
+  // Handle accepted files
   useEffect(() => {
     if (
       acceptedFiles.length > 0 &&
@@ -73,7 +77,7 @@ export const UploadDropzone = ({
       acceptedFiles.map((file: File) => setAcceptedFileItems((prev) => [...prev, file]))
       setRejectedFileItems([])
       setErrorMessage(undefined)
-      setLoadFiles(true)
+      setFileListChanged(true)
     } else {
       if (
         acceptedFileItems.find(
@@ -90,6 +94,7 @@ export const UploadDropzone = ({
     }
   }, [acceptedFiles])
 
+  // Handle rejected files
   useEffect(() => {
     if (
       fileRejections.length > 0 &&
@@ -108,12 +113,13 @@ export const UploadDropzone = ({
     }
   }, [fileRejections])
 
+  // Send files to form
   useEffect(() => {
-    if (loadFiles) {
+    if (hasFileListChanged) {
       onChange(acceptedFileItems)
-      setLoadFiles(false)
+      setFileListChanged(false)
     }
-  }, [loadFiles, acceptedFileItems, onChange])
+  }, [hasFileListChanged, acceptedFileItems, onChange])
 
   return (
     <>
@@ -160,6 +166,7 @@ export const UploadDropzone = ({
                     onRemove={() => {
                       setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
                       setErrorMessage(undefined)
+                      setFileListChanged(true)
                     }}
                     style={style}
                   />

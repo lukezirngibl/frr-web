@@ -113,6 +113,7 @@ export type ComponentTheme = {
     errorWrapper: CSSProperties
     icon: CSSProperties
     iconMobile: CSSProperties
+    menuPortal: CSSProperties
     menu: CSSProperties
     option: CSSProperties
     optionActive: CSSProperties
@@ -140,6 +141,8 @@ export type ComponentTheme = {
     hook2: CSSProperties
     iconWrapper: CSSProperties
     iconWrapperFocus: CSSProperties
+    input: CSSProperties
+    inputPlaceholder: CSSProperties
     inputWrapper: CSSProperties
     reactDatePicker?: string
     wrapper: CSSProperties
@@ -249,12 +252,19 @@ export type ComponentTheme = {
     itemActive: CSSProperties
     itemCircle: CSSProperties
     itemCircleActive: CSSProperties
+    itemTitle: CSSProperties
+    itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
     itemLabelActive: CSSProperties
     itemNumber: CSSProperties
     itemWrapper: CSSProperties
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
+    progressBar: CSSProperties
+    progressBarActive: CSSProperties
+    progressBarCompleted: CSSProperties
+    progressBarError: CSSProperties
+    itemLabelCompleted: CSSProperties
   }
   loading: {
     wrapper: CSSProperties
@@ -464,6 +474,7 @@ export const defaultComponentTheme: ComponentTheme = {
     errorWrapper: {},
     icon: {},
     iconMobile: {},
+    menuPortal: {},
     menu: {},
     option: {},
     optionActive: {},
@@ -492,6 +503,8 @@ export const defaultComponentTheme: ComponentTheme = {
     iconWrapper: {},
     iconWrapperFocus: {},
     inputWrapper: {},
+    input: {},
+    inputPlaceholder: {},
     reactDatePicker: '',
     wrapper: {},
     wrapperFocus: {},
@@ -555,12 +568,19 @@ export const defaultComponentTheme: ComponentTheme = {
     itemActive: {},
     itemCircle: {},
     itemCircleActive: {},
+    itemTitle: {},
+    itemTitleWrapper: {},
     itemLabel: {},
     itemLabelActive: {},
     itemNumber: {},
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},
+    progressBar: {},
+    progressBarActive: {},
+    progressBarCompleted: {},
+    progressBarError: {},
+    itemLabelCompleted: {},
   },
   loading: {
     wrapper: {},

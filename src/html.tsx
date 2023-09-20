@@ -11,6 +11,7 @@ export type OptionType<Value> = {
   icon?: string
   isLabelTranslated?: boolean
   label?: string
+  labelData?: Record<string, string | number>
   name?: string
   value: Value
 }
@@ -21,7 +22,7 @@ export type LabelText = string | ((params: { translate: Translate }) => string |
 type Props = {
   children?: ReactNode
   cssStyles?: string
-  data?: { [k: string]: string }
+  data?: { [k: string]: string | number }
   dataTestId?: string
   dataThemeId?: string
   dataValue?: string | number
@@ -34,6 +35,7 @@ type Props = {
   style?: CSSProperties
   tabIndex?: number
   value?: any
+  onClick?: (e: React.MouseEvent) => void
 }
 
 const HtmlElements = {
@@ -78,7 +80,8 @@ export const Element = (
     readOnly,
     style = {},
     value,
-  } = props  
+    onClick,
+  } = props
   const theme = useComponentTheme()
   const getStyle = useInlineStyle(theme, 'html')({})
 
@@ -101,6 +104,7 @@ export const Element = (
 
   return (
     <HtmlElement
+      onClick={onClick}
       cssStyles={cssStyles}
       data-test-id={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}

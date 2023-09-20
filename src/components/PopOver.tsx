@@ -14,10 +14,21 @@ export const SimplePopover = (props: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault() // Avoid redirects on click
+    event.stopPropagation()
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = () => {
+  const handleClose = (e: any) => {
+    // move to props.onClose() in case propagation should be possible.
+    e.stopPropagation()
+    setAnchorEl(null)
+    if (props.onClose) {
+      props.onClose()
+    }
+  }
+
+  const close = () => {
     setAnchorEl(null)
     if (props.onClose) {
       props.onClose()
@@ -45,7 +56,7 @@ export const SimplePopover = (props: Props) => {
           horizontal: 'center',
         }}
       >
-        <>{props.render({ close: handleClose })}</>
+        <>{props.render({ close })}</>
       </Popover>
     </div>
   )

@@ -1,6 +1,5 @@
-// @ts-ignore
-import { Meta } from '@storybook/react'
 import React from 'react'
+import { StorybookTemplateProvider } from './storybook.TemplateProvider'
 import { brand as bobBrand } from './theme/bob/storybook.bob.brand'
 import { brand as postFinanceBrand } from './theme/orca/storybook.orca.brand'
 
@@ -18,20 +17,18 @@ const Brands = {
 // Create story with theme and styles
 // -----------------------------------
 
-export const meta = <P extends {}, T extends (props: P) => JSX.Element>(config: {
-  title: string
-  component: T
-}) => config as unknown as Meta<T>
-
-export const createStory = <P extends {}, T extends (props: P) => JSX.Element>(C: T) => {
+export const createStory = <P, T extends (props: P) => JSX.Element>(C: T) => {
   const Story = (props: P) => {
     const Component = C as any
-
-    return <Component {...props} />
+    return (
+      <StorybookTemplateProvider>
+        <Component {...props} />
+      </StorybookTemplateProvider>
+    )
   }
-
   return Story
 }
+
 
 // -----------------------------------
 // Validation helpers

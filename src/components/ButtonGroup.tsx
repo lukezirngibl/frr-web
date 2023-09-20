@@ -47,32 +47,32 @@ export const ButtonGroup = (props: Props) => {
 
   return (
     <Wrapper {...getCSSStyle('wrapper')}>
-      {props.items.map((item) => {
+      {props.items.map((buttonItem) => {
         const isItemActive =
           props.type === ButtonGroupType.Multi
-            ? props.value.includes(item.value)
-            : item.value === props.value
+            ? props.value.includes(buttonItem.value)
+            : buttonItem.value === props.value
         return (
           <Item
             {...getCSSStyle({
               item: true,
               itemActive: isItemActive,
             })}
-            value={item.value}
+            value={buttonItem.value}
             onClick={() => {
               if (props.type === ButtonGroupType.Multi) {
                 if (isItemActive) {
-                  props.onChange(props.value.filter((v) => v !== item.value))
+                  props.onChange(props.value.filter((v) => v !== buttonItem.value))
                 } else {
-                  props.onChange([...props.value, item.value])
+                  props.onChange([...props.value, buttonItem.value])
                 }
               } else {
-                props.onChange(item.value)
+                props.onChange(buttonItem.value)
               }
             }}
           >
-            {'Icon' in item ? (
-              <item.Icon
+            {'Icon' in buttonItem ? (
+              <buttonItem.Icon
                 {...getInlineStyle({
                   icon: true,
                   iconActive: isItemActive,
@@ -80,7 +80,7 @@ export const ButtonGroup = (props: Props) => {
               />
             ) : (
               <P
-                label={item.label}
+                label={buttonItem.label}
                 {...getCSSStyle({
                   label: true,
                   labelActive: isItemActive,

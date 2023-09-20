@@ -1,14 +1,16 @@
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
 import { Toggle } from '../../src/components/Toggle'
-import { FieldRowItem } from '../../src/form/components/FieldRowItem'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import { FormFieldType, ToggleField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta: Meta<typeof Toggle> = {
   title: 'Components/Toggle',
   component: Toggle,
 }
+export default meta
 
 type FormData = { isPrivacyPolicyAccepted: boolean | null }
 const formLens = makeFormLens<FormData>()
@@ -22,7 +24,7 @@ const field: ToggleField<FormData> = {
 export const Initial = () => {
   const [value, setValue] = useState(false)
 
-  const fieldItemProps = {
+  const fieldItemProps: FieldRowItemProps<FormData> = {
     field,
     fieldIndex: 0,
     formReadOnly: false,

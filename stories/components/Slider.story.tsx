@@ -1,17 +1,19 @@
-import { Slider, Props } from '../../src/components/Slider'
-import { createStory, meta } from '../storybook.helpers'
-import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { Meta } from '@storybook/react'
 import React, { useState } from 'react'
+import { Slider } from '../../src/components/Slider'
+import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
+import { FormFieldType, SliderField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { FormFieldType, SingleFormField, SliderField } from '../../src/form/components/types'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta: Meta<typeof Slider> = {
   title: 'Components/Slider',
   component: Slider,
 }
+export default meta
 
-type FormData = { amount: number | null, months: number | null }
+type FormData = { amount: number | null; months: number | null }
 const formLens = makeFormLens<FormData>()
 const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(FieldRowItem)
 
@@ -41,7 +43,7 @@ export const AmoutSlider = () => {
               amount: value,
               months: null,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             autoFocus: false,
@@ -50,7 +52,11 @@ export const AmoutSlider = () => {
         </li>
         <li>
           {story({
-            field: { ...amountField, isEditable: true },
+            field: {
+              ...amountField,
+              isEditable: true,
+              onChangeInputType: (inputType) => console.log(`NEW INPUT TPYE DETECTED "${inputType}"`),
+            },
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
@@ -58,7 +64,7 @@ export const AmoutSlider = () => {
               amount: value,
               months: null,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             autoFocus: false,
@@ -81,7 +87,6 @@ const monthField: SliderField<FormData> = {
   defaultValue: 12,
 }
 
-
 export const MonthsSlider = () => {
   const [value, setValue] = useState(null)
 
@@ -98,7 +103,7 @@ export const MonthsSlider = () => {
               amount: null,
               months: value,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             autoFocus: false,
@@ -107,7 +112,11 @@ export const MonthsSlider = () => {
         </li>
         <li>
           {story({
-            field: { ...monthField, isEditable: true },
+            field: {
+              ...monthField,
+              isEditable: true,
+              onChangeInputType: (inputType) => console.log(`NEW INPUT TPYE DETECTED "${inputType}"`),
+            },
             fieldIndex: 0,
             formReadOnly: false,
             style: {},
@@ -115,7 +124,7 @@ export const MonthsSlider = () => {
               amount: null,
               months: value,
             },
-            onChange: (lens, value) => {
+            onChange: (_lens, value) => {
               setValue(value)
             },
             autoFocus: false,

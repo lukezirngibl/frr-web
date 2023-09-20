@@ -23,6 +23,9 @@ export const NumberInput = (props: Props) => {
       onChange={(v) => {
         onChange(Number(v))
       }}
+      onBlur={(v) => {
+        onChange(Number(v))
+      }}
       inputType="number"
       postfix={unit}
     />

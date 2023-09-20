@@ -1,7 +1,8 @@
 import MaterialSlider from '@mui/material/Slider'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
+import { FormFieldType } from '../form/components/types'
 import { P } from '../html'
 import {
   ComponentTheme,
@@ -132,7 +133,8 @@ export type Props = {
   marks?: Array<{ label: string; value: number }>
   max: number
   min: number
-  onChange: (v: number) => void
+  onChangeInputType?: (inputType: FormFieldType) => void
+  onChange: (num: number) => void
   placeholder?: string
   prefix?: string
   postfix?: string
@@ -182,6 +184,14 @@ export const Slider = (props: Props) => {
 
   const labelStyle = getInlineStyles('label', {}, undefined, false, true)
 
+  // Input field type changes
+  const [inputFieldType, setInputFieldType] = useState<FormFieldType | null>(null)
+  useEffect(() => {
+    if (inputFieldType !== null) {
+      props.onChangeInputType?.(inputFieldType)
+    }
+  }, [inputFieldType])
+
   return (
     <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
@@ -194,7 +204,10 @@ export const Slider = (props: Props) => {
               marks={props.marks ? props.marks.map((m) => m.value) : undefined}
               max={props.inputMax !== undefined ? props.inputMax : props.max}
               min={props.inputMin !== undefined ? props.inputMin : props.min}
-              onChange={onChange}
+              onChange={({ num }) => {
+                onChange({ num })
+                setInputFieldType(FormFieldType.CurrencyInput)
+              }}
               placeholder={props.placeholder}
               postfix={props.postfix}
               prefix={prefix}
@@ -241,6 +254,7 @@ export const Slider = (props: Props) => {
           onChange={(_: Event, value: number) => {
             setInternalValue(value)
             onChange({ num: value })
+            setInputFieldType(FormFieldType.Slider)
           }}
           scale={props.scale}
           step={props.step}

@@ -1,12 +1,11 @@
-import React from 'react'
-import { AiOutlineCheck } from 'react-icons/ai'
-import { MdClose } from 'react-icons/md'
 import { P } from '../html'
+import { AiOutlineCheck } from '../icons/new/AiOutlineCheck'
+import { MdClose } from '../icons/new/MdClose'
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
-  useInlineStyle
+  useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -62,7 +61,7 @@ export const StaticChecklist = (props: Props) => {
                   <Container key={k2} {...getCSSStyles('item')}>
                     {l.type === ChecklistType.Allowed ? (
                       <AiOutlineCheck
-                        size={18}
+                        width={18}
                         {...getInlineStyle({
                           itemIcon: true,
                           iconAllowed: true,
@@ -70,13 +69,14 @@ export const StaticChecklist = (props: Props) => {
                       />
                     ) : (
                       <MdClose
-                        size={18}
+                        width={18}
                         {...getInlineStyle({
                           itemIcon: true,
                           iconDisallowed: true,
                         })}
                       />
                     )}
+                    
                     <P
                       label={i.label}
                       localeNamespace={props.localeNamespace}

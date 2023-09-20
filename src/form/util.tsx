@@ -1,6 +1,5 @@
 import React from 'react'
 import { Lens as MonocleLens, Optional } from 'monocle-ts'
-import { getOrElse, fold, none, some } from 'fp-ts/lib/Option'
 import {
   FormFieldRepeatGroup,
   FormFieldType,
@@ -18,9 +17,8 @@ export const setScrolled = (v: boolean) => {
   scrolled = v
 }
 
-export declare class FormLens<S, A> {
-  readonly get: (s: S) => A
-  readonly set: (a: A) => (s: S) => S
+// TODO: Get rid of monocle-ts and use own implementation
+export declare class FormLens<S, A> extends MonocleLens<S, A> {
   readonly id: () => string
 }
 
@@ -66,7 +64,7 @@ export const createItemLens = (arrayLens: any, index: number) =>
     .asOptional()
     .compose(
       new Optional<any, any>(
-        (s) => (s === undefined ? none : some(s)),
+        (s) => (s === undefined ? null : s),
         (s) => (_) => s,
       ),
     )
@@ -89,15 +87,12 @@ export const createFakeFormLens = (
     id: () => `${arrayLens.id()}.${index}.${lens.id()}`,
     get: (data: any) => {
       const o = itemLens.getOption(data)
-      const val = fold(
-        () => null,
-        (v) => lens.get(v),
-      )(o)
+      const val = o ? lens.get(o) : null
       return val
     },
     set: (v: any) => (data: any) => {
       const o: any = arrayLens.get(data)
-      const i: any = getOrElse(() => {})(itemLens.getOption(data))
+      const i: any = itemLens.getOption(data) ?? {}
       const newArray = updateArrayAtIndex(o, index, lens.set(v)({ ...(i || {}) }))
       return arrayLens.set(newArray)(data)
     },
@@ -116,10 +111,20 @@ export const processRepeatGroup = <FormData extends {}>(
     fields: fieldRepeatGroup.fields.map((repeatGroup) => {
       if (Array.isArray(repeatGroup)) return <></>
 
+      if (repeatGroup.type === FormFieldType.FormFieldGroup) {
+        return {
+          ...repeatGroup,
+          fields: repeatGroup.fields.map((field) => {
+            if (Array.isArray(field)) return <></>
+            return field
+          }),
+        }
+      }
+
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
-        
+
       if (repeatGroup.type === FormFieldType.MultiInput) {
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
@@ -147,13 +152,39 @@ export const processRepeatSection = <FormData extends {}>(
   }).map((_, index) => {
     const title = fieldRepeatSection.title
       ? fieldRepeatSection.title({
+          data,
           index,
           translate,
         })
       : `${index + 1}`
+
+    const TitleCenterComponent = fieldRepeatSection.titleCenterComponent?.({
+      data,
+      index,
+      onRemoveItem: (index, onChangeMulti) => {
+        const list = fieldRepeatSection.lens.get(data)
+        const newList =
+          index < list.length - 1
+            ? [...list.slice(0, index), ...list.slice(index + 1)]
+            : list.slice(0, index)
+
+        let formState = fieldRepeatSection.lens.set(newList)(data)
+        formState = fieldRepeatSection.length.set(newList.length)(data)
+
+        onChangeMulti([
+          { lens: fieldRepeatSection.lens, value: newList },
+          {
+            lens: fieldRepeatSection.length,
+            value: newList.length,
+          },
+        ])
+      },
+    })
+
     return {
       type: FormFieldType.FormSection,
       title,
+      TitleCenterComponent,
       isVisible: fieldRepeatSection.isVisible,
       editLabel: fieldRepeatSection.editLabel,
       onEdit: fieldRepeatSection.onEdit,
@@ -161,9 +192,44 @@ export const processRepeatSection = <FormData extends {}>(
         if (Array.isArray(repeatSectionField)) {
           return <></>
         } else if (repeatSectionField.type === FormFieldType.MultiInput) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
         } else if (repeatSectionField.type === FormFieldType.MultiInputAutosuggest) {
-          return repeatSectionField
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => ({
+              ...field,
+              lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+              validate: field.validate
+                ? (params: { value: any; data: FormData }) =>
+                    field.validate(params.value, params.data, index)
+                : undefined,
+            })),
+          }
+        } else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
+          return {
+            ...repeatSectionField,
+            fields: repeatSectionField.fields.map((field) => {
+              if (Array.isArray(field)) return <></>
+              if ('lens' in field) {
+                return {
+                  ...field,
+                  lens: createFakeFormLens(fieldRepeatSection.lens, index, field.lens),
+                }
+              } else {
+                return field
+              }
+            }),
+          }
         } else {
           return {
             ...repeatSectionField,

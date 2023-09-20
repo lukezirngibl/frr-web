@@ -1,15 +1,14 @@
-import { MdDone, MdOutlineExpandMore } from 'react-icons/md'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ReactSelect, { components, OptionProps, StylesConfig } from 'react-select'
+import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
-import { Option, Options, OptionType } from '../html'
+import { Option, OptionType, Options } from '../html'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
+  useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
@@ -17,6 +16,8 @@ import { LocaleNamespace, Translate } from '../translation'
 import { replaceUmlaute } from '../utils/replaceUmlaute'
 import { Label, LabelProps } from './Label'
 import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
+import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
+import { MdDone } from '../icons/new/MdDone'
 
 type Value = string | number | null
 
@@ -31,12 +32,14 @@ type InternalOption = {
 type Priority = Array<string | number>
 
 export type Props = {
-  alphabetize?: boolean
+  alphabetize?: boolean // Order alphabetically
   dataTestId?: string
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
   inputRef?: React.Ref<any>
+  isMenuAlwaysOpen?: boolean // If true menu is always open and will not close
+  isMatchAny?: boolean // If false search starts from the beginning otherwise it matches any part of the string
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
@@ -44,7 +47,9 @@ export type Props = {
   onFocus?: () => void
   onBlur?: (value: Value) => void
   options: Options<Value> | ((lan: Language) => Options<Value>)
-  priority?: Priority
+  overwriteIsMobileTouch?: boolean // For testing purposes only
+  placeholder?: string
+  priority?: Priority // Show on top of select options
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
   value: Value
@@ -54,7 +59,7 @@ export const Select = (props: Props) => {
   const theme = useComponentTheme()
   const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
-  const { isMobileTouch } = useMobileTouch()
+  const { isMobileTouch } = useMobileTouch({ overwriteIsMobileTouch: props.overwriteIsMobileTouch })
   const { t, i18n } = useTranslation(props.localeNamespace)
 
   /*
@@ -75,7 +80,7 @@ export const Select = (props: Props) => {
       options: props.options,
       priority: props.priority,
       t,
-      value: props.value,
+      value,
     }),
   )
 
@@ -88,10 +93,10 @@ export const Select = (props: Props) => {
         options: props.options,
         priority: props.priority,
         t,
-        value: props.value,
+        value,
       }),
     )
-  }, [props.alphabetize, props.options, props.priority])
+  }, [props.alphabetize, props.options, props.priority, isMobileTouch])
 
   const onChange = (option: InternalOption) => {
     const newValue = option.value === 'null' ? null : option.value
@@ -160,8 +165,9 @@ export const Select = (props: Props) => {
               disabled={props.disabled || props.readOnly}
               onBlur={onBlur}
               onFocus={onFocus}
-              onChange={(e) => {
-                props.onChange(e.target.value === 'null' ? null : e.target.value)
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                const newValue = e.target.value === 'null' ? null : e.target.value
+                props.onChange(newValue)
               }}
               ref={props.inputRef}
               value={value}
@@ -177,8 +183,7 @@ export const Select = (props: Props) => {
                 />
               ))}
             </SelectWrapper>
-            
-            <MdOutlineExpandMore size={16} {...getInlineStyle({ icon: true, iconMobile: true })} />
+            <MdOutlineExpandMore width={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (
           <div data-test-id={props.dataTestId} data-value={value}>
@@ -188,6 +193,10 @@ export const Select = (props: Props) => {
               components={{ Option: SelectOption }}
               data-test-id={props.dataTestId}
               getOptionLabel={getOptionLabel}
+              filterOption={createFilter({
+                ignoreCase: true,
+                matchFrom: props.isMatchAny ? 'any' : 'start',
+              })}
               isDisabled={props.disabled || props.readOnly}
               menuPlacement="auto"
               menuPortalTarget={props.menuPortalTarget || document.body}
@@ -196,11 +205,12 @@ export const Select = (props: Props) => {
               onChange={onChange}
               onFocus={onFocus}
               openMenuOnFocus
+              menuIsOpen={props.isMenuAlwaysOpen}
               options={options.map(mapInternalOption)}
               pageSize={MENU_PAGE_SIZE}
               minMenuHeight={MENU_MIN_HEIGHT}
               maxMenuHeight={MENU_MAX_HEIGHT}
-              placeholder={t('formFields.select.defaultLabel')}
+              placeholder={props.placeholder || t('formFields.select.defaultLabel')}
               styles={mapReactSelectStyles(props.style, props.error, isFocused)}
               ref={props.inputRef}
               tabSelectsValue={false}
@@ -243,7 +253,8 @@ export const getOptions = (params: {
 
   const mappedOptions = [
     // According to meeting with Jürgen Meier on the 12.8.2022 we remove the initial placeholder/separator options
-    ...(params.isMobileTouch && (params.value === null || params.value === undefined)
+    ...(params.isMobileTouch &&
+    (params.value === 'null' || params.value === null || params.value === undefined)
       ? [
           {
             value: 'null',
@@ -305,7 +316,7 @@ export const SelectOption = (props: OptionProps<InternalOption> & { value: Value
     <div data-test-id={dataTestId}>
       <components.Option {...other} data-test-id={dataTestId}>
         <OptionValueWrapper>
-          {props.isSelected && <MdDone className="selected-icon" size={18} />}
+          {props.isSelected && <MdDone className="selected-icon" width={18} />}
           {children}
         </OptionValueWrapper>
       </components.Option>
@@ -344,6 +355,7 @@ export const mapReactSelectStyles = (
   const getInlineStyle = useInlineStyle(theme, 'select')(style)
 
   const iconStyle = getInlineStyle('icon').style as any
+  const menuPortalStyle = getInlineStyle('menuPortal').style as any
   const menuStyle = getInlineStyle('menu').style as any
   const optionStyle = getInlineStyle('option').style as any
   const optionStyleHover = getInlineStyle('optionHover').style as any
@@ -377,12 +389,16 @@ export const mapReactSelectStyles = (
         },
       }
     },
+    menuPortal: (provided) => ({
+      ...provided,
+      ...menuPortalStyle,
+    }),
     menu: (provided) => ({
       ...provided,
       backgroundColor: 'var(--color-form-field-background-secondary)',
       boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-      ...menuStyle,
       zIndex: 999,
+      ...menuStyle,
     }),
     option: (provided, state) => {
       const style = {
@@ -424,5 +440,6 @@ export const mapReactSelectStyles = (
       return { ...provided, ...valueStyle }
     },
     indicatorSeparator: () => ({ display: 'none' }),
+    clearIndicator: () => ({ display: 'none' }),
   }
 }

@@ -1,5 +1,5 @@
-import { format, isValid, parse } from 'date-fns'
-import React, { useEffect, useRef, useState } from 'react'
+import { format, formatISO, isValid, parse } from 'date-fns'
+import React, { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,17 +12,30 @@ import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { MaskedInput } from './MaskedInput'
 import { TextInput } from './TextInput'
+
+import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { MdOutlineCalendarToday } from 'react-icons/md'
 
 export type Props = {
+  /**
+   * The date value: Has to be in a format that new Date(value) can parse correctly
+   */
+  value: string | null
   dataTestId?: string
-  dateFormat?: string
+  /**
+   * The date format that the input string is in
+   * Example of ISO format: 2019-09-18T19:00:52Z
+   */
+  dateFormat: string
+  /**
+   * Sometimes the date format that the server expects is different from the one that the user sees.
+   */
+  displayDateFormat?: string
   datePickerProps?: Partial<Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>>
   error?: boolean
   hasFocus?: boolean
@@ -32,7 +45,6 @@ export type Props = {
   onFocus?: () => void
   onBlur: (value: string) => void
   style?: Partial<ComponentTheme['datePicker']>
-  value: string | null
   maskInput?: {
     alwaysShowMask?: boolean
     mask?: string
@@ -40,25 +52,27 @@ export type Props = {
   }
 }
 
-const parseDate = (value: string): Date | 'Invalid Date' => {
-  const cleanedValue = value ? value.replace(/\D/g, '') : ''
-  if (cleanedValue.length < 8) {
-    return 'Invalid Date'
+const parseDate = (value: string, dateFormat: string): Date | 'Invalid Date' => {
+  const date = parse(value, dateFormat, new Date())
+  if (isValid(date)) {
+    return date
   }
-  const dateValue = parse(cleanedValue, 'ddMMyyyy', new Date())
-  return dateValue
+  return 'Invalid Date'
 }
 
-const DefaultMaskInput = {
+const formatDate = (value: Date, dateFormat: string): string => {
+  return format(value, dateFormat)
+}
+
+const DEFAULT_MASK_INPUT = {
   alwaysShowMask: true,
   mask: '00.00.0000',
   maskString: 'dateFormatPlaceholder',
 }
 
-export const MaskedDatePicker = (props: Props) => {
+export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
   const { isMobileTouch } = useMobileTouch()
-
-  const maskInput = props.maskInput || DefaultMaskInput
+  const maskInput = props.maskInput ?? DEFAULT_MASK_INPUT
 
   /* Styles */
   const theme = useComponentTheme()
@@ -109,9 +123,14 @@ export const MaskedDatePicker = (props: Props) => {
     errorHook: !!props.error,
   })
 
-  const dateFormat = isMobileTouch ? props.dateFormat : 'dd.MM.yyyy'
   const value =
-    !!props.value && isValid(new Date(props.value)) ? format(new Date(props.value), dateFormat) : null
+    !!props.value &&
+    parseDate(props.value, dateFormat) !== 'Invalid Date' &&
+    isValid(parseDate(props.value, dateFormat))
+      ? formatDate(parseDate(props.value, dateFormat) as Date, props.displayDateFormat || dateFormat)
+      : null
+
+  const parsedDate = parseDate(props.value, dateFormat)
 
   return (
     <>
@@ -130,10 +149,15 @@ export const MaskedDatePicker = (props: Props) => {
                 props.onFocus?.()
               }}
               onBlur={() => setIsFocused(false)}
-              onChange={(v: any) => {
+              onChange={(v) => {
                 try {
-                  const dateValue = new Date(v)
-                  props.onBlur(format(dateValue, props.dateFormat))
+                  const dateValue = parseDate(v, 'yyyy-MM-dd')
+                  if (dateValue.toString() === 'Invalid Date') {
+                    props.onBlur(null)
+                    // resetValue()
+                  } else {
+                    props.onBlur(formatDate(dateValue as Date, dateFormat))
+                  }
                 } catch (err) {
                   props.onBlur(null)
                 }
@@ -144,7 +168,7 @@ export const MaskedDatePicker = (props: Props) => {
               inputType="date"
               placeholder="dateFormatPlaceholder"
               style={textInputStyle}
-              value={value}
+              value={parsedDate !== 'Invalid Date' ? formatDate(parsedDate, 'yyyy-MM-dd') : null}
             />
           ) : (
             <>
@@ -154,29 +178,24 @@ export const MaskedDatePicker = (props: Props) => {
                   setIsFocused(true)
                   props.onFocus?.()
                 }}
-                onBlur={(v: string) => {
+                onBlur={(v: string, resetValue) => {
                   setIsFocused(false)
                   try {
-                    const dateValue = parseDate(v)
+                    const dateValue = parseDate(v, props.displayDateFormat ?? dateFormat)
 
                     if (dateValue.toString() === 'Invalid Date') {
-                      throw 'Invalid Date'
+                      props.onBlur(null)
+                      resetValue()
                     } else {
-                      props.onBlur(format(dateValue as Date, props.dateFormat))
+                      props.onBlur(formatDate(dateValue as Date, dateFormat))
                     }
                   } catch (err) {
-                    if (err === 'Invalid Date') {
-                      props.onBlur(null)
-                    } else {
-                      const testValue = parse(v, props.dateFormat || 'yyyy-MM-dd', new Date()) as
-                        | Date
-                        | 'Invalid Date'
+                    const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
 
-                      if (testValue !== 'Invalid Date') {
-                        props.onBlur(String(testValue))
-                      } else {
-                        props.onBlur(null)
-                      }
+                    if (testValue !== 'Invalid Date') {
+                      props.onBlur(String(testValue))
+                    } else {
+                      props.onBlur(null)
                     }
                   }
                 }}
@@ -197,17 +216,17 @@ export const MaskedDatePicker = (props: Props) => {
               >
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
-                <MdOutlineCalendarToday size={16} />
+                <MdOutlineCalendarToday width={16} />
               </Div>
 
               <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
                   locale={locale}
                   open={open}
-                  selected={!!props.value ? new Date(props.value) : new Date()}
+                  selected={parsedDate !== 'Invalid Date' ? parsedDate : new Date()}
                   onChange={(value: Date) => {
                     if (value !== null && isValid(value)) {
-                      props.onBlur(format(value, props.dateFormat))
+                      props.onBlur(formatDate(value, dateFormat))
                     } else {
                       props.onBlur(null)
                     }

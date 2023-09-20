@@ -1,4 +1,4 @@
-import { format, isValid } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
 import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
@@ -12,11 +12,11 @@ import { LocaleNamespace, Translate } from '../../translation'
 
 import {
   CommonThreadProps,
-  fieldMap,
   FormFieldType,
   MultiInputAutosuggestField,
   MultiInputField,
   SingleFormField,
+  fieldMap,
 } from './types'
 
 /*
@@ -44,9 +44,17 @@ const defaultStringNumberMapper = ({ value, prefix }: MapperParams<string | numb
 const defaultCountryMapper = ({ value, translate }: MapperParams<string | null>): string =>
   value > '' ? translate(`country.${value.toLowerCase()}`) : ''
 
-const defaultDateStringMapper = ({ value, language }: MapperParams<string | null>): string => {
+const defaultDateStringMapper = ({
+  value,
+  language,
+  dateFormat,
+  displayDateFormat,
+}: MapperParams<string | null> & { dateFormat: string; displayDateFormat?: string }): string => {
   const locale = mapLanguageToLocale[language]
-  return value && isValid(new Date(value)) ? format(new Date(value), 'dd.MM.yyyy', { locale }) : ''
+  const parsedDate = parse(value, dateFormat ?? 'dd.MM.yyyy', new Date(), { locale })
+  return value && isValid(parsedDate)
+    ? format(parsedDate, displayDateFormat ?? dateFormat ?? 'dd.MM.yyyy', { locale })
+    : ''
 }
 
 const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): string =>
@@ -102,14 +110,21 @@ const defaultOptionArrayMapper = (
 ): string =>
   Array.isArray(params.value)
     ? params.value
-        .map((val) =>
-          params.translate(params.options.find((option) => option.value === val)?.label || 'null'),
-        )
+        .reduce((acc, val) => {
+          const findOption = params.options.find((option) => option.value === val)
+          if (!findOption) return acc
+          return [...acc, findOption.label ? findOption.label : val]
+        }, [] as Array<string>)
         .join(', ')
     : ''
 
-const defaultFileArrayMapper = (params: MapperParams<Array<File>>) =>
-  Array.isArray(params.value) ? params.value : []
+const defaultFileArrayMapper = (params: MapperParams<Array<File>>): ReactNode => (
+  <ul>
+    {Array.isArray(params.value) ? (
+      <li>{params.value.map((file) => `${file.name} (${file.type})`)}</li>
+    ) : null}
+  </ul>
+)
 
 const defaultOptionMapper = (
   params: MapperParams<string | number> & {
@@ -122,8 +137,8 @@ const defaultOptionMapper = (
 
 export const defaultReadOnlyMappers: {
   [K in FormFieldType]: (
-    params: Omit<typeof fieldMap[K], 'lens' | '_value' | 'type'> & {
-      value: typeof fieldMap[K]['_value']
+    params: Omit<(typeof fieldMap)[K], 'lens' | '_value' | 'type'> & {
+      value: (typeof fieldMap)[K]['_value']
       translate: Translate
       language?: Language
     },
@@ -135,12 +150,15 @@ export const defaultReadOnlyMappers: {
   // [FormFieldType.DropdownNumber]: defaultStrNumMapper,
   // [FormFieldType.InputWithDropdown]: defaultStrNumMapper,
 
+  [FormFieldType.Button]: () => '',
   [FormFieldType.CodeInput]: defaultStringNumberMapper,
+  [FormFieldType.ColorPicker]: defaultColorMapper,
   [FormFieldType.CountrySelect]: defaultCountryMapper,
   [FormFieldType.CurrencyInput]: defaultCurrencyMapper,
-  [FormFieldType.ColorPicker]: defaultColorMapper,
+  [FormFieldType.Custom]: () => '',
   [FormFieldType.DatePicker]: (v) =>
-    !!v ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
+    !!v && v.value ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
+  [FormFieldType.FileInput]: () => '',
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,
   [FormFieldType.FormFieldGroup]: () => '',
   [FormFieldType.FormFieldRepeatGroup]: () => '',
@@ -148,19 +166,20 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.FormSection]: () => '',
   [FormFieldType.FormSectionCard]: () => '',
   [FormFieldType.FormText]: () => '',
-  [FormFieldType.FileInput]: () => '',
   [FormFieldType.MaskedDatePicker]: defaultDateStringMapper,
   [FormFieldType.MaskedInput]: defaultStringNumberMapper,
-  [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
-  [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
+  [FormFieldType.MultiFileInput]: defaultFileArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.MultiInputAutosuggest]: () => '',
+  [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
+  [FormFieldType.NumberMultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.NumberSelect]: defaultOptionMapper,
   [FormFieldType.OptionGroup]: defaultOptionMapper,
   [FormFieldType.RadioGroup]: defaultOptionMapper,
   [FormFieldType.SingleCheckbox]: defaultBooleanMapper,
   [FormFieldType.Slider]: defaultStringNumberMapper,
+  [FormFieldType.Static]: () => '',
   [FormFieldType.Switch]: defaultBooleanMapper,
   [FormFieldType.TextArea]: defaultStringNumberMapper,
   [FormFieldType.TextInput]: defaultStringNumberMapper,
@@ -171,8 +190,6 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.Toggle]: defaultBooleanMapper,
   [FormFieldType.YesNoOptionGroup]: defaultBooleanMapper,
   [FormFieldType.YesNoRadioGroup]: defaultBooleanMapper,
-  [FormFieldType.Static]: () => '',
-  [FormFieldType.Button]: () => '',
 }
 
 /*
@@ -217,7 +234,16 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
   } as any)
 
   return (props.field.type === FormFieldType.TextArea && (
-    <Div {...props.getFieldStyle('textAreaItem')}>
+    <Div
+      {...props.getFieldStyle('textAreaItem')}
+      onClick={
+        props.field.readOnlyOptions?.link
+          ? () => {
+              window.open(props.field.readOnlyOptions?.link, '_blank')
+            }
+          : undefined
+      }
+    >
       {typeof value === 'string' ? (
         <P
           {...props.getFieldStyle(readOnlyStyle)}
@@ -233,11 +259,27 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
   )) ||
     typeof value === 'string' ? (
     <P
-      {...props.getFieldStyle(readOnlyStyle)}
+      {...props.getFieldStyle(
+        readOnlyStyle,
+        props.field.readOnlyOptions?.link
+          ? {
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              color: 'rgb(24,14,164)',
+            }
+          : {},
+      )}
       label={value}
       isLabelTranslated
       dataTestId={props.field.lens.id()}
       dataValue={props.field.lens.get(props.data)}
+      onClick={
+        props.field.readOnlyOptions?.link
+          ? () => {
+              window.open(props.field.readOnlyOptions?.link, '_blank')
+            }
+          : undefined
+      }
     />
   ) : (
     <>{value}</>
@@ -262,7 +304,7 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
-  
+
   return (
     <FormFieldWrapper
       key={`field-item-${props.fieldIndex}`}

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
-import { Options, P } from '../html'
+import { OptionType, Options, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -29,7 +29,7 @@ export type Props = {
   onChange: (v: string | number) => void
   onFocus?: () => void
   onBlur?: (v: string | number) => void
-  options: Options<string | number>
+  options: Array<OptionType<string | number> & { CustomElement?: ReactNode }>
   style?: Partial<ComponentTheme['optionGroup']>
   value: string | number | null
 }
@@ -81,14 +81,17 @@ export const OptionGroup = (props: Props) => {
             onClick={() => onChange(item)}
             tabIndex={-1}
           >
-            <P
-              {...getCSSStyles({
-                label: true,
-                labelActive: item.value === props.value,
-              })}
-              label={item.label}
-              localeNamespace={props.localeNamespace}
-            />
+            {item.CustomElement || (
+              <P
+                {...getCSSStyles({
+                  label: true,
+                  labelActive: item.value === props.value,
+                })}
+                label={item.label}
+                data={item.labelData}
+                localeNamespace={props.localeNamespace}
+              />
+            )}
           </Item>
         ))}
       </Wrapper>

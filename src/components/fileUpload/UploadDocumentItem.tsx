@@ -1,12 +1,9 @@
-import { MdOutlineCancel } from 'react-icons/md'
-import React, { useEffect, useReducer, useState } from 'react'
-import { FileRejection, useDropzone } from 'react-dropzone'
-import { useTranslation } from 'react-i18next'
+import React from 'react'
 import styled from 'styled-components'
-import { P } from '../html'
-import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-import { LocaleNamespace } from '../translation'
+import { P } from '../../html'
+import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
+import { createStyled } from '../../theme/util'
+import { MdOutlineCancel } from '../../icons/new/MdOutlineCancel'
 
 export const formatFileSize = (size: number) => {
   const formattedSize: number = size / 1000
@@ -53,7 +50,7 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
         {...getCSSStyle({ acceptedFileItem: true })}
       />
       <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
-        <MdOutlineCancel className="remove-icon" onClick={props.onRemove} />
+        <MdOutlineCancel className="remove-icon" onClick={props.onRemove} width={16} />
       </RemoveItemIcon>
     </ListItem>
   )

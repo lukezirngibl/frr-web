@@ -1,17 +1,19 @@
+import { Meta } from '@storybook/react'
 import React from 'react'
 import { Options } from 'react-select'
+import { TextInputAutosuggest } from '../../src/components/TextInputAutosuggest'
 import { Option } from '../../src/components/menu/Menu.types'
-import { Props, TextInputAutosuggest } from '../../src/components/TextInputAutosuggest'
 import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/components/FieldRowItem'
 import { FormFieldType, TextInputAutosuggestField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory, meta } from '../storybook.helpers'
+import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
-  title: 'Components/TextInput with auto suggest',
+const meta: Meta<typeof TextInputAutosuggest> = {
+  title: 'Components/Text input with auto suggest',
   component: TextInputAutosuggest,
 }
+export default meta
 
 type FormData = {
   zip?: string | null
@@ -89,6 +91,7 @@ export const Autosugget = () => {
   return (
     <div style={{ maxWidth: 600, minHeight: 1200 }}>
       {story({
+        autoFocus: false,
         field: {
           ...textInputAutosuggestField,
           onSuggestionSelected: (suggestion) => {
@@ -102,7 +105,6 @@ export const Autosugget = () => {
         onChange: (lens, value) => {
           setValue(value)
         },
-        autoFocus: true,
         showValidation: false,
       })}
     </div>

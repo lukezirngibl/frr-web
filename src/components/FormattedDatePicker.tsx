@@ -6,6 +6,9 @@ export type Props = {
   onChange: (value: string | null) => void
   onBlur: (value: string | null) => void
   value: string | null
+  /**
+   * The date format that the input string is in
+   */
   dateFormat: string
 } & Omit<DatePickerProps, 'onChange' | 'onBlur' | 'value'>
 

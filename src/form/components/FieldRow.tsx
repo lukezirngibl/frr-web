@@ -5,7 +5,7 @@ import { createStyled } from '../../theme/util'
 import { FieldRowItem } from './FieldRowItem'
 import { CommonThreadProps, FormFieldRow } from './types'
 
-type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
+export type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
   field: FormFieldRow<FormData>
 }
 

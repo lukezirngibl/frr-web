@@ -5,7 +5,7 @@ import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldError } from './hooks/useFormFieldError'
-import { CommonThreadProps, SingleFormField } from './types'
+import { CommonThreadProps, FormFieldType, SingleFormField } from './types'
 
 const FieldContainer = styled.div`
   position: relative;
@@ -61,7 +61,8 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   }
 
   // Error handling
-  const isDirty = value !== null && !disableDirtyValidation
+  const isPristine = value === null || (value === '' && field.isInitialeEmptyString)
+  const isDirty = !isPristine && !disableDirtyValidation
   const isShowError = showValidation || (fieldChanged && !disableDirtyValidation)
   const errorLabel = useFormFieldError({
     value,
@@ -100,9 +101,15 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         hasFocus={field.lens.id() === errorFieldId || autoFocus}
         inputRef={inputRef}
         localeNamespace={localeNamespace}
-        onBlur={onBlur}
         onFocus={onFocus}
-        onChange={setValue}
+        onBlur={field.forceOnChange ? () => {} : onBlur}
+        onChange={(v) => {
+          if (field.forceOnChange) {
+            onBlur(v)
+          } else {
+            setValue(v)
+          }
+        }}
       />
     )) || (
       <FieldContainer>
@@ -120,9 +127,15 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
             hasFocus={field.lens.id() === errorFieldId || autoFocus}
             inputRef={inputRef}
             localeNamespace={localeNamespace}
-            onBlur={onBlur}
             onFocus={onFocus}
-            onChange={setValue}
+            onBlur={field.forceOnChange ? () => {} : onBlur}
+            onChange={(v) => {
+              if (field.forceOnChange) {
+                onBlur(v)
+              } else {
+                setValue(v)
+              }
+            }}
           />
         </FieldScrollableWrapper>
         {field.renderChildren?.()}

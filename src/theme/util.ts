@@ -64,7 +64,9 @@ const mapPseudoStyles = (pseudoStyle: string, style: CSSProperties, overwrite?: 
 
 export const createStyled = (type: any) =>
   typeof type === 'string'
-    ? styled[type].attrs(({ dataThemeId }) => ({
+    ? styled[type].withConfig({
+        shouldForwardProp: (prop: string) => !['cssStyles', 'dataThemeId'].includes(prop),
+      }).attrs(({ dataThemeId }) => ({
         'data-theme-id': dataThemeId,
       }))`
         ${(props: { cssStyles: string }) =>
