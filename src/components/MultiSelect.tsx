@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
@@ -59,6 +59,12 @@ export const MultiSelect = <T extends string | number>(props: Props<T>) => {
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
   const { isMobileTouch } = useMobileTouch({ overwriteIsMobileTouch: props.overwriteIsMobileTouch })
   const { t, i18n } = useTranslation(props.localeNamespace)
+
+  const getReactSelectStyles = useCallback(
+    (error?: boolean, isFocused?: boolean): StylesConfig =>
+      mapReactSelectStyles(getInlineStyle)(error, isFocused),
+    [],
+  )
 
   /*
    * Determine options (incl. auto-suggest)
@@ -163,7 +169,7 @@ export const MultiSelect = <T extends string | number>(props: Props<T>) => {
             minMenuHeight={MENU_MIN_HEIGHT}
             maxMenuHeight={MENU_MAX_HEIGHT}
             placeholder={t('formFields.select.defaultLabel')}
-            styles={mapReactSelectStyles(props.style, props.error, isFocused)}
+            styles={getReactSelectStyles(props.error, isFocused)}
             ref={props.inputRef}
             tabSelectsValue={false}
             value={options.filter((option) => props.value.includes(option.value))}

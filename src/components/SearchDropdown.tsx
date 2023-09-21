@@ -1,8 +1,8 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ReactSelectAsync from 'react-select/async'
 import { useTranslation } from 'react-i18next'
-import ReactSelect from 'react-select'
+import ReactSelect, { StylesConfig } from 'react-select'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Option, OptionType, Options } from '../html'
 import { Language } from '../theme/language'
@@ -20,6 +20,7 @@ import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.co
 import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import { MdDone } from '../icons/new/MdDone'
 import { SelectOption, mapReactSelectStyles } from './Select'
+import { useDebouncedCallback } from 'use-debounce'
 
 type SearchDropdownProps = {
   dataTestId?: string
@@ -46,24 +47,34 @@ type SearchDropdownProps = {
 export const SearchDropdown = (props: SearchDropdownProps) => {
   const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
+  const getInlineStyle = useInlineStyle(theme, 'select')(props.style)
   const { t } = useTranslation(props.localeNamespace)
 
+  const getReactSelectStyles = useCallback(
+    (error?: boolean, isFocused?: boolean): StylesConfig =>
+      mapReactSelectStyles(getInlineStyle)(error, isFocused, true),
+    [],
+  )
+
   /*
-   * Map value
+   * Value handling
    */
-
-  const value = props.value === null ? 'null' : props.value
-
-  /*
-   * Handle options
-   */
-
 
   const onChange = (option: OptionType<string>) => {
     const newValue = option.value === 'null' ? null : option.value
     props.onChange(newValue)
     props.onBlur?.(newValue)
   }
+
+  /*
+   * Search handling
+   */
+  const [search, setSearch] = useState('')
+  useEffect(() => {
+    if (search > '') {
+      props.onSearch(search)
+    }
+  }, [search])
 
   /*
    * Translate option label
@@ -104,22 +115,28 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
     }
   }, [props.hasFocus])
 
+  console.log('COMPONENT VALUE', {
+    value: props.options.find((option) => option.value === props.value) || null,
+  })
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper {...getCSSStyles('wrapper')}>
-        <div data-test-id={props.dataTestId} data-value={value}>
+        <div data-test-id={props.dataTestId} data-value={props.value ?? 'null'}>
           <ReactSelect
             autoFocus={props.hasFocus}
             blurInputOnSelect
             components={{ Option: SelectOption }}
             data-test-id={props.dataTestId}
             getOptionLabel={getOptionLabel}
+            getOptionValue={(option: OptionType<string>) => option.value}
             isDisabled={props.disabled || props.readOnly}
+            isClearable
             menuPlacement="auto"
             menuPortalTarget={props.menuPortalTarget || document.body}
             menuShouldBlockScroll
-            onInputChange={props.onSearch}
+            onInputChange={setSearch}
             onBlur={onBlur}
             onChange={onChange}
             onFocus={onFocus}
@@ -130,10 +147,10 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
             minMenuHeight={MENU_MIN_HEIGHT}
             maxMenuHeight={MENU_MAX_HEIGHT}
             placeholder={props.placeholder || t('formFields.select.defaultLabel')}
-            styles={mapReactSelectStyles(props.style, props.error, isFocused)}
+            styles={getReactSelectStyles(props.error, isFocused)}
             ref={props.inputRef}
             tabSelectsValue={false}
-            value={props.options.find((option) => option.value === props.value)}
+            value={props.options.find((option) => option.value === props.value) || null}
           />
         </div>
       </Wrapper>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
@@ -61,6 +61,12 @@ export const Select = (props: Props) => {
   const getCSSStyles = useCSSStyles(theme, 'select')(props.style)
   const { isMobileTouch } = useMobileTouch({ overwriteIsMobileTouch: props.overwriteIsMobileTouch })
   const { t, i18n } = useTranslation(props.localeNamespace)
+
+  const getReactSelectStyles = useCallback(
+    (error?: boolean, isFocused?: boolean): StylesConfig =>
+      mapReactSelectStyles(getInlineStyle)(error, isFocused),
+    [],
+  )
 
   /*
    * Map value
@@ -211,7 +217,7 @@ export const Select = (props: Props) => {
               minMenuHeight={MENU_MIN_HEIGHT}
               maxMenuHeight={MENU_MAX_HEIGHT}
               placeholder={props.placeholder || t('formFields.select.defaultLabel')}
-              styles={mapReactSelectStyles(props.style, props.error, isFocused)}
+              styles={getReactSelectStyles(props.error, isFocused)}
               ref={props.inputRef}
               tabSelectsValue={false}
               value={options.find((option) => option.value === props.value)}
@@ -346,100 +352,95 @@ const OptionValueWrapper = styled.span`
  * React select style mapper
  */
 
-export const mapReactSelectStyles = (
-  style: Partial<ComponentTheme['select']>,
-  error?: boolean,
-  isFocused?: boolean,
-): StylesConfig => {
-  const theme = useComponentTheme()
-  const getInlineStyle = useInlineStyle(theme, 'select')(style)
+export const mapReactSelectStyles =
+  (getInlineStyle: any) =>
+  (error?: boolean, isFocused?: boolean, isClearable?: boolean): StylesConfig => {
+    const iconStyle = getInlineStyle('icon').style as any
+    const menuPortalStyle = getInlineStyle('menuPortal').style as any
+    const menuStyle = getInlineStyle('menu').style as any
+    const optionStyle = getInlineStyle('option').style as any
+    const optionStyleHover = getInlineStyle('optionHover').style as any
+    const optionStyleActive = getInlineStyle('optionActive').style as any
+    const placeholderStyle = getInlineStyle('placeholder').style as any
+    const selectStyle = getInlineStyle(
+      {
+        select: true,
+        wrapperFocus: isFocused,
+        errorWrapper: error,
+      },
+      {},
+      'select-wrapper',
+      true,
+    ).style as any
+    const valueStyle = getInlineStyle('value').style as any
+    const valueContainerStyle = getInlineStyle('valueContainer').style as any
 
-  const iconStyle = getInlineStyle('icon').style as any
-  const menuPortalStyle = getInlineStyle('menuPortal').style as any
-  const menuStyle = getInlineStyle('menu').style as any
-  const optionStyle = getInlineStyle('option').style as any
-  const optionStyleHover = getInlineStyle('optionHover').style as any
-  const optionStyleActive = getInlineStyle('optionActive').style as any
-  const placeholderStyle = getInlineStyle('placeholder').style as any
-  const selectStyle = getInlineStyle(
-    {
-      select: true,
-      wrapperFocus: isFocused,
-      errorWrapper: error,
-    },
-    {},
-    'select-wrapper',
-    true,
-  ).style as any
-  const valueStyle = getInlineStyle('value').style as any
-  const valueContainerStyle = getInlineStyle('valueContainer').style as any
-
-  return {
-    control: () => {
-      return selectStyle
-    },
-    dropdownIndicator: (provided) => {
-      return {
+    return {
+      control: () => {
+        return selectStyle
+      },
+      dropdownIndicator: (provided) => {
+        return {
+          ...provided,
+          ...iconStyle,
+          transition: 'color 1.5s, opacity 1.5s',
+          ':hover': {
+            color: 'var(--color-primary)',
+            opacity: 1.0,
+          },
+        }
+      },
+      menuPortal: (provided) => ({
         ...provided,
-        ...iconStyle,
-        transition: 'color 1.5s, opacity 1.5s',
-        ':hover': {
-          color: 'var(--color-primary)',
-          opacity: 1.0,
-        },
-      }
-    },
-    menuPortal: (provided) => ({
-      ...provided,
-      ...menuPortalStyle,
-    }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: 'var(--color-form-field-background-secondary)',
-      boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
-      zIndex: 999,
-      ...menuStyle,
-    }),
-    option: (provided, state) => {
-      const style = {
+        ...menuPortalStyle,
+      }),
+      menu: (provided) => ({
         ...provided,
-        cursor: state.isDisabled ? 'default' : 'pointer',
-        ...optionStyle,
-        backgroundColor:
-          (state.isFocused && optionStyleHover.backgroundColor) ||
-          (state.isDisabled && !state.isFocused && 'transparent') ||
-          (state.isSelected && optionStyleActive.backgroundColor) ||
-          optionStyle.backgroundColor ||
-          optionStyle.background ||
-          provided.backgroundColor,
-        color:
-          (state.isFocused && optionStyleHover.color) ||
-          (state.isSelected && optionStyleActive.color) ||
-          optionStyle.color ||
-          provided.color,
-      }
-      return style
-    },
-    placeholder: (provided) => ({
-      ...provided,
-      ...placeholderStyle,
-    }),
-    valueContainer: (provided) => {
-      return {
+        backgroundColor: 'var(--color-form-field-background-secondary)',
+        boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
+        zIndex: 999,
+        ...menuStyle,
+      }),
+      option: (provided, state) => {
+        const style = {
+          ...provided,
+          cursor: state.isDisabled ? 'default' : 'pointer',
+          ...optionStyle,
+          backgroundColor:
+            (state.isFocused && optionStyleHover.backgroundColor) ||
+            (state.isDisabled && !state.isFocused && 'transparent') ||
+            (state.isSelected && optionStyleActive.backgroundColor) ||
+            optionStyle.backgroundColor ||
+            optionStyle.background ||
+            provided.backgroundColor,
+          color:
+            (state.isFocused && optionStyleHover.color) ||
+            (state.isSelected && optionStyleActive.color) ||
+            optionStyle.color ||
+            provided.color,
+        }
+        return style
+      },
+      placeholder: (provided) => ({
         ...provided,
-        ...valueContainerStyle,
-      }
-    },
-    input: (provided) => {
-      return {
-        ...provided,
-        ...valueStyle,
-      }
-    },
-    singleValue: (provided) => {
-      return { ...provided, ...valueStyle }
-    },
-    indicatorSeparator: () => ({ display: 'none' }),
-    clearIndicator: () => ({ display: 'none' }),
+        ...placeholderStyle,
+      }),
+      valueContainer: (provided) => {
+        return {
+          ...provided,
+          ...valueContainerStyle,
+        }
+      },
+      input: (provided) => {
+        return {
+          ...provided,
+          ...valueStyle,
+        }
+      },
+      singleValue: (provided) => {
+        return { ...provided, ...valueStyle }
+      },
+      indicatorSeparator: (provided) => (isClearable ? provided : { display: 'none' }),
+      clearIndicator: (provided) => (isClearable ? provided : { display: 'none' }),
+    }
   }
-}
