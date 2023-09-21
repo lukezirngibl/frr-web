@@ -1,5 +1,4 @@
 import React from 'react'
-import React from 'react'
 
 export const MdDownload = (props: React.SVGProps<SVGSVGElement>) => {
   return (
