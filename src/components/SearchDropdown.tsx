@@ -61,7 +61,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
    */
 
   const onChange = (option: OptionType<string>) => {
-    const newValue = option.value === 'null' ? null : option.value
+    const newValue = option === null || option.value === 'null' ? null : option.value
     props.onChange(newValue)
     props.onBlur?.(newValue)
   }
@@ -114,10 +114,6 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
       onFocus()
     }
   }, [props.hasFocus])
-
-  console.log('COMPONENT VALUE', {
-    value: props.options.find((option) => option.value === props.value) || null,
-  })
 
   return (
     <>
