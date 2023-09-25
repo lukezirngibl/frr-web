@@ -72,7 +72,7 @@ export const Label = (props: LabelProps) => {
               <DescriptionIconWrapper
                 onClick={() => setOpen(true)}
                 dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
-                svgCSSStyles={getCSSStyles('descriptionIcon').cssStyles}
+                $svgCSSStyles={getCSSStyles('descriptionIcon').cssStyles}
                 {...getCSSStyles('descriptionIconWrapper')}
               />
             ) : null
@@ -117,7 +117,7 @@ export const Label = (props: LabelProps) => {
           data={props.sublabelData}
         />
       )}
-      <ErrorText error={props.error}>
+      <ErrorText $error={props.error}>
         {props.error &&
           errorLabels.map((errorLabel) => (
             <P
@@ -163,17 +163,17 @@ const DescriptionPopup = createStyled(styled.div`
 
 const DescriptionIconWrapper = createStyled(styled.span`
   & svg {
-    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
+    ${({ $svgCSSStyles }: { $svgCSSStyles: string }) =>
       css`
-        ${svgCSSStyles}
+        ${$svgCSSStyles}
       `}
 
     color: currentColor;
   }
 `)
 
-const ErrorText = styled.div<{ error: boolean }>`
+const ErrorText = styled.div<{ $error: boolean }>`
   height: auto;
-  max-height: ${(props) => (props.error ? '72px' : '0')};
+  max-height: ${(props) => (props.$error ? '72px' : '0')};
   transition: max-height 0.15s;
 `

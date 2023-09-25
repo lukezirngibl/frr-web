@@ -81,7 +81,7 @@ export const MaskedInput = (props: Props) => {
               ? false
               : true,
         })}
-        inputCSSStyles={
+        $inputCSSStyles={
           getCSSStyle({
             input: true,
             inputPlaceholder: !internalValue || internalValue === '',
@@ -144,10 +144,10 @@ export const MaskedInput = (props: Props) => {
 }
 
 const InputWrapper = createStyled('div')
-const InputWrapperContainer = styled(InputWrapper)<{ inputCSSStyles: string }>`
+const InputWrapperContainer = styled(InputWrapper)<{ $inputCSSStyles: string }>`
   input {
-    ${({ inputCSSStyles }) => css`
-      ${inputCSSStyles}
+    ${({ $inputCSSStyles }) => css`
+      ${$inputCSSStyles}
     `};
   }
 `
