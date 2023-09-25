@@ -169,7 +169,7 @@ export const DatePicker = (props: Props) => {
                 <MdOutlineCalendarToday width={16} />
               </DatePickerIconWrapper>
 
-              <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
+              <DatePickerCalendarWrapper $cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
                   locale={locale}
                   open={open}
@@ -233,10 +233,10 @@ const DatePickerCalendarWrapper = styled.div`
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
 
-  ${({ cssStyles }: { cssStyles: string }) =>
-    cssStyles > ''
+  ${({ $cssStyles }: { $cssStyles: string }) =>
+    $cssStyles > ''
       ? css`
-          ${cssStyles}
+          ${$cssStyles}
         `
       : ''}
 `
