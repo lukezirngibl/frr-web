@@ -11,17 +11,18 @@ import { createStyled } from '../theme/util'
 
 const Wrapper = createStyled('div')
 
-export type Props = {
-  onChange: (value: boolean) => void
-  value: boolean
+export type SingleCheckboxProps = {
+  dataTestid?: string
   disabled?: boolean
   error: boolean
-  name?: string
-  style?: ComponentTheme['singleCheckbox']
   label?: LabelProps
+  name?: string
+  onChange: (value: boolean) => void
+  style?: ComponentTheme['singleCheckbox']
+  value: boolean
 }
 
-export const SingleCheckbox = (props: Props) => {
+export const SingleCheckbox = (props: SingleCheckboxProps) => {
   const { value } = props
 
   const theme = useComponentTheme()
@@ -33,11 +34,13 @@ export const SingleCheckbox = (props: Props) => {
       {props.label && <Label style={{ wrapper: { marginBottom: 0 } }} {...props.label}></Label>}
       <Wrapper {...getCSSStyles('wrapper')}>
         <input
-          type="checkbox"
           checked={value}
-          onChange={() => props.onChange(!value)}
-          style={inputStyle.style}
+          data-test-id={props.dataTestid}
           data-theme-id={inputStyle.dataThemeId}
+          onChange={() => props.onChange(!value)}
+          name={props.name}
+          style={inputStyle.style}
+          type="checkbox"
         />
       </Wrapper>
     </>

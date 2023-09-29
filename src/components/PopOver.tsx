@@ -2,15 +2,15 @@ import React from 'react'
 import Popover from '@mui/material/Popover'
 import { CSSProperties } from 'styled-components'
 
-type Props = {
-  trigger: (props: { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => React.ReactNode
-  render: (p: { close: () => void }) => React.ReactNode
-  style?: CSSProperties
+type SimplePopoverProps = {
   onClose?: () => void
   popOverStyle?: CSSProperties
+  render: (p: { close: () => void }) => React.ReactNode
+  style?: CSSProperties
+  trigger: (props: { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void }) => React.ReactNode
 }
 
-export const SimplePopover = (props: Props) => {
+export const SimplePopover = (props: SimplePopoverProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
