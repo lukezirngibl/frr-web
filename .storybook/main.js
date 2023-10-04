@@ -21,10 +21,10 @@ module.exports = {
     options: {},
   },
   webpackFinal: async (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@mui/styled-engine': '@mui/styled-engine-sc',
-    }
+    // config.resolve.alias = {
+    //   ...config.resolve.alias,
+    //   '@mui/styled-engine': '@mui/styled-engine-sc',
+    // }
     config.resolve.fallback = {
       ...config.resolve.fallback,
       buffer: require.resolve('buffer'),
