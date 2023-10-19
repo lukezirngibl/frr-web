@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Outline, Page } from 'react-pdf/dist/esm'
+import { Document, Outline, Page } from 'react-pdf'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Loading } from './Loading'
