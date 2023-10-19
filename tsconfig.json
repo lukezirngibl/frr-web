@@ -20,10 +20,7 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./lib",
-    "typeRoots": ["node_modules/@types"],
-    "paths": {
-      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
-    }
+    "typeRoots": ["node_modules/@types"]
   },
   "include": ["src"]
 }

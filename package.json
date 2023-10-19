@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "link:react": "yarn link i18next react react-dom react-i18next semantic-ui-react styled-components @mui/material @mui/styled-engine-sc",
+    "link:react": "yarn link i18next react react-dom react-i18next semantic-ui-react styled-components @mui/material",
     "prepare": "install-peers && husky install",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
