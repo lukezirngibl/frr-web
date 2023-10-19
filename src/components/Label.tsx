@@ -161,12 +161,11 @@ const DescriptionPopup = createStyled(styled.div`
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;
 `)
 
-const DescriptionIconWrapper = createStyled(styled.span`
+const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string }>`
   & svg {
-    ${({ $svgCSSStyles }: { $svgCSSStyles: string }) =>
-      css`
-        ${$svgCSSStyles}
-      `}
+    ${(props) => css`
+      ${props.$svgCSSStyles}
+    `}
 
     color: currentColor;
   }

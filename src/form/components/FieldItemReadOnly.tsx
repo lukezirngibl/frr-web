@@ -358,9 +358,9 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
  * Styled components
  */
 
-const FormFieldWrapper = createStyled(styled.div`
+const FormFieldWrapper = createStyled(styled.div<{ width?: string }>`
   position: relative;
-  width: ${({ width }: { width?: string }) => width || '100%'};
+  width: ${(props) => props.width || '100%'};
 
   @media ${MediaQuery.Mobile} {
     width: 100%;

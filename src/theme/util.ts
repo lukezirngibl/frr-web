@@ -82,7 +82,7 @@ export const createStyled = (type: any) =>
         .attrs(({ dataThemeId }) => ({
           'data-theme-id': dataThemeId,
         }))`
-        ${(props: { cssStyles: string }) => css`
+        ${(props) => css`
           ${props.cssStyles}
         `}
       `
