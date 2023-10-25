@@ -1,6 +1,7 @@
 {
   "name": "frr-web",
   "description": "",
+  "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
@@ -13,7 +14,7 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "link:react": "yarn link i18next react react-dom react-i18next semantic-ui-react styled-components @mui/material",
-    "prepare": "install-peers && husky install",
+    "prepare": "install-peers",
     "build-types": "install-peers -f && tsc",
     "build:local": "tsc && yarn clean",
     "babel:build": "yarn clean && babel ./src --out-dir lib --extensions '.ts','.tsx','.js','.jsx'",
@@ -80,16 +81,11 @@
     "@types/styled-components": "^5.0.0",
     "buffer": "^6.0.3",
     "glob-promise": "^6.0.2",
-    "husky": ">=6",
     "install-peers-cli": "^2.2.0",
-    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
     "storybook": "^7.5.1",
     "ts-node": "^10.3.0",
     "typescript": "^5.2.2"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx,css,md}": "prettier --write"
   }
 }
