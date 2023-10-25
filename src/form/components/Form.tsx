@@ -29,6 +29,7 @@ import {
   OnChangeMulti,
   SingleFormField,
 } from './types'
+import { DeepPartial } from '../../types/util'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -65,7 +66,7 @@ export type FormProps<FormData> = {
   renderBottomChildren?: (f: FormData) => ReactNode
   renderTopChildren?: (f: FormData) => ReactNode
   skipAutoFocus?: boolean
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
 }
 
 export const Form = <FormData extends {}>(props: FormProps<FormData>) => {

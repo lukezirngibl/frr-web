@@ -31,6 +31,7 @@ import { FC, ReactElement, ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
+import { DeepPartial } from '../../types/util'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'
@@ -611,7 +612,7 @@ export type CommonThreadProps<FormData> = {
   onChange: (lens: FormLens<FormData, any>, value: any) => void
   onChangeMulti?: OnChangeMulti<FormData>
   showValidation: boolean
-  style: Partial<FormTheme> | undefined
+  style: DeepPartial<FormTheme> | undefined
 }
 
 export type FieldError = {

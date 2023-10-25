@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from 'react'
 import styled, { CSSProperties } from 'styled-components'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
+import { DeepPartial } from '../../types/util'
 
 /*
  * Styled components
@@ -28,7 +29,7 @@ const FormScrollToWrapper = createStyled(styled.div<{
 type FieldScrollableWrapperProps = {
   children: ReactNode
   isScrollToError: boolean
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
 }
 
 export const FieldScrollableWrapper = (props: FieldScrollableWrapperProps) => {

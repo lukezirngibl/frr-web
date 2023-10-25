@@ -19,6 +19,7 @@ import {
 } from './types'
 import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
 import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
+import { DeepPartial } from '../../types/util'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
@@ -65,7 +66,7 @@ export const FieldSection = <FormData extends {}>({
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const row = style?.row || ({ wrapper: {}, wrapperReadOnly: {}, item: {} } as FormTheme['row'])
-  const commonFieldStyle: Partial<FormTheme> = fieldSection.style?.rowItem
+  const commonFieldStyle: DeepPartial<FormTheme> = fieldSection.style?.rowItem
     ? {
         ...style,
         row: {
