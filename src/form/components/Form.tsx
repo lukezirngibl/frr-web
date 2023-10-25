@@ -29,7 +29,7 @@ import {
   OnChangeMulti,
   SingleFormField,
 } from './types'
-import { DeepPartial } from '../../types/util'
+import { DeepPartial } from '../../util'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 

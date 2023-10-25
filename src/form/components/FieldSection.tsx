@@ -19,7 +19,7 @@ import {
 } from './types'
 import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
 import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
-import { DeepPartial } from '../../types/util'
+import { DeepPartial } from '../../util'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string

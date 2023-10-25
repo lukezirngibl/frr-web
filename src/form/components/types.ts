@@ -31,7 +31,7 @@ import { FC, ReactElement, ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
-import { DeepPartial } from '../../types/util'
+import { DeepPartial } from '../../util'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'
