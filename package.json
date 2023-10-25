@@ -1,7 +1,6 @@
 {
   "name": "frr-web",
   "description": "",
-  "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "Luke Zirngibl",
