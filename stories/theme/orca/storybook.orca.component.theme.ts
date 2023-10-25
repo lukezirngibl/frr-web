@@ -687,8 +687,8 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     chromeless: {
       background: 'transparent',
-      color: 'var(--color-partner-secondary)',
-      borderColor: 'var(--color-partner-secondary)',
+      color: 'var(--color-primary)',
+      borderColor: 'var(--color-primary)',
       borderWidth: 1,
       borderStyle: 'solid',
     },
@@ -789,7 +789,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       marginRight: 1,
       marginBottom: 0,
       width: '100%',
-      borderBottom: '5px solid var(--color-partner-secondary)',
+      borderBottom: '5px solid var(--color-primary)',
     },
     itemActive: {
       borderBottom: '5px solid var(--color-partner-primary)',
@@ -815,7 +815,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       height: 8,
       borderRadius: 4,
       margin: '0 6px',
-      backgroundColor: 'var(--color-partner-secondary)',
+      backgroundColor: 'var(--color-primary)',
       display: 'none',
     },
     itemCircleActive: {

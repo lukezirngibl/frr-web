@@ -23,18 +23,23 @@ export const baseStyle = `
   --color-background-primary: #FFFFFF;
   --color-background-secondary: #F2F2F2;
   
-  --color-error: #A51728;
   --color-primary: #000000;
   --color-secondary: #333333;
   --color-disabled: #8d8d8d;
 
+  --color-success: rgba(61, 111, 26, 1);
+  --color-background-success: rgba(61, 111, 26, 0.05); 
+
+  --color-error: rgba(255, 0, 0, 1);
+  --color-background-error: rgba(255, 0, 0, 0.05);
+  
   --color-form-field-background: #F2F2F2;
   --color-form-field-border: #8d8d8d;
   --color-form-field-border-focus: #99bbbf;
   
   /* Partner colors */
   --color-partner-primary: #FFD400;
-  --color-partner-secondary: #000000;
+  --color-partner-secondary: rgba(0, 84, 94, 1);
 
 
   /* Font family & size */

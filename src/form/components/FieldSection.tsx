@@ -10,8 +10,15 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
-import { CommonThreadProps, DescriptionType, FormFieldType, FormSection, InternalSectionField } from './types'
+import {
+  CommonThreadProps,
+  DescriptionType,
+  FormFieldType,
+  FormSection,
+  InternalSectionField,
+} from './types'
 import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
+import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
@@ -154,7 +161,7 @@ export const FieldSection = <FormData extends {}>({
   const onEditSection = fieldSection.onEdit || onFormEdit
 
   const descriptionTypeStyle = fieldSection.descriptionType
-    ? { [`description${fieldSection.descriptionType}`]: true } as { [key: string]: boolean }
+    ? ({ [`description${fieldSection.descriptionType}`]: true } as { [key: string]: boolean })
     : {}
 
   return (
@@ -220,7 +227,11 @@ export const FieldSection = <FormData extends {}>({
               {...getSectionStyle({ description: true, ...descriptionTypeStyle })}
               label={fieldSection.description}
               localeNamespace={localeNamespace}
-              Icon={fieldSection.descriptionType === DescriptionType.Success ? <AiOutlineCheck /> : null} 
+              Icon={
+                (fieldSection.descriptionType === DescriptionType.Success && <AiOutlineCheck />) ||
+                (fieldSection.descriptionType === DescriptionType.Error && <MdErrorOutline />) ||
+                null
+              }
             />
           )}
 

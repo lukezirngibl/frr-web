@@ -134,9 +134,9 @@ export const formTheme: Partial<FormThemeConfig> = {
 
     descriptionSuccess: {
       padding: '16px 24px',
-      background: 'rgba(245, 247, 243, 1)',
-      color: 'rgba(131, 163, 110, 1)',
-      border: '1px solid rgba(131, 163, 110, 1)',
+      background: 'var(--color-background-success)',
+      color: 'var(--color-success)',
+      border: '1px solid var(--color-success)',
       borderRadius: 6,
       marginLeft: -8,
       marginRight: -8,
@@ -146,7 +146,24 @@ export const formTheme: Partial<FormThemeConfig> = {
         maxWidth: 24,
         height: 24,
         marginRight: 16,
-      }
+      },
+    },
+
+    descriptionError: {
+      padding: '16px 24px',
+      background: 'var(--color-background-error)',
+      color: 'var(--color-error)',
+      border: '1px solid var(--color-error)',
+      borderRadius: 6,
+      marginLeft: -8,
+      marginRight: -8,
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      '@icon': {
+        maxWidth: 24,
+        height: 24,
+        marginRight: 16,
+      },
     },
 
     introduction: {
