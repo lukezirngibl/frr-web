@@ -20,7 +20,7 @@ const pseudoStyleKeys = [
   ':last-child',
   ':placeholder',
 ]
-const customDynamicStyleKeys = [':readonly', '@media-mobile']
+const customDynamicStyleKeys = [':readonly', '@media-mobile', '@icon']
 export const dynamicStyleKeys = pseudoStyleKeys.concat(customDynamicStyleKeys)
 
 const animationKeys = ['@animation']
@@ -53,7 +53,11 @@ export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) 
   return cssStyles.replace(':disabled', '&[disabled]')
 }
 
-const mapPseudoStyles = (pseudoStyle: string, style: CSSProperties, overwrite?: CSSProperties) => {
+const mapPseudoStyles = (
+  pseudoStyle: string,
+  style: CSSProperties,
+  overwrite?: CSSProperties,
+) => {
   const cssStyles = mapStylesToCSS(style, overwrite)
   return cssStyles > '' ? `${pseudoStyle} { ${cssStyles} }` : ''
 }
@@ -195,6 +199,8 @@ export const getUseCSSStyles =
       ),
     }
 
+
+
     const animationKey = keys.find((elementKey) => !!theme[componentKey][elementKey]['@animation'])
     let animation
     if (animationKey) {
@@ -215,6 +221,7 @@ export const getUseCSSStyles =
       styles['@media-mobile'] || {},
       overwrite?.['@media-mobile'],
     )}
+    ${mapPseudoStyles('& svg', styles['@icon'] || {}, overwrite?.['@icon'])}
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
@@ -223,10 +230,6 @@ export const getUseCSSStyles =
       (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
       '',
     )}`
-
-    // if (keys.findIndex(key => key === 'common') !== -1) {
-    //   console.log(cssStyles)
-    // }
 
     return {
       cssStyles,

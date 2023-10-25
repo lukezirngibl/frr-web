@@ -542,9 +542,17 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   type: FormFieldType.FormFieldRepeatSection
 }
 
+export enum DescriptionType {
+  Error = 'Error',
+  Info = 'Info',
+  Success = 'Success',
+  Warning = 'Warning',
+} 
+
 export type FormSection<FormData> = {
   dataTestId?: string
   description?: string
+  descriptionType?: DescriptionType
   fieldComponent?: ReactNode
   fields: SectionFields<FormData>
   introduction?: string

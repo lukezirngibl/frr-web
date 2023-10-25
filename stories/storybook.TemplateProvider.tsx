@@ -41,7 +41,7 @@ ${brandTheme.baseStyle}
   }, [brand])
 
   return BaseStyle === null ? null : (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', backgroundColor: 'var(--color-background-secondary)' }}>
       <div
         style={{
           display: 'flex',
@@ -51,7 +51,7 @@ ${brandTheme.baseStyle}
           width: '100%',
           padding: '8px 16px',
           marginBottom: 64,
-          background: '#f2f2f2',
+          background: '#d2d2d2',
         }}
       >
         <label htmlFor="brand" style={{ color: '#b2b2b2' }}>
@@ -75,7 +75,7 @@ ${brandTheme.baseStyle}
           <option value={BRAND.postFinance} label="PostFinance"></option>
         </select>
       </div>
-      
+
       <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.componentTheme)}>
         <BaseStyle />
         <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>

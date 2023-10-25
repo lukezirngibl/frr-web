@@ -132,6 +132,23 @@ export const formTheme: Partial<FormThemeConfig> = {
       marginBottom: 24,
     },
 
+    descriptionSuccess: {
+      padding: '16px 24px',
+      background: 'rgba(245, 247, 243, 1)',
+      color: 'rgba(131, 163, 110, 1)',
+      border: '1px solid rgba(131, 163, 110, 1)',
+      borderRadius: 6,
+      marginLeft: -8,
+      marginRight: -8,
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      '@icon': {
+        maxWidth: 24,
+        height: 24,
+        marginRight: 16,
+      }
+    },
+
     introduction: {
       color: 'var(--color-secondary)',
       fontSize: 'var(--font-size-16)',

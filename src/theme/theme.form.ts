@@ -42,6 +42,10 @@ export type FormTheme = {
     contentCardWrapper: CSSProperties
     contentWrapper: CSSProperties
     description: CSSProperties
+    descriptionError: CSSProperties
+    descriptionInfo: CSSProperties
+    descriptionSuccess: CSSProperties
+    descriptionWarning: CSSProperties
     emptyTitleWrapperMobile: CSSProperties
     introduction: CSSProperties
     rowItem: CSSProperties
@@ -104,6 +108,10 @@ export const defaultFormTheme: FormTheme = {
     contentCardWrapper: {},
     contentWrapper: {},
     description: {},
+    descriptionError: {},
+    descriptionInfo: {},
+    descriptionSuccess: {},
+    descriptionWarning: {},
     emptyTitleWrapperMobile: {},
     introduction: {},
     rowItem: {},

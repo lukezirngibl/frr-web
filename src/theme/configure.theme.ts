@@ -15,6 +15,7 @@ export type CSSProperties = sc_CSSProperties &
     ':placeholder': CSSProperties
     '@media-mobile': CSSProperties
     '@animation': string
+    '@icon': CSSProperties
   }>
 
 export enum MediaQuery {

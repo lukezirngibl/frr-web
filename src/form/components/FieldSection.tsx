@@ -10,7 +10,8 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
-import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
+import { CommonThreadProps, DescriptionType, FormFieldType, FormSection, InternalSectionField } from './types'
+import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
@@ -152,6 +153,10 @@ export const FieldSection = <FormData extends {}>({
 
   const onEditSection = fieldSection.onEdit || onFormEdit
 
+  const descriptionTypeStyle = fieldSection.descriptionType
+    ? { [`description${fieldSection.descriptionType}`]: true } as { [key: string]: boolean }
+    : {}
+
   return (
     <FieldSectionWrapper
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
@@ -190,7 +195,10 @@ export const FieldSection = <FormData extends {}>({
                     localeNamespace={localeNamespace}
                   />
 
-                  <fieldSection.TitleCenterComponent onChangeMulti={onChangeMulti} readOnly={formReadOnly} />
+                  <fieldSection.TitleCenterComponent
+                    onChangeMulti={onChangeMulti}
+                    readOnly={formReadOnly}
+                  />
                 </Div>
               )) || (
                 <P
@@ -209,9 +217,10 @@ export const FieldSection = <FormData extends {}>({
 
           {!formReadOnly && fieldSection.description && (
             <P
-              {...getSectionStyle('description')}
+              {...getSectionStyle({ description: true, ...descriptionTypeStyle })}
               label={fieldSection.description}
               localeNamespace={localeNamespace}
+              Icon={fieldSection.descriptionType === DescriptionType.Success ? <AiOutlineCheck /> : null} 
             />
           )}
 

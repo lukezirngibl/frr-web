@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from './static/locale/en.json'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { format as formatDate, isValid as isDateValid } from 'date-fns'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { resetStyleConfig } from '../stories/theme/resetStyleConfig'
@@ -70,10 +70,15 @@ const Brands = {
   [Brand.POST_FINANCE]: postFinanceBrand,
 }
 
+const BrandStorage = {
+  set: (brand) => localStorage.setItem('brand', brand),
+  get: () => localStorage.getItem('brand') || Brand.BOB_BPL,
+}
+
 export default {
   decorators: [
     (Component) => {
-      const [brand, setBrand] = useState(Brand.BOB_BPL)
+      const [brand, setBrand] = useState(BrandStorage.get())
 
       const brandTheme = Brands[brand]
 
@@ -87,8 +92,12 @@ ${brandTheme.baseStyle}
         styleConfig: brand === Brand.BOB_BPL ? bobBplStyleConfig : defaultStyleConfig,
       })
 
+      useEffect(() => {
+        BrandStorage.set(brand)
+      }, [brand])
+
       return (
-        <div>
+        <div style={{ width: '100%', backgroundColor: 'var(--color-background-secondary)' }}>
           <div
             style={{
               display: 'flex',
@@ -96,8 +105,8 @@ ${brandTheme.baseStyle}
               justifyContent: 'flex-end',
               alignItems: 'center',
               padding: '8px 16px',
-              marginBottom: 64,
-              background: '#f2f2f2',
+              marginBottom: 24,
+              background: '#d2d2d2',
             }}
           >
             <label htmlFor="brand" style={{ color: '#b2b2b2' }}>
@@ -122,14 +131,16 @@ ${brandTheme.baseStyle}
               <option value={Brand.POST_FINANCE} label="PostFinance"></option>
             </select>
           </div>
-          <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.componentTheme)}>
-            <BaseStyle />
-            <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>
-              <FormConfigContext.Provider value={{ disableDirtyValidation: false }}>
-                <Component />
-              </FormConfigContext.Provider>
-            </FormThemeContext.Provider>
-          </ComponentThemeContext.Provider>
+          <div style={{ padding: 24 }}>
+            <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.componentTheme)}>
+              <BaseStyle />
+              <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>
+                <FormConfigContext.Provider value={{ disableDirtyValidation: false }}>
+                  <Component />
+                </FormConfigContext.Provider>
+              </FormThemeContext.Provider>
+            </ComponentThemeContext.Provider>
+          </div>
         </div>
       )
     },
