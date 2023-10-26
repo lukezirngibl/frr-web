@@ -38,9 +38,11 @@ export type FormAnalytics<FormData> = {
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
 }
 
+export type FormButtonProps<FormData> = ButtonProps<FormData>
+
 export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
-  buttons?: Array<ButtonProps<FormData>>
+  buttons?: Array<FormButtonProps<FormData>>
   children?: ReactNode
   className?: string
   data: FormData
