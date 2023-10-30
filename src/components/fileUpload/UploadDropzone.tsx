@@ -57,7 +57,7 @@ export const UploadDropzone = ({
     isDragAccept,
     isDragReject,
   } = useDropzone({
-    accept: acceptedFileTypes,
+    accept: acceptedFileTypes.split(', ').reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     maxFiles: maxFilesToUpload,
     maxSize: maxFileSize,
     disabled: maxFilesToUpload

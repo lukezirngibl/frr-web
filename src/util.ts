@@ -20,7 +20,6 @@ export const processOptions = (
     value: option.value,
   }))
 
-
 export const range = (start: number, end: number) => {
   return lodashRange(start, end + 1)
 }

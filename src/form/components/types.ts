@@ -10,7 +10,7 @@ import { Props as NumberInputProps } from '../../components/NumberInput'
 import { Props as OptionGroupProps } from '../../components/OptionGroup'
 import { Props as RadioGroupProps } from '../../components/RadioGroup'
 import { Props as SelectProps } from '../../components/Select'
-import { Props as SingleCheckboxProps } from '../../components/SingleCheckbox'
+import { SingleCheckboxProps } from '../../components/SingleCheckbox'
 import { Props as SliderProps } from '../../components/Slider'
 import { Props as SwithProps } from '../../components/Switch'
 import { Props as TextProps } from '../../components/Text'
@@ -31,7 +31,6 @@ import { FC, ReactElement, ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
-import { Namespace } from 'i18next'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'
@@ -342,7 +341,7 @@ export type CustomField<FormData> = FormInput<
   any,
   {
     CustomComponent: FC<{
-      localeNamespace?: Namespace
+      localeNamespace?: LocaleNamespace
       onChange: (value: any) => void
       value: any
     }>

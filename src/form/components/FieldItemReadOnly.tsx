@@ -118,8 +118,13 @@ const defaultOptionArrayMapper = (
         .join(', ')
     : ''
 
-const defaultFileArrayMapper = (params: MapperParams<Array<File>>) =>
-  Array.isArray(params.value) ? params.value : []
+const defaultFileArrayMapper = (params: MapperParams<Array<File>>): ReactNode => (
+  <ul>
+    {Array.isArray(params.value) ? (
+      <li>{params.value.map((file) => `${file.name} (${file.type})`)}</li>
+    ) : null}
+  </ul>
+)
 
 const defaultOptionMapper = (
   params: MapperParams<string | number> & {
@@ -163,7 +168,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.FormText]: () => '',
   [FormFieldType.MaskedDatePicker]: defaultDateStringMapper,
   [FormFieldType.MaskedInput]: defaultStringNumberMapper,
-  [FormFieldType.MultiFileInput]: () => defaultFileArrayMapper,
+  [FormFieldType.MultiFileInput]: defaultFileArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.MultiInputAutosuggest]: () => '',
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
@@ -353,9 +358,9 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
  * Styled components
  */
 
-const FormFieldWrapper = createStyled(styled.div`
+const FormFieldWrapper = createStyled(styled.div<{ width?: string }>`
   position: relative;
-  width: ${({ width }: { width?: string }) => width || '100%'};
+  width: ${(props) => props.width || '100%'};
 
   @media ${MediaQuery.Mobile} {
     width: 100%;

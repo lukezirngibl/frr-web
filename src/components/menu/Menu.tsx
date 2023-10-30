@@ -117,7 +117,7 @@ export const MenuList = (props: MenuListProps) => {
 
   return (
     <StyledMenuList
-      maxMenuHeight={maxMenuHeight}
+      $maxMenuHeight={maxMenuHeight}
       className={cx({ 'menu-list': true }, className)}
       ref={innerRef}
     >
@@ -126,8 +126,8 @@ export const MenuList = (props: MenuListProps) => {
   )
 }
 
-const StyledMenuList = styled.div<{ maxMenuHeight: number }>`
-  max-height: ${(props) => props.maxMenuHeight}px;
+const StyledMenuList = styled.div<{ $maxMenuHeight: number }>`
+  max-height: ${(props) => props.$maxMenuHeight}px;
   overflow-y: auto;
   position: relative; /* required for offset[Height, Top] > keyboard scroll */
   webkit-overflow-scrolling: touch;

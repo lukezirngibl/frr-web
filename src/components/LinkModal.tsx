@@ -1,10 +1,9 @@
-import { Modal } from '@material-ui/core'
+import Modal from '@mui/material/Modal'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
 import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
-
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
 import { ModalLinkConfig, ModalLinkType } from './types'

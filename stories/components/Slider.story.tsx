@@ -46,8 +46,8 @@ export const AmoutSlider = () => {
             onChange: (_lens, value) => {
               setValue(value)
             },
-            showValidation: false,
             autoFocus: false,
+            showValidation: false,
           })}
         </li>
         <li>
@@ -67,8 +67,8 @@ export const AmoutSlider = () => {
             onChange: (_lens, value) => {
               setValue(value)
             },
-            showValidation: false,
             autoFocus: false,
+            showValidation: false,
           })}
         </li>
       </ul>
@@ -106,8 +106,8 @@ export const MonthsSlider = () => {
             onChange: (_lens, value) => {
               setValue(value)
             },
-            showValidation: false,
             autoFocus: false,
+            showValidation: false,
           })}
         </li>
         <li>
@@ -127,8 +127,8 @@ export const MonthsSlider = () => {
             onChange: (_lens, value) => {
               setValue(value)
             },
-            showValidation: false,
             autoFocus: false,
+            showValidation: false,
           })}
         </li>
       </ul>

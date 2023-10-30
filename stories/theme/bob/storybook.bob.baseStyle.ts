@@ -29,13 +29,13 @@ export const baseStyle = `
 :root {
   /* Colors */
   --color-background-primary: <colorBackgroundPrimary>;
-  --color-background-primary-dark: #d4a011;
   --color-background-secondary: <colorBackgroundSecondary>;
   --color-background-hover: <colorBackgroundPrimary>;
   --color-background-accent: <colorBackgroundAccent>;
   --color-background-button-default: rgb(232, 232, 232);
 
   --color-error: <colorError>;
+  --color-warning: <colorWarning>;
   --color-primary: <colorPrimary>;
   --color-input: <colorInput>;
   --color-secondary: <colorSecondary>;
@@ -44,9 +44,12 @@ export const baseStyle = `
   --color-active: <colorActive>;
   --color-hover: <colorHover>;
 
+  --color-button-primary: <colorButtonPrimary>;
+
   --color-form-field-border: rgba(34,36,38,.2);
   --color-form-field-border-focus: rgba(34,36,38,.5) /* var(--color-accent) */;
   --color-form-field-background: rgba(234, 234, 234);
+  --color-form-field-background-light: rgba(250, 250, 250, 1);
   
   /* Drop zone color */
   --color-uploadDropzoneIsDragAccept: #00e676;
@@ -72,10 +75,17 @@ export const baseStyle = `
    
   /* Header */
   --header-height: <headerHeight>;
+  --header-height-default: <headerHeight>;
+  --header-navigation-height: 84px;
+  --header-transition: min-height 1.3s cubic-bezier(0.465, -0.01, 0.06, 1);
   --header-logo-width: <headerLogoWidth>;
-  --header-background-color: <headerBackgroundColor>;
+  --header-background-color: <headerBackgroundColor>; /* linear-gradient(31deg, rgba(0,145,178,1) 0%, rgba(65,175,200,1) 55%, rgba(65,175,200,1) 75%, rgba(65,175,200,0.8) 100%);  */
+  --header-background-color-dark: rgba(52, 58, 60, 1);
   --header-title-color: <headerTitleColor>;
   --header-title-font-size: <headerTitleFontSize>;
+
+  /* Module */
+  --module-content-min-height: 0;
 
   /* Form */
   --form-padding-horizontal: <formPaddingHorizontal>;
@@ -93,7 +103,7 @@ export const baseStyle = `
   --form-field-yes-no-option-width: 212px;
 
   /* Multi form field */ 
-  --multi-form-field-country-code-width: 150px;
+  --multi-form-field-country-code-width: 130px;
   --multi-form-field-street-nr-width: 96px;
   --multi-form-field-zip-width: 112px;
   --multi-form-field-gap: 0px;
@@ -104,13 +114,14 @@ export const baseStyle = `
   --flex-mobile-wrap: nowrap;
   --flex-end-mobile-center: center;
   --layout-app-max-width: 1000px;
-  --layout-content-content-padding: 0;
 
   /* Calculator */
-  --calculator-radio-group-min-width: 416px;
+  --calculator-preview-min-width: 440px;
   --calculator-toggle-width: 96px;
-  --calculator-field-gap: 14px;
+  --calculator-field-gap: 24px;
+  --calculator-field-width: 164px;
 }
+
 @media (max-width: 1000px) {
   :root {
     --form-padding-horizontal: <formPaddingHorizontalMobile>;
@@ -119,20 +130,24 @@ export const baseStyle = `
 
 @media (max-width: 840px) {
   :root {
-   /* Form field */
+    /* Fonts */
+    --font-size-title: <fontSizeTitleMobile>;
+
+    /* Form field */
     --form-field-width: 100%;
     --form-field-mobile-padding: 4px;
-    --form-section-padding: 24px var(--form-padding-horizontal);
+    --form-section-padding: 16px var(--form-padding-horizontal);
 
     /* Layout */
     --display-flex-mobile-block: block;
-  }
-}
 
-@media (max-width: 840px) {
-  :root {
     /* Header */
     --header-height: <headerHeightMobile>;
+    --header-height-default: <headerHeightMobile>;
+    --header-navigation-height: 64px;
+
+    /* Module */
+    --module-content-min-height: calc(var(--view-height) - var(--header-height) - var(--header-navigation-height) - 16px);
 
      /* Form */
     --form-padding-vertical: <formPaddingVerticalMobile>;
@@ -142,8 +157,9 @@ export const baseStyle = `
     --flex-end-mobile-center: center;
 
     /* Calculator */
-    --calculator-radio-group-min-width: 100%;
+    --calculator-preview-min-width: 100%;
     --calculator-toggle-width: 0;
+    --calculator-field-gap: 14px;
   }
 }
 
@@ -207,6 +223,11 @@ div {
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 400;
+}
+
+section, aside {
+  display: block;
+  width: 100%;
 }
 
 /* Button animations */

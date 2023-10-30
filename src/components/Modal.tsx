@@ -1,4 +1,4 @@
-import { Modal as MaterialUiModal } from '@material-ui/core'
+import MaterialUiModal from '@mui/material/Modal'
 import React, { ReactNode } from 'react'
 import {
   ComponentTheme,

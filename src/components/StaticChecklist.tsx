@@ -76,7 +76,7 @@ export const StaticChecklist = (props: Props) => {
                         })}
                       />
                     )}
-
+                    
                     <P
                       label={i.label}
                       localeNamespace={props.localeNamespace}

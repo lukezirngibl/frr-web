@@ -1,8 +1,7 @@
-import React, { FC } from 'react'
-import styled, { SimpleInterpolation } from 'styled-components'
+import styled from 'styled-components'
 
-const LoadingWrapper = styled.div<{ css?: SimpleInterpolation }>`
-  ${(props) => props.css};
+const LoadingWrapper = styled.div<{ $css?: string }>`
+  ${(props) => props.$css};
 
   .lds-spinner {
     color: official;

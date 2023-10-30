@@ -1,6 +1,5 @@
 import React from 'react'
 import { Lens as MonocleLens, Optional } from 'monocle-ts'
-import { getOrElse, fold, none, some } from 'fp-ts/lib/Option'
 import {
   FormFieldRepeatGroup,
   FormFieldType,
@@ -18,9 +17,8 @@ export const setScrolled = (v: boolean) => {
   scrolled = v
 }
 
-export declare class FormLens<S, A> {
-  readonly get: (s: S) => A
-  readonly set: (a: A) => (s: S) => S
+// TODO: Get rid of monocle-ts and use own implementation
+export declare class FormLens<S, A> extends MonocleLens<S, A> {
   readonly id: () => string
 }
 
@@ -66,7 +64,7 @@ export const createItemLens = (arrayLens: any, index: number) =>
     .asOptional()
     .compose(
       new Optional<any, any>(
-        (s) => (s === undefined ? none : some(s)),
+        (s) => (s === undefined ? null : s),
         (s) => (_) => s,
       ),
     )
@@ -89,15 +87,12 @@ export const createFakeFormLens = (
     id: () => `${arrayLens.id()}.${index}.${lens.id()}`,
     get: (data: any) => {
       const o = itemLens.getOption(data)
-      const val = fold(
-        () => null,
-        (v) => lens.get(v),
-      )(o)
+      const val = o ? lens.get(o) : null
       return val
     },
     set: (v: any) => (data: any) => {
       const o: any = arrayLens.get(data)
-      const i: any = getOrElse(() => {})(itemLens.getOption(data))
+      const i: any = itemLens.getOption(data) ?? {}
       const newArray = updateArrayAtIndex(o, index, lens.set(v)({ ...(i || {}) }))
       return arrayLens.set(newArray)(data)
     },

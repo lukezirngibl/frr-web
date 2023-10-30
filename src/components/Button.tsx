@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { IconType } from 'react-icons'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'

@@ -5,7 +5,6 @@ import { FieldRowItem, Props as FieldRowItemProps } from '../../src/form/compone
 import { FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory } from '../storybook.helpers'
-import { formatRFC3339 } from 'date-fns'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof MaskedDatePicker> = {
