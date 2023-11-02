@@ -167,26 +167,27 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
   },
   materialSlider: {
     root: {
-      color: 'var(--color-partner-primary)',
+      color: 'var(--color-partner-secondary)',
     },
     thumb: {
-      backgroundColor: 'var(--color-partner-primary)',
-      width: 14,
-      height: 34,
-      marginTop: -13,
-      marginLeft: -8,
-      borderRadius: 0,
+      backgroundColor: 'var(--color-partner-secondary)',
+      width: 32,
+      height: 32,
+      // marginTop: -13,
+      // marginLeft: -8,
+      borderRadius: 20,
+      border: '1px solid var(--color-background-primary)',
       ':focus': {
         boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':hover': {
         boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':active': {
         boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
     },
     thumbFocus: {
@@ -203,8 +204,12 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     rail: {
       backgroundColor: 'var(--color-form-field-background)',
+      height: 6,
       opacity: 1,
     },
+    track: {
+      height: 6,
+    }
   },
   label: {
     labelTextWrapper: {

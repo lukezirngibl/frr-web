@@ -58,7 +58,6 @@
     "react-select": "^5.7.4",
     "react-virtualized": "^9.22.3",
     "rgb-hex": "^4.0.0",
-    "tss-react": "^4.7.0",
     "typelevel-ts": "^0.4.0",
     "use-debounce": "^9.0.3"
   },
@@ -68,11 +67,11 @@
     "@babel/plugin-transform-react-jsx": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-typescript": "^7.18.6",
-    "@storybook/addon-actions": "^7.5.1",
-    "@storybook/addon-essentials": "^7.5.1",
-    "@storybook/addon-links": "^7.5.1",
-    "@storybook/react": "^7.5.1",
-    "@storybook/react-webpack5": "^7.5.1",
+    "@storybook/addon-actions": "^7.5.2",
+    "@storybook/addon-essentials": "^7.5.2",
+    "@storybook/addon-links": "^7.5.2",
+    "@storybook/react": "^7.5.2",
+    "@storybook/react-webpack5": "^7.5.2",
     "@types/lodash.range": "^3.2.7",
     "@types/react": "^18.2.22",
     "@types/react-datepicker": "^4.1.7",
@@ -83,7 +82,7 @@
     "install-peers-cli": "^2.2.0",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1",
-    "storybook": "^7.5.1",
+    "storybook": "^7.5.2",
     "ts-node": "^10.3.0",
     "typescript": "^5.2.2"
   }

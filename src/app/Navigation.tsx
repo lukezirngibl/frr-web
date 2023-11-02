@@ -85,6 +85,7 @@ export const Navigation = (props: Props) => {
                 {...getCSSStyles({
                   itemNumber: true,
                   itemLabelActive: itemActiveIndex === itemIndex,
+                  itemLabelCompleted: itemActiveIndex > itemIndex,
                 })}
               >
                 {itemIndex + 1}.{' '}
