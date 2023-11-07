@@ -168,26 +168,25 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
   materialSlider: {
     root: {
       color: 'var(--color-partner-secondary)',
+      borderRadius: 0,
     },
     thumb: {
       backgroundColor: 'var(--color-partner-secondary)',
-      width: 32,
-      height: 32,
-      // marginTop: -13,
-      // marginLeft: -8,
-      borderRadius: 20,
       border: '1px solid var(--color-background-primary)',
+      width: 28,
+      height: 28,
+
       ':focus': {
-        boxShadow: 'none',
+        boxShadow: '0px 0px 0px 8px rgba(var(--color-partner-secondary-rgb),0.15)',
         backgroundColor: 'var(--color-partner-secondary)',
       },
       ':hover': {
-        boxShadow: 'none',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
         backgroundColor: 'var(--color-partner-secondary)',
       },
       ':active': {
-        boxShadow: 'none',
         backgroundColor: 'var(--color-partner-secondary)',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
       },
     },
     thumbFocus: {
@@ -209,7 +208,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     track: {
       height: 6,
-    }
+    },
   },
   label: {
     labelTextWrapper: {

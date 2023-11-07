@@ -58,6 +58,7 @@ const getMuiSliderStyles = (styles?: MaterialSliderStyles) => {
       width: 24,
       backgroundColor: '#FFC53D',
       borderRadius: 12,
+      '&.Mui-focusVisible': getPseudoElementStyle(':focus', materialStyles),
       '&:active': getPseudoElementStyle(':active', materialStyles),
       '&:focus': getPseudoElementStyle(':focus', materialStyles),
       '&:hover': getPseudoElementStyle(':hover', materialStyles),

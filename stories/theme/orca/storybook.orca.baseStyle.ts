@@ -40,6 +40,7 @@ export const baseStyle = `
   /* Partner colors */
   --color-partner-primary: #FFD400;
   --color-partner-secondary: rgba(0, 84, 94, 1);
+  --color-partner-secondary-rgb: 0, 84, 94;
 
 
   /* Font family & size */
