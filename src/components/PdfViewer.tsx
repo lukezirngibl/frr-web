@@ -8,6 +8,7 @@ import { MdDownload } from '../icons/new/MdDownload'
 import { MdFullscreen } from '../icons/new/MdFullscreen'
 import { MdKeyboardArrowLeft } from '../icons/new/MdKeyboardArrowLeft'
 import { MdKeyboardArrowRight } from '../icons/new/MdKeyboardArrowRight'
+import styled from 'styled-components'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -136,7 +137,7 @@ export const PdfViewer = (props: Props) => {
         </Div>
       )}
 
-      <Div {...getCSSStyle('pdfWrapper')}>
+      <PdfDocumentWrapper {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
           file={pdfData}
@@ -157,10 +158,20 @@ export const PdfViewer = (props: Props) => {
             scale={props.scale}
           />
         </Document>
-      </Div>
+      </PdfDocumentWrapper>
     </>
   )
 }
 
 const Div = createStyled('div')
 const Text = createStyled('p')
+
+const PdfDocumentWrapper = createStyled(styled.div`
+  & .react-pdf__Page__textContent {
+    display: none;
+  }
+
+  &. react-pdf__Page__annotations {
+    display: none;
+  }
+`)
