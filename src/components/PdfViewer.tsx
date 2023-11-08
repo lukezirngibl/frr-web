@@ -154,8 +154,10 @@ export const PdfViewer = (props: Props) => {
           <Page
             loading={<Loading style={{ transform: 'scale(0.6)' }} />}
             pageNumber={pageNumber}
-            width={props.width || 800}
+            renderAnnotationLayer={false}
+            renderTextLayer={false}
             scale={props.scale}
+            width={props.width || 800}
           />
         </Document>
       </PdfDocumentWrapper>
