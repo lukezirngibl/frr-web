@@ -108,6 +108,7 @@ export const PdfViewer = (props: Props) => {
             width={24}
             style={{
               opacity: pageNumber === 1 ? 0.2 : 1,
+              cursor: pageNumber === 1 ? 'default' : 'pointer',
             }}
           />
 
@@ -126,6 +127,7 @@ export const PdfViewer = (props: Props) => {
             width={24}
             style={{
               opacity: pageNumber === numPages ? 0.2 : 1,
+              cursor: pageNumber === numPages ? 'default' : 'pointer',
             }}
           />
         </Div>
@@ -137,7 +139,7 @@ export const PdfViewer = (props: Props) => {
         </Div>
       )}
 
-      <PdfDocumentWrapper {...getCSSStyle('pdfWrapper')}>
+      <Div {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
           file={pdfData}
@@ -160,20 +162,10 @@ export const PdfViewer = (props: Props) => {
             width={props.width || 800}
           />
         </Document>
-      </PdfDocumentWrapper>
+      </Div>
     </>
   )
 }
 
 const Div = createStyled('div')
 const Text = createStyled('p')
-
-const PdfDocumentWrapper = createStyled(styled.div`
-  & .react-pdf__Page__textContent {
-    display: none;
-  }
-
-  &. react-pdf__Page__annotations {
-    display: none;
-  }
-`)
