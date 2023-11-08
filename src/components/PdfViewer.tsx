@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Outline, Page } from 'react-pdf'
+import { Document, Outline, Page, pdfjs } from 'react-pdf'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Loading } from './Loading'
@@ -71,6 +71,7 @@ export const PdfViewer = (props: Props) => {
   }
 
   React.useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
     getPDF(props.url)
   }, [])
 
