@@ -5,8 +5,8 @@ import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.
 import { createStyled } from '../theme/util'
 import { range } from '../util'
 import { Label, LabelProps } from './Label'
+import { Div } from '../html'
 
-const CodeInputWrapper = createStyled('div')
 const Input = createStyled(styled.input`
   div {
     overflow: visible !important;
@@ -59,7 +59,7 @@ export const CodeInput = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <CodeInputWrapper {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         {range(0, props.length - 1).map((_, i) => (
           <Input
             key={i}
@@ -111,7 +111,7 @@ export const CodeInput = (props: Props) => {
             {...getCSSStyles('input')}
           />
         ))}
-      </CodeInputWrapper>
+      </Div>
     </>
   )
 }

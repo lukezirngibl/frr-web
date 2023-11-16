@@ -1,9 +1,9 @@
 import { format, isValid, parse } from 'date-fns'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, Img, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { Language, mapLanguageToLocale } from '../../theme/language'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -217,8 +217,8 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
 
   if (props.field.readOnlyOptions?.image) {
     return (
-      <Image
-        data-test-id={props.field.lens.id()}
+      <Img
+        dataTestId={props.field.lens.id()}
         src={props.field.readOnlyOptions.image}
         alt="value image"
         {...props.getFieldStyle('image')}
@@ -373,5 +373,3 @@ const FormFieldWrapper = createStyled(styled.div<{ width?: string }>`
   }
 `)
 
-const Div = createStyled('div')
-const Image = createStyled('img')

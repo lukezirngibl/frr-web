@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, P } from '../../html'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
@@ -151,7 +151,7 @@ export const UploadDropzone = ({
         <section className="section">
           <aside>
             {acceptedFileItems.length > 0 && (
-              <Section {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
+              <Div {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
                 <P
                   {...getCSSStyle('acceptedFilesLabel')}
                   label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
@@ -171,10 +171,10 @@ export const UploadDropzone = ({
                     style={style}
                   />
                 ))}
-              </Section>
+              </Div>
             )}
             {rejectedFileItems.length > 0 && (
-              <Section {...getCSSStyle('section')}>
+              <Div {...getCSSStyle('section')}>
                 <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
                 {rejectedFileItems.map(({ file, errors }: FileRejection) => (
                   <UploadDocumentItem
@@ -191,7 +191,7 @@ export const UploadDropzone = ({
                     style={style}
                   />
                 ))}
-              </Section>
+              </Div>
             )}
             {errorMessage && (
               <P
@@ -225,5 +225,3 @@ const getColor = (props: DragProps) => {
 const Container = createStyled(styled.div<DragProps>`
   border-color: ${(props) => getColor(props)};
 `)
-
-const Section = createStyled('div')

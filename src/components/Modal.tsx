@@ -1,14 +1,13 @@
 import MaterialUiModal from '@mui/material/Modal'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
+import { Div } from '../html'
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 
-const ModalInnerWrapper = createStyled('div')
 
 type Props = {
   children: ReactNode
@@ -29,9 +28,9 @@ export const Modal = (props: Props) => {
       onClose={props.onClose}
       style={getInlineStyle('outerWrapper').style}
     >
-      <ModalInnerWrapper {...getCSSStyle('innerWrapper')}>
+      <Div {...getCSSStyle('innerWrapper')}>
         {props.open ? props.children : <></>}
-      </ModalInnerWrapper>
+      </Div>
     </MaterialUiModal>
   )
 }

@@ -1,10 +1,7 @@
-import React from 'react'
+import { Div } from '../../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
-import { createStyled } from '../../theme/util'
 import { Label, LabelProps } from '../Label'
 import { UploadDropzone, UploadDropzoneProps } from './UploadDropzone'
-
-const Wrapper = createStyled('div')
 
 export type SingleFileInputProps = {
   dataTestId?: string
@@ -22,13 +19,13 @@ export const SingleFileInput = (props: SingleFileInputProps) => {
   return (
     <>
       {props.label && <Label {...props.label} />}
-      <Wrapper {...getCSSStyle('wrapper')} data-test-id={props.dataTestId}>
+      <Div {...getCSSStyle('wrapper')} dataTestId={props.dataTestId}>
         <UploadDropzone
           key={props.dataTestId}
           onChange={(files) => props.onChange(files.length ? files[0] : null)}
           {...(props.uploadDropzoneProps || {})}
         />
-      </Wrapper>
+      </Div>
     </>
   )
 }

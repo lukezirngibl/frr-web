@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
-import { P } from '../../html'
+import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
@@ -33,7 +33,7 @@ export const FieldSectionWrapper = (props: {
   return (
     <Div
       readOnly={props.readOnly}
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
       {props.children}
@@ -244,7 +244,7 @@ export const FieldSection = <FormData extends {}>({
             {...getSectionRightStyle('wrapper')}
             disabled={fieldSection.isOnEditDisabled}
             readOnly={formReadOnly}
-            data-test-id={
+            dataTestId={
               fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'
             }
           >
@@ -262,7 +262,6 @@ export const FieldSection = <FormData extends {}>({
   )
 }
 
-const Div = createStyled('div')
 const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {

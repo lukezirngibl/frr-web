@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
-import { LabelText, P } from '../html'
+import { Div, LabelText, P } from '../html'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -154,8 +154,7 @@ const DescriptionPopupAnimation = keyframes`
   }
 `
 
-export const Div = createStyled('div')
-export const Span = createStyled('span')
+const Span = createStyled('span')
 
 const DescriptionPopup = createStyled(styled.div`
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;

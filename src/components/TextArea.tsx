@@ -7,8 +7,7 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
-
-const InputWrapper = createStyled('div')
+import { Div } from '../html'
 
 const Input = createStyled('textarea')
 
@@ -54,7 +53,7 @@ export const TextArea = (props: TextAreaProps) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <InputWrapper
+      <Div
         {...getTextAreaStyle(
           'wrapper',
           getInputStyle({
@@ -73,7 +72,7 @@ export const TextArea = (props: TextAreaProps) => {
           )}
           autoFocus={props.autoFocus}
           className="frr-textarea"
-          data-test-id={props.dataTestId}
+          dataTestId={props.dataTestId}
           disabled={props.disabled || props.readOnly}
           onBlur={() => {
             let newValue = (internalValue || '').trim()
@@ -101,7 +100,7 @@ export const TextArea = (props: TextAreaProps) => {
           rows={props.htmlRows || 10}
           value={internalValue}
         />
-      </InputWrapper>
+      </Div>
     </>
   )
 }
