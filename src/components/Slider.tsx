@@ -225,7 +225,7 @@ export const Slider = (props: Props) => {
               )}
               <ValueText
                 {...getCSSStyles('value')}
-                data-test-id="slider-value"
+                dataTestId="slider-value"
                 data-value={internalValue}
               >
                 {props.isCurrency ? Formatter.format(internalValue) : internalValue}
