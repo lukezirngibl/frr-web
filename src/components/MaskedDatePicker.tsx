@@ -20,6 +20,7 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
+import { Div } from '../html'
 
 export type Props = {
   /**
@@ -259,9 +260,7 @@ const DatePickerAnimation = keyframes`
     transform: scale(1, 1);
   }
 `
-const DatePickerCalendarWrapper =
-  styled.div <
-  { $cssStyles: string }>`
+const DatePickerCalendarWrapper = styled.div<{ $cssStyles: string }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -292,5 +291,3 @@ const DatePickerCalendarWrapper =
         `
       : ''}
 `
-
-const Div = createStyled('div')
