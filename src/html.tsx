@@ -106,7 +106,7 @@ export const Element = (
     <HtmlElement
       onClick={onClick}
       cssStyles={cssStyles}
-      data-test-id={dataTestId}
+      dataTestId={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}
       dataThemeId={dataThemeId || elementStyle.dataThemeId}
       disabled={disabled}
