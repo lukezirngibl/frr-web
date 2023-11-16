@@ -10,6 +10,7 @@ import { getBoundingClientObj } from './Menu.utils'
 // ==============================
 
 type SetMenuPlacement = (menuPlacement: MenuPlacementState) => void
+
 export const MenuPlacementContext = React.createContext<{
   menuPlacement: MenuPlacementState
   setMenuPlacement: SetMenuPlacement
