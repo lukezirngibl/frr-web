@@ -190,7 +190,7 @@ export const Slider = (props: Props) => {
   return (
     <Div {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <Div {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
+      <Div {...getCSSStyles('wrapper')} dataTestId={props.dataTestId}>
         <Div {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
           {props.isEditable ? (
             <CurrencyInput
