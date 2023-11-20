@@ -1,15 +1,11 @@
-import React, { Component } from 'react'
-import { Label, LabelProps } from './Label'
-import styled from 'styled-components'
+import { Div } from '../html'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
+  useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-
-const Wrapper = createStyled('div')
+import { Label, LabelProps } from './Label'
 
 export type SingleCheckboxProps = {
   dataTestid?: string
@@ -32,7 +28,7 @@ export const SingleCheckbox = (props: SingleCheckboxProps) => {
   return (
     <>
       {props.label && <Label style={{ wrapper: { marginBottom: 0 } }} {...props.label}></Label>}
-      <Wrapper {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         <input
           checked={value}
           data-test-id={props.dataTestid}
@@ -42,7 +38,7 @@ export const SingleCheckbox = (props: SingleCheckboxProps) => {
           style={inputStyle.style}
           type="checkbox"
         />
-      </Wrapper>
+      </Div>
     </>
   )
 }

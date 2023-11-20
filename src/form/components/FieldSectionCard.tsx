@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
@@ -22,7 +22,7 @@ export const FieldSectionWrapper = (props: {
   return (
     <Div
       readOnly
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
       {props.children}
@@ -175,7 +175,6 @@ export const FieldSectionCard = <FormData extends {}>({
   )
 }
 
-const Div = createStyled('div')
 const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { FormFieldType } from '../form/components/types'
-import { P } from '../html'
+import { Div, P } from '../html'
 import {
   ComponentTheme,
   MaterialSliderStyles,
@@ -23,7 +23,6 @@ const Formatter = new Intl.NumberFormat('de-CH', {
   minimumFractionDigits: 0,
 })
 
-const Wrapper = createStyled('div')
 const ValueText = createStyled('p')
 
 const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles) => {
@@ -110,7 +109,6 @@ const getMuiSliderStyles = (styles?: MaterialSliderStyles) => {
   return mappedStyles
 }
 
-
 export type Props = {
   ariaLabelledby?: any
   dataTestId?: string
@@ -190,10 +188,10 @@ export const Slider = (props: Props) => {
   }, [inputFieldType])
 
   return (
-    <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
+    <Div {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
-        <Wrapper {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
+      <Div {...getCSSStyles('wrapper')} dataTestId={props.dataTestId}>
+        <Div {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
@@ -227,7 +225,7 @@ export const Slider = (props: Props) => {
               )}
               <ValueText
                 {...getCSSStyles('value')}
-                data-test-id="slider-value"
+                dataTestId="slider-value"
                 data-value={internalValue}
               >
                 {props.isCurrency ? Formatter.format(internalValue) : internalValue}
@@ -241,7 +239,7 @@ export const Slider = (props: Props) => {
               )}
             </>
           )}
-        </Wrapper>
+        </Div>
 
         <MaterialSlider
           aria-labelledby={props.ariaLabelledby}
@@ -261,7 +259,7 @@ export const Slider = (props: Props) => {
           sx={materialStyles}
           value={internalValue}
         />
-      </Wrapper>
-    </Wrapper>
+      </Div>
+    </Div>
   )
 }

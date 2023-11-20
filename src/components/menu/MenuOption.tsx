@@ -1,6 +1,6 @@
 import React, { ReactNode, RefCallback } from 'react'
-import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
-import { createStyled } from '../../theme/util'
+import { Div } from '../../html'
+import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
 import { CommonPropsAndClassName } from './Menu.types'
 
 // ==============================
@@ -24,7 +24,7 @@ export const MenuOption = (props: MenuOptionProps) => {
   const cssStyles = useCSSStyles(theme, 'select')(props.style)
   
   return (
-    <StyledOption
+    <Div
       {...cssStyles({ option: true, optionActive: props.isSelected, optionHover: props.isFocused })}
       className={props.cx(
         {
@@ -36,7 +36,7 @@ export const MenuOption = (props: MenuOptionProps) => {
         props.className,
       )}
       aria-disabled={props.isDisabled}
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       disabled={props.isDisabled}
       label="option"
       onClick={props.onSelect}
@@ -46,12 +46,7 @@ export const MenuOption = (props: MenuOptionProps) => {
       tabIndex={-1}
     >
       {props.children}
-    </StyledOption>
+    </Div>
   )
 }
 
-// ==============================
-// Styled components
-// ==============================
-
-const StyledOption = createStyled('div')

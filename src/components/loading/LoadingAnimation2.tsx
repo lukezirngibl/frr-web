@@ -72,7 +72,7 @@ export const LoadingAnimation1 = (props: { label?: string }) => {
 
   return (
     <>
-      <Animation1Wrapper {...getCSSStyles('wrapper')} data-test-id="loading-animation-1">
+      <Animation1Wrapper {...getCSSStyles('wrapper')} dataTestId="loading-animation-1">
         <Animation1Item {...getCSSStyles('item')}></Animation1Item>
         <Animation1Item {...getCSSStyles('item')}></Animation1Item>
         <Animation1Item {...getCSSStyles('item')}></Animation1Item>
@@ -142,7 +142,7 @@ export const LoadingAnimation2 = (props: { label?: string }) => {
 
   return (
     <>
-      <Animation2Wrapper {...getCSSStyles('wrapper')} data-test-id="loading-animation-2">
+      <Animation2Wrapper {...getCSSStyles('wrapper')} dataTestId="loading-animation-2">
         <Animation2Item className="rect1" {...getCSSStyles('item')}></Animation2Item>
         <Animation2Item className="rect2" {...getCSSStyles('item')}></Animation2Item>
         <Animation2Item className="rect3" {...getCSSStyles('item')}></Animation2Item>

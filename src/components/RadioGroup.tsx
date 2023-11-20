@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
-import { OptionType, P } from '../html'
+import { Div, OptionType, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
@@ -74,7 +74,7 @@ export const RadioGroup = (props: Props) => {
                 itemVerticalActive: !!props.isAlignVertical && isActive,
               })}
               className={isActive ? 'active' : ''}
-              data-test-id={`${props.dataTestId}:${option.value}`}
+              dataTestId={`${props.dataTestId}:${option.value}`}
               key={`option-${optionIndex}`}
               onClick={() => onChange(option)}
               tabIndex={-1}
@@ -118,8 +118,6 @@ export const RadioGroup = (props: Props) => {
     </>
   )
 }
-
-const Div = createStyled('div')
 
 const Item = createStyled(styled.div`
   display: flex;

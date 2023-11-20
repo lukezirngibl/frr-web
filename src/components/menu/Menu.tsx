@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEvent, ReactNode, RefCallback, useEffect, useRef } from 'react'
+import React, { MouseEvent, ReactNode, RefCallback, useEffect, useRef } from 'react'
 import { CoercedMenuPlacement } from 'react-select'
 import styled, { css } from 'styled-components'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../../theme/theme.components'
@@ -173,7 +173,7 @@ export const ScrollManager = ({
   }
 
   return (
-    <Fragment>
+    <>
       {lockEnabled && (
         <div
           onClick={blurSelectInput}
@@ -181,6 +181,6 @@ export const ScrollManager = ({
         />
       )}
       {children(targetRef)}
-    </Fragment>
+    </>
   )
 }
