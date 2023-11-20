@@ -9,6 +9,7 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { CommonThreadProps, FormFieldType, FormSectionCard, InternalSectionField } from './types'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 export const FieldSectionWrapper = (props: {
   children: ReactNode
@@ -94,6 +95,16 @@ export const FieldSectionCard = <FormData extends {}>({
       case FormFieldType.MultiInputAutosuggest:
         return (
           <FieldMultiInputAutosuggest
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

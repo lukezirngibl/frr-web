@@ -13,6 +13,7 @@ import { LocaleNamespace, Translate } from '../../translation'
 import {
   CommonThreadProps,
   FormFieldType,
+  MultiInputAutosuggestAddressField,
   MultiInputAutosuggestField,
   MultiInputField,
   SingleFormField,
@@ -171,6 +172,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.MultiFileInput]: defaultFileArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.MultiInputAutosuggest]: () => '',
+  [FormFieldType.AutocompleteAddress]: () => '',
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
   [FormFieldType.NumberMultiSelect]: defaultOptionArrayMapper,
@@ -294,7 +296,11 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   Omit<CommonThreadProps<FormData>, 'autoFocus'>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
-  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutosuggestField<FormData>
+  field:
+    | SingleFormField<FormData>
+    | MultiInputField<FormData>
+    | MultiInputAutosuggestField<FormData>
+    | MultiInputAutosuggestAddressField<FormData>
   width?: number
 }
 
@@ -327,7 +333,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
         )}
         <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
           {props.field.type === FormFieldType.MultiInput ||
-          props.field.type === FormFieldType.MultiInputAutosuggest ? (
+          props.field.type === FormFieldType.MultiInputAutosuggest ||
+          props.field.type === FormFieldType.AutocompleteAddress ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
               return (
                 <FieldItemReadOnlyValue<FormData>

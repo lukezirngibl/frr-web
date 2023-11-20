@@ -20,6 +20,7 @@ import {
 import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
 import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
 import { DeepPartial } from '../../util'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
@@ -130,6 +131,16 @@ export const FieldSection = <FormData extends {}>({
       case FormFieldType.MultiInputAutosuggest:
         return (
           <FieldMultiInputAutosuggest
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

@@ -4,6 +4,7 @@ import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
@@ -67,6 +68,16 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
       case FormFieldType.MultiInputAutosuggest:
         return (
           <FieldMultiInputAutosuggest
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

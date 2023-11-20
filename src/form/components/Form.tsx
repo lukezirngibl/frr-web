@@ -30,6 +30,7 @@ import {
 } from './types'
 import { DeepPartial } from '../../util'
 import { ButtonProps, ButtonSection } from './ButtonSection'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -198,6 +199,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
       case FormFieldType.MultiInputAutosuggest:
         return (
           <FieldMultiInputAutosuggest
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
             key={`field-${fieldIndex}`}
             field={field}
             fieldIndex={fieldIndex}

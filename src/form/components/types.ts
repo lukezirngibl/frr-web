@@ -65,6 +65,7 @@ export enum FormFieldType {
   MaskedInput = 'MaskedInput',
   MultiFileInput = 'MultiFileInput',
   MultiInput = 'MultiInput',
+  AutocompleteAddress = 'AutocompleteAddress',
   MultiInputAutosuggest = 'MultiInputAutosuggest',
   MultiSelect = 'MultiSelect',
   NumberInput = 'NumberInput',
@@ -394,6 +395,7 @@ export const fieldMap = {
   [FormFieldType.MaskedInput]: null as TextInputField<unknown>,
   [FormFieldType.MultiInput]: null as MultiInputField<unknown>,
   [FormFieldType.MultiInputAutosuggest]: null as MultiInputAutosuggestField<unknown>,
+  [FormFieldType.AutocompleteAddress]: null as MultiInputAutosuggestAddressField<unknown>,
   [FormFieldType.MultiSelect]: null as MultiSelectField<unknown>,
   [FormFieldType.NumberInput]: null as NumberInputField<unknown>,
   [FormFieldType.NumberSelect]: null as NumberSelectField<unknown>,
@@ -468,6 +470,17 @@ export type MultiInputAutosuggestField<FormData> = {
   }
 }
 
+export type MultiInputAutosuggestAddressField<FormData> = {
+  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
+  isVisible?: IsVisibleFn<FormData>
+  itemStyle?: CSSProperties
+  label?: LabelProps
+  type: FormFieldType.AutocompleteAddress
+  readOnlyOptions?: {
+    isFullWidth?: boolean
+  }
+}
+
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
 
 // export type Fields<FormData> = Array<
@@ -478,12 +491,14 @@ export type RepeatFormField<FormData> =
   | SingleFormField<FormData>
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
 
 export type GroupField<FormData> =
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | StaticField<FormData>
   | SingleFormField<FormData>
   | FormFieldRow<FormData>
@@ -510,6 +525,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
 export type InternalSectionField<FormData> =
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -518,6 +534,7 @@ export type InternalSectionField<FormData> =
 export type SectionField<FormData> =
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | SingleFormField<FormData>
   | StaticField<FormData>
   | FormFieldRow<FormData>
@@ -539,7 +556,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
     data: FormData
     index: number
     onRemoveItem: (index: number, onChangeMulti: OnChangeMulti<FormData>) => void
-  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData>, readOnly: boolean }>
+  }) => FC<{ onChangeMulti?: OnChangeMulti<FormData>; readOnly: boolean }>
   type: FormFieldType.FormFieldRepeatSection
 }
 
@@ -548,7 +565,7 @@ export enum DescriptionType {
   Info = 'Info',
   Success = 'Success',
   Warning = 'Warning',
-} 
+}
 
 export type FormSection<FormData> = {
   dataTestId?: string
@@ -585,6 +602,7 @@ export type InternalFormField<FormData> =
   | StaticField<FormData>
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>
@@ -595,6 +613,7 @@ export type FormField<FormData> =
   | StaticField<FormData>
   | MultiInputField<FormData>
   | MultiInputAutosuggestField<FormData>
+  | MultiInputAutosuggestAddressField<FormData>
   | FormFieldRow<FormData>
   | FormFieldGroup<FormData>
   | FormSection<FormData>

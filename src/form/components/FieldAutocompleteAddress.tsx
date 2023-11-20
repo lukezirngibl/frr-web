@@ -1,28 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
+import styled from 'styled-components'
 
-import { createStyled } from '../../theme/util'
-
-import { Label } from '../../components/Label'
+import { Option } from '../../components/menu/Menu.types'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
-
-import { useFormFieldErrors } from './hooks/useFormFieldError'
-
+import { createStyled } from '../../theme/util'
+import { FormLens } from '../util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
-import { CommonThreadProps, MultiInputAutosuggestField, TextInputAutosuggestField } from './types'
-import { FormLens } from '../util'
-import { Option } from '../../components/menu/Menu.types'
-import styled from 'styled-components'
-
-// TODO: this has to be styled
-// indexes for the rows are a mess
-// solve the console errors
+import { useFormFieldErrors } from './hooks/useFormFieldError'
+import {
+  CommonThreadProps,
+  MultiInputAutosuggestAddressField,
+  MultiInputAutosuggestField,
+  TextInputAutosuggestField,
+} from './types'
 
 export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
-  field: MultiInputAutosuggestField<FormData>
+  field: MultiInputAutosuggestAddressField<FormData>
 }
 
 const WrapperItem = createStyled(styled.div`
@@ -44,7 +41,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 
   // Error
   const { disableDirtyValidation } = useFormConfig()
-  const { errorLabel, errorDataTestId, onError } = useFormFieldErrors()
+  const { onError } = useFormFieldErrors()
 
   const commonFieldProps = {
     autoFocus: false,
@@ -65,7 +62,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       >
         <FieldItemReadOnly
           {...commonFieldProps}
-          field={props.field as MultiInputAutosuggestField<FormData>}
+          field={props.field as MultiInputAutosuggestAddressField<FormData>}
           fieldIndex={props.fieldIndex}
         />
       </FieldRowWrapper>
@@ -129,28 +126,26 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             {...getFieldMultiInputStyle('item')}
             key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
           >
-            <FieldRowItem
-              {...commonFieldProps}
-              autoFocus={props.autoFocus}
-              key={`field-item-${props.field.fields[0].lens.id()}-${0}`}
-              field={{
-                ...props.field.fields[0],
-                onSuggestionSelected: onSelectSuggestion(props.field.fields[0]),
-              }}
-              fieldIndex={0}
-              errorFieldId={props.errorFieldId}
-              inputRef={
-                undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
-              }
-              onChange={onChange}
-              onError={onError}
-              isNotScrollable
-            />
+            {props.field.fields.slice(0, 2).map((fieldItem, fieldItemIndex) => (
+              <FieldRowItem
+                {...commonFieldProps}
+                key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
+                field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
+                fieldIndex={fieldItemIndex}
+                errorFieldId={props.errorFieldId}
+                inputRef={
+                  undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
+                }
+                onChange={onChange}
+                onError={onError}
+                isNotScrollable
+              />
+            ))}
           </WrapperItem>
         </FieldScrollableWrapper>
       </FieldRowWrapper>
       <FieldRowWrapper
-        key={`row-${props.fieldIndex}`}
+        key={`row-${props.fieldIndex + 1}`}
         {...getCssRowStyle('wrapper')}
         readOnly={props.formReadOnly}
       >
@@ -166,12 +161,12 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             {...getFieldMultiInputStyle('item')}
             key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
           >
-            {props.field.fields.slice(1).map((fieldItem, fieldItemIndex) => (
+            {props.field.fields.slice(2).map((fieldItem, fieldItemIndex) => (
               <FieldRowItem
                 {...commonFieldProps}
-                key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 1}`}
+                key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 2}`}
                 field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
-                fieldIndex={fieldItemIndex + 1}
+                fieldIndex={fieldItemIndex + 2}
                 errorFieldId={props.errorFieldId}
                 inputRef={
                   undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
