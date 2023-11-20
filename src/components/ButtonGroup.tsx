@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { P } from '../html'
+import { Div, P } from '../html'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -8,8 +8,6 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 
-const Wrapper = createStyled('div')
-const Item = createStyled('div')
 
 export enum ButtonGroupType {
   Multi = 'Multi',
@@ -46,14 +44,14 @@ export const ButtonGroup = (props: Props) => {
   const getInlineStyle = useInlineStyle(theme, 'buttonGroup')(props.style)
 
   return (
-    <Wrapper {...getCSSStyle('wrapper')}>
+    <Div {...getCSSStyle('wrapper')}>
       {props.items.map((buttonItem) => {
         const isItemActive =
           props.type === ButtonGroupType.Multi
             ? props.value.includes(buttonItem.value)
             : buttonItem.value === props.value
         return (
-          <Item
+          <Div
             {...getCSSStyle({
               item: true,
               itemActive: isItemActive,
@@ -87,9 +85,9 @@ export const ButtonGroup = (props: Props) => {
                 })}
               />
             )}
-          </Item>
+          </Div>
         )
       })}
-    </Wrapper>
+    </Div>
   )
 }

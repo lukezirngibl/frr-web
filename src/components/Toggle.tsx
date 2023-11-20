@@ -52,11 +52,9 @@ export const Toggle = (props: Props) => {
 
   return (
     <>
-      {props.label && (
-        <Label {...props.label} isFocused={isFocused} />
-      )}
+      {props.label && <Label {...props.label} isFocused={isFocused} />}
       <Wrapper
-        data-test-id={props.dataTestId}
+        dataTestId={props.dataTestId}
         data-checked={!!props.value}
         onClick={() => props.onChange(!props.value)}
         onBlur={onBlur}

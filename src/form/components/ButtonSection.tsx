@@ -16,7 +16,7 @@ export const ButtonSectionWrapper = (props: {
   return (
     <ButtonContainer
       disabled={props.disabled}
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       {...getFormStyle('buttonContainer')}
     >
       {props.children}

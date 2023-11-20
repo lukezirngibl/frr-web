@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "4.0.14",
+  "version": "4.0.20",
   "keywords": [],
   "scripts": {
     "build": "tsc",
@@ -59,7 +59,7 @@
     "react-virtualized": "^9.22.3",
     "rgb-hex": "^4.0.0",
     "typelevel-ts": "^0.4.0",
-    "use-debounce": "^9.0.3"
+    "use-debounce": "^10.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
@@ -73,9 +73,9 @@
     "@storybook/react": "^7.5.2",
     "@storybook/react-webpack5": "^7.5.2",
     "@types/lodash.range": "^3.2.7",
-    "@types/react": "^17.0.0",
+    "@types/react": "^18.2.37",
     "@types/react-datepicker": "^4.1.7",
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^18.2.15",
     "@types/styled-components": "^5.0.0",
     "buffer": "^6.0.3",
     "glob-promise": "^6.0.2",

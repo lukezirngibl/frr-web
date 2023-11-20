@@ -1,9 +1,8 @@
-import React from 'react'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, Img, P } from '../../html'
+import { MdOutlineCancel } from '../../icons/new/MdOutlineCancel'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
-import { MdOutlineCancel } from '../../icons/new/MdOutlineCancel'
 
 export const formatFileSize = (size: number) => {
   const formattedSize: number = size / 1000
@@ -25,7 +24,7 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(props.style)
 
   return (
-    <ListItem
+    <Div
       key={props.file.name}
       {...getCSSStyle({
         listItem: true,
@@ -33,7 +32,7 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
       })}
     >
       {props.file.name.endsWith('.png' || '.jpeg' || '.svg') && (
-        <ItemIcon
+        <Img
           src={URL.createObjectURL(props.file)}
           alt={props.file.name}
           {...getCSSStyle('imageItem')}
@@ -52,13 +51,9 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
       <RemoveItemIcon {...getCSSStyle('removeItemIcon')}>
         <MdOutlineCancel className="remove-icon" onClick={props.onRemove} width={16} />
       </RemoveItemIcon>
-    </ListItem>
+    </Div>
   )
 }
-
-const ListItem = createStyled('div')
-
-const ItemIcon = createStyled('img')
 
 const RemoveItemIcon = createStyled(styled.div`
   svg.remove-icon {

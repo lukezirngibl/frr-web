@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
 import styled from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
-import { Option, OptionType, Options } from '../html'
+import { Div, Option, OptionType, Options } from '../html'
 import { Language } from '../theme/language'
 import {
   ComponentTheme,
@@ -152,7 +152,7 @@ export const Select = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <Wrapper {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         {isMobileTouch ? (
           <>
             <SelectWrapper
@@ -166,7 +166,7 @@ export const Select = (props: Props) => {
                 {},
                 'select-wrapper',
               )}
-              data-test-id={props.dataTestId}
+              dataTestId={props.dataTestId}
               data-value={value}
               disabled={props.disabled || props.readOnly}
               onBlur={onBlur}
@@ -224,7 +224,7 @@ export const Select = (props: Props) => {
             />
           </div>
         )}
-      </Wrapper>
+      </Div>
     </>
   )
 }
@@ -334,7 +334,6 @@ export const SelectOption = (props: OptionProps<InternalOption> & { value: Value
  * Styled components
  */
 
-const Wrapper = createStyled('div')
 const SelectWrapper = createStyled('select')
 const OptionValueWrapper = styled.span`
   display: flex;

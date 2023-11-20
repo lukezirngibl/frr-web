@@ -272,7 +272,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
       <FormWrapper
         {...getFormStyle('wrapper')}
         className={formClassName}
-        data-test-id={props.dataTestId}
+        dataTestId={props.dataTestId}
         readOnly={props.readOnly}
         onSubmit={(e: FormEvent) => {
           e.preventDefault()

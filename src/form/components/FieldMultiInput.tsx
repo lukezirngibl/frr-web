@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Label } from '../../components/Label'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
-import { createStyled } from '../../theme/util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
@@ -9,12 +8,11 @@ import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputField } from './types'
+import { Div } from '../../html'
 
 type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputField<FormData>
 }
-
-const WrapperItem = createStyled('div')
 
 // ------------------------------------
 export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormData>) => {
@@ -90,7 +88,7 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
           />
         )}
 
-        <WrapperItem {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
+        <Div {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}
@@ -106,7 +104,7 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
               onFocus={onFocus}
             />
           ))}
-        </WrapperItem>
+        </Div>
       </FieldScrollableWrapper>
     </FieldRowWrapper>
   )

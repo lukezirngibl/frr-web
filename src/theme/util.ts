@@ -53,11 +53,7 @@ export const mapStylesToCSS = (style: CSSProperties, overwrite?: CSSProperties) 
   return cssStyles.replace(':disabled', '&[disabled]')
 }
 
-const mapPseudoStyles = (
-  pseudoStyle: string,
-  style: CSSProperties,
-  overwrite?: CSSProperties,
-) => {
+const mapPseudoStyles = (pseudoStyle: string, style: CSSProperties, overwrite?: CSSProperties) => {
   const cssStyles = mapStylesToCSS(style, overwrite)
   return cssStyles > '' ? `${pseudoStyle} { ${cssStyles} }` : ''
 }
@@ -70,10 +66,12 @@ export const createStyled = (type: any) =>
   typeof type === 'string'
     ? styled[type]
         .withConfig({
-          shouldForwardProp: (prop: string) => !['cssStyles', 'dataThemeId'].includes(prop),
+          shouldForwardProp: (prop: string) =>
+            !['cssStyles', 'dataThemeId', 'dataTestId'].includes(prop),
         })
-        .attrs(({ dataThemeId }) => ({
+        .attrs(({ dataThemeId, dataTestId }) => ({
           'data-theme-id': dataThemeId,
+          'data-test-id': dataTestId,
         }))`
         ${(props: { cssStyles: string }) => css`
           ${props.cssStyles}
@@ -81,11 +79,16 @@ export const createStyled = (type: any) =>
       `
     : styled(type)
         .withConfig({
-          shouldForwardProp: (prop: string) => !['cssStyles', 'dataThemeId'].includes(prop),
+          shouldForwardProp: (prop: string) =>
+            !['cssStyles', 'dataThemeId', 'dataTestId'].includes(prop),
         })
-        .attrs(({ dataThemeId }) => ({
-          'data-theme-id': dataThemeId,
-        }))`
+        .attrs(({ dataThemeId, dataTestId }) => {
+          const attributes = {
+            'data-theme-id': dataThemeId,
+            'data-test-id': dataTestId,
+          }
+          return attributes
+        })`
         ${(props) => css`
           ${props.cssStyles}
         `}
@@ -198,8 +201,6 @@ export const getUseCSSStyles =
         {} as any,
       ),
     }
-
-
 
     const animationKey = keys.find((elementKey) => !!theme[componentKey][elementKey]['@animation'])
     let animation

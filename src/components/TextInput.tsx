@@ -5,10 +5,9 @@ import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
+import { Div } from '../html'
 
-const InputWrapper = createStyled('div')
 const Input = createStyled('input')
-const Hook = createStyled('div')
 const Prefix = createStyled('p')
 
 export type Props = {
@@ -94,7 +93,7 @@ export const TextInput = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <InputWrapper
+      <Div
         {...getCSSStyle({
           wrapper: true,
           wrapperCurrency: props.isCurrencyInput,
@@ -110,7 +109,7 @@ export const TextInput = (props: Props) => {
         }}
         onKeyDown={props.onKeyDown}
       >
-        <Hook
+        <Div
           {...getCSSStyle({
             hook: true,
             readOnlyHook: props.readOnly,
@@ -128,7 +127,7 @@ export const TextInput = (props: Props) => {
           })}
           autoComplete={props.autocomplete}
           className="frr-text-input"
-          data-test-id={props.dataTestId}
+          dataTestId={props.dataTestId}
           disabled={props.readOnly || props.disabled}
           maxLength={props.maxLength}
           minLength={props.minLength}
@@ -164,7 +163,7 @@ export const TextInput = (props: Props) => {
         ></Input>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
         {props.children}
-      </InputWrapper>
+      </Div>
     </>
   )
 }

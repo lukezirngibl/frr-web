@@ -76,7 +76,7 @@ export const OptionGroup = (props: Props) => {
               itemFocus: isFocused && itemIndex === focusedIndex,
             })}
             className={item.value === props.value ? 'active' : 'inactive'}
-            data-test-id={`${props.dataTestId || 'option'}:${item.value}`}
+            dataTestId={`${props.dataTestId || 'option'}:${item.value}`}
             key={item.value}
             onClick={() => onChange(item)}
             tabIndex={-1}

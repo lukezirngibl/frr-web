@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
 import { useComponentTheme, useCSSStyles } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { Loading } from './Loading'
 import { PdfViewer } from './PdfViewer'
 import { ModalLinkConfig, ModalLinkType } from './types'
 import { MdClose } from '../icons/new/MdClose'
+import { Div } from '../html'
 
 export type Props = {
   modalOpen: boolean
@@ -85,11 +85,11 @@ export const LinkModal = (props: Props) => {
                   }}
                 ></iframe>
 
-                <PageSelectorWrapper {...getCSSStyle('pageSelectorWrapper')}></PageSelectorWrapper>
+                <Div {...getCSSStyle('pageSelectorWrapper')}></Div>
                 {props.config.onClose && (
-                  <CloseButton {...getCSSStyle('closeButton')} onClick={props.config.onClose}>
+                  <Div {...getCSSStyle('closeButton')} onClick={props.config.onClose}>
                     <MdClose width={24} />
-                  </CloseButton>
+                  </Div>
                 )}
               </>
             )}
@@ -101,9 +101,6 @@ export const LinkModal = (props: Props) => {
     </Modal>
   )
 }
-
-const CloseButton = createStyled('div')
-const PageSelectorWrapper = createStyled('div')
 
 const IframeOuterWrapper = styled.div`
   width: 100%;
