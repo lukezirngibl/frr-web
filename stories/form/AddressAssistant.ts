@@ -1,7 +1,7 @@
 const URL = 'https://webservices.post.ch:17023/IN_SYNSYN_EXT/REST/v1/autocomplete4'
 const ENCODED_CREDENTIALS = 'VFVfNzI5MzkxNF8wMDAxOmNyZWtoVVlxTE5ZMQ=='
 
-type AddressParams = {
+export type AddressParams = {
   ZipCode: string
   TownName: string
   StreetName: string

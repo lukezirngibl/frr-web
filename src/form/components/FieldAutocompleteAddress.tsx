@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 
 import { Option } from '../../components/menu/Menu.types'
@@ -11,12 +11,30 @@ import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import {
-  CommonThreadProps,
-  MultiInputAutosuggestAddressField,
-  MultiInputAutosuggestField,
-  TextInputAutosuggestField,
-} from './types'
+import { CommonThreadProps, MultiInputAutosuggestAddressField, TextInputAutosuggestField } from './types'
+
+export type AddressParams = {
+  ZipCode: string
+  TownName: string
+  StreetName: string
+  HouseNo: string
+}
+
+export type AddressResponse = {
+  Canton: string
+  CountryCode: string
+  HouseKey: string
+  HouseNo: string
+  HouseNoAddition: string
+  ONRP: string
+  STRID: string
+  StreetName: string
+  TownName: string
+  ZipAddition: string
+  ZipCode: string
+}
+
+export type FieldInputType = 'StreetName' | 'HouseNo' | 'ZipCode' | 'TownName'
 
 export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestAddressField<FormData>
@@ -53,6 +71,15 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     style: props.style,
   }
 
+  // Address search params
+  const [searchParams, setSearchParams] = useState({
+    ZipCode: '',
+    TownName: '',
+    StreetName: '',
+    HouseNo: '',
+  })
+  const [lastChangedField, setLastChangedField] = useState<FieldInputType | null>(null)
+
   if (props.formReadOnly) {
     return (
       <FieldRowWrapper
@@ -69,9 +96,14 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
-  let isSelectSuggestion = false
+  const [isSelectSuggestion, setIsSelectSuggestion] = useState(false)
 
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
+    // Update search params when you delete the value
+    if (lastChangedField !== null) {
+      const params = { ...searchParams, [lastChangedField]: value }
+      setSearchParams(params)
+    }
     // Propagate changes to form if not already done through onSelectSuggestion callback
     !isSelectSuggestion && props.onChange(lens, value)
   }
@@ -79,7 +111,13 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
-      isSelectSuggestion = true
+      setSearchParams({
+        ZipCode: suggestion.data.zip,
+        TownName: suggestion.data.city,
+        StreetName: suggestion.data.street,
+        HouseNo: suggestion.data.houseNr,
+      })
+      setIsSelectSuggestion(true)
 
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
@@ -107,6 +145,46 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       props.onChangeMulti?.(changes)
     }
 
+  // Handling the onloadSuggestions with Multiple Inputs
+
+  const onLoadSuggestions =
+    (
+      currentField: TextInputAutosuggestField<FormData> & {
+        fieldInputType: FieldInputType
+      },
+    ) =>
+    (searchString: string) => {
+      setIsSelectSuggestion(false)
+      setLastChangedField(currentField.fieldInputType)
+
+      const params = { ...searchParams, [currentField.fieldInputType]: searchString }
+      setSearchParams(params)
+      if (
+        (currentField.fieldInputType === 'StreetName' || currentField.fieldInputType === 'TownName') &&
+        searchString.length < 3
+      ) {
+        return Promise.resolve([])
+      }
+      return searchString > ''
+        ? props.field.loadAddressSuggestions(params).then((address) =>
+            address.map((item: AddressResponse) => ({
+              value:
+                currentField.fieldInputType !== 'HouseNo'
+                  ? item[currentField.fieldInputType]
+                  : `${item[currentField.fieldInputType]}${item.HouseNoAddition}`,
+              label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
+              isTranslated: true,
+              data: {
+                street: item.StreetName,
+                houseNr: item.HouseNo,
+                zip: item.ZipCode,
+                city: item.TownName,
+              },
+            })),
+          )
+        : Promise.resolve([])
+    }
+
   return (
     <>
       <FieldRowWrapper
@@ -130,7 +208,11 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               <FieldRowItem
                 {...commonFieldProps}
                 key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-                field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
+                field={{
+                  ...fieldItem,
+                  onSuggestionSelected: onSelectSuggestion(fieldItem),
+                  onLoadSuggestions: onLoadSuggestions(fieldItem),
+                }}
                 fieldIndex={fieldItemIndex}
                 errorFieldId={props.errorFieldId}
                 inputRef={
@@ -165,7 +247,11 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               <FieldRowItem
                 {...commonFieldProps}
                 key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 2}`}
-                field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
+                field={{
+                  ...fieldItem,
+                  onSuggestionSelected: onSelectSuggestion(fieldItem),
+                  onLoadSuggestions: onLoadSuggestions(fieldItem),
+                }}
                 fieldIndex={fieldItemIndex + 2}
                 errorFieldId={props.errorFieldId}
                 inputRef={

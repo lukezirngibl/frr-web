@@ -32,15 +32,14 @@
   "peerDependencies": {
     "@mui/material": "^5.0.0",
     "i18next": "^23.0.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-i18next": "^13.0.0",
     "styled-components": "^6.1.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "awesome-debounce-promise": "^2.1.0",
     "date-fns": "^2.19.0",
     "fp-ts": "^2.16.1",
     "lodash.range": "^3.2.0",
