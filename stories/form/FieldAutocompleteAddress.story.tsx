@@ -52,7 +52,6 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         itemStyle: {
           marginLeft: 0,
         },
-        debounce: 500,
         onLoadSuggestions: (searchString) => {
           setSearchParams({ ...searchParams, StreetName: searchString })
           return searchString > ''
