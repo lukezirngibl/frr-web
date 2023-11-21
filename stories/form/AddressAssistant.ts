@@ -1,4 +1,6 @@
 const URL = 'https://webservices.post.ch:17023/IN_SYNSYN_EXT/REST/v1/autocomplete4'
+// const URL = 'https://webservices-int.post.ch:17023/IN_SYNSYN_EXT_INT/REST/v1/autocomplete4'
+// const URL = 'https://webservices.post.ch:17029/IN_SYNSYN_EXT/REST/v1/autocomplete4'
 const ENCODED_CREDENTIALS = 'VFVfNzI5MzkxNF8wMDAxOmNyZWtoVVlxTE5ZMQ=='
 
 export type AddressParams = {

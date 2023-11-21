@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { Option } from '../../components/menu/Menu.types'
@@ -78,7 +78,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     StreetName: '',
     HouseNo: '',
   })
-  const [lastChangedField, setLastChangedField] = useState<FieldInputType | null>(null)
 
   if (props.formReadOnly) {
     return (
@@ -96,29 +95,13 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
-  const [isSelectSuggestion, setIsSelectSuggestion] = useState(false)
-
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
-    // Update search params when you delete the value
-    if (lastChangedField !== null) {
-      const params = { ...searchParams, [lastChangedField]: value }
-      setSearchParams(params)
-    }
-    // Propagate changes to form if not already done through onSelectSuggestion callback
-    !isSelectSuggestion && props.onChange(lens, value)
+    props.onChange(lens, value)
   }
 
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
-      setSearchParams({
-        ZipCode: suggestion.data.zip,
-        TownName: suggestion.data.city,
-        StreetName: suggestion.data.street,
-        HouseNo: suggestion.data.houseNr,
-      })
-      setIsSelectSuggestion(true)
-
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -146,7 +129,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     }
 
   // Handling the onloadSuggestions with Multiple Inputs
-
   const onLoadSuggestions =
     (
       currentField: TextInputAutosuggestField<FormData> & {
@@ -154,11 +136,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       },
     ) =>
     (searchString: string) => {
-      setIsSelectSuggestion(false)
-      setLastChangedField(currentField.fieldInputType)
-
-      const params = { ...searchParams, [currentField.fieldInputType]: searchString }
-      setSearchParams(params)
       if (
         (currentField.fieldInputType === 'StreetName' || currentField.fieldInputType === 'TownName') &&
         searchString.length < 3
@@ -166,24 +143,35 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
         return Promise.resolve([])
       }
       return searchString > ''
-        ? props.field.loadAddressSuggestions(params).then((address) =>
-            address.map((item: AddressResponse) => ({
-              value:
-                currentField.fieldInputType !== 'HouseNo'
-                  ? item[currentField.fieldInputType]
-                  : `${item[currentField.fieldInputType]}${item.HouseNoAddition}`,
-              label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
-              isTranslated: true,
-              data: {
-                street: item.StreetName,
-                houseNr: item.HouseNo,
-                zip: item.ZipCode,
-                city: item.TownName,
-              },
-            })),
-          )
+        ? props.field
+            .loadAddressSuggestions({ ...searchParams, [currentField.fieldInputType]: searchString })
+            .then((address) =>
+              address.map((item: AddressResponse) => ({
+                value:
+                  currentField.fieldInputType !== 'HouseNo'
+                    ? item[currentField.fieldInputType]
+                    : `${item[currentField.fieldInputType]}${item.HouseNoAddition}`,
+                label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
+                isTranslated: true,
+                data: {
+                  street: item.StreetName,
+                  houseNr: item.HouseNo,
+                  zip: item.ZipCode,
+                  city: item.TownName,
+                },
+              })),
+            )
         : Promise.resolve([])
     }
+
+  useEffect(() => {
+    setSearchParams({
+      StreetName: props.field.fields[0].lens.get(props.data) || '',
+      HouseNo: props.field.fields[1].lens.get(props.data) || '',
+      ZipCode: props.field.fields[2].lens.get(props.data) || '',
+      TownName: props.field.fields[3].lens.get(props.data) || '',
+    })
+  }, [props.data])
 
   return (
     <>

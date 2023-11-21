@@ -133,7 +133,9 @@ export const AddressPostalCodeCity = () => {
         formReadOnly: false,
         style: {},
         data,
-        onChange: (lens, value) => {},
+        onChange: (lens, value) => {
+          setData((prev) => ({ ...prev, [lens.id()]: value }))
+        },
         onChangeMulti: (fields) => {
           const newData = { ...data }
           fields.forEach((field) => {
