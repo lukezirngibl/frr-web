@@ -95,17 +95,21 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
-  let isSelectSuggestion = false
+  const [isSelectSuggestion, setIsSelectSuggestion] = useState(false)
 
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
     // Propagate changes to form if not already done through onSelectSuggestion callback
     !isSelectSuggestion && props.onChange(lens, value)
   }
 
+  const onFocus = (field: TextInputAutosuggestField<FormData>) => {
+    setIsSelectSuggestion(false)
+  }
+
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
-      isSelectSuggestion = true
+      setIsSelectSuggestion(true)
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -210,6 +214,9 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                 inputRef={
                   undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                 }
+                onFocus={() => {
+                  onFocus(fieldItem)
+                }}
                 onChange={onChange}
                 onError={onError}
                 isNotScrollable
@@ -249,6 +256,9 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                 inputRef={
                   undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                 }
+                onFocus={() => {
+                  onFocus(fieldItem)
+                }}
                 onChange={onChange}
                 onError={onError}
                 isNotScrollable
