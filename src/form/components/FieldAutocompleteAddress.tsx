@@ -95,13 +95,17 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
+  let isSelectSuggestion = false
+
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
-    props.onChange(lens, value)
+    // Propagate changes to form if not already done through onSelectSuggestion callback
+    !isSelectSuggestion && props.onChange(lens, value)
   }
 
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
+      isSelectSuggestion = true
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
