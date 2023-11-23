@@ -93,6 +93,9 @@ export const TextInput = (props: Props) => {
 
   useEffect(() => {
     if (props.forceRefreshValue > 0) {
+      console.log('forceRefreshValue', props.forceRefreshValue)
+      console.log('value', props.value)
+      console.log('internalValue', internalValue)
       setInternalValue(formatValue(props.value))
     }
   }, [props.forceRefreshValue])
