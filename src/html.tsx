@@ -106,7 +106,7 @@ export const Element = (
     <HtmlElement
       onClick={onClick}
       cssStyles={cssStyles}
-      data-test-id={dataTestId}
+      dataTestId={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}
       dataThemeId={dataThemeId || elementStyle.dataThemeId}
       disabled={disabled}
@@ -134,3 +134,6 @@ export const Li = (props: Props) => <Element {...props} element={'li'} />
 export const Option = (props: Props) => <Element {...props} element={'option'} />
 export const P = (props: Props) => <Element {...props} element={'p'} />
 export const button = (props: Props) => <Element {...props} element={'button'} />
+
+export const Div = createStyled('div')
+export const Img = createStyled('img')

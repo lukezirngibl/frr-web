@@ -1,21 +1,18 @@
-import { P } from '../html'
+import { Div, P } from '../html'
 import { AiOutlineCheck } from '../icons/new/AiOutlineCheck'
 import { MdClose } from '../icons/new/MdClose'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
+  useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 
 export enum ChecklistType {
   Allowed = 'Allowed',
   Disallowed = 'Disallowed',
 }
-
-const Container = createStyled('div')
 
 export type Checklist = {
   type: ChecklistType
@@ -41,7 +38,7 @@ export const StaticChecklist = (props: Props) => {
 
   return (
     <>
-      <Container {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         {props.title && (
           <P label={props.title} localeNamespace={props.localeNamespace} {...getCSSStyles('title')} />
         )}
@@ -52,13 +49,13 @@ export const StaticChecklist = (props: Props) => {
             {...getCSSStyles('description')}
           />
         )}
-        <Container {...getCSSStyles('listsWrapper')}>
+        <Div {...getCSSStyles('listsWrapper')}>
           {props.list.map((l, k1) => (
-            <Container key={k1} {...getCSSStyles('list')}>
+            <Div key={k1} {...getCSSStyles('list')}>
               {l.title && <P label={l.title} localeNamespace={props.localeNamespace} />}
-              <Container {...getCSSStyles('itemsList')}>
+              <Div {...getCSSStyles('itemsList')}>
                 {l.items.map((i, k2) => (
-                  <Container key={k2} {...getCSSStyles('item')}>
+                  <Div key={k2} {...getCSSStyles('item')}>
                     {l.type === ChecklistType.Allowed ? (
                       <AiOutlineCheck
                         width={18}
@@ -82,13 +79,13 @@ export const StaticChecklist = (props: Props) => {
                       localeNamespace={props.localeNamespace}
                       {...getCSSStyles('itemLabel')}
                     ></P>
-                  </Container>
+                  </Div>
                 ))}
-              </Container>
-            </Container>
+              </Div>
+            </Div>
           ))}
-        </Container>
-      </Container>
+        </Div>
+      </Div>
     </>
   )
 }

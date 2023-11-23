@@ -20,7 +20,7 @@ const pseudoStyleKeys = [
   ':last-child',
   ':placeholder',
 ]
-const customDynamicStyleKeys = [':readonly', '@media-mobile']
+const customDynamicStyleKeys = [':readonly', '@media-mobile', '@icon']
 export const dynamicStyleKeys = pseudoStyleKeys.concat(customDynamicStyleKeys)
 
 const animationKeys = ['@animation']
@@ -66,10 +66,12 @@ export const createStyled = (type: any) =>
   typeof type === 'string'
     ? styled[type]
         .withConfig({
-          shouldForwardProp: (prop: string) => !['cssStyles', 'dataThemeId'].includes(prop),
+          shouldForwardProp: (prop: string) =>
+            !['cssStyles', 'dataThemeId', 'dataTestId'].includes(prop),
         })
-        .attrs(({ dataThemeId }) => ({
+        .attrs(({ dataThemeId, dataTestId }) => ({
           'data-theme-id': dataThemeId,
+          'data-test-id': dataTestId,
         }))`
         ${(props: { cssStyles: string }) => css`
           ${props.cssStyles}
@@ -77,11 +79,16 @@ export const createStyled = (type: any) =>
       `
     : styled(type)
         .withConfig({
-          shouldForwardProp: (prop: string) => !['cssStyles', 'dataThemeId'].includes(prop),
+          shouldForwardProp: (prop: string) =>
+            !['cssStyles', 'dataThemeId', 'dataTestId'].includes(prop),
         })
-        .attrs(({ dataThemeId }) => ({
-          'data-theme-id': dataThemeId,
-        }))`
+        .attrs(({ dataThemeId, dataTestId }) => {
+          const attributes = {
+            'data-theme-id': dataThemeId,
+            'data-test-id': dataTestId,
+          }
+          return attributes
+        })`
         ${(props) => css`
           ${props.cssStyles}
         `}
@@ -215,6 +222,7 @@ export const getUseCSSStyles =
       styles['@media-mobile'] || {},
       overwrite?.['@media-mobile'],
     )}
+    ${mapPseudoStyles('& svg', styles['@icon'] || {}, overwrite?.['@icon'])}
     ${animation ? `&.animate { animation: ${animation}; }` : ''}
   `
 
@@ -223,10 +231,6 @@ export const getUseCSSStyles =
       (str, k, i) => `${str}${i === 0 ? '' : ','}${k}`,
       '',
     )}`
-
-    // if (keys.findIndex(key => key === 'common') !== -1) {
-    //   console.log(cssStyles)
-    // }
 
     return {
       cssStyles,

@@ -1,4 +1,4 @@
-import { Options, P } from '../html'
+import { Div, Options, P } from '../html'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 
@@ -85,6 +85,7 @@ export const Navigation = (props: Props) => {
                 {...getCSSStyles({
                   itemNumber: true,
                   itemLabelActive: itemActiveIndex === itemIndex,
+                  itemLabelCompleted: itemActiveIndex > itemIndex,
                 })}
               >
                 {itemIndex + 1}.{' '}
@@ -135,5 +136,4 @@ export const Navigation = (props: Props) => {
   )
 }
 
-const Div = createStyled('div')
 const Text = createStyled('p')

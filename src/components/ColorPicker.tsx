@@ -4,7 +4,7 @@ import { SketchPicker } from 'react-color'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
-import { P } from '../html'
+import { Div, P } from '../html'
 import { MediaQuery } from '../theme/configure.theme'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
@@ -12,7 +12,6 @@ import { LocaleNamespace } from '../translation'
 import { Button, ButtonType } from './Button'
 import { Label, LabelProps } from './Label'
 
-const ColorPickerWrapper = createStyled('div')
 const ColorPickerContainer = createStyled(styled.div`
   position: relative;
   width: 48px;
@@ -127,7 +126,7 @@ export const ColorPicker = (props: Props) => {
     <>
       {props.label && <Label {...props.label} />}
 
-      <ColorPickerWrapper {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         <ColorPickerContainer>
           <ClickAwayListener
             onClickAway={() => {
@@ -137,7 +136,7 @@ export const ColorPicker = (props: Props) => {
             <ColorCircle
               {...getCSSStyles('circle')}
               color={color}
-              data-test-id={props.dataTestId}
+              dataTestId={props.dataTestId}
               onClick={() => !props.readOnly && !open && setOpen(true)}
               open={open}
             >
@@ -208,7 +207,7 @@ export const ColorPicker = (props: Props) => {
             <P label={color.split(',').join(', ')} isLabelTranslated {...getCSSStyles('labelColor')} />
           </ColorLabelWrapper>
         )}
-      </ColorPickerWrapper>
+      </Div>
     </>
   )
 }

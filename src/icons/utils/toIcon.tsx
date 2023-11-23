@@ -12,27 +12,26 @@ type IconProps = {
   cssStylesSVG?: string
   style?: CSSProperties
 }
-export const toIcon = (SVG: ReactNode) => (props: IconProps) =>
-  (
-    <IconDiv
-      cssStyles={props.cssStyles}
-      cssStylesSVG={props.cssStylesSVG}
-      data-test-id={props.dataTestId}
-      dataThemeId={props.dataThemeId}
-      onClick={props.onClick}
-      size={props.size}
-      style={props.style}
-    >
-      {SVG}
-    </IconDiv>
-  )
+export const toIcon = (SVG: ReactNode) => (props: IconProps) => (
+  <IconDiv
+    $cssStylesSVG={props.cssStylesSVG}
+    cssStyles={props.cssStyles}
+    dataTestId={props.dataTestId}
+    dataThemeId={props.dataThemeId}
+    onClick={props.onClick}
+    size={props.size}
+    style={props.style}
+  >
+    {SVG}
+  </IconDiv>
+)
 
-const IconDiv = createStyled(styled.div<IconProps>`
+const IconDiv = createStyled(styled.div<Omit<IconProps, 'cssStylesSVG'> & { $cssStylesSVG: string }>`
   width: ${(props) => props.size || 24}px;
   height: ${(props) => props.size || 24}px;
   cursor: ${(props) => (props.onClick ? 'pointer' : 'default')};
 
   svg {
-    ${(props) => css`${props.cssStylesSVG}`}
+    ${(props) => css`${props.$cssStylesSVG}`}
   }
 `)

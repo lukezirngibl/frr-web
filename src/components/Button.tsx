@@ -88,7 +88,7 @@ export const Button = (props: Props) => {
     <ButtonWrapper
       id={props.id}
       className={isClicked ? 'animate' : ''}
-      data-test-id={props.dataTestId || `button-${type}`}
+      dataTestId={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
       tabIndex={tabIndex}

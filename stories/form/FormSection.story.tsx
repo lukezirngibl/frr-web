@@ -1,10 +1,9 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
 import { FieldSection } from '../../src/form/components/FieldSection'
-import { Form, FormProps } from '../../src/form/components/Form'
-import { FormField, FormFieldType } from '../../src/form/components/types'
+import { Form } from '../../src/form/components/Form'
+import { DescriptionType, FormField, FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof FieldSection> = {
@@ -32,6 +31,10 @@ const Formatter = new Intl.NumberFormat('de-CH', {
 const summaryFields: Array<FormField<FormData>> = [
   {
     type: FormFieldType.FormSection,
+    title: 'customerPlanSummary.title',
+    introduction: 'customerPlanSummary.introduction',
+    description: 'customerPlanSummary.descriptionSuccess',
+    descriptionType: DescriptionType.Success,
     fields: [
       {
         label: {
@@ -39,8 +42,6 @@ const summaryFields: Array<FormField<FormData>> = [
         },
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['loanAmount']),
-        readOnly: true,
-        readOnlyMapper: (params) => (params.value ? Formatter.format(params.value) : ''),
       },
       {
         label: {
@@ -48,8 +49,6 @@ const summaryFields: Array<FormField<FormData>> = [
         },
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['interestRateAmount']),
-        readOnly: true,
-        readOnlyMapper: (params) => (!isNaN(Number(params.value)) ? `${params.value}%` : ''),
       },
     ],
   },
@@ -61,19 +60,11 @@ const summaryFields: Array<FormField<FormData>> = [
         label: { label: 'customerPlanSummary.formFields.monthlyRate.label' },
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['monthlyRate']),
-        readOnly: true,
-        readOnlyMapper: (params) => (params.value ? Formatter.format(params.value) : ''),
-        readOnlyOptions: { isHighlighted: true },
       },
       {
         label: { label: 'customerPlanSummary.formFields.duration.label' },
         type: FormFieldType.NumberInput,
         lens: mkFormStateLens(['duration']),
-        readOnly: true,
-        readOnlyMapper: (params) =>
-          params.translate('customerPlanSummary.formFields.duration.months', {
-            months: params.value,
-          }),
       },
     ],
   },
@@ -86,14 +77,11 @@ const summaryFields: Array<FormField<FormData>> = [
         },
         type: FormFieldType.TextArea,
         lens: mkFormStateLens(['shippingAddress']),
-        readOnlyOptions: { isFullWidth: true },
-        readOnly: true,
       },
     ],
   },
   {
     type: FormFieldType.FormSection,
-    style: { rowItem: { display: 'block' } },
     fields: [
       {
         label: {
@@ -109,10 +97,7 @@ const summaryFields: Array<FormField<FormData>> = [
   },
 ]
 
-const formLens = makeFormLens<FormData>()
-const story = createStory<FormProps<FormData>, typeof Form>(Form)
-
-export const LoanSummary = () => {
+export const LoanForm = () => {
   const [data, setData] = React.useState<FormData>({
     loanAmount: 2400,
     interestRateAmount: 0,
@@ -124,15 +109,14 @@ export const LoanSummary = () => {
 
   return (
     <div style={{ maxWidth: 1000, minHeight: 1200 }}>
-      {story({
-        formFields: summaryFields,
-        style: {},
-        data,
-        // onChange: () => {
-        //   // setData({ ...data, [lens.id()]: value })
-        // },
-      })}
+      <Form
+        formFields={summaryFields}
+        data={data}
+        onChange={(data) => {
+          setData(data)
+        }}
+      />
     </div>
   )
 }
-LoanSummary.storyName = 'Loan Summary'
+LoanForm.storyName = 'Loan Form'

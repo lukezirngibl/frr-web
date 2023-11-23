@@ -1,26 +1,17 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import ReactSelectAsync from 'react-select/async'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { StylesConfig } from 'react-select'
-import { useMobileTouch } from '../hooks/useMobileTouch'
-import { Option, OptionType, Options } from '../html'
-import { Language } from '../theme/language'
+import { Div, OptionType, Options } from '../html'
 import {
   ComponentTheme,
   useCSSStyles,
   useComponentTheme,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-import { LocaleNamespace, Translate } from '../translation'
-import { replaceUmlaute } from '../utils/replaceUmlaute'
+import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
-import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
-import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
-import { MdDone } from '../icons/new/MdDone'
 import { SelectOption, mapReactSelectStyles } from './Select'
-import { useDebouncedCallback } from 'use-debounce'
+import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
 
 type SearchDropdownProps = {
   dataTestId?: string
@@ -118,7 +109,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <Wrapper {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles('wrapper')}>
         <div data-test-id={props.dataTestId} data-value={props.value ?? 'null'}>
           <ReactSelect
             autoFocus={props.hasFocus}
@@ -149,13 +140,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
             value={props.options.find((option) => option.value === props.value) || null}
           />
         </div>
-      </Wrapper>
+      </Div>
     </>
   )
 }
-
-/*
- * Styled components
- */
-
-const Wrapper = createStyled('div')

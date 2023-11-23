@@ -17,7 +17,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "target": "es6",
-    "module": "commonjs",
+    "module": "ES6",
     "declaration": true,
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types"]

@@ -40,10 +40,9 @@ export interface LensFromPath<S> {
   >(
     path: [K1, K2, K3, K4],
   ): FormLens<S, S[K1][K2][K3][K4]>
-  <K1 extends keyof S, K2 extends keyof S[K1], K3 extends keyof S[K1][K2]>(path: [K1, K2, K3]): FormLens<
-    S,
-    S[K1][K2][K3]
-  >
+  <K1 extends keyof S, K2 extends keyof S[K1], K3 extends keyof S[K1][K2]>(
+    path: [K1, K2, K3],
+  ): FormLens<S, S[K1][K2][K3]>
   <K1 extends keyof S, K2 extends keyof S[K1]>(path: [K1, K2]): FormLens<S, S[K1][K2]>
   <K1 extends keyof S>(path: [K1]): FormLens<S, S[K1]>
 }
@@ -129,6 +128,8 @@ export const processRepeatGroup = <FormData extends {}>(
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
         return { ...repeatGroup, label }
+      } else if (repeatGroup.type === FormFieldType.AutocompleteAddress) {
+        return { ...repeatGroup, label }
       } else {
         return {
           ...repeatGroup,
@@ -203,7 +204,10 @@ export const processRepeatSection = <FormData extends {}>(
                 : undefined,
             })),
           }
-        } else if (repeatSectionField.type === FormFieldType.MultiInputAutosuggest) {
+        } else if (
+          repeatSectionField.type === FormFieldType.MultiInputAutosuggest ||
+          repeatSectionField.type === FormFieldType.AutocompleteAddress
+        ) {
           return {
             ...repeatSectionField,
             fields: repeatSectionField.fields.map((field) => ({

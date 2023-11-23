@@ -167,26 +167,26 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
   },
   materialSlider: {
     root: {
-      color: 'var(--color-partner-primary)',
+      color: 'var(--color-partner-secondary)',
+      borderRadius: 0,
     },
     thumb: {
-      backgroundColor: 'var(--color-partner-primary)',
-      width: 14,
-      height: 34,
-      marginTop: -13,
-      marginLeft: -8,
-      borderRadius: 0,
+      backgroundColor: 'var(--color-partner-secondary)',
+      border: '1px solid var(--color-background-primary)',
+      width: 28,
+      height: 28,
+
       ':focus': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        boxShadow: '0px 0px 0px 8px rgba(var(--color-partner-secondary-rgb),0.15)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':hover': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':active': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        backgroundColor: 'var(--color-partner-secondary)',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
       },
     },
     thumbFocus: {
@@ -203,7 +203,11 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     rail: {
       backgroundColor: 'var(--color-form-field-background)',
+      height: 6,
       opacity: 1,
+    },
+    track: {
+      height: 6,
     },
   },
   label: {
@@ -687,8 +691,8 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     chromeless: {
       background: 'transparent',
-      color: 'var(--color-partner-secondary)',
-      borderColor: 'var(--color-partner-secondary)',
+      color: 'var(--color-primary)',
+      borderColor: 'var(--color-primary)',
       borderWidth: 1,
       borderStyle: 'solid',
     },
@@ -738,9 +742,14 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g><path fill="currentColor" stroke="none" d="M26 1.067l-23.067 23.067-1.6 6.533 6.533-1.6 23.067-23.067-4.933-4.933zM29.067 6l-1.733 1.733-3.067-3.067 1.733-1.733 3.067 3.067zM26.4 8.667l-18.267 18.267-3.067-3.067 18.267-18.267 3.067 3.067zM3.067 28.933l1.067-4 3.067 3.067-4.133 0.933z"></path></g></svg>',
     },
     info: {
-      svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 46 46"><circle cx="16" cy="16" r="20" strokeWidth="2" stroke="currentColor" fill="none" /><path fill="currentColor" stroke="none" d="M17.333 25.333v-16h-4.667v2.667h2v13.333h-2v2.667h6.667v-2.667z"></path><path fill="currentColor" stroke="none" d="M14.667 4h2.667v2.667h-2.667v-2.667z"></path></svg>',
+      svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 46 46"><circle cx="16" cy="16" r="20" stroke-width="2" stroke="currentColor" fill="none" /><path fill="currentColor" stroke="none" d="M17.333 25.333v-16h-4.667v2.667h2v13.333h-2v2.667h6.667v-2.667z"></path><path fill="currentColor" stroke="none" d="M14.667 4h2.667v2.667h-2.667v-2.667z"></path></svg>',
     },
   },
+
+  // ==============================
+  // Navigation
+  // ==============================
+
   navigation: {
     carrot: {
       display: 'none',
@@ -754,25 +763,28 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       },
     },
     wrapperInner: {
+      alignItems: 'center',
+      backgroundColor: 'var(--color-background-primary)',
       display: 'flex',
-      maxWidth: 'var(--layout-app-max-width)',
-      margin: '0 auto',
       height: '100%',
       justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      paddingTop: 32,
-      backgroundColor: 'var(--color-background-primary)',
+      margin: '0 auto',
+      maxWidth: 1000,
       paddingLeft: 16,
       paddingRight: 16,
+      paddingTop: 32,
+      width: '100%',
       '@media-mobile': {
-        padding: '16px 2px 24px',
+        padding: '16px 10px 24px',
       },
     },
     itemWrapper: {
       display: 'flex',
       alignItems: 'center',
       width: '25%',
+    },
+    itemTitle: {
+      display: 'none',
     },
     item: {
       display: 'flex',
@@ -781,7 +793,7 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       marginRight: 1,
       marginBottom: 0,
       width: '100%',
-      borderBottom: '5px solid var(--color-partner-secondary)',
+      borderBottom: '5px solid var(--color-primary)',
     },
     itemActive: {
       borderBottom: '5px solid var(--color-partner-primary)',
@@ -807,13 +819,14 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       height: 8,
       borderRadius: 4,
       margin: '0 6px',
-      backgroundColor: 'var(--color-partner-secondary)',
+      backgroundColor: 'var(--color-primary)',
       display: 'none',
     },
     itemCircleActive: {
       backgroundColor: 'var(--color-partner-primary)',
     },
   },
+
   modal: {
     outerWrapper: {
       alignItems: 'center',

@@ -18,11 +18,7 @@ import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
 import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
-
-const Wrapper = createStyled('div')
-const DatePickerIconWrapper = createStyled('div')
-const Hook1 = createStyled('div')
-const Hook2 = createStyled('div')
+import { Div } from '../html'
 
 export type Props = {
   dataTestId?: string
@@ -107,7 +103,7 @@ export const DatePicker = (props: Props) => {
           open && setOpen(false)
         }}
       >
-        <Wrapper {...getStyle('wrapper')}>
+        <Div {...getStyle('wrapper')}>
           {isMobileTouch ? (
             <TextInput
               dataTestId={props.dataTestId}
@@ -158,16 +154,16 @@ export const DatePicker = (props: Props) => {
                 value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
               />
 
-              <DatePickerIconWrapper
+              <Div
                 onClick={() => {
                   setOpen(!open)
                 }}
                 {...styleIconWrapper}
               >
-                <Hook1 {...styleIconHook1} />
-                <Hook2 {...styleIconHook2} />
+                <Div {...styleIconHook1} />
+                <Div {...styleIconHook2} />
                 <MdOutlineCalendarToday width={16} />
-              </DatePickerIconWrapper>
+              </Div>
 
               <DatePickerCalendarWrapper $cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
@@ -187,7 +183,7 @@ export const DatePicker = (props: Props) => {
               </DatePickerCalendarWrapper>
             </>
           )}
-        </Wrapper>
+        </Div>
       </ClickAwayListener>
     </>
   )

@@ -29,7 +29,6 @@ export const createStory = <P, T extends (props: P) => JSX.Element>(C: T) => {
   return Story
 }
 
-
 // -----------------------------------
 // Validation helpers
 // -----------------------------------
@@ -63,3 +62,7 @@ export const validateSwissZip = (value: any) => {
 export const CITY_REGEXP = /^[A-Za-zÀ-ž- '`.]+$/
 export const validateCity = (value: string) =>
   !CITY_REGEXP.test(`${value}`) ? 'formFields.error.invalidText' : null
+
+export const ADDRESS_REGEXP = /^[a-zA-Z0-9\s,'-]*$/
+export const validateAddress = (value: string) =>
+  !ADDRESS_REGEXP.test(`${value}`) ? 'formFields.error.invalidText' : null

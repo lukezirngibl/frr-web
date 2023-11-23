@@ -14,6 +14,7 @@ export type StyleConfigDTO = {
   colorBackgroundSecondary: string
 
   colorAccent: string
+  colorAccentHover: string
   colorActive: string
   colorDisabled: string
   colorError: string
@@ -80,6 +81,7 @@ const ColorKeys = [
   'colorBackgroundSecondary',
 
   'colorAccent',
+  'colorAccentHover',
   'colorActive',
   'colorDisabled',
   'colorError',

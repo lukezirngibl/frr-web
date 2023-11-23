@@ -1,14 +1,13 @@
-import React from 'react'
-import { Li, P } from '../../html'
+import { Div, P } from '../../html'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
 import { CommonThreadProps, FormFieldGroup, FormFieldType, GroupField } from './types'
 
-const GroupWrapper = createStyled('div')
 const DescriptionList = createStyled('ul')
 const DescriptionItem = createStyled('li')
 
@@ -74,6 +73,16 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
           />
         )
 
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
       case FormFieldType.Static:
         return (
           <StaticField
@@ -97,7 +106,7 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
   }
 
   return (
-    <GroupWrapper
+    <Div
       key={typeof fieldGroupIndex === 'string' ? fieldGroupIndex : `group-${fieldGroupIndex}`}
       readOnly={formReadOnly}
       {...getCSSStyle('wrapper', fieldGroup.style ? fieldGroup.style.wrapper || {} : {})}
@@ -139,6 +148,6 @@ export const FieldGroup = <FormData extends {}>(props: FieldGroup<FormData>) => 
         </DescriptionList>
       )}
       {fieldGroup.fields.map(renderGroupField)}
-    </GroupWrapper>
+    </Div>
   )
 }
