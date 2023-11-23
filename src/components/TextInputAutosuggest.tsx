@@ -86,7 +86,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
 export type Props = {
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
-  forceRefreshValue?: () => void
+  forceRefreshValue?: number
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {

@@ -102,7 +102,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     !isSelectSuggestion && props.onChange(lens, value)
   }
 
-  const forceRefreshValue = () => {}
+  const [forceRefreshValue, setForceRefreshValue] = useState({ street: 0, houseNr: 0, zip: 0, city: 0 })
 
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
@@ -132,7 +132,10 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 
       // Propagate changes to form
       props.onChangeMulti?.(changes)
-      forceRefreshValue()
+      setForceRefreshValue({
+        ...forceRefreshValue,
+        [currentField.lens.id()]: forceRefreshValue[currentField.lens.id()] + 1,
+      })
     }
 
   // Handling the onloadSuggestions with Multiple Inputs
@@ -171,6 +174,8 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
         : Promise.resolve([])
     }
 
+  // this useEffect is used to update the searchParams when the data is changed
+  // if a search is performed in one field, the values are stored for the search in another field.
   useEffect(() => {
     setSearchParams({
       StreetName: props.field.fields[0].lens.get(props.data) || '',
@@ -207,7 +212,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue,
+                  forceRefreshValue: forceRefreshValue[fieldItem.lens.id()],
                 }}
                 fieldIndex={fieldItemIndex}
                 errorFieldId={props.errorFieldId}
@@ -247,7 +252,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue,
+                  forceRefreshValue: forceRefreshValue[fieldItem.lens.id()],
                 }}
                 fieldIndex={fieldItemIndex + 2}
                 errorFieldId={props.errorFieldId}
