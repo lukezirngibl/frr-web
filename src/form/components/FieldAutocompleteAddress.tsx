@@ -141,7 +141,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       props.onChangeMulti?.(changes)
       setForceRefreshValue({
         ...forceRefreshValue,
-        [currentField.lens.id()]: forceRefreshValue[currentField.fieldInputType] + 1,
+        [currentField.fieldInputType]: forceRefreshValue[currentField.fieldInputType] + 1,
       })
     }
 
