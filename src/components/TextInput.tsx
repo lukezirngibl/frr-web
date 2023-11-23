@@ -171,7 +171,7 @@ export const TextInput = (props: Props) => {
           type={props.inputType}
           value={value}
         ></Input>
-        <div>{props.forceRefreshValue}</div>
+        <div>{`${props.forceRefreshValue}`}</div>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
         {props.children}
       </Div>
