@@ -17,6 +17,7 @@ export type Props = {
   debounce?: number
   disabled?: boolean
   error?: boolean
+  forceRefreshValue?: () => void
   formatValue?: (value: string | null) => string // This function is applied initially or once the user loses focus but not during typing
   hasFocus?: boolean
   inputRef?: React.MutableRefObject<HTMLElement>
@@ -89,6 +90,12 @@ export const TextInput = (props: Props) => {
       props.inputRef.current = inputRef.current
     }
   }, [inputRef.current])
+
+  useEffect(() => {
+    if (props.value !== internalValue) {
+      setInternalValue(formatValue(props.value))
+    }
+  }, [props.forceRefreshValue])
 
   return (
     <>

@@ -86,6 +86,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
 export type Props = {
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
+  forceRefreshValue?: () => void
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
@@ -164,6 +165,7 @@ export const TextInputAutosuggest = (props: Props) => {
       onChange={onChange}
       onKeyDown={onKeyDown(props, state, dispatch)}
       value={value}
+      forceRefreshValue={props.forceRefreshValue}
     >
       <AutosuggestMenu
         inputHeight={inputHeight}

@@ -102,9 +102,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     !isSelectSuggestion && props.onChange(lens, value)
   }
 
-  const onFocus = (field: TextInputAutosuggestField<FormData>) => {
-    isSelectSuggestion = false
-  }
+  const forceRefreshValue = () => {}
 
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
@@ -134,6 +132,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 
       // Propagate changes to form
       props.onChangeMulti?.(changes)
+      forceRefreshValue()
     }
 
   // Handling the onloadSuggestions with Multiple Inputs
@@ -208,15 +207,13 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
+                  forceRefreshValue: forceRefreshValue,
                 }}
                 fieldIndex={fieldItemIndex}
                 errorFieldId={props.errorFieldId}
                 inputRef={
                   undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                 }
-                onFocus={() => {
-                  onFocus(fieldItem)
-                }}
                 onChange={onChange}
                 onError={onError}
                 isNotScrollable
@@ -250,15 +247,13 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
+                  forceRefreshValue: forceRefreshValue,
                 }}
                 fieldIndex={fieldItemIndex + 2}
                 errorFieldId={props.errorFieldId}
                 inputRef={
                   undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                 }
-                onFocus={() => {
-                  onFocus(fieldItem)
-                }}
                 onChange={onChange}
                 onError={onError}
                 isNotScrollable
