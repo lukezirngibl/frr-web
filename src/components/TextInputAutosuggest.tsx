@@ -9,6 +9,7 @@ import { classNames, onKeyDown } from './menu/Menu.utils'
 import { MenuOption } from './menu/MenuOption'
 import { MenuPortal } from './menu/MenuPortal'
 import { Props as TextInputProps, TextInput } from './TextInput'
+import { FieldInputType } from '../form/components/FieldAutocompleteAddress'
 
 export type Suggestions = Options<Option>
 
@@ -87,6 +88,7 @@ export type Props = {
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
   forceRefreshValue?: number
+  fieldInputType?: FieldInputType
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {

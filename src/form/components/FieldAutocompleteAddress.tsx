@@ -102,12 +102,19 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     !isSelectSuggestion && props.onChange(lens, value)
   }
 
-  const [forceRefreshValue, setForceRefreshValue] = useState({ street: 0, houseNr: 0, zip: 0, city: 0 })
+  const [forceRefreshValue, setForceRefreshValue] = useState({
+    StreetName: 0,
+    HouseNo: 0,
+    ZipCode: 0,
+    TownName: 0,
+  })
 
   const onSelectSuggestion =
     (currentField: TextInputAutosuggestField<FormData>) =>
     (suggestion: Option): void => {
       isSelectSuggestion = true
+
+      console.log('currentField', currentField)
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -134,9 +141,11 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       props.onChangeMulti?.(changes)
       setForceRefreshValue({
         ...forceRefreshValue,
-        [currentField.lens.id()]: forceRefreshValue[currentField.lens.id()] + 1,
+        [currentField.lens.id()]: forceRefreshValue[currentField.fieldInputType] + 1,
       })
     }
+
+  console.log('forceRefreshValue', forceRefreshValue['street'])
 
   // Handling the onloadSuggestions with Multiple Inputs
   const onLoadSuggestions =
@@ -212,7 +221,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue[fieldItem.lens.id()],
+                  forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                 }}
                 fieldIndex={fieldItemIndex}
                 errorFieldId={props.errorFieldId}
@@ -252,7 +261,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                   ...fieldItem,
                   onSuggestionSelected: onSelectSuggestion(fieldItem),
                   onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue[fieldItem.lens.id()],
+                  forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                 }}
                 fieldIndex={fieldItemIndex + 2}
                 errorFieldId={props.errorFieldId}
