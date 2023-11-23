@@ -32,6 +32,7 @@ import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
+import { AddressParams, AddressResponse, FieldInputType } from './FieldAutocompleteAddress'
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'
@@ -471,7 +472,9 @@ export type MultiInputAutosuggestField<FormData> = {
 }
 
 export type MultiInputAutosuggestAddressField<FormData> = {
-  fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
+  fields: Array<
+    TextInputAutosuggestField<FormData> & CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
+  >
   isVisible?: IsVisibleFn<FormData>
   itemStyle?: CSSProperties
   label?: LabelProps
@@ -479,6 +482,7 @@ export type MultiInputAutosuggestAddressField<FormData> = {
   readOnlyOptions?: {
     isFullWidth?: boolean
   }
+  loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>

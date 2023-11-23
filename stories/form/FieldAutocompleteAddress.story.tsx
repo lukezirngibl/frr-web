@@ -4,15 +4,10 @@ import {
   FieldAutocompleteAddress,
   FieldAutocompleteAddressProps,
 } from '../../src/form/components/FieldAutocompleteAddress'
-import {
-  FormFieldType,
-  MultiInputAutosuggestAddressField,
-  MultiInputAutosuggestField,
-} from '../../src/form/components/types'
+import { FormFieldType, MultiInputAutosuggestAddressField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory, validateAddress, validateCity, validateSwissZip } from '../storybook.helpers'
-import { AddressResponse } from './AddressAssistant'
-import { useDebouncedSearch } from './useDebouncedSearch'
+import { AddressResponse, sendRequest } from './AddressAssistant'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof FieldAutocompleteAddress> = {
@@ -33,51 +28,47 @@ const story = createStory<FieldAutocompleteAddressProps<FormData>, typeof FieldA
   FieldAutocompleteAddress,
 )
 
+const getResult = async (params) => {
+  const address = await sendRequest(params)
+  return address.QueryAutoComplete4Result.AutoCompleteResult
+}
+
+const getSuggestions = (params): Promise<Array<AddressResponse>> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      getResult(params).then((res: AddressResponse[]) => resolve(res))
+    }, 0)
+  })
+}
+
 const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData> => {
-  const { searchParams, setSearchParams, debouncedSearch } = useDebouncedSearch()
   return {
     type: FormFieldType.AutocompleteAddress,
     itemStyle: {
       marginRight: 0,
       width: '100%',
     },
+    loadAddressSuggestions: getSuggestions,
     fields: [
       {
         type: FormFieldType.TextInputAutosuggest,
         label: { label: 'Street / House Nr.' },
         lens: formLens(['street']),
         name: 'street',
+        fieldInputType: 'StreetName',
         required: true,
         validate: validateAddress,
         itemStyle: {
           marginLeft: 0,
         },
-        debounce: 500,
-        onLoadSuggestions: (searchString) => {
-          setSearchParams({ ...searchParams, StreetName: searchString })
-          return searchString > ''
-            ? debouncedSearch(searchParams).then((address) =>
-                address.map((item: AddressResponse) => ({
-                  value: item.StreetName,
-                  label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
-                  isTranslated: true,
-                  data: {
-                    street: item.StreetName,
-                    houseNr: item.HouseNo,
-                    zip: item.ZipCode,
-                    city: item.TownName,
-                  },
-                })),
-              )
-            : Promise.resolve([])
-        },
+        onLoadSuggestions: () => Promise.resolve([]),
       },
       {
         type: FormFieldType.TextInputAutosuggest,
         lens: formLens(['houseNr']),
         name: 'houseNr',
+        fieldInputType: 'HouseNo',
         required: true,
-        validate: validateAddress,
         style: {
           wrapper: {
             minWidth: 'var(--multi-form-field-zip-width)',
@@ -87,30 +78,15 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         itemStyle: {
           marginRight: 0,
         },
-        onLoadSuggestions: (searchString) => {
-          setSearchParams({ ...searchParams, HouseNo: searchString })
-          return searchString > ''
-            ? debouncedSearch(searchParams).then((address) =>
-                address.map((item: AddressResponse) => ({
-                  value: `${item.HouseNo}${item.HouseNoAddition}`,
-                  label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
-                  isTranslated: true,
-                  data: {
-                    street: item.StreetName,
-                    houseNr: item.HouseNo,
-                    zip: item.ZipCode,
-                    city: item.TownName,
-                  },
-                })),
-              )
-            : Promise.resolve([])
-        },
+        onLoadSuggestions: () => Promise.resolve([]),
       },
       {
         type: FormFieldType.TextInputAutosuggest,
         label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
         lens: formLens(['zip']),
         name: 'zip',
+        fieldInputType: 'ZipCode',
+        maxLength: 4,
         required: true,
         validate: validateSwissZip,
         style: {
@@ -122,24 +98,7 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         itemStyle: {
           marginRight: 0,
         },
-        onLoadSuggestions: (searchString) => {
-          setSearchParams({ ...searchParams, ZipCode: searchString })
-          return searchString > ''
-            ? debouncedSearch(searchParams).then((address) =>
-                address.map((item: AddressResponse) => ({
-                  value: item.ZipCode,
-                  label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
-                  isTranslated: true,
-                  data: {
-                    street: item.StreetName,
-                    houseNr: item.HouseNo,
-                    zip: item.ZipCode,
-                    city: item.TownName,
-                  },
-                })),
-              )
-            : Promise.resolve([])
-        },
+        onLoadSuggestions: () => Promise.resolve([]),
       },
       {
         type: FormFieldType.TextInputAutosuggest,
@@ -148,33 +107,22 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
           marginLeft: 0,
         },
         name: 'city',
+        fieldInputType: 'TownName',
         required: true,
         validate: validateCity,
-        onLoadSuggestions: (searchString) => {
-          setSearchParams({ ...searchParams, TownName: searchString })
-          return searchString > ''
-            ? debouncedSearch(searchParams).then((address) =>
-                address.map((item: AddressResponse) => ({
-                  value: item.TownName,
-                  label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
-                  isTranslated: true,
-                  data: {
-                    street: item.StreetName,
-                    houseNr: item.HouseNo,
-                    zip: item.ZipCode,
-                    city: item.TownName,
-                  },
-                })),
-              )
-            : Promise.resolve([])
-        },
+        onLoadSuggestions: () => Promise.resolve([]),
       },
     ],
   }
 }
 
 export const AddressPostalCodeCity = () => {
-  const [data, setData] = React.useState<FormData>({ city: null, zip: null })
+  const [data, setData] = React.useState<FormData>({
+    street: null,
+    houseNr: null,
+    city: null,
+    zip: null,
+  })
 
   return (
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
@@ -186,7 +134,7 @@ export const AddressPostalCodeCity = () => {
         style: {},
         data,
         onChange: (lens, value) => {
-          // setData({ ...data, [lens.id()]: value })
+          setData((prev) => ({ ...prev, [lens.id()]: value }))
         },
         onChangeMulti: (fields) => {
           const newData = { ...data }
