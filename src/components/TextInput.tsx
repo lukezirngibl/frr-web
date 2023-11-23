@@ -93,9 +93,6 @@ export const TextInput = (props: Props) => {
 
   useEffect(() => {
     if (props.forceRefreshValue > 0) {
-      console.log('forceRefreshValue', props.forceRefreshValue)
-      console.log('value', props.value)
-      console.log('internalValue', internalValue)
       setInternalValue(formatValue(props.value))
     }
   }, [props.forceRefreshValue])
@@ -171,7 +168,6 @@ export const TextInput = (props: Props) => {
           type={props.inputType}
           value={value}
         ></Input>
-        <div>{`${props.forceRefreshValue}`}</div>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
         {props.children}
       </Div>

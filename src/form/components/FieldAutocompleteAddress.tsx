@@ -114,7 +114,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     (suggestion: Option): void => {
       isSelectSuggestion = true
 
-      console.log('currentField', currentField)
       // Provide to onSuggestionSelected of parent component (if present)
       currentField.onSuggestionSelected?.(suggestion)
 
@@ -144,8 +143,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
         [currentField.fieldInputType]: forceRefreshValue[currentField.fieldInputType] + 1,
       })
     }
-
-  console.log('forceRefreshValue', forceRefreshValue['street'])
 
   // Handling the onloadSuggestions with Multiple Inputs
   const onLoadSuggestions =
