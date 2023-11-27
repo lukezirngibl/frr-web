@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Document, Outline, Page, pdfjs } from 'react-pdf'
-import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
-import { Loading } from './Loading'
+import { Div } from '../html'
 import { MdClose } from '../icons/new/MdClose'
 import { MdDownload } from '../icons/new/MdDownload'
 import { MdFullscreen } from '../icons/new/MdFullscreen'
 import { MdKeyboardArrowLeft } from '../icons/new/MdKeyboardArrowLeft'
 import { MdKeyboardArrowRight } from '../icons/new/MdKeyboardArrowRight'
+import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
+import { createStyled } from '../theme/util'
+import { Loading } from './Loading'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -55,6 +56,8 @@ export const PdfViewer = (props: Props) => {
   const getCSSStyle = useCSSStyles(theme, 'pdfViewer')(props.style)
 
   React.useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+
     fetch(props.url, {
       method: 'GET',
       headers: {
@@ -158,5 +161,4 @@ export const PdfViewer = (props: Props) => {
   )
 }
 
-const Div = createStyled('div')
 const Text = createStyled('p')

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
@@ -9,6 +9,7 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { CommonThreadProps, FormFieldType, FormSectionCard, InternalSectionField } from './types'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 export const FieldSectionWrapper = (props: {
   children: ReactNode
@@ -21,7 +22,7 @@ export const FieldSectionWrapper = (props: {
   return (
     <Div
       readOnly
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
       {props.children}
@@ -101,6 +102,16 @@ export const FieldSectionCard = <FormData extends {}>({
           />
         )
 
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
       case FormFieldType.Static:
         return null
 
@@ -164,7 +175,6 @@ export const FieldSectionCard = <FormData extends {}>({
   )
 }
 
-const Div = createStyled('div')
 const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {

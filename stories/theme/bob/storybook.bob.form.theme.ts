@@ -21,6 +21,9 @@ export const formTheme: Partial<FormThemeConfig> = {
       padding: '0 var(--form-padding-horizontal)',
       '@media-mobile': {
         flexWrap: 'wrap',
+        height: 'auto',
+        marginTop: 16,
+        padding: '0 var(--form-padding-horizontal) 64px',
       },
     },
   },
@@ -33,17 +36,9 @@ export const formTheme: Partial<FormThemeConfig> = {
     wrapperReadOnly: {
       minHeight: 0, // 'var(--form-field-height)',
       paddingBottom: 0,
-      ':first-child': {
-        paddingTop: 0,
-      },
-      ':last-child': {
-        paddingBottom: 0,
-        borderBottom: 'none',
-      },
       '@media-mobile': {
-        paddingTop: 16,
-        paddingBottom: 16,
-        borderBottom: '1px solid #DBDBDB',
+        paddingTop: 4,
+        paddingBottom: 4,
       },
     },
     item: {
@@ -103,7 +98,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       borderRadius: 4,
       boxShadow: '0 0 8px 8px rgb(0 0 0 / 2%)',
       margin: '0',
-      marginBottom: 8,
+      marginBottom: 16,
       padding: 'var(--form-section-padding)',
       '@media-mobile': {
         borderRadius: 0,
@@ -119,11 +114,13 @@ export const formTheme: Partial<FormThemeConfig> = {
       flexGrow: 1,
     },
     contentCardWrapper: {
-      margin: '-16px -24px',
-      padding: '16px 24px',
-      background: '#FAFAFA',
-      border: '1px solid #DBDBDB',
-      borderRadius: 4,
+      '@media-mobile': {
+        background: 'var(--color-form-field-background-light)',
+        border: '1px solid var(--color-form-field-border)',
+        margin: '0 -12px',
+        padding: '12px 16px',
+        borderRadius: 4,
+      },
     },
     title: {
       color: 'var(--color-primary)',
@@ -147,8 +144,8 @@ export const formTheme: Partial<FormThemeConfig> = {
       color: 'var(--color-secondary)',
       fontSize: 'var(--font-size-p)',
       fontWeight: 400,
-      marginTop: 16,
-      marginBottom: 8,
+      marginTop: 8,
+      marginBottom: 32,
     },
     introduction: {
       fontSize: 'var(--font-size-p)',
@@ -210,7 +207,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       lineHeight: 1.2,
       '@media-mobile': {
         marginRight: 16,
-        maxWidth: 160,
+        maxWidth: 200,
         width: '100%',
       },
     },
@@ -226,7 +223,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       justifyContent: 'flex-end',
       '@media-mobile': {
-        paddingBottom: 0,
+        minWidth: 'unset',
       },
     },
     itemFullwidth: {
@@ -238,20 +235,21 @@ export const formTheme: Partial<FormThemeConfig> = {
     value: {
       fontSize: 'var(--font-size-p)',
       fontWeight: 600,
+      whiteSpace: 'nowrap',
       textAlign: 'right',
       marginRight: 8,
+      transition: 'font-size 0.3s, font-weight 0.3s, color 0.3s',
       '@media-mobile': {
         textAlign: 'left',
-        marginRight: 0,
       },
       ':last-child': {
         marginRight: 0,
       },
     },
     valueHighlighted: {
-      fontSize: 'calc(var(--font-size-p) * 1.1)',
+      fontSize: 'calc(var(--font-size-p) * 1.3)',
       fontWeight: 600,
-      color: '#0B9DBE',
+      color: 'var(--color-active)',
     },
     image: {
       maxWidth: 112,

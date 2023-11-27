@@ -7,7 +7,6 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
     "lib": ["dom", "es2015", "es2016", "es2017", "es2018", "esnext"],
     "moduleResolution": "node",
     "noErrorTruncation": true,
@@ -18,7 +17,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "target": "es6",
-    "module": "commonjs",
+    "module": "ES6",
     "declaration": true,
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types"]

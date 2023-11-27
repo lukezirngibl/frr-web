@@ -14,7 +14,10 @@
   "months": "Monate",
 
   "customerPlanSummary": {
+    "introduction": "Thanks for choosing bob Finance as your credit partner",
+    "title": "Payment plan",
     "description": "Please review and confirm your data.",
+    "descriptionSuccess": "Ihre Angaben wurden übernommen. Falls diese nicht mehr aktuell sind, passen Sie diese bitte an und starten Sie den Kreditantrag neu.",
     "formFields": {
       "acceptDataPrivacyAndGTC": {
         "label": "I understand that by selecting Confirm I enter into the finance agreement with bob Finance. The agreement is concluded online and is legally binding. \n<br /><br/>\nClick here for the full <a href=\"https://bob.ch/en/corporate-clients/service/dataprotection/bob-zero/\" target=\"_blank\" tab-index=\"-1\">data privacy policy</a> and <a href={{linkToAGB}} target=\"_blank\" tab-index=\"-1\">terms & conditions</a>."
@@ -35,8 +38,7 @@
       "monthlyRate": {
         "label": "Monthly rate"
       }
-    },
-    "title": "Payment plan "
+    }
   },
 
   "paymentTerms": {
@@ -49,7 +51,7 @@
         "label": "Pay in",
         "options": {
           "computedRateLabel": "",
-          "monthsLabel": "Months", 
+          "monthsLabel": "Months",
           "monthlyInstallmentLabel": "<span class=\"duration-option\"><span class=\"duration-option__duration-label\">{{duration}}<br/></span><span class=\"duration-option__months-label\">months</span><br/><span class=\"duration-option__monthly-installment-label\">{{monthlyInstallment}} /mo.</span></span>"
         }
       }

@@ -187,16 +187,12 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
 )
 
 export const SelectOverviewDesktop = () => (
-  <StorybookTemplateProvider>
     <SelectOverview />
-  </StorybookTemplateProvider>
 )
 SelectOverviewDesktop.storyName = 'Overview (Desktop)'
 
 export const SelectOverviewMobile = () => (
-  <StorybookTemplateProvider>
     <SelectOverview isMobile />
-  </StorybookTemplateProvider>
 )
 SelectOverviewMobile.storyName = 'Overview (Mobile)'
 

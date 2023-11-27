@@ -1,12 +1,11 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Button, Props as ButtonProps } from '../../components/Button'
 import { Label, LabelProps } from '../../components/Label'
 import { Checklist, StaticChecklist } from '../../components/StaticChecklist'
-import { P } from '../../html'
+import { Div, P } from '../../html'
+import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
-import { useFormTheme, useInlineStyle, useCSSStyles } from '../../theme/theme.form'
 
 export const FieldRowWrapper = createStyled(styled.div`
   & > * {
@@ -22,8 +21,6 @@ export const FieldRowWrapper = createStyled(styled.div`
     }
   }
 `)
-
-const StaticWrapper = createStyled('div')
 
 export enum StaticFieldType {
   Text = 'Text',
@@ -64,7 +61,7 @@ export const StaticField = (
     <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
       {props.label ? <Label {...label} /> : <Label label={() => ''} />}
 
-      <StaticWrapper {...getCSSStyle('wrapper')}>
+      <Div {...getCSSStyle('wrapper')}>
         {props.subtype === StaticFieldType.Text && (
           <P label={props.text} localeNamespace={props.localeNamespace} {...getCSSStyle('text')} />
         )}
@@ -86,7 +83,7 @@ export const StaticField = (
             override={getInlineStyle(['button'], props.button.override || {}).style}
           />
         )}
-      </StaticWrapper>
+      </Div>
     </FieldRowWrapper>
   )
 }

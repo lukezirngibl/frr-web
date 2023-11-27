@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
-import { P } from '../../html'
+import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
@@ -10,7 +10,17 @@ import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
 import { FieldRow } from './FieldRow'
 import { StaticField } from './StaticField'
-import { CommonThreadProps, FormFieldType, FormSection, InternalSectionField } from './types'
+import {
+  CommonThreadProps,
+  DescriptionType,
+  FormFieldType,
+  FormSection,
+  InternalSectionField,
+} from './types'
+import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
+import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
+import { DeepPartial } from '../../util'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 export const FieldSectionWrapper = (props: {
   dataTestId?: string
@@ -24,7 +34,7 @@ export const FieldSectionWrapper = (props: {
   return (
     <Div
       readOnly={props.readOnly}
-      data-test-id={props.dataTestId}
+      dataTestId={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
       {props.children}
@@ -57,7 +67,7 @@ export const FieldSection = <FormData extends {}>({
   const getSectionRightStyle = useCSSStyles(theme, 'sectionRight')({})
 
   const row = style?.row || ({ wrapper: {}, wrapperReadOnly: {}, item: {} } as FormTheme['row'])
-  const commonFieldStyle: Partial<FormTheme> = fieldSection.style?.rowItem
+  const commonFieldStyle: DeepPartial<FormTheme> = fieldSection.style?.rowItem
     ? {
         ...style,
         row: {
@@ -128,6 +138,16 @@ export const FieldSection = <FormData extends {}>({
           />
         )
 
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
       case FormFieldType.Static:
         return (
           <StaticField
@@ -151,6 +171,10 @@ export const FieldSection = <FormData extends {}>({
   }
 
   const onEditSection = fieldSection.onEdit || onFormEdit
+
+  const descriptionTypeStyle = fieldSection.descriptionType
+    ? ({ [`description${fieldSection.descriptionType}`]: true } as { [key: string]: boolean })
+    : {}
 
   return (
     <FieldSectionWrapper
@@ -190,7 +214,10 @@ export const FieldSection = <FormData extends {}>({
                     localeNamespace={localeNamespace}
                   />
 
-                  <fieldSection.TitleCenterComponent onChangeMulti={onChangeMulti} readOnly={formReadOnly} />
+                  <fieldSection.TitleCenterComponent
+                    onChangeMulti={onChangeMulti}
+                    readOnly={formReadOnly}
+                  />
                 </Div>
               )) || (
                 <P
@@ -209,9 +236,14 @@ export const FieldSection = <FormData extends {}>({
 
           {!formReadOnly && fieldSection.description && (
             <P
-              {...getSectionStyle('description')}
+              {...getSectionStyle({ description: true, ...descriptionTypeStyle })}
               label={fieldSection.description}
               localeNamespace={localeNamespace}
+              Icon={
+                (fieldSection.descriptionType === DescriptionType.Success && <AiOutlineCheck />) ||
+                (fieldSection.descriptionType === DescriptionType.Error && <MdErrorOutline />) ||
+                null
+              }
             />
           )}
 
@@ -223,7 +255,7 @@ export const FieldSection = <FormData extends {}>({
             {...getSectionRightStyle('wrapper')}
             disabled={fieldSection.isOnEditDisabled}
             readOnly={formReadOnly}
-            data-test-id={
+            dataTestId={
               fieldSection.dataTestId ? `${fieldSection.dataTestId}-edit-link` : 'section-edit-link'
             }
           >
@@ -241,7 +273,6 @@ export const FieldSection = <FormData extends {}>({
   )
 }
 
-const Div = createStyled('div')
 const EmptyTitleWrapperMobile = createStyled(styled.div`
   display: none;
   @media ${MediaQuery.Mobile} {

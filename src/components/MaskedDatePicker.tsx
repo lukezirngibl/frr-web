@@ -20,6 +20,7 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
+import { Div } from '../html'
 
 export type Props = {
   /**
@@ -219,7 +220,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                 <MdOutlineCalendarToday width={16} />
               </Div>
 
-              <DatePickerCalendarWrapper cssStyles={reactDatePickerStyle}>
+              <DatePickerCalendarWrapper $cssStyles={reactDatePickerStyle}>
                 <ReactDatePicker
                   locale={locale}
                   open={open}
@@ -259,7 +260,7 @@ const DatePickerAnimation = keyframes`
     transform: scale(1, 1);
   }
 `
-const DatePickerCalendarWrapper = styled.div`
+const DatePickerCalendarWrapper = styled.div<{ $cssStyles: string }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -283,15 +284,10 @@ const DatePickerCalendarWrapper = styled.div`
     right: 0;
     animation: ${DatePickerAnimation} 0.15s ease-out;
   }
-  ${({ cssStyles }: { cssStyles: string }) =>
-    cssStyles > ''
+  ${(props) =>
+    props.$cssStyles > ''
       ? css`
-          ${cssStyles}
+          ${props.$cssStyles}
         `
       : ''}
 `
-
-const Div = createStyled('div')
-const PlaceholderMobile = createStyled(styled.div`
-  display: none;
-`)

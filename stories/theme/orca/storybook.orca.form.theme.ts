@@ -1,4 +1,4 @@
-import { FormThemeConfig } from "../../../src/theme/theme.form";
+import { FormThemeConfig } from '../../../src/theme/theme.form'
 
 export const formTheme: Partial<FormThemeConfig> = {
   form: {
@@ -95,7 +95,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       borderRightWidth: 0,
       borderLeftWidth: 0,
       borderTopWidth: 0,
-      borderBottomWidth: 4,
+      borderBottomWidth: 8,
       borderStyle: 'solid',
       borderColor: 'var(--color-background-secondary)',
       background: 'var(--color-background-primary)',
@@ -130,6 +130,40 @@ export const formTheme: Partial<FormThemeConfig> = {
       fontSize: 'var(--font-size-14)',
       fontWeight: 400,
       marginBottom: 24,
+    },
+
+    descriptionSuccess: {
+      padding: '16px 24px',
+      background: 'var(--color-background-success)',
+      color: 'var(--color-success)',
+      border: '1px solid var(--color-success)',
+      borderRadius: 6,
+      marginLeft: -8,
+      marginRight: -8,
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      '@icon': {
+        maxWidth: 24,
+        height: 24,
+        marginRight: 16,
+      },
+    },
+
+    descriptionError: {
+      padding: '16px 24px',
+      background: 'var(--color-background-error)',
+      color: 'var(--color-error)',
+      border: '1px solid var(--color-error)',
+      borderRadius: 6,
+      marginLeft: -8,
+      marginRight: -8,
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      '@icon': {
+        maxWidth: 24,
+        height: 24,
+        marginRight: 16,
+      },
     },
 
     introduction: {
@@ -183,7 +217,7 @@ export const formTheme: Partial<FormThemeConfig> = {
       color: 'var(--color-secondary)',
       flexGrow: 1,
       marginRight: 30,
-      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 8 },
+      '@media-mobile': { width: '100%', marginRight: 0, paddingBottom: 4 },
     },
     item: {
       display: 'flex',
@@ -193,7 +227,11 @@ export const formTheme: Partial<FormThemeConfig> = {
     value: {
       fontSize: 'var(--font-size-16)',
       marginRight: 8,
-      '@media-mobile': { fontSize: 'var(--font-size-18)', paddingBottom: 8 },
+      '@media-mobile': {
+        fontSize: 'var(--font-size-18)',
+        fontWeight: 'bold',
+        paddingBottom: 8,
+      },
     },
     valueHighlighted: {
       fontSize: 28,

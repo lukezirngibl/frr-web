@@ -2,10 +2,10 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
 import { configureBaseStyle } from '../src/theme/configureBaseStyle'
 import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
-import { brand as bobBrand } from './theme/bob/bobTheme.brand'
-import { brand as postFinanceBrand } from './theme/orca/orca.brand'
+import { brand as bobBrand } from './theme/bob/storybook.bob.brand'
+import { brand as postFinanceBrand } from './theme/orca/storybook.orca.brand'
 import { FormConfigContext } from '../src/form/components/form.hooks'
-import { bobStyleConfig } from './theme/bobStyleConfig'
+import { defaultStyleConfig } from './theme/styleConfig'
 import { resetStyleConfig } from './theme/resetStyleConfig'
 
 enum BRAND {
@@ -18,27 +18,30 @@ const Brands = {
   [BRAND.postFinance]: postFinanceBrand,
 }
 
+
 export const StorybookTemplateProvider = (props: { children: ReactNode }) => {
   const [brand, setBrand] = useState(BRAND.bob)
   const brandTheme = Brands[brand]
+
+  const baseStyle = `
+${resetStyleConfig}
+${brandTheme.baseStyle}
+`
 
   const [BaseStyle, setBaseStyle] = useState<any>(null)
   useEffect(() => {
     setBaseStyle(
       configureBaseStyle({
-        baseStyle: `
-${resetStyleConfig}
-${brandTheme.baseStyle}
-`,
+        baseStyle,
         brandBaseStyle: brandTheme.baseStyle,
         isStyleConfigActive: true,
-        styleConfig: bobStyleConfig,
+        styleConfig: defaultStyleConfig,
       }),
     )
   }, [brand])
 
   return BaseStyle === null ? null : (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', backgroundColor: 'var(--color-background-secondary)' }}>
       <div
         style={{
           display: 'flex',
@@ -48,7 +51,7 @@ ${brandTheme.baseStyle}
           width: '100%',
           padding: '8px 16px',
           marginBottom: 64,
-          background: '#f2f2f2',
+          background: '#d2d2d2',
         }}
       >
         <label htmlFor="brand" style={{ color: '#b2b2b2' }}>
@@ -72,7 +75,8 @@ ${brandTheme.baseStyle}
           <option value={BRAND.postFinance} label="PostFinance"></option>
         </select>
       </div>
-      <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.appTheme)}>
+
+      <ComponentThemeContext.Provider value={configureComponentTheme(brandTheme.componentTheme)}>
         <BaseStyle />
         <FormThemeContext.Provider value={configureFormTheme(brandTheme.formTheme)}>
           <FormConfigContext.Provider value={{ disableDirtyValidation: false }}>

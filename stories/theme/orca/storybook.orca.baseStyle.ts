@@ -23,18 +23,24 @@ export const baseStyle = `
   --color-background-primary: #FFFFFF;
   --color-background-secondary: #F2F2F2;
   
-  --color-error: #A51728;
   --color-primary: #000000;
   --color-secondary: #333333;
   --color-disabled: #8d8d8d;
 
+  --color-success: rgba(61, 111, 26, 1);
+  --color-background-success: rgba(61, 111, 26, 0.05); 
+
+  --color-error: rgba(255, 0, 0, 1);
+  --color-background-error: rgba(255, 0, 0, 0.05);
+  
   --color-form-field-background: #F2F2F2;
   --color-form-field-border: #8d8d8d;
   --color-form-field-border-focus: #99bbbf;
   
   /* Partner colors */
   --color-partner-primary: #FFD400;
-  --color-partner-secondary: #000000;
+  --color-partner-secondary: rgba(0, 84, 94, 1);
+  --color-partner-secondary-rgb: 0, 84, 94;
 
 
   /* Font family & size */
@@ -68,13 +74,13 @@ export const baseStyle = `
   /* Form field */
   --form-field-height: 48px;
   --form-field-width: 440px;
-  --form-field-readonly-width: 240px;
+  --form-field-readonly-width: 424px;
   --form-field-mobile-padding: 0;
   --form-field-padding: 16px;
   --form-field-description-min-width: 400px;
 
   /* Form field focus */
-  --form-field-focus-border: 2px solid var(--color-form-field-border-focus);
+  --form-field-focus-border: 1px solid var(--color-form-field-border-focus);
   --form-field-focus-border-radius: 6px;
   --form-field-focus-padding: -6px;
   --form-field-focus-box-shadow: 0 10px 15px -3px #0003, 0 4px 6px -4px #0003;
@@ -97,9 +103,9 @@ export const baseStyle = `
 
   /* Calculator */
   --calculator-padding-top: 64px;
-  --calculator-radio-group-min-width: 416px;
+  --calculator-preview-min-width: 416px;
   --calculator-toggle-width: 96px;
-  --calculator-insurance-radio-width: 66px;
+  --calculator-field-width: 148px;
   --calculator-field-gap: 12px;
 }
 
@@ -132,9 +138,8 @@ export const baseStyle = `
     --display-flex-mobile-block: block;
 
     /* Calculator */ 
-    --calculator-insurance-radio-width: 112px;
-    --calculator-radio-group-min-width: 100%;
-    --calculator-field-gap: 0;
+    --calculator-field-width: 148px;
+    --calculator-field-gap: 0;  
 
     /* Header & Footer */
     --header-title-wrapper-padding: 20px 24px;
@@ -158,17 +163,18 @@ export const baseStyle = `
 
      /* Form */
     --form-field-width: 100%;
-    --form-padding-horizontal: 16px;
+    --form-padding-horizontal: 24px;
     --form-padding-vertical: 32px;
-    --form-field-description-min-width: calc(100vw - 32px);
+    --form-field-description-min-width: calc(100vw - 40px);
 
     /* Layout */
     --display-block-mobile-none: none;
     --flex-end-mobile-center: center;
-    --layout-content-padding: 24px 8px 32px;
+    --layout-content-padding: 24px 0 32px;
 
     /* Calculator */
     --calculator-padding-top: 40px;
+    --calculator-preview-min-width: 100%;
     --calculator-toggle-width: 0;
   }
 }
@@ -345,48 +351,77 @@ div {
 
 /* External vender styles: CookieBot */
 #CybotCookiebotDialog {
-  div, p, h1, h2, h3, h4, button, a {
-    font-family: var(--font-family) !important;
-  }
+  background-color: white !important;
+  z-index: 20 !important;
 }
-#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelectionWrapper {
-  margin-bottom: 16px !important;
-  
-  @media (max-width: 768px) {
-    padding-left: 8px !important;
-    float: initial !important
-  }
-}
-.CybotCookiebotDialogBodyButton {
-  padding: 8px 16px !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  transition: all ease-out 0.15s;
-  max-width: 180px;
 
-  @media (max-width: 768px) {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: none;
-    margin-top: 16px !important;
-    margin-left: 0 !important;
-    padding: 16px 0 !important;
-  }
+#CybotCookiebotDialog div {
+  font-size: 9.5pt !important;
+}
 
-  &:hover { 
-    transform: scale(1.05, 1.05);
-  }
+#CybotCookiebotDialog h2 {
+  font-family: Foundry,Arial,sans-serif !important;
 }
-#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll {
-  background: var(--color-partner-primary) !important;
-  border: 1px solid var(--color-partner-primary) !important;
+
+#CybotCookiebotDialog label{
+  font-size: 12px !important;
 }
-#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection {
-  background: var(--color-background-primary) !important;
-  border: 1px solid var(--color-partner-secondary) !important;
-}
+
 #CybotCookiebotDialogBodyContentTitle {
-  font-size: 18px !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 8px !important;
+}
+
+#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll {
+  width: 180px !important;
+  color: black !important;
+  background-color: #FFC53D !important;
+  border-radius: 4px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection {
+  width: 180px !important;
+  color: black !important;
+  background-color: white !important;
+  border-color: #C7C7C7 !important;
+  border-radius: 4px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+#CybotCookiebotDialogBodyLevelButtons {
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 768px) {
+  #CybotCookiebotDialog {
+      max-height: 400px !important;
+      left: 0 !important;
+      width: 100% !important;
+      z-index: 20 !important;
+  }
+  #CybotCookiebotDialogBody {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+  }
+  #CybotCookiebotDialogBodyContent {
+      padding-right: 20px !important;
+  }
+  #CybotCookiebotDialogBodyLevelWrapper {
+      text-align: center !important;
+  }
+  #CybotCookiebotDialogBodyLevelButtons {
+      width: auto !important;
+      max-width: 350px !important;
+      
+      display: flex !important;
+      margin-left: 0 !important;
+  }
 }
 `

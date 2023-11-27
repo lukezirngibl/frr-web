@@ -608,7 +608,6 @@ export const defaultComponentTheme: ComponentTheme = {
 // React Context
 
 export const ComponentThemeContext = React.createContext<ComponentTheme>(undefined as ComponentTheme)
-
 ComponentThemeContext.displayName = 'ComponentThemeContext'
 
 export const configureComponentTheme = createThemeConfigure<ComponentThemeConfig, ComponentTheme>(

@@ -1,24 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react'
 
 import { Label } from '../../components/Label'
+import { Option } from '../../components/menu/Menu.types'
+import { Div } from '../../html'
 import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
-import { createStyled } from '../../theme/util'
-import { useFormFieldErrors } from './hooks/useFormFieldError'
-
+import { FormLens } from '../util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
+import { useFormFieldErrors } from './hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputAutosuggestField, TextInputAutosuggestField } from './types'
-import { FormLens } from '../util'
-import { Option } from '../../components/menu/Menu.types'
 
 export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
 }
-
-const WrapperItem = createStyled('div')
 
 // ------------------------------------
 export const FieldMultiInputAutosuggest = <FormData extends {}>(
@@ -124,7 +120,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
           />
         )}
 
-        <WrapperItem
+        <Div
           {...getFieldMultiInputStyle('item')}
           key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
         >
@@ -144,7 +140,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
               isNotScrollable
             />
           ))}
-        </WrapperItem>
+        </Div>
       </FieldScrollableWrapper>
     </FieldRowWrapper>
   )

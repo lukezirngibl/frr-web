@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MaskInput from 'react-maskinput'
 import styled, { css } from 'styled-components'
 
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 
+import { Div } from '../html'
 import { Label, LabelProps } from './Label'
 
 export type Props = {
@@ -81,7 +81,7 @@ export const MaskedInput = (props: Props) => {
               ? false
               : true,
         })}
-        inputCSSStyles={
+        $inputCSSStyles={
           getCSSStyle({
             input: true,
             inputPlaceholder: !internalValue || internalValue === '',
@@ -102,7 +102,7 @@ export const MaskedInput = (props: Props) => {
           }
         }}
       >
-        <Hook
+        <Div
           {...getCSSStyle({
             hook: true,
             errorHook: props.error,
@@ -143,12 +143,10 @@ export const MaskedInput = (props: Props) => {
   )
 }
 
-const InputWrapper = createStyled('div')
-const InputWrapperContainer = styled(InputWrapper)<{ inputCSSStyles: string }>`
+const InputWrapperContainer = styled(Div)<{ $inputCSSStyles: string }>`
   input {
-    ${({ inputCSSStyles }) => css`
-      ${inputCSSStyles}
+    ${({ $inputCSSStyles }) => css`
+      ${$inputCSSStyles}
     `};
   }
 `
-const Hook = createStyled('div')

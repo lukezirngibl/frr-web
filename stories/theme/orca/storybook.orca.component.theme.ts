@@ -1,6 +1,6 @@
 import { ComponentThemeConfig } from '../../../src/theme/theme.components'
 
-export const appTheme: Partial<ComponentThemeConfig> = {
+export const componentTheme: Partial<ComponentThemeConfig> = {
   datePicker: {
     wrapper: {
       position: 'relative',
@@ -117,8 +117,12 @@ export const appTheme: Partial<ComponentThemeConfig> = {
 `,
   },
   slider: {
+    input: {
+      textAlign: 'right',
+      paddingRight: 12,
+    },
     label: {
-      maxWidth: 'calc(var(--form-field-width) - 132px)',
+      maxWidth: 'calc(100% - var(--calculator-field-width) - 4px)',
     },
     outerWrapper: {},
     prefix: {
@@ -147,8 +151,8 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       alignItems: 'center',
     },
     valueWrapperEditable: {
-      maxWidth: 132,
-      top: -12,
+      maxWidth: 'var(--calculator-field-width)',
+      top: -14,
       '@media-mobile': {
         top: 2,
       },
@@ -163,26 +167,26 @@ export const appTheme: Partial<ComponentThemeConfig> = {
   },
   materialSlider: {
     root: {
-      color: 'var(--color-partner-primary)',
+      color: 'var(--color-partner-secondary)',
+      borderRadius: 0,
     },
     thumb: {
-      backgroundColor: 'var(--color-partner-primary)',
-      width: 14,
-      height: 34,
-      marginTop: -13,
-      marginLeft: -8,
-      borderRadius: 0,
+      backgroundColor: 'var(--color-partner-secondary)',
+      border: '1px solid var(--color-background-primary)',
+      width: 28,
+      height: 28,
+
       ':focus': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        boxShadow: '0px 0px 0px 8px rgba(var(--color-partner-secondary-rgb),0.15)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':hover': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
+        backgroundColor: 'var(--color-partner-secondary)',
       },
       ':active': {
-        boxShadow: 'none',
-        backgroundColor: 'var(--color-partner-primary)',
+        backgroundColor: 'var(--color-partner-secondary)',
+        boxShadow: '0px 0px 0px 12px rgba(var(--color-partner-secondary-rgb),0.15)',
       },
     },
     thumbFocus: {
@@ -199,7 +203,11 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     rail: {
       backgroundColor: 'var(--color-form-field-background)',
+      height: 6,
       opacity: 1,
+    },
+    track: {
+      height: 6,
     },
   },
   label: {
@@ -208,15 +216,15 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       display: 'flex',
       alignItems: 'center',
     },
-    labelTextError: {
-      color: 'var(--color-error)',
-    },
     labelText: {
       color: 'var(--color-secondary)',
     },
+    labelTextError: {
+      color: 'var(--color-error)',
+    },
     errorIcon: {
       position: 'absolute',
-      left: -32,
+      left: -22,
       top: 0,
       color: 'var(--color-error)',
     },
@@ -235,18 +243,19 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       border: '1px solid var(--color-partner-primary)',
       boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.25)',
       backgroundColor: 'var(--color-background-primary)',
-      minWidth: 400,
       padding: 16,
+      minWidth: 'var(--form-field-description-min-width)',
       zIndex: 9999,
       '@media-mobile': {
-        minWidth: '100%',
-        left: 0,
+        left: -8,
       },
     },
     descriptionText: {
       fontSize: 'var(--font-size-16)',
     },
     descriptionIconWrapper: {
+      position: 'relative',
+      display: 'inline-block',
       color: 'var(--color-secondary)',
       opacity: 0.7,
       cursor: 'pointer',
@@ -260,7 +269,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     descriptionIcon: {
       position: 'absolute',
-      bottom: 4,
+      bottom: -5,
       width: 20,
       height: 20,
     },
@@ -289,6 +298,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -319,14 +329,20 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       justifyContent: 'flex-start',
       height: 'var(--form-field-height)',
       minWidth: 'var(--form-field-width)',
+      paddingLeft: 'var(--form-field-mobile-padding)',
+      gap: 20,
       '@media-mobile': {
-        flexWrap: 'wrap',
+        paddingBottom: 6,
+        paddingLeft: 0,
+        paddingRight: 0,
+        gap: 8,
       },
     },
     wrapperFocus: {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -344,13 +360,14 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       position: 'relative',
       width: 19,
       height: 19,
+      marginTop: -2,
       padding: 0,
-      flexShrink: 0,
       display: 'flex',
+      flexShrink: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      border: '1px solid var(--color-primary)',
       backgroundColor: 'var(--color-form-field-background)',
+      border: '1px solid var(--color-primary)',
       transition: 'border 0.1s',
       ':hover': {
         borderWidth: 2,
@@ -368,13 +385,16 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     radioInnerActive: {},
     item: {
       flexDirection: 'row-reverse',
-      width: 112,
-      padding: '0 20px var(--form-field-mobile-padding) 20px',
+      minWidth: 112,
+      padding: '0 20px 0 20px',
       justifyContent: 'flex-end',
+      '@media-mobile': {
+        width: '50%',
+      },
     },
     label: {
       paddingLeft: 12,
-      lineHeight: '18px',
+      lineHeight: 1,
     },
     errorWrapper: {},
   },
@@ -392,6 +412,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -441,7 +462,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       },
     },
     optionHover: {
-      backgroundColor: '#0400f5', // Default color of react-select library
+      backgroundColor: '#2484FF', // Color in production
       color: 'white',
     },
     optionActive: {
@@ -521,6 +542,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -579,6 +601,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       ':before': {
         content: '""',
         position: 'absolute',
+        pointerEvents: 'none',
         top: 'var(--form-field-focus-padding)',
         left: 'var(--form-field-focus-padding)',
         right: 'var(--form-field-focus-padding)',
@@ -653,9 +676,6 @@ export const appTheme: Partial<ComponentThemeConfig> = {
         paddingRight: 16,
         minWidth: 0,
       },
-      ':focus': {
-        border: '1px solid var(--color-primary)',
-      },
       ':focus:before': {
         content: '""',
         position: 'absolute',
@@ -671,14 +691,14 @@ export const appTheme: Partial<ComponentThemeConfig> = {
     },
     chromeless: {
       background: 'transparent',
-      color: 'var(--color-partner-secondary)',
-      borderColor: 'var(--color-partner-secondary)',
+      color: 'var(--color-primary)',
+      borderColor: 'var(--color-primary)',
       borderWidth: 1,
       borderStyle: 'solid',
     },
     primary: {
       backgroundColor: 'var(--color-partner-primary)',
-      borderColor: 'transparent',
+      borderColor: 'var(--color-partner-primary)',
       color: 'var(--color-primary)',
       minWidth: 180,
       ':hover': {
@@ -722,9 +742,14 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g><path fill="currentColor" stroke="none" d="M26 1.067l-23.067 23.067-1.6 6.533 6.533-1.6 23.067-23.067-4.933-4.933zM29.067 6l-1.733 1.733-3.067-3.067 1.733-1.733 3.067 3.067zM26.4 8.667l-18.267 18.267-3.067-3.067 18.267-18.267 3.067 3.067zM3.067 28.933l1.067-4 3.067 3.067-4.133 0.933z"></path></g></svg>',
     },
     info: {
-      svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 46 46"><circle cx="16" cy="16" r="20" strokeWidth="2" stroke="currentColor" fill="none" /><path fill="currentColor" stroke="none" d="M17.333 25.333v-16h-4.667v2.667h2v13.333h-2v2.667h6.667v-2.667z"></path><path fill="currentColor" stroke="none" d="M14.667 4h2.667v2.667h-2.667v-2.667z"></path></svg>',
+      svg: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 46 46"><circle cx="16" cy="16" r="20" stroke-width="2" stroke="currentColor" fill="none" /><path fill="currentColor" stroke="none" d="M17.333 25.333v-16h-4.667v2.667h2v13.333h-2v2.667h6.667v-2.667z"></path><path fill="currentColor" stroke="none" d="M14.667 4h2.667v2.667h-2.667v-2.667z"></path></svg>',
     },
   },
+
+  // ==============================
+  // Navigation
+  // ==============================
+
   navigation: {
     carrot: {
       display: 'none',
@@ -738,25 +763,28 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       },
     },
     wrapperInner: {
+      alignItems: 'center',
+      backgroundColor: 'var(--color-background-primary)',
       display: 'flex',
-      maxWidth: 'var(--layout-app-max-width)',
-      margin: '0 auto',
       height: '100%',
       justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      paddingTop: 32,
-      backgroundColor: 'var(--color-background-primary)',
+      margin: '0 auto',
+      maxWidth: 1000,
       paddingLeft: 16,
       paddingRight: 16,
+      paddingTop: 32,
+      width: '100%',
       '@media-mobile': {
-        padding: '16px 2px 24px',
+        padding: '16px 10px 24px',
       },
     },
     itemWrapper: {
       display: 'flex',
       alignItems: 'center',
       width: '25%',
+    },
+    itemTitle: {
+      display: 'none',
     },
     item: {
       display: 'flex',
@@ -765,7 +793,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       marginRight: 1,
       marginBottom: 0,
       width: '100%',
-      borderBottom: '5px solid var(--color-partner-secondary)',
+      borderBottom: '5px solid var(--color-primary)',
     },
     itemActive: {
       borderBottom: '5px solid var(--color-partner-primary)',
@@ -791,13 +819,14 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       height: 8,
       borderRadius: 4,
       margin: '0 6px',
-      backgroundColor: 'var(--color-partner-secondary)',
+      backgroundColor: 'var(--color-primary)',
       display: 'none',
     },
     itemCircleActive: {
       backgroundColor: 'var(--color-partner-primary)',
     },
   },
+
   modal: {
     outerWrapper: {
       alignItems: 'center',
@@ -825,7 +854,7 @@ export const appTheme: Partial<ComponentThemeConfig> = {
       animation: 'modal-open-animation 0.2s',
       '@media-mobile': {
         width: '100%',
-        height: '100vh',
+        height: 'var(--view-height)',
         borderRadius: 0,
       },
     },

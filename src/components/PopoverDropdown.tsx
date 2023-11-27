@@ -1,18 +1,15 @@
 import { useMobileTouch } from '../hooks/useMobileTouch'
-import { P } from '../html'
+import { Div, P } from '../html'
 import { MdMenu } from '../icons/new/MdMenu'
 import { MdOutlineExpandMore } from '../icons/new/MdOutlineExpandMore'
 import {
   ComponentTheme,
-  useComponentTheme,
   useCSSStyles,
-  useInlineStyle,
+  useComponentTheme,
+  useInlineStyle
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { PopoverWithItems, Props as PopoverWithItemsProps } from './PopoverWithItems'
-
-const DrodownSelector = createStyled('div')
 
 export type Props = {
   hasIcon?: boolean
@@ -34,7 +31,7 @@ export const PopoverDropdown = (props: Props) => {
     <PopoverWithItems
       {...otherProps}
       trigger={({ onClick }) => (
-        <DrodownSelector
+        <Div
           onClick={onClick}
           {...getCSSStyles({
             button: true,
@@ -53,7 +50,7 @@ export const PopoverDropdown = (props: Props) => {
               {props.hasIcon && <MdOutlineExpandMore width={18} {...getInlineStyle(['icon'])} />}{' '}
             </>
           )}
-        </DrodownSelector>
+        </Div>
       )}
     />
   )

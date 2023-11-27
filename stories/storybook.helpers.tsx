@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { configureFormTheme, FormThemeContext } from '../src/theme/theme.form'
-import { configureBaseStyle } from '../src/theme/configureBaseStyle'
-import { ComponentThemeContext, configureComponentTheme } from '../src/theme/theme.components'
-import { brand as bobBrand } from './theme/bob/bobTheme.brand'
-import { brand as postFinanceBrand } from './theme/orca/orca.brand'
-import { FormConfigContext } from '../src/form/components/form.hooks'
-import { bobStyleConfig } from './theme/bobStyleConfig'
-import { resetStyleConfig } from './theme/resetStyleConfig'
+import React from 'react'
 import { StorybookTemplateProvider } from './storybook.TemplateProvider'
+import { brand as bobBrand } from './theme/bob/storybook.bob.brand'
+import { brand as postFinanceBrand } from './theme/orca/storybook.orca.brand'
 
 enum BRAND {
   bob = 'bob',
@@ -68,3 +62,7 @@ export const validateSwissZip = (value: any) => {
 export const CITY_REGEXP = /^[A-Za-zÀ-ž- '`.]+$/
 export const validateCity = (value: string) =>
   !CITY_REGEXP.test(`${value}`) ? 'formFields.error.invalidText' : null
+
+export const ADDRESS_REGEXP = /^[a-zA-Z0-9\s,'-]*$/
+export const validateAddress = (value: string) =>
+  !ADDRESS_REGEXP.test(`${value}`) ? 'formFields.error.invalidText' : null

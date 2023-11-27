@@ -5,10 +5,9 @@ import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
+import { Div } from '../html'
 
-const InputWrapper = createStyled('div')
 const Input = createStyled('input')
-const Hook = createStyled('div')
 const Prefix = createStyled('p')
 
 export type Props = {
@@ -18,6 +17,7 @@ export type Props = {
   debounce?: number
   disabled?: boolean
   error?: boolean
+  forceRefreshValue?: number
   formatValue?: (value: string | null) => string // This function is applied initially or once the user loses focus but not during typing
   hasFocus?: boolean
   inputRef?: React.MutableRefObject<HTMLElement>
@@ -91,10 +91,25 @@ export const TextInput = (props: Props) => {
     }
   }, [inputRef.current])
 
+  // The internal value is updated when you type something in the TextInput itself.
+  // With autocomplete, the value comes from another component.
+  // With this counter, which is independent for each TextInput,
+  // we can trigger it from another component and force to update the internal value
+
+  // Example:
+  // You type ber, the autocomplete suggests Berlin, you select it and the value is set to Berlin.
+  // props.value is set to Berlin, if you delete the letter n, the internal value is set to Berli,
+  // but the props.value is still Berlin, so if you select this option again the internal value is not updated unless we force it.
+  useEffect(() => {
+    if (props.forceRefreshValue > 0) {
+      setInternalValue(formatValue(props.value))
+    }
+  }, [props.forceRefreshValue])
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
-      <InputWrapper
+      <Div
         {...getCSSStyle({
           wrapper: true,
           wrapperCurrency: props.isCurrencyInput,
@@ -110,7 +125,7 @@ export const TextInput = (props: Props) => {
         }}
         onKeyDown={props.onKeyDown}
       >
-        <Hook
+        <Div
           {...getCSSStyle({
             hook: true,
             readOnlyHook: props.readOnly,
@@ -128,7 +143,7 @@ export const TextInput = (props: Props) => {
           })}
           autoComplete={props.autocomplete}
           className="frr-text-input"
-          data-test-id={props.dataTestId}
+          dataTestId={props.dataTestId}
           disabled={props.readOnly || props.disabled}
           maxLength={props.maxLength}
           minLength={props.minLength}
@@ -164,7 +179,7 @@ export const TextInput = (props: Props) => {
         ></Input>
         {props.postfix && <Prefix {...getCSSStyle('postfix')}>{translate(props.postfix)}</Prefix>}
         {props.children}
-      </InputWrapper>
+      </Div>
     </>
   )
 }

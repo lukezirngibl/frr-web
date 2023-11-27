@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { IconType } from 'react-icons'
 import { CSSProperties } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
@@ -88,7 +88,7 @@ export const Button = (props: Props) => {
     <ButtonWrapper
       id={props.id}
       className={isClicked ? 'animate' : ''}
-      data-test-id={props.dataTestId || `button-${type}`}
+      dataTestId={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
       tabIndex={tabIndex}

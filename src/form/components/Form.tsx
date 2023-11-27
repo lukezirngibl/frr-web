@@ -1,7 +1,6 @@
-import React, { FormEvent, Fragment, ReactNode, useEffect, useState } from 'react'
+import React, { FormEvent, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Button, ButtonType, Props as OriginalButtonProps } from '../../components/Button'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
@@ -29,6 +28,9 @@ import {
   OnChangeMulti,
   SingleFormField,
 } from './types'
+import { DeepPartial } from '../../util'
+import { ButtonProps, ButtonSection } from './ButtonSection'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -37,10 +39,7 @@ export type FormAnalytics<FormData> = {
   onInvalidSubmit?: OnInvalidSubmitType<FormData>
 }
 
-export type FormButtonProps<FormData> = Omit<OriginalButtonProps, 'onClick'> & {
-  onClick: (params: { submit: () => void }) => void
-  isDisabled?: (d: FormData) => boolean
-}
+export type FormButtonProps<FormData> = ButtonProps<FormData>
 
 export type FormProps<FormData> = {
   analytics?: FormAnalytics<FormData>
@@ -65,7 +64,7 @@ export type FormProps<FormData> = {
   renderBottomChildren?: (f: FormData) => ReactNode
   renderTopChildren?: (f: FormData) => ReactNode
   skipAutoFocus?: boolean
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
 }
 
 export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
@@ -207,6 +206,16 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
           />
         )
 
+      case FormFieldType.AutocompleteAddress:
+        return (
+          <FieldAutocompleteAddress
+            key={`field-${fieldIndex}`}
+            field={field}
+            fieldIndex={fieldIndex}
+            {...commonFieldProps}
+          />
+        )
+
       case FormFieldType.Static: {
         return (
           <StaticField
@@ -263,7 +272,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
       <FormWrapper
         {...getFormStyle('wrapper')}
         className={formClassName}
-        data-test-id={props.dataTestId}
+        dataTestId={props.dataTestId}
         readOnly={props.readOnly}
         onSubmit={(e: FormEvent) => {
           e.preventDefault()
@@ -276,30 +285,13 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
         {props.renderBottomChildren && props.renderBottomChildren(data)}
 
         {props.buttons && (
-          <ButtonContainer
-            {...getFormStyle('buttonContainer')}
-            disabled={props.isEdit !== undefined && !props.isEdit}
-            data-test-id="form-actions"
-          >
-            {props.buttons.map((button, buttonKey) => {
-              // By default the browsers do not focus disabled elements
-              // In case the form is controlled by a disabled function, we need to have a tab step before the button to allow it to become anabled once the validation passes
-              const shouldAddTabIndexDiv = button.isDisabled && button.type === ButtonType.Primary
-
-              return (
-                <Fragment key={`button-${buttonKey}`}>
-                  {shouldAddTabIndexDiv && <div tabIndex={0} />}
-                  <Button
-                    {...button}
-                    dataTestId={mapButtonDataTestId(button, buttonKey)}
-                    disabled={button.isDisabled ? button.isDisabled(data) : !!button.disabled}
-                    onClick={() => button.onClick({ submit })}
-                    tabIndex={button.type === ButtonType.Secondary ? -1 : 0}
-                  />
-                </Fragment>
-              )
-            })}
-          </ButtonContainer>
+          <ButtonSection
+            buttons={props.buttons}
+            data={data}
+            isEdit={!!props.isEdit}
+            style={props.style?.form}
+            submit={submit}
+          />
         )}
       </FormWrapper>
     </FormConfigContext.Provider>
@@ -307,11 +299,6 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     <></>
   )
 }
-
-const mapButtonDataTestId = (button: FormButtonProps<any>, k: number) =>
-  button.dataTestId ||
-  (button.type === ButtonType.Primary && 'form:primary') ||
-  `form:${(button.type || ButtonType.Secondary).toLowerCase()}:${k + 1}`
 
 const FormWrapper = createStyled(styled.form`
   display: flex;
@@ -322,10 +309,4 @@ const FormWrapper = createStyled(styled.form`
 const FormContent = createStyled(styled.div`
   display: flex;
   flex-direction: column;
-`)
-
-const ButtonContainer = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `)

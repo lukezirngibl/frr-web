@@ -1,10 +1,9 @@
-import { Slider as MaterialSlider } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
+import MaterialSlider from '@mui/material/Slider'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebouncedCallback } from 'use-debounce'
 import { FormFieldType } from '../form/components/types'
-import { P } from '../html'
+import { Div, P } from '../html'
 import {
   ComponentTheme,
   MaterialSliderStyles,
@@ -24,7 +23,6 @@ const Formatter = new Intl.NumberFormat('de-CH', {
   minimumFractionDigits: 0,
 })
 
-const Wrapper = createStyled('div')
 const ValueText = createStyled('p')
 
 const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles) => {
@@ -36,36 +34,37 @@ const getPseudoElementStyle = (pseudStyle: string, styles?: MaterialSliderStyles
     backgroundColor:
       thumbStyles[pseudStyle]?.backgroundColor || thumbStyles[pseudStyle]?.background || '#FFC53D',
 
-    '& .thumb-focus': thumbFocusStyles,
+    '&.Mui-focus': thumbFocusStyles,
   }
 
   return pseudoStyles
 }
 
-const createSlider = (styles?: MaterialSliderStyles): unknown => {
+const getMuiSliderStyles = (styles?: MaterialSliderStyles) => {
   const materialStyles = styles || {}
 
-  return withStyles({
-    root: {
-      color: '#FFC53D',
-      height: 8,
-      padding: '15px 0',
-      ...(materialStyles.root || {}),
-    },
-    thumb: {
+  const mappedStyles = {
+    color: '#FFC53D',
+    height: 8,
+    padding: '15px 0',
+    ...(materialStyles.root || {}),
+
+    '&.Mui-active': materialStyles.active || {},
+
+    '& .MuiSlider-thumb': {
+      display: 'block',
       height: 24,
       width: 24,
       backgroundColor: '#FFC53D',
       borderRadius: 12,
-      marginTop: -9,
-      marginLeft: -8,
+      '&.Mui-focusVisible': getPseudoElementStyle(':focus', materialStyles),
       '&:active': getPseudoElementStyle(':active', materialStyles),
       '&:focus': getPseudoElementStyle(':focus', materialStyles),
       '&:hover': getPseudoElementStyle(':hover', materialStyles),
       ...(materialStyles.thumb || {}),
     },
-    active: materialStyles.active || {},
-    valueLabel: {
+
+    '& .MuiSlider-valueLabel': {
       left: 'calc(-50% + 12px)',
       top: -22,
       color: '#533603',
@@ -75,43 +74,39 @@ const createSlider = (styles?: MaterialSliderStyles): unknown => {
       },
       ...(materialStyles.valueLabel || {}),
     },
-    track: {
-      height: 8,
-      ...(materialStyles.track || {}),
-    },
-    rail: {
-      height: 8,
-      opacity: 0.5,
-      backgroundColor: 'rgba(0,0,0, 0.1)',
-      ...(materialStyles.rail || {}),
-    },
-    mark: {
+
+    '& .MuiSlider-mark': {
       backgroundColor: 'rgba(0,0,0, 0.2)',
       height: 8,
       width: 2,
       ...(materialStyles.mark || {}),
+      '&.Mui-active': {
+        opacity: 1,
+        backgroundColor: 'currentColor',
+        ...(materialStyles.markActive || {}),
+      },
     },
-    markLabel: {
+    '& .MuiSlider-markLabel': {
       color: 'black',
       fontSize: 14,
       marginTop: 4,
       opacity: 1,
       ...(materialStyles.markLabel || {}),
     },
-    markActive: {
-      opacity: 1,
-      backgroundColor: 'currentColor',
-      ...(materialStyles.markActive || {}),
-    },
-  } as any)(MaterialSlider)
-}
 
-const ThumbComponent = (props: any) => {
-  return (
-    <span {...props} tabIndex={-1}>
-      <span className="thumb-focus"></span>
-    </span>
-  )
+    '& .MuiSlider-track': {
+      height: 8,
+      ...(materialStyles.track || {}),
+    },
+    '& .MuiSlider-rail': {
+      height: 8,
+      opacity: 0.5,
+      backgroundColor: 'rgba(0,0,0, 0.1)',
+      ...(materialStyles.rail || {}),
+    },
+  }
+
+  return mappedStyles
 }
 
 export type Props = {
@@ -136,6 +131,7 @@ export type Props = {
   placeholder?: string
   prefix?: string
   postfix?: string
+  size?: 'small' | 'medium'
   scale?: any
   step: number | null
   style?: Partial<ComponentTheme['slider']>
@@ -175,7 +171,8 @@ export const Slider = (props: Props) => {
     }
   }, [])
 
-  const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme]) as any
+  // const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme])
+  const materialStyles = getMuiSliderStyles(theme.materialSlider)
 
   const prefix =
     (props.isCurrency && t('currency.CHF')) || (props.prefix && t(props.prefix)) || undefined
@@ -191,10 +188,10 @@ export const Slider = (props: Props) => {
   }, [inputFieldType])
 
   return (
-    <Wrapper {...getCSSStyles('outerWrapper', { width: '100%' })}>
+    <Div {...getCSSStyles('outerWrapper', { width: '100%' })}>
       {props.label && <Label {...props.label} style={{ wrapper: labelStyle.style }} />}
-      <Wrapper {...getCSSStyles('wrapper')} data-test-id={props.dataTestId}>
-        <Wrapper {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
+      <Div {...getCSSStyles('wrapper')} dataTestId={props.dataTestId}>
+        <Div {...getCSSStyles({ valueWrapper: true, valueWrapperEditable: props.isEditable })}>
           {props.isEditable ? (
             <CurrencyInput
               dataTestId="slider-value"
@@ -228,7 +225,7 @@ export const Slider = (props: Props) => {
               )}
               <ValueText
                 {...getCSSStyles('value')}
-                data-test-id="slider-value"
+                dataTestId="slider-value"
                 data-value={internalValue}
               >
                 {props.isCurrency ? Formatter.format(internalValue) : internalValue}
@@ -242,7 +239,7 @@ export const Slider = (props: Props) => {
               )}
             </>
           )}
-        </Wrapper>
+        </Div>
 
         <MaterialSlider
           aria-labelledby={props.ariaLabelledby}
@@ -254,14 +251,15 @@ export const Slider = (props: Props) => {
             onChange({ num: value })
             setInputFieldType(FormFieldType.Slider)
           }}
-          style={{ thumb: { marginTop: -9, marginLeft: -8 } }}
+          size={props.size || 'medium'}
           scale={props.scale}
           step={props.step}
           tabIndex={-1}
-          ThumbComponent={ThumbComponent}
+          // slots={{ thumb: ThumbComponent }}
+          sx={materialStyles}
           value={internalValue}
         />
-      </Wrapper>
-    </Wrapper>
+      </Div>
+    </Div>
   )
 }

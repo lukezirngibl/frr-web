@@ -1,9 +1,9 @@
 import { format, isValid, parse } from 'date-fns'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'
-import { P } from '../../html'
+import { Div, Img, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
 import { Language, mapLanguageToLocale } from '../../theme/language'
 import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
@@ -13,6 +13,7 @@ import { LocaleNamespace, Translate } from '../../translation'
 import {
   CommonThreadProps,
   FormFieldType,
+  MultiInputAutosuggestAddressField,
   MultiInputAutosuggestField,
   MultiInputField,
   SingleFormField,
@@ -171,6 +172,7 @@ export const defaultReadOnlyMappers: {
   [FormFieldType.MultiFileInput]: defaultFileArrayMapper,
   [FormFieldType.MultiInput]: () => '',
   [FormFieldType.MultiInputAutosuggest]: () => '',
+  [FormFieldType.AutocompleteAddress]: () => '',
   [FormFieldType.MultiSelect]: defaultOptionArrayMapper,
   [FormFieldType.NumberInput]: defaultStringNumberMapper,
   [FormFieldType.NumberMultiSelect]: defaultOptionArrayMapper,
@@ -217,8 +219,8 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
 
   if (props.field.readOnlyOptions?.image) {
     return (
-      <Image
-        data-test-id={props.field.lens.id()}
+      <Img
+        dataTestId={props.field.lens.id()}
         src={props.field.readOnlyOptions.image}
         alt="value image"
         {...props.getFieldStyle('image')}
@@ -294,7 +296,11 @@ type FieldItemReadOnlyProps<FormData> = Omit<
   Omit<CommonThreadProps<FormData>, 'autoFocus'>,
   'onChange' | 'showValidation' | 'formReadOnly'
 > & {
-  field: SingleFormField<FormData> | MultiInputField<FormData> | MultiInputAutosuggestField<FormData>
+  field:
+    | SingleFormField<FormData>
+    | MultiInputField<FormData>
+    | MultiInputAutosuggestField<FormData>
+    | MultiInputAutosuggestAddressField<FormData>
   width?: number
 }
 
@@ -327,7 +333,8 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
         )}
         <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
           {props.field.type === FormFieldType.MultiInput ||
-          props.field.type === FormFieldType.MultiInputAutosuggest ? (
+          props.field.type === FormFieldType.MultiInputAutosuggest ||
+          props.field.type === FormFieldType.AutocompleteAddress ? (
             props.field.fields.map((fieldItem, fieldItemIndex) => {
               return (
                 <FieldItemReadOnlyValue<FormData>
@@ -358,9 +365,9 @@ export const FieldItemReadOnly = <FormData extends {}>(props: FieldItemReadOnlyP
  * Styled components
  */
 
-const FormFieldWrapper = createStyled(styled.div`
+const FormFieldWrapper = createStyled(styled.div<{ width?: string }>`
   position: relative;
-  width: ${({ width }: { width?: string }) => width || '100%'};
+  width: ${(props) => props.width || '100%'};
 
   @media ${MediaQuery.Mobile} {
     width: 100%;
@@ -373,5 +380,3 @@ const FormFieldWrapper = createStyled(styled.div`
   }
 `)
 
-const Div = createStyled('div')
-const Image = createStyled('img')

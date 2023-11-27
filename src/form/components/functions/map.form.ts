@@ -20,6 +20,8 @@ const processFormFieldGroup = <T, V>(group: FormFieldGroup<T>, func: Fn<T, V>): 
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.MultiInputAutosuggest) {
       newValues = processFormFieldRow(field.fields, func)
+    } else if (field.type === FormFieldType.AutocompleteAddress) {
+      newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.Static) {
       newValues = []
     } else {
@@ -39,6 +41,8 @@ const processFormSectionFields = <T, V>(fields: InternalSectionFields<T>, func: 
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.MultiInputAutosuggest) {
+      newValues = processFormFieldRow(field.fields, func)
+    } else if (field.type === FormFieldType.AutocompleteAddress) {
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.Static) {
       newValues = []
@@ -63,6 +67,8 @@ export const mapFormFields = <T, V>(formFields: Array<InternalFormField<T>>, fun
     } else if (field.type === FormFieldType.MultiInput) {
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.MultiInputAutosuggest) {
+      newValues = processFormFieldRow(field.fields, func)
+    } else if (field.type === FormFieldType.AutocompleteAddress) {
       newValues = processFormFieldRow(field.fields, func)
     } else if (field.type === FormFieldType.Static) {
       newValues = []

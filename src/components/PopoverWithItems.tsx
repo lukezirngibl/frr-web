@@ -1,18 +1,13 @@
 import React from 'react'
-import { P } from '../html'
+import { Div, P } from '../html'
 import {
   ComponentTheme,
   useComponentTheme,
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { SimplePopover } from './PopOver'
-
-const Wrapper = createStyled('div')
-
-const Item = createStyled('div')
 
 export type Props = {
   trigger: (c: any) => React.ReactNode
@@ -31,9 +26,9 @@ export const PopoverWithItems = (props: Props) => {
       style={getInlineStyle(['popover']).style}
       trigger={props.trigger}
       render={({ close }) => (
-        <Wrapper>
+        <Div>
           {props.items.map((item, index) => (
-            <Item
+            <Div
               key={index}
               onClick={(e: any) => {
                 // c.onClose()
@@ -50,9 +45,9 @@ export const PopoverWithItems = (props: Props) => {
                 localeNamespace={props.localeNamespace}
                 {...getCSSStyle(['itemLabel'])}
               />
-            </Item>
+            </Div>
           ))}
-        </Wrapper>
+        </Div>
       )}
     />
   )

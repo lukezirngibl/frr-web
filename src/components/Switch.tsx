@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Label, LabelProps } from './Label'
 import styled from 'styled-components'
-import { Switch as MaterialSwitch } from '@material-ui/core'
+import MaterialSwitch from '@mui/material/Switch'
 
 const Wrapper = styled.div`
   display: flex;

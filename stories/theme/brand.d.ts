@@ -3,7 +3,7 @@ import { FormThemeConfig } from "../../src/theme/theme.form"
 
 export type BrandTheme = {
   brandName: string
-  appTheme: ComponentThemeConfig
+  componentTheme: ComponentThemeConfig
   formTheme: FormThemeConfig
   baseStyle: string
 }

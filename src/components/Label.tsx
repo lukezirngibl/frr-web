@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
-import { LabelText, P } from '../html'
+import { Div, LabelText, P } from '../html'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -72,7 +72,7 @@ export const Label = (props: LabelProps) => {
               <DescriptionIconWrapper
                 onClick={() => setOpen(true)}
                 dangerouslySetInnerHTML={{ __html: infoIcon.style.svg }}
-                svgCSSStyles={getCSSStyles('descriptionIcon').cssStyles}
+                $svgCSSStyles={getCSSStyles('descriptionIcon').cssStyles}
                 {...getCSSStyles('descriptionIconWrapper')}
               />
             ) : null
@@ -81,6 +81,7 @@ export const Label = (props: LabelProps) => {
             props.error ? (
               <Span {...getCSSStyles('errorIcon')}>
                 <MdErrorOutline
+                  color="currentColor"
                   width={20}
                   onClick={() => {
                     setOpen(!open)
@@ -116,7 +117,7 @@ export const Label = (props: LabelProps) => {
           data={props.sublabelData}
         />
       )}
-      <ErrorText error={props.error}>
+      <ErrorText $error={props.error}>
         {props.error &&
           errorLabels.map((errorLabel) => (
             <P
@@ -153,26 +154,24 @@ const DescriptionPopupAnimation = keyframes`
   }
 `
 
-export const Div = createStyled('div')
-export const Span = createStyled('span')
+const Span = createStyled('span')
 
 const DescriptionPopup = createStyled(styled.div`
   animation: ${DescriptionPopupAnimation} 0.12s ease-out;
 `)
 
-const DescriptionIconWrapper = createStyled(styled.span`
+const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string }>`
   & svg {
-    ${({ svgCSSStyles }: { svgCSSStyles: string }) =>
-      css`
-        ${svgCSSStyles}
-      `}
+    ${(props) => css`
+      ${props.$svgCSSStyles}
+    `}
 
     color: currentColor;
   }
 `)
 
-const ErrorText = styled.div<{ error: boolean }>`
+const ErrorText = styled.div<{ $error: boolean }>`
   height: auto;
-  max-height: ${(props) => (props.error ? '72px' : '0')};
+  max-height: ${(props) => (props.$error ? '72px' : '0')};
   transition: max-height 0.15s;
 `
