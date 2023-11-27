@@ -17,6 +17,23 @@ export enum ModalLinkType {
   IFrame = 'Iframe',
 }
 
+const downloadPdf = (params: { fileName: string; blob: Blob }) => {
+  // Create a temporary URL for the blob
+  const url = URL.createObjectURL(params.blob)
+
+  // Create a link element and trigger the download
+  const a = document.createElement('a')
+  document.body.appendChild(a)
+  a.style.display = 'none'
+  a.href = url
+  a.download = params.fileName
+  a.click()
+
+  // Clean up
+  URL.revokeObjectURL(url)
+  document.body.removeChild(a)
+}
+
 export type Props = {
   bearerToken?: string
   downloadButton?: { filename: string }
@@ -33,14 +50,15 @@ export type Props = {
 export const PdfViewer = (props: Props) => {
   const [numPages, setNumPages] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
-  const [pdfData, setPdfData] = useState<{ data: Uint8Array } | null>(null)
+  const [pdfDownloadData, setPdfDownloadData] = useState<Blob | null>(null)
 
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'pdfViewer')(props.style)
 
-  const getPDF = (url: string) => {
-    setPdfData(null)
-    fetch(url, {
+  React.useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+
+    fetch(props.url, {
       method: 'GET',
       headers: {
         ...(props.bearerToken
@@ -50,28 +68,14 @@ export const PdfViewer = (props: Props) => {
           : {}),
       },
     })
-      .then((response) => {
-        response.blob().then((blob) => {
-          const fileReader = new FileReader()
-
-          fileReader.onloadend = function (event) {
-            const buffer = event.target.result as ArrayBuffer
-            setPdfData({ data: new Uint8Array(buffer) })
-          }
-          fileReader.readAsArrayBuffer(blob)
-        })
-      })
+      .then((response) => response.blob())
+      .then((blob) => setPdfDownloadData(blob))
       .catch((error) => {
         // console.log(error)
       })
-  }
-
-  React.useEffect(() => {
-    pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
-    getPDF(props.url)
   }, [])
 
-  if (!pdfData) {
+  if (!pdfDownloadData) {
     return <></>
   }
 
@@ -81,16 +85,7 @@ export const PdfViewer = (props: Props) => {
         <Div
           {...getCSSStyle('downloadButton')}
           onClick={() => {
-            var a: any = document.createElement('a')
-            document.body.appendChild(a)
-            a.style = 'display: none'
-
-            const blob = new Blob([pdfData.data])
-            const url = window.URL.createObjectURL(blob)
-            a.href = url
-            a.download = props.downloadButton.filename
-            a.click()
-            window.URL.revokeObjectURL(url)
+            downloadPdf({ fileName: props.downloadButton.filename, blob: pdfDownloadData })
           }}
         >
           <MdDownload width={24} />
@@ -103,7 +98,6 @@ export const PdfViewer = (props: Props) => {
               e.stopPropagation()
               if (pageNumber !== 1) {
                 setPageNumber(pageNumber - 1)
-                // setIframeLoading(true)
               }
             }}
             width={24}
@@ -122,7 +116,6 @@ export const PdfViewer = (props: Props) => {
               e.stopPropagation()
               if (pageNumber !== numPages) {
                 setPageNumber(pageNumber + 1)
-                // setIframeLoading(true)
               }
             }}
             width={24}
@@ -143,7 +136,7 @@ export const PdfViewer = (props: Props) => {
       <Div {...getCSSStyle('pdfWrapper')}>
         <Document
           loading={<Loading style={{ transform: 'scale(0.6)' }} />}
-          file={pdfData}
+          file={pdfDownloadData}
           onLoadSuccess={({ numPages }) => {
             props.onLoadSuccess()
             setNumPages(numPages)
