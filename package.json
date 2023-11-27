@@ -10,7 +10,7 @@
   "version": "3.7.7",
   "keywords": [],
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf lib && tsc",
     "build:watch": "tsc --watch",
     "link:react": "yarn link @material-ui/core @material-ui/styles i18next react react-dom react-i18next semantic-ui-react styled-components",
     "prepare": "install-peers && husky install",
@@ -87,7 +87,7 @@
     "install-peers-cli": "^2.2.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "rimraf": "^5.0.1",
+    "rimraf": "^5.0.5",
     "storybook": "^7.0.22",
     "ts-node": "^10.3.0",
     "typescript": "^5.2.2"
