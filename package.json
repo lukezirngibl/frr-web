@@ -7,10 +7,10 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "4.1.0",
+  "version": "4.1.1",
   "keywords": [],
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf lib && tsc",
     "build:watch": "tsc --watch",
     "link:react": "yarn link i18next react react-dom react-i18next semantic-ui-react styled-components @mui/material",
     "prepare": "install-peers",
@@ -80,7 +80,7 @@
     "glob-promise": "^6.0.2",
     "install-peers-cli": "^2.2.0",
     "prettier": "^3.0.3",
-    "rimraf": "^5.0.1",
+    "rimraf": "^5.0.5",
     "storybook": "^7.5.2",
     "ts-node": "^10.3.0",
     "typescript": "^5.2.2"
