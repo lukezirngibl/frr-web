@@ -1,15 +1,17 @@
 import React, { useEffect, useReducer, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Options } from 'react-select'
 import styled from 'styled-components'
+import { FieldInputType } from '../form/components/FieldAutocompleteAddress'
 import { ComponentTheme } from '../theme/theme.components'
+import { LocaleNamespace } from '../translation'
+import { TextInput, Props as TextInputProps } from './TextInput'
 import { Menu } from './menu/Menu'
 import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT } from './menu/Menu.constants'
 import { CommonProps, MenuAction, MenuActionType, MenuState, Option } from './menu/Menu.types'
 import { classNames, onKeyDown } from './menu/Menu.utils'
 import { MenuOption } from './menu/MenuOption'
 import { MenuPortal } from './menu/MenuPortal'
-import { Props as TextInputProps, TextInput } from './TextInput'
-import { FieldInputType } from '../form/components/FieldAutocompleteAddress'
 
 export type Suggestions = Options<Option>
 
@@ -87,6 +89,7 @@ const reducer = (state: MenuState, action: MenuAction) => {
 export type Props = {
   fieldInputType?: FieldInputType
   forceRefreshValue?: number
+  loadingMessage?: string
   noOptionsMessage?: string
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
@@ -173,6 +176,8 @@ export const TextInputAutosuggest = (props: Props) => {
       <AutosuggestMenu
         inputHeight={inputHeight}
         isLoading={state.isLoading}
+        loadingMessage={props.loadingMessage}
+        localeNamespace={props.localeNamespace}
         menuIsOpen={state.isOpen}
         menuPortalTarget={document.body}
         menuShouldBlockScroll
@@ -195,6 +200,7 @@ export interface AutosuggestMenuProps {
   inputHeight: number
   isLoading: boolean
   loadingMessage?: string
+  localeNamespace?: LocaleNamespace
   menuIsOpen?: boolean
   menuPortalTarget?: HTMLElement
   menuShouldBlockScroll?: boolean
@@ -231,6 +237,7 @@ const buildCategorizedOptions = (props: Props, state: MenuState): Array<Categori
 let instanceId = 1
 
 const AutosuggestMenu = (props: AutosuggestMenuProps) => {
+  const { t: translate } = useTranslation(props.localeNamespace)
   const controlRef = useRef<HTMLInputElement>(null)
 
   const instancePrefix = 'react-select-' + (props.name || ++instanceId)
@@ -280,7 +287,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
       return renderOption(option, `${option.index}`)
     })
   } else if (props.isLoading) {
-    const message = props.loadingMessage || 'Loading...'
+    const message = translate(props.loadingMessage) || 'Loading...'
     if (message === null) return null
     menuUI = (
       <MenuOption {...commonProps} dataTestId="loading-option" isDisabled>
@@ -288,7 +295,7 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
       </MenuOption>
     )
   } else {
-    const message = props.noOptionsMessage || 'No options'
+    const message = translate(props.noOptionsMessage) || 'No options'
     if (message === null) return null
     menuUI = (
       <MenuOption {...commonProps} dataTestId="no-option" isDisabled>
