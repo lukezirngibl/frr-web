@@ -184,10 +184,10 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
   // if a search is performed in one field, the values are stored for the search in another field.
   useEffect(() => {
     setSearchParams({
-      StreetName: props.field.fields[0].lens.get(props.data) || '',
-      HouseNo: props.field.fields[1].lens.get(props.data) || '',
-      ZipCode: props.field.fields[2].lens.get(props.data) || '',
-      TownName: props.field.fields[3].lens.get(props.data) || '',
+      StreetName: props.field.fields[0]?.lens.get(props.data) || '',
+      HouseNo: props.field.fields[1]?.lens.get(props.data) || '',
+      ZipCode: props.field.fields[2]?.lens.get(props.data) || '',
+      TownName: props.field.fields[3]?.lens.get(props.data) || '',
     })
   }, [props.data])
 
