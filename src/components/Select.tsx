@@ -85,7 +85,7 @@ export const Select = (props: Props) => {
       language: i18n.language,
       options: props.options,
       priority: props.priority,
-      t,
+      t: t as Translate,
       value,
     }),
   )
@@ -98,7 +98,7 @@ export const Select = (props: Props) => {
         language: i18n.language,
         options: props.options,
         priority: props.priority,
-        t,
+        t: t as Translate,
         value,
       }),
     )

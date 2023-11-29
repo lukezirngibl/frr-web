@@ -92,7 +92,7 @@ export const Element = (
   let str: string | ReactNode = ''
 
   if (typeof props.label === 'function') {
-    str = props.label({ translate })
+    str = props.label({ translate: translate as Translate })
   } else if (!!props.label && !isLabelTranslated) {
     str = translate(props.label, data)
   } else {

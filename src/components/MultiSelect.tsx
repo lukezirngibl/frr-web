@@ -75,7 +75,7 @@ export const MultiSelect = <T extends string | number>(props: Props<T>) => {
       language: i18n.language,
       options: props.options,
       priority: props.priority,
-      t,
+      t: t as Translate,
       value: props.value,
     }),
   )
@@ -88,7 +88,7 @@ export const MultiSelect = <T extends string | number>(props: Props<T>) => {
         language: i18n.language,
         options: props.options,
         priority: props.priority,
-        t,
+        t: t as Translate,
         value: props.value,
       }),
     )
