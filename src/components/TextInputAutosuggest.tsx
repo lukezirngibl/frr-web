@@ -85,10 +85,11 @@ const reducer = (state: MenuState, action: MenuAction) => {
 // ==============================
 
 export type Props = {
+  fieldInputType?: FieldInputType
+  forceRefreshValue?: number
+  noOptionsMessage?: string
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
-  forceRefreshValue?: number
-  fieldInputType?: FieldInputType
 } & TextInputProps
 
 export const TextInputAutosuggest = (props: Props) => {
@@ -176,6 +177,7 @@ export const TextInputAutosuggest = (props: Props) => {
         menuPortalTarget={document.body}
         menuShouldBlockScroll
         name={props.name}
+        noOptionsMessage={props.noOptionsMessage}
         onOptionSelected={onSelectOption}
         onOptionFocused={onSuggestionFocused}
         options={buildCategorizedOptions(props, state)}
