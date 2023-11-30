@@ -34,7 +34,12 @@ export type AddressResponse = {
   ZipCode: string
 }
 
-export type FieldInputType = 'StreetName' | 'HouseNo' | 'ZipCode' | 'TownName'
+export enum FieldInputType {
+  Street = 'StreetName',
+  HouseNr = 'HouseNo',
+  Zip = 'ZipCode',
+  City = 'TownName',
+}
 
 export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestAddressField<FormData>
@@ -126,8 +131,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       props.field.fields
         .filter((fieldItem) => fieldItem.lens.id() !== currentField.lens.id())
         .forEach((fieldItem) => {
-          const fieldItemId = fieldItem.lens.id().split('.').pop()
-          const value = suggestion.data[fieldItemId]
+          const value = suggestion.data[fieldItem.fieldInputType]
           if (value !== undefined) {
             changes.push({ lens: fieldItem.lens, value })
 
@@ -137,7 +141,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
         })
 
       // Propagate changes to form
-      props.onChangeMulti?.(changes)
+      props.onChangeMulti(changes)
       setForceRefreshValue({
         ...forceRefreshValue,
         [currentField.fieldInputType]: forceRefreshValue[currentField.fieldInputType] + 1,
@@ -153,7 +157,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     ) =>
     (searchString: string) => {
       if (
-        (currentField.fieldInputType === 'StreetName' || currentField.fieldInputType === 'TownName') &&
+        [FieldInputType.Street, FieldInputType.City].includes(currentField.fieldInputType) &&
         searchString.length < 3
       ) {
         return Promise.resolve([])
@@ -164,16 +168,16 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             .then((address) =>
               address.map((item: AddressResponse) => ({
                 value:
-                  currentField.fieldInputType !== 'HouseNo'
+                  currentField.fieldInputType !== FieldInputType.HouseNr
                     ? item[currentField.fieldInputType]
                     : `${item[currentField.fieldInputType]}${item.HouseNoAddition}`,
                 label: `${item.StreetName} ${item.HouseNo}${item.HouseNoAddition} ${item.ZipCode} ${item.TownName}`,
                 isTranslated: true,
                 data: {
-                  street: item.StreetName,
-                  houseNr: item.HouseNo,
-                  zip: item.ZipCode,
-                  city: item.TownName,
+                  [FieldInputType.Street]: item.StreetName,
+                  [FieldInputType.HouseNr]: item.HouseNo,
+                  [FieldInputType.Zip]: item.ZipCode,
+                  [FieldInputType.City]: item.TownName,
                 },
               })),
             )
@@ -186,19 +190,19 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     setSearchParams({
       StreetName:
         props.field.fields
-          .filter((field) => field.fieldInputType === 'StreetName')[0]
+          .filter((field) => field.fieldInputType === FieldInputType.Street)[0]
           ?.lens.get(props.data) || '',
       HouseNo:
         props.field.fields
-          .filter((field) => field.fieldInputType === 'HouseNo')[0]
+          .filter((field) => field.fieldInputType === FieldInputType.HouseNr)[0]
           ?.lens.get(props.data) || '',
       ZipCode:
         props.field.fields
-          .filter((field) => field.fieldInputType === 'ZipCode')[0]
+          .filter((field) => field.fieldInputType === FieldInputType.Zip)[0]
           ?.lens.get(props.data) || '',
       TownName:
         props.field.fields
-          .filter((field) => field.fieldInputType === 'TownName')[0]
+          .filter((field) => field.fieldInputType === FieldInputType.City)[0]
           ?.lens.get(props.data) || '',
     })
   }, [props.data])
