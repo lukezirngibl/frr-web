@@ -22,6 +22,7 @@ import { MdDone } from '../icons/new/MdDone'
 type Value = string | number | null
 
 type InternalOption = {
+  CustomComponent?: React.ReactNode
   label?: string
   name?: string
   value: Value
@@ -178,16 +179,26 @@ export const Select = (props: Props) => {
               ref={props.inputRef}
               value={value}
             >
-              {options.map((option, optionIndex) => (
-                <Option
-                  disabled={option.disabled}
-                  isLabelTranslated={option.isLabelTranslated}
-                  key={optionIndex}
-                  label={option.label || option.name}
-                  localeNamespace={props.localeNamespace}
-                  value={option.value === null ? 'null' : option.value}
-                />
-              ))}
+              {options.map((option, optionIndex) =>
+                option.CustomComponent ? (
+                  <option
+                    disabled={option.disabled}
+                    key={optionIndex}
+                    value={option.value === null ? 'null' : option.value}
+                  >
+                    {option.CustomComponent}
+                  </option>
+                ) : (
+                  <Option
+                    disabled={option.disabled}
+                    isLabelTranslated={option.isLabelTranslated}
+                    key={optionIndex}
+                    label={option.label || option.name}
+                    localeNamespace={props.localeNamespace}
+                    value={option.value === null ? 'null' : option.value}
+                  />
+                ),
+              )}
             </SelectWrapper>
             <MdOutlineExpandMore width={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
@@ -241,7 +252,7 @@ export const getOptions = (params: {
   priority?: Priority
   t: Translate
   value?: Value | null
-}) => {
+}): Options<Value> => {
   const { alphabetize, language, options, t, priority } = params
   const translatedOptions = typeof options === 'function' ? options(language as Language) : options
 
@@ -315,15 +326,14 @@ export const mapInternalOption = (option: OptionType<Value>): InternalOption => 
  */
 
 export const SelectOption = (props: OptionProps<InternalOption> & { value: Value }) => {
-  const { children, value, ...other } = props
   const dataTestId = `${props.selectProps['data-test-id']}:option-${props.value}`
 
   return (
     <div data-test-id={dataTestId}>
-      <components.Option {...other} data-test-id={dataTestId}>
+      <components.Option {...props} data-test-id={dataTestId}>
         <OptionValueWrapper>
           {props.isSelected && <MdDone className="selected-icon" width={18} />}
-          {children}
+          {props.data.CustomComponent || props.children}
         </OptionValueWrapper>
       </components.Option>
     </div>
