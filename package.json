@@ -7,7 +7,7 @@
   "contributors": [
     "Joel Meiller <joel@oscillate.ch>"
   ],
-  "version": "4.1.6",
+  "version": "4.1.7",
   "keywords": [],
   "scripts": {
     "build": "rimraf lib && tsc",
