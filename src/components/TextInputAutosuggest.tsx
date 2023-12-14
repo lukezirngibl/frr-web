@@ -2,7 +2,6 @@ import React, { useEffect, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Options } from 'react-select'
 import styled from 'styled-components'
-import { FieldInputType } from '../form/components/FieldAutocompleteAddress'
 import { ComponentTheme } from '../theme/theme.components'
 import { LocaleNamespace } from '../translation'
 import { TextInput, Props as TextInputProps } from './TextInput'
@@ -12,6 +11,7 @@ import { CommonProps, MenuAction, MenuActionType, MenuState, Option } from './me
 import { classNames, onKeyDown } from './menu/Menu.utils'
 import { MenuOption } from './menu/MenuOption'
 import { MenuPortal } from './menu/MenuPortal'
+import { FieldInputType } from '../form/components/types'
 
 export type Suggestions = Options<Option>
 

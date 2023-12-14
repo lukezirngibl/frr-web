@@ -11,7 +11,7 @@ import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import { CommonThreadProps, MultiInputAutosuggestAddressField, TextInputAutosuggestField } from './types'
+import { CommonThreadProps, FieldInputType, MultiInputAutosuggestAddressField, TextInputAutosuggestField } from './types'
 
 export type AddressParams = {
   ZipCode: string
@@ -34,12 +34,7 @@ export type AddressResponse = {
   ZipCode: string
 }
 
-export enum FieldInputType {
-  Street = 'StreetName',
-  HouseNr = 'HouseNo',
-  Zip = 'ZipCode',
-  City = 'TownName',
-}
+
 
 export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestAddressField<FormData>
