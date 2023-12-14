@@ -21,6 +21,7 @@ export type Options<Value> = Array<OptionType<Value>>
 export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
 
 type ElementProps = {
+  className?: string
   children?: ReactNode
   cssStyles?: string
   data?: { [k: string]: string | number }
@@ -66,6 +67,7 @@ export const Element = (
   },
 ) => {
   const {
+    className,
     children,
     cssStyles,
     data,
@@ -105,13 +107,14 @@ export const Element = (
 
   return (
     <HtmlElement
-      onClick={onClick}
+      className={className}
       cssStyles={cssStyles}
-      dataTestId={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}
+      dataTestId={dataTestId}
       dataThemeId={dataThemeId || elementStyle.dataThemeId}
       disabled={disabled}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
+      onClick={onClick}
       readOnly={readOnly}
       style={{ ...elementStyle.style, ...style }}
       tabIndex={props.tabIndex}
