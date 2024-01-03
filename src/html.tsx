@@ -7,6 +7,7 @@ import { LocaleNamespace, Translate } from './translation'
 import { renderHtml } from './utils/renderHtml'
 
 export type OptionType<Value> = {
+  CustomComponent?: ReactNode
   disabled?: boolean
   icon?: string
   isLabelTranslated?: boolean
@@ -19,7 +20,8 @@ export type Options<Value> = Array<OptionType<Value>>
 
 export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
 
-type Props = {
+type ElementProps = {
+  className?: string
   children?: ReactNode
   cssStyles?: string
   data?: { [k: string]: string | number }
@@ -60,11 +62,12 @@ export const injectDataIntoText = (str: any, data: Record<string, string>): stri
         .join(', ')
 
 export const Element = (
-  props: Props & {
+  props: ElementProps & {
     element: 'button' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'option' | 'p' | 'a'
   },
 ) => {
   const {
+    className,
     children,
     cssStyles,
     data,
@@ -92,7 +95,7 @@ export const Element = (
   let str: string | ReactNode = ''
 
   if (typeof props.label === 'function') {
-    str = props.label({ translate })
+    str = props.label({ translate: translate as Translate })
   } else if (!!props.label && !isLabelTranslated) {
     str = translate(props.label, data)
   } else {
@@ -104,13 +107,14 @@ export const Element = (
 
   return (
     <HtmlElement
-      onClick={onClick}
+      className={className}
       cssStyles={cssStyles}
-      dataTestId={dataTestId}
       data-value={dataValue !== undefined ? `${dataValue}` : undefined}
+      dataTestId={dataTestId}
       dataThemeId={dataThemeId || elementStyle.dataThemeId}
       disabled={disabled}
       itemID={(typeof label === 'function' ? '<computed>' : label) as string}
+      onClick={onClick}
       readOnly={readOnly}
       style={{ ...elementStyle.style, ...style }}
       tabIndex={props.tabIndex}
@@ -123,17 +127,17 @@ export const Element = (
   )
 }
 
-export const A = (props: Props) => <Element {...props} element={'a'} />
-export const H1 = (props: Props) => <Element {...props} element={'h1'} />
-export const H2 = (props: Props) => <Element {...props} element={'h2'} />
-export const H3 = (props: Props) => <Element {...props} element={'h3'} />
-export const H4 = (props: Props) => <Element {...props} element={'h4'} />
-export const H5 = (props: Props) => <Element {...props} element={'h5'} />
-export const H6 = (props: Props) => <Element {...props} element={'h6'} />
-export const Li = (props: Props) => <Element {...props} element={'li'} />
-export const Option = (props: Props) => <Element {...props} element={'option'} />
-export const P = (props: Props) => <Element {...props} element={'p'} />
-export const button = (props: Props) => <Element {...props} element={'button'} />
+export const A = (props: ElementProps) => <Element {...props} element={'a'} />
+export const H1 = (props: ElementProps) => <Element {...props} element={'h1'} />
+export const H2 = (props: ElementProps) => <Element {...props} element={'h2'} />
+export const H3 = (props: ElementProps) => <Element {...props} element={'h3'} />
+export const H4 = (props: ElementProps) => <Element {...props} element={'h4'} />
+export const H5 = (props: ElementProps) => <Element {...props} element={'h5'} />
+export const H6 = (props: ElementProps) => <Element {...props} element={'h6'} />
+export const Li = (props: ElementProps) => <Element {...props} element={'li'} />
+export const Option = (props: ElementProps) => <Element {...props} element={'option'} />
+export const P = (props: ElementProps) => <Element {...props} element={'p'} />
+export const button = (props: ElementProps) => <Element {...props} element={'button'} />
 
 export const Div = createStyled('div')
 export const Img = createStyled('img')

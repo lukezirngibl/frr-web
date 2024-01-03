@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
-import { LocaleNamespace } from '../../translation'
+import { LocaleNamespace, Translate } from '../../translation'
 import { FormLens, setScrolled } from '../util'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
@@ -78,9 +78,21 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   const formFields = props.formFields
   const formReadOnly = props.readOnly
 
-  const hiddenFormFields = flatten(filterByHidden({ data, formFields, formReadOnly, translate }), data)
-  const visibleFormFields = filterByVisible({ data, formFields, formReadOnly, translate })
-  const changedRepeatFields = filterChangedRepeatFormFields({ data, formFields, translate })
+  const hiddenFormFields = flatten(
+    filterByHidden({ data, formFields, formReadOnly, translate: translate as Translate }),
+    data,
+  )
+  const visibleFormFields = filterByVisible({
+    data,
+    formFields,
+    formReadOnly,
+    translate: translate as Translate,
+  })
+  const changedRepeatFields = filterChangedRepeatFormFields({
+    data,
+    formFields,
+    translate: translate as Translate,
+  })
 
   const internalOnChange = (lens: FormLens<FormData, any>, value: any) => {
     if (props.onChangeWithLens) {

@@ -27,12 +27,19 @@ import { Props as YesNoRadioGroupProps } from '../../components/YesNoRadioGroup'
 import { SingleFileInputProps } from '../../components/fileUpload/SingleFileInput'
 import { MultiFileInputProps } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace, Translate } from '../../translation'
-import { FC, ReactElement, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { CSSProperties } from 'styled-components'
 import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
-import { AddressParams, AddressResponse, FieldInputType } from './FieldAutocompleteAddress'
+import { AddressParams, AddressResponse } from './FieldAutocompleteAddress'
+
+export enum FieldInputType {
+  Street = 'StreetName',
+  HouseNr = 'HouseNo',
+  Zip = 'ZipCode',
+  City = 'TownName',
+}
 
 // import { CheckboxGroupProps } from '../../components/CheckboxGroup'
 // import { Props as DropdownProps } from '../../components/Dropdown'

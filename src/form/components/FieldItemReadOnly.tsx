@@ -1,5 +1,5 @@
 import { format, isValid, parse } from 'date-fns'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import rgbHex from 'rgb-hex'
 import styled from 'styled-components'

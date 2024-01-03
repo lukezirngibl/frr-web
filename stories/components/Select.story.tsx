@@ -40,11 +40,23 @@ const textSelectField = (props: SelectStoryProps): TextSelectField<FormData> => 
     {
       value: 'elephant',
       label: 'Elephant',
+      CustomComponent: (
+        <span>
+          <b>Elephant</b>
+          <br />
+          with baby
+        </span>
+      ),
       isLabelTranslated: true,
     },
     {
       value: 'tiger',
       label: 'Tiger',
+      CustomComponent: (
+        <span style={{ fontSize: 20 }}>
+          <i>Tiger</i>
+        </span>
+      ),
       isLabelTranslated: true,
     },
     {
@@ -169,7 +181,7 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
           <SelectText {...props} />
         </li>
         <li className="mb-small">
-          <SelectText {...props}  isMatchAny />
+          <SelectText {...props} isMatchAny />
         </li>
 
         <li>
@@ -186,16 +198,11 @@ const SelectOverview = (props: { isMobile?: boolean }) => (
   </div>
 )
 
-export const SelectOverviewDesktop = () => (
-    <SelectOverview />
-)
+export const SelectOverviewDesktop = () => <SelectOverview />
 SelectOverviewDesktop.storyName = 'Overview (Desktop)'
 
-export const SelectOverviewMobile = () => (
-    <SelectOverview isMobile />
-)
+export const SelectOverviewMobile = () => <SelectOverview isMobile />
 SelectOverviewMobile.storyName = 'Overview (Mobile)'
-
 
 const List = styled.ul`
   list-style: none;
