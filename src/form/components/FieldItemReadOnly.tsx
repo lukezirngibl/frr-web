@@ -13,6 +13,7 @@ import {
 } from './types'
 import { FieldItemReadOnlyValue } from './FieldItemReadOnlyValue'
 import { LocaleNamespace } from '../../translation'
+import { DeepPartial } from '../../util'
 
 /*
  * Field readonly component
@@ -29,15 +30,22 @@ export const SingleFieldItemReadonly = <FormData extends {}>(props: {
   data: FormData
   field: SingleFormField<FormData>
   localeNamespace?: LocaleNamespace
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
+  width: string
 }) => {
   const theme = useFormTheme()
+  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
 
   return (
-    <>
+    <FormFieldWrapper
+      className="form-field field-readonly"
+      {...getRowStyle('item')}
+      readOnly={true}
+      width={props.width}
+    >
       {props.field.label && (
         <P
           {...getFieldStyle({
@@ -57,7 +65,7 @@ export const SingleFieldItemReadonly = <FormData extends {}>(props: {
           localeNamespace={props.localeNamespace}
         />
       </Div>
-    </>
+    </FormFieldWrapper>
   )
 }
 
@@ -65,15 +73,22 @@ export const MultiFieldItemReadonly = <FormData extends {}>(props: {
   data: FormData
   field: MultiInputField<FormData> | MultiInputAutosuggestField<FormData>
   localeNamespace?: LocaleNamespace
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
+  width: string
 }) => {
   const theme = useFormTheme()
+  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
 
   return (
-    <>
+    <FormFieldWrapper
+      className="form-field field-readonly"
+      {...getRowStyle('item')}
+      readOnly={true}
+      width={props.width}
+    >
       {props.field.label && (
         <P
           {...getFieldStyle({
@@ -96,7 +111,7 @@ export const MultiFieldItemReadonly = <FormData extends {}>(props: {
           />
         ))}
       </Div>
-    </>
+    </FormFieldWrapper>
   )
 }
 
@@ -104,9 +119,11 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
   data: FormData
   field: MultiInputAutosuggestAddressField<FormData>
   localeNamespace?: LocaleNamespace
-  style?: Partial<FormTheme>
+  style?: DeepPartial<FormTheme>
+  width: string
 }) => {
   const theme = useFormTheme()
+  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
   const getFieldStyle = useCSSStyles(theme, 'fieldReadOnly')(props.style?.fieldReadOnly)
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
@@ -120,55 +137,68 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
 
   return (
     <>
-      {firstRowLabelField && (
-        <P
-          {...getFieldStyle({
-            label: true,
-            labelFullwidth: isFullWidth,
-          })}
-          data={firstRowLabelField.label.labelData}
-          label={firstRowLabelField.label.label}
-          localeNamespace={props.localeNamespace}
-        />
-      )}
-
       {firstRowFields.length > 0 && (
-        <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
-          {firstRowFields.map((fieldItem, fieldItemIndex) => (
-            <FieldItemReadOnlyValue<FormData>
-              data={props.data}
-              field={fieldItem}
-              getFieldStyle={getFieldStyle}
-              key={`field-item-value-${fieldItemIndex}`}
+        <FormFieldWrapper
+          className="form-field field-readonly"
+          {...getRowStyle('item')}
+          readOnly={true}
+          width={props.width}
+        >
+          {firstRowLabelField && (
+            <P
+              {...getFieldStyle({
+                label: true,
+                labelFullwidth: isFullWidth,
+              })}
+              data={firstRowLabelField.label.labelData}
+              label={firstRowLabelField.label.label}
               localeNamespace={props.localeNamespace}
             />
-          ))}
-        </Div>
+          )}
+          <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
+            {firstRowFields.map((fieldItem, fieldItemIndex) => (
+              <FieldItemReadOnlyValue<FormData>
+                data={props.data}
+                field={fieldItem}
+                getFieldStyle={getFieldStyle}
+                key={`field-item-value-${fieldItemIndex}`}
+                localeNamespace={props.localeNamespace}
+              />
+            ))}
+          </Div>
+        </FormFieldWrapper>
       )}
 
-      {secondRowLabelField && (
-        <P
-          {...getFieldStyle({
-            label: true,
-            labelFullwidth: isFullWidth,
-          })}
-          data={secondRowLabelField.label.labelData}
-          label={secondRowLabelField.label.label}
-          localeNamespace={props.localeNamespace}
-        />
-      )}
       {secondRowFields.length > 0 && (
-        <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
-          {secondRowFields.map((fieldItem, fieldItemIndex) => (
-            <FieldItemReadOnlyValue<FormData>
-              data={props.data}
-              field={fieldItem}
-              getFieldStyle={getFieldStyle}
-              key={`field-item-value-${fieldItemIndex}`}
+        <FormFieldWrapper
+          className="form-field field-readonly"
+          {...getRowStyle('item')}
+          readOnly={true}
+          width={props.width}
+        >
+          {secondRowLabelField && (
+            <P
+              {...getFieldStyle({
+                label: true,
+                labelFullwidth: isFullWidth,
+              })}
+              data={secondRowLabelField.label.labelData}
+              label={secondRowLabelField.label.label}
               localeNamespace={props.localeNamespace}
             />
-          ))}
-        </Div>
+          )}
+          <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
+            {secondRowFields.map((fieldItem, fieldItemIndex) => (
+              <FieldItemReadOnlyValue<FormData>
+                data={props.data}
+                field={fieldItem}
+                getFieldStyle={getFieldStyle}
+                key={`field-item-value-${fieldItemIndex}`}
+                localeNamespace={props.localeNamespace}
+              />
+            ))}
+          </Div>
+        </FormFieldWrapper>
       )}
     </>
   )
@@ -183,41 +213,34 @@ export const FieldItemReadOnly = <FormData extends {}>(
       | MultiInputAutosuggestAddressField<FormData>
   },
 ) => {
-  const theme = useFormTheme()
-  const getRowStyle = useCSSStyles(theme, 'row')(props.style?.row)
-
-  return (
-    <FormFieldWrapper
-      key={`field-item-${props.fieldIndex}`}
-      className="form-field field-readonly"
-      {...getRowStyle('item')}
-      readOnly={true}
+  return props.field.type === FormFieldType.AutocompleteAddress ? (
+    <AddressFieldItemReadonly<FormData>
+      data={props.data}
+      field={props.field}
+      key={`field-item-value-${props.fieldIndex}`}
+      localeNamespace={props.localeNamespace}
+      style={props.style}
       width={`${isNaN(props.width) ? 100 : props.width}%`}
-    >
-      {props.field.type === FormFieldType.AutocompleteAddress ? (
-        <AddressFieldItemReadonly<FormData>
-          data={props.data}
-          field={props.field}
-          key={`field-item-value-${props.fieldIndex}`}
-          localeNamespace={props.localeNamespace}
-        />
-      ) : props.field.type === FormFieldType.MultiInput ||
-        props.field.type === FormFieldType.MultiInputAutosuggest ? (
-        <MultiFieldItemReadonly<FormData>
-          data={props.data}
-          field={props.field}
-          key={`field-item-value-${props.fieldIndex}`}
-          localeNamespace={props.localeNamespace}
-        />
-      ) : (
-        <SingleFieldItemReadonly<FormData>
-          data={props.data}
-          field={props.field}
-          key={`field-item-value-${props.fieldIndex}`}
-          localeNamespace={props.localeNamespace}
-        />
-      )}
-    </FormFieldWrapper>
+    />
+  ) : props.field.type === FormFieldType.MultiInput ||
+    props.field.type === FormFieldType.MultiInputAutosuggest ? (
+    <MultiFieldItemReadonly<FormData>
+      data={props.data}
+      field={props.field}
+      key={`field-item-value-${props.fieldIndex}`}
+      localeNamespace={props.localeNamespace}
+      style={props.style}
+      width={`${isNaN(props.width) ? 100 : props.width}%`}
+    />
+  ) : (
+    <SingleFieldItemReadonly<FormData>
+      data={props.data}
+      field={props.field}
+      key={`field-item-value-${props.fieldIndex}`}
+      localeNamespace={props.localeNamespace}
+      style={props.style}
+      width={`${isNaN(props.width) ? 100 : props.width}%`}
+    />
   )
 }
 
