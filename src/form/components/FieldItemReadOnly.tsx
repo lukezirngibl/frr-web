@@ -136,7 +136,7 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
   const secondRowLabelField = secondRowFields.find((fieldItem) => fieldItem.label)
 
   return (
-    <>
+    <AddressFieldWrapper>
       {firstRowFields.length > 0 && (
         <FormFieldWrapper
           className="form-field field-readonly"
@@ -200,7 +200,7 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
           </Div>
         </FormFieldWrapper>
       )}
-    </>
+    </AddressFieldWrapper>
   )
 }
 
@@ -261,4 +261,8 @@ const FormFieldWrapper = createStyled(styled.div<{ width?: string }>`
       margin-top: 0;
     }
   }
+`)
+
+const AddressFieldWrapper = createStyled(styled.div`
+  width: 100%;
 `)

@@ -79,22 +79,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     HouseNo: '',
   })
 
-  if (props.formReadOnly) {
-    return (
-      <FieldRowWrapper
-        key={`row-${props.fieldIndex}`}
-        {...getCssRowStyle('wrapper')}
-        readOnly={props.formReadOnly}
-      >
-        <FieldItemReadOnly
-          {...commonFieldProps}
-          field={props.field as MultiInputAutosuggestAddressField<FormData>}
-          fieldIndex={props.fieldIndex}
-        />
-      </FieldRowWrapper>
-    )
-  }
-
   let isSelectSuggestion = false
 
   const onChange = (lens: FormLens<FormData, any>, value: string) => {
@@ -201,6 +185,23 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
           ?.lens.get(props.data) || '',
     })
   }, [props.data])
+
+  // Return readonly form
+  if (props.formReadOnly) {
+    return (
+      <FieldRowWrapper
+        key={`row-${props.fieldIndex}`}
+        {...getCssRowStyle('wrapper')}
+        readOnly={props.formReadOnly}
+      >
+        <FieldItemReadOnly
+          {...commonFieldProps}
+          field={props.field as MultiInputAutosuggestAddressField<FormData>}
+          fieldIndex={props.fieldIndex}
+        />
+      </FieldRowWrapper>
+    )
+  }
 
   return (
     <>
