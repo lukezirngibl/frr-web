@@ -11,7 +11,12 @@ import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from './hooks/useFormFieldError'
-import { CommonThreadProps, FieldInputType, MultiInputAutosuggestAddressField, TextInputAutosuggestField } from './types'
+import {
+  CommonThreadProps,
+  FieldInputType,
+  MultiInputAutosuggestAddressField,
+  TextInputAutosuggestField,
+} from './types'
 
 export type AddressParams = {
   ZipCode: string
@@ -34,8 +39,6 @@ export type AddressResponse = {
   ZipCode: string
 }
 
-
-
 export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestAddressField<FormData>
 }
@@ -44,6 +47,17 @@ const WrapperItem = createStyled(styled.div`
   display: flex;
   width: 100%;
 `)
+
+export const useAddressFields = <FormData extends {}>(
+  field: MultiInputAutosuggestAddressField<FormData>,
+) => {
+  // First row fields
+  const firstRowFields = field.fields.slice(0, 2)
+  // Second row fields
+  const secondRowFields = field.fields.slice(2)
+
+  return { firstRowFields, secondRowFields }
+}
 
 export const FieldAutocompleteAddress = <FormData extends {}>(
   props: FieldAutocompleteAddressProps<FormData>,
@@ -203,88 +217,96 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
+  // Get rows
+  const { firstRowFields, secondRowFields } = useAddressFields(props.field)
+
   return (
     <>
-      <FieldRowWrapper
-        key={`row-${props.fieldIndex}`}
-        {...getCssRowStyle('wrapper')}
-        readOnly={props.formReadOnly}
-      >
-        <FieldScrollableWrapper
-          key={`field-${props.fieldIndex}`}
-          isScrollToError={
-            props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
-            -1
-          }
-          style={props.style}
+      {firstRowFields.length > 0 && (
+        <FieldRowWrapper
+          key={`row-${props.fieldIndex}`}
+          {...getCssRowStyle('wrapper')}
+          readOnly={props.formReadOnly}
         >
-          <WrapperItem
-            {...getFieldMultiInputStyle('item')}
-            key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
+          <FieldScrollableWrapper
+            key={`field-${props.fieldIndex}`}
+            isScrollToError={
+              props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
+              -1
+            }
+            style={props.style}
           >
-            {props.field.fields.slice(0, 2).map((fieldItem, fieldItemIndex) => (
-              <FieldRowItem
-                {...commonFieldProps}
-                key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-                field={{
-                  ...fieldItem,
-                  onSuggestionSelected: onSelectSuggestion(fieldItem),
-                  onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
-                }}
-                fieldIndex={fieldItemIndex}
-                errorFieldId={props.errorFieldId}
-                inputRef={
-                  undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
-                }
-                onChange={onChange}
-                onError={onError}
-                isNotScrollable
-              />
-            ))}
-          </WrapperItem>
-        </FieldScrollableWrapper>
-      </FieldRowWrapper>
-      <FieldRowWrapper
-        key={`row-${props.fieldIndex + 1}`}
-        {...getCssRowStyle('wrapper')}
-        readOnly={props.formReadOnly}
-      >
-        <FieldScrollableWrapper
-          key={`field-${props.fieldIndex}`}
-          isScrollToError={
-            props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
-            -1
-          }
-          style={props.style}
+            <WrapperItem
+              {...getFieldMultiInputStyle('item')}
+              key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
+            >
+              {firstRowFields.map((fieldItem, fieldItemIndex) => (
+                <FieldRowItem
+                  {...commonFieldProps}
+                  key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
+                  field={{
+                    ...fieldItem,
+                    onSuggestionSelected: onSelectSuggestion(fieldItem),
+                    onLoadSuggestions: onLoadSuggestions(fieldItem),
+                    forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
+                  }}
+                  fieldIndex={fieldItemIndex}
+                  errorFieldId={props.errorFieldId}
+                  inputRef={
+                    undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
+                  }
+                  onChange={onChange}
+                  onError={onError}
+                  isNotScrollable
+                />
+              ))}
+            </WrapperItem>
+          </FieldScrollableWrapper>
+        </FieldRowWrapper>
+      )}
+
+      {secondRowFields.length > 0 && (
+        <FieldRowWrapper
+          key={`row-${props.fieldIndex + 1}`}
+          {...getCssRowStyle('wrapper')}
+          readOnly={props.formReadOnly}
         >
-          <WrapperItem
-            {...getFieldMultiInputStyle('item')}
-            key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
+          <FieldScrollableWrapper
+            key={`field-${props.fieldIndex}`}
+            isScrollToError={
+              props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
+              -1
+            }
+            style={props.style}
           >
-            {props.field.fields.slice(2).map((fieldItem, fieldItemIndex) => (
-              <FieldRowItem
-                {...commonFieldProps}
-                key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 2}`}
-                field={{
-                  ...fieldItem,
-                  onSuggestionSelected: onSelectSuggestion(fieldItem),
-                  onLoadSuggestions: onLoadSuggestions(fieldItem),
-                  forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
-                }}
-                fieldIndex={fieldItemIndex + 2}
-                errorFieldId={props.errorFieldId}
-                inputRef={
-                  undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
-                }
-                onChange={onChange}
-                onError={onError}
-                isNotScrollable
-              />
-            ))}
-          </WrapperItem>
-        </FieldScrollableWrapper>
-      </FieldRowWrapper>
+            <WrapperItem
+              {...getFieldMultiInputStyle('item')}
+              key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
+            >
+              {secondRowFields.map((fieldItem, fieldItemIndex) => (
+                <FieldRowItem
+                  {...commonFieldProps}
+                  key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 2}`}
+                  field={{
+                    ...fieldItem,
+                    onSuggestionSelected: onSelectSuggestion(fieldItem),
+                    onLoadSuggestions: onLoadSuggestions(fieldItem),
+                    forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
+                  }}
+                  fieldIndex={fieldItemIndex + 2}
+                  errorFieldId={props.errorFieldId}
+                  inputRef={
+                    undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
+                  }
+                  onChange={onChange}
+                  onError={onError}
+                  isNotScrollable
+                />
+              ))}
+            </WrapperItem>
+          </FieldScrollableWrapper>
+        </FieldRowWrapper>
+      )}
     </>
   )
 }

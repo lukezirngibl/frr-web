@@ -14,6 +14,8 @@ import {
 import { FieldItemReadOnlyValue } from './FieldItemReadOnlyValue'
 import { LocaleNamespace } from '../../translation'
 import { DeepPartial } from '../../util'
+import { use } from 'i18next'
+import { useAddressFields } from './FieldAutocompleteAddress'
 
 /*
  * Field readonly component
@@ -128,11 +130,9 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
 
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
 
-  // First row fields
-  const firstRowFields = props.field.fields.slice(0, 2)
+  // Get row fields
+  const { firstRowFields, secondRowFields } = useAddressFields(props.field)
   const firstRowLabelField = firstRowFields.find((fieldItem) => fieldItem.label)
-  // Second row fields
-  const secondRowFields = props.field.fields.slice(2)
   const secondRowLabelField = secondRowFields.find((fieldItem) => fieldItem.label)
 
   return (
