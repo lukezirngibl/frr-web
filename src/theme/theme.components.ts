@@ -157,6 +157,7 @@ export type ComponentTheme = {
     item: CSSProperties
     itemActive: CSSProperties
     itemFocus: CSSProperties
+    itemDisabled: CSSProperties
     label: CSSProperties
     labelActive: CSSProperties
     errorWrapper: CSSProperties
@@ -518,6 +519,7 @@ export const defaultComponentTheme: ComponentTheme = {
     item: {},
     itemActive: {},
     itemFocus: {},
+    itemDisabled: {},
     label: {},
     labelActive: {},
     errorWrapper: {},
