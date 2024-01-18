@@ -68,7 +68,7 @@ export const OptionGroup = (props: Props) => {
             dataTestId={`${props.dataTestId || 'option'}:${item.value}`}
             disabled={item.disabled || props.disabled}
             key={item.value}
-            onClick={() => onChange(item)}
+            onClick={item.disabled || props.disabled ? undefined : () => onChange(item)}
             tabIndex={-1}
           >
             {item.CustomElement || (
