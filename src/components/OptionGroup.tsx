@@ -7,18 +7,6 @@ import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 
-const Wrapper = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-`)
-
-const Item = createStyled(styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`)
-
 export type Props = {
   dataTestId?: string
   disabled?: boolean
@@ -74,9 +62,11 @@ export const OptionGroup = (props: Props) => {
               item: true,
               itemActive: item.value === props.value,
               itemFocus: isFocused && itemIndex === focusedIndex,
+              itemDisabled: item.disabled,
             })}
             className={item.value === props.value ? 'active' : 'inactive'}
             dataTestId={`${props.dataTestId || 'option'}:${item.value}`}
+            disabled={item.disabled || props.disabled}
             key={item.value}
             onClick={() => onChange(item)}
             tabIndex={-1}
@@ -98,3 +88,16 @@ export const OptionGroup = (props: Props) => {
     </>
   )
 }
+
+
+const Wrapper = createStyled(styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`)
+
+const Item = createStyled(styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`)

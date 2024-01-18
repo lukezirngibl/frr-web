@@ -843,6 +843,10 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       borderColor: 'var(--color-form-field-border-focus)',
       color: 'var(--color-input)',
     },
+    itemDisabled: {
+      backgroundColor: 'var(--color-disabled)',
+      cursor: 'default',
+    },
     label: {
       textAlign: 'center',
       fontSize: 'var(--font-size-input)',

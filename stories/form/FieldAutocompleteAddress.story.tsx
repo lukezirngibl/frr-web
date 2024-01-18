@@ -4,7 +4,7 @@ import {
   FieldAutocompleteAddress,
   FieldAutocompleteAddressProps,
 } from '../../src/form/components/FieldAutocompleteAddress'
-import { FormFieldType, MultiInputAutosuggestAddressField } from '../../src/form/components/types'
+import { FieldInputType, FormFieldType, MultiInputAutosuggestAddressField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory, validateAddress, validateCity, validateSwissZip } from '../storybook.helpers'
 import { AddressResponse, sendRequest } from './AddressAssistant'
@@ -55,7 +55,7 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         label: { label: 'Street / House Nr.' },
         lens: formLens(['street']),
         name: 'street',
-        fieldInputType: 'StreetName',
+        fieldInputType: FieldInputType.Street,
         required: true,
         validate: validateAddress,
         itemStyle: {
@@ -67,7 +67,7 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         type: FormFieldType.TextInputAutosuggest,
         lens: formLens(['houseNr']),
         name: 'houseNr',
-        fieldInputType: 'HouseNo',
+        fieldInputType: FieldInputType.HouseNr,
         required: true,
         style: {
           wrapper: {
@@ -85,7 +85,7 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
         label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
         lens: formLens(['zip']),
         name: 'zip',
-        fieldInputType: 'ZipCode',
+        fieldInputType: FieldInputType.Zip,
         maxLength: 4,
         required: true,
         validate: validateSwissZip,
@@ -107,7 +107,7 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
           marginLeft: 0,
         },
         name: 'city',
-        fieldInputType: 'TownName',
+        fieldInputType: FieldInputType.City,
         required: true,
         validate: validateCity,
         onLoadSuggestions: () => Promise.resolve([]),

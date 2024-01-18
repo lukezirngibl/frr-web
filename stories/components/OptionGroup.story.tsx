@@ -97,6 +97,7 @@ export const durationField: OptionGroupField<FormData> = {
         monthlyInstallment: `CHF 41.65`,
       },
       value: 36,
+      disabled: true,
     },
     {
       label: 'paymentTerms.formFields.duration.options.monthlyInstallmentLabel',
@@ -106,6 +107,7 @@ export const durationField: OptionGroupField<FormData> = {
         monthlyInstallment: `CHF 31.30`,
       },
       value: 48,
+      disabled: true,
     },
   ].map((option) => ({
     ...option,
