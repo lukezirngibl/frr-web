@@ -39,7 +39,10 @@ export type AddressResponse = {
   ZipCode: string
 }
 
-export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
+export type FieldAutocompleteAddressProps<FormData> = Omit<
+  CommonThreadProps<FormData>,
+  'errorFieldId'
+> & {
   field: MultiInputAutosuggestAddressField<FormData>
 }
 
@@ -48,16 +51,17 @@ const WrapperItem = createStyled(styled.div`
   width: 100%;
 `)
 
-export const useAddressFields = <FormData extends {}>(
-  field: MultiInputAutosuggestAddressField<FormData>,
-) => {
-  // First row fields
-  const firstRowFields = field.fields.slice(0, 2)
-  // Second row fields
-  const secondRowFields = field.fields.slice(2)
+// export const useAddressFields = <FormData extends {}>(
+//   firstField: MultiInputAutosuggestAddressField<FormData>,
+//   secondRowField?: MultiInputAutosuggestAddressField<FormData>,
+// ) => {
+//   // First row fields
+//   const firstRowFields = firstField.fields
+//   // Second row fields
+//   const secondRowFields = secondRowField.fields
 
-  return { firstRowFields, secondRowFields }
-}
+//   return { firstRowFields, secondRowFields }
+// }
 
 export const FieldAutocompleteAddress = <FormData extends {}>(
   props: FieldAutocompleteAddressProps<FormData>,
@@ -78,10 +82,10 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
   const commonFieldProps = {
     autoFocus: false,
     data: props.data,
+    disableDirtyValidation,
     formReadOnly: props.formReadOnly,
     localeNamespace: props.localeNamespace,
     showValidation: props.showValidation,
-    disableDirtyValidation,
     style: props.style,
   }
 
@@ -121,7 +125,19 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
       ]
 
       // Change all referenced fields accordingly
-      props.field.fields
+      props.field.firstRow.fields
+        .filter((fieldItem) => fieldItem.lens.id() !== currentField.lens.id())
+        .forEach((fieldItem) => {
+          const value = suggestion.data[fieldItem.fieldInputType]
+          if (value !== undefined) {
+            changes.push({ lens: fieldItem.lens, value })
+
+            // Clear error for other fields
+            onError({ error: null, fieldId: fieldItem.lens.id() })
+          }
+        })
+
+      props.field.secondRow?.fields
         .filter((fieldItem) => fieldItem.lens.id() !== currentField.lens.id())
         .forEach((fieldItem) => {
           const value = suggestion.data[fieldItem.fieldInputType]
@@ -179,26 +195,26 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 
   // this useEffect is used to update the searchParams when the data is changed
   // if a search is performed in one field, the values are stored for the search in another field.
+  const fields = props.field.firstRow.fields.concat(props.field.secondRow?.fields || [])
   useEffect(() => {
     setSearchParams({
       StreetName:
-        props.field.fields
+        fields
           .filter((field) => field.fieldInputType === FieldInputType.Street)[0]
           ?.lens.get(props.data) || '',
       HouseNo:
-        props.field.fields
+        fields
           .filter((field) => field.fieldInputType === FieldInputType.HouseNr)[0]
           ?.lens.get(props.data) || '',
       ZipCode:
-        props.field.fields
-          .filter((field) => field.fieldInputType === FieldInputType.Zip)[0]
-          ?.lens.get(props.data) || '',
+        fields.filter((field) => field.fieldInputType === FieldInputType.Zip)[0]?.lens.get(props.data) ||
+        '',
       TownName:
-        props.field.fields
+        fields
           .filter((field) => field.fieldInputType === FieldInputType.City)[0]
           ?.lens.get(props.data) || '',
     })
-  }, [props.data])
+  }, [props.data, fields.length])
 
   // Return readonly form
   if (props.formReadOnly) {
@@ -218,11 +234,11 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
   }
 
   // Get rows
-  const { firstRowFields, secondRowFields } = useAddressFields(props.field)
+  // const { firstRowFields, secondRowFields } = useAddressFields(props.field)
 
   return (
     <>
-      {firstRowFields.length > 0 && (
+      {props.field.firstRow.fields.length > 0 && (
         <FieldRowWrapper
           key={`row-${props.fieldIndex}`}
           {...getCssRowStyle('wrapper')}
@@ -231,8 +247,9 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
           <FieldScrollableWrapper
             key={`field-${props.fieldIndex}`}
             isScrollToError={
-              props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
-              -1
+              fields.findIndex(
+                (fieldItem) => fieldItem.lens.id() === props.field.firstRow.errorFieldId,
+              ) !== -1
             }
             style={props.style}
           >
@@ -240,7 +257,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               {...getFieldMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
-              {firstRowFields.map((fieldItem, fieldItemIndex) => (
+              {props.field.firstRow.fields.map((fieldItem, fieldItemIndex) => (
                 <FieldRowItem
                   {...commonFieldProps}
                   key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
@@ -251,7 +268,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                   }}
                   fieldIndex={fieldItemIndex}
-                  errorFieldId={props.errorFieldId}
+                  errorFieldId={props.field.firstRow.errorFieldId}
                   inputRef={
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }
@@ -265,7 +282,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
         </FieldRowWrapper>
       )}
 
-      {secondRowFields.length > 0 && (
+      {props.field.secondRow && props.field.secondRow.fields.length > 0 && (
         <FieldRowWrapper
           key={`row-${props.fieldIndex + 1}`}
           {...getCssRowStyle('wrapper')}
@@ -274,7 +291,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
           <FieldScrollableWrapper
             key={`field-${props.fieldIndex}`}
             isScrollToError={
-              props.field.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !==
+              props.field.secondRow.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.field.secondRow.errorFieldId) !==
               -1
             }
             style={props.style}
@@ -283,7 +300,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               {...getFieldMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
-              {secondRowFields.map((fieldItem, fieldItemIndex) => (
+              {props.field.secondRow.fields.map((fieldItem, fieldItemIndex) => (
                 <FieldRowItem
                   {...commonFieldProps}
                   key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex + 2}`}
@@ -294,7 +311,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                   }}
                   fieldIndex={fieldItemIndex + 2}
-                  errorFieldId={props.errorFieldId}
+                  errorFieldId={props.field.secondRow.errorFieldId}
                   inputRef={
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }

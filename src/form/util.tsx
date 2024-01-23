@@ -205,8 +205,7 @@ export const processRepeatSection = <FormData extends {}>(
             })),
           }
         } else if (
-          repeatSectionField.type === FormFieldType.MultiInputAutosuggest ||
-          repeatSectionField.type === FormFieldType.AutocompleteAddress
+          repeatSectionField.type === FormFieldType.MultiInputAutosuggest
         ) {
           return {
             ...repeatSectionField,
@@ -219,7 +218,12 @@ export const processRepeatSection = <FormData extends {}>(
                 : undefined,
             })),
           }
-        } else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
+        } else if (
+          repeatSectionField.type === FormFieldType.AutocompleteAddress
+        ) {
+          // No support for Repeat Section yet
+          return <></>
+        }else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
           return {
             ...repeatSectionField,
             fields: repeatSectionField.fields.map((field) => {

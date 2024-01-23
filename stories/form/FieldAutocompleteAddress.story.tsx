@@ -4,7 +4,11 @@ import {
   FieldAutocompleteAddress,
   FieldAutocompleteAddressProps,
 } from '../../src/form/components/FieldAutocompleteAddress'
-import { FieldInputType, FormFieldType, MultiInputAutosuggestAddressField } from '../../src/form/components/types'
+import {
+  FieldInputType,
+  FormFieldType,
+  MultiInputAutosuggestAddressField,
+} from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { createStory, validateAddress, validateCity, validateSwissZip } from '../storybook.helpers'
 import { AddressResponse, sendRequest } from './AddressAssistant'
@@ -41,7 +45,7 @@ const getSuggestions = (params): Promise<Array<AddressResponse>> => {
   })
 }
 
-const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData> => {
+const textInputAutosuggestField = (params: any): MultiInputAutosuggestAddressField<FormData> => {
   return {
     type: FormFieldType.AutocompleteAddress,
     itemStyle: {
@@ -49,70 +53,90 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
       width: '100%',
     },
     loadAddressSuggestions: getSuggestions,
-    fields: [
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        label: { label: 'Street / House Nr.' },
-        lens: formLens(['street']),
-        name: 'street',
-        fieldInputType: FieldInputType.Street,
-        required: true,
-        validate: validateAddress,
-        itemStyle: {
-          marginLeft: 0,
-        },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        lens: formLens(['houseNr']),
-        name: 'houseNr',
-        fieldInputType: FieldInputType.HouseNr,
-        required: true,
-        style: {
-          wrapper: {
-            minWidth: 'var(--multi-form-field-zip-width)',
-            maxWidth: 'var(--multi-form-field-zip-width)',
+    firstRow: {
+      autoFocus: false,
+      onChange: params.onChange,
+      data: params.data,
+      formReadOnly: params.formReadOnly,
+      fieldIndex: params.fieldIndex,
+      fields: [
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          label: { label: 'Street / House Nr.' },
+          lens: formLens(['street']),
+          name: 'street',
+          fieldInputType: FieldInputType.Street,
+          required: true,
+          validate: validateAddress,
+          itemStyle: {
+            marginLeft: 0,
           },
+          onLoadSuggestions: () => Promise.resolve([]),
         },
-        itemStyle: {
-          marginRight: 0,
-        },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
-        lens: formLens(['zip']),
-        name: 'zip',
-        fieldInputType: FieldInputType.Zip,
-        maxLength: 4,
-        required: true,
-        validate: validateSwissZip,
-        style: {
-          wrapper: {
-            minWidth: 'var(--multi-form-field-zip-width)',
-            maxWidth: 'var(--multi-form-field-zip-width)',
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          lens: formLens(['houseNr']),
+          name: 'houseNr',
+          fieldInputType: FieldInputType.HouseNr,
+          required: true,
+          style: {
+            wrapper: {
+              minWidth: 'var(--multi-form-field-zip-width)',
+              maxWidth: 'var(--multi-form-field-zip-width)',
+            },
           },
+          itemStyle: {
+            marginRight: 0,
+          },
+          onLoadSuggestions: () => Promise.resolve([]),
         },
-        itemStyle: {
-          marginRight: 0,
+      ],
+      showValidation: params.showValidation,
+      style: {},
+    },
+    secondRow: {
+      autoFocus: false,
+      onChange: params.onChange,
+      data: params.data,
+      formReadOnly: params.formReadOnly,
+      fieldIndex: params.fieldIndex,
+      fields: [
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
+          lens: formLens(['zip']),
+          name: 'zip',
+          fieldInputType: FieldInputType.Zip,
+          maxLength: 4,
+          required: true,
+          validate: validateSwissZip,
+          style: {
+            wrapper: {
+              minWidth: 'var(--multi-form-field-zip-width)',
+              maxWidth: 'var(--multi-form-field-zip-width)',
+            },
+          },
+          itemStyle: {
+            marginRight: 0,
+          },
+          onLoadSuggestions: () => Promise.resolve([]),
         },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        lens: formLens(['city']),
-        itemStyle: {
-          marginLeft: 0,
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          lens: formLens(['city']),
+          itemStyle: {
+            marginLeft: 0,
+          },
+          name: 'city',
+          fieldInputType: FieldInputType.City,
+          required: true,
+          validate: validateCity,
+          onLoadSuggestions: () => Promise.resolve([]),
         },
-        name: 'city',
-        fieldInputType: FieldInputType.City,
-        required: true,
-        validate: validateCity,
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-    ],
+      ],
+      showValidation: params.showValidation,
+      style: {},
+    },
   }
 }
 
@@ -128,7 +152,16 @@ export const AddressPostalCodeCity = () => {
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
       {story({
         autoFocus: false,
-        field: textInputAutosuggestField(),
+        field: textInputAutosuggestField({
+          onChange: (lens, value) => {
+            setData((prev) => ({ ...prev, [lens.id()]: value }))
+          },
+          fieldIndex: 0,
+          formReadOnly: false,
+          style: {},
+          data,
+          showValidation: false,
+        }),
         fieldIndex: 0,
         formReadOnly: false,
         style: {},

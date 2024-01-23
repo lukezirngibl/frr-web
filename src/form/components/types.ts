@@ -479,9 +479,18 @@ export type MultiInputAutosuggestField<FormData> = {
 }
 
 export type MultiInputAutosuggestAddressField<FormData> = {
-  fields: Array<
-    TextInputAutosuggestField<FormData> & CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
-  >
+  firstRow: {
+    fields: Array<
+      TextInputAutosuggestField<FormData> &
+        CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
+    >
+  } & CommonThreadProps<FormData>
+  secondRow?: {
+    fields: Array<
+      TextInputAutosuggestField<FormData> &
+        CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
+    >
+  } & CommonThreadProps<FormData>
   isVisible?: IsVisibleFn<FormData>
   itemStyle?: CSSProperties
   label?: LabelProps
