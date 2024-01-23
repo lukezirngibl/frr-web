@@ -486,14 +486,14 @@ export type MultiInputAutosuggestAddressField<FormData> = {
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
     >
-  } & CommonThreadProps<FormData>
+  }
   secondRow?: {
     label?: LabelProps
     fields: Array<
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
     >
-  } & CommonThreadProps<FormData>
+  }
   isVisible?: IsVisibleFn<FormData>
   loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
   readOnlyOptions?: {

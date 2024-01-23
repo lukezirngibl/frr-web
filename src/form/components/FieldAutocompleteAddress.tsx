@@ -244,7 +244,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             key={`field-${props.fieldIndex}`}
             isScrollToError={
               fields.findIndex(
-                (fieldItem) => fieldItem.lens.id() === props.field.firstRow.errorFieldId,
+                (fieldItem) => fieldItem.lens.id() === props.errorFieldId,
               ) !== -1
             }
             style={props.style}
@@ -274,7 +274,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                   }}
                   fieldIndex={fieldItemIndex}
-                  errorFieldId={props.field.firstRow.errorFieldId}
+                  errorFieldId={props.errorFieldId}
                   inputRef={
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }
@@ -298,7 +298,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             key={`field-${props.fieldIndex}`}
             isScrollToError={
               props.field.secondRow.fields.findIndex(
-                (fieldItem) => fieldItem.lens.id() === props.field.secondRow.errorFieldId,
+                (fieldItem) => fieldItem.lens.id() === props.errorFieldId,
               ) !== -1
             }
             style={props.style}
@@ -328,7 +328,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     forceRefreshValue: forceRefreshValue[fieldItem.fieldInputType],
                   }}
                   fieldIndex={fieldItemIndex + 2}
-                  errorFieldId={props.field.secondRow.errorFieldId}
+                  errorFieldId={props.errorFieldId}
                   inputRef={
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }
