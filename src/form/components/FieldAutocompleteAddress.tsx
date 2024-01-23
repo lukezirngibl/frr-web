@@ -17,6 +17,7 @@ import {
   MultiInputAutosuggestAddressField,
   TextInputAutosuggestField,
 } from './types'
+import { Label } from '../../components'
 
 export type AddressParams = {
   ZipCode: string
@@ -39,10 +40,7 @@ export type AddressResponse = {
   ZipCode: string
 }
 
-export type FieldAutocompleteAddressProps<FormData> = Omit<
-  CommonThreadProps<FormData>,
-  'errorFieldId'
-> & {
+export type FieldAutocompleteAddressProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestAddressField<FormData>
 }
 
@@ -77,7 +75,8 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 
   // Error
   const { disableDirtyValidation } = useFormConfig()
-  const { onError } = useFormFieldErrors()
+  const firstRowError = useFormFieldErrors()
+  const secondRowError = useFormFieldErrors()
 
   const commonFieldProps = {
     autoFocus: false,
@@ -133,7 +132,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             changes.push({ lens: fieldItem.lens, value })
 
             // Clear error for other fields
-            onError({ error: null, fieldId: fieldItem.lens.id() })
+            firstRowError.onError({ error: null, fieldId: fieldItem.lens.id() })
           }
         })
 
@@ -145,7 +144,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             changes.push({ lens: fieldItem.lens, value })
 
             // Clear error for other fields
-            onError({ error: null, fieldId: fieldItem.lens.id() })
+            secondRowError.onError({ error: null, fieldId: fieldItem.lens.id() })
           }
         })
 
@@ -233,9 +232,6 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
     )
   }
 
-  // Get rows
-  // const { firstRowFields, secondRowFields } = useAddressFields(props.field)
-
   return (
     <>
       {props.field.firstRow.fields.length > 0 && (
@@ -257,6 +253,16 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               {...getFieldMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
+              {props.field.firstRow.label && (
+                <Label
+                  localeNamespace={props.localeNamespace}
+                  error={firstRowError.errorLabel.length > 0}
+                  errorLabel={firstRowError.errorLabel}
+                  errorDataTestId={firstRowError.errorDataTestId}
+                  {...props.field.firstRow.label}
+                />
+              )}
+
               {props.field.firstRow.fields.map((fieldItem, fieldItemIndex) => (
                 <FieldRowItem
                   {...commonFieldProps}
@@ -273,7 +279,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }
                   onChange={onChange}
-                  onError={onError}
+                  onError={firstRowError.onError}
                   isNotScrollable
                 />
               ))}
@@ -291,8 +297,9 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
           <FieldScrollableWrapper
             key={`field-${props.fieldIndex}`}
             isScrollToError={
-              props.field.secondRow.fields.findIndex((fieldItem) => fieldItem.lens.id() === props.field.secondRow.errorFieldId) !==
-              -1
+              props.field.secondRow.fields.findIndex(
+                (fieldItem) => fieldItem.lens.id() === props.field.secondRow.errorFieldId,
+              ) !== -1
             }
             style={props.style}
           >
@@ -300,6 +307,16 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
               {...getFieldMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
+              {props.field.secondRow.label && (
+                <Label
+                  localeNamespace={props.localeNamespace}
+                  error={secondRowError.errorLabel.length > 0}
+                  errorLabel={secondRowError.errorLabel}
+                  errorDataTestId={secondRowError.errorDataTestId}
+                  {...props.field.secondRow.label}
+                />
+              )}
+
               {props.field.secondRow.fields.map((fieldItem, fieldItemIndex) => (
                 <FieldRowItem
                   {...commonFieldProps}
@@ -316,7 +333,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
                     undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
                   }
                   onChange={onChange}
-                  onError={onError}
+                  onError={secondRowError.onError}
                   isNotScrollable
                 />
               ))}

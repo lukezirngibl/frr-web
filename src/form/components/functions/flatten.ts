@@ -26,7 +26,7 @@ const processFormFieldGroup = <T>(g: FormFieldGroup<T>): Array<SingleFormField<T
     } else {
       acc = [...acc, f]
     }
-  }
+  } 
 
   return acc
 }

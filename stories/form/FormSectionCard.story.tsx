@@ -1,10 +1,9 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
 import { FieldSectionCard } from '../../src/form/components/FieldSectionCard'
-import { Form, FormProps } from '../../src/form/components/Form'
+import { Form } from '../../src/form/components/Form'
 import { FormField, FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof FieldSectionCard> = {
@@ -108,7 +107,6 @@ const summaryFields: Array<FormField<FormData>> = [
 ]
 
 const formLens = makeFormLens<FormData>()
-const story = createStory<FormProps<FormData>, typeof Form>(Form)
 
 export const LoanSummary = () => {
   const [data, setData] = React.useState<FormData>({
@@ -117,19 +115,19 @@ export const LoanSummary = () => {
     monthlyRate: 133.35,
     duration: 18,
     shippingAddress: 'Max Mustermann<br/>Fischerweg 36<br/>8005 Zürich',
-    acceptDataPrivacyAndAGB: null
+    acceptDataPrivacyAndAGB: null,
   })
 
   return (
     <div style={{ maxWidth: 800, minHeight: 1200 }}>
-      {story({
-        formFields: summaryFields,
-        style: {},
-        data,
+      <Form
+        formFields={summaryFields}
+        style={{}}
+        data={data}
         // onChange: () => {
         //   // setData({ ...data, [lens.id()]: value })
         // },
-      })}
+      />
     </div>
   )
 }

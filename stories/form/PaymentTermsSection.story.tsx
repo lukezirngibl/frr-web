@@ -1,10 +1,9 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
 import { FieldSection } from '../../src/form/components/FieldSection'
-import { Form, FormProps } from '../../src/form/components/Form'
-import { FormField, FormFieldType, FormSection } from '../../src/form/components/types'
+import { Form } from '../../src/form/components/Form'
+import { FormField, FormFieldType } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory } from '../storybook.helpers'
 import { ComponentTheme } from '../../src/theme/theme.components'
 import { durationField } from '../components/OptionGroup.story'
 
@@ -99,8 +98,6 @@ const paymentTermsFields = (
     },
   ] as Array<FormField<FormData>>
 
-const story = createStory<FormProps<FormData>, typeof Form>(Form)
-
 export const RetailPaymentTerms = () => {
   const [data, setData] = React.useState<FormData>({
     termsInfo: {
@@ -113,9 +110,9 @@ export const RetailPaymentTerms = () => {
 
   return (
     <div style={{ maxWidth: 1000, minHeight: 1200 }}>
-      {story({
-        formFields: paymentTermsFields(),
-        style: {
+      <Form
+        formFields={paymentTermsFields()}
+        style={{
           row: {
             item: {
               flexDirection: 'column',
@@ -126,16 +123,16 @@ export const RetailPaymentTerms = () => {
               marginBottom: 48,
               ':last-child': {
                 marginBottom: 0,
-              }
+              },
             },
             wrapperReadOnly: {},
           },
-        },
-        data,
+        }}
+        data={data}
         // onChange: () => {
         //   setData({ ...data, [lens.id()]: value })
         // },
-      })}
+      />
     </div>
   )
 }
@@ -153,9 +150,9 @@ export const ECommercePaymentTerms = () => {
 
   return (
     <div style={{ maxWidth: 1000, minHeight: 1200 }}>
-      {story({
-        formFields: paymentTermsFields({ isAmountReadonly: true }),
-        style: {
+      <Form
+        formFields={paymentTermsFields({ isAmountReadonly: true })}
+        style={{
           row: {
             item: {
               flexDirection: 'column',
@@ -165,12 +162,12 @@ export const ECommercePaymentTerms = () => {
             wrapper: {},
             wrapperReadOnly: {},
           },
-        },
-        data,
+        }}
+        data={data}
         // onChange: () => {
         //   setData({ ...data, [lens.id()]: value })
         // },
-      })}
+      />
     </div>
   )
 }

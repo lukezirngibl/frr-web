@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
@@ -144,14 +145,14 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
           readOnly={true}
           width={props.width}
         >
-          {firstRowLabelField && (
+          {props.field.firstRow.label && (
             <P
               {...getFieldStyle({
                 label: true,
                 labelFullwidth: isFullWidth,
               })}
-              data={firstRowLabelField.label.labelData}
-              label={firstRowLabelField.label.label}
+              data={props.field.firstRow.label.labelData}
+              label={props.field.firstRow.label.label}
               localeNamespace={props.localeNamespace}
             />
           )}
@@ -176,14 +177,14 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
           readOnly={true}
           width={props.width}
         >
-          {secondRowLabelField && (
+          {props.field.secondRow.label && (
             <P
               {...getFieldStyle({
                 label: true,
                 labelFullwidth: isFullWidth,
               })}
-              data={secondRowLabelField.label.labelData}
-              label={secondRowLabelField.label.label}
+              data={props.field.secondRow.label.labelData}
+              label={props.field.secondRow.label.label}
               localeNamespace={props.localeNamespace}
             />
           )}

@@ -1,13 +1,10 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
-import {
-  FieldMultiInputAutosuggest,
-  FieldMultiInputAutosuggestProps,
-} from '../../src/form/components/FieldMultiInputAutosuggest'
+import { FieldMultiInputAutosuggest } from '../../src/form/components/FieldMultiInputAutosuggest'
 import { FormFieldType, MultiInputAutosuggestField } from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
 import { ZipCityList } from '../assets/ZipCityList'
-import { createStory, validateCity, validateSwissZip } from '../storybook.helpers'
+import { validateCity, validateSwissZip } from '../storybook.helpers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof FieldMultiInputAutosuggest> = {
@@ -22,9 +19,6 @@ type FormData = {
 }
 
 const formLens = makeFormLens<FormData>()
-const story = createStory<FieldMultiInputAutosuggestProps<FormData>, typeof FieldMultiInputAutosuggest>(
-  FieldMultiInputAutosuggest,
-)
 
 const ZipList = ZipCityList.map((item) => ({
   value: item.zip,
@@ -107,25 +101,25 @@ export const PostalCodeCity = () => {
 
   return (
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
-      {story({
-        autoFocus: false,
-        field: textInputAutosuggestField,
-        fieldIndex: 0,
-        formReadOnly: false,
-        style: {},
-        data,
-        onChange: (lens, value) => {
+      <FieldMultiInputAutosuggest
+        autoFocus={false}
+        field={textInputAutosuggestField}
+        fieldIndex={0}
+        formReadOnly={false}
+        style={{}}
+        data={data}
+        onChange={(lens, value) => {
           // setData({ ...data, [lens.id()]: value })
-        },
-        onChangeMulti: (fields) => {
+        }}
+        onChangeMulti={(fields) => {
           const newData = { ...data }
           fields.forEach((field) => {
             newData[field.lens.id()] = field.value
           })
           setData(newData)
-        },
-        showValidation: false,
-      })}
+        }}
+        showValidation={false}
+      />
     </div>
   )
 }

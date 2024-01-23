@@ -120,6 +120,10 @@ export const processRepeatGroup = <FormData extends {}>(
         }
       }
 
+      if (repeatGroup.type === FormFieldType.AutocompleteAddress) {
+        return repeatGroup
+      }
+
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
@@ -127,8 +131,6 @@ export const processRepeatGroup = <FormData extends {}>(
       if (repeatGroup.type === FormFieldType.MultiInput) {
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
-        return { ...repeatGroup, label }
-      } else if (repeatGroup.type === FormFieldType.AutocompleteAddress) {
         return { ...repeatGroup, label }
       } else {
         return {
