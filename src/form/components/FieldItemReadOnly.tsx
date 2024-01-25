@@ -15,7 +15,6 @@ import {
 import { FieldItemReadOnlyValue } from './FieldItemReadOnlyValue'
 import { LocaleNamespace } from '../../translation'
 import { DeepPartial } from '../../util'
-import React from 'react'
 
 /*
  * Field readonly component
