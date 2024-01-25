@@ -36,6 +36,7 @@ export type FormTheme = {
     wrapper: CSSProperties
     wrapperReadOnly: CSSProperties
     item: CSSProperties
+    itemFullwidth: CSSProperties
   }
   section: {
     content: CSSProperties
@@ -95,6 +96,7 @@ export const defaultFormTheme: FormTheme = {
     wrapper: {},
     wrapperReadOnly: {},
     item: {},
+    itemFullwidth: {},
   },
   group: {
     title: {},
