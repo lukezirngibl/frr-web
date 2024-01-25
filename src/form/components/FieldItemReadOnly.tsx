@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Div, P } from '../../html'
 import { MediaQuery } from '../../theme/configure.theme'
@@ -14,9 +15,6 @@ import {
 import { FieldItemReadOnlyValue } from './FieldItemReadOnlyValue'
 import { LocaleNamespace } from '../../translation'
 import { DeepPartial } from '../../util'
-import { use } from 'i18next'
-import React from 'react'
-import { useAddressFields } from './FieldAutocompleteAddress'
 
 /*
  * Field readonly component
@@ -135,32 +133,32 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
   const isFullWidth = props.field.readOnlyOptions?.isFullWidth
 
   // Get row fields
-  const { firstRowFields, secondRowFields } = useAddressFields(props.field)
-  const firstRowLabelField = firstRowFields.find((fieldItem) => fieldItem.label)
-  const secondRowLabelField = secondRowFields.find((fieldItem) => fieldItem.label)
+  // const { firstRowFields, secondRowFields } = useAddressFields(props.field)
+  const firstRowLabelField = props.field.firstRow.fields.find((fieldItem) => fieldItem.label)
+  const secondRowLabelField = props.field.secondRow?.fields.find((fieldItem) => fieldItem.label)
 
   return (
     <AddressFieldWrapper>
-      {firstRowFields.length > 0 && (
+      {props.field.firstRow.fields.length > 0 && (
         <FormFieldWrapper
           className="form-field field-readonly"
           {...getRowStyle('item')}
           readOnly={true}
           width={props.width}
         >
-          {firstRowLabelField && (
+          {props.field.firstRow.label && (
             <P
               {...getFieldStyle({
                 label: true,
                 labelFullwidth: isFullWidth,
               })}
-              data={firstRowLabelField.label.labelData}
-              label={firstRowLabelField.label.label}
+              data={props.field.firstRow.label.labelData}
+              label={props.field.firstRow.label.label}
               localeNamespace={props.localeNamespace}
             />
           )}
           <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
-            {firstRowFields.map((fieldItem, fieldItemIndex) => (
+            {props.field.firstRow.fields.map((fieldItem, fieldItemIndex) => (
               <FieldItemReadOnlyValue<FormData>
                 data={props.data}
                 field={fieldItem}
@@ -173,26 +171,26 @@ export const AddressFieldItemReadonly = <FormData extends {}>(props: {
         </FormFieldWrapper>
       )}
 
-      {secondRowFields.length > 0 && (
+      {props.field.secondRow && props.field.secondRow.fields.length > 0 && (
         <FormFieldWrapper
           className="form-field field-readonly"
           {...getRowStyle('item')}
           readOnly={true}
           width={props.width}
         >
-          {secondRowLabelField && (
+          {props.field.secondRow.label && (
             <P
               {...getFieldStyle({
                 label: true,
                 labelFullwidth: isFullWidth,
               })}
-              data={secondRowLabelField.label.labelData}
-              label={secondRowLabelField.label.label}
+              data={props.field.secondRow.label.labelData}
+              label={props.field.secondRow.label.label}
               localeNamespace={props.localeNamespace}
             />
           )}
           <Div {...getFieldStyle({ item: true, itemFullwidth: isFullWidth })}>
-            {secondRowFields.map((fieldItem, fieldItemIndex) => (
+            {props.field.secondRow.fields.map((fieldItem, fieldItemIndex) => (
               <FieldItemReadOnlyValue<FormData>
                 data={props.data}
                 field={fieldItem}

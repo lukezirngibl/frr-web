@@ -120,6 +120,10 @@ export const processRepeatGroup = <FormData extends {}>(
         }
       }
 
+      if (repeatGroup.type === FormFieldType.AutocompleteAddress) {
+        return repeatGroup
+      }
+
       const label = repeatGroup.label
         ? { ...repeatGroup.label, labelData: { index: `${index}` } }
         : undefined
@@ -127,8 +131,6 @@ export const processRepeatGroup = <FormData extends {}>(
       if (repeatGroup.type === FormFieldType.MultiInput) {
         return { ...repeatGroup, label }
       } else if (repeatGroup.type === FormFieldType.MultiInputAutosuggest) {
-        return { ...repeatGroup, label }
-      } else if (repeatGroup.type === FormFieldType.AutocompleteAddress) {
         return { ...repeatGroup, label }
       } else {
         return {
@@ -205,8 +207,7 @@ export const processRepeatSection = <FormData extends {}>(
             })),
           }
         } else if (
-          repeatSectionField.type === FormFieldType.MultiInputAutosuggest ||
-          repeatSectionField.type === FormFieldType.AutocompleteAddress
+          repeatSectionField.type === FormFieldType.MultiInputAutosuggest
         ) {
           return {
             ...repeatSectionField,
@@ -219,7 +220,12 @@ export const processRepeatSection = <FormData extends {}>(
                 : undefined,
             })),
           }
-        } else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
+        } else if (
+          repeatSectionField.type === FormFieldType.AutocompleteAddress
+        ) {
+          // No support for Repeat Section yet
+          return <></>
+        }else if (repeatSectionField.type === FormFieldType.FormFieldGroup) {
           return {
             ...repeatSectionField,
             fields: repeatSectionField.fields.map((field) => {

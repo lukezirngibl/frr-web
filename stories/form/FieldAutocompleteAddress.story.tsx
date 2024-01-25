@@ -1,12 +1,13 @@
 import { Meta } from '@storybook/react'
 import React from 'react'
+import { FieldAutocompleteAddress } from '../../src/form/components/FieldAutocompleteAddress'
 import {
-  FieldAutocompleteAddress,
-  FieldAutocompleteAddressProps,
-} from '../../src/form/components/FieldAutocompleteAddress'
-import { FieldInputType, FormFieldType, MultiInputAutosuggestAddressField } from '../../src/form/components/types'
+  FieldInputType,
+  FormFieldType,
+  MultiInputAutosuggestAddressField,
+} from '../../src/form/components/types'
 import { makeFormLens } from '../../src/form/util'
-import { createStory, validateAddress, validateCity, validateSwissZip } from '../storybook.helpers'
+import { validateAddress, validateCity, validateSwissZip } from '../storybook.helpers'
 import { AddressResponse, sendRequest } from './AddressAssistant'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -24,10 +25,6 @@ type FormData = {
   city?: string | null
 }
 
-const story = createStory<FieldAutocompleteAddressProps<FormData>, typeof FieldAutocompleteAddress>(
-  FieldAutocompleteAddress,
-)
-
 const getResult = async (params) => {
   const address = await sendRequest(params)
   return address.QueryAutoComplete4Result.AutoCompleteResult
@@ -41,7 +38,7 @@ const getSuggestions = (params): Promise<Array<AddressResponse>> => {
   })
 }
 
-const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData> => {
+const textInputAutosuggestField = (params: any): MultiInputAutosuggestAddressField<FormData> => {
   return {
     type: FormFieldType.AutocompleteAddress,
     itemStyle: {
@@ -49,75 +46,87 @@ const textInputAutosuggestField = (): MultiInputAutosuggestAddressField<FormData
       width: '100%',
     },
     loadAddressSuggestions: getSuggestions,
-    fields: [
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        label: { label: 'Street / House Nr.' },
-        lens: formLens(['street']),
-        name: 'street',
-        fieldInputType: FieldInputType.Street,
-        required: true,
-        validate: validateAddress,
-        itemStyle: {
-          marginLeft: 0,
+    firstRow: {
+      autoFocus: false,
+      onChange: params.onChange,
+      data: params.data,
+      label: { label: 'Street / House Nr.' },
+      formReadOnly: params.formReadOnly,
+      fieldIndex: params.fieldIndex,
+      fields: [
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          fieldInputType: FieldInputType.Street,
+          itemStyle: { marginLeft: 0 },
+          lens: formLens(['street']),
+          name: 'street',
+          onLoadSuggestions: () => Promise.resolve([]),
+          required: true,
+          validate: validateAddress,
         },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        lens: formLens(['houseNr']),
-        name: 'houseNr',
-        fieldInputType: FieldInputType.HouseNr,
-        required: true,
-        style: {
-          wrapper: {
-            minWidth: 'var(--multi-form-field-zip-width)',
-            maxWidth: 'var(--multi-form-field-zip-width)',
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          fieldInputType: FieldInputType.HouseNr,
+          itemStyle: { marginRight: 0 },
+          lens: formLens(['houseNr']),
+          name: 'houseNr',
+          onLoadSuggestions: () => Promise.resolve([]),
+          required: true,
+          style: {
+            wrapper: {
+              minWidth: 'var(--multi-form-field-zip-width)',
+              maxWidth: 'var(--multi-form-field-zip-width)',
+            },
           },
         },
-        itemStyle: {
-          marginRight: 0,
-        },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
-        lens: formLens(['zip']),
-        name: 'zip',
-        fieldInputType: FieldInputType.Zip,
-        maxLength: 4,
-        required: true,
-        validate: validateSwissZip,
-        style: {
-          wrapper: {
-            minWidth: 'var(--multi-form-field-zip-width)',
-            maxWidth: 'var(--multi-form-field-zip-width)',
+      ],
+      showValidation: params.showValidation,
+      style: {},
+    },
+    secondRow: {
+      autoFocus: false,
+      onChange: params.onChange,
+      data: params.data,
+      label: { label: 'Postal Code / City', style: { wrapper: { display: 'flex', width: '55%' } } },
+      formReadOnly: params.formReadOnly,
+      fieldIndex: params.fieldIndex,
+      fields: [
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          fieldInputType: FieldInputType.Zip,
+          itemStyle: { marginRight: 0 },
+          lens: formLens(['zip']),
+          maxLength: 4,
+          name: 'zip',
+          onLoadSuggestions: () => Promise.resolve([]),
+          required: true,
+          validate: validateSwissZip,
+          style: {
+            wrapper: {
+              minWidth: 'var(--multi-form-field-zip-width)',
+              maxWidth: 'var(--multi-form-field-zip-width)',
+            },
           },
         },
-        itemStyle: {
-          marginRight: 0,
+        {
+          type: FormFieldType.TextInputAutosuggest,
+          fieldInputType: FieldInputType.City,
+          itemStyle: { marginLeft: 0 },
+          lens: formLens(['city']),
+          name: 'city',
+          onLoadSuggestions: () => Promise.resolve([]),
+          required: true,
+          validate: validateCity,
         },
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-      {
-        type: FormFieldType.TextInputAutosuggest,
-        lens: formLens(['city']),
-        itemStyle: {
-          marginLeft: 0,
-        },
-        name: 'city',
-        fieldInputType: FieldInputType.City,
-        required: true,
-        validate: validateCity,
-        onLoadSuggestions: () => Promise.resolve([]),
-      },
-    ],
+      ],
+      showValidation: params.showValidation,
+      style: {},
+    },
   }
 }
 
-export const AddressPostalCodeCity = () => {
-  const [data, setData] = React.useState<FormData>({
+const AddressAutocompleteTemplate = (args) => {
+  const [data, setData] = React.useState<FormData>(args.initialData || {
     street: null,
     houseNr: null,
     city: null,
@@ -126,25 +135,52 @@ export const AddressPostalCodeCity = () => {
 
   return (
     <div style={{ maxWidth: 600, minHeight: 1200, paddingTop: 300 }}>
-      {story({
-        autoFocus: false,
-        field: textInputAutosuggestField(),
-        fieldIndex: 0,
-        formReadOnly: false,
-        style: {},
-        data,
-        onChange: (lens, value) => {
+      <FieldAutocompleteAddress
+        autoFocus={false}
+        field={textInputAutosuggestField({
+          onChange: (lens, value) => {
+            setData((prev) => ({ ...prev, [lens.id()]: value }))
+          },
+          fieldIndex: 0,
+          formReadOnly: false,
+          style: {},
+          data,
+          showValidation: false,
+        })}
+        fieldIndex={0}
+        formReadOnly={args.readonly}
+        style={{}}
+        data={data}
+        onChange={(lens, value) => {
           setData((prev) => ({ ...prev, [lens.id()]: value }))
-        },
-        onChangeMulti: (fields) => {
+        }}
+        onChangeMulti={(fields) => {
           const newData = { ...data }
           fields.forEach((field) => {
             newData[field.lens.id()] = field.value
           })
           setData(newData)
-        },
-        showValidation: false,
-      })}
+        }}
+        showValidation={false}
+      />
     </div>
   )
+}
+
+export const AddressAutocomplete = AddressAutocompleteTemplate.bind({})
+AddressAutocomplete.storyName = 'Address Autocomplete (Postal Code / City)'
+AddressAutocomplete.args = {
+  readonly: false,
+}
+
+export const AddressAutocompleteReadonly = AddressAutocompleteTemplate.bind({})
+AddressAutocompleteReadonly.storyName = 'Address Autocomplete Readonly'
+AddressAutocompleteReadonly.args = {
+  readonly: true,
+  initialData: {
+    street: 'Musterstrasse',
+    houseNr: '12',
+    city: 'Zürich',
+    zip: '8000',
+  }
 }

@@ -20,11 +20,7 @@ const Brands = {
 export const createStory = <P, T extends (props: P) => JSX.Element>(C: T) => {
   const Story = (props: P) => {
     const Component = C as any
-    return (
-      <StorybookTemplateProvider>
-        <Component {...props} />
-      </StorybookTemplateProvider>
-    )
+    return <Component {...props} />
   }
   return Story
 }

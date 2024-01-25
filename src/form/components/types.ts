@@ -468,28 +468,38 @@ export type MultiInputField<FormData> = {
 }
 
 export type MultiInputAutosuggestField<FormData> = {
+  type: FormFieldType.MultiInputAutosuggest
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   isVisible?: IsVisibleFn<FormData>
-  itemStyle?: CSSProperties
   label?: LabelProps
-  type: FormFieldType.MultiInputAutosuggest
+  itemStyle?: CSSProperties
   readOnlyOptions?: {
     isFullWidth?: boolean
   }
 }
 
 export type MultiInputAutosuggestAddressField<FormData> = {
-  fields: Array<
-    TextInputAutosuggestField<FormData> & CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
-  >
-  isVisible?: IsVisibleFn<FormData>
-  itemStyle?: CSSProperties
-  label?: LabelProps
   type: FormFieldType.AutocompleteAddress
+  firstRow: {
+    label?: LabelProps
+    fields: Array<
+      TextInputAutosuggestField<FormData> &
+        CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
+    >
+  }
+  secondRow?: {
+    label?: LabelProps
+    fields: Array<
+      TextInputAutosuggestField<FormData> &
+        CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
+    >
+  }
+  isVisible?: IsVisibleFn<FormData>
+  loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
   readOnlyOptions?: {
     isFullWidth?: boolean
   }
-  loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
+  itemStyle?: CSSProperties
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
