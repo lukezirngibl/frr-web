@@ -15,6 +15,7 @@ import { FieldItemReadOnlyValue } from './FieldItemReadOnlyValue'
 import { LocaleNamespace } from '../../translation'
 import { DeepPartial } from '../../util'
 import { use } from 'i18next'
+import React from 'react'
 import { useAddressFields } from './FieldAutocompleteAddress'
 
 /*
@@ -44,7 +45,10 @@ export const SingleFieldItemReadonly = <FormData extends {}>(props: {
   return (
     <FormFieldWrapper
       className="form-field field-readonly"
-      {...getRowStyle('item')}
+      {...getRowStyle({
+        item: !isFullWidth,
+        itemFullwidth: isFullWidth,
+      })}
       readOnly={true}
       width={props.width}
     >

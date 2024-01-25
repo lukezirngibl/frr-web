@@ -32,6 +32,9 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       minHeight: 'var(--form-row-height)',
       padding: '4px 0',
+      ':readonly': {
+        minHeight: 0,
+      },
     },
     wrapperReadOnly: {
       minHeight: 0, // 'var(--form-field-height)',
@@ -42,7 +45,27 @@ export const formTheme: Partial<FormThemeConfig> = {
       },
     },
     item: {
-      display: 'flex',
+      display: 'var(--display-flex-mobile-block)',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      minHeight: 'var(--form-row-height)',
+      ':readonly': {
+        width: '100%',
+        minHeight: 0,
+        paddingTop: 'var(--form-padding-vertical)',
+        paddingBottom: 'var(--form-padding-vertical)',
+      },
+      '@media-mobile': {
+        width: '100%',
+        marginTop: 12,
+        marginLeft: 0,
+        marginRight: 0,
+        paddingBottom: 16,
+        gap: 24,
+      },
+    },
+    itemFullwidth: {
+      display: 'block',
       justifyContent: 'space-between',
       alignItems: 'center',
       minHeight: 'var(--form-row-height)',
@@ -131,12 +154,21 @@ export const formTheme: Partial<FormThemeConfig> = {
         marginBottom: 20,
       },
       '@media-mobile': {
-        marginRight: 32,
+        marginRight: 64,
         marginBottom: 24,
       },
     },
+    titleWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     emptyTitleWrapperMobile: {
+      display: 'block',
+      marginTop: 24,
+
       '@media-mobile': {
+        marginTop: 32,
         marginBottom: 0,
       },
     },
@@ -154,15 +186,15 @@ export const formTheme: Partial<FormThemeConfig> = {
   },
   sectionRight: {
     wrapper: {
-      marginTop: 3,
+      marginTop: 8,
       ':readonly': {
-        width: 240,
-        minWidth: 240,
+        width: 180,
+        minWidth: 180,
       },
       '@media-mobile': {
         position: 'absolute',
-        right: 0,
-        top: 0,
+        right: -12,
+        top: -4,
         width: 'auto',
         minWidth: 'unset',
         marginTop: 0,
@@ -177,12 +209,21 @@ export const formTheme: Partial<FormThemeConfig> = {
       justifyContent: 'flex-end',
       fontSize: 'var(--font-size-p)',
       color: 'var(--color-disabled)',
+      '@media-mobile': {
+        background: 'var(--color-background-active)',
+        width: 64,
+        height: 36,
+        justifyContent: 'center',
+        marginLeft: 'auto',
+        borderRadius: 18,
+      },
     },
     editIcon: {
       marginRight: 8,
       width: 20,
       height: 20,
       '@media-mobile': {
+        marginRight: 0,
         width: 24,
         height: 24,
       },
@@ -194,13 +235,13 @@ export const formTheme: Partial<FormThemeConfig> = {
       display: 'flex',
       width: 'var(--form-field-width)',
       alignItems: 'center',
-      gap: 8,
+      gap: 'var(--form-field-gap)',
     },
   },
   fieldReadOnly: {
     label: {
       color: 'var(--color-secondary)',
-      width: 400,
+      width: '38%',
       fontSize: 'var(--font-size-p)',
       fontWeight: 100,
       marginRight: 30,
@@ -221,9 +262,10 @@ export const formTheme: Partial<FormThemeConfig> = {
       minWidth: 192,
       flexGrow: 1,
       display: 'flex',
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       '@media-mobile': {
         minWidth: 'unset',
+        justifyContent: 'flex-end',
       },
     },
     itemFullwidth: {
@@ -236,9 +278,8 @@ export const formTheme: Partial<FormThemeConfig> = {
       fontSize: 'var(--font-size-p)',
       fontWeight: 600,
       whiteSpace: 'nowrap',
-      textAlign: 'right',
       marginRight: 8,
-      transition: 'font-size 0.3s, font-weight 0.3s, color 0.3s',
+      transition: 'font-size 0.25s, font-weight 0.25s, color 0.25s',
       '@media-mobile': {
         textAlign: 'left',
       },
