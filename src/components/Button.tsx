@@ -39,6 +39,7 @@ const mapTypeToStyleLabelKey: {
 }
 
 export type Props = {
+  className?: string
   dataTestId?: string
   disabled?: boolean
   Icon?: ReactElement<IconType>
@@ -87,7 +88,7 @@ export const Button = (props: Props) => {
   return (
     <ButtonWrapper
       id={props.id}
-      className={isClicked ? 'animate' : ''}
+      className={`${props.className || ''} ${isClicked ? 'animate' : ''}`}
       dataTestId={props.dataTestId || `button-${type}`}
       onClick={handleClicked}
       disabled={props.disabled}
