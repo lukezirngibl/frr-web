@@ -207,6 +207,7 @@ export type ComponentTheme = {
     popover: CSSProperties
     wrapper: CSSProperties
     item: CSSProperties
+    itemDisabled: CSSProperties
     itemLabel: CSSProperties
   }
   icon: {
@@ -371,6 +372,7 @@ export const defaultComponentTheme: ComponentTheme = {
     popover: {},
     wrapper: {},
     item: {},
+    itemDisabled: {},
   },
 
   html: {
