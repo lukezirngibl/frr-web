@@ -8,6 +8,7 @@ export const CountrySelect = (props: Props) => {
   return (
     <Select
       {...props}
+      value={(props.value as string)?.toLowerCase()}
       options={COUNTRIES_ALPHA_3.map((country) => ({ label: `country.${country}`, value: country }))}
       alphabetize
     />
