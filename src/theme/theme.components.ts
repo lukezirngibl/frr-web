@@ -168,7 +168,9 @@ export type ComponentTheme = {
   }
   singleCheckbox: {
     wrapper: CSSProperties
+    wrapperDisabled: CSSProperties
     input: CSSProperties
+    inputDisabled: CSSProperties
   }
   radioGroup: {
     wrapper: CSSProperties
@@ -555,7 +557,9 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   singleCheckbox: {
     wrapper: {},
+    wrapperDisabled: {},
     input: {},
+    inputDisabled: {},
   },
   codeInput: {
     wrapper: {},
