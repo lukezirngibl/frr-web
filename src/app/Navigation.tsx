@@ -109,7 +109,7 @@ export const Navigation = (props: Props) => {
                   progressBarActive: itemActiveIndex === itemIndex,
                   progressBarCompleted: itemActiveIndex > itemIndex,
                   progressBarError: (itemActiveIndex >= itemIndex && props.isError) || isErrorGroup,
-                  progressBarWarning: (itemActiveIndex >= itemIndex && props.isWarning),
+                  progressBarWarning: itemActiveIndex >= itemIndex && props.isWarning,
                 },
                 (itemIndex === 0 && {
                   marginLeft: 0,
