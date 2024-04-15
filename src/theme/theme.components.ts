@@ -268,6 +268,7 @@ export type ComponentTheme = {
     progressBarActive: CSSProperties
     progressBarCompleted: CSSProperties
     progressBarError: CSSProperties
+    progressBarWarning: CSSProperties
     itemLabelCompleted: CSSProperties
   }
   loading: {
@@ -588,6 +589,7 @@ export const defaultComponentTheme: ComponentTheme = {
     progressBarActive: {},
     progressBarCompleted: {},
     progressBarError: {},
+    progressBarWarning: {},
     itemLabelCompleted: {},
   },
   loading: {

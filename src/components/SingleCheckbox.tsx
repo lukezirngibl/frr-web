@@ -14,7 +14,7 @@ export type SingleCheckboxProps = {
   label?: LabelProps
   name?: string
   onChange: (value: boolean) => void
-  style?: ComponentTheme['singleCheckbox']
+  style?: Partial<ComponentTheme['singleCheckbox']>
   value: boolean
 }
 
