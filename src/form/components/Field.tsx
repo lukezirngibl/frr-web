@@ -525,6 +525,7 @@ export const Field = <FormData extends {}>({
         {...fieldProps}
         dataTestId={dataTestId}
         error={hasError}
+        isRequired={typeof required === 'boolean' ? required : undefined}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={label}
         localeNamespace={localeNamespace}
@@ -539,7 +540,7 @@ export const Field = <FormData extends {}>({
 
   if (field.type === FormFieldType.Custom) {
     const { lens, CustomComponent } = field
-    
+
     return <CustomComponent onChange={onBlur} localeNamespace={localeNamespace} value={lens.get(data)} />
   }
 

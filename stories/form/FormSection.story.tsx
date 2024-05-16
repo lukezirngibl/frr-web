@@ -42,6 +42,8 @@ const summaryFields: Array<FormField<FormData>> = [
         },
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['loanAmount']),
+        min: 1000,
+        max: 10000,
       },
       {
         label: {

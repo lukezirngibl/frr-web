@@ -6,7 +6,7 @@ import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
-import { useFormFieldErrors } from './hooks/useFormFieldError'
+import { useFormFieldErrors } from '../../hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputField } from './types'
 import { Div } from '../../html'
 
