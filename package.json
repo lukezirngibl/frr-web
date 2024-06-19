@@ -40,7 +40,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "date-fns": "^2.19.0",
+    "date-fns": "^3.6.0",
     "fp-ts": "^2.16.1",
     "lodash.range": "^3.2.0",
     "monocle-ts": "^2.3.13",
