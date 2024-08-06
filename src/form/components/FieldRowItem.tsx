@@ -4,7 +4,7 @@ import { Field } from './Field'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
-import { useFormFieldError } from './hooks/useFormFieldError'
+import { useFormFieldError } from '../../hooks/useFormFieldError'
 import { CommonThreadProps, FormFieldType, SingleFormField } from './types'
 
 const FieldContainer = styled.div`

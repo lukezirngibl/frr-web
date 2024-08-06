@@ -10,6 +10,7 @@ export type Props = {
   onChange: (params: { num: number | null; value: string }) => void
   step?: number
   value: number | null | undefined
+  isRequired?: boolean
 } & Omit<TextInputProps, 'onChange' | 'value'>
 
 const getValue = (
@@ -19,6 +20,7 @@ const getValue = (
     max: number | null
     min: number | null
     step: number
+    isRequired?: boolean
   },
 ): number | null => {
   const value = v.replace(',', '.')
@@ -26,7 +28,9 @@ const getValue = (
   num = v === '' || isNaN(num) ? null : num
 
   if (options) {
-    if (options.min !== null && num < options.min) {
+    if (!options.isRequired && (v === '' || isNaN(num))) {
+      num = null
+    } else if (options.min !== null && num < options.min) {
       num = options.min
     } else if (options.max !== null && num > options.max) {
       num = options.max
@@ -69,6 +73,7 @@ export const CurrencyInput = (props: Props) => {
             max: props.max || null,
             marks: props.marks || [],
             step: props.step || 1,
+            isRequired: props.isRequired,
           }),
           value,
         })

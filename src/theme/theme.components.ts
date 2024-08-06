@@ -168,7 +168,9 @@ export type ComponentTheme = {
   }
   singleCheckbox: {
     wrapper: CSSProperties
+    wrapperDisabled: CSSProperties
     input: CSSProperties
+    inputDisabled: CSSProperties
   }
   radioGroup: {
     wrapper: CSSProperties
@@ -207,6 +209,7 @@ export type ComponentTheme = {
     popover: CSSProperties
     wrapper: CSSProperties
     item: CSSProperties
+    itemDisabled: CSSProperties
     itemLabel: CSSProperties
   }
   icon: {
@@ -265,6 +268,7 @@ export type ComponentTheme = {
     progressBarActive: CSSProperties
     progressBarCompleted: CSSProperties
     progressBarError: CSSProperties
+    progressBarWarning: CSSProperties
     itemLabelCompleted: CSSProperties
   }
   loading: {
@@ -371,6 +375,7 @@ export const defaultComponentTheme: ComponentTheme = {
     popover: {},
     wrapper: {},
     item: {},
+    itemDisabled: {},
   },
 
   html: {
@@ -553,7 +558,9 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   singleCheckbox: {
     wrapper: {},
+    wrapperDisabled: {},
     input: {},
+    inputDisabled: {},
   },
   codeInput: {
     wrapper: {},
@@ -582,6 +589,7 @@ export const defaultComponentTheme: ComponentTheme = {
     progressBarActive: {},
     progressBarCompleted: {},
     progressBarError: {},
+    progressBarWarning: {},
     itemLabelCompleted: {},
   },
   loading: {

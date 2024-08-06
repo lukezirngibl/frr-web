@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FieldError, FieldMarks, FormFieldType, SingleFormField } from '../types'
+import { FieldError, FieldMarks, FormFieldType, SingleFormField } from '../form/components/types'
 
 export const computeFieldError = <FormData>({
   data,
@@ -45,6 +45,7 @@ export const computeFieldError = <FormData>({
     !error &&
     value !== undefined &&
     value !== null &&
+    value !== '' &&
     (field.type === FormFieldType.CurrencyInput ||
       (field.type === FormFieldType.Slider && field.isCurrency))
   ) {

@@ -14,7 +14,7 @@ export type SingleCheckboxProps = {
   label?: LabelProps
   name?: string
   onChange: (value: boolean) => void
-  style?: ComponentTheme['singleCheckbox']
+  style?: Partial<ComponentTheme['singleCheckbox']>
   value: boolean
 }
 
@@ -24,13 +24,14 @@ export const SingleCheckbox = (props: SingleCheckboxProps) => {
   const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'singleCheckbox')(props.style)
   const getInlineStyle = useInlineStyle(theme, 'singleCheckbox')(props.style)
-  const inputStyle = getInlineStyle('input', { marginLeft: 16 })
+  const inputStyle = getInlineStyle({ input: true, inputDisabled: props.disabled }, { marginLeft: 16 })
   return (
     <>
       {props.label && <Label style={{ wrapper: { marginBottom: 0 } }} {...props.label}></Label>}
-      <Div {...getCSSStyles('wrapper')}>
+      <Div {...getCSSStyles({ wrapper: true, wrapperDisabled: props.disabled })}>
         <input
           checked={value}
+          disabled={props.disabled}
           data-test-id={props.dataTestid}
           data-theme-id={inputStyle.dataThemeId}
           onChange={() => props.onChange(!value)}

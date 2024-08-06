@@ -4,7 +4,7 @@ const LoadingWrapper = styled.div<{ $css?: string }>`
   ${(props) => props.$css};
 
   .lds-spinner {
-    color: official;
+    color: currentColor;
     display: inline-block;
     position: relative;
     width: 80px;
@@ -84,11 +84,12 @@ const LoadingWrapper = styled.div<{ $css?: string }>`
 `
 
 type Props = {
+  className?: string
   style?: any
 }
 
 export const Loading = (props: Props) => (
-  <LoadingWrapper style={props.style}>
+  <LoadingWrapper style={props.style} className={props.className}>
     <div className="lds-spinner">
       <div></div>
       <div></div>

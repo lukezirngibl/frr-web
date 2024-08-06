@@ -35,10 +35,12 @@ export const PopoverWithItems = (props: Props) => {
                 // Important otherwise parent components will receive the click event as well
                 // e.g. Table row has an onClick handler and will be triggered as well
                 e.stopPropagation()
-                item.onClick()
-                close()
+                if (!item.disabled) {
+                  item.onClick()
+                  close()
+                }
               }}
-              {...getCSSStyle(['item'])}
+              {...getCSSStyle({ item: true, itemDisabled: item.disabled })}
             >
               <P
                 label={item.label}

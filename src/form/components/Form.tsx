@@ -16,7 +16,7 @@ import { filterByHidden, filterByVisible } from './functions/filter.form'
 import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
 import { flatten } from './functions/flatten'
 import { mapFormFields } from './functions/map.form'
-import { computeFieldError } from './hooks/useFormFieldError'
+import { computeFieldError } from '../../hooks/useFormFieldError'
 import { StaticField } from './StaticField'
 import {
   DisplayType,
