@@ -50,7 +50,7 @@ export const Link = (props: LinkProps) => {
 
   // Icon
   const getIcon = useInlineStyle(theme, 'icon')({})
-  const icon = props.icon.type ? getIcon(props.icon.type) : null
+  const icon = props.icon?.type ? getIcon(props.icon.type) : null
 
   // Translation
   const { t: translate } = useTranslation(props.localeNamespace)

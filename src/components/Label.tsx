@@ -12,6 +12,8 @@ import {
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { MdErrorOutline } from '../icons/new/MdErrorOutline'
+import { Button, ButtonType } from './Button'
+import { Link } from './Link'
 
 export type LabelProps = {
   description?: LabelText
@@ -21,6 +23,7 @@ export type LabelProps = {
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
   errorButton?: {
+    errorLabel: string
     onClick: () => void
     label: string
   }
@@ -122,24 +125,38 @@ export const Label = (props: LabelProps) => {
         />
       )}
       <ErrorText $error={props.error}>
-        {props.error &&
-          errorLabels.map((errorLabel) => (
-            <P
-              key={errorLabel}
-              label={errorLabel || 'fieldError'}
-              localeNamespace={props.localeNamespace}
-              data={props.errorLabelData}
-              dataTestId={props.errorDataTestId}
-              dataValue={errorLabel}
-              {...getCSSStyles('errorLabel')}
-            />
-          ))}
-        {props.renderChildren &&
-          (typeof props.renderChildren === 'function' ? (
-            props.renderChildren()
-          ) : (
-            <>{props.renderChildren}</>
-          ))}
+        {props.error && (
+          <>
+            {errorLabels.map((errorLabel) => (
+              <P
+                key={errorLabel}
+                label={errorLabel || 'fieldError'}
+                localeNamespace={props.localeNamespace}
+                data={props.errorLabelData}
+                dataTestId={props.errorDataTestId}
+                dataValue={errorLabel}
+                {...getCSSStyles('errorLabel')}
+              />
+            ))}
+
+            {props.errorButton && errorLabels.includes(props.errorButton.errorLabel) && (
+              <Link
+                icon={{ type: 'edit', style: getCSSStyles('errorButtonIcon') }}
+                onClick={props.errorButton.onClick}
+                label={props.errorButton.label}
+                localeNamespace={props.localeNamespace}
+                style={getCSSStyles('errorButton')}
+              />
+            )}
+
+            {props.renderChildren &&
+              (typeof props.renderChildren === 'function' ? (
+                props.renderChildren()
+              ) : (
+                <>{props.renderChildren}</>
+              ))}
+          </>
+        )}
       </ErrorText>
     </Div>
   )
