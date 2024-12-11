@@ -27,9 +27,9 @@ const LinkIcon = createStyled(styled.span`
   }
 `)
 
-const LinkText = styled.span`
+const LinkText = styled.span<{ $isMobileHidden: boolean }>`
   @media ${MediaQuery.Mobile} {
-    display: none;
+    display: ${({ $isMobileHidden }) => ($isMobileHidden ? 'none' : 'block')};
   }
 `
 type LinkProps = {
@@ -38,6 +38,7 @@ type LinkProps = {
     type: 'edit' | 'info' | 'settings'
     style: { cssStyles?: string; dataThemeId: string }
   }
+  isMobileHidden?: boolean
   label?: string
   localeNamespace?: LocaleNamespace
   onClick: () => unknown
@@ -60,7 +61,7 @@ export const Link = (props: LinkProps) => {
       {icon?.style.svg && (
         <LinkIcon dangerouslySetInnerHTML={{ __html: icon.style.svg }} {...props.icon.style} />
       )}
-      {props.label && <LinkText>{translate(props.label)}</LinkText>}
+      {props.label && <LinkText $isMobileHidden={props.isMobileHidden}>{translate(props.label)}</LinkText>}
     </LinkWrapper>
   )
 }

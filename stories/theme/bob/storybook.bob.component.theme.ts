@@ -366,11 +366,6 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       marginRight: 8,
       width: 20,
       height: 20,
-      '@media-mobile': {
-        marginRight: 0,
-        width: 24,
-        height: 24,
-      },
     },
     sublabelText: {
       color: 'var(--color-secondary)',
