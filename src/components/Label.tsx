@@ -17,9 +17,13 @@ export type LabelProps = {
   description?: LabelText
   descriptionData?: Record<string, string>
   error?: boolean
+  errorDataTestId?: string
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
-  errorDataTestId?: string
+  errorButton?: {
+    onClick: () => void
+    label: string
+  }
   isFocused?: boolean
   label: LabelText
   labelData?: Record<string, string | number>
