@@ -1,8 +1,7 @@
-
 import { Label } from '../../components/Label'
 import { Option } from '../../components/menu/Menu.types'
 import { Div } from '../../html'
-import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
@@ -22,11 +21,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
 ) => {
   // Form styles
   const theme = useFormTheme()
-
-  const getFieldMultiInputStyle = useInlineStyle(
-    theme,
-    'fieldMultiInput',
-  )({ item: props.field.itemStyle })
+  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')({ item: props.field.itemStyle })
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -121,7 +116,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
         )}
 
         <Div
-          {...getFieldMultiInputStyle('item')}
+          {...getCssMultiInputStyle('item')}
           key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
         >
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
