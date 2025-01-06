@@ -258,6 +258,7 @@ export type ComponentTheme = {
     itemActive: CSSProperties
     itemCircle: CSSProperties
     itemCircleActive: CSSProperties
+    itemStepIndicator: CSSProperties
     itemTitle: CSSProperties
     itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
@@ -581,6 +582,7 @@ export const defaultComponentTheme: ComponentTheme = {
     itemActive: {},
     itemCircle: {},
     itemCircleActive: {},
+    itemStepIndicator: {},
     itemTitle: {},
     itemTitleWrapper: {},
     itemLabel: {},
