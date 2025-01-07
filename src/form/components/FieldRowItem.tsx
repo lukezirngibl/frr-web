@@ -63,7 +63,8 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
   // Error handling
   const isPristine = value === null || (value === '' && field.isInitialeEmptyString)
   const isDirty = !isPristine && !disableDirtyValidation
-  const isShowError = showValidation || (fieldChanged && !disableDirtyValidation)
+  const isShowError = showValidation || (fieldChanged && !isPristine && !disableDirtyValidation)
+
   const errorLabel = useFormFieldError({
     value,
     data,

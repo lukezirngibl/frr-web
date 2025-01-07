@@ -50,6 +50,7 @@ export const RadioGroup = (props: Props) => {
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
+
       <Div
         {...getCSSStyles({
           wrapper: !props.isAlignVertical,
