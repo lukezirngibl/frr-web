@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { Option } from '../../components/menu/Menu.types'
-import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { FormLens } from '../util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
@@ -66,11 +66,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
 ) => {
   // Form styles
   const theme = useFormTheme()
-
-  const getFieldMultiInputStyle = useInlineStyle(
-    theme,
-    'fieldMultiInput',
-  )({ item: props.field.itemStyle })
+  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')({ item: props.field.itemStyle })
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -243,14 +239,12 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
           <FieldScrollableWrapper
             key={`field-${props.fieldIndex}`}
             isScrollToError={
-              fields.findIndex(
-                (fieldItem) => fieldItem.lens.id() === props.errorFieldId,
-              ) !== -1
+              fields.findIndex((fieldItem) => fieldItem.lens.id() === props.errorFieldId) !== -1
             }
             style={props.style}
           >
             <WrapperItem
-              {...getFieldMultiInputStyle('item')}
+              {...getCssMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
               {props.field.firstRow.label && (
@@ -304,7 +298,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
             style={props.style}
           >
             <WrapperItem
-              {...getFieldMultiInputStyle('item')}
+              {...getCssMultiInputStyle('item')}
               key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
             >
               {props.field.secondRow.label && (

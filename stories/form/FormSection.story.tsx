@@ -39,6 +39,13 @@ const summaryFields: Array<FormField<FormData>> = [
       {
         label: {
           label: 'customerPlanSummary.formFields.loanAmount.label',
+          errorButton: {
+            errorLabel: 'formFields.error.invalidMaxAmount',
+            onClick: () => {
+              console.log('error button clicked')
+            },
+            label: 'Correct loan amount',
+          },
         },
         type: FormFieldType.CurrencyInput,
         lens: mkFormStateLens(['loanAmount']),

@@ -60,7 +60,7 @@ export const Navigation = (props: Props) => {
 
         {!isErrorGroup && (
           <P
-            {...getCSSStyles({ itemLabel: true, itemTitle: true })}
+            {...getCSSStyles({ itemLabel: true, itemTitle: true, itemStepIndicator: true })}
             label={'navigation.stepIndicationMobile'}
             data={{
               current: `${itemActiveIndex + 1}`,

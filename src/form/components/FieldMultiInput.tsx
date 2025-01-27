@@ -18,11 +18,7 @@ type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
 export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
-
-  const getFieldMultiInputStyle = useInlineStyle(
-    theme,
-    'fieldMultiInput',
-  )({ item: props.field.itemStyle })
+  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')({ item: props.field.itemStyle })
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -88,7 +84,7 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
           />
         )}
 
-        <Div {...getFieldMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
+        <Div {...getCssMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
             <FieldRowItem
               {...commonFieldProps}

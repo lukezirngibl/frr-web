@@ -47,6 +47,8 @@ export type ComponentTheme = {
     descriptionText: CSSProperties
     errorIcon: CSSProperties
     errorLabel: CSSProperties
+    errorButton: CSSProperties
+    errorButtonIcon: CSSProperties
     labelText: CSSProperties
     labelTextError: CSSProperties
     labelTextFocus: CSSProperties
@@ -256,6 +258,7 @@ export type ComponentTheme = {
     itemActive: CSSProperties
     itemCircle: CSSProperties
     itemCircleActive: CSSProperties
+    itemStepIndicator: CSSProperties
     itemTitle: CSSProperties
     itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
@@ -409,6 +412,8 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionText: {},
     errorIcon: {},
     errorLabel: {},
+    errorButton: {},
+    errorButtonIcon: {},
     labelText: {},
     labelTextError: {},
     labelTextFocus: {},
@@ -577,6 +582,7 @@ export const defaultComponentTheme: ComponentTheme = {
     itemActive: {},
     itemCircle: {},
     itemCircleActive: {},
+    itemStepIndicator: {},
     itemTitle: {},
     itemTitleWrapper: {},
     itemLabel: {},

@@ -357,6 +357,16 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       color: 'var(--color-error)',
       fontSize: 'var(--font-size-sublabel)',
     },
+    errorButton: {
+      color: 'var(--color-error)',
+      cursor: 'pointer',
+      marginTop: 8,
+    },
+    errorButtonIcon: {
+      marginRight: 8,
+      width: 20,
+      height: 20,
+    },
     sublabelText: {
       color: 'var(--color-secondary)',
       fontSize: 'var(--font-size-sublabel)',

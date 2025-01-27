@@ -261,6 +261,7 @@ export const FieldSection = <FormData extends {}>({
           >
             <Link
               icon={{ type: 'edit', style: getSectionRightStyle('editIcon') }}
+              isMobileHidden
               label={fieldSection.editLabel}
               localeNamespace={localeNamespace}
               onClick={onEditSection}
