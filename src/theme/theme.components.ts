@@ -215,15 +215,11 @@ export type ComponentTheme = {
     itemLabel: CSSProperties
   }
   icon: {
-    edit: {
-      svg?: string
-    }
-    info: {
-      svg?: string
-    }
-    settings: {
-      svg?: string
-    }
+    contact: { svg?: string }
+    edit: { svg?: string }
+    info: { svg?: string }
+    language: { svg?: string }
+    settings: { svg?: string }
   }
   modal: {
     outerWrapper: CSSProperties
@@ -572,8 +568,10 @@ export const defaultComponentTheme: ComponentTheme = {
     input: {},
   },
   icon: {
+    contact: {},
     edit: {},
     info: {},
+    language: {},
     settings: {},
   },
   navigation: {
