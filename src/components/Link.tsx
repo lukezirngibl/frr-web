@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
-import { useComponentTheme, useInlineStyle } from '../theme/theme.components'
+import { ComponentTheme, useComponentTheme, useInlineStyle } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 
@@ -35,7 +35,7 @@ const LinkText = styled.span<{ $isMobileHidden: boolean }>`
 type LinkProps = {
   className?: string
   icon?: {
-    type: 'edit' | 'info' | 'settings'
+    type: keyof ComponentTheme['icon']
     style: { cssStyles?: string; dataThemeId: string }
   }
   isMobileHidden?: boolean
