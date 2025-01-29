@@ -59,7 +59,7 @@ export const StaticField = (
 
   return props.formReadOnly ? null : (
     <FieldRowWrapper key={`row-${props.fieldIndex}`} {...getRowStyle('wrapper')}>
-      {props.label ? <Label {...label} /> : <Label label={() => ''} />}
+      {props.label ? <Label {...label} /> : <Label label={() => ''} hasActiveState />}
 
       <Div {...getCSSStyle('wrapper')}>
         {props.subtype === StaticFieldType.Text && (

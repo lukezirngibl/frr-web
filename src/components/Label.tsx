@@ -14,6 +14,7 @@ import { LocaleNamespace } from '../translation'
 import { MdErrorOutline } from '../icons/new/MdErrorOutline'
 import { Button, ButtonType } from './Button'
 import { Link } from './Link'
+import { PFExclamationMarkIcon } from '../icons/new/PFExclamationMark'
 
 export type LabelProps = {
   description?: LabelText
@@ -27,6 +28,8 @@ export type LabelProps = {
     onClick: () => void
     label: string
   }
+  hasActiveState?: boolean // Controls whether the label is shown differently when focused or set
+  isSet?: boolean
   isFocused?: boolean
   label: LabelText
   labelData?: Record<string, string | number>
@@ -65,11 +68,23 @@ export const Label = (props: LabelProps) => {
   return (
     <Div {...getCSSStyles('wrapper')}>
       <Div {...getCSSStyles('labelTextWrapper')}>
+        {props.error && (
+          <Span {...getCSSStyles('errorIcon')}>
+            <PFExclamationMarkIcon
+              color="currentColor"
+              width={24}
+              onClick={() => {
+                setOpen(!open)
+              }}
+            />
+          </Span>
+        )}
+
         <P
           {...getCSSStyles({
             labelText: true,
+            labelTextActive: props.hasActiveState && (props.isFocused || props.isSet),
             labelTextError: props.error,
-            labelTextFocus: props.isFocused,
           })}
           label={props.label}
           localeNamespace={props.localeNamespace}
@@ -83,19 +98,6 @@ export const Label = (props: LabelProps) => {
                 {...getCSSStyles('descriptionIconWrapper')}
               />
             ) : null
-          }
-          children={
-            props.error ? (
-              <Span {...getCSSStyles('errorIcon')}>
-                <MdErrorOutline
-                  color="currentColor"
-                  width={20}
-                  onClick={() => {
-                    setOpen(!open)
-                  }}
-                />
-              </Span>
-            ) : undefined
           }
         />
 
@@ -117,6 +119,7 @@ export const Label = (props: LabelProps) => {
         <P
           {...getCSSStyles({
             sublabelText: true,
+            sublabelTextActive: props.hasActiveState && (props.isFocused || props.isSet),
             errorLabel: props.error,
           })}
           label={props.sublabel}
@@ -124,7 +127,7 @@ export const Label = (props: LabelProps) => {
           data={props.sublabelData}
         />
       )}
-      <ErrorText $error={props.error}>
+      <ErrorText $error={props.error} {...getCSSStyles('errorLabelWrapper')}>
         {props.error && (
           <>
             {errorLabels.map((errorLabel) => (
@@ -191,8 +194,8 @@ const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string 
   }
 `)
 
-const ErrorText = styled.div<{ $error: boolean }>`
+const ErrorText = createStyled(styled.div<{ $error: boolean }>`
   height: auto;
   max-height: ${(props) => (props.$error ? '72px' : '0')};
   transition: max-height 0.15s;
-`
+`)

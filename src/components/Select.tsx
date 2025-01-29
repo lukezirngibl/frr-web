@@ -141,6 +141,8 @@ export const Select = (props: Props) => {
     setIsFocused(false)
   }
 
+  console.log('isFocused', isFocused)
+
   useEffect(() => {
     if (props.hasFocus) {
       if (props.inputRef && 'current' in props.inputRef) {
@@ -367,6 +369,7 @@ export const mapReactSelectStyles =
     const iconStyle = getInlineStyle('icon').style as any
     const menuPortalStyle = getInlineStyle('menuPortal').style as any
     const menuStyle = getInlineStyle('menu').style as any
+    const menuListStyle = getInlineStyle('menuList').style as any
     const optionStyle = getInlineStyle('option').style as any
     const optionStyleHover = getInlineStyle('optionHover').style as any
     const optionStyleActive = getInlineStyle('optionActive').style as any
@@ -388,17 +391,19 @@ export const mapReactSelectStyles =
       control: () => {
         return selectStyle
       },
-      dropdownIndicator: (provided) => {
+      dropdownIndicator: (provided, state) => {
         return {
           ...provided,
+          transition: 'color 300ms, opacity 300ms, transform 300ms',
+          transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
           ...iconStyle,
-          transition: 'color 1.5s, opacity 1.5s',
           ':hover': {
             color: 'var(--color-primary)',
             opacity: 1.0,
           },
         }
       },
+
       menuPortal: (provided) => ({
         ...provided,
         ...menuPortalStyle,
@@ -409,6 +414,10 @@ export const mapReactSelectStyles =
         boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
         zIndex: 999,
         ...menuStyle,
+      }),
+      menuList: (provided) => ({
+        ...provided,
+        ...menuListStyle,
       }),
       option: (provided, state) => {
         const style = {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
-import { PFCheckIcon } from '../icons/new/PFCheckIcon'
+import { PFCheckIcon } from '../icons/new/PFCheck'
 
 export type Props = {
   onChange: (value: boolean) => void

@@ -46,14 +46,16 @@ export type ComponentTheme = {
     descriptionPopup: CSSProperties
     descriptionText: CSSProperties
     errorIcon: CSSProperties
+    errorLabelWrapper: CSSProperties
     errorLabel: CSSProperties
     errorButton: CSSProperties
     errorButtonIcon: CSSProperties
     labelText: CSSProperties
     labelTextError: CSSProperties
-    labelTextFocus: CSSProperties
+    labelTextActive: CSSProperties
     labelTextWrapper: CSSProperties
     sublabelText: CSSProperties
+    sublabelTextActive: CSSProperties
     wrapper: CSSProperties
   }
   textInput: {
@@ -117,6 +119,7 @@ export type ComponentTheme = {
     iconMobile: CSSProperties
     menuPortal: CSSProperties
     menu: CSSProperties
+    menuList: CSSProperties
     option: CSSProperties
     optionActive: CSSProperties
     optionHover: CSSProperties
@@ -407,14 +410,16 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionPopup: {},
     descriptionText: {},
     errorIcon: {},
+    errorLabelWrapper: {},
     errorLabel: {},
     errorButton: {},
     errorButtonIcon: {},
     labelText: {},
     labelTextError: {},
-    labelTextFocus: {},
+    labelTextActive: {},
     labelTextWrapper: {},
     sublabelText: {},
+    sublabelTextActive: {},
     wrapper: {},
   },
   textInput: {
@@ -483,6 +488,7 @@ export const defaultComponentTheme: ComponentTheme = {
     iconMobile: {},
     menuPortal: {},
     menu: {},
+    menuList: {},
     option: {},
     optionActive: {},
     optionHover: {},
