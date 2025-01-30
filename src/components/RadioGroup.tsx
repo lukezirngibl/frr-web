@@ -6,6 +6,9 @@ import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
+import { props } from 'monocle-ts/lib/Traversal'
+
+type RadioOption = OptionType<string | number> & { sublabel?: string }
 
 export type Props = {
   dataTestId?: string
@@ -18,10 +21,77 @@ export type Props = {
   onChange: (value: string) => void
   onFocus?: () => void
   onBlur?: (value: string) => void
-  options: Array<OptionType<string> & { sublabel?: string }>
+  options: Array<RadioOption>
   style?: Partial<ComponentTheme['radioGroup']>
   value: string
   defaultValue?: string
+}
+
+export const RadioOptionItem = (props: {
+  dataTestId: string
+  error?: boolean
+  isActive: boolean
+  isAlignVertical?: boolean
+  isFocused?: boolean
+  localeNamespace?: LocaleNamespace
+  onChange?: (option: RadioOption) => void
+  option: RadioOption
+  optionIndex: number
+  style?: Partial<ComponentTheme['radioGroup']>
+}) => {
+  const theme = useComponentTheme()
+  const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
+
+  return (
+    <Item
+      {...getCSSStyles({
+        item: true,
+        itemActive: props.isActive,
+        itemVertical: !!props.isAlignVertical,
+        itemVerticalActive: !!props.isAlignVertical && props.isActive,
+      })}
+      className={props.isActive ? 'active' : ''}
+      dataTestId={`${props.dataTestId}:${props.option.value}`}
+      key={`option-${props.optionIndex}`}
+      onClick={() => props.onChange?.(props.option)}
+      tabIndex={-1}
+    >
+      {props.option.label && (
+        <Div {...getCSSStyles('labelWrapper')}>
+          <P
+            {...getCSSStyles('label')}
+            label={props.option.label}
+            localeNamespace={props.localeNamespace}
+          />
+          {props.option.sublabel && (
+            <P
+              {...getCSSStyles('sublabel')}
+              label={props.option.sublabel}
+              localeNamespace={props.localeNamespace}
+            />
+          )}
+        </Div>
+      )}
+      {props.option.icon && <Icon src={props.option.icon} {...getCSSStyles('icon')} />}
+      <OuterRadio
+        {...getCSSStyles({
+          radioOuter: true,
+          radioOuterActive: props.isActive,
+          radioOuterFocus: props.isFocused,
+          radioOuterError: props.error,
+        })}
+      >
+        {props.isActive && (
+          <InnerRadio
+            {...getCSSStyles({
+              radioInner: true,
+              radioInnerActive: props.isActive,
+            })}
+          ></InnerRadio>
+        )}
+      </OuterRadio>
+    </Item>
+  )
 }
 
 export const RadioGroup = (props: Props) => {
@@ -30,7 +100,9 @@ export const RadioGroup = (props: Props) => {
 
   const getCSSStyles = useCSSStyles(theme, 'radioGroup')(props.style)
 
-  const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<string>(props)
+  const { onKeyDown, onBlur, onChange, onFocus, isFocused, focusedIndex } = useGroupFocus<
+    string | number
+  >(props)
 
   useEffect(() => {
     if (props.value === null && props.defaultValue !== undefined) {
@@ -67,52 +139,18 @@ export const RadioGroup = (props: Props) => {
           const isActive = option.value === props.value
 
           return (
-            <Item
-              {...getCSSStyles({
-                item: true,
-                itemActive: isActive,
-                itemVertical: !!props.isAlignVertical,
-                itemVerticalActive: !!props.isAlignVertical && isActive,
-              })}
-              className={isActive ? 'active' : ''}
-              dataTestId={`${props.dataTestId}:${option.value}`}
-              key={`option-${optionIndex}`}
-              onClick={() => onChange(option)}
-              tabIndex={-1}
-            >
-              <Div {...getCSSStyles('labelWrapper')}>
-                <P
-                  {...getCSSStyles('label')}
-                  label={option.label}
-                  localeNamespace={props.localeNamespace}
-                />
-                {option.sublabel && (
-                  <P
-                    {...getCSSStyles('sublabel')}
-                    label={option.sublabel}
-                    localeNamespace={props.localeNamespace}
-                  />
-                )}
-              </Div>
-              {option.icon && <Icon src={option.icon} {...getCSSStyles('icon')} />}
-              <OuterRadio
-                {...getCSSStyles({
-                  radioOuter: true,
-                  radioOuterActive: isActive,
-                  radioOuterFocus: isFocused && optionIndex === focusedIndex,
-                  radioOuterError: props.error,
-                })}
-              >
-                {isActive && (
-                  <InnerRadio
-                    {...getCSSStyles({
-                      radioInner: true,
-                      radioInnerActive: isActive,
-                    })}
-                  ></InnerRadio>
-                )}
-              </OuterRadio>
-            </Item>
+            <RadioOptionItem
+              dataTestId={props.dataTestId || 'radioGroup'}
+              error={props.error}
+              isActive={isActive}
+              isAlignVertical={!!props.isAlignVertical}
+              isFocused={isFocused && optionIndex === focusedIndex}
+              localeNamespace={props.localeNamespace}
+              onChange={onChange}
+              option={option}
+              optionIndex={optionIndex}
+              style={props.style}
+            />
           )
         })}
       </Div>

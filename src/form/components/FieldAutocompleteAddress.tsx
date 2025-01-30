@@ -63,7 +63,7 @@ export const FieldAutocompleteAddress = <FormData extends {}>(
   // Form styles
   const theme = useFormTheme()
   const getCssMultiInputStyleFirstRow = useCSSStyles(theme, 'fieldMultiInput')(props.field.firstRow.style)
-  const getCssMultiInputStyleSecondRow = useCSSStyles(theme, 'fieldMultiInput')(props.field.secondRow.style)
+  const getCssMultiInputStyleSecondRow = useCSSStyles(theme, 'fieldMultiInput')(props.field.secondRow?.style)
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
