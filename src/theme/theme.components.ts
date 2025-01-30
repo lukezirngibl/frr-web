@@ -253,17 +253,17 @@ export type ComponentTheme = {
     descriptionText: CSSProperties
   }
   navigation: {
-    carrot: CSSProperties
     item: CSSProperties
     itemActive: CSSProperties
-    itemCircle: CSSProperties
-    itemCircleActive: CSSProperties
     itemStepIndicator: CSSProperties
     itemTitle: CSSProperties
     itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
     itemLabelActive: CSSProperties
     itemNumber: CSSProperties
+    itemNumberActive: CSSProperties
+    itemNumberCompleted: CSSProperties
+    itemIcon: CSSProperties
     itemWrapper: CSSProperties
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
@@ -583,17 +583,17 @@ export const defaultComponentTheme: ComponentTheme = {
     settings: {},
   },
   navigation: {
-    carrot: {},
     item: {},
     itemActive: {},
-    itemCircle: {},
-    itemCircleActive: {},
     itemStepIndicator: {},
     itemTitle: {},
     itemTitleWrapper: {},
     itemLabel: {},
     itemLabelActive: {},
     itemNumber: {},
+    itemNumberActive: {},
+    itemNumberCompleted: {},
+    itemIcon: {},
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},

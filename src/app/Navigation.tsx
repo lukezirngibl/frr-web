@@ -1,4 +1,4 @@
-import { Div, Options, P } from '../html'
+import { Div, Img, Options, OptionType, P } from '../html'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 
@@ -18,16 +18,90 @@ type Props = {
   items: Array<NavigationItem>
   isError?: boolean
   isWarning?: boolean
-  navigationItems: Options<string>
+  navigationItems: Array<OptionType<string> & { stepNumber?: string }>
   navigationActiveType?: NavigationActiveType
   selectedItem: string
+  showStepNumberAsCircle?: boolean
   style?: Partial<ComponentTheme['navigation']>
   title?: string
 }
 
+const NavigationItem = (props: {
+  isError: boolean
+  isItemActive: boolean
+  isItemActiveOrCompleted: boolean
+  isItemCompleted: boolean
+  isLastItem?: boolean
+  isWarning: boolean
+  item: OptionType<string> & { stepNumber?: string }
+  itemIndex: number
+  style?: Partial<ComponentTheme['navigation']>
+}) => {
+  const theme = useComponentTheme()
+  const getCSSStyles = useCSSStyles(theme, 'navigation')(props.style)
+
+  return (
+    <Div {...getCSSStyles('itemWrapper')}>
+      <Div
+        {...getCSSStyles({
+          item: true,
+          itemActive: props.isItemActiveOrCompleted,
+        })}
+      >
+        <Text
+          {...getCSSStyles({
+            itemNumber: true,
+            itemLabelActive: props.isItemActive,
+            itemLabelCompleted: props.isItemCompleted,
+            itemNumberActive: props.isItemActive,
+            itemNumberCompleted: props.isItemCompleted,
+          })}
+        >
+          {props.item.icon ? (
+            <Img {...getCSSStyles('itemIcon')} src={props.item.icon} />
+          ) : (
+            props.item.stepNumber
+          )}
+        </Text>
+
+        <P
+          {...getCSSStyles({
+            itemLabel: true,
+            itemLabelActive: props.isItemActive,
+            itemLabelCompleted: props.isItemCompleted,
+          })}
+          label={props.item.label}
+          isLabelTranslated={props.item.isLabelTranslated}
+        />
+      </Div>
+
+      <Div
+        {...getCSSStyles(
+          {
+            progressBar: true,
+            progressBarActive: props.isItemActive,
+            progressBarCompleted: props.isItemCompleted,
+            progressBarError: props.isError,
+            progressBarWarning: props.isWarning,
+          },
+          (props.itemIndex === 0 && {
+            marginLeft: 0,
+            borderBottomLeftRadius: 4,
+            borderTopLeftRadius: 4,
+          }) ||
+            (props.isLastItem && {
+              marginRight: 0,
+              borderBottomRightRadius: 4,
+              borderTopRightRadius: 4,
+            }) ||
+            {},
+        )}
+      />
+    </Div>
+  )
+}
 export const Navigation = (props: Props) => {
   const theme = useComponentTheme()
-
   const getCSSStyles = useCSSStyles(theme, 'navigation')(props.style)
 
   let itemActiveIndex = props.navigationItems.findIndex((item) => item.value === props.selectedItem)
@@ -72,66 +146,21 @@ export const Navigation = (props: Props) => {
 
       <Div {...getCSSStyles('wrapperInner')}>
         {props.navigationItems.map((item, itemIndex) => (
-          <Div key={`item-${itemIndex}`} {...getCSSStyles('itemWrapper')}>
-            <Div
-              {...getCSSStyles({
-                item: true,
-                itemActive:
-                  props.navigationActiveType === NavigationActiveType.Single
-                    ? itemIndex === itemActiveIndex
-                    : itemIndex <= itemActiveIndex,
-              })}
-            >
-              <Text
-                {...getCSSStyles({
-                  itemNumber: true,
-                  itemLabelActive: itemActiveIndex === itemIndex,
-                  itemLabelCompleted: itemActiveIndex > itemIndex,
-                })}
-              >
-                {itemIndex + 1}.{' '}
-              </Text>
-              <P
-                {...getCSSStyles({
-                  itemLabel: true,
-                  itemLabelActive: itemActiveIndex === itemIndex,
-                  itemLabelCompleted: itemActiveIndex > itemIndex,
-                })}
-                label={item.label}
-                isLabelTranslated={item.isLabelTranslated}
-              />
-            </Div>
-
-            <Div
-              {...getCSSStyles(
-                {
-                  progressBar: true,
-                  progressBarActive: itemActiveIndex === itemIndex,
-                  progressBarCompleted: itemActiveIndex > itemIndex,
-                  progressBarError: (itemActiveIndex >= itemIndex && props.isError) || isErrorGroup,
-                  progressBarWarning: itemActiveIndex >= itemIndex && props.isWarning,
-                },
-                (itemIndex === 0 && {
-                  marginLeft: 0,
-                  borderBottomLeftRadius: 4,
-                  borderTopLeftRadius: 4,
-                }) ||
-                  (itemIndex === props.navigationItems.length - 1 && {
-                    marginRight: 0,
-                    borderBottomRightRadius: 4,
-                    borderTopRightRadius: 4,
-                  }) ||
-                  {},
-              )}
-            />
-            <Div
-              {...getCSSStyles({
-                itemCircle: true,
-                itemCircleActive: item.label === props.selectedItem,
-              })}
-            />
-            {itemIndex !== props.items.length - 1 && <Text {...getCSSStyles('carrot')}>{'>'}</Text>}
-          </Div>
+          <NavigationItem
+            key={`item-${itemIndex}`}
+            item={item}
+            itemIndex={itemIndex}
+            isError={(itemActiveIndex >= itemIndex && props.isError) || isErrorGroup}
+            isItemActive={itemIndex === itemActiveIndex}
+            isItemActiveOrCompleted={
+              props.navigationActiveType === NavigationActiveType.Single
+                ? itemIndex === itemActiveIndex
+                : itemIndex <= itemActiveIndex
+            }
+            isItemCompleted={itemIndex < itemActiveIndex}
+            isLastItem={itemIndex === props.navigationItems.length - 1}
+            isWarning={itemActiveIndex >= itemIndex && props.isWarning}
+          />
         ))}
       </Div>
     </Div>
