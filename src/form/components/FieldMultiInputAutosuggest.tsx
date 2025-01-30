@@ -1,7 +1,7 @@
 import { Label } from '../../components/Label'
 import { Option } from '../../components/menu/Menu.types'
 import { Div } from '../../html'
-import { useCSSStyles, useFormTheme } from '../../theme/theme.form'
+import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
@@ -10,6 +10,8 @@ import { FieldScrollableWrapper } from './FieldScrollableWrapper'
 import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from '../../hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputAutosuggestField, TextInputAutosuggestField } from './types'
+import { createStyled } from '../../theme/util'
+import styled from 'styled-components'
 
 export type FieldMultiInputAutosuggestProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputAutosuggestField<FormData>
@@ -21,7 +23,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
 ) => {
   // Form styles
   const theme = useFormTheme()
-  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')({ item: props.field.itemStyle })
+  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')(props.field.style)
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -31,6 +33,7 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
   const commonFieldProps = {
     autoFocus: false,
     data: props.data,
+    formFieldOptions: props.formFieldOptions,
     formReadOnly: props.formReadOnly,
     localeNamespace: props.localeNamespace,
     showValidation: props.showValidation,
@@ -120,23 +123,40 @@ export const FieldMultiInputAutosuggest = <FormData extends {}>(
           key={`field-mulit-input-autosuggest-${props.fieldIndex}`}
         >
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
-            <FieldRowItem
-              {...commonFieldProps}
-              autoFocus={props.autoFocus && fieldItemIndex === 0}
+            <FieldRowItemWrapper
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-              field={{ ...fieldItem, onSuggestionSelected: onSelectSuggestion(fieldItem) }}
-              fieldIndex={fieldItemIndex}
-              errorFieldId={props.errorFieldId}
-              inputRef={
-                undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
-              }
-              onChange={onChange}
-              onError={onError}
-              isNotScrollable
-            />
+              {...getCssMultiInputStyle(
+                `itemField${fieldItemIndex + 1}` as keyof FormTheme['fieldMultiInput'],
+              )}
+            >
+              {' '}
+              <FieldRowItem
+                {...commonFieldProps}
+                autoFocus={props.autoFocus && fieldItemIndex === 0}
+                field={{
+                  ...fieldItem,
+                  label: props.formFieldOptions.showMultiInputFieldLabels ? fieldItem.label : null,
+                  onSuggestionSelected: onSelectSuggestion(fieldItem),
+                }}
+                fieldIndex={fieldItemIndex}
+                errorFieldId={props.errorFieldId}
+                inputRef={
+                  undefined /* fieldItemIndex === field.fields.length - 1 ? lastFieldRef : undefined */
+                }
+                onChange={onChange}
+                onError={onError}
+                isNotScrollable
+              />
+            </FieldRowItemWrapper>
           ))}
         </Div>
       </FieldScrollableWrapper>
     </FieldRowWrapper>
   )
 }
+
+const FieldRowItemWrapper = createStyled(styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`)

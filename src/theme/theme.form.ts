@@ -6,6 +6,8 @@ export type FormTheme = {
   fieldMultiInput: {
     wrapper: CSSProperties
     item: CSSProperties
+    itemField1: CSSProperties
+    itemField2: CSSProperties
   }
   fieldReadOnly: {
     image: CSSProperties
@@ -73,6 +75,8 @@ export const defaultFormTheme: FormTheme = {
   fieldMultiInput: {
     wrapper: {},
     item: {},
+    itemField1: {},
+    itemField2: {},
   },
   fieldReadOnly: {
     image: {},

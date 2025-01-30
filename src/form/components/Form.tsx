@@ -23,6 +23,7 @@ import {
   FieldError,
   FieldMarks,
   FormField,
+  FormFieldOptions,
   FormFieldType,
   InternalFormField,
   OnChangeMulti,
@@ -52,6 +53,7 @@ export type FormProps<FormData> = {
   disableValidation?: boolean
   display?: DisplayType
   formFields: Array<FormField<FormData>>
+  formFieldOptions?: FormFieldOptions
   isEdit?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
@@ -170,6 +172,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     data,
     errorFieldId,
     formReadOnly,
+    formFieldOptions: props.formFieldOptions || {},
     localeNamespace: props.localeNamespace,
     onChange: internalOnChange,
     onChangeMulti: internalOnChangeMulti,

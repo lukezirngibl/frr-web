@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { Label } from '../../components/Label'
-import { useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
+import { FormTheme, useCSSStyles, useFormTheme, useInlineStyle } from '../../theme/theme.form'
 import { FieldItemReadOnly } from './FieldItemReadOnly'
 import { FieldRowWrapper } from './FieldRow'
 import { FieldRowItem } from './FieldRowItem'
@@ -9,6 +9,8 @@ import { useFormConfig } from './form.hooks'
 import { useFormFieldErrors } from '../../hooks/useFormFieldError'
 import { CommonThreadProps, MultiInputField } from './types'
 import { Div } from '../../html'
+import { createStyled } from '../../theme/util'
+import styled from 'styled-components'
 
 type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
   field: MultiInputField<FormData>
@@ -18,7 +20,7 @@ type FieldRowProps<FormData> = CommonThreadProps<FormData> & {
 export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormData>) => {
   // Form styles
   const theme = useFormTheme()
-  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')({ item: props.field.itemStyle })
+  const getCssMultiInputStyle = useCSSStyles(theme, 'fieldMultiInput')(props.field.style)
   const getCssRowStyle = useCSSStyles(theme, 'row')(props.style?.row || {})
 
   // Error
@@ -29,6 +31,7 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
     autoFocus: false,
     data: props.data,
     formReadOnly: props.formReadOnly,
+    formFieldOptions: props.formFieldOptions,
     localeNamespace: props.localeNamespace,
     showValidation: props.showValidation,
     disableDirtyValidation,
@@ -73,7 +76,7 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
         }
         style={props.style}
       >
-        {props.field.label && (
+        {!props.formFieldOptions.showMultiInputFieldLabels && props.field.label && (
           <Label
             localeNamespace={props.localeNamespace}
             error={errorLabel.length > 0}
@@ -86,22 +89,37 @@ export const FieldMultiInput = <FormData extends {}>(props: FieldRowProps<FormDa
 
         <Div {...getCssMultiInputStyle('item')} key={`field-mulit-input-${props.fieldIndex}`}>
           {props.field.fields.map((fieldItem, fieldItemIndex) => (
-            <FieldRowItem
-              {...commonFieldProps}
-              autoFocus={props.autoFocus && fieldItemIndex === 0}
-              errorFieldId={props.errorFieldId}
-              field={fieldItem}
-              fieldIndex={fieldItemIndex}
-              isNotScrollable
+            <FieldRowItemWrapper
               key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
-              onBlur={onBlur}
-              onChange={props.onChange}
-              onError={onError}
-              onFocus={onFocus}
-            />
+              {...getCssMultiInputStyle(
+                `itemField${fieldItemIndex + 1}` as keyof FormTheme['fieldMultiInput'],
+              )}
+            >
+              <FieldRowItem
+                {...commonFieldProps}
+                autoFocus={props.autoFocus && fieldItemIndex === 0}
+                errorFieldId={props.errorFieldId}
+                field={{
+                  ...fieldItem,
+                  label: props.formFieldOptions.showMultiInputFieldLabels ? fieldItem.label : null,
+                }}
+                fieldIndex={fieldItemIndex}
+                isNotScrollable
+                onBlur={onBlur}
+                onChange={props.onChange}
+                onError={onError}
+                onFocus={onFocus}
+              />
+            </FieldRowItemWrapper>
           ))}
         </Div>
       </FieldScrollableWrapper>
     </FieldRowWrapper>
   )
 }
+
+const FieldRowItemWrapper = createStyled(styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`)

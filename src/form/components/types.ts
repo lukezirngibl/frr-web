@@ -459,12 +459,10 @@ export type SingleFormField<FormData> = (
 export type MultiInputField<FormData> = {
   fields: Array<SingleFormField<FormData>>
   isVisible?: IsVisibleFn<FormData>
-  itemStyle?: CSSProperties
   label?: LabelProps
   type: FormFieldType.MultiInput
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
+  readOnlyOptions?: { isFullWidth?: boolean }
+  style?: Partial<FormTheme['fieldMultiInput']>
 }
 
 export type MultiInputAutosuggestField<FormData> = {
@@ -472,16 +470,15 @@ export type MultiInputAutosuggestField<FormData> = {
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   isVisible?: IsVisibleFn<FormData>
   label?: LabelProps
-  itemStyle?: CSSProperties
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
+  style?: Partial<FormTheme['fieldMultiInput']>
+  readOnlyOptions?: { isFullWidth?: boolean }
 }
 
 export type MultiInputAutosuggestAddressField<FormData> = {
   type: FormFieldType.AutocompleteAddress
   firstRow: {
     label?: LabelProps
+    style?: Partial<FormTheme['fieldMultiInput']>
     fields: Array<
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
@@ -489,6 +486,7 @@ export type MultiInputAutosuggestAddressField<FormData> = {
   }
   secondRow?: {
     label?: LabelProps
+    style?: Partial<FormTheme['fieldMultiInput']>
     fields: Array<
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
@@ -496,10 +494,7 @@ export type MultiInputAutosuggestAddressField<FormData> = {
   }
   isVisible?: IsVisibleFn<FormData>
   loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
-  itemStyle?: CSSProperties
+  readOnlyOptions?: { isFullWidth?: boolean }
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
@@ -642,12 +637,17 @@ export type FormField<FormData> =
   | FormFieldRepeatGroup<FormData>
   | FormFieldRepeatSection<FormData>
 
+export type FormFieldOptions = {
+  showMultiInputFieldLabels?: boolean
+}
+
 export type CommonThreadProps<FormData> = {
   autoFocus: boolean
   data: FormData
   errorFieldId?: string
   fieldIndex: number
   formReadOnly: boolean
+  formFieldOptions: FormFieldOptions
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
   onChangeMulti?: OnChangeMulti<FormData>

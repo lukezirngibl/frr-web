@@ -31,6 +31,7 @@ export const FieldRow = <FormData extends {}>({
   errorFieldId,
   field,
   fieldIndex,
+  formFieldOptions,
   formReadOnly,
   localeNamespace,
   onChange,
@@ -55,6 +56,7 @@ export const FieldRow = <FormData extends {}>({
           errorFieldId={errorFieldId}
           field={fieldItem}
           fieldIndex={fieldItemIndex}
+          formFieldOptions={formFieldOptions}
           formReadOnly={formReadOnly}
           key={`field-item-${fieldItem.lens.id()}-${fieldItemIndex}`}
           localeNamespace={localeNamespace}
