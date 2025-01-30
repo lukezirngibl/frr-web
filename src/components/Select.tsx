@@ -141,8 +141,6 @@ export const Select = (props: Props) => {
     setIsFocused(false)
   }
 
-  console.log('isFocused', isFocused)
-
   useEffect(() => {
     if (props.hasFocus) {
       if (props.inputRef && 'current' in props.inputRef) {
@@ -151,7 +149,7 @@ export const Select = (props: Props) => {
       onFocus()
     }
   }, [props.hasFocus])
-
+  
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
@@ -202,6 +200,7 @@ export const Select = (props: Props) => {
                 ),
               )}
             </SelectWrapper>
+
             <MdOutlineExpandMore width={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (

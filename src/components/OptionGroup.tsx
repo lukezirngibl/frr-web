@@ -79,7 +79,7 @@ export const OptionGroup = (props: Props) => {
                     dataTestId={props.dataTestId || 'option'}
                     error={props.error}
                     isActive={item.value === props.value}
-                    isFocused={isFocused && itemIndex === focusedIndex}
+                    // isFocused={isFocused && itemIndex === focusedIndex}
                     localeNamespace={props.localeNamespace}
                     option={{ value: item.value }}
                     optionIndex={itemIndex}
