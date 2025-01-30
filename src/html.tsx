@@ -139,5 +139,6 @@ export const Option = (props: ElementProps) => <Element {...props} element={'opt
 export const P = (props: ElementProps) => <Element {...props} element={'p'} />
 export const button = (props: ElementProps) => <Element {...props} element={'button'} />
 
+export const Span = createStyled('span')
 export const Div = createStyled('div')
 export const Img = createStyled('img')

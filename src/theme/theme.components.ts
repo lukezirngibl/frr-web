@@ -256,6 +256,7 @@ export type ComponentTheme = {
     item: CSSProperties
     itemActive: CSSProperties
     itemStepIndicator: CSSProperties
+    itemStepSeparator: CSSProperties
     itemTitle: CSSProperties
     itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
@@ -272,6 +273,8 @@ export type ComponentTheme = {
     progressBarCompleted: CSSProperties
     progressBarError: CSSProperties
     progressBarWarning: CSSProperties
+    progressBarFirst: CSSProperties
+    progressBarLast: CSSProperties
     itemLabelCompleted: CSSProperties
   }
   loading: {
@@ -586,6 +589,7 @@ export const defaultComponentTheme: ComponentTheme = {
     item: {},
     itemActive: {},
     itemStepIndicator: {},
+    itemStepSeparator: {},
     itemTitle: {},
     itemTitleWrapper: {},
     itemLabel: {},
@@ -602,6 +606,8 @@ export const defaultComponentTheme: ComponentTheme = {
     progressBarCompleted: {},
     progressBarError: {},
     progressBarWarning: {},
+    progressBarFirst: {},
+    progressBarLast: {},
     itemLabelCompleted: {},
   },
   loading: {

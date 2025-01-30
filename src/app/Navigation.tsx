@@ -1,4 +1,5 @@
-import { Div, Img, Options, OptionType, P } from '../html'
+import { Div, Img, Options, OptionType, P, Span } from '../html'
+import { PFCheckIcon } from '../icons/new/PFCheck'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 
@@ -35,6 +36,7 @@ const NavigationItem = (props: {
   isWarning: boolean
   item: OptionType<string> & { stepNumber?: string }
   itemIndex: number
+  showStepNumberAsCircle?: boolean
   style?: Partial<ComponentTheme['navigation']>
 }) => {
   const theme = useComponentTheme()
@@ -48,21 +50,29 @@ const NavigationItem = (props: {
           itemActive: props.isItemActiveOrCompleted,
         })}
       >
-        <Text
-          {...getCSSStyles({
-            itemNumber: true,
-            itemLabelActive: props.isItemActive,
-            itemLabelCompleted: props.isItemCompleted,
-            itemNumberActive: props.isItemActive,
-            itemNumberCompleted: props.isItemCompleted,
-          })}
-        >
-          {props.item.icon ? (
-            <Img {...getCSSStyles('itemIcon')} src={props.item.icon} />
-          ) : (
-            props.item.stepNumber
-          )}
-        </Text>
+        {props.showStepNumberAsCircle && props.isItemCompleted ? (
+          <Div
+            {...getCSSStyles({
+              itemNumber: true,
+              itemNumberActive: props.isItemActive,
+              itemNumberCompleted: props.isItemCompleted,
+            })}
+          >
+            <CheckIcon {...getCSSStyles('itemIcon')} />
+          </Div>
+        ) : (
+          <Text
+            {...getCSSStyles({
+              itemNumber: true,
+              itemLabelActive: props.isItemActive,
+              itemLabelCompleted: props.isItemCompleted,
+              itemNumberActive: props.isItemActive,
+              itemNumberCompleted: props.isItemCompleted,
+            })}
+          >
+            {props.item.stepNumber}
+          </Text>
+        )}
 
         <P
           {...getCSSStyles({
@@ -75,6 +85,8 @@ const NavigationItem = (props: {
         />
       </Div>
 
+      {!props.isLastItem && <Div {...getCSSStyles('itemStepSeparator')} />}
+
       <Div
         {...getCSSStyles(
           {
@@ -83,18 +95,20 @@ const NavigationItem = (props: {
             progressBarCompleted: props.isItemCompleted,
             progressBarError: props.isError,
             progressBarWarning: props.isWarning,
+            progressBarFirst: props.itemIndex === 0,
+            progressBarLast: props.isLastItem,
           },
-          (props.itemIndex === 0 && {
-            marginLeft: 0,
-            borderBottomLeftRadius: 4,
-            borderTopLeftRadius: 4,
-          }) ||
-            (props.isLastItem && {
-              marginRight: 0,
-              borderBottomRightRadius: 4,
-              borderTopRightRadius: 4,
-            }) ||
-            {},
+          // (props.itemIndex === 0 && {
+          //   marginLeft: 0,
+          //   borderBottomLeftRadius: 4,
+          //   borderTopLeftRadius: 4,
+          // }) ||
+          //   (props.isLastItem && {
+          //     marginRight: 0,
+          //     borderBottomRightRadius: 4,
+          //     borderTopRightRadius: 4,
+          //   }) ||
+          //   {},
         )}
       />
     </Div>
@@ -160,6 +174,7 @@ export const Navigation = (props: Props) => {
             isItemCompleted={itemIndex < itemActiveIndex}
             isLastItem={itemIndex === props.navigationItems.length - 1}
             isWarning={itemActiveIndex >= itemIndex && props.isWarning}
+            showStepNumberAsCircle={props.showStepNumberAsCircle}
           />
         ))}
       </Div>
@@ -168,3 +183,4 @@ export const Navigation = (props: Props) => {
 }
 
 const Text = createStyled('p')
+const CheckIcon = createStyled(PFCheckIcon)
