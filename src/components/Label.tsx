@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
-import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Div, LabelText, P } from '../html'
+import { PFExclamationMarkIcon } from '../icons/new/PFExclamationMark'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -11,10 +11,8 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { MdErrorOutline } from '../icons/new/MdErrorOutline'
-import { Button, ButtonType } from './Button'
+import { LabelPopup } from './LabelPopup'
 import { Link } from './Link'
-import { PFExclamationMarkIcon } from '../icons/new/PFExclamationMark'
 
 export type LabelProps = {
   description?: LabelText
@@ -101,17 +99,15 @@ export const Label = (props: LabelProps) => {
           }
         />
 
-        {open && description && (
-          <ClickAwayListener onClickAway={() => setOpen(false)}>
-            <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyles('descriptionPopup')}>
-              <P
-                {...getCSSStyles('descriptionText')}
-                label={description}
-                localeNamespace={props.localeNamespace}
-                data={props.descriptionData}
-              />
-            </DescriptionPopup>
-          </ClickAwayListener>
+        {description && (
+          <LabelPopup open={open} onClose={() => setOpen(false)} style={props.style?.descriptionPopup}>
+            <P
+              {...getCSSStyles('descriptionText')}
+              label={description}
+              localeNamespace={props.localeNamespace}
+              data={props.descriptionData}
+            />
+          </LabelPopup>
         )}
       </Div>
 
@@ -165,24 +161,7 @@ export const Label = (props: LabelProps) => {
   )
 }
 
-const DescriptionPopupAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-
 const Span = createStyled('span')
-
-const DescriptionPopup = createStyled(styled.div`
-  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
-`)
 
 const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string }>`
   & svg {
