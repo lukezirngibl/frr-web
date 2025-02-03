@@ -123,6 +123,7 @@ export type ComponentTheme = {
     option: CSSProperties
     optionActive: CSSProperties
     optionHover: CSSProperties
+    optionSelectedIcon: CSSProperties
     placeholder: CSSProperties
     select: CSSProperties
     value: CSSProperties
@@ -496,6 +497,7 @@ export const defaultComponentTheme: ComponentTheme = {
     option: {},
     optionActive: {},
     optionHover: {},
+    optionSelectedIcon: {},
     placeholder: {},
     select: {},
     value: {},
