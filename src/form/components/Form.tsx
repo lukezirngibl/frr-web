@@ -4,7 +4,10 @@ import styled from 'styled-components'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace, Translate } from '../../translation'
+import { DeepPartial } from '../../util'
 import { FormLens, setScrolled } from '../util'
+import { ButtonProps, ButtonSection } from './ButtonSection'
+import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 import { FieldGroup } from './FieldGroup'
 import { FieldMultiInput } from './FieldMultiInput'
 import { FieldMultiInputAutosuggest } from './FieldMultiInputAutosuggest'
@@ -12,26 +15,20 @@ import { FieldRow } from './FieldRow'
 import { FieldSection } from './FieldSection'
 import { FieldSectionCard } from './FieldSectionCard'
 import { FormConfigContext } from './form.hooks'
+import { computeFormErrors } from './functions/computeErrors.form'
 import { filterByHidden, filterByVisible } from './functions/filter.form'
 import { filterChangedRepeatFormFields } from './functions/filter.form.repeatFields'
 import { flatten } from './functions/flatten'
-import { mapFormFields } from './functions/map.form'
-import { computeFieldError } from '../../hooks/useFormFieldError'
 import { StaticField } from './StaticField'
 import {
   DisplayType,
   FieldError,
-  FieldMarks,
   FormField,
   FormFieldOptions,
   FormFieldType,
   InternalFormField,
   OnChangeMulti,
-  SingleFormField,
 } from './types'
-import { DeepPartial } from '../../util'
-import { ButtonProps, ButtonSection } from './ButtonSection'
-import { FieldAutocompleteAddress } from './FieldAutocompleteAddress'
 
 type OnInvalidSubmitType<FormData> = (params: { errors: Array<FieldError>; formState: FormData }) => void
 
@@ -136,23 +133,12 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
 
   const [errorFieldId, setErrorFieldId] = useState(null)
 
-  const getFieldError = (
-    field: SingleFormField<FormData>,
-  ): { error: string | null; fieldId: string } => {
-    const value = field.lens.get(data)
-    const marks = 'marks' in field ? (field.marks as FieldMarks).map((mark) => mark.value) : []
-
-    return computeFieldError({ value, data, field, isValidate: true, marks })
-  }
-
   const submit = () => {
     setErrorFieldId(null)
     if (props.disableValidation) {
       props.onSubmit({ formState: props.data })
     } else {
-      const errors = mapFormFields(visibleFormFields, getFieldError).filter(
-        (fieldError) => !!fieldError.error,
-      )
+      const errors = computeFormErrors({ data, formFields: visibleFormFields })
 
       if (errors.length > 0) {
         setErrorFieldId(errors[0].fieldId)
