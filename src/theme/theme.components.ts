@@ -44,6 +44,7 @@ export type ComponentTheme = {
     descriptionIcon: CSSProperties
     descriptionIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
+    descriptionPopupOverflow: CSSProperties
     descriptionText: CSSProperties
     errorIcon: CSSProperties
     errorLabelWrapper: CSSProperties
@@ -413,6 +414,7 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionIcon: {},
     descriptionIconWrapper: {},
     descriptionPopup: {},
+    descriptionPopupOverflow: {},
     descriptionText: {},
     errorIcon: {},
     errorLabelWrapper: {},

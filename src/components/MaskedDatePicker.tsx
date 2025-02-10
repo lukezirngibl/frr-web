@@ -1,7 +1,7 @@
 import { format, isValid, parse } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
-import ReactDatePicker, { DatePickerProps, registerLocale } from 'react-datepicker'
+import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
@@ -36,7 +36,7 @@ export type Props = {
    * Sometimes the date format that the server expects is different from the one that the user sees.
    */
   displayDateFormat?: string
-  datePickerProps?: Partial<Omit<DatePickerProps, 'onChange' | 'selected' | 'value'>>
+  datePickerProps?: Partial<Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>>
   error?: boolean
   hasFocus?: boolean
   label?: LabelProps
