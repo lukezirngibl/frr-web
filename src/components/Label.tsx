@@ -14,6 +14,10 @@ import { LocaleNamespace } from '../translation'
 import { LabelPopup } from './LabelPopup'
 import { Link } from './Link'
 
+/*
+ * Label
+ */
+
 export type LabelProps = {
   description?: LabelText
   descriptionData?: Record<string, string>
@@ -125,7 +129,7 @@ export const Label = (props: LabelProps) => {
       )}
       <ErrorText $error={props.error} {...getCSSStyles('errorLabelWrapper')}>
         {props.error && (
-          <>
+          <Div {...getCSSStyles('errorLabelTextWrapper')}>
             {errorLabels.map((errorLabel) => (
               <P
                 key={errorLabel}
@@ -154,7 +158,7 @@ export const Label = (props: LabelProps) => {
               ) : (
                 <>{props.renderChildren}</>
               ))}
-          </>
+          </Div>
         )}
       </ErrorText>
     </Div>

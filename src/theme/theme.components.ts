@@ -48,6 +48,7 @@ export type ComponentTheme = {
     descriptionText: CSSProperties
     errorIcon: CSSProperties
     errorLabelWrapper: CSSProperties
+    errorLabelTextWrapper: CSSProperties
     errorLabel: CSSProperties
     errorButton: CSSProperties
     errorButtonIcon: CSSProperties
@@ -418,6 +419,7 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionText: {},
     errorIcon: {},
     errorLabelWrapper: {},
+    errorLabelTextWrapper: {},
     errorLabel: {},
     errorButton: {},
     errorButtonIcon: {},
