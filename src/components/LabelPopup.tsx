@@ -36,9 +36,9 @@ export const LabelPopup = ({ children, open, onClose, style }: LabelPopupProps) 
   }, [open])
 
   return open ? (
-    <ClickAwayListener onClickAway={onClose}>
-      <>
-        {popupState.isOpen && (
+    <>
+      {popupState.isOpen ? (
+        <ClickAwayListener onClickAway={onClose}>
           <PopupElementAnimated
             onClick={onClose}
             ref={popupRef}
@@ -49,17 +49,16 @@ export const LabelPopup = ({ children, open, onClose, style }: LabelPopupProps) 
           >
             {children}
           </PopupElementAnimated>
-        )}
-
+        </ClickAwayListener>
+      ) : (
         <PopupElementHidden
-          onClick={onClose}
           ref={popupRef}
           {...getCSSStyles({ descriptionPopup: true, descriptionPopupOverflow: popupState.isOverflow })}
         >
           {children}
         </PopupElementHidden>
-      </>
-    </ClickAwayListener>
+      )}
+    </>
   ) : null
 }
 
