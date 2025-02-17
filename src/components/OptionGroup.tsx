@@ -76,7 +76,7 @@ export const OptionGroup = (props: Props) => {
               <>
                 <Div {...getCSSStyles('itemRadioCircle')}>
                   <RadioOptionItem
-                    dataTestId={props.dataTestId || 'option'}
+                    dataTestId={'option'}
                     error={props.error}
                     isActive={item.value === props.value}
                     // isFocused={isFocused && itemIndex === focusedIndex}
