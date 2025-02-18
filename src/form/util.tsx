@@ -146,7 +146,7 @@ export const processRepeatGroup = <FormData extends {}>(
 export const processRepeatSection = <FormData extends {}>(
   fieldRepeatSection: FormFieldRepeatSection<FormData>,
   data: FormData,
-  translate: Translate,
+  translate?: Translate,
 ) => {
   const length = fieldRepeatSection.length.get(data)
 

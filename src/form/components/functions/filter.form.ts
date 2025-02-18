@@ -21,7 +21,7 @@ export type FilterParams<T> = {
   data: T
   formFields: Array<FormField<T>>
   formReadOnly?: boolean
-  translate: Translate
+  translate?: Translate
 }
 type Fn<T> = (i: FormField<T>) => boolean
 
@@ -171,7 +171,7 @@ const processFormSectionCard = <T>(
     : []
 
 const filterByFunc = <T>(
-  { data, formFields, translate }: FilterParams<T>,
+  { data, formFields, translate = (k: string) => k}: FilterParams<T>,
   fn: Fn<T>,
 ): Array<InternalFormField<T>> =>
   formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
@@ -192,7 +192,7 @@ const filterByFunc = <T>(
       const groups = processRepeatGroup(f, data)
       return [...groups, ...filterByFunc({ data, formFields: groups, translate }, fn)]
     } else if (f.type === FormFieldType.FormFieldRepeatSection) {
-      const sections = processRepeatSection(f, data, translate)
+      const sections = processRepeatSection(f, data, translate )
       return [...groups, ...filterByFunc({ data, formFields: sections, translate }, fn)]
     } else if (f.type === FormFieldType.Static) {
       return groups
