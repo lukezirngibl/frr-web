@@ -289,6 +289,7 @@ export type MaskedInputField<FormData> = FormInput<
 export type StaticField<FormData> = StaticFieldProps & {
   type: FormFieldType.Static
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
 }
 
 export type YesNoOptionGroupField<FormData> = FormInput<
@@ -367,6 +368,7 @@ export type CustomField<FormData> = FormInput<
 type CommonFieldProps<FormData> = {
   isDisabled?: boolean
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   isInitialeEmptyString?: boolean
   itemStyle?: CSSProperties
   maxwidth?: number
@@ -459,6 +461,7 @@ export type SingleFormField<FormData> = (
 export type MultiInputField<FormData> = {
   fields: Array<SingleFormField<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   label?: LabelProps
   type: FormFieldType.MultiInput
   readOnlyOptions?: { isFullWidth?: boolean }
@@ -469,6 +472,7 @@ export type MultiInputAutosuggestField<FormData> = {
   type: FormFieldType.MultiInputAutosuggest
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   label?: LabelProps
   style?: Partial<FormTheme['fieldMultiInput']>
   readOnlyOptions?: { isFullWidth?: boolean }
@@ -493,6 +497,7 @@ export type MultiInputAutosuggestAddressField<FormData> = {
     >
   }
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
   readOnlyOptions?: { isFullWidth?: boolean }
 }
@@ -524,6 +529,7 @@ export type FormFieldGroup<FormData> = {
   descriptionList?: Array<string>
   fields: Array<GroupField<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   style?: Partial<FormTheme['group']>
   title?: string
   type: FormFieldType.FormFieldGroup
@@ -536,6 +542,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   fields: Array<RepeatFormField<FormData>>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
 }
 
 export type InternalSectionField<FormData> =
@@ -563,6 +570,7 @@ export type InternalSectionFields<FormData> = Array<InternalSectionField<FormDat
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   fields: Array<RepeatFormField<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
@@ -592,6 +600,7 @@ export type FormSection<FormData> = {
   introduction?: string
   introductionReadOnly?: string
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   isOnEditDisabled?: boolean
   editLabel?: string
   onEdit?: () => void
