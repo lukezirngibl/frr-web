@@ -51,6 +51,7 @@ export type FormProps<FormData> = {
   display?: DisplayType
   formFields: Array<FormField<FormData>>
   formFieldOptions?: FormFieldOptions
+  isInitialValidationActive?: boolean
   isEdit?: boolean
   isVisible?: (formData: FormData) => boolean
   localeNamespace?: LocaleNamespace
@@ -127,9 +128,9 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
   }, [changedRepeatFields])
 
   useEffect(() => {
-    setShowValidation(false)
+    setShowValidation(!!props.isInitialValidationActive)
     setScrolled(false)
-  }, [formFields])
+  }, [formFields, props.isInitialValidationActive])
 
   const [errorFieldId, setErrorFieldId] = useState(null)
 
@@ -142,7 +143,6 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
 
       if (errors.length > 0) {
         setErrorFieldId(errors[0].fieldId)
-
         setShowValidation(true)
         props.onInvalidSubmit?.({ errors, formState: props.data })
         props.analytics?.onInvalidSubmit?.({ errors, formState: props.data })
