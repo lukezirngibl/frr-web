@@ -33,6 +33,7 @@ import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
 import { AddressParams, AddressResponse } from './FieldAutocompleteAddress'
+import { SearchDropdownProps } from '../../components/SearchDropdown'
 
 export enum FieldInputType {
   Street = 'StreetName',
@@ -91,6 +92,7 @@ export enum FormFieldType {
   TextInputDescription = 'TextInputDescription',
   TextNumber = 'TextNumber',
   TextSelect = 'TextSelect',
+  TextSearch = 'TextSearch',
   Toggle = 'Toggle',
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
@@ -270,7 +272,15 @@ export type TextInputAutosuggestField<FormData> = FormInput<
   NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextInputAutosuggest
 >
+
 export type TextInputSuggestions = Suggestions
+
+export type TextSearchField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  SearchDropdownProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.TextSearch
+>
 
 export type TextSelectField<FormData> = FormInput<
   NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
@@ -420,6 +430,7 @@ export const fieldMap = {
   [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
+  [FormFieldType.TextSearch]: null as TextSearchField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
@@ -451,6 +462,7 @@ export type SingleFormField<FormData> = (
   | TextInputAutosuggestField<FormData>
   | TextInputField<FormData>
   | TextNumberInputField<FormData>
+  | TextSearchField<FormData>
   | TextSelectField<FormData>
   | ToggleField<FormData>
   | YesNoOptionGroupField<FormData>

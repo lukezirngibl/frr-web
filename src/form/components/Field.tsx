@@ -26,6 +26,7 @@ import { SingleFileInput } from '../../components/fileUpload/SingleFileInput'
 import { MultiFileInput } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace } from '../../translation'
 import { FormFieldType, SingleFormField } from './types'
+import { SearchDropdown } from '../../components/SearchDropdown'
 
 // import { CheckboxGroup } from '../../components/CheckboxGroup'
 // import { Dropdown } from '../../components/Dropdown'
@@ -121,6 +122,25 @@ export const Field = <FormData extends {}>({
     const { lens, validate, required, ...fieldProps } = field
     return (
       <TextInputAutosuggest
+        {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
+        label={label}
+        localeNamespace={localeNamespace}
+        onBlur={onBlur}
+        onChange={onChange}
+        onFocus={onFocus}
+        value={lens.get(data)}
+      />
+    )
+  }
+
+  if (field.type === FormFieldType.TextSearch) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <SearchDropdown
         {...fieldProps}
         dataTestId={dataTestId}
         error={hasError}

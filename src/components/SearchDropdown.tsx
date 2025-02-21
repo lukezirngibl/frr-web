@@ -13,7 +13,7 @@ import { Label, LabelProps } from './Label'
 import { SelectOption, mapReactSelectStyles } from './Select'
 import { MENU_MAX_HEIGHT, MENU_MIN_HEIGHT, MENU_PAGE_SIZE } from './menu/Menu.constants'
 
-type SearchDropdownProps = {
+export type SearchDropdownProps = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
@@ -24,11 +24,11 @@ type SearchDropdownProps = {
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   menuPortalTarget?: HTMLElement
-  onSearch: (search: string) => void
-  onChange: (value: string) => void
+  onSearch: (search: string) => Promise<Array<OptionType<string> & { data?: any }>>
+  onChange: (value: string, data?: any) => void
   onFocus?: () => void
   onBlur?: (value: string) => void
-  options: Options<string>
+  // options: Options<string>
   placeholder?: string
   readOnly?: boolean
   style?: Partial<ComponentTheme['select']>
@@ -51,9 +51,9 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
    * Value handling
    */
 
-  const onChange = (option: OptionType<string>) => {
+  const onChange = (option: OptionType<string> & { data?: any }) => {
     const newValue = option === null || option.value === 'null' ? null : option.value
-    props.onChange(newValue)
+    props.onChange(newValue, option.data)
     props.onBlur?.(newValue)
   }
 
@@ -61,9 +61,10 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
    * Search handling
    */
   const [search, setSearch] = useState('')
+  const [options, setOptions] = useState<Options<string>>([])
   useEffect(() => {
     if (search > '') {
-      props.onSearch(search)
+      props.onSearch(search).then(setOptions)
     }
   }, [search])
 
@@ -129,7 +130,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
             onFocus={onFocus}
             openMenuOnFocus
             menuIsOpen={props.isMenuAlwaysOpen}
-            options={props.options}
+            options={options}
             pageSize={MENU_PAGE_SIZE}
             minMenuHeight={MENU_MIN_HEIGHT}
             maxMenuHeight={MENU_MAX_HEIGHT}
@@ -137,7 +138,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
             styles={getReactSelectStyles(props.error, isFocused)}
             ref={props.inputRef}
             tabSelectsValue={false}
-            value={props.options.find((option) => option.value === props.value) || null}
+            value={options.find((option) => option.value === props.value) || null}
           />
         </div>
       </Div>
