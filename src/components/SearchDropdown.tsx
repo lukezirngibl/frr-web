@@ -53,7 +53,7 @@ export const SearchDropdown = (props: SearchDropdownProps) => {
 
   const onChange = (option: OptionType<string> & { data?: any }) => {
     const newValue = option === null || option.value === 'null' ? null : option.value
-    props.onChange(newValue, option.data)
+    props.onChange(newValue, option?.data)
     props.onBlur?.(newValue)
   }
 
