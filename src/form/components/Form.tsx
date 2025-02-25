@@ -127,7 +127,7 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     if (deaultValueFields.length > 0) {
       internalOnChangeMulti(deaultValueFields)
     }
-  }, [])
+  }, [formFields])
 
   // Reset hidden fields
   useEffect(() => {
