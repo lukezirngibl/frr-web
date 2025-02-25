@@ -105,12 +105,6 @@ export const RadioGroup = (props: Props) => {
   >(props)
 
   useEffect(() => {
-    if (props.value === null && props.defaultValue !== undefined) {
-      props.onChange(props.defaultValue)
-    }
-  }, [])
-
-  useEffect(() => {
     if (props.hasFocus) {
       if (radioGroupRef.current) {
         radioGroupRef.current.focus()

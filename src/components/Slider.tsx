@@ -161,15 +161,15 @@ export const Slider = (props: Props) => {
     }
   }, [props.value, initialValue])
 
-  React.useEffect(() => {
-    if (
-      props.initialValue !== undefined &&
-      props.defaultValue !== undefined &&
-      (props.value === null || props.value === undefined)
-    ) {
-      props.onChange(props.defaultValue)
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   if (
+  //     props.initialValue !== undefined &&
+  //     props.defaultValue !== undefined &&
+  //     (props.value === null || props.value === undefined)
+  //   ) {
+  //     props.onChange(props.defaultValue)
+  //   }
+  // }, [])
 
   // const MaterialSlider = React.useMemo(() => createSlider(theme.materialSlider), [theme])
   const materialStyles = getMuiSliderStyles(theme.materialSlider)

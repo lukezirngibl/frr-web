@@ -19,13 +19,7 @@ export type Props = {
 export const Toggle = (props: Props) => {
   const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'toggle')(props.style)
-
-  React.useEffect(() => {
-    if (props.value === null && props.defaultValue !== undefined) {
-      props.onChange(props.defaultValue)
-    }
-  }, [])
-
+  
   const [isFocused, setIsFocused] = React.useState(false)
 
   const onFocus = () => {

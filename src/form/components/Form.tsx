@@ -112,6 +112,24 @@ export const Form = <FormData extends {}>(props: FormProps<FormData>) => {
     }
   }
 
+  // Set default values
+  useEffect(() => {
+    const formFieldsFlat = flatten(formFields, data)
+    const deaultValueFields = []
+    formFieldsFlat.forEach((field) => {
+      if ('defaultValue' in field) {
+        const value = field.lens.get(data)
+        if ((value === null || value === undefined) && field.defaultValue !== undefined) {
+          deaultValueFields.push({ lens: field.lens, value: field.defaultValue })
+        }
+      }
+    })
+    if (deaultValueFields.length > 0) {
+      internalOnChangeMulti(deaultValueFields)
+    }
+  }, [])
+
+  // Reset hidden fields
   useEffect(() => {
     hiddenFormFields.forEach((f) => {
       const v = f.lens.get(data)
