@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { MediaQuery } from '../theme/configure.theme'
@@ -28,6 +28,8 @@ const LinkIcon = createStyled(styled.span`
 `)
 
 const LinkText = styled.span<{ $isMobileHidden: boolean }>`
+  width: 100%;
+  
   @media ${MediaQuery.Mobile} {
     display: ${({ $isMobileHidden }) => ($isMobileHidden ? 'none' : 'block')};
   }
@@ -39,7 +41,7 @@ type LinkProps = {
     style: { cssStyles?: string; dataThemeId: string }
   }
   isMobileHidden?: boolean
-  label?: string
+  label?: string | ReactNode
   localeNamespace?: LocaleNamespace
   onClick: () => unknown
   style?: { cssStyles: string; dataThemeId: string }
@@ -61,7 +63,11 @@ export const Link = (props: LinkProps) => {
       {icon?.style.svg && (
         <LinkIcon dangerouslySetInnerHTML={{ __html: icon.style.svg }} {...props.icon.style} />
       )}
-      {props.label && <LinkText $isMobileHidden={props.isMobileHidden}>{translate(props.label)}</LinkText>}
+      {props.label && (
+        <LinkText $isMobileHidden={props.isMobileHidden}>
+          {typeof props.label === 'string' ? translate(props.label) : props.label}
+        </LinkText>
+      )}
     </LinkWrapper>
   )
 }

@@ -14,7 +14,7 @@ export type LabelPopupProps = {
 export const LabelPopup = ({ children, open, onClose, style }: LabelPopupProps) => {
   // Styles
   const theme = useComponentTheme()
-  const getCSSStyles = useCSSStyles(theme, 'label')({ descriptionPopup: style })
+  const getCSSStyles = useCSSStyles(theme, 'label')({ descriptionPopup: style, descriptionPopupOverflow: style })
 
   // Get position of popup element and check if rendered outside of the screen with a hidden element
   const popupRef = useRef<HTMLDivElement>(null)

@@ -18,7 +18,7 @@ export type OptionType<Value> = {
 }
 export type Options<Value> = Array<OptionType<Value>>
 
-export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode)
+export type LabelText = string | ((params: { translate: Translate }) => string | ReactNode) | ReactNode
 
 type ElementProps = {
   className?: string
@@ -96,7 +96,7 @@ export const Element = (
 
   if (typeof props.label === 'function') {
     str = props.label({ translate: translate as Translate })
-  } else if (!!props.label && !isLabelTranslated) {
+  } else if (typeof props.label === 'string' && !!props.label && !isLabelTranslated) {
     str = translate(props.label, data)
   } else {
     str = props.label
@@ -120,7 +120,7 @@ export const Element = (
       tabIndex={props.tabIndex}
       value={value}
     >
-      {renderHtml(htmlText)}
+      {typeof htmlText === 'string' ? renderHtml(htmlText) : htmlText}
       {Icon}
       {children}
     </HtmlElement>
