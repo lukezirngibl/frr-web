@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { Label, LabelProps } from './Label'
+import { PFCheckIcon } from '../icons/new/PFCheck'
 
 export type Props = {
   onChange: (value: boolean) => void
@@ -18,13 +19,7 @@ export type Props = {
 export const Toggle = (props: Props) => {
   const theme = useComponentTheme()
   const getCSSStyles = useCSSStyles(theme, 'toggle')(props.style)
-
-  React.useEffect(() => {
-    if (props.value === null && props.defaultValue !== undefined) {
-      props.onChange(props.defaultValue)
-    }
-  }, [])
-
+  
   const [isFocused, setIsFocused] = React.useState(false)
 
   const onFocus = () => {
@@ -81,7 +76,8 @@ export const Toggle = (props: Props) => {
               props.onChange(!props.value)
             }}
             tabIndex={-1}
-          />
+          ></button>
+          {props.value && <PFCheckIcon />}
         </Circle>
       </Wrapper>
     </>
@@ -105,4 +101,17 @@ const Circle = createStyled(styled.div`
   width: 28px;
   height: 28px;
   border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    position: absolute;
+    width: 1, height: 1, opacity: 0;
+  }
+
+  svg {
+    width: 10px;
+    height: 10px;
+  }
 `)

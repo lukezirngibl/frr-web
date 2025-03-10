@@ -21,7 +21,7 @@ export type FilterParams<T> = {
   data: T
   formFields: Array<FormField<T>>
   formReadOnly?: boolean
-  translate: Translate
+  translate?: Translate
 }
 type Fn<T> = (i: FormField<T>) => boolean
 
@@ -171,7 +171,7 @@ const processFormSectionCard = <T>(
     : []
 
 const filterByFunc = <T>(
-  { data, formFields, translate }: FilterParams<T>,
+  { data, formFields, translate = (k: string) => k }: FilterParams<T>,
   fn: Fn<T>,
 ): Array<InternalFormField<T>> =>
   formFields.reduce((groups: Array<InternalFormField<T>>, f: FormField<T>) => {
@@ -203,9 +203,11 @@ const filterByFunc = <T>(
 
 export const filterByVisible = <T>(params: FilterParams<T>) =>
   filterByFunc<T>(params, (field) => {
-    return 'isVisible' in field && field.isVisible
-      ? field.isVisible(params.data, { formReadOnly: params.formReadOnly })
-      : true
+    return params.formReadOnly && 'isVisibleReadonly' in field && field.isVisibleReadonly
+      ? field.isVisibleReadonly(params.data, { formReadOnly: params.formReadOnly })
+      : 'isVisible' in field && field.isVisible
+        ? field.isVisible(params.data, { formReadOnly: params.formReadOnly })
+        : true
   })
 
 const FormGroupTypes = [
@@ -219,12 +221,18 @@ const FormGroupTypes = [
 export const filterByHidden = <T>(params: FilterParams<T>) =>
   filterByFunc<T>(params, (field) => {
     if ('type' in field && FormGroupTypes.includes(field.type)) {
-      return 'isVisible' in field && field.isVisible ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly }) : true
+      return params.formReadOnly && 'isVisibleReadonly' in field && field.isVisibleReadonly
+        ? !field.isVisibleReadonly(params.data, { formReadOnly: params.formReadOnly })
+        : 'isVisible' in field && field.isVisible
+          ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly })
+          : true
     } else if ('type' in field && field.type === FormFieldType.FormSection) {
       return true
     } else {
-      return 'isVisible' in field && field.isVisible
-        ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly })
-        : false
+      return params.formReadOnly && 'isVisibleReadonly' in field && field.isVisibleReadonly
+        ? !field.isVisibleReadonly(params.data, { formReadOnly: params.formReadOnly })
+        : 'isVisible' in field && field.isVisible
+          ? !field.isVisible(params.data, { formReadOnly: params.formReadOnly })
+          : false
     }
   })

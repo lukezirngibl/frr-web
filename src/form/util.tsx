@@ -146,7 +146,7 @@ export const processRepeatGroup = <FormData extends {}>(
 export const processRepeatSection = <FormData extends {}>(
   fieldRepeatSection: FormFieldRepeatSection<FormData>,
   data: FormData,
-  translate: Translate,
+  translate?: Translate,
 ) => {
   const length = fieldRepeatSection.length.get(data)
 
@@ -189,6 +189,7 @@ export const processRepeatSection = <FormData extends {}>(
       title,
       TitleCenterComponent,
       isVisible: fieldRepeatSection.isVisible,
+      isVisibleReadonly: fieldRepeatSection.isVisibleReadonly,
       editLabel: fieldRepeatSection.editLabel,
       onEdit: fieldRepeatSection.onEdit,
       fields: fieldRepeatSection.fields.map((repeatSectionField) => {

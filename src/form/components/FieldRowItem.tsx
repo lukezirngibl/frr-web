@@ -29,6 +29,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
     field,
     fieldIndex,
     formReadOnly,
+    formFieldOptions,
     inputRef,
     isNotScrollable,
     localeNamespace,
@@ -85,6 +86,7 @@ export const FieldRowItem = <FormData extends {}>(props: Props<FormData>) => {
         data={data}
         field={field as SingleFormField<FormData>}
         fieldIndex={fieldIndex}
+        formFieldOptions={formFieldOptions}
         localeNamespace={localeNamespace}
         style={style}
       />

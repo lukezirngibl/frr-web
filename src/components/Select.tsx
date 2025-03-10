@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ReactSelect, { OptionProps, StylesConfig, components, createFilter } from 'react-select'
-import styled from 'styled-components'
+import styled, { CSSProperties } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { Div, Option, OptionType, Options } from '../html'
 import { Language } from '../theme/language'
@@ -21,6 +21,8 @@ import { MdDone } from '../icons/new/MdDone'
 
 type Value = string | number | null
 
+type SelectOptionType = OptionType<Value> & { selectedIconStyle?: CSSProperties }
+
 type InternalOption = {
   CustomComponent?: React.ReactNode
   label?: string
@@ -28,6 +30,7 @@ type InternalOption = {
   value: Value
   isDisabled?: boolean
   isLabelTranslated?: boolean
+  selectedIconStyle?: CSSProperties
 }
 
 type Priority = Array<string | number>
@@ -86,6 +89,7 @@ export const Select = (props: Props) => {
       language: i18n.language,
       options: props.options,
       priority: props.priority,
+      selectedIconStyle: getInlineStyle('optionSelectedIcon').style as any,
       t: t as Translate,
       value,
     }),
@@ -99,6 +103,7 @@ export const Select = (props: Props) => {
         language: i18n.language,
         options: props.options,
         priority: props.priority,
+        selectedIconStyle: getInlineStyle('optionSelectedIcon').style as any,
         t: t as Translate,
         value,
       }),
@@ -200,6 +205,7 @@ export const Select = (props: Props) => {
                 ),
               )}
             </SelectWrapper>
+
             <MdOutlineExpandMore width={24} {...getInlineStyle({ icon: true, iconMobile: true })} />
           </>
         ) : (
@@ -250,6 +256,7 @@ export const getOptions = (params: {
   language: string
   options: Options<Value> | ((lan: Language) => Options<Value>)
   priority?: Priority
+  selectedIconStyle?: CSSProperties
   t: Translate
   value?: Value | null
 }): Options<Value> => {
@@ -260,11 +267,12 @@ export const getOptions = (params: {
     ? translatedOptions.filter((option) => !priority.includes(option.value))
     : translatedOptions
 
-  const mapOption = (option: OptionType<Value>) => ({
+  const mapOption = (option: OptionType<Value> & { selectedIconStyle?: CSSProperties }) => ({
     disabled: option.disabled,
     isLabelTranslated: true,
     label: option.isLabelTranslated ? option.label : t(option.label),
     name: option.name || option.label,
+    selectedIconStyle: params.selectedIconStyle,
     value: option.value,
   })
 
@@ -332,7 +340,9 @@ export const SelectOption = (props: OptionProps<InternalOption> & { value: Value
     <div data-test-id={dataTestId}>
       <components.Option {...props} data-test-id={dataTestId}>
         <OptionValueWrapper>
-          {props.isSelected && <MdDone className="selected-icon" width={18} />}
+          {props.isSelected && (
+            <MdDone className="selected-icon" style={props.data.selectedIconStyle} width={18} />
+          )}
           {props.data.CustomComponent || props.children}
         </OptionValueWrapper>
       </components.Option>
@@ -367,6 +377,7 @@ export const mapReactSelectStyles =
     const iconStyle = getInlineStyle('icon').style as any
     const menuPortalStyle = getInlineStyle('menuPortal').style as any
     const menuStyle = getInlineStyle('menu').style as any
+    const menuListStyle = getInlineStyle('menuList').style as any
     const optionStyle = getInlineStyle('option').style as any
     const optionStyleHover = getInlineStyle('optionHover').style as any
     const optionStyleActive = getInlineStyle('optionActive').style as any
@@ -388,17 +399,19 @@ export const mapReactSelectStyles =
       control: () => {
         return selectStyle
       },
-      dropdownIndicator: (provided) => {
+      dropdownIndicator: (provided, state) => {
         return {
           ...provided,
+          transition: 'color 300ms, opacity 300ms, transform 300ms',
+          transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
           ...iconStyle,
-          transition: 'color 1.5s, opacity 1.5s',
           ':hover': {
             color: 'var(--color-primary)',
             opacity: 1.0,
           },
         }
       },
+
       menuPortal: (provided) => ({
         ...provided,
         ...menuPortalStyle,
@@ -409,6 +422,10 @@ export const mapReactSelectStyles =
         boxShadow: '1px 2px 4px rgba(0, 0, 0, 0.3)',
         zIndex: 999,
         ...menuStyle,
+      }),
+      menuList: (provided) => ({
+        ...provided,
+        ...menuListStyle,
       }),
       option: (provided, state) => {
         const style = {

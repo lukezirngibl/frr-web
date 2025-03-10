@@ -33,6 +33,7 @@ import { FormTheme } from '../../theme/theme.form'
 import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
 import { AddressParams, AddressResponse } from './FieldAutocompleteAddress'
+import { SearchDropdownProps } from '../../components/SearchDropdown'
 
 export enum FieldInputType {
   Street = 'StreetName',
@@ -91,6 +92,7 @@ export enum FormFieldType {
   TextInputDescription = 'TextInputDescription',
   TextNumber = 'TextNumber',
   TextSelect = 'TextSelect',
+  TextSearch = 'TextSearch',
   Toggle = 'Toggle',
   YesNoOptionGroup = 'YesNoOptionGroup',
   YesNoRadioGroup = 'YesNoRadioGroup',
@@ -270,7 +272,15 @@ export type TextInputAutosuggestField<FormData> = FormInput<
   NullableAndUndefinabledLens<FormData, string>,
   FormFieldType.TextInputAutosuggest
 >
+
 export type TextInputSuggestions = Suggestions
+
+export type TextSearchField<FormData> = FormInput<
+  NullableAndUndefinabled<string>,
+  SearchDropdownProps,
+  NullableAndUndefinabledLens<FormData, string>,
+  FormFieldType.TextSearch
+>
 
 export type TextSelectField<FormData> = FormInput<
   NullableAndUndefinabled<string> | NullableAndUndefinabled<number>,
@@ -289,6 +299,7 @@ export type MaskedInputField<FormData> = FormInput<
 export type StaticField<FormData> = StaticFieldProps & {
   type: FormFieldType.Static
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
 }
 
 export type YesNoOptionGroupField<FormData> = FormInput<
@@ -367,6 +378,7 @@ export type CustomField<FormData> = FormInput<
 type CommonFieldProps<FormData> = {
   isDisabled?: boolean
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   isInitialeEmptyString?: boolean
   itemStyle?: CSSProperties
   maxwidth?: number
@@ -418,6 +430,7 @@ export const fieldMap = {
   [FormFieldType.TextInputAutosuggest]: null as TextInputAutosuggestField<unknown>,
   [FormFieldType.TextInputDescription]: null as StaticField<unknown>,
   [FormFieldType.TextNumber]: null as TextNumberInputField<unknown>,
+  [FormFieldType.TextSearch]: null as TextSearchField<unknown>,
   [FormFieldType.TextSelect]: null as TextSelectField<unknown>,
   [FormFieldType.Toggle]: null as ToggleField<unknown>,
   [FormFieldType.YesNoOptionGroup]: null as YesNoOptionGroupField<unknown>,
@@ -449,6 +462,7 @@ export type SingleFormField<FormData> = (
   | TextInputAutosuggestField<FormData>
   | TextInputField<FormData>
   | TextNumberInputField<FormData>
+  | TextSearchField<FormData>
   | TextSelectField<FormData>
   | ToggleField<FormData>
   | YesNoOptionGroupField<FormData>
@@ -459,29 +473,28 @@ export type SingleFormField<FormData> = (
 export type MultiInputField<FormData> = {
   fields: Array<SingleFormField<FormData>>
   isVisible?: IsVisibleFn<FormData>
-  itemStyle?: CSSProperties
+  isVisibleReadonly?: IsVisibleFn<FormData>
   label?: LabelProps
   type: FormFieldType.MultiInput
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
+  readOnlyOptions?: { isFullWidth?: boolean }
+  style?: Partial<FormTheme['fieldMultiInput']>
 }
 
 export type MultiInputAutosuggestField<FormData> = {
   type: FormFieldType.MultiInputAutosuggest
   fields: Array<TextInputAutosuggestField<FormData> & CommonFieldProps<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   label?: LabelProps
-  itemStyle?: CSSProperties
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
+  style?: Partial<FormTheme['fieldMultiInput']>
+  readOnlyOptions?: { isFullWidth?: boolean }
 }
 
 export type MultiInputAutosuggestAddressField<FormData> = {
   type: FormFieldType.AutocompleteAddress
   firstRow: {
     label?: LabelProps
+    style?: Partial<FormTheme['fieldMultiInput']>
     fields: Array<
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
@@ -489,17 +502,16 @@ export type MultiInputAutosuggestAddressField<FormData> = {
   }
   secondRow?: {
     label?: LabelProps
+    style?: Partial<FormTheme['fieldMultiInput']>
     fields: Array<
       TextInputAutosuggestField<FormData> &
         CommonFieldProps<FormData> & { fieldInputType: FieldInputType }
     >
   }
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   loadAddressSuggestions: (params: AddressParams) => Promise<Array<AddressResponse>>
-  readOnlyOptions?: {
-    isFullWidth?: boolean
-  }
-  itemStyle?: CSSProperties
+  readOnlyOptions?: { isFullWidth?: boolean }
 }
 
 export type FormFieldRow<FormData> = Array<SingleFormField<FormData>>
@@ -529,6 +541,7 @@ export type FormFieldGroup<FormData> = {
   descriptionList?: Array<string>
   fields: Array<GroupField<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   style?: Partial<FormTheme['group']>
   title?: string
   type: FormFieldType.FormFieldGroup
@@ -541,6 +554,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   fields: Array<RepeatFormField<FormData>>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
 }
 
 export type InternalSectionField<FormData> =
@@ -568,6 +582,7 @@ export type InternalSectionFields<FormData> = Array<InternalSectionField<FormDat
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   fields: Array<RepeatFormField<FormData>>
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
@@ -597,6 +612,7 @@ export type FormSection<FormData> = {
   introduction?: string
   introductionReadOnly?: string
   isVisible?: IsVisibleFn<FormData>
+  isVisibleReadonly?: IsVisibleFn<FormData>
   isOnEditDisabled?: boolean
   editLabel?: string
   onEdit?: () => void
@@ -642,12 +658,17 @@ export type FormField<FormData> =
   | FormFieldRepeatGroup<FormData>
   | FormFieldRepeatSection<FormData>
 
+export type FormFieldOptions = {
+  showMultiInputFieldLabels?: boolean
+}
+
 export type CommonThreadProps<FormData> = {
   autoFocus: boolean
   data: FormData
   errorFieldId?: string
   fieldIndex: number
   formReadOnly: boolean
+  formFieldOptions: FormFieldOptions
   localeNamespace?: LocaleNamespace
   onChange: (lens: FormLens<FormData, any>, value: any) => void
   onChangeMulti?: OnChangeMulti<FormData>

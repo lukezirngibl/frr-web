@@ -1,11 +1,12 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
-import { OptionType, Options, P } from '../html'
+import { Div, Img, OptionType, Options, P } from '../html'
 import { ComponentTheme, useComponentTheme, useCSSStyles } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
+import { RadioOptionItem } from './RadioGroup'
 
 export type Props = {
   dataTestId?: string
@@ -72,15 +73,30 @@ export const OptionGroup = (props: Props) => {
             tabIndex={-1}
           >
             {item.CustomElement || (
-              <P
-                {...getCSSStyles({
-                  label: true,
-                  labelActive: item.value === props.value,
-                })}
-                label={item.label}
-                data={item.labelData}
-                localeNamespace={props.localeNamespace}
-              />
+              <>
+                <Div {...getCSSStyles('itemRadioCircle')}>
+                  <RadioOptionItem
+                    dataTestId={'option'}
+                    error={props.error}
+                    isActive={item.value === props.value}
+                    // isFocused={isFocused && itemIndex === focusedIndex}
+                    localeNamespace={props.localeNamespace}
+                    option={{ value: item.value }}
+                    optionIndex={itemIndex}
+                    style={props.style}
+                  />
+                </Div>
+
+                <P
+                  {...getCSSStyles({
+                    label: true,
+                    labelActive: item.value === props.value,
+                  })}
+                  label={item.label}
+                  data={item.labelData}
+                  localeNamespace={props.localeNamespace}
+                />
+              </>
             )}
           </Item>
         ))}
@@ -88,7 +104,6 @@ export const OptionGroup = (props: Props) => {
     </>
   )
 }
-
 
 const Wrapper = createStyled(styled.div`
   display: flex;

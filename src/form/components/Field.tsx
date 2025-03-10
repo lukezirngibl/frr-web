@@ -26,6 +26,7 @@ import { SingleFileInput } from '../../components/fileUpload/SingleFileInput'
 import { MultiFileInput } from '../../components/fileUpload/MultiFileInput'
 import { LocaleNamespace } from '../../translation'
 import { FormFieldType, SingleFormField } from './types'
+import { SearchDropdown } from '../../components/SearchDropdown'
 
 // import { CheckboxGroup } from '../../components/CheckboxGroup'
 // import { Dropdown } from '../../components/Dropdown'
@@ -73,6 +74,8 @@ export const Field = <FormData extends {}>({
       errorLabel,
       errorDataTestId: `${field.lens.id()}.error`,
       localeNamespace,
+      hasActiveState: true,
+      isSet: field.lens.get(data) > '',
       ...label,
     }
   }
@@ -134,6 +137,25 @@ export const Field = <FormData extends {}>({
     )
   }
 
+  if (field.type === FormFieldType.TextSearch) {
+    const { lens, validate, required, ...fieldProps } = field
+    return (
+      <SearchDropdown
+        {...fieldProps}
+        dataTestId={dataTestId}
+        error={hasError}
+        key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
+        inputRef={inputRef}
+        label={label}
+        localeNamespace={localeNamespace}
+        onBlur={onBlur}
+        onChange={onChange}
+        onFocus={onFocus}
+        value={lens.get(data)}
+      />
+    )
+  }
+
   if (field.type === FormFieldType.MaskedInput) {
     const { type, lens, validate, required, ...fieldProps } = field
     return (
@@ -161,7 +183,7 @@ export const Field = <FormData extends {}>({
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         value={lens.get(data)}
         onChange={onBlur}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
         dataTestId={dataTestId}
       />
     )
@@ -261,7 +283,7 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         hasFocus={hasFocus}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
         localeNamespace={localeNamespace}
         onChange={onBlur}
         value={lens.get(data)}
@@ -295,7 +317,7 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
@@ -313,7 +335,7 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
@@ -331,7 +353,7 @@ export const Field = <FormData extends {}>({
         dataTestId={dataTestId}
         error={hasError}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
         localeNamespace={localeNamespace}
         onChange={onBlur}
         onFocus={onFocus}
@@ -350,7 +372,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data)}
         onChange={onBlur}
         error={hasError}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
       />
     )
   }
@@ -378,7 +400,7 @@ export const Field = <FormData extends {}>({
         value={lens.get(data)}
         onChange={onBlur}
         error={hasError}
-        label={label}
+        label={{ ...label, hasActiveState: false, isSet: false }}
       />
     )
   }

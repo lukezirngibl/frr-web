@@ -1,4 +1,4 @@
-import { format, formatISO, isValid, parse } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
 import { useMobileTouch } from '../hooks/useMobileTouch'
 import { mapLanguageToLocale, mapLanguageToLocaleString } from '../theme/language'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { MaskedInput } from './MaskedInput'
 import { TextInput } from './TextInput'
 
+import { Div } from '../html'
 import { MdOutlineCalendarToday } from '../icons/new/MdOutlineCalendarToday'
 import {
   ComponentTheme,
@@ -20,7 +20,6 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { Div } from '../html'
 
 export type Props = {
   /**
@@ -237,7 +236,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
-                  {...props.datePickerProps}
+                  // {...props.datePickerProps}
                 />
               </DatePickerCalendarWrapper>
             </>

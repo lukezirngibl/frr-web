@@ -90,6 +90,7 @@ export type Props = {
   fieldInputType?: FieldInputType
   forceRefreshValue?: number
   loadingMessage?: string
+  menuIsToTheLeft?: boolean
   noOptionsMessage?: string
   onLoadSuggestions: (value: string) => Promise<Options<Option>>
   onSuggestionSelected?: (suggestion: Option) => void
@@ -179,6 +180,7 @@ export const TextInputAutosuggest = (props: Props) => {
         loadingMessage={props.loadingMessage}
         localeNamespace={props.localeNamespace}
         menuIsOpen={state.isOpen}
+        menuIsToTheLeft={props.menuIsToTheLeft}
         menuPortalTarget={document.body}
         menuShouldBlockScroll
         name={props.name}
@@ -202,6 +204,7 @@ export interface AutosuggestMenuProps {
   loadingMessage?: string
   localeNamespace?: LocaleNamespace
   menuIsOpen?: boolean
+  menuIsToTheLeft?: boolean
   menuPortalTarget?: HTMLElement
   menuShouldBlockScroll?: boolean
   name: string
@@ -320,8 +323,9 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
   // positioning behaviour is almost identical for portalled and fixed,
   // so we use the same component. the actual portalling logic is forked
   // within the component based on `menuPosition`
+
   return (
-    <StlyedContainer ref={controlRef}>
+    <StlyedContainer ref={controlRef} $menuIsToTheLeft={props.menuIsToTheLeft}>
       {props.menuPortalTarget ? (
         <MenuPortal
           {...commonProps}
@@ -343,10 +347,10 @@ const AutosuggestMenu = (props: AutosuggestMenuProps) => {
 // Styled components
 // ==============================
 
-const StlyedContainer = styled.div`
+const StlyedContainer = styled.div<{ $menuIsToTheLeft?: boolean }>`
   position: absolute;
   width: 100%;
-  min-width: 240px;
-  left: 0;
+  min-width: 360px;
   bottom: 0;
+  ${({ $menuIsToTheLeft }) => $menuIsToTheLeft ? 'right: 0;' : 'left: 0;'}
 `

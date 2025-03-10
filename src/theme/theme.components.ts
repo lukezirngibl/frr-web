@@ -44,16 +44,20 @@ export type ComponentTheme = {
     descriptionIcon: CSSProperties
     descriptionIconWrapper: CSSProperties
     descriptionPopup: CSSProperties
+    descriptionPopupOverflow: CSSProperties
     descriptionText: CSSProperties
     errorIcon: CSSProperties
+    errorLabelWrapper: CSSProperties
+    errorLabelTextWrapper: CSSProperties
     errorLabel: CSSProperties
     errorButton: CSSProperties
     errorButtonIcon: CSSProperties
     labelText: CSSProperties
     labelTextError: CSSProperties
-    labelTextFocus: CSSProperties
+    labelTextActive: CSSProperties
     labelTextWrapper: CSSProperties
     sublabelText: CSSProperties
+    sublabelTextActive: CSSProperties
     wrapper: CSSProperties
   }
   textInput: {
@@ -117,9 +121,11 @@ export type ComponentTheme = {
     iconMobile: CSSProperties
     menuPortal: CSSProperties
     menu: CSSProperties
+    menuList: CSSProperties
     option: CSSProperties
     optionActive: CSSProperties
     optionHover: CSSProperties
+    optionSelectedIcon: CSSProperties
     placeholder: CSSProperties
     select: CSSProperties
     value: CSSProperties
@@ -160,6 +166,7 @@ export type ComponentTheme = {
     itemActive: CSSProperties
     itemFocus: CSSProperties
     itemDisabled: CSSProperties
+    itemRadioCircle: CSSProperties
     label: CSSProperties
     labelActive: CSSProperties
     errorWrapper: CSSProperties
@@ -215,15 +222,11 @@ export type ComponentTheme = {
     itemLabel: CSSProperties
   }
   icon: {
-    edit: {
-      svg?: string
-    }
-    info: {
-      svg?: string
-    }
-    settings: {
-      svg?: string
-    }
+    contact: { svg?: string }
+    edit: { svg?: string }
+    info: { svg?: string }
+    language: { svg?: string }
+    settings: { svg?: string }
   }
   modal: {
     outerWrapper: CSSProperties
@@ -253,17 +256,18 @@ export type ComponentTheme = {
     descriptionText: CSSProperties
   }
   navigation: {
-    carrot: CSSProperties
     item: CSSProperties
     itemActive: CSSProperties
-    itemCircle: CSSProperties
-    itemCircleActive: CSSProperties
     itemStepIndicator: CSSProperties
+    itemStepSeparator: CSSProperties
     itemTitle: CSSProperties
     itemTitleWrapper: CSSProperties
     itemLabel: CSSProperties
     itemLabelActive: CSSProperties
     itemNumber: CSSProperties
+    itemNumberActive: CSSProperties
+    itemNumberCompleted: CSSProperties
+    itemIcon: CSSProperties
     itemWrapper: CSSProperties
     wrapperInner: CSSProperties
     wrapperOuter: CSSProperties
@@ -272,6 +276,8 @@ export type ComponentTheme = {
     progressBarCompleted: CSSProperties
     progressBarError: CSSProperties
     progressBarWarning: CSSProperties
+    progressBarFirst: CSSProperties
+    progressBarLast: CSSProperties
     itemLabelCompleted: CSSProperties
   }
   loading: {
@@ -409,16 +415,20 @@ export const defaultComponentTheme: ComponentTheme = {
     descriptionIcon: {},
     descriptionIconWrapper: {},
     descriptionPopup: {},
+    descriptionPopupOverflow: {},
     descriptionText: {},
     errorIcon: {},
+    errorLabelWrapper: {},
+    errorLabelTextWrapper: {},
     errorLabel: {},
     errorButton: {},
     errorButtonIcon: {},
     labelText: {},
     labelTextError: {},
-    labelTextFocus: {},
+    labelTextActive: {},
     labelTextWrapper: {},
     sublabelText: {},
+    sublabelTextActive: {},
     wrapper: {},
   },
   textInput: {
@@ -487,9 +497,11 @@ export const defaultComponentTheme: ComponentTheme = {
     iconMobile: {},
     menuPortal: {},
     menu: {},
+    menuList: {},
     option: {},
     optionActive: {},
     optionHover: {},
+    optionSelectedIcon: {},
     placeholder: {},
     select: {},
     value: {},
@@ -530,6 +542,7 @@ export const defaultComponentTheme: ComponentTheme = {
     itemActive: {},
     itemFocus: {},
     itemDisabled: {},
+    itemRadioCircle: {},
     label: {},
     labelActive: {},
     errorWrapper: {},
@@ -572,22 +585,25 @@ export const defaultComponentTheme: ComponentTheme = {
     input: {},
   },
   icon: {
+    contact: {},
     edit: {},
     info: {},
+    language: {},
     settings: {},
   },
   navigation: {
-    carrot: {},
     item: {},
     itemActive: {},
-    itemCircle: {},
-    itemCircleActive: {},
     itemStepIndicator: {},
+    itemStepSeparator: {},
     itemTitle: {},
     itemTitleWrapper: {},
     itemLabel: {},
     itemLabelActive: {},
     itemNumber: {},
+    itemNumberActive: {},
+    itemNumberCompleted: {},
+    itemIcon: {},
     itemWrapper: {},
     wrapperInner: {},
     wrapperOuter: {},
@@ -596,6 +612,8 @@ export const defaultComponentTheme: ComponentTheme = {
     progressBarCompleted: {},
     progressBarError: {},
     progressBarWarning: {},
+    progressBarFirst: {},
+    progressBarLast: {},
     itemLabelCompleted: {},
   },
   loading: {

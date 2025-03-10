@@ -41,6 +41,7 @@ export const FieldSectionCard = <FormData extends {}>({
   data,
   field: fieldSection,
   fieldIndex: fieldSectionIndex,
+  formFieldOptions,
   localeNamespace,
   style,
 }: FieldSectionCardProps<FormData>) => {
@@ -53,6 +54,7 @@ export const FieldSectionCard = <FormData extends {}>({
     data,
     localeNamespace,
     showValidation: false,
+    formFieldOptions,
     formReadOnly: true,
     onChange: () => {},
     style,

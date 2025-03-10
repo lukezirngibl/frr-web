@@ -13,7 +13,6 @@ import {
   useCSSStyles,
   useInlineStyle,
 } from '../theme/theme.components'
-import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { TextInput } from './TextInput'
@@ -178,7 +177,7 @@ export const DatePicker = (props: Props) => {
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
-                  {...props.datePickerProps}
+                  // {...props.datePickerProps}
                 />
               </DatePickerCalendarWrapper>
             </>

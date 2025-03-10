@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
-import ClickAwayListener from 'react-click-away-listener'
 import { useTranslation } from 'react-i18next'
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Div, LabelText, P } from '../html'
+import { PFExclamationMarkIcon } from '../icons/new/PFExclamationMark'
 import {
   ComponentTheme,
   useComponentTheme,
@@ -11,9 +11,12 @@ import {
 } from '../theme/theme.components'
 import { createStyled } from '../theme/util'
 import { LocaleNamespace } from '../translation'
-import { MdErrorOutline } from '../icons/new/MdErrorOutline'
-import { Button, ButtonType } from './Button'
+import { LabelPopup } from './LabelPopup'
 import { Link } from './Link'
+
+/*
+ * Label
+ */
 
 export type LabelProps = {
   description?: LabelText
@@ -27,6 +30,8 @@ export type LabelProps = {
     onClick: () => void
     label: string
   }
+  hasActiveState?: boolean // Controls whether the label is shown differently when focused or set
+  isSet?: boolean
   isFocused?: boolean
   label: LabelText
   labelData?: Record<string, string | number>
@@ -65,11 +70,23 @@ export const Label = (props: LabelProps) => {
   return (
     <Div {...getCSSStyles('wrapper')}>
       <Div {...getCSSStyles('labelTextWrapper')}>
+        {props.error && (
+          <Span {...getCSSStyles('errorIcon')}>
+            <PFExclamationMarkIcon
+              color="currentColor"
+              width={24}
+              onClick={() => {
+                setOpen(!open)
+              }}
+            />
+          </Span>
+        )}
+
         <P
           {...getCSSStyles({
             labelText: true,
+            labelTextActive: props.hasActiveState && (props.isFocused || props.isSet),
             labelTextError: props.error,
-            labelTextFocus: props.isFocused,
           })}
           label={props.label}
           localeNamespace={props.localeNamespace}
@@ -84,32 +101,17 @@ export const Label = (props: LabelProps) => {
               />
             ) : null
           }
-          children={
-            props.error ? (
-              <Span {...getCSSStyles('errorIcon')}>
-                <MdErrorOutline
-                  color="currentColor"
-                  width={20}
-                  onClick={() => {
-                    setOpen(!open)
-                  }}
-                />
-              </Span>
-            ) : undefined
-          }
         />
 
-        {open && description && (
-          <ClickAwayListener onClickAway={() => setOpen(false)}>
-            <DescriptionPopup onClick={() => setOpen(false)} {...getCSSStyles('descriptionPopup')}>
-              <P
-                {...getCSSStyles('descriptionText')}
-                label={description}
-                localeNamespace={props.localeNamespace}
-                data={props.descriptionData}
-              />
-            </DescriptionPopup>
-          </ClickAwayListener>
+        {description && (
+          <LabelPopup open={open} onClose={() => setOpen(false)} style={props.style?.descriptionPopup}>
+            <P
+              {...getCSSStyles('descriptionText')}
+              label={description}
+              localeNamespace={props.localeNamespace}
+              data={props.descriptionData}
+            />
+          </LabelPopup>
         )}
       </Div>
 
@@ -117,6 +119,7 @@ export const Label = (props: LabelProps) => {
         <P
           {...getCSSStyles({
             sublabelText: true,
+            sublabelTextActive: props.hasActiveState && (props.isFocused || props.isSet),
             errorLabel: props.error,
           })}
           label={props.sublabel}
@@ -124,9 +127,9 @@ export const Label = (props: LabelProps) => {
           data={props.sublabelData}
         />
       )}
-      <ErrorText $error={props.error}>
+      <ErrorText $error={props.error} {...getCSSStyles('errorLabelWrapper')}>
         {props.error && (
-          <>
+          <Div {...getCSSStyles('errorLabelTextWrapper')}>
             {errorLabels.map((errorLabel) => (
               <P
                 key={errorLabel}
@@ -155,31 +158,14 @@ export const Label = (props: LabelProps) => {
               ) : (
                 <>{props.renderChildren}</>
               ))}
-          </>
+          </Div>
         )}
       </ErrorText>
     </Div>
   )
 }
 
-const DescriptionPopupAnimation = keyframes`
-  from {
-    opacity: 0;
-    transform-origin: top center;
-    transform: scale(0, 0);
-  }
-  to {
-    opacity: 1;
-    transform-origin: top center;
-    transform: scale(1, 1);
-  }
-`
-
 const Span = createStyled('span')
-
-const DescriptionPopup = createStyled(styled.div`
-  animation: ${DescriptionPopupAnimation} 0.12s ease-out;
-`)
 
 const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string }>`
   & svg {
@@ -191,8 +177,8 @@ const DescriptionIconWrapper = createStyled(styled.span<{ $svgCSSStyles: string 
   }
 `)
 
-const ErrorText = styled.div<{ $error: boolean }>`
+const ErrorText = createStyled(styled.div<{ $error: boolean }>`
   height: auto;
   max-height: ${(props) => (props.$error ? '72px' : '0')};
   transition: max-height 0.15s;
-`
+`)
