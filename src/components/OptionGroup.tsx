@@ -15,6 +15,7 @@ export type Props = {
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
+  isAutoSetEnabled?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
@@ -46,10 +47,13 @@ export const OptionGroup = (props: Props) => {
 
   // Directly select option if only one exists
   useEffect(() => {
-    if (props.options.length === 1 && !props.options.some((option) => option.value === props.value)) {
+    if (
+      props.isAutoSetEnabled && props.options.length === 1 &&
+      !props.options.some((option) => option.value === props.value)
+    ) {
       onChange(props.options[0])
     }
-  }, [props.value, props.options])
+  }, [props.isAutoSetEnabled, props.value, props.options])
 
   return (
     <>
