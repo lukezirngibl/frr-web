@@ -44,6 +44,7 @@ export type Props = {
   onChange: (value: string) => void
   onFocus?: () => void
   onBlur: (value: string) => void
+  readOnly?: boolean
   style?: Partial<ComponentTheme['datePicker']>
   maskInput?: {
     alwaysShowMask?: boolean

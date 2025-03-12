@@ -29,6 +29,7 @@ export type Props = {
   localeNamespace?: LocaleNamespace
   onChange: (value: Date) => void
   onBlur: (value: Date) => void
+  readOnly?: boolean
   style?: Partial<ComponentTheme['datePicker']>
   value: Date | null
 }
