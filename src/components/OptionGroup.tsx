@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react'
+import React, { ReactNode, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components'
 import { useGroupFocus } from '../hooks/useGroupFocus'
 import { Div, Img, OptionType, Options, P } from '../html'
@@ -8,17 +8,20 @@ import { LocaleNamespace } from '../translation'
 import { Label, LabelProps } from './Label'
 import { RadioOptionItem } from './RadioGroup'
 
+export type OptionGroupOptions = Array<OptionType<string | number> & { CustomElement?: ReactNode }>
+
 export type Props = {
   dataTestId?: string
   disabled?: boolean
   error?: boolean
   hasFocus?: boolean
+  isAutoSetEnabled?: boolean
   label?: LabelProps
   localeNamespace?: LocaleNamespace
   onChange: (v: string | number) => void
   onFocus?: () => void
   onBlur?: (v: string | number) => void
-  options: Array<OptionType<string | number> & { CustomElement?: ReactNode }>
+  options: OptionGroupOptions
   style?: Partial<ComponentTheme['optionGroup']>
   value: string | number | null
 }
@@ -41,6 +44,16 @@ export const OptionGroup = (props: Props) => {
       onFocus()
     }
   }, [props.hasFocus])
+
+  // Directly select option if only one exists
+  useEffect(() => {
+    if (
+      props.isAutoSetEnabled && props.options.length === 1 &&
+      !props.options.some((option) => option.value === props.value)
+    ) {
+      onChange(props.options[0])
+    }
+  }, [props.isAutoSetEnabled, props.value, props.options])
 
   return (
     <>

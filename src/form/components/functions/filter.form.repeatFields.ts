@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { processRepeatSection } from '../../util'
 import { FormField, FormFieldRepeatGroup, FormFieldRepeatSection, FormFieldType } from '../types'
 import { FilterParams } from './filter.form'
@@ -36,11 +37,14 @@ export const filterChangedRepeatFormFields = <T>({ data, formFields, translate }
     .map((field: FormFieldRepeatSection<T>) => {
       const length = field.length.get(data) as number
       const list = field.lens.get(data) as Array<any>
+
+      const value = Array.from({
+        length,
+      }).map((_value, index) => list[index] || field.defaultValue)
+
       return {
         field,
-        value: Array.from({
-          length,
-        }).map((_, index) => list[index]),
+        value,
       }
     })
 
@@ -49,9 +53,7 @@ export const filterChangedRepeatFormFields = <T>({ data, formFields, translate }
     const list = field.lens.get(data) as Array<any>
     return {
       field,
-      value: Array.from({
-        length,
-      }).map((_, index) => list[index]),
+      value: Array.from({ length }, (_, index) => list[index]),
     }
   })
 

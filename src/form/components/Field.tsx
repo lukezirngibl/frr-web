@@ -328,12 +328,16 @@ export const Field = <FormData extends {}>({
   }
 
   if (field.type === FormFieldType.OptionGroup) {
-    const { lens, validate, ...fieldProps } = field
+    const { lens, options, validate, ...fieldProps } = field
+
+    const groupOptions = typeof options === 'function' ? options({ data }) : options
+
     return (
       <OptionGroup
         {...fieldProps}
         dataTestId={dataTestId}
         error={hasError}
+        options={groupOptions}
         key={typeof fieldIndex === 'string' ? fieldIndex : `field-${fieldIndex}`}
         label={{ ...label, hasActiveState: false, isSet: false }}
         localeNamespace={localeNamespace}
