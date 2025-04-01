@@ -1,5 +1,6 @@
 import { format, isValid, parse } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -104,7 +105,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
   }, [language])
 
   const [isFocused, setIsFocused] = useState(false)
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   /* Icon Styles */
 
@@ -134,7 +135,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
   const parsedDate = parseDate(props.value, dateFormat)
 
   return (
-    <>
+    <div>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
 
       <ClickAwayListener
@@ -195,6 +196,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
 
                     if (testValue !== 'Invalid Date') {
                       props.onBlur(String(testValue))
+                      
                     } else {
                       props.onBlur(null)
                     }
@@ -244,7 +246,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
           )}
         </Div>
       </ClickAwayListener>
-    </>
+    </div>
   )
 }
 

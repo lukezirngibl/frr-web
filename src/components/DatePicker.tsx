@@ -104,6 +104,37 @@ export const DatePicker = (props: Props) => {
         }}
       >
         <Div {...getStyle('wrapper')}>
+          <TextInput
+            dataTestId={props.dataTestId}
+            error={props.error}
+            hasFocus={props.hasFocus}
+            inputType={'text'}
+            localeNamespace={props.localeNamespace}
+            onChange={() => {}}
+            onBlur={(v: any) => {
+              try {
+                const dateValue = parseDate(v)
+
+                if (dateValue === 'Invalid Date') {
+                  throw 'Invalid Date'
+                }
+
+                props.onBlur(dateValue as Date)
+              } catch (err) {
+                const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
+
+                if (testValue !== 'Invalid Date') {
+                  props.onBlur(testValue as Date)
+                } else {
+                  props.onBlur(null)
+                }
+              }
+            }}
+            placeholder={'dateFormatPlaceholder'}
+            style={textInputStyle}
+            value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
+          />
+          
           {isMobileTouch ? (
             <TextInput
               dataTestId={props.dataTestId}
@@ -123,37 +154,6 @@ export const DatePicker = (props: Props) => {
             />
           ) : (
             <>
-              <TextInput
-                dataTestId={props.dataTestId}
-                error={props.error}
-                hasFocus={props.hasFocus}
-                inputType={'text'}
-                localeNamespace={props.localeNamespace}
-                onChange={() => {}}
-                onBlur={(v: any) => {
-                  try {
-                    const dateValue = parseDate(v)
-
-                    if (dateValue === 'Invalid Date') {
-                      throw 'Invalid Date'
-                    }
-
-                    props.onBlur(dateValue as Date)
-                  } catch (err) {
-                    const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
-
-                    if (testValue !== 'Invalid Date') {
-                      props.onBlur(testValue as Date)
-                    } else {
-                      props.onBlur(null)
-                    }
-                  }
-                }}
-                placeholder={'dateFormatPlaceholder'}
-                style={textInputStyle}
-                value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
-              />
-
               <Div
                 onClick={() => {
                   setOpen(!open)
