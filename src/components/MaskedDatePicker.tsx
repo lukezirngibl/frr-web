@@ -212,13 +212,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                 value={value}
               />
 
-              <Div
-                onClick={() => {
-                  console.log('DATE INPUT REF', { dateRef: dateInputRef.current })
-                  dateInputRef.current?.showPicker()
-                }}
-                {...styleIconWrapper}
-              >
+              <Div onClick={() => dateInputRef.current?.showPicker()} {...styleIconWrapper}>
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
                 <MdOutlineCalendarToday width={16} />
@@ -228,21 +222,19 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                   name="nativeDateInput"
                   type="date"
                   style={{ opacity: 0, width: 0, height: 0 }}
-                  onBlur={(e) => {
-                    console.log('DATE INPUT BLUR', { value: e.target.value })
-                  }}
                   onChange={(e) => {
-                    console.log('DATE INPUT CHANGE', { value: e.target.value })
-                    try {
-                      const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
-                      if (dateValue.toString() === 'Invalid Date') {
+                    if (e.target.value > '') {
+                      try {
+                        const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
+                        if (dateValue.toString() === 'Invalid Date') {
+                          props.onBlur(null)
+                          // resetValue()
+                        } else {
+                          props.onBlur(formatDate(dateValue as Date, dateFormat))
+                        }
+                      } catch (err) {
                         props.onBlur(null)
-                        // resetValue()
-                      } else {
-                        props.onBlur(formatDate(dateValue as Date, dateFormat))
                       }
-                    } catch (err) {
-                      props.onBlur(null)
                     }
                   }}
                   value={value}
