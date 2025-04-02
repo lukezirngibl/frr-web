@@ -228,8 +228,11 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                   name="nativeDateInput"
                   type="date"
                   style={{ opacity: 0, width: 0, height: 0 }}
+                  onBlur={(e) => {
+                    console.log('DATE INPUT BLUR', { value: e.target.value })
+                  }}
                   onChange={(e) => {
-                    console.log('DATE INPUT CHANGE', { e })
+                    console.log('DATE INPUT CHANGE', { value: e.target.value })
                     try {
                       const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
                       if (dateValue.toString() === 'Invalid Date') {
