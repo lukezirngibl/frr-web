@@ -23,6 +23,7 @@ import {
 } from './types'
 
 export const FieldSectionWrapper = (props: {
+  id: string
   dataTestId?: string
   style?: Partial<FormTheme['section']>
   readOnly?: boolean
@@ -37,6 +38,8 @@ export const FieldSectionWrapper = (props: {
       dataTestId={props.dataTestId}
       {...getSectionStyle('wrapper', props.style?.wrapper || {})}
     >
+      {/* anchor to scroll to */}
+      <a id={props.id} />
       {props.children}
     </Div>
   )
@@ -172,7 +175,7 @@ export const FieldSection = <FormData extends {}>({
     }
   }
 
-  const onEditSection = fieldSection.onEdit || onFormEdit
+  const onEditSection = fieldSection.onEdit ? () => fieldSection.onEdit(fieldSection.id) : onFormEdit
 
   const descriptionTypeStyle = fieldSection.descriptionType
     ? ({ [`description${fieldSection.descriptionType}`]: true } as { [key: string]: boolean })
@@ -180,6 +183,7 @@ export const FieldSection = <FormData extends {}>({
 
   return (
     <FieldSectionWrapper
+      id={fieldSection.id}
       key={typeof fieldSectionIndex === 'string' ? fieldSectionIndex : `section-${fieldSectionIndex}`}
       readOnly={formReadOnly}
       dataTestId={fieldSection.dataTestId}

@@ -643,13 +643,14 @@ export type FormSection<FormData> = {
   descriptionType?: DescriptionType
   fieldComponent?: ReactNode
   fields: SectionFields<FormData>
+  id: string
   introduction?: string
   introductionReadOnly?: string
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
   isOnEditDisabled?: boolean
   editLabel?: string
-  onEdit?: () => void
+  onEdit?: (sectionId?: string) => void
   style?: Partial<FormTheme['section']>
   title?: string
   titleData?: any
