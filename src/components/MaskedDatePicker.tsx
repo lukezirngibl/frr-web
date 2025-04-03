@@ -221,7 +221,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                   ref={dateInputRef}
                   name="nativeDateInput"
                   type="date"
-                  style={{ opacity: 0, width: 0, height: 0 }}
+                  style={{ opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
                   onChange={(e) => {
                     if (e.target.value > '') {
                       try {

@@ -615,6 +615,7 @@ export type InternalSectionFields<FormData> = Array<InternalSectionField<FormDat
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   defaultValue?: T,
   fields: Array<RepeatFormField<FormData>>
+  id: string
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
   length: FormLens<FormData, number> | FormLens<FormData, number | null>
