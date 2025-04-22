@@ -185,6 +185,7 @@ export const processRepeatSection = <FormData extends {}>(
     })
 
     return {
+      id: `${fieldRepeatSection.id}-${index}`,
       type: FormFieldType.FormSection,
       title,
       TitleCenterComponent,

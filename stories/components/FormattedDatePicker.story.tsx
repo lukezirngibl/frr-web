@@ -33,6 +33,7 @@ export const Initial = () => (
       },
       fieldIndex: 0,
       formReadOnly: false,
+      formFieldOptions: {},
       style: {},
       data: {
         birthDate,
@@ -57,6 +58,7 @@ export const Readonly = () => (
       },
       fieldIndex: 0,
       formReadOnly: true,
+      formFieldOptions: {},
       style: {},
       data: {
         birthDate: '2000-01-01',

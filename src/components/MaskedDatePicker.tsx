@@ -1,5 +1,6 @@
 import { format, isValid, parse } from 'date-fns'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -85,10 +86,11 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
       wrapper: props.style.inputWrapper,
       disabledInput: props.style.disabledInput,
       errorInput: props.style.errorInput,
-    }) ||
-    (!isMobileTouch && {
+    }) || {
       wrapper: getInlineStyle('inputWrapper').style,
-    }) ||
+    } ||
+    // (!isMobileTouch && {
+    // }) ||
     undefined
 
   const reactDatePickerStyle = theme.datePicker.reactDatePicker || ''
@@ -104,7 +106,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
   }, [language])
 
   const [isFocused, setIsFocused] = useState(false)
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   /* Icon Styles */
 
@@ -133,6 +135,8 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
 
   const parsedDate = parseDate(props.value, dateFormat)
 
+  const dateInputRef = React.useRef<HTMLInputElement>(null)
+
   return (
     <>
       {props.label && <Label {...props.label} isFocused={isFocused} />}
@@ -144,33 +148,99 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
       >
         <Div {...getCSSStyles('wrapper')} onClick={() => {}}>
           {isMobileTouch ? (
-            <TextInput
-              onFocus={() => {
-                setIsFocused(true)
-                props.onFocus?.()
-              }}
-              onBlur={() => setIsFocused(false)}
-              onChange={(v) => {
-                try {
-                  const dateValue = parseDate(v, 'yyyy-MM-dd')
-                  if (dateValue.toString() === 'Invalid Date') {
-                    props.onBlur(null)
-                    // resetValue()
-                  } else {
-                    props.onBlur(formatDate(dateValue as Date, dateFormat))
+            // <TextInput
+            //   onFocus={() => {
+            //     setIsFocused(true)
+            //     props.onFocus?.()
+            //   }}
+            //   onBlur={() => setIsFocused(false)}
+            //   onChange={(v) => {
+            //     try {
+            //       const dateValue = parseDate(v, 'yyyy-MM-dd')
+            //       if (dateValue.toString() === 'Invalid Date') {
+            //         props.onBlur(null)
+            //         // resetValue()
+            //       } else {
+            //         props.onBlur(formatDate(dateValue as Date, dateFormat))
+            //       }
+            //     } catch (err) {
+            //       props.onBlur(null)
+            //     }
+            //   }}
+            //   dataTestId={props.dataTestId}
+            //   error={props.error}
+            //   hasFocus={props.hasFocus}
+            //   inputType="date"
+            //   placeholder="dateFormatPlaceholder"
+            //   style={textInputStyle}
+            //   value={parsedDate !== 'Invalid Date' ? formatDate(parsedDate, 'yyyy-MM-dd') : null}
+            // />
+            <>
+              <MaskedInput
+                hasFocus={props.hasFocus}
+                onFocus={() => {
+                  setIsFocused(true)
+                  props.onFocus?.()
+                }}
+                onBlur={(v: string, resetValue) => {
+                  setIsFocused(false)
+                  try {
+                    const dateValue = parseDate(v, props.displayDateFormat ?? dateFormat)
+
+                    if (dateValue.toString() === 'Invalid Date') {
+                      props.onBlur(null)
+                      resetValue()
+                    } else {
+                      props.onBlur(formatDate(dateValue as Date, dateFormat))
+                    }
+                  } catch (err) {
+                    const testValue = parse(v, dateFormat, new Date()) as Date | 'Invalid Date'
+
+                    if (testValue !== 'Invalid Date') {
+                      props.onBlur(String(testValue))
+                    } else {
+                      props.onBlur(null)
+                    }
                   }
-                } catch (err) {
-                  props.onBlur(null)
-                }
-              }}
-              dataTestId={props.dataTestId}
-              error={props.error}
-              hasFocus={props.hasFocus}
-              inputType="date"
-              placeholder="dateFormatPlaceholder"
-              style={textInputStyle}
-              value={parsedDate !== 'Invalid Date' ? formatDate(parsedDate, 'yyyy-MM-dd') : null}
-            />
+                }}
+                dataTestId={props.dataTestId}
+                error={props.error}
+                localeNamespace={props.localeNamespace}
+                maskInput={maskInput}
+                shouldMoveCursorToStartOnClick={value === null}
+                style={textInputStyle}
+                value={value}
+              />
+
+              <Div onClick={() => dateInputRef.current?.showPicker()} {...styleIconWrapper}>
+                <Div {...styleIconHook1} />
+                <Div {...styleIconHook2} />
+                <MdOutlineCalendarToday width={16} />
+
+                <input
+                  ref={dateInputRef}
+                  name="nativeDateInput"
+                  type="date"
+                  style={{ opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
+                  onChange={(e) => {
+                    if (e.target.value > '') {
+                      try {
+                        const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
+                        if (dateValue.toString() === 'Invalid Date') {
+                          props.onBlur(null)
+                          // resetValue()
+                        } else {
+                          props.onBlur(formatDate(dateValue as Date, dateFormat))
+                        }
+                      } catch (err) {
+                        props.onBlur(null)
+                      }
+                    }
+                  }}
+                  value={value}
+                />
+              </Div>
+            </>
           ) : (
             <>
               <MaskedInput
@@ -209,12 +279,7 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                 value={value}
               />
 
-              <Div
-                onClick={() => {
-                  setOpen(!open)
-                }}
-                {...styleIconWrapper}
-              >
+              <Div onClick={() => setOpen(!open)} {...styleIconWrapper}>
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
                 <MdOutlineCalendarToday width={16} />
