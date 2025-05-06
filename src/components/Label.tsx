@@ -145,7 +145,7 @@ export const Label = (props: LabelProps) => {
 
             {props.errorButton && errorLabels.includes(props.errorButton.errorLabel) && (
               <Link
-                data-test-id={props.errorButton.errorLabel}
+                dataTestId={props.errorButton.errorLabel}
                 icon={{ type: 'edit', style: getCSSStyles('errorButtonIcon') }}
                 onClick={props.errorButton.onClick}
                 label={props.errorButton.label}
