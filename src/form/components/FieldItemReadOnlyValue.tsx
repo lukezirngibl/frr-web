@@ -28,7 +28,7 @@ type MapperParams<T> = {
 }
 
 const defaultStringNumberMapper = ({ value, prefix }: MapperParams<string | number | null>): string =>
-  `${prefix > '' ? `${prefix} ` : ''} ${value ? `${value}` : ''}`
+  `${prefix > '' ? `${prefix} ` : ''}${value ? `${value}` : ''}`
 
 const defaultCountryMapper = ({ value, translate }: MapperParams<string | null>): string =>
   value > '' ? translate(`country.${value.toLowerCase()}`) : ''
@@ -229,9 +229,7 @@ export const FieldItemReadOnlyValue = <FormData extends {}>(
       {...props.getFieldStyle('textAreaItem')}
       onClick={
         props.field.readOnlyOptions?.link
-          ? () => {
-              window.open(props.field.readOnlyOptions?.link, '_blank')
-            }
+          ? () => window.open(props.field.readOnlyOptions?.link, '_blank')
           : undefined
       }
     >
