@@ -1,9 +1,10 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from '../../components/Link'
 import { Div, P } from '../../html'
 import { AiOutlineCheck } from '../../icons/new/AiOutlineCheck'
 import { MdErrorOutline } from '../../icons/new/MdErrorOutline'
+import { MdInfoOutline } from '../../icons/new/MdInfoOutline'
 import { MediaQuery } from '../../theme/configure.theme'
 import { FormTheme, useCSSStyles, useFormTheme } from '../../theme/theme.form'
 import { createStyled } from '../../theme/util'
@@ -248,6 +249,7 @@ export const FieldSection = <FormData extends {}>({
               Icon={
                 (fieldSection.descriptionType === DescriptionType.Success && <AiOutlineCheck />) ||
                 (fieldSection.descriptionType === DescriptionType.Error && <MdErrorOutline />) ||
+                (fieldSection.descriptionType === DescriptionType.Info && <MdInfoOutline />) ||
                 null
               }
             />
