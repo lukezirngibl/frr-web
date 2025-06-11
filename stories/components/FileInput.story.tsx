@@ -20,6 +20,12 @@ const story = createStory<FieldRowItemProps<FormData>, typeof FieldRowItem>(Fiel
 
 const formLens = makeFormLens<FormData>()
 
+enum AcceptedFileTypes {
+  FileList = 'image/jpg, image/jpeg, image/png, image/tiff, application/pdf',
+}
+
+const MaxFileSize = 10000000
+
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/react/api/csf
@@ -34,17 +40,19 @@ export const SingleFileInputStory: Story = {
         field: {
           type: FormFieldType.FileInput,
           lens: formLens(['file']),
-          label: { label: 'Invoice' },
+          label: { label: 'documentUpload.salarySlip.label' },
+          uploadDropzoneProps: {
+            acceptedFileTypes: AcceptedFileTypes.FileList,
+            maxFileSize: MaxFileSize,
+            maxFilesToUpload: 1,
+          },
         },
         fieldIndex: 0,
         formReadOnly: false,
+        formFieldOptions: {},
         style: {},
-        data: {
-          file: null,
-        },
-        onChange: (lens, value) => {
-          alert(`ON CHANGE\File changed: ${value}`)
-        },
+        data: { file: null },
+        onChange: (lens, value) => alert(`ON CHANGE\File changed: ${value}`),
         showValidation: false,
       })}
     </div>

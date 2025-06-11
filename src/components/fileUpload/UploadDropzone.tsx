@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
@@ -138,9 +138,7 @@ export const UploadDropzone = ({
               <P
                 {...getCSSStyle('dropzoneSublabel')}
                 label={'dropzone.sublabel'}
-                data={{
-                  maxFileSize: formatFileSize(maxFileSize),
-                }}
+                data={{ maxFileSize: formatFileSize(maxFileSize) }}
               />
             )}
           </>
@@ -149,60 +147,57 @@ export const UploadDropzone = ({
 
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
-          <aside>
-            {acceptedFileItems.length > 0 && (
-              <Div {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
-                <P
-                  {...getCSSStyle('acceptedFilesLabel')}
-                  label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
-                />
+          {acceptedFileItems.length > 0 && (
+            <Div {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
+              {maxFilesToUpload > 1 && (
+                <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFiles'} />
+              )}
 
-                {acceptedFileItems.map((file: File) => (
-                  <UploadDocumentItem
-                    file={file}
-                    key={file.name}
-                    maxFilesToUpload={maxFilesToUpload}
-                    maxFileSize={maxFileSize}
-                    onRemove={() => {
-                      setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
-                      setErrorMessage(undefined)
-                      setFileListChanged(true)
-                    }}
-                    style={style}
-                  />
-                ))}
-              </Div>
-            )}
-            {rejectedFileItems.length > 0 && (
-              <Div {...getCSSStyle('section')}>
-                <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
-                {rejectedFileItems.map(({ file, errors }: FileRejection) => (
-                  <UploadDocumentItem
-                    file={file}
-                    key={file.name}
-                    maxFilesToUpload={maxFilesToUpload}
-                    maxFileSize={maxFileSize}
-                    onRemove={() => {
-                      setRejectedFileItems(
-                        rejectedFileItems.filter((item) => file.name !== item.file.name),
-                      )
-                      setErrorMessage(undefined)
-                    }}
-                    style={style}
-                  />
-                ))}
-              </Div>
-            )}
-            {errorMessage && (
-              <P
-                {...getCSSStyle('errorMessage')}
-                label={'dropzone.errorLabel'}
-                data={{
-                  errorMessage: errorMessage,
-                }}
-              />
-            )}
-          </aside>
+              {acceptedFileItems.map((file: File) => (
+                <UploadDocumentItem
+                  file={file}
+                  key={file.name}
+                  maxFilesToUpload={maxFilesToUpload}
+                  maxFileSize={maxFileSize}
+                  onRemove={() => {
+                    setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
+                    setErrorMessage(undefined)
+                    setFileListChanged(true)
+                  }}
+                  style={style}
+                />
+              ))}
+            </Div>
+          )}
+          {rejectedFileItems.length > 0 && (
+            <Div {...getCSSStyle('section')}>
+              <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
+              {rejectedFileItems.map(({ file, errors }: FileRejection) => (
+                <UploadDocumentItem
+                  file={file}
+                  key={file.name}
+                  maxFilesToUpload={maxFilesToUpload}
+                  maxFileSize={maxFileSize}
+                  onRemove={() => {
+                    setRejectedFileItems(
+                      rejectedFileItems.filter((item) => file.name !== item.file.name),
+                    )
+                    setErrorMessage(undefined)
+                  }}
+                  style={style}
+                />
+              ))}
+            </Div>
+          )}
+          {errorMessage && (
+            <P
+              {...getCSSStyle('errorMessage')}
+              label={'dropzone.errorLabel'}
+              data={{
+                errorMessage: errorMessage,
+              }}
+            />
+          )}
         </section>
       )}
     </>
