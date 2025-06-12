@@ -106,10 +106,9 @@ export const UploadFieldMobile = ({
           boxSizing: 'unset',
           display: 'flex',
           flexDirection: 'column',
-          gap: 12,
+          gap: 4,
           height: 84,
           width: '50%',
-          padding: '12px 8px',
         },
       }}
     />
