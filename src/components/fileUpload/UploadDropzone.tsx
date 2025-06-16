@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Div, P } from '../../html'
+import { BsUpload } from '../../icons/new/BsUpload'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
@@ -130,6 +131,7 @@ export const UploadDropzone = ({
         >
           <input {...getInputProps()} />
           <>
+            <BsUpload width={24} height={24} />
             <P
               label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'}
               {...getCSSStyle('dropzoneLabel')}

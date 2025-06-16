@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { FileRejection, useDropzone } from 'react-dropzone'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import { useState } from 'react'
 import { Div, P } from '../../html'
-import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
-import { createStyled } from '../../theme/util'
-import { LocaleNamespace } from '../../translation'
-import { UploadDocumentItem, formatFileSize } from './UploadDocumentItem'
-import { Modal } from '../Modal'
-import { OptionGroup } from '../OptionGroup'
 import { BsCamera } from '../../icons/new/BsCamera'
 import { IoImagesOutline } from '../../icons/new/IoImagesOutline'
+import {
+  ComponentTheme,
+  useCSSStyles,
+  useComponentTheme,
+  useInlineStyle,
+} from '../../theme/theme.components'
+import { LocaleNamespace } from '../../translation'
+import { OptionGroup } from '../OptionGroup'
+import { UploadDocumentItem } from './UploadDocumentItem'
 
 type DragProps = {
   isDragActive: boolean
@@ -36,21 +36,12 @@ export const UploadFieldMobile = ({
   onChange,
   style,
 }: UploadFieldMobileProps) => {
-  const { t: translate } = useTranslation(localeNamespace)
-
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(style)
+  const getInlineStyle = useInlineStyle(theme, 'uploadDropzone')(style)
 
   // Internal file list states
   const [file, setFile] = useState<File | null>(null)
-  const [hasFileListChanged, setFileListChanged] = useState(false)
-
-  useEffect(() => {
-    console.log('FILES CHANGED', {
-      file,
-      hasFileListChanged,
-    })
-  }, [file, hasFileListChanged])
 
   const handleFileUpload = (value: 'camera' | 'gallery') => {
     const input = document.createElement('input')
@@ -70,7 +61,6 @@ export const UploadFieldMobile = ({
         const fileArray = Array.from(files)
         setFile(fileArray[0])
         onChange(fileArray)
-        setFileListChanged(true)
       }
     }
 
@@ -109,6 +99,7 @@ export const UploadFieldMobile = ({
           gap: 4,
           height: 84,
           width: '50%',
+          ...getInlineStyle('containerMobile').style,
         },
       }}
     />
@@ -148,10 +139,7 @@ export const UploadFieldMobile = ({
           key={file.name}
           maxFilesToUpload={1}
           maxFileSize={maxFileSize}
-          onRemove={() => {
-            setFile(null)
-            setFileListChanged(true)
-          }}
+          onRemove={() => setFile(null)}
           style={style}
         />
       </Div>
