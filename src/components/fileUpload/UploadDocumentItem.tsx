@@ -11,8 +11,10 @@ export const formatFileSize = (size: number) => {
   return `${formattedSize.toFixed(2)} KB`
 }
 
+export type UploadedFile = { name: string; format?: string; previewUri?: string; size?: number }
+
 type UploadDocumentItemProps = {
-  file: File
+  file: File | UploadedFile
   fileLabel?: string
   maxFilesToUpload: number
   maxFileSize: number
@@ -31,13 +33,24 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
         listSingleItem: props.maxFilesToUpload === 1,
       })}
     >
-      {props.file.name.endsWith('.png' || '.jpeg' || '.svg') && (
-        <Img
-          src={URL.createObjectURL(props.file)}
-          alt={props.file.name}
-          {...getCSSStyle('imageItem')}
-        />
-      )}
+      {' '}
+      {(props.file instanceof File &&
+        (props.file.name.endsWith('.png') ||
+          props.file.name.endsWith('.jpeg') ||
+          (props.file.name.endsWith('.svg') && (
+            <Img
+              src={URL.createObjectURL(props.file)}
+              alt={props.file.name}
+              {...getCSSStyle('imageItem')}
+            />
+          )))) ||
+        ((props.file as UploadedFile).previewUri && (
+          <Img
+            src={(props.file as UploadedFile).previewUri}
+            alt={props.file.name}
+            {...getCSSStyle('imageItem')}
+          />
+        ))}
       <P
         isLabelTranslated
         label={props.fileLabel || `${props.file.name} - ${formatFileSize(props.file.size)}`}

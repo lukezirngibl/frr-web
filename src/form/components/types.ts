@@ -34,6 +34,7 @@ import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
 import { AddressParams, AddressResponse } from './FieldAutocompleteAddress'
 import { SearchDropdownProps } from '../../components/SearchDropdown'
+import { UploadedFile } from '../../components/fileUpload/UploadDocumentItem'
 
 export enum FieldInputType {
   Street = 'StreetName',
@@ -613,7 +614,7 @@ export type SectionFields<FormData> = Array<SectionField<FormData>>
 export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
-  defaultValue?: T,
+  defaultValue?: T
   fields: Array<RepeatFormField<FormData>>
   id: string
   isVisible?: IsVisibleFn<FormData>
