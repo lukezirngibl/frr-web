@@ -13,8 +13,10 @@ export const formatFileSize = (size: number) => {
   return `${formattedSize.toFixed(2)} KB`
 }
 
+export type UploadedFile = { name: string; format?: string; previewUri?: string; size?: number }
+
 type UploadDocumentItemProps = {
-  file: File
+  file: File | UploadedFile
   fileLabel?: string
   maxFilesToUpload: number
   maxFileSize: number
@@ -24,23 +26,6 @@ type UploadDocumentItemProps = {
 export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
   const theme = useComponentTheme()
   const getCSSStyle = useCSSStyles(theme, 'uploadDropzone')(props.style)
-  const [imageUrl, setImageUrl] = useState<string>('')
-
-  useEffect(() => {
-    if (/\.(png|jpeg|jpg|svg)$/i.test(props.file.name)) {
-      const url = URL.createObjectURL(props.file)
-      setImageUrl(url)
-
-      // Clean up the URL when component unmounts
-      return () => {
-        URL.revokeObjectURL(url)
-      }
-    } else {
-      return () => {}
-    }
-  }, [props.file])
-
-  console.log('UploadDocumentItem', { file: props.file, imageUrl })
 
   return (
     <Div
@@ -51,16 +36,29 @@ export const UploadDocumentItem = (props: UploadDocumentItemProps) => {
       })}
     >
       <PreviewImageWrapper {...getCSSStyle('imageItem')}>
-        {(/\.(png|jpeg|jpg|svg)$/i.test(props.file.name) && imageUrl && (
-          <Img className="file-image" src={imageUrl} alt={props.file.name} />
-        )) ||
-          (props.file.type === 'application/pdf' && (
-            <div className="pdf-icon-wrapper">
-              <BsFiletypePdf className="pdf-icon" />
-            </div>
-          ))}
+        {props.file instanceof File
+          ? props.file.name.endsWith('.png') ||
+            props.file.name.endsWith('.jpeg') ||
+            (props.file.name.endsWith('.svg') && (
+              <Img
+                src={URL.createObjectURL(props.file)}
+                alt={props.file.name}
+                {...getCSSStyle('imageItem')}
+              />
+            )) ||
+            (props.file.type === 'application/pdf' && (
+              <div className="pdf-icon-wrapper">
+                <BsFiletypePdf className="pdf-icon" />
+              </div>
+            ))
+          : (props.file as UploadedFile).previewUri && (
+              <Img
+                src={(props.file as UploadedFile).previewUri}
+                alt={props.file.name}
+                {...getCSSStyle('imageItem')}
+              />
+            )}
       </PreviewImageWrapper>
-
       <P
         isLabelTranslated
         label={props.fileLabel || `${props.file.name} - ${formatFileSize(props.file.size)}`}

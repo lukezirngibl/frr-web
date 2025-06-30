@@ -212,34 +212,48 @@ export const MaskedDatePicker = ({ dateFormat, ...props }: Props) => {
                 value={value}
               />
 
-              <Div onClick={() => dateInputRef.current?.showPicker()} {...styleIconWrapper}>
+              <Div
+                onClick={() => {
+                  console.log('click on DATE ICON', { dateInputRef: dateInputRef.current })
+                  // Workaround for iOS: focus the input to trigger the native picker
+                  if (dateInputRef.current) {
+                    dateInputRef.current.focus();
+                    // showPicker is not supported on iOS Safari, so fallback to focus
+                    if (typeof dateInputRef.current.showPicker === 'function') {
+                      dateInputRef.current.showPicker();
+                    }
+                  }
+                }}
+                {...styleIconWrapper}
+              >
                 <Div {...styleIconHook1} />
                 <Div {...styleIconHook2} />
                 <MdOutlineCalendarToday width={16} />
-
-                <input
-                  ref={dateInputRef}
-                  name="nativeDateInput"
-                  type="date"
-                  style={{ opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
-                  onChange={(e) => {
-                    if (e.target.value > '') {
-                      try {
-                        const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
-                        if (dateValue.toString() === 'Invalid Date') {
-                          props.onBlur(null)
-                          // resetValue()
-                        } else {
-                          props.onBlur(formatDate(dateValue as Date, dateFormat))
-                        }
-                      } catch (err) {
-                        props.onBlur(null)
-                      }
-                    }
-                  }}
-                  value={value}
-                />
               </Div>
+
+              <input
+                ref={dateInputRef}
+                name="nativeDateInput"
+                tabIndex={-1}
+                type="date"
+                style={{ opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
+                onChange={(e) => {
+                  if (e.target.value > '') {
+                    try {
+                      const dateValue = parseDate(e.target.value, 'yyyy-MM-dd')
+                      if (dateValue.toString() === 'Invalid Date') {
+                        props.onBlur(null)
+                        // resetValue()
+                      } else {
+                        props.onBlur(formatDate(dateValue as Date, dateFormat))
+                      }
+                    } catch (err) {
+                      props.onBlur(null)
+                    }
+                  }
+                }}
+                value={value}
+              />
             </>
           ) : (
             <>

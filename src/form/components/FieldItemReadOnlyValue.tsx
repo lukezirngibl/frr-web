@@ -7,6 +7,7 @@ import { Div, Img, P } from '../../html'
 import { Language, mapLanguageToLocale } from '../../theme/language'
 import { LocaleNamespace, Translate } from '../../translation'
 import { FormFieldType, SingleFormField, fieldMap } from './types'
+import { UploadedFile } from '../../components/fileUpload/UploadDocumentItem'
 
 /*
  * Value mapper
@@ -20,17 +21,20 @@ var formatter = {
   short: new Intl.NumberFormat('de-CH'),
 }
 
-type MapperParams<T> = {
+type MapperParams<T, AdditionalProps extends {}> = {
   value: T
   prefix?: string
   translate: Translate
   language?: Language
-}
+} & AdditionalProps
 
-const defaultStringNumberMapper = ({ value, prefix }: MapperParams<string | number | null>): string =>
+const defaultStringNumberMapper = ({
+  value,
+  prefix,
+}: MapperParams<string | number | null, unknown>): string =>
   `${prefix > '' ? `${prefix} ` : ''}${value ? `${value}` : ''}`
 
-const defaultCountryMapper = ({ value, translate }: MapperParams<string | null>): string =>
+const defaultCountryMapper = ({ value, translate }: MapperParams<string | null, unknown>): string =>
   value > '' ? translate(`country.${value.toLowerCase()}`) : ''
 
 const defaultDateStringMapper = ({
@@ -38,7 +42,10 @@ const defaultDateStringMapper = ({
   language,
   dateFormat,
   displayDateFormat,
-}: MapperParams<string | null> & { dateFormat: string; displayDateFormat?: string }): string => {
+}: MapperParams<string | null, unknown> & {
+  dateFormat: string
+  displayDateFormat?: string
+}): string => {
   const locale = mapLanguageToLocale[language]
   const parsedDate = parse(value, dateFormat ?? 'dd.MM.yyyy', new Date(), { locale })
   return value && isValid(parsedDate)
@@ -46,10 +53,10 @@ const defaultDateStringMapper = ({
     : ''
 }
 
-const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean>): string =>
+const defaultBooleanMapper = ({ value, translate }: MapperParams<boolean, unknown>): string =>
   translate(value ? 'yes' : 'no')
 
-const defaultCurrencyMapper = ({ value }: MapperParams<number>): string =>
+const defaultCurrencyMapper = ({ value }: MapperParams<number, unknown>): string =>
   formatter.long.format(value || 0)
 
 const ColorWrapper = styled.div`
@@ -68,7 +75,7 @@ const colorLabelStyle = {
   lineHeight: 1.2,
 }
 
-const defaultColorMapper = ({ value }: MapperParams<string>): ReactNode => (
+const defaultColorMapper = ({ value }: MapperParams<string, unknown>): ReactNode => (
   <ColorWrapper>
     <div
       style={{
@@ -93,7 +100,7 @@ const defaultColorMapper = ({ value }: MapperParams<string>): ReactNode => (
 )
 
 const defaultOptionArrayMapper = (
-  params: MapperParams<Array<string>> & {
+  params: MapperParams<Array<string>, unknown> & {
     options: Array<{ label?: string; value: string }>
   },
 ): string =>
@@ -107,7 +114,22 @@ const defaultOptionArrayMapper = (
         .join(', ')
     : ''
 
-const defaultFileArrayMapper = (params: MapperParams<Array<File>>): ReactNode => (
+const defaultFileMapper = (
+  params: MapperParams<File | null, { uploadedFile: UploadedFile }>,
+): ReactNode => {
+  const { value } = params
+
+  if (!value || !(value instanceof File)) {
+    const uploadedFile = params.uploadedFile
+    if (uploadedFile) return uploadedFile.name
+  } else {
+    return value.name
+  }
+
+  return null
+}
+
+const defaultFileArrayMapper = (params: MapperParams<Array<File>, unknown>): ReactNode => (
   <ul>
     {Array.isArray(params.value) ? (
       <li>{params.value.map((file) => `${file.name} (${file.type})`)}</li>
@@ -116,7 +138,7 @@ const defaultFileArrayMapper = (params: MapperParams<Array<File>>): ReactNode =>
 )
 
 const defaultOptionMapper = (
-  params: MapperParams<string | number> & {
+  params: MapperParams<string | number, unknown> & {
     options: Array<{ label?: string; value: string }>
   },
 ): string => {
@@ -147,7 +169,7 @@ const defaultReadOnlyMappers: {
   [FormFieldType.Custom]: () => '',
   [FormFieldType.DatePicker]: (v) =>
     !!v && v.value ? format(v.value, 'P', { locale: mapLanguageToLocale[v.language] }) : '',
-  [FormFieldType.FileInput]: () => '',
+  [FormFieldType.FileInput]: defaultFileMapper,
   [FormFieldType.FormattedDatePicker]: defaultDateStringMapper,
   [FormFieldType.FormFieldGroup]: () => '',
   [FormFieldType.FormFieldRepeatGroup]: () => '',
