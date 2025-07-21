@@ -10,9 +10,9 @@ import { LocaleNamespace } from '../../translation'
 import { UploadDocumentItem, formatFileSize } from './UploadDocumentItem'
 
 type DragProps = {
-  isDragActive: boolean
-  isDragAccept: boolean
-  isDragReject: boolean
+  $isDragActive: boolean
+  $isDragAccept: boolean
+  $isDragReject: boolean
 }
 
 export type UploadDropzoneProps = {
@@ -126,7 +126,11 @@ export const UploadDropzone = ({
     <>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
         <Container
-          {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}
+          {...(getRootProps({
+            $isDragActive: isDragActive,
+            $isDragAccept: isDragAccept,
+            $isDragReject: isDragReject,
+          }) as DragProps)}
           {...getCSSStyle('container')}
         >
           <input {...getInputProps()} />
@@ -207,13 +211,13 @@ export const UploadDropzone = ({
 }
 
 const getColor = (props: DragProps) => {
-  if (props.isDragAccept) {
+  if (props.$isDragAccept) {
     return 'var(--color-uploadDropzoneIsDragAccept)'
   }
-  if (props.isDragReject) {
+  if (props.$isDragReject) {
     return 'var(--color-uploadDropzoneIsDragReject)'
   }
-  if (props.isDragActive) {
+  if (props.$isDragActive) {
     return 'var(--color-uploadDropzoneIsDragActive)'
   }
   return 'var(--color-background-button-default)'

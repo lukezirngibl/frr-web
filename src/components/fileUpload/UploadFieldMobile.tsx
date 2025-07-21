@@ -12,12 +12,6 @@ import { LocaleNamespace } from '../../translation'
 import { OptionGroup } from '../OptionGroup'
 import { UploadDocumentItem } from './UploadDocumentItem'
 
-type DragProps = {
-  isDragActive: boolean
-  isDragAccept: boolean
-  isDragReject: boolean
-}
-
 export type UploadFieldMobileProps = {
   acceptedFileTypes?: string
   localeNamespace?: LocaleNamespace
