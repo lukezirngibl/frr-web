@@ -586,7 +586,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   title?: (params: { index: number; translate: any }) => string
   type: FormFieldType.FormFieldRepeatGroup
   fields: Array<RepeatFormField<FormData>>
-  length: FormLens<FormData, number> | FormLens<FormData, number | null>
+  length: FormLens<FormData, number> | FormLens<FormData, number | null | undefined>
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
 }
@@ -619,7 +619,7 @@ export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
   id: string
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
-  length: FormLens<FormData, number> | FormLens<FormData, number | null>
+  length: FormLens<FormData, number> | FormLens<FormData, number | null | undefined>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
   onEdit?: () => void
