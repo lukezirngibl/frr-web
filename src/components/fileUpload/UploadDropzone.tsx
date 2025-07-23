@@ -133,7 +133,7 @@ export const UploadDropzone = ({
           }) as DragProps)}
           {...getCSSStyle('container')}
         >
-          <input {...getInputProps()} />
+          <input data-test-id="file-input-gallery" {...getInputProps()} />
           <>
             <BsUpload width={24} height={24} />
             <P

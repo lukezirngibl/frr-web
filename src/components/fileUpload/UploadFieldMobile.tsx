@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Div, P } from '../../html'
 import { BsCamera } from '../../icons/new/BsCamera'
 import { IoImagesOutline } from '../../icons/new/IoImagesOutline'
@@ -20,9 +20,6 @@ export type UploadFieldMobileProps = {
   style?: Partial<ComponentTheme['uploadDropzone']>
 }
 
-// const PDF = 'application/pdf'
-const IMAGE = 'image/*'
-
 export const UploadFieldMobile = ({
   acceptedFileTypes = 'image/*, application/pdf',
   localeNamespace,
@@ -37,96 +34,103 @@ export const UploadFieldMobile = ({
   // Internal file list states
   const [file, setFile] = useState<File | null>(null)
 
+  const inputCamera = useRef<HTMLInputElement>(null)
+  const inputGallery = useRef<HTMLInputElement>(null)
   const handleFileUpload = (value: 'camera' | 'gallery') => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.multiple = false
-
     if (value === 'camera') {
-      input.accept = 'image/*'
-      input.capture = 'environment'
-    } else {
-      input.accept = acceptedFileTypes
+      inputCamera.current?.click()
+    } else if (value === 'gallery') {
+      inputGallery.current?.click()
     }
-
-    input.onchange = (event) => {
-      const files = (event.target as HTMLInputElement).files
-      if (files && files.length === 1) {
-        const fileArray = Array.from(files)
-        setFile(fileArray[0])
-        onChange(fileArray)
-      }
-    }
-
-    input.click()
   }
 
   return file === null ? (
-    <OptionGroup
-      value={null}
-      onChange={handleFileUpload}
-      options={[
-        {
-          value: 'camera',
-          CustomElement: (
-            <>
-              <BsCamera width={36} height={36} />
-              <P label={'uploadFieldMobile.camera.label'} localeNamespace={localeNamespace} />
-            </>
-          ),
-        },
-        {
-          value: 'gallery',
-          CustomElement: (
-            <>
-              <IoImagesOutline width={36} height={36} />
-              <P label={'uploadFieldMobile.gallery.label'} localeNamespace={localeNamespace} />
-            </>
-          ),
-        },
-      ]}
-      style={{
-        item: {
-          boxSizing: 'unset',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 4,
-          height: 84,
-          width: '50%',
-          ...getInlineStyle('containerMobile').style,
-        },
-      }}
-    />
+    <>
+      <OptionGroup
+        value={null}
+        onChange={handleFileUpload}
+        options={[
+          {
+            value: 'camera',
+            CustomElement: (
+              <>
+                <BsCamera width={36} height={36} />
+                <P label={'uploadFieldMobile.camera.label'} localeNamespace={localeNamespace} />
+                <input
+                  accept="image/*"
+                  capture="environment"
+                  type="file"
+                  multiple={false}
+                  name="input-camera"
+                  data-test-id="file-input-camera"
+                  ref={inputCamera}
+                  onChange={(event) => {
+                    const files = event.target.files
+                    if (files && files.length > 0) {
+                      const fileArray = Array.from(files)
+                      setFile(fileArray[0])
+                      onChange(fileArray)
+                    }
+                  }}
+                  style={{
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    position: 'absolute',
+                    width: 0,
+                    zIndex: -1,
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            value: 'gallery',
+            CustomElement: (
+              <>
+                <IoImagesOutline width={36} height={36} />
+                <P label={'uploadFieldMobile.gallery.label'} localeNamespace={localeNamespace} />
+                <input
+                  accept={acceptedFileTypes}
+                  type="file"
+                  multiple={false}
+                  name="input-gallery"
+                  data-test-id="file-input-gallery"
+                  ref={inputGallery}
+                  onChange={(event) => {
+                    const files = event.target.files
+                    if (files && files.length > 0) {
+                      const fileArray = Array.from(files)
+                      setFile(fileArray[0])
+                      onChange(fileArray)
+                    }
+                  }}
+                  style={{
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    position: 'absolute',
+                    width: 0,
+                    zIndex: -1,
+                  }}
+                />
+              </>
+            ),
+          },
+        ]}
+        style={{
+          item: {
+            boxSizing: 'unset',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            height: 84,
+            width: '50%',
+            ...getInlineStyle('containerMobile').style,
+          },
+        }}
+      />
+    </>
   ) : (
     <section className="section">
-      {/* <Container {...getCSSStyle('container')} onClick={() => handleFileUpload('gallery')}>
-        <BsCamera width="24px" height="24px" />
-        <P label={'dropzone.labelCamera'} {...getCSSStyle('dropzoneLabel')} />
-        {maxFileSize && (
-          <P
-            {...getCSSStyle('dropzoneSublabel')}
-            label={'dropzone.sublabel'}
-            data={{
-              maxFileSize: formatFileSize(maxFileSize),
-            }}
-          />
-        )}
-      </Container>
-
-      <Container {...getCSSStyle('container')} onClick={() => setShowUploadFileModal(true)}>
-        <BsCamera width="24px" height="24px" />
-        <P label={'dropzone.labelCamera'} {...getCSSStyle('dropzoneLabel')} />
-        {maxFileSize && (
-          <P
-            {...getCSSStyle('dropzoneSublabel')}
-            label={'dropzone.sublabel'}
-            data={{
-              maxFileSize: formatFileSize(maxFileSize),
-            }}
-          />
-        )}
-      </Container> */}
-
       <Div {...getCSSStyle('sectionSingleItem')}>
         <UploadDocumentItem
           file={file}
