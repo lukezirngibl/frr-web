@@ -1,7 +1,7 @@
 import { format, isValid, parse } from 'date-fns'
 import React from 'react'
 import ClickAwayListener from 'react-click-away-listener'
-import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
+import ReactDatePicker, { DatePickerProps, registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTranslation } from 'react-i18next'
 import styled, { css, keyframes } from 'styled-components'
@@ -22,7 +22,7 @@ import { Div } from '../html'
 export type Props = {
   dataTestId?: string
   dateFormat?: string
-  datePickerProps?: Partial<Omit<ReactDatePickerProps, 'onChange' | 'selected' | 'value'>>
+  datePickerProps?: Partial<Omit<DatePickerProps, 'onChange' | 'selected' | 'value'>>
   error?: boolean
   hasFocus?: boolean
   label?: LabelProps
@@ -134,7 +134,7 @@ export const DatePicker = (props: Props) => {
             style={textInputStyle}
             value={isValid(props.value) ? format(props.value, 'dd.MM.yyyy') : null}
           />
-          
+
           {isMobileTouch ? (
             <TextInput
               dataTestId={props.dataTestId}

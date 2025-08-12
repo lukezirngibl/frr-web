@@ -1,8 +1,8 @@
 import { Locale } from 'date-fns'
-import de from 'date-fns/locale/de'
-import en from 'date-fns/locale/en-GB'
-import fr from 'date-fns/locale/fr'
-import it from 'date-fns/locale/it'
+import { de } from 'date-fns/locale/de'
+import { enGB } from 'date-fns/locale/en-GB'
+import { fr } from 'date-fns/locale/fr'
+import { it } from 'date-fns/locale/it'
 
 // deprecated
 export enum DeprecatedLanguage {
@@ -30,7 +30,7 @@ export const mapLanguageToLocaleString: { [k in Language | DeprecatedLanguage]: 
 export const mapLanguageToLocale: { [k in Language | DeprecatedLanguage]: Locale } = {
   [Language.DE_CH]: de,
   [DeprecatedLanguage.DE]: de,
-  [Language.EN]: en,
+  [Language.EN]: enGB,
   [Language.FR]: fr,
   [Language.IT]: it,
 }
