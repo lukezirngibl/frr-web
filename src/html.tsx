@@ -11,7 +11,7 @@ export type OptionType<Value> = {
   disabled?: boolean
   icon?: string
   isLabelTranslated?: boolean
-  label?: string
+  label?: string | null
   labelData?: Record<string, string | number>
   name?: string
   value: Value
@@ -31,7 +31,7 @@ type ElementProps = {
   disabled?: any
   Icon?: ReactNode
   isLabelTranslated?: boolean
-  label?: LabelText
+  label?: LabelText | null
   localeNamespace?: LocaleNamespace
   readOnly?: boolean
   style?: CSSProperties
