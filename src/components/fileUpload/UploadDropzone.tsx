@@ -3,15 +3,16 @@ import { FileRejection, useDropzone } from 'react-dropzone'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { Div, P } from '../../html'
+import { BsUpload } from '../../icons/new/BsUpload'
 import { ComponentTheme, useCSSStyles, useComponentTheme } from '../../theme/theme.components'
 import { createStyled } from '../../theme/util'
 import { LocaleNamespace } from '../../translation'
 import { UploadDocumentItem, formatFileSize } from './UploadDocumentItem'
 
 type DragProps = {
-  isDragActive: boolean
-  isDragAccept: boolean
-  isDragReject: boolean
+  $isDragActive: boolean
+  $isDragAccept: boolean
+  $isDragReject: boolean
 }
 
 export type UploadDropzoneProps = {
@@ -125,11 +126,16 @@ export const UploadDropzone = ({
     <>
       {maxFilesToUpload === acceptedFileItems.length ? null : (
         <Container
-          {...(getRootProps({ isDragActive, isDragAccept, isDragReject }) as DragProps)}
+          {...(getRootProps({
+            $isDragActive: isDragActive,
+            $isDragAccept: isDragAccept,
+            $isDragReject: isDragReject,
+          }) as DragProps)}
           {...getCSSStyle('container')}
         >
-          <input {...getInputProps()} />
+          <input data-test-id="file-input-gallery" {...getInputProps()} />
           <>
+            <BsUpload width={24} height={24} />
             <P
               label={isOnlyImagesAllowed === true ? 'dropzone.imagesLabel' : 'dropzone.label'}
               {...getCSSStyle('dropzoneLabel')}
@@ -138,9 +144,7 @@ export const UploadDropzone = ({
               <P
                 {...getCSSStyle('dropzoneSublabel')}
                 label={'dropzone.sublabel'}
-                data={{
-                  maxFileSize: formatFileSize(maxFileSize),
-                }}
+                data={{ maxFileSize: formatFileSize(maxFileSize) }}
               />
             )}
           </>
@@ -149,60 +153,57 @@ export const UploadDropzone = ({
 
       {(acceptedFileItems.length > 0 || rejectedFileItems.length > 0) && (
         <section className="section">
-          <aside>
-            {acceptedFileItems.length > 0 && (
-              <Div {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
-                <P
-                  {...getCSSStyle('acceptedFilesLabel')}
-                  label={maxFilesToUpload === 1 ? 'dropzone.acceptedFile' : 'dropzone.acceptedFiles'}
-                />
+          {acceptedFileItems.length > 0 && (
+            <Div {...getCSSStyle(maxFilesToUpload === 1 ? 'sectionSingleItem' : 'section')}>
+              {maxFilesToUpload > 1 && (
+                <P {...getCSSStyle('acceptedFilesLabel')} label={'dropzone.acceptedFiles'} />
+              )}
 
-                {acceptedFileItems.map((file: File) => (
-                  <UploadDocumentItem
-                    file={file}
-                    key={file.name}
-                    maxFilesToUpload={maxFilesToUpload}
-                    maxFileSize={maxFileSize}
-                    onRemove={() => {
-                      setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
-                      setErrorMessage(undefined)
-                      setFileListChanged(true)
-                    }}
-                    style={style}
-                  />
-                ))}
-              </Div>
-            )}
-            {rejectedFileItems.length > 0 && (
-              <Div {...getCSSStyle('section')}>
-                <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
-                {rejectedFileItems.map(({ file, errors }: FileRejection) => (
-                  <UploadDocumentItem
-                    file={file}
-                    key={file.name}
-                    maxFilesToUpload={maxFilesToUpload}
-                    maxFileSize={maxFileSize}
-                    onRemove={() => {
-                      setRejectedFileItems(
-                        rejectedFileItems.filter((item) => file.name !== item.file.name),
-                      )
-                      setErrorMessage(undefined)
-                    }}
-                    style={style}
-                  />
-                ))}
-              </Div>
-            )}
-            {errorMessage && (
-              <P
-                {...getCSSStyle('errorMessage')}
-                label={'dropzone.errorLabel'}
-                data={{
-                  errorMessage: errorMessage,
-                }}
-              />
-            )}
-          </aside>
+              {acceptedFileItems.map((file: File) => (
+                <UploadDocumentItem
+                  file={file}
+                  key={file.name}
+                  maxFilesToUpload={maxFilesToUpload}
+                  maxFileSize={maxFileSize}
+                  onRemove={() => {
+                    setAcceptedFileItems(acceptedFileItems.filter((f) => file.name !== f.name))
+                    setErrorMessage(undefined)
+                    setFileListChanged(true)
+                  }}
+                  style={style}
+                />
+              ))}
+            </Div>
+          )}
+          {rejectedFileItems.length > 0 && (
+            <Div {...getCSSStyle('section')}>
+              <P {...getCSSStyle('rejectedFilesLabel')} label={'dropzone.rejectedFiles'} />
+              {rejectedFileItems.map(({ file, errors }: FileRejection) => (
+                <UploadDocumentItem
+                  file={file}
+                  key={file.name}
+                  maxFilesToUpload={maxFilesToUpload}
+                  maxFileSize={maxFileSize}
+                  onRemove={() => {
+                    setRejectedFileItems(
+                      rejectedFileItems.filter((item) => file.name !== item.file.name),
+                    )
+                    setErrorMessage(undefined)
+                  }}
+                  style={style}
+                />
+              ))}
+            </Div>
+          )}
+          {errorMessage && (
+            <P
+              {...getCSSStyle('errorMessage')}
+              label={'dropzone.errorLabel'}
+              data={{
+                errorMessage: errorMessage,
+              }}
+            />
+          )}
         </section>
       )}
     </>
@@ -210,13 +211,13 @@ export const UploadDropzone = ({
 }
 
 const getColor = (props: DragProps) => {
-  if (props.isDragAccept) {
+  if (props.$isDragAccept) {
     return 'var(--color-uploadDropzoneIsDragAccept)'
   }
-  if (props.isDragReject) {
+  if (props.$isDragReject) {
     return 'var(--color-uploadDropzoneIsDragReject)'
   }
-  if (props.isDragActive) {
+  if (props.$isDragActive) {
     return 'var(--color-uploadDropzoneIsDragActive)'
   }
   return 'var(--color-background-button-default)'

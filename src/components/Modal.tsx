@@ -1,5 +1,5 @@
 import MaterialUiModal from '@mui/material/Modal'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { Div } from '../html'
 import {
   ComponentTheme,

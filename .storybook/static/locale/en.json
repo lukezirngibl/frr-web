@@ -56,5 +56,20 @@
         }
       }
     }
+  },
+
+  "documentUpload": {
+    "salarySlip": {
+      "label": "Lohnabrechnung"
+    }
+  },
+  "dropzone": {
+    "label": "Drag 'n drop Dateien hier oder klicke in das Feld, um Dateien auszuwählen",
+    "imagesLabel": "Drag 'n drop Bilder hier oder klicke in das Feld, um Bilddateien auszuwählen",
+    "sublabel": "Maximale Dateigrösse {{maxFileSize}}"
+  },
+  "uploadFieldMobile": {
+    "camera": { "label": "Take a photo" },
+    "gallery": { "label": "Choose from gallery" }
   }
 }

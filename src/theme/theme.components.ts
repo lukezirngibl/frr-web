@@ -287,6 +287,7 @@ export type ComponentTheme = {
   }
   uploadDropzone: {
     container: CSSProperties
+    containerMobile: CSSProperties
     dropzoneLabel: CSSProperties
     dropzoneSublabel: CSSProperties
     acceptedFilesLabel: CSSProperties
@@ -623,6 +624,7 @@ export const defaultComponentTheme: ComponentTheme = {
   },
   uploadDropzone: {
     container: {},
+    containerMobile: {},
     dropzoneLabel: {},
     dropzoneSublabel: {},
     acceptedFilesLabel: {},

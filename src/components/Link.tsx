@@ -36,6 +36,7 @@ const LinkText = styled.span<{ $isMobileHidden: boolean }>`
 `
 type LinkProps = {
   className?: string
+  dataTestId?: string
   icon?: {
     type: keyof ComponentTheme['icon']
     style: { cssStyles?: string; dataThemeId: string }
@@ -59,7 +60,12 @@ export const Link = (props: LinkProps) => {
   const { t: translate } = useTranslation(props.localeNamespace)
 
   return (
-    <LinkWrapper onClick={props.onClick} {...props.style} className={props.className}>
+    <LinkWrapper
+      dataTestId={props.dataTestId}
+      onClick={props.onClick}
+      {...props.style}
+      className={props.className}
+    >
       {icon?.style.svg && (
         <LinkIcon dangerouslySetInnerHTML={{ __html: icon.style.svg }} {...props.icon.style} />
       )}

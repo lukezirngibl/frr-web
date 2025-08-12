@@ -132,7 +132,7 @@ export const TextInput = (props: Props) => {
             errorHook: props.error,
           })}
         />
-        {props.prefix && <Prefix {...getCSSStyle('prefix')}>{props.prefix}</Prefix>}
+        {props.prefix && <Prefix {...getCSSStyle('prefix')}>{translate(props.prefix)}</Prefix>}
         <Input
           {...getCSSStyle({
             input: true,

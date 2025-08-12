@@ -34,6 +34,7 @@ import { FormLens } from '../util'
 import { DeepPartial } from '../../util'
 import { AddressParams, AddressResponse } from './FieldAutocompleteAddress'
 import { SearchDropdownProps } from '../../components/SearchDropdown'
+import { UploadedFile } from '../../components/fileUpload/UploadDocumentItem'
 
 export enum FieldInputType {
   Street = 'StreetName',
@@ -585,7 +586,7 @@ export type FormFieldRepeatGroup<FormData, T extends {} = {}> = {
   title?: (params: { index: number; translate: any }) => string
   type: FormFieldType.FormFieldRepeatGroup
   fields: Array<RepeatFormField<FormData>>
-  length: FormLens<FormData, number> | FormLens<FormData, number | null>
+  length: FormLens<FormData, number> | FormLens<FormData, number | null | undefined>
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
 }
@@ -613,12 +614,12 @@ export type SectionFields<FormData> = Array<SectionField<FormData>>
 export type InternalSectionFields<FormData> = Array<InternalSectionField<FormData>>
 
 export type FormFieldRepeatSection<FormData, T extends {} = {}> = {
-  defaultValue?: T,
+  defaultValue?: T
   fields: Array<RepeatFormField<FormData>>
   id: string
   isVisible?: IsVisibleFn<FormData>
   isVisibleReadonly?: IsVisibleFn<FormData>
-  length: FormLens<FormData, number> | FormLens<FormData, number | null>
+  length: FormLens<FormData, number> | FormLens<FormData, number | null | undefined>
   lens: FormLens<FormData, Array<T>>
   editLabel?: string
   onEdit?: () => void

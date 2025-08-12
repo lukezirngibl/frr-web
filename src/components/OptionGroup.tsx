@@ -48,7 +48,8 @@ export const OptionGroup = (props: Props) => {
   // Directly select option if only one exists
   useEffect(() => {
     if (
-      props.isAutoSetEnabled && props.options.length === 1 &&
+      props.isAutoSetEnabled &&
+      props.options.length === 1 &&
       !props.options.some((option) => option.value === props.value)
     ) {
       onChange(props.options[0])

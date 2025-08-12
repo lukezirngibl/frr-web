@@ -1022,7 +1022,9 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
   },
 
+  // ==============================
   // File Upload
+  // ==============================
 
   fileInput: {
     wrapper: {
@@ -1030,12 +1032,19 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       maxWidth: 'var(--form-field-width)',
       margin: '8px 0',
       width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+
+      '@media-mobile': {
+        margin: 0,
+      },
     },
   },
   uploadDropzone: {
     container: {
       alignItems: 'center',
-      backgroundColor: 'var(--color-form-field-background)',
+      backgroundColor: 'var(--color-form-field-background-light)',
       border: '2px dashed var(--color-form-field-border)',
       borderRadius: 'var(--form-field-border-radius)',
       color: 'var(--color-disabled)',
@@ -1046,16 +1055,17 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
       justifyContent: 'center',
       maxWidth: 'var(--form-field-width)',
       height: 84,
-      margin: '8px 0',
       outline: 'none',
       padding: '20px',
-      width: '100%',
       transition: 'border 0.24s ease-in-out, background-color 0.3s ease-out',
       ':hover': {
         borderColor: 'var(--color-form-field-border-focus)',
       },
       ':focus': {
         borderColor: 'var(--color-form-field-border-focus)',
+      },
+      '@media-mobile': {
+        margin: 0,
       },
     },
     dropzoneSublabel: {
@@ -1096,17 +1106,15 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     sectionSingleItem: {
       paddingTop: 0,
-      marginBottom: 24,
     },
     imageItem: {
-      marginRight: '10px',
+      marginRight: 24,
       width: '40px',
       height: '40px',
     },
     listItem: {
       display: 'flex',
       alignItems: 'center',
-      width: '100%',
       maxWidth: 'var(--form-field-width)',
       height: 48,
       padding: '8px var(--form-field-padding-horizontal) 8px',
@@ -1116,15 +1124,16 @@ export const componentTheme: Partial<ComponentThemeConfig> = {
     },
     listSingleItem: {
       marginBottom: 0,
+      height: 84,
     },
     removeItemIcon: {
       color: 'var(--color-error)',
       cursor: 'pointer',
       display: 'inline-block',
-      height: 24,
-      width: 24,
-      minWidth: 24,
-      marginLeft: 12,
+      height: 20,
+      width: 20,
+      minWidth: 20,
+      marginLeft: 16,
     },
   },
 

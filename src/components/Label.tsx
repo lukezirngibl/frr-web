@@ -26,6 +26,7 @@ export type LabelProps = {
   errorLabel?: string | string[]
   errorLabelData?: Record<string, string>
   errorButton?: {
+    dataTestId?: string
     errorLabel: string
     onClick: () => void
     label: string
@@ -144,6 +145,7 @@ export const Label = (props: LabelProps) => {
 
             {props.errorButton && errorLabels.includes(props.errorButton.errorLabel) && (
               <Link
+                dataTestId={props.errorButton.errorLabel}
                 icon={{ type: 'edit', style: getCSSStyles('errorButtonIcon') }}
                 onClick={props.errorButton.onClick}
                 label={props.errorButton.label}
